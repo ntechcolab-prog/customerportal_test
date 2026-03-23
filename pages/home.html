@@ -61,22 +61,65 @@
     }
 
     .navbar-lang {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 4px;
       font-size: 14px;
       color: #007167;
       cursor: pointer;
+      user-select: none;
     }
 
-    .navbar-lang img {
+    .navbar-lang .globe-icon {
       width: 16px;
       height: 16px;
+      flex-shrink: 0;
     }
 
     .navbar-lang .chevron {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
+      transition: transform 0.2s;
+    }
+
+    .navbar-lang.open .chevron {
+      transform: rotate(180deg);
+    }
+
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid #d7d9db;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      min-width: 80px;
+      overflow: hidden;
+      z-index: 200;
+    }
+
+    .navbar-lang.open .lang-dropdown {
+      display: block;
+    }
+
+    .lang-option {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #3d4246;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .lang-option:hover { background: #f0faf9; }
+
+    .lang-option.active {
+      color: #007167;
+      background: #e6f4f3;
     }
 
     .navbar-divider {
@@ -108,7 +151,7 @@
     }
 
     .btn-solid-teal {
-      background: #0b9c92;
+      background: #007167;
       color: #fff;
       border-radius: 999px;
       padding: 8px 20px;
@@ -179,8 +222,9 @@
     }
 
     .hero-btn-login {
-      background: #007167;
-      color: #fff;
+      background: #fff;
+      color: #007167;
+      border: 1px solid #007167;
       border-radius: 999px;
       padding: 10px 24px;
       font-size: 16px;
@@ -195,9 +239,8 @@
     }
 
     .hero-btn-register {
-      background: #fff;
-      color: #007167;
-      border: 1px solid #007167;
+      background: #007167;
+      color: #fff;
       border-radius: 999px;
       padding: 10px 24px;
       font-size: 16px;
@@ -394,16 +437,23 @@
       opacity: 0.7;
     }
 
+    .step-item {
+      cursor: pointer;
+    }
+
     .steps-images {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
+      position: relative;
     }
 
     .step-img-wrapper {
       border-radius: 10px;
       overflow: hidden;
       position: relative;
+      cursor: pointer;
+      transition: opacity 0.2s, border 0.2s;
     }
 
     .step-img-wrapper.active {
@@ -413,6 +463,21 @@
 
     .step-img-wrapper:not(.active) {
       opacity: 0.4;
+    }
+
+    /* Expanded: covers the full grid area */
+    .step-img-wrapper.expanded {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      border-radius: 10px;
+      border: 2px solid #0b9c92;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+      opacity: 1;
+    }
+
+    .step-img-wrapper.expanded img {
+      height: 100%;
     }
 
     .step-img-wrapper img {
@@ -522,6 +587,7 @@
       border-radius: 50%;
     }
 
+    .dot { cursor: pointer; transition: background 0.3s; }
     .dot.active { background: #007167; }
     .dot:not(.active) { background: #d7d9db; }
 
@@ -685,10 +751,25 @@
       </a>
       <div class="navbar-actions">
         <a href="#" class="navbar-link">Help</a>
-        <div class="navbar-lang">
-          <img src="https://www.figma.com/api/mcp/asset/d80f17a1-ee0f-4b2b-b415-349910bca9dd" alt="">
-          <span>EN</span>
-          <img class="chevron" src="https://www.figma.com/api/mcp/asset/68cfb9af-f5e8-457c-9913-4a825dafd8e0" alt="">
+        <div class="navbar-lang" id="lang-btn">
+          <!-- Globe icon (outline) -->
+          <svg class="globe-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="8" cy="8" r="6.5" stroke="#007167" stroke-width="1.2"/>
+            <ellipse cx="8" cy="8" rx="2.6" ry="6.5" stroke="#007167" stroke-width="1.2"/>
+            <line x1="1.5" y1="6" x2="14.5" y2="6" stroke="#007167" stroke-width="1.2"/>
+            <line x1="1.5" y1="10" x2="14.5" y2="10" stroke="#007167" stroke-width="1.2"/>
+          </svg>
+          <span id="lang-label">EN</span>
+          <!-- Chevron -->
+          <svg class="chevron" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 1l4 4 4-4" stroke="#007167" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <!-- Dropdown -->
+          <div class="lang-dropdown" id="lang-dropdown">
+            <div class="lang-option active" data-lang="EN">EN</div>
+            <div class="lang-option" data-lang="BR">BR</div>
+            <div class="lang-option" data-lang="DE">DE</div>
+          </div>
         </div>
         <div class="navbar-divider"></div>
         <a href="login.html" class="btn btn-outline-green">Log in</a>
@@ -773,28 +854,28 @@
     </div>
     <div class="how-it-works-body">
       <div class="steps-list">
-        <div class="step-item active">
+        <div class="step-item active" data-step="0">
           <div class="step-number">1</div>
           <div class="step-content">
             <div class="step-title">Login or Register</div>
             <div class="step-desc">Sign up for your business account in minutes.</div>
           </div>
         </div>
-        <div class="step-item">
+        <div class="step-item" data-step="1">
           <div class="step-number">2</div>
           <div class="step-content">
             <div class="step-title">Place Orders</div>
             <div class="step-desc">Browse and order NETZSCH Grinding Beads easily.</div>
           </div>
         </div>
-        <div class="step-item">
+        <div class="step-item" data-step="2">
           <div class="step-number">3</div>
           <div class="step-content">
             <div class="step-title">Track Deliveries</div>
             <div class="step-desc">Monitor your shipments in real-time with complete transparency.</div>
           </div>
         </div>
-        <div class="step-item">
+        <div class="step-item" data-step="3">
           <div class="step-number">4</div>
           <div class="step-content">
             <div class="step-title">Earn More</div>
@@ -802,17 +883,17 @@
           </div>
         </div>
       </div>
-      <div class="steps-images">
-        <div class="step-img-wrapper active">
+      <div class="steps-images" id="steps-images">
+        <div class="step-img-wrapper active" data-step="0">
           <img src="https://www.figma.com/api/mcp/asset/861c5f67-da79-4987-9e2a-93d18e41cea6" alt="Login or Register">
         </div>
-        <div class="step-img-wrapper">
+        <div class="step-img-wrapper" data-step="1">
           <img src="https://www.figma.com/api/mcp/asset/4c226b78-715f-413b-b2f6-0aad1b5df783" alt="Place Orders">
         </div>
-        <div class="step-img-wrapper">
+        <div class="step-img-wrapper" data-step="2">
           <img src="https://www.figma.com/api/mcp/asset/99c1d274-6769-43a7-a539-5afa947e094d" alt="Track Deliveries">
         </div>
-        <div class="step-img-wrapper">
+        <div class="step-img-wrapper" data-step="3">
           <img src="https://www.figma.com/api/mcp/asset/861ca42c-675c-4401-9b54-9793464b5ca3" alt="Earn More">
         </div>
       </div>
@@ -945,5 +1026,84 @@
     <div class="footer-copy">© 2026 NETZSCH. ALL RIGHTS RESERVED.</div>
   </footer>
 
+  <script>
+    /* ── LANGUAGE DROPDOWN ───────────────────────────────────── */
+    const langBtn     = document.getElementById('lang-btn');
+    const langLabel   = document.getElementById('lang-label');
+    const langOptions = document.querySelectorAll('.lang-option');
+
+    langBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langBtn.classList.toggle('open');
+    });
+
+    langOptions.forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langOptions.forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+        langLabel.textContent = opt.dataset.lang;
+        langBtn.classList.remove('open');
+      });
+    });
+
+    document.addEventListener('click', () => langBtn.classList.remove('open'));
+
+    /* ── HOW IT WORKS — step selection + image expand ────────── */
+    const stepItems    = document.querySelectorAll('.step-item');
+    const imgWrappers  = document.querySelectorAll('.step-img-wrapper');
+
+    function activateStep(index) {
+      stepItems.forEach(s => s.classList.remove('active'));
+      imgWrappers.forEach(w => { w.classList.remove('active'); w.classList.remove('expanded'); });
+      stepItems[index].classList.add('active');
+      imgWrappers[index].classList.add('active');
+    }
+
+    stepItems.forEach(item => {
+      item.addEventListener('click', () => activateStep(Number(item.dataset.step)));
+    });
+
+    imgWrappers.forEach(wrapper => {
+      wrapper.addEventListener('click', () => {
+        const isExpanded = wrapper.classList.contains('expanded');
+        imgWrappers.forEach(w => w.classList.remove('expanded'));
+        if (!isExpanded) {
+          wrapper.classList.add('expanded');
+          // Keep the active highlight on the expanded one
+          imgWrappers.forEach(w => w.classList.remove('active'));
+          wrapper.classList.add('active');
+          const idx = Number(wrapper.dataset.step);
+          stepItems.forEach(s => s.classList.remove('active'));
+          stepItems[idx].classList.add('active');
+        }
+      });
+    });
+
+    /* ── TESTIMONIALS CAROUSEL ───────────────────────────────── */
+    const cards   = document.querySelectorAll('.testimonial-card');
+    const dots    = document.querySelectorAll('.dot');
+    const total   = cards.length;
+    let current   = 0;
+
+    function showSlide(index) {
+      cards.forEach((c, i) => {
+        c.style.display  = i === index ? 'flex' : 'none';
+      });
+      dots.forEach((d, i) => {
+        d.classList.toggle('active', i === index);
+      });
+      current = index;
+    }
+
+    // Init: hide all but first
+    showSlide(0);
+
+    // Auto-advance every 7 s
+    setInterval(() => showSlide((current + 1) % total), 7000);
+
+    // Dot click
+    dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+  </script>
 </body>
 </html>
