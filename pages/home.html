@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #3d4246;
+      background: #fff;
+    }
+
+    /* ── NAVBAR ─────────────────────────────────────────────── */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 70px;
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+    }
+
+    .navbar-inner {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .navbar-logo img {
+      height: 22px;
+      display: block;
+    }
+
+    .navbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .navbar-link {
+      font-size: 14px;
+      color: #007167;
+      text-decoration: none;
+      line-height: 20px;
+    }
+
+    .navbar-lang {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      color: #007167;
+      cursor: pointer;
+    }
+
+    .navbar-lang img {
+      width: 16px;
+      height: 16px;
+    }
+
+    .navbar-lang .chevron {
+      width: 12px;
+      height: 12px;
+    }
+
+    .navbar-divider {
+      width: 1px;
+      height: 24px;
+      background: #d7d9db;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      background: none;
+    }
+
+    .btn-outline-green {
+      border: 1px solid #007167;
+      color: #007167;
+      border-radius: 999px;
+      padding: 8px 20px;
+      height: 37px;
+    }
+
+    .btn-solid-teal {
+      background: #0b9c92;
+      color: #fff;
+      border-radius: 999px;
+      padding: 8px 20px;
+      height: 36px;
+    }
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 520px;
+      margin-top: 70px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,113,103,0.81), rgba(0,141,132,0.8), rgba(138,198,189,0.8));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 528px;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 40px;
+      letter-spacing: 0.4px;
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 24px;
+    }
+
+    .hero-btn-login {
+      background: #007167;
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 220px;
+      text-decoration: none;
+    }
+
+    .hero-btn-register {
+      background: #fff;
+      color: #007167;
+      border: 1px solid #007167;
+      border-radius: 999px;
+      padding: 10px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 220px;
+      text-decoration: none;
+    }
+
+    /* ── SECTION WRAPPER ─────────────────────────────────────── */
+    .section {
+      padding: 64px 32px;
+    }
+
+    .section-center {
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 32px;
+      font-weight: 500;
+      color: #007167;
+      line-height: 40px;
+      letter-spacing: 0.4px;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── FEATURES ────────────────────────────────────────────── */
+    .features {
+      background: #fff;
+    }
+
+    .features-header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    .features-header .section-title {
+      max-width: 600px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      border: 1px solid #d7d9db;
+      border-radius: 12px;
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .feature-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .feature-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #007167;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      font-weight: 400;
+      color: #5c5f62;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+    }
+
+    /* ── HOW IT WORKS ────────────────────────────────────────── */
+    .how-it-works {
+      background: #f8fafa;
+    }
+
+    .how-it-works-header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    .how-it-works-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .step-item {
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .step-item.active {
+      background: #e6f4f3;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+      flex-shrink: 0;
+    }
+
+    .step-item.active .step-number {
+      background: #0b9c92;
+      color: #fff;
+    }
+
+    .step-item:not(.active) .step-number {
+      background: #e0e0e0;
+      color: #5c5f62;
+    }
+
+    .step-content .step-title {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+    }
+
+    .step-item.active .step-title {
+      color: #007167;
+    }
+
+    .step-item:not(.active) .step-title {
+      color: #3d4246;
+    }
+
+    .step-content .step-desc {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      margin-top: 4px;
+    }
+
+    .step-item.active .step-desc {
+      color: #5c5f62;
+    }
+
+    .step-item:not(.active) .step-desc {
+      color: #8b8e91;
+      opacity: 0.7;
+    }
+
+    .steps-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .step-img-wrapper {
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .step-img-wrapper.active {
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+      border: 2px solid #0b9c92;
+    }
+
+    .step-img-wrapper:not(.active) {
+      opacity: 0.4;
+    }
+
+    .step-img-wrapper img {
+      width: 100%;
+      height: 185px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── TESTIMONIALS ────────────────────────────────────────── */
+    .testimonials {
+      background: #fff;
+    }
+
+    .testimonials-header {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    .testimonials-header .section-title {
+      max-width: 760px;
+    }
+
+    .testimonials-header .section-subtitle {
+      max-width: 700px;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .testimonial-card {
+      border: 1px solid #d7d9db;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 2px 3px rgba(0,0,0,0.16);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .testimonial-quote-mark {
+      font-size: 32px;
+      font-weight: 400;
+      color: #007167;
+      line-height: 32px;
+    }
+
+    .testimonial-text {
+      font-size: 14px;
+      font-weight: 400;
+      color: #3d4246;
+      line-height: 22px;
+      letter-spacing: -0.15px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #0b9c92;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+    }
+
+    .author-role {
+      font-size: 12px;
+      font-weight: 400;
+      color: #8b8e91;
+      line-height: 18px;
+    }
+
+    .testimonials-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .dot.active { background: #007167; }
+    .dot:not(.active) { background: #d7d9db; }
+
+    /* ── FAQ ─────────────────────────────────────────────────── */
+    .faq {
+      background: #e2f0ed;
+      padding: 90px 32px;
+    }
+
+    .faq-inner {
+      display: flex;
+      gap: 90px;
+      align-items: flex-start;
+    }
+
+    .faq-left {
+      flex-shrink: 0;
+      width: 444px;
+    }
+
+    .faq-left .section-title {
+      margin-bottom: 16px;
+    }
+
+    .faq-left-desc {
+      font-size: 16px;
+      font-weight: 400;
+      color: #007167;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+    }
+
+    .faq-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 21px;
+    }
+
+    .faq-item {
+      background: #c4e2dd;
+      border-radius: 8px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 8px;
+      cursor: pointer;
+    }
+
+    .faq-chevron {
+      width: 16px;
+      height: 16px;
+      transform: rotate(-90deg);
+      flex-shrink: 0;
+    }
+
+    .faq-chevron img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .faq-question {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      white-space: nowrap;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    .footer {
+      background: #fff;
+      border-top: 1px solid #eaeaea;
+      padding: 48px 32px 32px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-col-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #007167;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+      margin-bottom: 16px;
+    }
+
+    .footer-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-list li a,
+    .footer-list li {
+      font-size: 14px;
+      font-weight: 400;
+      color: #5c5f62;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+      text-decoration: none;
+    }
+
+    .footer-contact-text {
+      font-size: 14px;
+      font-weight: 400;
+      color: #5c5f62;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+      margin-bottom: 12px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-link {
+      width: 32px;
+      height: 32px;
+      background: #007167;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-link img {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .footer-copy {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 400;
+      color: #8b8e91;
+      line-height: 18px;
+      border-top: 1px solid #eaeaea;
+      padding-top: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="navbar-logo" href="#">
+        <img src="https://www.figma.com/api/mcp/asset/7d42797c-2f37-4b33-9734-bbfed490b669" alt="NETZSCH">
+      </a>
+      <div class="navbar-actions">
+        <a href="#" class="navbar-link">Help</a>
+        <div class="navbar-lang">
+          <img src="https://www.figma.com/api/mcp/asset/d80f17a1-ee0f-4b2b-b415-349910bca9dd" alt="">
+          <span>EN</span>
+          <img class="chevron" src="https://www.figma.com/api/mcp/asset/68cfb9af-f5e8-457c-9913-4a825dafd8e0" alt="">
+        </div>
+        <div class="navbar-divider"></div>
+        <a href="login.html" class="btn btn-outline-green">Log in</a>
+        <a href="register.html" class="btn btn-solid-teal">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <img class="hero-bg" src="https://www.figma.com/api/mcp/asset/b8604cb8-9f5f-43c3-b828-824dbc5318ad" alt="">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">Your All-in-One Customer Portal</h1>
+        <p class="hero-subtitle">Simplify how you manage orders, track deliveries, and access key information — everything in one place, designed for speed and accuracy.</p>
+      </div>
+      <div class="hero-buttons">
+        <a href="login.html" class="hero-btn-login">Log in</a>
+        <a href="register.html" class="hero-btn-register">Register</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section features">
+    <div class="features-header section-center">
+      <h2 class="section-title">Maximize Performance with the NETZSCH Customer Portal</h2>
+      <p class="section-subtitle">Access everything you need to manage, optimize, and protect your grinding and dispersing assets — all in one secure, intelligent platform.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <img class="feature-icon" src="https://www.figma.com/api/mcp/asset/c4c1baf5-ad7c-4670-b8a2-bb6f133ad42b" alt="">
+        <div class="feature-body">
+          <div class="feature-title">Asset Overview &amp; Equipment Insights</div>
+          <p class="feature-desc">Get a real-time, complete view of your NETZSCH equipment and plant performance — all clear and visible at a glance.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <img class="feature-icon" src="https://www.figma.com/api/mcp/asset/12df959c-e508-4dad-a834-8ca1b4adcbd7" alt="">
+        <div class="feature-body">
+          <div class="feature-title">Order Management &amp; Beads Shop</div>
+          <p class="feature-desc">Order your NETZSCH Grinding Beads and track deliveries online — fast, simple, and hassle-free.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <img class="feature-icon" src="https://www.figma.com/api/mcp/asset/9b42a097-d7e8-4ed3-9242-ea67e430d53d" alt="">
+        <div class="feature-body">
+          <div class="feature-title">Service Requests &amp; Case Tracking</div>
+          <p class="feature-desc">Submit and track service requests in real time — with full transparency and traceability.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <img class="feature-icon" src="https://www.figma.com/api/mcp/asset/96e47825-ea50-458a-b8ac-ba3f0c9d04cb" alt="">
+        <div class="feature-body">
+          <div class="feature-title">Real-Time Transparency</div>
+          <p class="feature-desc">Get instant updates and insights — ensuring full visibility and confident decisions.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <img class="feature-icon" src="https://www.figma.com/api/mcp/asset/e1bd1326-0e58-45ca-82bb-7a3b6d5d9804" alt="">
+        <div class="feature-body">
+          <div class="feature-title">Centralized Management Hub</div>
+          <p class="feature-desc">Centralize your asset data, service cases, and orders — streamlining workflows and reducing manual work.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <img class="feature-icon" src="https://www.figma.com/api/mcp/asset/cacac463-62e9-4b78-8d56-e42c611307a4" alt="">
+        <div class="feature-body">
+          <div class="feature-title">Empower Your Team, Elevate Efficiency</div>
+          <p class="feature-desc">Assign roles and permissions to ensure each user accesses exactly what they need — enabling secure, efficient, and accountable operations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section how-it-works">
+    <div class="how-it-works-header section-center">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Get started in just 4 simple steps and streamline your business operations with our Customer Portal.</p>
+    </div>
+    <div class="how-it-works-body">
+      <div class="steps-list">
+        <div class="step-item active">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Login or Register</div>
+            <div class="step-desc">Sign up for your business account in minutes.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Place Orders</div>
+            <div class="step-desc">Browse and order NETZSCH Grinding Beads easily.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Track Deliveries</div>
+            <div class="step-desc">Monitor your shipments in real-time with complete transparency.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <div class="step-title">Earn More</div>
+            <div class="step-desc">Access analytics and insights to optimize operations.</div>
+          </div>
+        </div>
+      </div>
+      <div class="steps-images">
+        <div class="step-img-wrapper active">
+          <img src="https://www.figma.com/api/mcp/asset/861c5f67-da79-4987-9e2a-93d18e41cea6" alt="Login or Register">
+        </div>
+        <div class="step-img-wrapper">
+          <img src="https://www.figma.com/api/mcp/asset/4c226b78-715f-413b-b2f6-0aad1b5df783" alt="Place Orders">
+        </div>
+        <div class="step-img-wrapper">
+          <img src="https://www.figma.com/api/mcp/asset/99c1d274-6769-43a7-a539-5afa947e094d" alt="Track Deliveries">
+        </div>
+        <div class="step-img-wrapper">
+          <img src="https://www.figma.com/api/mcp/asset/861ca42c-675c-4401-9b54-9793464b5ca3" alt="Earn More">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section testimonials">
+    <div class="testimonials-header section-center">
+      <h2 class="section-title">How the Customer Portal Transforms Daily Operations</h2>
+      <p class="section-subtitle">Discover how companies are improving efficiency, accuracy, and collaboration with our centralized e-commerce platform.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote-mark">"</div>
+        <p class="testimonial-text">Since we switched to this portal, our logistics team has full transparency and tracking capabilities. This has dramatically improved our inventory planning.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">S</div>
+          <div>
+            <div class="author-name">Sarah Jenkins</div>
+            <div class="author-role">Logistics Manager, Industrial Co.</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote-mark">"</div>
+        <p class="testimonial-text">Having instant order tracking is a game-changer for our logistics planning. The real-time tracking is a game-changer for our logistics planning.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">M</div>
+          <div>
+            <div class="author-name">Michael Chen</div>
+            <div class="author-role">Operations Director, Tech Manufacturing</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote-mark">"</div>
+        <p class="testimonial-text">An amazing platform for collaboration. Our procurement team and our factory share access to all order history and documents in one place. Highly recommended!</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">E</div>
+          <div>
+            <div class="author-name">Emily Rodriguez</div>
+            <div class="author-role">Procurement Lead, Global Industries</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonials-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="faq-inner">
+      <div class="faq-left">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="faq-left-desc" style="margin-top:16px;">We compiled a list of answers to address your most pressing questions regarding our Services.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-chevron">
+            <img src="https://www.figma.com/api/mcp/asset/cacac463-62e9-4b78-8d56-e42c611307a4" alt="">
+          </div>
+          <span class="faq-question">How can I contact customer support?</span>
+        </div>
+        <div class="faq-item">
+          <div class="faq-chevron">
+            <img src="https://www.figma.com/api/mcp/asset/cacac463-62e9-4b78-8d56-e42c611307a4" alt="">
+          </div>
+          <span class="faq-question">What services do you offer?</span>
+        </div>
+        <div class="faq-item">
+          <div class="faq-chevron">
+            <img src="https://www.figma.com/api/mcp/asset/cacac463-62e9-4b78-8d56-e42c611307a4" alt="">
+          </div>
+          <span class="faq-question">What types of products are offered?</span>
+        </div>
+        <div class="faq-item">
+          <div class="faq-chevron">
+            <img src="https://www.figma.com/api/mcp/asset/cacac463-62e9-4b78-8d56-e42c611307a4" alt="">
+          </div>
+          <span class="faq-question">What types of contents are offered?</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-col-title">NETZSCH Website</div>
+        <ul class="footer-list">
+          <li><a href="#">Grinding &amp; Dispersing</a></li>
+          <li><a href="#">Process Technology</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Online Shop</div>
+        <ul class="footer-list">
+          <li><a href="#">Grinding Conditions</a></li>
+          <li><a href="#">Grinding Beads</a></li>
+          <li><a href="#">View all Conditions</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <ul class="footer-list">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Imprint</a></li>
+          <li><a href="#">Terms of Use</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <p class="footer-contact-text">Contact Our Team</p>
+        <div class="footer-socials">
+          <a href="#" class="social-link">
+            <img src="https://www.figma.com/api/mcp/asset/a4a65e6c-1eb2-4608-9a53-cdf123a74f19" alt="LinkedIn">
+          </a>
+          <a href="#" class="social-link">
+            <img src="https://www.figma.com/api/mcp/asset/55fc97f1-5a55-4290-a2c6-62e73eeafb26" alt="Social">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copy">© 2026 NETZSCH. ALL RIGHTS RESERVED.</div>
+  </footer>
+
+</body>
+</html>
