@@ -630,25 +630,36 @@
     .faq-item {
       background: #c4e2dd;
       border-radius: 8px;
-      height: 32px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .faq-item-header {
       display: flex;
       align-items: center;
       gap: 16px;
       padding: 0 8px;
-      cursor: pointer;
+      height: 48px;
     }
 
     .faq-chevron {
       width: 16px;
       height: 16px;
-      transform: rotate(-90deg);
       flex-shrink: 0;
+      transition: transform 0.25s ease;
     }
 
-    .faq-chevron img {
+    /* Default: chevron points right (→) */
+    .faq-chevron svg {
+      display: block;
       width: 100%;
       height: 100%;
-      display: block;
+    }
+
+    /* Open: chevron points down (↓) */
+    .faq-item.open .faq-chevron {
+      transform: rotate(90deg);
     }
 
     .faq-question {
@@ -657,7 +668,22 @@
       color: #4c4d57;
       line-height: 24px;
       letter-spacing: -0.31px;
-      white-space: nowrap;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #3d4246;
+      line-height: 22px;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+      padding: 0 16px 14px;
     }
 
     /* ── FOOTER ──────────────────────────────────────────────── */
@@ -957,28 +983,48 @@
       </div>
       <div class="faq-list">
         <div class="faq-item">
-          <div class="faq-chevron">
-            <img src="https://www.figma.com/api/mcp/asset/cacac463-62e9-4b78-8d56-e42c611307a4" alt="">
+          <div class="faq-item-header">
+            <div class="faq-chevron">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 3l5 5-5 5" stroke="#4c4d57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="faq-question">How can I contact customer support?</span>
           </div>
-          <span class="faq-question">How can I contact customer support?</span>
+          <div class="faq-answer">You can reach our customer support team by email at support@netzsch.com or by using the Contact form available in your portal account. Our team is available Monday–Friday, 8am–6pm CET.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-chevron">
-            <img src="https://www.figma.com/api/mcp/asset/cacac463-62e9-4b78-8d56-e42c611307a4" alt="">
+          <div class="faq-item-header">
+            <div class="faq-chevron">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 3l5 5-5 5" stroke="#4c4d57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="faq-question">What services do you offer?</span>
           </div>
-          <span class="faq-question">What services do you offer?</span>
+          <div class="faq-answer">The NETZSCH Customer Portal provides asset management, order management for grinding beads, real-time delivery tracking, service case submission and tracking, and team role management — all in one platform.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-chevron">
-            <img src="https://www.figma.com/api/mcp/asset/cacac463-62e9-4b78-8d56-e42c611307a4" alt="">
+          <div class="faq-item-header">
+            <div class="faq-chevron">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 3l5 5-5 5" stroke="#4c4d57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="faq-question">What types of products are offered?</span>
           </div>
-          <span class="faq-question">What types of products are offered?</span>
+          <div class="faq-answer">Through our Online Shop you can order NETZSCH Grinding Beads and related grinding conditions. We offer a full range of bead sizes and materials optimized for your specific grinding and dispersing applications.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-chevron">
-            <img src="https://www.figma.com/api/mcp/asset/cacac463-62e9-4b78-8d56-e42c611307a4" alt="">
+          <div class="faq-item-header">
+            <div class="faq-chevron">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 3l5 5-5 5" stroke="#4c4d57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="faq-question">What types of contents are offered?</span>
           </div>
-          <span class="faq-question">What types of contents are offered?</span>
+          <div class="faq-answer">The portal provides technical documentation, order history, delivery status reports, service case updates, and equipment performance insights — giving you full visibility over your NETZSCH assets and operations.</div>
         </div>
       </div>
     </div>
@@ -1104,6 +1150,15 @@
 
     // Dot click
     dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+
+    /* ── FAQ ACCORDION ───────────────────────────────────────── */
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.querySelector('.faq-item-header').addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
   </script>
 </body>
 </html>
