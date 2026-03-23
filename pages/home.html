@@ -508,14 +508,22 @@
       max-width: 700px;
     }
 
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+    .testimonials-viewport {
+      overflow: hidden;
+      width: 100%;
       margin-bottom: 32px;
     }
 
+    .testimonials-track {
+      display: flex;
+      gap: 24px;
+      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
     .testimonial-card {
+      /* Section has padding 32px each side, 2 gaps of 24px = 48px total gap */
+      flex: 0 0 calc((100vw - 64px - 48px) / 3);
       border: 1px solid #d7d9db;
       border-radius: 12px;
       padding: 32px;
@@ -932,7 +940,8 @@
       <h2 class="section-title">How the Customer Portal Transforms Daily Operations</h2>
       <p class="section-subtitle">Discover how companies are improving efficiency, accuracy, and collaboration with our centralized e-commerce platform.</p>
     </div>
-    <div class="testimonials-grid">
+    <div class="testimonials-viewport">
+     <div class="testimonials-track" id="testimonials-track">
       <div class="testimonial-card">
         <div class="testimonial-quote-mark">"</div>
         <p class="testimonial-text">Since we switched to this portal, our logistics team has full transparency and tracking capabilities. This has dramatically improved our inventory planning.</p>
@@ -966,6 +975,7 @@
           </div>
         </div>
       </div>
+     </div>
     </div>
     <div class="testimonials-dots">
       <div class="dot active"></div>
@@ -1126,30 +1136,69 @@
       });
     });
 
-    /* ── TESTIMONIALS CAROUSEL ───────────────────────────────── */
-    const cards   = document.querySelectorAll('.testimonial-card');
-    const dots    = document.querySelectorAll('.dot');
-    const total   = cards.length;
-    let current   = 0;
+    /* ── TESTIMONIALS CAROUSEL (infinite slide) ─────────────── */
+    (function () {
+      const track         = document.getElementById('testimonials-track');
+      const origCards     = Array.from(track.querySelectorAll('.testimonial-card'));
+      const dots          = document.querySelectorAll('.dot');
+      const TOTAL         = origCards.length; // 3
+      const GAP           = 24;
+      let pos             = 0;   // current offset index (0..TOTAL)
+      let isTransitioning = false;
 
-    function showSlide(index) {
-      cards.forEach((c, i) => {
-        c.style.display  = i === index ? 'flex' : 'none';
+      // Append one clone set so track = [1,2,3, 1c,2c,3c]
+      origCards.forEach(c => track.appendChild(c.cloneNode(true)));
+
+      function step() {
+        return origCards[0].getBoundingClientRect().width + GAP;
+      }
+
+      function setTrack(index, animate) {
+        track.style.transition = animate
+          ? 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)'
+          : 'none';
+        track.style.transform = `translateX(-${index * step()}px)`;
+      }
+
+      function updateDots(index) {
+        dots.forEach((d, i) => d.classList.toggle('active', i === index % TOTAL));
+      }
+
+      function advance() {
+        if (isTransitioning) return;
+        isTransitioning = true;
+        pos++;
+        updateDots(pos);
+        setTrack(pos, true);
+
+        // After transition: if we've slid into the clone set, snap back silently
+        setTimeout(() => {
+          if (pos >= TOTAL) {
+            pos = 0;
+            setTrack(pos, false);
+            updateDots(pos);
+          }
+          isTransitioning = false;
+        }, 580);
+      }
+
+      // Dot click — jump directly to a position
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          if (isTransitioning) return;
+          isTransitioning = true;
+          pos = i;
+          updateDots(pos);
+          setTrack(pos, true);
+          setTimeout(() => { isTransitioning = false; }, 580);
+        });
       });
-      dots.forEach((d, i) => {
-        d.classList.toggle('active', i === index);
-      });
-      current = index;
-    }
 
-    // Init: hide all but first
-    showSlide(0);
-
-    // Auto-advance every 7 s
-    setInterval(() => showSlide((current + 1) % total), 7000);
-
-    // Dot click
-    dots.forEach((dot, i) => dot.addEventListener('click', () => showSlide(i)));
+      // Init
+      updateDots(0);
+      setTrack(0, false);
+      setInterval(advance, 7000);
+    })();
 
     /* ── FAQ ACCORDION ───────────────────────────────────────── */
     document.querySelectorAll('.faq-item').forEach(item => {
