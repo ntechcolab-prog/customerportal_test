@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Forgot Password — NETZSCH Customer Portal</title>
+  <title>Verify Code — NETZSCH Customer Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -82,7 +82,6 @@
       object-fit: cover;
     }
 
-    /* Gradient fades left=teal, right=white */
     .panel-left-overlay {
       position: absolute;
       inset: 0;
@@ -207,7 +206,7 @@
       color: #4c4d57;
       line-height: 20px;
       letter-spacing: -0.15px;
-      margin-top: -16px;
+      margin-top: 16px;
     }
 
     /* Field */
@@ -225,30 +224,64 @@
       letter-spacing: -0.15px;
     }
 
-    .field-input {
+    /* Email read-only */
+    .field-input-readonly {
       width: 100%;
       height: 40px;
-      border: 1px solid #b1b4b7;
+      border: 1px solid #e5e7e8;
       border-radius: 10px;
       padding: 8px 16px;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
+      color: #8d9094;
+      background: #f8fafa;
+      outline: none;
+      cursor: default;
+    }
+
+    /* OTP / Verification code boxes */
+    .otp-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .otp-boxes {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .otp-input {
+      width: 56px;
+      height: 56px;
+      border: 2px solid #b1b4b7;
+      border-radius: 10px;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
       color: #3d4246;
       background: #fff;
       outline: none;
       transition: border-color 0.15s;
+      flex: 1;
     }
 
-    .field-input::placeholder {
-      color: #8d9094;
-    }
-
-    .field-input:focus {
+    .otp-input:focus {
       border-color: #007167;
     }
 
+    .otp-hint {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 400;
+      color: #8d9094;
+      line-height: 16px;
+    }
+
     /* Button */
-    .btn-send {
+    .btn-verify {
       width: 100%;
       height: 44px;
       background: #007167;
@@ -264,11 +297,11 @@
       transition: opacity 0.15s;
     }
 
-    .btn-send:hover {
+    .btn-verify:hover {
       opacity: 0.9;
     }
 
-    /* Back to login */
+    /* Back link */
     .back-link {
       text-align: center;
       font-size: 14px;
@@ -289,7 +322,7 @@
   <!-- TOP BAR -->
   <div class="topbar">
     <a href="home.html" class="topbar-link">
-      <img class="topbar-icon" src="https://www.figma.com/api/mcp/asset/7012c639-a0ab-4860-90cf-3f1cc3627c11" alt="">
+      <img class="topbar-icon" src="https://www.figma.com/api/mcp/asset/a21ea84a-957a-4a49-97a4-758286597629" alt="">
       <div class="topbar-divider"></div>
       <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
     </a>
@@ -300,11 +333,11 @@
 
     <!-- LEFT -->
     <div class="panel-left">
-      <img class="panel-left-bg" src="https://www.figma.com/api/mcp/asset/5ef3c6bb-0704-4b5e-8912-2e8ea7c3b7cf" alt="">
+      <img class="panel-left-bg" src="https://www.figma.com/api/mcp/asset/65397694-90a1-404d-949b-0ebe2cd6e5b7" alt="">
       <div class="panel-left-overlay"></div>
       <div class="panel-left-content">
         <div class="portal-badge">
-          <img class="portal-badge-icon" src="https://www.figma.com/api/mcp/asset/d87af64c-1d9b-4ae2-91c2-de0977dc3334" alt="">
+          <img class="portal-badge-icon" src="https://www.figma.com/api/mcp/asset/a21ea84a-957a-4a49-97a4-758286597629" alt="">
           <span class="portal-badge-text">G&amp;D Customer Portal</span>
         </div>
         <div class="panel-left-texts">
@@ -320,24 +353,38 @@
 
         <!-- Logo -->
         <div class="form-logo">
-          <img class="form-logo-icon" src="https://www.figma.com/api/mcp/asset/d87af64c-1d9b-4ae2-91c2-de0977dc3334" alt="">
+          <img class="form-logo-icon" src="https://www.figma.com/api/mcp/asset/a21ea84a-957a-4a49-97a4-758286597629" alt="">
           <span class="form-logo-text">G&amp;D Customer Portal</span>
         </div>
 
         <!-- Heading -->
         <div>
           <h2 class="form-title">Forgot your password?</h2>
-          <p class="form-subtitle" style="margin-top:16px;">We'll send you a code to reset your password.</p>
+          <p class="form-subtitle">We'll send you a code to reset your password.</p>
         </div>
 
-        <!-- Email -->
+        <!-- Email (read-only) -->
         <div class="field">
-          <label class="field-label" for="email">Email*</label>
-          <input class="field-input" id="email" type="email" placeholder="Enter your email" autocomplete="email">
+          <label class="field-label">Email*</label>
+          <input class="field-input-readonly" type="email" value="12312@gmail.com" readonly>
         </div>
 
-        <!-- Send button -->
-        <button class="btn-send" type="button" onclick="window.location.href='verify-code.html'">Send verification code</button>
+        <!-- Verification code -->
+        <div class="otp-field">
+          <label class="field-label">Verification code*</label>
+          <div class="otp-boxes">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-0" autocomplete="one-time-code">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-1">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-2">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-3">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-4">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-5">
+          </div>
+          <p class="otp-hint" id="resend-hint">You can request a new code in <span id="countdown">28</span>s</p>
+        </div>
+
+        <!-- Verify button -->
+        <button class="btn-verify" type="submit">Verify code</button>
 
         <!-- Back to login -->
         <a href="login.html" class="back-link">Back to Login</a>
@@ -345,6 +392,52 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // Auto-advance OTP inputs
+    const otpInputs = document.querySelectorAll('.otp-input');
+
+    otpInputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        const val = input.value.replace(/\D/g, '');
+        input.value = val.slice(0, 1);
+        if (val && index < otpInputs.length - 1) {
+          otpInputs[index + 1].focus();
+        }
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && index > 0) {
+          otpInputs[index - 1].focus();
+        }
+      });
+
+      input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+        pasted.split('').forEach((char, i) => {
+          if (otpInputs[index + i]) otpInputs[index + i].value = char;
+        });
+        const nextIndex = Math.min(index + pasted.length, otpInputs.length - 1);
+        otpInputs[nextIndex].focus();
+      });
+    });
+
+    // Countdown timer
+    let seconds = 28;
+    const countdownEl = document.getElementById('countdown');
+    const hintEl = document.getElementById('resend-hint');
+
+    const timer = setInterval(() => {
+      seconds--;
+      if (seconds <= 0) {
+        clearInterval(timer);
+        hintEl.innerHTML = '<a href="#" style="color:#007167;font-weight:500;text-decoration:none;">Resend code</a>';
+      } else {
+        countdownEl.textContent = seconds;
+      }
+    }, 1000);
+  </script>
 
 </body>
 </html>
