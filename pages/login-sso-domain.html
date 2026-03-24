@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corporate Login — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+    }
+
+    /* ── TOP BAR ─────────────────────────────────────────────── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+
+    .topbar-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+
+    .topbar-divider {
+      width: 1px;
+      height: 24px;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .topbar-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      white-space: nowrap;
+    }
+
+    /* ── MAIN ────────────────────────────────────────────────── */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    /* ── CARD ────────────────────────────────────────────────── */
+    .card {
+      width: 100%;
+      max-width: 600px;
+      border: 1px solid #b1b4b7;
+      border-radius: 40px;
+      padding: 100px 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 32px;
+      letter-spacing: 0.07px;
+    }
+
+    /* Field */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+    }
+
+    .field-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      border: 1px solid #b1b4b7;
+      border-radius: 10px;
+      background: #fff;
+      height: 40px;
+      padding: 0 16px;
+      transition: border-color 0.15s;
+    }
+
+    .field-input-wrap:focus-within {
+      border-color: #007167;
+    }
+
+    .field-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #3d4246;
+      background: transparent;
+      min-width: 0;
+    }
+
+    .field-input::placeholder { color: #8d9094; }
+
+    .field-suffix {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Button */
+    .btn-continue {
+      width: 100%;
+      height: 44px;
+      background: #007167;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.15s;
+    }
+
+    .btn-continue.active {
+      opacity: 1;
+    }
+
+    .btn-continue.active:hover {
+      opacity: 0.9;
+    }
+
+    .back-link {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      text-decoration: none;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="home.html" class="topbar-link">
+      <img class="topbar-icon" src="https://www.figma.com/api/mcp/asset/8f42afbe-00b4-414a-a514-66e5cd0b621c" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="card">
+
+      <h2 class="card-title">Log in to your account</h2>
+
+      <div class="field">
+        <label class="field-label" for="sso-domain">Company SSO domain *</label>
+        <div class="field-input-wrap">
+          <input class="field-input" id="sso-domain" type="text" placeholder="your-domain" autocomplete="off">
+          <span class="field-suffix">.sso.com</span>
+        </div>
+      </div>
+
+      <button class="btn-continue" id="btn-continue" type="button" onclick="if(this.classList.contains('active')) window.location.href='login-sso-corporate.html'">Continue</button>
+
+      <a href="login.html" class="back-link">Back to Login</a>
+
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('sso-domain');
+    const btn = document.getElementById('btn-continue');
+
+    input.addEventListener('input', () => {
+      if (input.value.trim()) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  </script>
+
+</body>
+</html>
