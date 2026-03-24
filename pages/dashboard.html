@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f6f6f6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+    }
+
+    /* ── LAYOUT ─── */
+    .layout {
+      display: flex;
+      flex: 1;
+    }
+
+    /* ── SIDEBAR ─── */
+    .sidebar {
+      width: 240px;
+      background: #fff;
+      border-right: 1px solid #eaeaea;
+      flex-shrink: 0;
+      padding: 16px 0;
+    }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 24px;
+      font-size: 14px; color: #6b6e73;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .sidebar-item.active { color: #007167; background: #f0faf9; font-weight: 500; }
+    .sidebar-item img { width: 20px; height: 20px; object-fit: contain; opacity: 0.6; }
+    .sidebar-item.active img { opacity: 1; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 32px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ── WELCOME BANNER ─── */
+    .welcome-banner {
+      background: linear-gradient(176deg, #007167 0%, #0b9c92 50%, #13b5a8 100%);
+      border-radius: 10px;
+      height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .welcome-banner-bg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; pointer-events: none; opacity: 0.15;
+    }
+    .welcome-title {
+      font-size: 24px; font-weight: 700; color: #fff;
+      letter-spacing: 0.07px; position: relative; z-index: 1;
+    }
+    .btn-ask-milla {
+      background: rgba(255,255,255,0.2);
+      border: none; border-radius: 999px;
+      height: 48px; padding: 0 24px;
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px; font-weight: 500; color: #fff;
+      cursor: pointer; position: relative; z-index: 1;
+      transition: background 0.15s;
+    }
+    .btn-ask-milla:hover { background: rgba(255,255,255,0.3); }
+    .btn-ask-milla img { width: 20px; height: 20px; object-fit: contain; }
+
+    /* ── STAT CARDS ─── */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid #d7d9db;
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .stat-icon-wrap {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: #e5f5f4;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-icon-wrap img { width: 20px; height: 20px; object-fit: contain; }
+    .stat-number { font-size: 24px; font-weight: 700; color: #4c4d57; line-height: 32px; }
+    .stat-label { font-size: 13px; font-weight: 500; color: #8d9094; }
+
+    /* ── MIDDLE ROW ─── */
+    .middle-row {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 24px;
+    }
+
+    /* ── AI INSIGHTS ─── */
+    .card {
+      background: #fff;
+      border: 1px solid #d7d9db;
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .card-header {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 16px;
+    }
+    .card-header img { width: 16px; height: 16px; object-fit: contain; }
+    .card-title { font-size: 16px; font-weight: 700; color: #4c4d57; }
+
+    .insight-list { display: flex; flex-direction: column; gap: 12px; }
+    .insight-item {
+      border: 1px solid #d7d9db;
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .insight-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 5px;
+    }
+    .insight-dot.yellow { background: #dba338; }
+    .insight-dot.red { background: #dc2626; }
+    .insight-body { flex: 1; min-width: 0; }
+    .insight-label {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 4px;
+    }
+    .insight-label img { width: 16px; height: 16px; object-fit: contain; }
+    .insight-label-text { font-size: 13px; font-weight: 700; color: #4c4d57; }
+    .insight-text { font-size: 13px; color: #6b6e73; line-height: 18px; }
+    .btn-insight {
+      background: #007167; color: #fff; border: none;
+      border-radius: 999px; height: 32px; padding: 0 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; font-weight: 500;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      display: flex; align-items: center; gap: 6px;
+      transition: opacity 0.15s;
+    }
+    .btn-insight:hover { opacity: 0.9; }
+    .btn-insight img { width: 12px; height: 12px; object-fit: contain; }
+
+    /* ── QUICK ACTIONS ─── */
+    .quick-actions-list { display: flex; flex-direction: column; gap: 12px; }
+    .btn-quick-action {
+      width: 100%; height: 46px;
+      background: #fff;
+      border: 1px solid #007167;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .btn-quick-action:hover { background: #f0faf9; }
+
+    /* ── RECENT ORDERS ─── */
+    .orders-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .btn-view-all {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 500; color: #007167;
+      background: none; border: none; cursor: pointer;
+    }
+    .btn-view-all img { width: 14px; height: 14px; object-fit: contain; }
+
+    .orders-table-wrap {
+      border: 1px solid #d7d9db;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .orders-table { width: 100%; border-collapse: collapse; }
+    .orders-table thead tr { background: #007167; }
+    .orders-table thead th {
+      padding: 14px 16px;
+      font-size: 14px; font-weight: 500; color: #fff;
+      text-align: left; white-space: nowrap;
+    }
+    .orders-table tbody tr { border-bottom: 1px solid #dee0e0; }
+    .orders-table tbody tr:last-child { border-bottom: none; }
+    .orders-table tbody td {
+      padding: 14px 16px;
+      font-size: 14px; color: #4c4d57;
+      white-space: nowrap;
+    }
+    .order-link { color: #007167; font-weight: 500; text-decoration: none; }
+    .order-date { display: flex; align-items: center; gap: 6px; color: #4c4d57; }
+    .order-date img { width: 12px; height: 12px; object-fit: contain; }
+
+    .status-badge {
+      display: inline-flex; align-items: center;
+      height: 20px; padding: 0 12px;
+      border-radius: 999px;
+      font-size: 12px; font-weight: 500;
+    }
+    .status-placed { background: #e8e8e8; color: #4c4d57; }
+    .status-process { background: #f9ddaa; color: #4c4d57; }
+    .status-shipped { background: #cbdee6; color: #4c4d57; }
+    .status-delivered { background: #e5f5f4; color: #007167; }
+
+    .table-actions { display: flex; align-items: center; gap: 4px; }
+    .table-action-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px; background: none; border: none; cursor: pointer;
+    }
+    .table-action-btn:hover { background: #f0faf9; }
+    .table-action-btn img { width: 16px; height: 16px; object-fit: contain; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="https://www.figma.com/api/mcp/asset/8f42afbe-00b4-414a-a514-66e5cd0b621c" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="https://www.figma.com/api/mcp/asset/23798234-5530-4014-bdd7-914364f37a43" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="#" class="nav-tab active">Home</a>
+        <a href="#" class="nav-tab">Machines</a>
+        <a href="#" class="nav-tab">Shop</a>
+        <a href="#" class="nav-tab">Orders</a>
+        <a href="#" class="nav-tab">Quotes</a>
+        <a href="#" class="nav-tab">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="https://www.figma.com/api/mcp/asset/53c4dbbc-d7f6-485d-b271-d1cf65aa642f" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="https://www.figma.com/api/mcp/asset/906d488b-a3a0-406b-8478-11a1e33849ee" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="https://www.figma.com/api/mcp/asset/87ab4566-d831-49b6-b157-4c23156519e4" alt="Settings">
+      </button>
+      <img class="user-avatar" src="https://www.figma.com/api/mcp/asset/662262e5-ac95-41a5-b0f5-56dc674b01dc" alt="User">
+      <button class="lang-btn">
+        <img src="https://www.figma.com/api/mcp/asset/1881cb75-8818-4a5b-8349-81549c469a9b" alt="">
+        EN
+        <img src="https://www.figma.com/api/mcp/asset/fa609006-9867-416d-aab7-edfa3c0d1c94" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">Home</div>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <a href="#" class="sidebar-item active">
+        <img src="https://www.figma.com/api/mcp/asset/cda8fc59-043b-4084-8017-f00ff6a4a634" alt="">
+        Home
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="https://www.figma.com/api/mcp/asset/baba160a-990e-46a7-8c98-eceee8e92480" alt="">
+        Orders
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="https://www.figma.com/api/mcp/asset/a169ac21-170e-4950-9f12-71100c3e511a" alt="">
+        Invoices
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="https://www.figma.com/api/mcp/asset/b6f13cb2-534c-43ef-a495-5a466dbc0d8e" alt="">
+        Quotes
+      </a>
+      <a href="#" class="sidebar-item">
+        <img src="https://www.figma.com/api/mcp/asset/6d6f2754-827b-4cc7-9af1-81af1f38c699" alt="">
+        AI Insights
+      </a>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- WELCOME BANNER -->
+      <div class="welcome-banner">
+        <img class="welcome-banner-bg" src="https://www.figma.com/api/mcp/asset/d215aba3-7280-48c0-9d09-e0fb188ed973" alt="">
+        <h1 class="welcome-title">Good afternoon, Marcus</h1>
+        <button class="btn-ask-milla">
+          <img src="https://www.figma.com/api/mcp/asset/33788adf-8703-4d03-934b-e38e7ec60800" alt="">
+          Ask Milla
+        </button>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-icon-wrap">
+            <img src="https://www.figma.com/api/mcp/asset/cda8fc59-043b-4084-8017-f00ff6a4a634" alt="">
+          </div>
+          <div>
+            <div class="stat-number">5</div>
+            <div class="stat-label">Active Orders</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap">
+            <img src="https://www.figma.com/api/mcp/asset/a169ac21-170e-4950-9f12-71100c3e511a" alt="">
+          </div>
+          <div>
+            <div class="stat-number">3</div>
+            <div class="stat-label">Pending Invoices</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap">
+            <img src="https://www.figma.com/api/mcp/asset/baba160a-990e-46a7-8c98-eceee8e92480" alt="">
+          </div>
+          <div>
+            <div class="stat-number">2</div>
+            <div class="stat-label">In Transit</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap">
+            <img src="https://www.figma.com/api/mcp/asset/b6f13cb2-534c-43ef-a495-5a466dbc0d8e" alt="">
+          </div>
+          <div>
+            <div class="stat-number">4</div>
+            <div class="stat-label">Recent Quotes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MIDDLE ROW -->
+      <div class="middle-row">
+
+        <!-- AI INSIGHTS -->
+        <div class="card">
+          <div class="card-header">
+            <img src="https://www.figma.com/api/mcp/asset/6d6f2754-827b-4cc7-9af1-81af1f38c699" alt="">
+            <span class="card-title">AI Insights</span>
+          </div>
+          <div class="insight-list">
+            <div class="insight-item">
+              <div class="insight-dot yellow"></div>
+              <div class="insight-body">
+                <div class="insight-label">
+                  <span class="insight-label-text">Reorder Suggestion</span>
+                </div>
+                <div class="insight-text">You usually reorder Grinding Beads ZY 20mm every 25 days. Last purchase was 22 days ago.</div>
+              </div>
+              <button class="btn-insight">
+                Reorder Now
+                <img src="https://www.figma.com/api/mcp/asset/17b5d4ac-ef01-4a18-8020-bd614c88645b" alt="">
+              </button>
+            </div>
+            <div class="insight-item">
+              <div class="insight-dot red"></div>
+              <div class="insight-body">
+                <div class="insight-label">
+                  <span class="insight-label-text">Invoices Due</span>
+                </div>
+                <div class="insight-text">You have 3 invoices due this week totaling 18.500,00 EUR.</div>
+              </div>
+              <button class="btn-insight">
+                View Invoices
+                <img src="https://www.figma.com/api/mcp/asset/17b5d4ac-ef01-4a18-8020-bd614c88645b" alt="">
+              </button>
+            </div>
+            <div class="insight-item">
+              <div class="insight-dot red"></div>
+              <div class="insight-body">
+                <div class="insight-label">
+                  <span class="insight-label-text">Possible Delay</span>
+                </div>
+                <div class="insight-text">Order #2800998-06 may experience a delivery delay. Updated ETA: Mar 12, 2026.</div>
+              </div>
+              <button class="btn-insight">
+                Track Order
+                <img src="https://www.figma.com/api/mcp/asset/17b5d4ac-ef01-4a18-8020-bd614c88645b" alt="">
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Quick Actions</span>
+          </div>
+          <div class="quick-actions-list">
+            <button class="btn-quick-action">New Order</button>
+            <button class="btn-quick-action">Search Products</button>
+            <button class="btn-quick-action">Repeat Order</button>
+            <button class="btn-quick-action">Request Quote</button>
+            <button class="btn-quick-action">Contact Support</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RECENT ORDERS -->
+      <div class="card">
+        <div class="orders-header">
+          <span class="card-title">Recent Orders</span>
+          <button class="btn-view-all">
+            View All Orders
+            <img src="https://www.figma.com/api/mcp/asset/a828989c-8843-4514-acac-2ef7481a64e5" alt="">
+          </button>
+        </div>
+        <div class="orders-table-wrap">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Description</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a class="order-link" href="#">2800998-30</a></td>
+                <td>
+                  <span class="order-date">
+                    <img src="https://www.figma.com/api/mcp/asset/e56fb482-4d8c-4ecb-ab89-272707963508" alt="">
+                    Feb 28, 2026
+                  </span>
+                </td>
+                <td><span class="status-badge status-placed">Order Placed</span></td>
+                <td>4.000,00 EUR</td>
+                <td>LMZ60 spares</td>
+                <td>
+                  <div class="table-actions">
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/93a6b6a3-fa51-4b02-a250-adc493405ce1" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/5efd2d8b-40a6-4efb-82e7-58dd81817e4b" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/24965db1-6e1a-42b1-9f02-7992685f5345" alt=""></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a class="order-link" href="#">2800998-06</a></td>
+                <td>
+                  <span class="order-date">
+                    <img src="https://www.figma.com/api/mcp/asset/e56fb482-4d8c-4ecb-ab89-272707963508" alt="">
+                    Feb 24, 2026
+                  </span>
+                </td>
+                <td><span class="status-badge status-process">In Process</span></td>
+                <td>12.000,00 EUR</td>
+                <td>Mastermix spares</td>
+                <td>
+                  <div class="table-actions">
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/93a6b6a3-fa51-4b02-a250-adc493405ce1" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/5efd2d8b-40a6-4efb-82e7-58dd81817e4b" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/24965db1-6e1a-42b1-9f02-7992685f5345" alt=""></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a class="order-link" href="#">2800998-02</a></td>
+                <td>
+                  <span class="order-date">
+                    <img src="https://www.figma.com/api/mcp/asset/e56fb482-4d8c-4ecb-ab89-272707963508" alt="">
+                    Feb 15, 2026
+                  </span>
+                </td>
+                <td><span class="status-badge status-shipped">Shipped</span></td>
+                <td>10.000,00 EUR</td>
+                <td>Prophi spares</td>
+                <td>
+                  <div class="table-actions">
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/93a6b6a3-fa51-4b02-a250-adc493405ce1" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/5efd2d8b-40a6-4efb-82e7-58dd81817e4b" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/24965db1-6e1a-42b1-9f02-7992685f5345" alt=""></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a class="order-link" href="#">2800998-07</a></td>
+                <td>
+                  <span class="order-date">
+                    <img src="https://www.figma.com/api/mcp/asset/e56fb482-4d8c-4ecb-ab89-272707963508" alt="">
+                    Feb 10, 2026
+                  </span>
+                </td>
+                <td><span class="status-badge status-delivered">Delivered</span></td>
+                <td>1.000,00 EUR</td>
+                <td>LMZ60 spares</td>
+                <td>
+                  <div class="table-actions">
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/93a6b6a3-fa51-4b02-a250-adc493405ce1" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/5efd2d8b-40a6-4efb-82e7-58dd81817e4b" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/24965db1-6e1a-42b1-9f02-7992685f5345" alt=""></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><a class="order-link" href="#">2800998-05</a></td>
+                <td>
+                  <span class="order-date">
+                    <img src="https://www.figma.com/api/mcp/asset/e56fb482-4d8c-4ecb-ab89-272707963508" alt="">
+                    Jan 28, 2026
+                  </span>
+                </td>
+                <td><span class="status-badge status-delivered">Delivered</span></td>
+                <td>900,00 EUR</td>
+                <td>Grinding Beads ZY 20mm</td>
+                <td>
+                  <div class="table-actions">
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/93a6b6a3-fa51-4b02-a250-adc493405ce1" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/5efd2d8b-40a6-4efb-82e7-58dd81817e4b" alt=""></button>
+                    <button class="table-action-btn"><img src="https://www.figma.com/api/mcp/asset/24965db1-6e1a-42b1-9f02-7992685f5345" alt=""></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
