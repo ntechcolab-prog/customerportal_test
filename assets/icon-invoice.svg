@@ -1,1 +1,11 @@
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+<svg width="20" height="20" viewBox="0 0 19.9942 19.9942" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon" clip-path="url(#clip0_473_9776)">
+<path id="Vector" d="M16.6618 4.16546H3.33237C2.41216 4.16546 1.66618 4.91144 1.66618 5.83164V14.1626C1.66618 15.0828 2.41216 15.8288 3.33237 15.8288H16.6618C17.582 15.8288 18.328 15.0828 18.328 14.1626V5.83164C18.328 4.91144 17.582 4.16546 16.6618 4.16546Z" stroke="var(--stroke-0, #DBA338)" stroke-width="1.66618" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M1.66618 8.33092H18.328" stroke="var(--stroke-0, #DBA338)" stroke-width="1.66618" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_473_9776">
+<rect width="19.9942" height="19.9942" fill="white"/>
+</clipPath>
+</defs>
+</svg>
