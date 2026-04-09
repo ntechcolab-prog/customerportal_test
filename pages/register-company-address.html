@@ -556,6 +556,22 @@
   </div>
 
   <script>
+    // ── Next gating: habilita quando todos obrigatorios estiverem preenchidos
+    const btnNext = document.getElementById('btn-next');
+    const companyNameInput = document.getElementById('company-name');
+    const streetInput = document.getElementById('street');
+    const zipInput = document.getElementById('zip');
+    const requiredInputs = [companyNameInput, streetInput, zipInput];
+    let stateSelected = false;
+    let citySelected = false;
+
+    function refreshNext() {
+      const inputsOk = requiredInputs.every(i => i.value.trim().length > 0);
+      btnNext.classList.toggle('enabled', inputsOk && stateSelected && citySelected);
+    }
+
+    requiredInputs.forEach(i => i.addEventListener('input', refreshNext));
+
     // Cidades por estado (Brasil — amostra editorial)
     const CITIES_BY_STATE = {
       DF: ['Brasília'],
@@ -635,6 +651,8 @@
           cityBtn.classList.remove('placeholder');
           cityDropdown.querySelectorAll('.select-dropdown-item').forEach(i => i.classList.remove('selected'));
           b.classList.add('selected');
+          citySelected = true;
+          refreshNext();
           closeAll();
         });
         cityDropdown.appendChild(b);
@@ -648,14 +666,17 @@
         stateBtn.classList.remove('placeholder');
         stateItems.forEach(i => i.classList.remove('selected'));
         item.classList.add('selected');
+        stateSelected = true;
 
         // Reset City pra estado novo
         cityLabel.textContent = 'Select city';
         cityBtn.classList.add('placeholder');
         cityBtn.classList.remove('disabled');
         cityBtn.disabled = false;
+        citySelected = false;
         populateCities(code);
 
+        refreshNext();
         closeAll();
       });
     });
