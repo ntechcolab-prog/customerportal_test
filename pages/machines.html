@@ -269,16 +269,32 @@
       table-layout: fixed;
     }
 
+    /* Larguras das colunas — proporções reais do Figma (1376px de referência) */
+    .machine-table th.th-machine,
+    .machine-table td.td-machine    { width: 60%; }
+    .machine-table th.th-commission,
+    .machine-table td.td-commission { width: 11%; }
+    .machine-table th.th-date,
+    .machine-table td.td-date       { width: 10%; }
+    .machine-table th.th-hours,
+    .machine-table td.td-hours      { width: 8%;  }
+    .machine-table th.th-family,
+    .machine-table td.td-family     { width: 7%;  }
+    .machine-table th.th-arrow,
+    .machine-table td.td-arrow      { width: 4%; padding-right: 16px; text-align: right; }
+
     .machine-table thead tr { background: #007167; }
     .machine-table thead th {
-      padding: 14px 20px;
-      font-size: 13px;
+      padding: 14px 16px;
+      font-size: 12px;
       font-weight: 600;
       color: #fff;
       text-align: left;
       letter-spacing: -0.05px;
+      vertical-align: middle;
       white-space: nowrap;
     }
+    .machine-table thead th:first-child { padding-left: 24px; }
 
     .machine-table tbody tr {
       border-top: 1px solid #f3f4f6;
@@ -289,48 +305,38 @@
     .machine-table tbody tr.is-hidden { display: none; }
 
     .machine-table tbody td {
-      padding: 14px 20px;
-      font-size: 13px;
+      padding: 14px 16px;
+      font-size: 12px;
       color: #374151;
       vertical-align: middle;
       line-height: 1.4;
     }
-
-    /* Larguras das colunas (table-layout fixed → primeira linha define) */
-    .machine-table th.th-machine,
-    .machine-table td.td-machine    { width: 30%; }
-    .machine-table th.th-commission,
-    .machine-table td.td-commission { width: 17%; }
-    .machine-table th.th-date,
-    .machine-table td.td-date       { width: 15%; }
-    .machine-table th.th-hours,
-    .machine-table td.td-hours      { width: 12%; }
-    .machine-table th.th-family,
-    .machine-table td.td-family     { width: 18%; }
-    .machine-table th.th-arrow,
-    .machine-table td.td-arrow {
-      width: 8%;
-      text-align: right;
-      padding-right: 24px;
+    .machine-table tbody td:first-child { padding-left: 24px; }
+    /* A coluna Family pode quebrar em 2 linhas */
+    .machine-table td.td-family {
+      font-size: 12px;
+      color: #374151;
+      white-space: normal;
+      line-height: 1.35;
     }
 
     .machine-cell {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       min-width: 0;
     }
     .machine-cell-photo {
-      width: 36px;
-      height: 36px;
+      width: 56px;
+      height: 42px;
       background: #fafbfc;
-      border: 1px solid #f3f4f6;
-      border-radius: 6px;
+      border-radius: 10px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 3px;
+      padding: 4px;
+      overflow: hidden;
     }
     .machine-cell-photo img {
       max-width: 100%;
@@ -340,25 +346,24 @@
     .machine-cell-text {
       display: flex;
       flex-direction: column;
-      gap: 1px;
+      gap: 2px;
       min-width: 0;
-      overflow: hidden;
     }
     .machine-cell-name {
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       color: #1f2937;
-      letter-spacing: -0.1px;
+      letter-spacing: -0.07px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .machine-cell-line {
-      font-size: 10px;
-      font-weight: 500;
+      font-size: 11px;
+      font-weight: 400;
       color: #9ca3af;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.06px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -372,9 +377,23 @@
       width: 14px;
       height: auto;
       display: inline-block;
-      opacity: 0.4;
+      opacity: 0.45;
     }
     .machine-table tbody tr:hover .col-arrow-cell img { opacity: 1; }
+
+    /* Em telas estreitas, dá um pouco mais de respiro pra Machine column */
+    @media (max-width: 1100px) {
+      .machine-table th.th-machine,
+      .machine-table td.td-machine    { width: 45%; }
+      .machine-table th.th-commission,
+      .machine-table td.td-commission { width: 14%; }
+      .machine-table th.th-date,
+      .machine-table td.td-date       { width: 13%; }
+      .machine-table th.th-hours,
+      .machine-table td.td-hours      { width: 10%; }
+      .machine-table th.th-family,
+      .machine-table td.td-family     { width: 12%; }
+    }
 
     .empty-state {
       grid-column: 1 / -1;
