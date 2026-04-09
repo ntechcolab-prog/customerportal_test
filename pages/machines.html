@@ -172,11 +172,35 @@
     /* ── FILTER ROW ─── */
     .filter-row {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-columns: 2fr 1fr 1fr auto;
       gap: 12px;
       margin-top: 16px;
+      align-items: center;
     }
     .filter-row[hidden] { display: none; }
+
+    .btn-clear {
+      height: 38px;
+      padding: 0 14px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: -0.05px;
+      transition: color 0.15s, background 0.15s, opacity 0.15s;
+      white-space: nowrap;
+    }
+    .btn-clear svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .btn-clear:hover { color: #c73e20; background: #fdf2f0; }
+    .btn-clear:disabled,
+    .btn-clear[hidden] { display: none; }
 
     .filter-input {
       position: relative;
@@ -583,6 +607,10 @@
             <option value="Mixer">Mixer</option>
           </select>
         </div>
+        <button type="button" class="btn-clear" id="btn-clear" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Clear filters
+        </button>
       </div>
     </div>
 
@@ -853,7 +881,13 @@
     const search = document.getElementById('filter-search');
     const sortBy = document.getElementById('filter-sort');
     const appFilter = document.getElementById('filter-app');
+    const btnClear = document.getElementById('btn-clear');
     const emptyState = document.getElementById('empty-state');
+
+    function refreshClearVisibility() {
+      const hasAny = search.value.trim() || sortBy.value || appFilter.value;
+      btnClear.hidden = !hasAny;
+    }
 
     function applyFilters() {
       const q = (search.value || '').trim().toLowerCase();
@@ -892,9 +926,21 @@
       }
     }
 
-    search.addEventListener('input', applyFilters);
-    sortBy.addEventListener('change', applyFilters);
-    appFilter.addEventListener('change', applyFilters);
+    search.addEventListener('input', () => { applyFilters(); refreshClearVisibility(); });
+    sortBy.addEventListener('change', () => { applyFilters(); refreshClearVisibility(); });
+    appFilter.addEventListener('change', () => { applyFilters(); refreshClearVisibility(); });
+
+    btnClear.addEventListener('click', () => {
+      search.value = '';
+      sortBy.value = '';
+      appFilter.value = '';
+      // Restore original card order
+      cards.forEach(c => grid.appendChild(c));
+      grid.appendChild(emptyState);
+      applyFilters();
+      refreshClearVisibility();
+      search.focus();
+    });
   </script>
 
 </body>
