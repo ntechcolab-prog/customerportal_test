@@ -274,17 +274,14 @@
       gap: 16px;
     }
 
-    /* Ask Milla banner */
+    /* Ask Milla banner — collapsed e expanded */
     .milla-banner {
       position: relative;
       background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
       border-radius: 16px;
       padding: 32px 24px 28px;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
+      transition: padding 0.25s ease;
     }
     .milla-banner-bg {
       position: absolute;
@@ -293,10 +290,19 @@
       height: 100%;
       object-fit: cover;
       pointer-events: none;
+      opacity: 0.5;
     }
-    .btn-milla {
+
+    /* COLLAPSED STATE */
+    .milla-collapsed {
       position: relative;
       z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .btn-milla {
       height: 48px;
       padding: 0 28px;
       background: rgba(255,255,255,0.16);
@@ -321,11 +327,99 @@
     }
     .btn-milla img { width: 20px; height: 20px; }
     .milla-subtitle {
-      position: relative;
-      z-index: 1;
       font-size: 13px;
       font-weight: 500;
       color: rgba(255,255,255,0.92);
+      letter-spacing: -0.05px;
+    }
+
+    /* EXPANDED STATE — Milla asking */
+    .milla-expanded {
+      position: relative;
+      z-index: 1;
+      display: none;
+    }
+    .milla-banner.is-open .milla-collapsed { display: none; }
+    .milla-banner.is-open .milla-expanded { display: block; }
+    .milla-banner.is-open { padding: 24px 32px; }
+
+    .milla-expanded-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .milla-expanded-head img {
+      width: 20px;
+      height: 20px;
+    }
+    .milla-expanded-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+    .milla-expanded-subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 20px;
+    }
+    .milla-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: rgba(255,255,255,0.8);
+      transition: background 0.15s;
+      z-index: 2;
+    }
+    .milla-close:hover {
+      background: rgba(255,255,255,0.22);
+      color: #fff;
+    }
+    .milla-close img { width: 12px; height: 12px; }
+
+    /* Method picker (Photo / Description / Product Code) */
+    .milla-methods {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .method-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 20px;
+      padding: 28px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s, border-color 0.15s;
+      text-decoration: none;
+      color: #fff;
+    }
+    .method-card:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.32);
+      transform: translateY(-2px);
+    }
+    .method-card img {
+      width: 28px;
+      height: 28px;
+    }
+    .method-card span {
+      font-size: 14px;
+      font-weight: 500;
       letter-spacing: -0.05px;
     }
 
@@ -527,14 +621,44 @@
       <!-- RIGHT COLUMN -->
       <div class="right-col">
 
-        <!-- Ask Milla banner -->
-        <div class="milla-banner">
+        <!-- Ask Milla banner (collapsed/expanded states) -->
+        <div class="milla-banner" id="milla-banner">
           <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
-          <button type="button" class="btn-milla">
-            <img src="../assets/icon-sparkle.svg" alt="">
-            Ask Milla
-          </button>
-          <p class="milla-subtitle">Find documentation, tutorials and get help from Milla AI.</p>
+
+          <!-- Collapsed: Ask Milla button + subtitle -->
+          <div class="milla-collapsed">
+            <button type="button" class="btn-milla" id="btn-ask-milla">
+              <img src="../assets/icon-sparkle.svg" alt="">
+              Ask Milla
+            </button>
+            <p class="milla-subtitle">Find documentation, tutorials and get help from Milla AI.</p>
+          </div>
+
+          <!-- Expanded: Milla asking how to search -->
+          <div class="milla-expanded">
+            <button type="button" class="milla-close" id="btn-milla-close" aria-label="Close">
+              <img src="../assets/icon-milla-close.svg" alt="">
+            </button>
+            <div class="milla-expanded-head">
+              <img src="../assets/icon-sparkle.svg" alt="">
+              <span class="milla-expanded-title">How would you like to search?</span>
+            </div>
+            <p class="milla-expanded-subtitle">Choose a method to find what do you need</p>
+            <div class="milla-methods">
+              <a href="#" class="method-card">
+                <img src="../assets/icon-method-photo.svg" alt="">
+                <span>Photo</span>
+              </a>
+              <a href="#" class="method-card">
+                <img src="../assets/icon-method-description.svg" alt="">
+                <span>Description</span>
+              </a>
+              <a href="#" class="method-card">
+                <img src="../assets/icon-method-code.svg" alt="">
+                <span>Product Code</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         <!-- "or" + Select subset -->
@@ -550,6 +674,16 @@
 
     </div>
   </div>
+
+  <script>
+    const banner = document.getElementById('milla-banner');
+    document.getElementById('btn-ask-milla').addEventListener('click', () => {
+      banner.classList.add('is-open');
+    });
+    document.getElementById('btn-milla-close').addEventListener('click', () => {
+      banner.classList.remove('is-open');
+    });
+  </script>
 
 </body>
 </html>
