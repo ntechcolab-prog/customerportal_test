@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Company Information — NETZSCH Customer Portal</title>
+  <title>Company Information (Country open) — NETZSCH Customer Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -283,7 +283,52 @@
       width: 14px;
       height: auto;
       display: block;
+      transition: transform 0.15s;
     }
+
+    .select-btn.open { border-color: #0b9c92; }
+    .select-btn.open img { transform: rotate(180deg); }
+
+    .select-wrapper { position: relative; }
+
+    .select-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 0.784px solid #b1b4b7;
+      border-radius: 10px;
+      box-shadow:
+        0 10px 15px -3px rgba(0,0,0,0.1),
+        0 4px 6px -4px rgba(0,0,0,0.1);
+      padding: 0.784px;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .select-dropdown-item {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      text-align: left;
+      cursor: pointer;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+    }
+    .select-dropdown-item.selected { background: #e6f4f3; color: #007167; }
+    .select-dropdown-item.disabled {
+      opacity: 0.4;
+      color: #8d9094;
+      cursor: not-allowed;
+    }
+    .select-dropdown-item:not(.disabled):not(.selected):hover { background: #f5f7f8; }
 
     /* Buttons row */
     .buttons-row {
@@ -424,43 +469,23 @@
           <input class="field-input" id="company-name" type="text" placeholder="Enter company name" required>
         </div>
 
-        <!-- Country (locked Brazil but clickable to view dropdown) -->
+        <!-- Country (open dropdown) -->
         <div class="field">
           <label class="field-label">Country*</label>
-          <button type="button" class="select-btn" onclick="window.location.href='register-company-address-country-open.html'">
-            <span>Brazil</span>
-            <img src="../assets/icon-chevron-down-input.svg" alt="">
-          </button>
-        </div>
-
-        <!-- State + City row -->
-        <div class="field-row">
-          <div class="field">
-            <label class="field-label">State*</label>
-            <button type="button" class="select-btn placeholder" id="state-btn" onclick="window.location.href='register-company-address-state.html'">
-              <span>Select state</span>
+          <div class="select-wrapper">
+            <button type="button" class="select-btn open" onclick="window.location.href='register-company-address.html'">
+              <span>Brazil</span>
               <img src="../assets/icon-chevron-down-input.svg" alt="">
             </button>
+            <div class="select-dropdown" role="listbox">
+              <button type="button" class="select-dropdown-item selected" onclick="window.location.href='register-company-address.html'">Brazil</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>Germany</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>United States</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>Mexico</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>China</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>Japan</button>
+            </div>
           </div>
-          <div class="field">
-            <label class="field-label">City*</label>
-            <button type="button" class="select-btn disabled" disabled>
-              <span>Select city</span>
-              <img src="../assets/icon-chevron-down-input.svg" alt="">
-            </button>
-          </div>
-        </div>
-
-        <!-- Street Address -->
-        <div class="field">
-          <label class="field-label" for="street">Street Address*</label>
-          <input class="field-input" id="street" type="text" placeholder="Enter street address" autocomplete="street-address" required>
-        </div>
-
-        <!-- Zip Code -->
-        <div class="field">
-          <label class="field-label" for="zip">Zip Code*</label>
-          <input class="field-input" id="zip" type="text" placeholder="Enter postal code" autocomplete="postal-code" required>
         </div>
 
         <!-- Buttons row -->
