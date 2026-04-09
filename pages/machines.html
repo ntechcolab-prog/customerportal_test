@@ -254,7 +254,7 @@
 
     .machine-card.is-hidden { display: none; }
 
-    /* ── TABLE VIEW ─── */
+    /* ── TABLE VIEW (refeita 1:1 com Figma 182:12533) ────── */
     .machine-table-wrap {
       background: #fff;
       border: 1px solid #e5e7eb;
@@ -266,85 +266,88 @@
 
     .machine-table {
       width: 100%;
-      min-width: 880px;          /* abaixo disso, scroll horizontal */
+      min-width: 980px;
       border-collapse: collapse;
-      table-layout: fixed;        /* respeita as larguras do colgroup */
+      table-layout: fixed;
+      font-family: 'Inter', sans-serif;
     }
 
-    /* Padding base — todas as células */
-    .machine-table thead th,
-    .machine-table tbody td {
-      padding: 16px;
+    /* Padding base: 16px horizontal em todas as células */
+    .machine-table th,
+    .machine-table td {
+      padding: 0 16px;
+      vertical-align: middle;
+      text-align: left;
     }
-    /* Coluna da foto: encosta na borda esquerda do card */
-    .machine-table thead th.th-photo,
-    .machine-table tbody td.td-photo {
-      padding: 16px 0 16px 24px;
+    /* Photo: 16 left, 8 right (matches Figma photo at left:16, gap:8) */
+    .machine-table .th-photo,
+    .machine-table .td-photo {
+      padding: 0 8px 0 16px;
     }
-    /* Coluna do nome: cola no thumb (sem padding-left) → header alinha com nome */
-    .machine-table thead th.th-machine,
-    .machine-table tbody td.td-machine {
-      padding-left: 0;
-    }
-    /* Última célula com padding direito do card */
-    .machine-table thead th:last-child,
-    .machine-table tbody td:last-child {
-      padding-right: 24px;
+    /* Arrow: 16 left, 8 right (matches Figma) */
+    .machine-table .th-arrow,
+    .machine-table .td-arrow {
+      padding: 0 8px 0 16px;
+      text-align: right;
     }
 
-    /* Header (faixa verde NETZSCH) */
-    .machine-table thead {
-      background: #007167;
-    }
+    /* Header (faixa verde) */
+    .machine-table thead { background: #007167; }
     .machine-table thead th {
+      height: 42px;
       font-size: 12px;
       font-weight: 600;
+      line-height: 18px;
       color: #fff;
-      text-align: left;
-      letter-spacing: 0.1px;
-      vertical-align: middle;
       white-space: nowrap;
-      height: 48px;
     }
 
     /* Body */
     .machine-table tbody tr {
-      border-top: 1px solid #f1f3f5;
+      height: 67px;
+      border-bottom: 1px solid #f3f4f6;
       cursor: pointer;
       transition: background 0.15s ease;
     }
-    .machine-table tbody tr:hover { background: #f8fafa; }
+    .machine-table tbody tr:nth-child(odd)  { background: #ffffff; }
+    .machine-table tbody tr:nth-child(even) { background: #fafbfc; }
+    .machine-table tbody tr:hover { background: #eff6f5; }
     .machine-table tbody tr.is-hidden { display: none; }
+    .machine-table tbody tr:last-child { border-bottom: 0; }
 
     .machine-table tbody td {
-      font-size: 13px;
-      color: #4b5563;
-      vertical-align: middle;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 18px;
+      color: #374151;
       font-variant-numeric: tabular-nums;
       font-feature-settings: 'tnum';
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
-    /* Photo cell (coluna 1) */
+    /* Family pode quebrar em 2 linhas (matches Figma) */
+    .machine-table .td-family {
+      white-space: normal;
+      line-height: 18px;
+    }
+
+    /* Photo box — matches Figma exatamente: 56x42, rounded 10, bg #fafbfc */
     .machine-cell-photo {
       width: 56px;
-      height: 44px;
+      height: 42px;
       background: #fafbfc;
-      border: 1px solid #f1f3f5;
-      border-radius: 8px;
-      flex-shrink: 0;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 5px;
+      overflow: hidden;
     }
     .machine-cell-photo img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
     }
+
+    /* Machine name + line empilhados */
     .machine-cell-text {
       display: flex;
       flex-direction: column;
@@ -352,39 +355,39 @@
       min-width: 0;
     }
     .machine-cell-name {
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 19.5px;
       color: #1f2937;
-      letter-spacing: -0.15px;
-      line-height: 20px;
+      letter-spacing: -0.0762px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .machine-cell-line {
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 400;
+      line-height: 16.5px;
       color: #9ca3af;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.0645px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    /* Commission Nr destacada (chave técnica do registro) */
+    /* Commission Nr — semibold teal */
     .machine-table .col-commission-cell {
       color: #007167;
       font-weight: 600;
     }
 
-    /* Arrow column */
-    .machine-table .col-arrow-cell { text-align: right; }
+    /* Arrow icon */
     .machine-table .col-arrow-cell img {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       display: inline-block;
-      opacity: 0.4;
+      opacity: 0.5;
       transition: opacity 0.15s ease, transform 0.15s ease;
     }
     .machine-table tbody tr:hover .col-arrow-cell img {
@@ -1006,23 +1009,23 @@
     <div class="machine-table-wrap" id="machine-table-wrap" hidden>
       <table class="machine-table">
         <colgroup>
-          <col style="width: 96px">          <!-- Photo: 24 padding + 56 thumb + 16 buffer -->
+          <col style="width: 80px">          <!-- Photo (Figma: 16 left + 56 thumb + 8 gap) -->
           <col>                              <!-- Machine name + line: auto -->
-          <col style="width: 160px">         <!-- Commission Nr. -->
-          <col style="width: 130px">         <!-- Install Date -->
-          <col style="width: 110px">         <!-- Hours -->
-          <col style="width: 150px">         <!-- Family -->
-          <col style="width: 60px">          <!-- Arrow -->
+          <col style="width: 130px">         <!-- Commission Nr. (Figma 129.983) -->
+          <col style="width: 120px">         <!-- Install Date (Figma 119.991) -->
+          <col style="width: 100px">         <!-- Hours (Figma 99.99) -->
+          <col style="width: 100px">         <!-- Family (Figma 99.99 — força "Wet Grinding" wrap) -->
+          <col style="width: 40px">          <!-- Arrow (Figma 39.986) -->
         </colgroup>
         <thead>
           <tr>
             <th class="th-photo"></th>
             <th class="th-machine">Machine</th>
-            <th>Commission Nr.</th>
-            <th>Install Date</th>
-            <th>Hours</th>
-            <th>Family</th>
-            <th></th>
+            <th class="th-commission">Commission Nr.</th>
+            <th class="th-date">Install Date</th>
+            <th class="th-hours">Hours</th>
+            <th class="th-family">Family</th>
+            <th class="th-arrow"></th>
           </tr>
         </thead>
         <tbody id="machine-tbody">
