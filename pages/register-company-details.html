@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Details — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─────────────────────────────────────────────── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider {
+      width: 1px;
+      height: 24px;
+      background: rgba(255,255,255,0.3);
+    }
+    .topbar-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      white-space: nowrap;
+    }
+
+    .main {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .panel-left {
+      position: relative;
+      width: 50%;
+      overflow: hidden;
+    }
+    .panel-left-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .panel-left-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right,
+        rgba(5,103,100,0.7) 43%,
+        rgba(58,124,120,0.74) 56%,
+        rgba(125,166,163,0.83) 81%,
+        rgba(255,255,255,1) 131%
+      );
+    }
+    .panel-left-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      padding: 0 40px;
+    }
+    .portal-badge { display: flex; align-items: center; gap: 8px; }
+    .portal-badge-icon { width: 40px; height: 40px; object-fit: contain; }
+    .portal-badge-text {
+      font-size: 24px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 32px;
+      letter-spacing: 0.07px;
+      white-space: nowrap;
+    }
+    .panel-left-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+    .panel-left-title {
+      font-size: 48px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 60px;
+      letter-spacing: 0.35px;
+      text-align: center;
+    }
+    .panel-left-subtitle {
+      font-size: 20px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 24px;
+      letter-spacing: -0.45px;
+      max-width: 432px;
+      text-align: center;
+    }
+
+    .panel-right {
+      width: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .form-wrapper {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .form-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .form-logo-icon { width: 40px; height: 40px; object-fit: contain; }
+    .form-logo-text {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      white-space: nowrap;
+    }
+
+    /* Progress indicator (5 steps) */
+    .progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 12px;
+    }
+    .progress-step {
+      position: relative;
+      width: 36px;
+      height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .progress-step:last-child { width: 12px; }
+    .progress-step .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #7d7f84;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .progress-step.active .dot {
+      background: #fff;
+      border: 1.567px solid #0b9c92;
+    }
+    .progress-step.completed .dot { background: #c4e2dd; }
+    .progress-step.completed .dot img {
+      width: 8px;
+      height: auto;
+      display: block;
+    }
+    .progress-step .bar {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 3px;
+      background: #7d7f84;
+    }
+    .progress-step.completed .bar { background: #0b9c92; }
+    .progress-step:last-child .bar { display: none; }
+
+    .form-title {
+      font-size: 24px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 32px;
+      letter-spacing: 0.07px;
+    }
+    .form-subtitle {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      margin-top: 8px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 8px; }
+    .field-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+    }
+    .field-input {
+      width: 100%;
+      height: 40px;
+      border: 0.784px solid #b1b4b7;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #3d4246;
+      background: #fff;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .field-input::placeholder { color: #8d9094; }
+    .field-input:focus { border-color: #007167; }
+
+    .select-btn {
+      width: 100%;
+      height: 40px;
+      border: 0.784px solid #b1b4b7;
+      border-radius: 10px;
+      padding: 0 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      letter-spacing: -0.15px;
+    }
+    .select-btn.placeholder { color: #8d9094; }
+    .select-btn:focus,
+    .select-btn:hover { border-color: #007167; outline: none; }
+    .select-btn img {
+      width: 14px;
+      height: auto;
+      display: block;
+    }
+
+    /* Checkbox */
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .checkbox {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 1.567px solid #b1b4b7;
+      border-radius: 4px;
+      background: #fff;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      position: relative;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .checkbox:checked {
+      background: #007167;
+      border-color: #007167;
+    }
+    .checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 1px;
+      width: 5px;
+      height: 10px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .checkbox:focus { outline: 2px solid rgba(0,113,103,0.3); outline-offset: 2px; }
+
+    .checkbox-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      cursor: pointer;
+    }
+    .checkbox-label a {
+      color: #007167;
+      text-decoration: underline;
+    }
+
+    /* Buttons row */
+    .buttons-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .btn-back {
+      height: 40px;
+      padding: 0 24px;
+      background: transparent;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.31px;
+    }
+    .btn-back img { width: 15px; height: auto; display: block; }
+    .btn-back:hover { opacity: 0.85; }
+
+    .btn-next {
+      height: 44px;
+      padding: 0 24px;
+      background: #007167;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.31px;
+      opacity: 0.5;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+    .btn-next.enabled { opacity: 1; pointer-events: auto; }
+    .btn-next.enabled:hover { opacity: 0.9; }
+    .btn-next img { width: 15px; height: auto; display: block; }
+
+    .form-footer {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 400;
+      color: #4c4d57;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+    }
+    .form-footer a {
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      margin-left: 4px;
+    }
+    .form-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="home.html" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- LEFT -->
+    <div class="panel-left">
+      <img class="panel-left-bg" src="../assets/register-bg.png" alt="">
+      <div class="panel-left-overlay"></div>
+      <div class="panel-left-content">
+        <div class="portal-badge">
+          <img class="portal-badge-icon" src="../assets/gd-logo-white.svg" alt="">
+          <span class="portal-badge-text">G&amp;D Customer Portal</span>
+        </div>
+        <div class="panel-left-texts">
+          <h1 class="panel-left-title">Create your account</h1>
+          <p class="panel-left-subtitle">Join us to access all your tools and manage your operations efficiently.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="panel-right">
+      <div class="form-wrapper">
+
+        <!-- Logo -->
+        <div class="form-logo">
+          <img class="form-logo-icon" src="../assets/gd-logo-dark.svg" alt="">
+          <span class="form-logo-text">G&amp;D Customer Portal</span>
+        </div>
+
+        <!-- Progress: steps 1+2+3+4 completed, step 5 active -->
+        <div class="progress" aria-label="Step 5 of 5">
+          <div class="progress-step completed">
+            <span class="dot"><img src="../assets/icon-check-progress.svg" alt=""></span>
+            <span class="bar"></span>
+          </div>
+          <div class="progress-step completed">
+            <span class="dot"><img src="../assets/icon-check-progress.svg" alt=""></span>
+            <span class="bar"></span>
+          </div>
+          <div class="progress-step completed">
+            <span class="dot"><img src="../assets/icon-check-progress.svg" alt=""></span>
+            <span class="bar"></span>
+          </div>
+          <div class="progress-step completed">
+            <span class="dot"><img src="../assets/icon-check-progress.svg" alt=""></span>
+            <span class="bar"></span>
+          </div>
+          <div class="progress-step active"><span class="dot"></span></div>
+        </div>
+
+        <!-- Heading -->
+        <div>
+          <h2 class="form-title">Company Information</h2>
+          <p class="form-subtitle">Fill in the information below to finalize your account.</p>
+        </div>
+
+        <!-- Department -->
+        <div class="field">
+          <label class="field-label">Department</label>
+          <button type="button" class="select-btn placeholder">
+            <span>Select department</span>
+            <img src="../assets/icon-chevron-down-input.svg" alt="">
+          </button>
+        </div>
+
+        <!-- Phone number -->
+        <div class="field">
+          <label class="field-label" for="phone">Phone number</label>
+          <input class="field-input" id="phone" type="tel" placeholder="Enter phone number" autocomplete="tel">
+        </div>
+
+        <!-- How many people -->
+        <div class="field">
+          <label class="field-label">How many people work at your company?*</label>
+          <button type="button" class="select-btn placeholder">
+            <span>Select the option that best fits your business size</span>
+            <img src="../assets/icon-chevron-down-input.svg" alt="">
+          </button>
+        </div>
+
+        <!-- Checkbox terms -->
+        <div class="checkbox-row">
+          <input class="checkbox" id="terms" type="checkbox">
+          <label class="checkbox-label" for="terms">
+            I agree to the <a href="#" target="_blank" rel="noopener">Terms and Conditions</a>*
+          </label>
+        </div>
+
+        <!-- Buttons row -->
+        <div class="buttons-row">
+          <button type="button" class="btn-back" onclick="window.location.href='register-company-address.html'">
+            <img src="../assets/icon-arrow-left.svg" alt="">
+            Back
+          </button>
+          <button type="button" class="btn-next" id="btn-next" onclick="window.location.href='register-submitted.html'">
+            Next
+            <img src="../assets/icon-arrow-right.svg" alt="">
+          </button>
+        </div>
+
+        <!-- Footer -->
+        <p class="form-footer">
+          Already have an account?<a href="login.html">Log In</a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const terms = document.getElementById('terms');
+    const btnNext = document.getElementById('btn-next');
+    terms.addEventListener('change', () => {
+      btnNext.classList.toggle('enabled', terms.checked);
+    });
+  </script>
+
+</body>
+</html>
