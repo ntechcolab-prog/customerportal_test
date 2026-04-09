@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Verification — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── TOP BAR ─────────────────────────────────────────────── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+
+    .topbar-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+
+    .topbar-divider {
+      width: 1px;
+      height: 24px;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .topbar-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      white-space: nowrap;
+    }
+
+    /* ── MAIN LAYOUT ─────────────────────────────────────────── */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── LEFT PANEL ──────────────────────────────────────────── */
+    .panel-left {
+      position: relative;
+      width: 50%;
+      overflow: hidden;
+    }
+
+    .panel-left-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .panel-left-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right,
+        rgba(5,103,100,0.7) 43%,
+        rgba(58,124,120,0.74) 56%,
+        rgba(125,166,163,0.83) 81%,
+        rgba(255,255,255,1) 131%
+      );
+    }
+
+    .panel-left-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      padding: 0 40px;
+    }
+
+    .portal-badge { display: flex; align-items: center; gap: 8px; }
+    .portal-badge-icon { width: 40px; height: 40px; object-fit: contain; }
+    .portal-badge-text {
+      font-size: 24px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 32px;
+      letter-spacing: 0.07px;
+      white-space: nowrap;
+    }
+
+    .panel-left-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .panel-left-title {
+      font-size: 48px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 60px;
+      letter-spacing: 0.35px;
+      text-align: center;
+    }
+
+    .panel-left-subtitle {
+      font-size: 20px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 24px;
+      letter-spacing: -0.45px;
+      max-width: 432px;
+      text-align: center;
+    }
+
+    /* ── RIGHT PANEL ─────────────────────────────────────────── */
+    .panel-right {
+      width: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+      padding: 40px;
+    }
+
+    .form-wrapper {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .form-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .form-logo-icon { width: 40px; height: 40px; object-fit: contain; }
+    .form-logo-text {
+      font-size: 16px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      white-space: nowrap;
+    }
+
+    /* Progress indicator (5 steps) */
+    .progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 12px;
+    }
+
+    .progress-step {
+      position: relative;
+      width: 36px;
+      height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .progress-step:last-child { width: 12px; }
+
+    .progress-step .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #7d7f84;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .progress-step.active .dot {
+      background: #fff;
+      border: 1.567px solid #0b9c92;
+    }
+
+    .progress-step .bar {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 3px;
+      background: #7d7f84;
+    }
+
+    .progress-step:last-child .bar { display: none; }
+
+    /* Headings */
+    .form-title {
+      font-size: 24px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 32px;
+      letter-spacing: 0.07px;
+    }
+
+    .form-subtitle {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      margin-top: 8px;
+    }
+
+    /* Field */
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+    }
+    .field-input {
+      width: 100%;
+      height: 40px;
+      border: 0.784px solid #b1b4b7;
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #3d4246;
+      background: #fff;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .field-input::placeholder { color: rgba(76,77,87,0.5); }
+    .field-input:focus { border-color: #007167; }
+
+    /* OTP boxes */
+    .otp-field { display: flex; flex-direction: column; gap: 8px; }
+    .otp-boxes { display: flex; justify-content: space-between; gap: 8px; }
+    .otp-input {
+      width: 56px;
+      height: 56px;
+      border: 1.567px solid #b1b4b7;
+      border-radius: 10px;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: #3d4246;
+      background: #fff;
+      outline: none;
+      transition: border-color 0.15s;
+      flex: 1;
+    }
+    .otp-input:focus { border-color: #007167; }
+
+    .demo-fill-btn {
+      align-self: flex-start;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      line-height: 18px;
+    }
+    .demo-fill-btn:hover { text-decoration: underline; }
+
+    .otp-hint {
+      font-size: 14px;
+      font-weight: 400;
+      color: #7d7f84;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+    }
+
+    /* Continue button */
+    .btn-continue {
+      width: 100%;
+      height: 44px;
+      background: #007167;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .btn-continue.enabled {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .btn-continue.enabled:hover { opacity: 0.9; }
+
+    /* Footer */
+    .form-footer {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 400;
+      color: #4c4d57;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+    }
+    .form-footer a {
+      font-size: 16px;
+      font-weight: 500;
+      color: #007167;
+      letter-spacing: -0.31px;
+      text-decoration: none;
+      margin-left: 4px;
+    }
+    .form-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="home.html" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- LEFT -->
+    <div class="panel-left">
+      <img class="panel-left-bg" src="../assets/register-bg.png" alt="">
+      <div class="panel-left-overlay"></div>
+      <div class="panel-left-content">
+        <div class="portal-badge">
+          <img class="portal-badge-icon" src="../assets/gd-logo-white.svg" alt="">
+          <span class="portal-badge-text">G&amp;D Customer Portal</span>
+        </div>
+        <div class="panel-left-texts">
+          <h1 class="panel-left-title">Create your account</h1>
+          <p class="panel-left-subtitle">Join us to access all your tools and manage your operations efficiently.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="panel-right">
+      <div class="form-wrapper">
+
+        <!-- Logo -->
+        <div class="form-logo">
+          <img class="form-logo-icon" src="../assets/gd-logo-dark.svg" alt="">
+          <span class="form-logo-text">G&amp;D Customer Portal</span>
+        </div>
+
+        <!-- Progress: step 1 of 5 (still in email confirmation phase) -->
+        <div class="progress" aria-label="Step 1 of 5">
+          <div class="progress-step active"><span class="dot"></span><span class="bar"></span></div>
+          <div class="progress-step"><span class="dot"></span><span class="bar"></span></div>
+          <div class="progress-step"><span class="dot"></span><span class="bar"></span></div>
+          <div class="progress-step"><span class="dot"></span><span class="bar"></span></div>
+          <div class="progress-step"><span class="dot"></span></div>
+        </div>
+
+        <!-- Heading -->
+        <div>
+          <h2 class="form-title">Confirm your company email</h2>
+          <p class="form-subtitle">Verification code has been sent. Please copy it to the input box below.</p>
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label class="field-label" for="email">Email*</label>
+          <input class="field-input" id="email" type="email" placeholder="john.doe@company.com" autocomplete="email">
+        </div>
+
+        <!-- Verification code -->
+        <div class="otp-field">
+          <label class="field-label">Verification code*</label>
+          <div class="otp-boxes">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-0" autocomplete="one-time-code">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-1">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-2">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-3">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-4">
+            <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-5">
+          </div>
+          <button type="button" class="demo-fill-btn" id="demo-fill">Fill sample code (for demo)</button>
+          <p class="otp-hint" id="resend-hint">You can request a new code in <span id="countdown">26</span>s</p>
+        </div>
+
+        <!-- Continue button -->
+        <button class="btn-continue" id="btn-continue" type="button" onclick="window.location.href='register-localization-empty.html'">Continue</button>
+
+        <!-- Footer -->
+        <p class="form-footer">
+          Already have an account?<a href="login.html">Log In</a>
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const otpInputs = document.querySelectorAll('.otp-input');
+    const btnContinue = document.getElementById('btn-continue');
+
+    function checkComplete() {
+      const allFilled = Array.from(otpInputs).every(i => i.value.length === 1);
+      btnContinue.classList.toggle('enabled', allFilled);
+    }
+
+    otpInputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        const val = input.value.replace(/\D/g, '');
+        input.value = val.slice(0, 1);
+        if (val && index < otpInputs.length - 1) otpInputs[index + 1].focus();
+        checkComplete();
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && index > 0) {
+          otpInputs[index - 1].focus();
+        }
+      });
+
+      input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+        pasted.split('').forEach((char, i) => {
+          if (otpInputs[index + i]) otpInputs[index + i].value = char;
+        });
+        const nextIndex = Math.min(index + pasted.length, otpInputs.length - 1);
+        otpInputs[nextIndex].focus();
+        checkComplete();
+      });
+    });
+
+    // Demo fill
+    document.getElementById('demo-fill').addEventListener('click', () => {
+      const sample = '123456';
+      otpInputs.forEach((input, i) => { input.value = sample[i]; });
+      checkComplete();
+      otpInputs[5].focus();
+    });
+
+    // Countdown timer
+    let seconds = 26;
+    const countdownEl = document.getElementById('countdown');
+    const hintEl = document.getElementById('resend-hint');
+    const timer = setInterval(() => {
+      seconds--;
+      if (seconds <= 0) {
+        clearInterval(timer);
+        hintEl.innerHTML = '<a href="#" style="color:#007167;font-weight:500;text-decoration:none;">Resend code</a>';
+      } else {
+        countdownEl.textContent = seconds;
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>
