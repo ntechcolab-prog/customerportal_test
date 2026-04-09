@@ -998,6 +998,98 @@
     }
     .drawing-modal-close svg { width: 16px; height: 16px; }
 
+    /* ── WISHLIST TOAST ── */
+    .wishlist-toast {
+      position: fixed;
+      top: 56px;
+      right: 24px;
+      z-index: 1100;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      width: 280px;
+      opacity: 0;
+      transform: translateY(-12px) scale(0.96);
+      pointer-events: none;
+      transition:
+        opacity 0.3s var(--ease-apple),
+        transform 0.4s var(--ease-spring);
+    }
+    .wishlist-toast.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #007167;
+    }
+    .toast-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: #007167;
+    }
+    .toast-body { flex: 1; min-width: 0; }
+    .toast-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+      letter-spacing: -0.05px;
+      line-height: 1.3;
+    }
+    .toast-subtitle {
+      font-size: 12px;
+      font-weight: 400;
+      color: #6b7280;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .toast-link {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #007167;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .toast-link:hover {
+      color: #0b9c92;
+      text-decoration: underline;
+    }
+    .toast-close {
+      width: 20px;
+      height: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9ca3af;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .toast-close:hover {
+      color: #4b5563;
+      background: #f3f4f6;
+    }
+    .toast-close svg { width: 12px; height: 12px; }
+
     /* Results table — usa o mesmo padrão da machine table */
     .results-table {
       width: 100%;
@@ -1435,7 +1527,7 @@
                 <td class="col-cart">
                   <span class="add-to-cart-row">
                     <button type="button" class="add-to-cart">Add to cart</button>
-                    <button type="button" class="heart-btn" aria-label="Add to wishlist">
+                    <button type="button" class="heart-btn" data-item-name="Ring - AISI 304" aria-label="Add to wishlist">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                     </button>
                   </span>
@@ -1450,7 +1542,7 @@
                 <td class="col-cart">
                   <span class="add-to-cart-row">
                     <button type="button" class="add-to-cart">Add to cart</button>
-                    <button type="button" class="heart-btn" aria-label="Add to wishlist">
+                    <button type="button" class="heart-btn" data-item-name="Ring for inner pipe" aria-label="Add to wishlist">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                     </button>
                   </span>
@@ -1472,6 +1564,21 @@
       </div>
 
     </div>
+  </div>
+
+  <!-- Wishlist toast (top-right) -->
+  <div class="wishlist-toast" id="wishlist-toast" role="status" aria-live="polite">
+    <div class="toast-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <div class="toast-body">
+      <div class="toast-title">Added to Wishlist</div>
+      <div class="toast-subtitle" id="wishlist-toast-subtitle">Ring - AISI 304</div>
+      <a href="#" class="toast-link">View Wishlist</a>
+    </div>
+    <button type="button" class="toast-close" id="wishlist-toast-close" aria-label="Dismiss">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
 
   <!-- Drawing lightbox modal -->
@@ -1516,10 +1623,32 @@
       if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
     });
 
-    // ── Heart button toggle (wishlist) ──
+    // ── Heart button toggle (wishlist) + toast ──
+    const wishlistToast = document.getElementById('wishlist-toast');
+    const wishlistToastSubtitle = document.getElementById('wishlist-toast-subtitle');
+    const wishlistToastClose = document.getElementById('wishlist-toast-close');
+    let toastTimeout;
+
+    function showWishlistToast(itemName) {
+      wishlistToastSubtitle.textContent = itemName;
+      wishlistToast.classList.add('is-visible');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(hideWishlistToast, 4000);
+    }
+    function hideWishlistToast() {
+      wishlistToast.classList.remove('is-visible');
+    }
+    wishlistToastClose.addEventListener('click', hideWishlistToast);
+
     document.querySelectorAll('.heart-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        const wasActive = btn.classList.contains('is-active');
         btn.classList.toggle('is-active');
+        if (!wasActive) {
+          // Just added → show toast com nome do item
+          const itemName = btn.dataset.itemName || '';
+          showWishlistToast(itemName);
+        }
       });
     });
   </script>
