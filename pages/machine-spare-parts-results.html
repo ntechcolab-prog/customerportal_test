@@ -867,15 +867,136 @@
     }
 
     .results-drawing {
-      padding: 24px;
+      padding: 16px 20px;
       border-bottom: 1px solid #f1f3f5;
       background: #fff;
+      display: flex;
     }
-    .results-drawing img {
-      max-width: 200px;
-      height: auto;
+    .drawing-thumb {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      background: #fafbfc;
+      border: 1px solid #f1f3f5;
+      border-radius: 10px;
+      padding: 8px;
+      cursor: zoom-in;
+      flex-shrink: 0;
+      overflow: hidden;
+      transition:
+        border-color 0.3s var(--ease-apple),
+        transform 0.4s var(--ease-spring),
+        box-shadow 0.3s var(--ease-apple);
+    }
+    .drawing-thumb:hover {
+      border-color: #0b9c92;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    .drawing-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .drawing-thumb:hover img {
+      transform: scale(1.06);
+    }
+    /* Magnifier hint badge no canto */
+    .drawing-thumb::after {
+      content: '';
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(0, 113, 103, 0.9);
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/><line x1='11' y1='8' x2='11' y2='14'/><line x1='8' y1='11' x2='14' y2='11'/></svg>");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 13px 13px;
+      opacity: 0;
+      transform: scale(0.6);
+      transition:
+        opacity 0.25s var(--ease-apple),
+        transform 0.35s var(--ease-spring);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    }
+    .drawing-thumb:hover::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ── DRAWING LIGHTBOX MODAL ── */
+    .drawing-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      background: rgba(15, 23, 26, 0.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .drawing-modal.is-open {
+      display: flex;
+      animation: modal-fade 0.3s var(--ease-apple);
+    }
+    @keyframes modal-fade {
+      from { opacity: 0; backdrop-filter: blur(0); }
+      to   { opacity: 1; backdrop-filter: blur(8px); }
+    }
+
+    .drawing-modal-content {
+      position: relative;
+      max-width: min(900px, 90vw);
+      max-height: 90vh;
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+      animation: modal-pop 0.5s var(--ease-spring);
+    }
+    @keyframes modal-pop {
+      from { opacity: 0; transform: scale(0.85) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0);     }
+    }
+
+    .drawing-modal-content img {
+      max-width: 100%;
+      max-height: calc(90vh - 64px);
       display: block;
+      object-fit: contain;
     }
+
+    .drawing-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f3f4f6;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #4b5563;
+      transition:
+        background 0.2s var(--ease-apple),
+        color 0.2s var(--ease-apple),
+        transform 0.3s var(--ease-spring);
+    }
+    .drawing-modal-close:hover {
+      background: #e5e7eb;
+      color: #1f2937;
+      transform: rotate(90deg);
+    }
+    .drawing-modal-close svg { width: 16px; height: 16px; }
 
     /* Results table — usa o mesmo padrão da machine table */
     .results-table {
@@ -953,33 +1074,43 @@
     .add-to-cart {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 500;
       color: #007167;
       text-decoration: none;
       cursor: pointer;
       background: none;
       border: none;
+      padding: 0;
       font-family: 'Inter', sans-serif;
       transition: color 0.15s;
     }
     .add-to-cart:hover { color: #0b9c92; text-decoration: underline; }
-    .add-to-cart .heart {
-      width: 16px;
-      height: 16px;
-      color: #d1d5db;
-      transition: color 0.15s, transform 0.2s var(--ease-spring);
+
+    .heart-btn {
+      width: 24px;
+      height: 24px;
+      background: none;
+      border: none;
+      padding: 0;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #d1d5db;
+      transition: color 0.2s var(--ease-apple), transform 0.3s var(--ease-spring);
     }
-    .add-to-cart .heart:hover {
+    .heart-btn:hover {
       color: #c73e20;
-      transform: scale(1.15);
+      transform: scale(1.18);
     }
+    .heart-btn.is-active { color: #c73e20; }
+    .heart-btn svg { width: 14px; height: 14px; }
+
     .add-to-cart-row {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       justify-content: flex-end;
     }
 
@@ -1271,7 +1402,9 @@
         <!-- Results card -->
         <div class="results-card">
           <div class="results-drawing">
-            <img src="../assets/drawing-discus30-grinding.png" alt="Grinding chamber technical drawing">
+            <button type="button" class="drawing-thumb" id="drawing-thumb" aria-label="Open technical drawing">
+              <img src="../assets/drawing-discus30-grinding.png" alt="Grinding chamber technical drawing">
+            </button>
           </div>
           <table class="results-table">
             <colgroup>
@@ -1302,7 +1435,9 @@
                 <td class="col-cart">
                   <span class="add-to-cart-row">
                     <button type="button" class="add-to-cart">Add to cart</button>
-                    <svg class="heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <button type="button" class="heart-btn" aria-label="Add to wishlist">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </button>
                   </span>
                 </td>
               </tr>
@@ -1315,7 +1450,9 @@
                 <td class="col-cart">
                   <span class="add-to-cart-row">
                     <button type="button" class="add-to-cart">Add to cart</button>
-                    <svg class="heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <button type="button" class="heart-btn" aria-label="Add to wishlist">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </button>
                   </span>
                 </td>
               </tr>
@@ -1337,12 +1474,53 @@
     </div>
   </div>
 
+  <!-- Drawing lightbox modal -->
+  <div class="drawing-modal" id="drawing-modal" role="dialog" aria-label="Technical drawing">
+    <div class="drawing-modal-content">
+      <button type="button" class="drawing-modal-close" id="drawing-modal-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <img src="../assets/drawing-discus30-grinding.png" alt="Grinding chamber technical drawing — full view">
+    </div>
+  </div>
+
   <script>
-    // Tela de resultados — banner Milla começa em is-success.
-    // Click no X fecha o banner (volta pro estado collapsed).
+    // ── Milla banner: success → close ──
     const banner = document.getElementById('milla-banner');
     document.getElementById('btn-milla-close').addEventListener('click', () => {
       banner.classList.remove('is-open', 'is-success');
+    });
+
+    // ── Drawing lightbox ──
+    const modal = document.getElementById('drawing-modal');
+    const thumb = document.getElementById('drawing-thumb');
+    const modalClose = document.getElementById('drawing-modal-close');
+
+    function openModal() {
+      modal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    thumb.addEventListener('click', openModal);
+    modalClose.addEventListener('click', closeModal);
+    // Click no backdrop (fora do conteudo) fecha
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    // ESC fecha
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    });
+
+    // ── Heart button toggle (wishlist) ──
+    document.querySelectorAll('.heart-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('is-active');
+      });
     });
   </script>
 
