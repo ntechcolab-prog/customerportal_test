@@ -283,7 +283,54 @@
       width: 14px;
       height: auto;
       display: block;
+      transition: transform 0.15s;
     }
+
+    .select-btn.open { border-color: #0b9c92; }
+    .select-btn.open img { transform: rotate(180deg); }
+
+    .select-wrapper { position: relative; }
+
+    .select-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 0.784px solid #b1b4b7;
+      border-radius: 10px;
+      box-shadow:
+        0 10px 15px -3px rgba(0,0,0,0.1),
+        0 4px 6px -4px rgba(0,0,0,0.1);
+      padding: 0.784px;
+      overflow: hidden;
+      z-index: 20;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .select-dropdown[hidden] { display: none; }
+    .select-dropdown-item {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      text-align: left;
+      cursor: pointer;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+    }
+    .select-dropdown-item.selected { background: #e6f4f3; color: #007167; }
+    .select-dropdown-item.disabled {
+      opacity: 0.4;
+      color: #8d9094;
+      cursor: not-allowed;
+    }
+    .select-dropdown-item:not(.disabled):not(.selected):hover { background: #f5f7f8; }
 
     /* Buttons row */
     .buttons-row {
@@ -424,30 +471,54 @@
           <input class="field-input" id="company-name" type="text" placeholder="Enter company name" required>
         </div>
 
-        <!-- Country (locked Brazil but clickable to view dropdown) -->
+        <!-- Country -->
         <div class="field">
           <label class="field-label">Country*</label>
-          <button type="button" class="select-btn" onclick="window.location.href='register-company-address-country-open.html'">
-            <span>Brazil</span>
-            <img src="../assets/icon-chevron-down-input.svg" alt="">
-          </button>
+          <div class="select-wrapper">
+            <button type="button" class="select-btn" id="country-btn" aria-haspopup="listbox" aria-expanded="false">
+              <span>Brazil</span>
+              <img src="../assets/icon-chevron-down-input.svg" alt="">
+            </button>
+            <div class="select-dropdown" id="country-dropdown" role="listbox" hidden>
+              <button type="button" class="select-dropdown-item selected">Brazil</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>Germany</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>United States</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>Mexico</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>China</button>
+              <button type="button" class="select-dropdown-item disabled" disabled>Japan</button>
+            </div>
+          </div>
         </div>
 
         <!-- State + City row -->
         <div class="field-row">
           <div class="field">
             <label class="field-label">State*</label>
-            <button type="button" class="select-btn placeholder" id="state-btn" onclick="window.location.href='register-company-address-state.html'">
-              <span>Select state</span>
-              <img src="../assets/icon-chevron-down-input.svg" alt="">
-            </button>
+            <div class="select-wrapper">
+              <button type="button" class="select-btn placeholder" id="state-btn" aria-haspopup="listbox" aria-expanded="false">
+                <span id="state-label">Select state</span>
+                <img src="../assets/icon-chevron-down-input.svg" alt="">
+              </button>
+              <div class="select-dropdown" id="state-dropdown" role="listbox" hidden>
+                <button type="button" class="select-dropdown-item" data-state="DF">DF</button>
+                <button type="button" class="select-dropdown-item" data-state="MG">MG</button>
+                <button type="button" class="select-dropdown-item" data-state="PR">PR</button>
+                <button type="button" class="select-dropdown-item" data-state="RJ">RJ</button>
+                <button type="button" class="select-dropdown-item" data-state="RS">RS</button>
+                <button type="button" class="select-dropdown-item" data-state="SC">SC</button>
+                <button type="button" class="select-dropdown-item" data-state="SP">SP</button>
+              </div>
+            </div>
           </div>
           <div class="field">
             <label class="field-label">City*</label>
-            <button type="button" class="select-btn disabled" disabled>
-              <span>Select city</span>
-              <img src="../assets/icon-chevron-down-input.svg" alt="">
-            </button>
+            <div class="select-wrapper">
+              <button type="button" class="select-btn placeholder disabled" id="city-btn" aria-haspopup="listbox" aria-expanded="false" disabled>
+                <span id="city-label">Select city</span>
+                <img src="../assets/icon-chevron-down-input.svg" alt="">
+              </button>
+              <div class="select-dropdown" id="city-dropdown" role="listbox" hidden></div>
+            </div>
           </div>
         </div>
 
@@ -483,6 +554,122 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // Cidades por estado (Brasil — amostra editorial)
+    const CITIES_BY_STATE = {
+      DF: ['Brasília'],
+      MG: ['Belo Horizonte', 'Uberlândia', 'Contagem', 'Juiz de Fora'],
+      PR: ['Curitiba', 'Londrina', 'Maringá'],
+      RJ: ['Rio de Janeiro', 'Niterói', 'Petrópolis'],
+      RS: ['Porto Alegre', 'Caxias do Sul', 'Pelotas'],
+      SC: ['Florianópolis', 'Joinville', 'Blumenau'],
+      SP: ['São Paulo', 'Campinas', 'Santos', 'Ribeirão Preto'],
+    };
+
+    // Estado compartilhado dos dropdowns (apenas um aberto por vez)
+    const dropdowns = [];
+
+    function registerDropdown(btn, dropdown) {
+      const obj = { btn, dropdown };
+      dropdowns.push(obj);
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (btn.disabled) return;
+        const isOpen = !dropdown.hidden;
+        // Fecha todos
+        dropdowns.forEach(d => closeOne(d));
+        if (!isOpen) openOne(obj);
+      });
+    }
+
+    function openOne({ btn, dropdown }) {
+      dropdown.hidden = false;
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+    function closeOne({ btn, dropdown }) {
+      dropdown.hidden = true;
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+    function closeAll() {
+      dropdowns.forEach(d => closeOne(d));
+    }
+
+    // ── Country (locked Brazil) ─────────────────────────────
+    const countryBtn = document.getElementById('country-btn');
+    const countryDropdown = document.getElementById('country-dropdown');
+    registerDropdown(countryBtn, countryDropdown);
+
+    countryDropdown.querySelectorAll('.select-dropdown-item').forEach(item => {
+      if (item.classList.contains('disabled')) return;
+      item.addEventListener('click', () => closeAll());
+    });
+
+    // ── State ───────────────────────────────────────────────
+    const stateBtn = document.getElementById('state-btn');
+    const stateLabel = document.getElementById('state-label');
+    const stateDropdown = document.getElementById('state-dropdown');
+    registerDropdown(stateBtn, stateDropdown);
+
+    const stateItems = stateDropdown.querySelectorAll('.select-dropdown-item');
+
+    // ── City ────────────────────────────────────────────────
+    const cityBtn = document.getElementById('city-btn');
+    const cityLabel = document.getElementById('city-label');
+    const cityDropdown = document.getElementById('city-dropdown');
+    registerDropdown(cityBtn, cityDropdown);
+
+    function populateCities(stateCode) {
+      const cities = CITIES_BY_STATE[stateCode] || [];
+      cityDropdown.innerHTML = '';
+      cities.forEach(c => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'select-dropdown-item';
+        b.textContent = c;
+        b.addEventListener('click', () => {
+          cityLabel.textContent = c;
+          cityBtn.classList.remove('placeholder');
+          cityDropdown.querySelectorAll('.select-dropdown-item').forEach(i => i.classList.remove('selected'));
+          b.classList.add('selected');
+          closeAll();
+        });
+        cityDropdown.appendChild(b);
+      });
+    }
+
+    stateItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const code = item.dataset.state;
+        stateLabel.textContent = code;
+        stateBtn.classList.remove('placeholder');
+        stateItems.forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+
+        // Reset City pra estado novo
+        cityLabel.textContent = 'Select city';
+        cityBtn.classList.add('placeholder');
+        cityBtn.classList.remove('disabled');
+        cityBtn.disabled = false;
+        populateCities(code);
+
+        closeAll();
+      });
+    });
+
+    // Click fora fecha qualquer dropdown aberto
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.select-wrapper')) closeAll();
+    });
+
+    // Esc também fecha
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAll();
+    });
+  </script>
 
 </body>
 </html>
