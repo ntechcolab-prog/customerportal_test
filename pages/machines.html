@@ -271,12 +271,32 @@
       table-layout: fixed;        /* respeita as larguras do colgroup */
     }
 
+    /* Padding base — todas as células */
+    .machine-table thead th,
+    .machine-table tbody td {
+      padding: 16px;
+    }
+    /* Coluna da foto: encosta na borda esquerda do card */
+    .machine-table thead th.th-photo,
+    .machine-table tbody td.td-photo {
+      padding: 16px 0 16px 24px;
+    }
+    /* Coluna do nome: cola no thumb (sem padding-left) → header alinha com nome */
+    .machine-table thead th.th-machine,
+    .machine-table tbody td.td-machine {
+      padding-left: 0;
+    }
+    /* Última célula com padding direito do card */
+    .machine-table thead th:last-child,
+    .machine-table tbody td:last-child {
+      padding-right: 24px;
+    }
+
     /* Header (faixa verde NETZSCH) */
     .machine-table thead {
       background: #007167;
     }
     .machine-table thead th {
-      padding: 16px 16px;
       font-size: 12px;
       font-weight: 600;
       color: #fff;
@@ -286,8 +306,6 @@
       white-space: nowrap;
       height: 48px;
     }
-    .machine-table thead th:first-child { padding-left: 24px; }
-    .machine-table thead th:last-child  { padding-right: 24px; }
 
     /* Body */
     .machine-table tbody tr {
@@ -299,7 +317,6 @@
     .machine-table tbody tr.is-hidden { display: none; }
 
     .machine-table tbody td {
-      padding: 16px;
       font-size: 13px;
       color: #4b5563;
       vertical-align: middle;
@@ -309,16 +326,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .machine-table tbody td:first-child { padding-left: 24px; }
-    .machine-table tbody td:last-child  { padding-right: 24px; }
 
-    /* Célula da máquina: thumbnail + nome + linha */
-    .machine-cell {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      min-width: 0;
-    }
+    /* Photo cell (coluna 1) */
     .machine-cell-photo {
       width: 56px;
       height: 44px;
@@ -997,7 +1006,8 @@
     <div class="machine-table-wrap" id="machine-table-wrap" hidden>
       <table class="machine-table">
         <colgroup>
-          <col>                              <!-- Machine: auto, absorve sobra -->
+          <col style="width: 96px">          <!-- Photo: 24 padding + 56 thumb + 16 buffer -->
+          <col>                              <!-- Machine name + line: auto -->
           <col style="width: 160px">         <!-- Commission Nr. -->
           <col style="width: 130px">         <!-- Install Date -->
           <col style="width: 110px">         <!-- Hours -->
@@ -1006,7 +1016,8 @@
         </colgroup>
         <thead>
           <tr>
-            <th>Machine</th>
+            <th class="th-photo"></th>
+            <th class="th-machine">Machine</th>
             <th>Commission Nr.</th>
             <th>Install Date</th>
             <th>Hours</th>
@@ -1018,13 +1029,13 @@
           <tr class="machine-row" data-machine
               data-name="Discus 30" data-line="line 1" data-app="Wet Grinding"
               data-commission="2801548-10" data-hours="10345" data-install="2024-08-20">
-            <td>
-              <div class="machine-cell">
-                <div class="machine-cell-photo"><img src="../assets/machine-discus30.png" alt=""></div>
-                <div class="machine-cell-text">
-                  <span class="machine-cell-name">Discus 30</span>
-                  <span class="machine-cell-line">Line 1</span>
-                </div>
+            <td class="td-photo">
+              <div class="machine-cell-photo"><img src="../assets/machine-discus30.png" alt=""></div>
+            </td>
+            <td class="td-machine">
+              <div class="machine-cell-text">
+                <span class="machine-cell-name">Discus 30</span>
+                <span class="machine-cell-line">Line 1</span>
               </div>
             </td>
             <td class="col-commission-cell">2801548-10</td>
@@ -1036,13 +1047,13 @@
           <tr class="machine-row" data-machine
               data-name="Zeta 60" data-line="black production only" data-app="Dispersing"
               data-commission="15202462-20" data-hours="8720" data-install="2024-06-15">
-            <td>
-              <div class="machine-cell">
-                <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
-                <div class="machine-cell-text">
-                  <span class="machine-cell-name">Zeta 60</span>
-                  <span class="machine-cell-line">Black Production Only</span>
-                </div>
+            <td class="td-photo">
+              <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
+            </td>
+            <td class="td-machine">
+              <div class="machine-cell-text">
+                <span class="machine-cell-name">Zeta 60</span>
+                <span class="machine-cell-line">Black Production Only</span>
               </div>
             </td>
             <td class="col-commission-cell">15202462-20</td>
@@ -1054,13 +1065,13 @@
           <tr class="machine-row" data-machine
               data-name="MasterMix 45" data-line="line 3" data-app="Mixer"
               data-commission="15202531-10" data-hours="14210" data-install="2024-08-20">
-            <td>
-              <div class="machine-cell">
-                <div class="machine-cell-photo"><img src="../assets/machine-mastermix45.png" alt=""></div>
-                <div class="machine-cell-text">
-                  <span class="machine-cell-name">MasterMix 45</span>
-                  <span class="machine-cell-line">Line 3</span>
-                </div>
+            <td class="td-photo">
+              <div class="machine-cell-photo"><img src="../assets/machine-mastermix45.png" alt=""></div>
+            </td>
+            <td class="td-machine">
+              <div class="machine-cell-text">
+                <span class="machine-cell-name">MasterMix 45</span>
+                <span class="machine-cell-line">Line 3</span>
               </div>
             </td>
             <td class="col-commission-cell">15202531-10</td>
@@ -1072,13 +1083,13 @@
           <tr class="machine-row" data-machine
               data-name="ProPhi" data-line="line 4" data-app="Wet Grinding"
               data-commission="15202530-10" data-hours="6580" data-install="2024-08-20">
-            <td>
-              <div class="machine-cell">
-                <div class="machine-cell-photo"><img src="../assets/machine-prophi.png" alt=""></div>
-                <div class="machine-cell-text">
-                  <span class="machine-cell-name">ProPhi</span>
-                  <span class="machine-cell-line">Line 4</span>
-                </div>
+            <td class="td-photo">
+              <div class="machine-cell-photo"><img src="../assets/machine-prophi.png" alt=""></div>
+            </td>
+            <td class="td-machine">
+              <div class="machine-cell-text">
+                <span class="machine-cell-name">ProPhi</span>
+                <span class="machine-cell-line">Line 4</span>
               </div>
             </td>
             <td class="col-commission-cell">15202530-10</td>
@@ -1090,13 +1101,13 @@
           <tr class="machine-row" data-machine
               data-name="Alpha Zeta 10" data-line="white production only" data-app="Wet Grinding"
               data-commission="80204882" data-hours="3190" data-install="2024-09-10">
-            <td>
-              <div class="machine-cell">
-                <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
-                <div class="machine-cell-text">
-                  <span class="machine-cell-name">Alpha Zeta 10</span>
-                  <span class="machine-cell-line">White Production Only</span>
-                </div>
+            <td class="td-photo">
+              <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
+            </td>
+            <td class="td-machine">
+              <div class="machine-cell-text">
+                <span class="machine-cell-name">Alpha Zeta 10</span>
+                <span class="machine-cell-line">White Production Only</span>
               </div>
             </td>
             <td class="col-commission-cell">80204882</td>
