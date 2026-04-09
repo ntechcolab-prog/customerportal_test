@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spare Parts Results — Discus 30 — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Apple-style easing curves */
+    :root {
+      --ease-apple:    cubic-bezier(0.32, 0.72, 0, 1);     /* iOS / macOS signature */
+      --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);       /* "ease out expo" smooth landing */
+      --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);   /* leve overshoot pra spring feel */
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f6f6f6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label {
+      font-size: 16px; font-weight: 500; color: #fff;
+      letter-spacing: -0.31px; white-space: nowrap;
+    }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: auto; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+    }
+    .breadcrumb a {
+      color: #007167;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb-sep { margin: 0 8px; color: #b1b4b7; }
+
+    /* ── PAGE ─── */
+    .page {
+      flex: 1;
+      padding: 24px 32px 48px;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* 2-column layout */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) 2fr;
+      gap: 24px;
+    }
+
+    /* ── CARD ─── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .card + .card { margin-top: 16px; }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+      letter-spacing: -0.15px;
+    }
+
+    /* Field rows (label : value) */
+    .fields {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 12px;
+      align-items: baseline;
+    }
+    .field-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: #9ca3af;
+      letter-spacing: -0.05px;
+    }
+    .field-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      letter-spacing: -0.05px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── LEFT CARD: HEADER WITH PHOTO + NAME ─── */
+    .machine-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .machine-thumb {
+      width: 64px;
+      height: 56px;
+      background: #fafbfc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+    .machine-thumb img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .machine-title-block {
+      flex: 1;
+      min-width: 0;
+    }
+    .machine-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .machine-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+      letter-spacing: -0.2px;
+    }
+    .machine-edit-btn {
+      width: 24px;
+      height: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s;
+    }
+    .machine-edit-btn:hover { color: #007167; }
+    .machine-edit-btn svg { width: 14px; height: 14px; }
+
+    .machine-line {
+      font-size: 11px;
+      font-weight: 500;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* Browse documents link */
+    .docs-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      margin-top: 16px;
+    }
+    .docs-link:hover { text-decoration: underline; }
+    .docs-link svg { width: 14px; height: 14px; }
+
+    /* Service Request button (outline teal) */
+    .btn-service {
+      width: 100%;
+      height: 40px;
+      margin-top: 16px;
+      background: #fff;
+      border: 1px solid #0b9c92;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #007167;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s;
+    }
+    .btn-service:hover { background: #f0faf9; }
+    .btn-service svg { width: 16px; height: 16px; }
+
+    /* ── RIGHT COLUMN ─── */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Ask Milla banner — collapsed e expanded */
+    .milla-banner {
+      position: relative;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      border-radius: 16px;
+      padding: 32px 24px 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 113, 103, 0.15);
+      transition:
+        padding 0.6s var(--ease-apple),
+        box-shadow 0.6s var(--ease-apple);
+    }
+    .milla-banner.is-open {
+      padding: 24px 32px;
+      box-shadow: 0 16px 48px rgba(0, 113, 103, 0.25);
+    }
+    .milla-banner-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      opacity: 0.5;
+      transition: opacity 0.6s var(--ease-apple), transform 0.8s var(--ease-out);
+    }
+    .milla-banner.is-open .milla-banner-bg {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+
+    /* COLLAPSED STATE */
+    .milla-collapsed {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .milla-banner.is-open .milla-collapsed { display: none; }
+
+    .btn-milla {
+      height: 48px;
+      padding: 0 28px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.32);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.2px;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        transform 0.4s var(--ease-spring),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .btn-milla:hover {
+      background: rgba(255,255,255,0.24);
+      border-color: rgba(255,255,255,0.45);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+    .btn-milla:active {
+      transform: translateY(0) scale(0.97);
+      transition-duration: 0.1s;
+    }
+    .btn-milla img {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.5s var(--ease-spring);
+    }
+    .btn-milla:hover img {
+      transform: rotate(180deg) scale(1.1);
+    }
+    .milla-subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: -0.05px;
+    }
+
+    /* EXPANDED STATE — Milla asking */
+    .milla-expanded {
+      position: relative;
+      z-index: 1;
+      display: none;
+    }
+    .milla-banner.is-open .milla-expanded {
+      display: block;
+      animation: milla-expand-in 0.6s var(--ease-out) both;
+    }
+
+    @keyframes milla-expand-in {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .milla-expanded-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .milla-expanded-head img {
+      width: 20px;
+      height: 20px;
+    }
+    .milla-expanded-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+    .milla-expanded-subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 20px;
+    }
+    /* Stagger title + subtitle */
+    .milla-banner.is-open .milla-expanded-head {
+      animation: milla-text-up 0.5s var(--ease-out) both;
+      animation-delay: 0.1s;
+    }
+    .milla-banner.is-open .milla-expanded-subtitle {
+      animation: milla-text-up 0.5s var(--ease-out) both;
+      animation-delay: 0.18s;
+    }
+    @keyframes milla-text-up {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .milla-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: rgba(255,255,255,0.8);
+      transition:
+        background 0.3s var(--ease-apple),
+        border-color 0.3s var(--ease-apple),
+        transform 0.4s var(--ease-spring);
+      z-index: 2;
+    }
+    .milla-close:hover {
+      background: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.35);
+      color: #fff;
+      transform: rotate(90deg) scale(1.08);
+    }
+    .milla-close:active {
+      transform: rotate(90deg) scale(0.92);
+      transition-duration: 0.1s;
+    }
+    .milla-close img { width: 12px; height: 12px; }
+    .milla-banner.is-open .milla-close {
+      animation: milla-pop-in 0.5s var(--ease-spring) both;
+      animation-delay: 0.25s;
+    }
+    @keyframes milla-pop-in {
+      from {
+        opacity: 0;
+        transform: scale(0.4) rotate(-90deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    /* Method picker (Photo / Description / Product Code) */
+    .milla-methods {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .method-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 20px;
+      padding: 28px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        transform 0.5s var(--ease-spring),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .method-card:hover {
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+    }
+    .method-card:active {
+      transform: translateY(-1px) scale(0.99);
+      transition-duration: 0.1s;
+    }
+    .method-card img {
+      width: 28px;
+      height: 28px;
+      transition: transform 0.5s var(--ease-spring);
+    }
+    .method-card:hover img {
+      transform: scale(1.15) rotate(-4deg);
+    }
+    .method-card span {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.05px;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .method-card:hover span {
+      transform: translateY(2px);
+    }
+
+    /* Stagger entrance dos method cards */
+    .milla-banner.is-open .method-card {
+      animation: milla-card-in 0.65s var(--ease-out) both;
+    }
+    .milla-banner.is-open .method-card:nth-child(1) { animation-delay: 0.22s; }
+    .milla-banner.is-open .method-card:nth-child(2) { animation-delay: 0.30s; }
+    .milla-banner.is-open .method-card:nth-child(3) { animation-delay: 0.38s; }
+    @keyframes milla-card-in {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ── 3rd STATE: Search by Description form ── */
+    .milla-search-form { display: none; }
+
+    /* Quando is-search ativa: esconde methods e mostra form */
+    .milla-banner.is-search .milla-expanded > .milla-expanded-head,
+    .milla-banner.is-search .milla-expanded > .milla-expanded-subtitle,
+    .milla-banner.is-search .milla-expanded > .milla-methods {
+      display: none;
+    }
+    .milla-banner.is-search .milla-search-form {
+      display: block;
+      animation: milla-slide-in 0.5s var(--ease-out) both;
+    }
+    @keyframes milla-slide-in {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0);    }
+    }
+
+    /* Header do form: back btn + ícone + título */
+    .milla-search-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .milla-search-head-icon {
+      width: 20px;
+      height: 20px;
+    }
+    .milla-search-head-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+
+    .milla-back-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition:
+        background 0.3s var(--ease-apple),
+        border-color 0.3s var(--ease-apple),
+        transform 0.4s var(--ease-spring);
+    }
+    .milla-back-btn:hover {
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.30);
+      transform: translateX(-2px);
+    }
+    .milla-back-btn:active {
+      transform: translateX(-2px) scale(0.92);
+      transition-duration: 0.1s;
+    }
+    .milla-back-btn img { width: 16px; height: 16px; }
+
+    /* Textarea de busca */
+    .milla-search-input {
+      width: 100%;
+      min-height: 116px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.20);
+      border-radius: 16px;
+      padding: 14px 16px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 22.5px;
+      resize: none;
+      outline: none;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .milla-search-input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+    .milla-search-input:focus {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.40);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.06);
+    }
+
+    /* Search button (right-aligned, disabled until text typed) */
+    .milla-search-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+    .btn-milla-search {
+      height: 44px;
+      padding: 0 28px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.30);
+      cursor: not-allowed;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        color 0.4s var(--ease-apple),
+        transform 0.4s var(--ease-spring),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .btn-milla-search.enabled {
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.35);
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-milla-search.enabled:hover {
+      background: rgba(255,255,255,0.28);
+      border-color: rgba(255,255,255,0.45);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .btn-milla-search.enabled:active {
+      transform: translateY(0) scale(0.98);
+      transition-duration: 0.1s;
+    }
+
+    /* Stagger nos elementos do form */
+    .milla-banner.is-search .milla-search-head {
+      animation: milla-text-up 0.5s var(--ease-out) both;
+      animation-delay: 0.05s;
+    }
+    .milla-banner.is-search .milla-search-input {
+      animation: milla-text-up 0.55s var(--ease-out) both;
+      animation-delay: 0.12s;
+    }
+    .milla-banner.is-search .milla-search-actions {
+      animation: milla-text-up 0.55s var(--ease-out) both;
+      animation-delay: 0.18s;
+    }
+
+    /* ── 4th STATE: Reasoning (Milla "thinking") ── */
+    .milla-reasoning { display: none; }
+
+    .milla-banner.is-reasoning .milla-expanded > .milla-expanded-head,
+    .milla-banner.is-reasoning .milla-expanded > .milla-expanded-subtitle,
+    .milla-banner.is-reasoning .milla-expanded > .milla-methods,
+    .milla-banner.is-reasoning .milla-expanded > .milla-search-form,
+    .milla-banner.is-reasoning .milla-close {
+      display: none;
+    }
+    .milla-banner.is-reasoning .milla-reasoning {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      padding: 8px 0 16px;
+      animation: milla-reason-in 0.6s var(--ease-out) both;
+    }
+    @keyframes milla-reason-in {
+      from { opacity: 0; transform: translateY(8px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1);    }
+    }
+
+    /* Diamond decorativo girando com sparkle dentro */
+    .milla-orb {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .milla-orb::before,
+    .milla-orb::after {
+      content: '';
+      position: absolute;
+      border: 1.2px solid rgba(255,255,255,0.30);
+      border-radius: 6px;
+    }
+    .milla-orb::before {
+      width: 80px;
+      height: 80px;
+      animation: orb-rotate-cw 14s linear infinite;
+    }
+    .milla-orb::after {
+      width: 56px;
+      height: 56px;
+      border-color: rgba(255,255,255,0.45);
+      animation: orb-rotate-ccw 10s linear infinite;
+    }
+    .milla-orb img {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      z-index: 1;
+      animation: orb-sparkle 2.8s ease-in-out infinite;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
+    }
+    @keyframes orb-rotate-cw {
+      from { transform: rotate(0); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes orb-rotate-ccw {
+      from { transform: rotate(360deg); }
+      to   { transform: rotate(0); }
+    }
+    @keyframes orb-sparkle {
+      0%, 100% { transform: scale(1); opacity: 0.94; }
+      50%      { transform: scale(1.12); opacity: 1; }
+    }
+
+    /* 3-dot loader pulsing */
+    .milla-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .milla-dots span {
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      animation: dot-pulse 1.4s var(--ease-out) infinite;
+    }
+    .milla-dots span:nth-child(1) { animation-delay: 0s; }
+    .milla-dots span:nth-child(2) { animation-delay: 0.18s; }
+    .milla-dots span:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes dot-pulse {
+      0%, 80%, 100% { transform: scale(0.78); opacity: 0.45; }
+      40%           { transform: scale(1);    opacity: 1;    }
+    }
+
+    .milla-reason-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+    .milla-reason-quote {
+      width: min(420px, 100%);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      line-height: 19.5px;
+    }
+
+    /* ── 5th STATE: Success (Processing completed) ── */
+    .milla-success { display: none; }
+    .milla-banner.is-success .milla-collapsed,
+    .milla-banner.is-success .milla-expanded > .milla-expanded-head,
+    .milla-banner.is-success .milla-expanded > .milla-expanded-subtitle,
+    .milla-banner.is-success .milla-expanded > .milla-methods,
+    .milla-banner.is-success .milla-expanded > .milla-search-form,
+    .milla-banner.is-success .milla-expanded > .milla-reasoning {
+      display: none;
+    }
+    .milla-banner.is-success .milla-expanded { display: block; }
+    .milla-banner.is-success .milla-success {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      padding: 24px 0 12px;
+      animation: milla-reason-in 0.6s var(--ease-out) both;
+    }
+
+    .milla-success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: success-pop 0.6s var(--ease-spring) both;
+      animation-delay: 0.05s;
+    }
+    .milla-success-icon img {
+      width: 28px;
+      height: 28px;
+    }
+    @keyframes success-pop {
+      from { opacity: 0; transform: scale(0.4); }
+      to   { opacity: 1; transform: scale(1);   }
+    }
+    .milla-success-text {
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      letter-spacing: -0.15px;
+      text-align: center;
+    }
+
+    /* ── RESULTS CARD ── */
+    .results-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+
+    .results-drawing {
+      padding: 24px;
+      border-bottom: 1px solid #f1f3f5;
+      background: #fff;
+    }
+    .results-drawing img {
+      max-width: 200px;
+      height: auto;
+      display: block;
+    }
+
+    /* Results table — usa o mesmo padrão da machine table */
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-family: 'Inter', sans-serif;
+    }
+    .results-table thead {
+      background: #007167;
+    }
+    .results-table thead th {
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      text-align: left;
+      letter-spacing: -0.05px;
+      white-space: nowrap;
+    }
+    .results-table th.col-check { width: 40px; padding: 0 0 0 16px; }
+    .results-table th.col-itm { width: 60px; }
+    .results-table th.col-mat { width: 130px; }
+    .results-table th.col-price { width: 120px; }
+    .results-table th.col-cart { width: 120px; text-align: right; padding-right: 16px; }
+
+    .results-table tbody tr {
+      border-top: 1px solid #f3f4f6;
+      transition: background 0.15s;
+    }
+    .results-table tbody tr:nth-child(even) { background: #f8fafa; }
+    .results-table tbody tr:hover { background: #eff6f5; }
+
+    .results-table tbody td {
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #374151;
+      vertical-align: middle;
+      font-variant-numeric: tabular-nums;
+    }
+    .results-table td.col-check { padding: 0 0 0 16px; }
+    .results-table td.col-mat { color: #4b5563; font-weight: 500; }
+    .results-table td.col-cart {
+      text-align: right;
+      padding-right: 16px;
+    }
+
+    .row-checkbox {
+      width: 16px;
+      height: 16px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 4px;
+      background: #fff;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      position: relative;
+    }
+    .row-checkbox:checked {
+      background: #007167;
+      border-color: #007167;
+    }
+    .row-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 4px;
+      height: 8px;
+      border: solid #fff;
+      border-width: 0 1.5px 1.5px 0;
+      transform: rotate(45deg);
+    }
+
+    .add-to-cart {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #007167;
+      text-decoration: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      transition: color 0.15s;
+    }
+    .add-to-cart:hover { color: #0b9c92; text-decoration: underline; }
+    .add-to-cart .heart {
+      width: 16px;
+      height: 16px;
+      color: #d1d5db;
+      transition: color 0.15s, transform 0.2s var(--ease-spring);
+      cursor: pointer;
+    }
+    .add-to-cart .heart:hover {
+      color: #c73e20;
+      transform: scale(1.15);
+    }
+    .add-to-cart-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    /* Respeitar prefers-reduced-motion (WCAG AAA) */
+    @media (prefers-reduced-motion: reduce) {
+      .milla-banner,
+      .milla-banner *,
+      .milla-banner *::before,
+      .milla-banner *::after {
+        animation-duration: 0.001s !important;
+        transition-duration: 0.001s !important;
+      }
+    }
+
+    /* "or" divider + select subset card */
+    .subset-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #9ca3af;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .or-divider::before,
+    .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e5e7eb;
+    }
+    .subset-select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #d7d9db;
+      border-radius: 10px;
+      padding: 0 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #9ca3af;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      letter-spacing: -0.15px;
+      transition: border-color 0.15s;
+    }
+    .subset-select:hover,
+    .subset-select:focus {
+      border-color: #0b9c92;
+      outline: none;
+    }
+    .subset-select img {
+      width: 14px;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="home.html" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab active">Machines</a>
+        <a href="#" class="nav-tab">Shop</a>
+        <a href="#" class="nav-tab">Orders</a>
+        <a href="#" class="nav-tab">Quotes</a>
+        <a href="#" class="nav-tab">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="machines.html">Machines</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>Discus 30</span>
+  </div>
+
+  <!-- PAGE -->
+  <div class="page">
+    <div class="layout">
+
+      <!-- LEFT COLUMN -->
+      <div class="left-col">
+
+        <!-- Card 1: Machine quick info -->
+        <div class="card">
+          <div class="machine-header">
+            <div class="machine-thumb">
+              <img src="../assets/machine-discus30.png" alt="Discus 30">
+            </div>
+            <div class="machine-title-block">
+              <div class="machine-title-row">
+                <h1 class="machine-title">Discus 30</h1>
+                <button type="button" class="machine-edit-btn" aria-label="Edit machine">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              </div>
+              <div class="machine-line">Line 1</div>
+            </div>
+          </div>
+
+          <div class="fields">
+            <div class="field-row">
+              <span class="field-label">Serial Number:</span>
+              <span class="field-value">2801548-10</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Country:</span>
+              <span class="field-value">Brazil</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Install Date:</span>
+              <span class="field-value">2024-08-20</span>
+            </div>
+          </div>
+
+          <a href="#" class="docs-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Browse equipment documents and manuals
+          </a>
+
+          <button type="button" class="btn-service">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Service Request
+          </button>
+        </div>
+
+        <!-- Card 2: Machine Information -->
+        <div class="card">
+          <h2 class="card-title">Machine Information</h2>
+          <div class="fields">
+            <div class="field-row"><span class="field-label">Equipment Name:</span><span class="field-value">Discus 30</span></div>
+            <div class="field-row"><span class="field-label">Service by:</span><span class="field-value">NEM</span></div>
+            <div class="field-row"><span class="field-label">Commission Number:</span><span class="field-value">2801548-10</span></div>
+            <div class="field-row"><span class="field-label">Purchase Date</span><span class="field-value">2024-05-12</span></div>
+            <div class="field-row"><span class="field-label">Machine Type:</span><span class="field-value">Bead Mill Stirrer</span></div>
+            <div class="field-row"><span class="field-label">Install Date:</span><span class="field-value">2024-08-20</span></div>
+            <div class="field-row"><span class="field-label">Fig nr.:</span><span class="field-value">12633</span></div>
+            <div class="field-row"><span class="field-label">Warranty Expiration:</span><span class="field-value">2026-08-01</span></div>
+          </div>
+        </div>
+
+        <!-- Card 3: Technical Details -->
+        <div class="card">
+          <h2 class="card-title">Technical Details</h2>
+          <div class="fields">
+            <div class="field-row"><span class="field-label">Grinding System:</span><span class="field-value">Dissolver</span></div>
+            <div class="field-row"><span class="field-label">Service by:</span><span class="field-value">Not applicable</span></div>
+            <div class="field-row"><span class="field-label">Grinding Chamber:</span><span class="field-value">Open batch tank</span></div>
+            <div class="field-row"><span class="field-label">Purchase Date</span><span class="field-value">Not applicable</span></div>
+            <div class="field-row"><span class="field-label">Material Grinding Shaft:</span><span class="field-value">Stainless steel</span></div>
+            <div class="field-row"><span class="field-label">Install Date:</span><span class="field-value">Not applicable</span></div>
+            <div class="field-row"><span class="field-label">Sealing Material:</span><span class="field-value">Mechanical seal</span></div>
+            <div class="field-row"><span class="field-label">Warranty Expiration:</span><span class="field-value">No integrated pump</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+
+        <!-- Ask Milla banner (success state on results page) -->
+        <div class="milla-banner is-open is-success" id="milla-banner">
+          <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
+
+          <!-- Collapsed: Ask Milla button + subtitle -->
+          <div class="milla-collapsed">
+            <button type="button" class="btn-milla" id="btn-ask-milla">
+              <img src="../assets/icon-sparkle.svg" alt="">
+              Ask Milla
+            </button>
+            <p class="milla-subtitle">Find documentation, tutorials and get help from Milla AI.</p>
+          </div>
+
+          <!-- Expanded: Milla asking how to search -->
+          <div class="milla-expanded">
+            <button type="button" class="milla-close" id="btn-milla-close" aria-label="Close">
+              <img src="../assets/icon-milla-close.svg" alt="">
+            </button>
+            <div class="milla-expanded-head">
+              <img src="../assets/icon-sparkle.svg" alt="">
+              <span class="milla-expanded-title">How would you like to search?</span>
+            </div>
+            <p class="milla-expanded-subtitle">Choose a method to find what do you need</p>
+            <div class="milla-methods">
+              <button type="button" class="method-card" data-method="photo">
+                <img src="../assets/icon-method-photo.svg" alt="">
+                <span>Photo</span>
+              </button>
+              <button type="button" class="method-card" id="btn-method-description">
+                <img src="../assets/icon-method-description.svg" alt="">
+                <span>Description</span>
+              </button>
+              <button type="button" class="method-card" data-method="code">
+                <img src="../assets/icon-method-code.svg" alt="">
+                <span>Product Code</span>
+              </button>
+            </div>
+
+            <!-- 3rd state: Search by Description form -->
+            <div class="milla-search-form">
+              <div class="milla-search-head">
+                <button type="button" class="milla-back-btn" id="btn-milla-back" aria-label="Back">
+                  <img src="../assets/icon-milla-back.svg" alt="">
+                </button>
+                <img class="milla-search-head-icon" src="../assets/icon-method-description.svg" alt="">
+                <span class="milla-search-head-title">Search by Description</span>
+              </div>
+              <textarea class="milla-search-input" id="milla-search-input"
+                placeholder="Describe the spare part you're looking for..."></textarea>
+              <div class="milla-search-actions">
+                <button type="button" class="btn-milla-search" id="btn-milla-search">Search</button>
+              </div>
+            </div>
+
+            <!-- 4th state: Reasoning loader -->
+            <div class="milla-reasoning">
+              <div class="milla-orb" aria-hidden="true">
+                <img src="../assets/icon-sparkle.svg" alt="">
+              </div>
+              <div class="milla-dots" role="status" aria-label="Loading">
+                <span></span><span></span><span></span>
+              </div>
+              <h3 class="milla-reason-title">Reasoning with description</h3>
+              <p class="milla-reason-quote" id="milla-reason-quote">"I need to replace the ring from the inner chamber of my mill"</p>
+            </div>
+
+            <!-- 5th state: Success (results ready) -->
+            <div class="milla-success">
+              <div class="milla-success-icon">
+                <img src="../assets/icon-success-check.svg" alt="">
+              </div>
+              <p class="milla-success-text">Processing completed. Results are ready for review below.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results card -->
+        <div class="results-card">
+          <div class="results-drawing">
+            <img src="../assets/drawing-discus30-grinding.png" alt="Grinding chamber technical drawing">
+          </div>
+          <table class="results-table">
+            <colgroup>
+              <col class="col-check">
+              <col class="col-itm">
+              <col class="col-mat">
+              <col>
+              <col class="col-price">
+              <col class="col-cart">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="col-check"></th>
+                <th class="col-itm">Itm</th>
+                <th class="col-mat">Material Number</th>
+                <th>Description</th>
+                <th class="col-price">Price per unit</th>
+                <th class="col-cart"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-check"><input type="checkbox" class="row-checkbox" aria-label="Select item 801"></td>
+                <td>801</td>
+                <td class="col-mat">140045213</td>
+                <td>Ring - AISI 304</td>
+                <td>€75.89</td>
+                <td class="col-cart">
+                  <span class="add-to-cart-row">
+                    <button type="button" class="add-to-cart">Add to cart</button>
+                    <svg class="heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" class="row-checkbox" aria-label="Select item 802"></td>
+                <td>802</td>
+                <td class="col-mat">140023995</td>
+                <td>Ring for inner pipe</td>
+                <td>Quotation Only</td>
+                <td class="col-cart">
+                  <span class="add-to-cart-row">
+                    <button type="button" class="add-to-cart">Add to cart</button>
+                    <svg class="heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- "or" + Select subset -->
+        <div class="subset-card">
+          <div class="or-divider">or</div>
+          <button type="button" class="subset-select">
+            <span>Select subset</span>
+            <img src="../assets/icon-chevron-down-input.svg" alt="">
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Tela de resultados — banner Milla começa em is-success.
+    // Click no X fecha o banner (volta pro estado collapsed).
+    const banner = document.getElementById('milla-banner');
+    document.getElementById('btn-milla-close').addEventListener('click', () => {
+      banner.classList.remove('is-open', 'is-success');
+    });
+  </script>
+
+</body>
+</html>
