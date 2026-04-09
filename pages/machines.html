@@ -259,84 +259,77 @@
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
     .machine-table-wrap[hidden] { display: none !important; }
 
     .machine-table {
       width: 100%;
+      min-width: 880px;          /* abaixo disso, scroll horizontal */
       border-collapse: collapse;
-      table-layout: fixed;
+      table-layout: fixed;        /* respeita as larguras do colgroup */
     }
 
-    /* Larguras das colunas — proporções reais do Figma (1376px de referência) */
-    .machine-table th.th-machine,
-    .machine-table td.td-machine    { width: 60%; }
-    .machine-table th.th-commission,
-    .machine-table td.td-commission { width: 11%; }
-    .machine-table th.th-date,
-    .machine-table td.td-date       { width: 10%; }
-    .machine-table th.th-hours,
-    .machine-table td.td-hours      { width: 8%;  }
-    .machine-table th.th-family,
-    .machine-table td.td-family     { width: 7%;  }
-    .machine-table th.th-arrow,
-    .machine-table td.td-arrow      { width: 4%; padding-right: 16px; text-align: right; }
-
-    .machine-table thead tr { background: #007167; }
+    /* Header (faixa verde NETZSCH) */
+    .machine-table thead {
+      background: #007167;
+    }
     .machine-table thead th {
-      padding: 14px 16px;
+      padding: 16px 16px;
       font-size: 12px;
       font-weight: 600;
       color: #fff;
       text-align: left;
-      letter-spacing: -0.05px;
+      letter-spacing: 0.1px;
       vertical-align: middle;
       white-space: nowrap;
+      height: 48px;
     }
     .machine-table thead th:first-child { padding-left: 24px; }
+    .machine-table thead th:last-child  { padding-right: 24px; }
 
+    /* Body */
     .machine-table tbody tr {
-      border-top: 1px solid #f3f4f6;
+      border-top: 1px solid #f1f3f5;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: background 0.15s ease;
     }
-    .machine-table tbody tr:hover { background: #fafbfc; }
+    .machine-table tbody tr:hover { background: #f8fafa; }
     .machine-table tbody tr.is-hidden { display: none; }
 
     .machine-table tbody td {
-      padding: 14px 16px;
-      font-size: 12px;
-      color: #374151;
+      padding: 16px;
+      font-size: 13px;
+      color: #4b5563;
       vertical-align: middle;
-      line-height: 1.4;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: 'tnum';
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .machine-table tbody td:first-child { padding-left: 24px; }
-    /* A coluna Family pode quebrar em 2 linhas */
-    .machine-table td.td-family {
-      font-size: 12px;
-      color: #374151;
-      white-space: normal;
-      line-height: 1.35;
-    }
+    .machine-table tbody td:last-child  { padding-right: 24px; }
 
+    /* Célula da máquina: thumbnail + nome + linha */
     .machine-cell {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
       min-width: 0;
     }
     .machine-cell-photo {
       width: 56px;
-      height: 42px;
+      height: 44px;
       background: #fafbfc;
-      border-radius: 10px;
+      border: 1px solid #f1f3f5;
+      border-radius: 8px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4px;
-      overflow: hidden;
+      padding: 5px;
     }
     .machine-cell-photo img {
       max-width: 100%;
@@ -350,49 +343,44 @@
       min-width: 0;
     }
     .machine-cell-name {
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 600;
       color: #1f2937;
-      letter-spacing: -0.07px;
+      letter-spacing: -0.15px;
+      line-height: 20px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .machine-cell-line {
       font-size: 11px;
-      font-weight: 400;
+      font-weight: 500;
       color: #9ca3af;
       text-transform: uppercase;
-      letter-spacing: 0.06px;
+      letter-spacing: 0.5px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
+    /* Commission Nr destacada (chave técnica do registro) */
     .machine-table .col-commission-cell {
       color: #007167;
       font-weight: 600;
     }
+
+    /* Arrow column */
+    .machine-table .col-arrow-cell { text-align: right; }
     .machine-table .col-arrow-cell img {
       width: 14px;
-      height: auto;
+      height: 14px;
       display: inline-block;
-      opacity: 0.45;
+      opacity: 0.4;
+      transition: opacity 0.15s ease, transform 0.15s ease;
     }
-    .machine-table tbody tr:hover .col-arrow-cell img { opacity: 1; }
-
-    /* Em telas estreitas, dá um pouco mais de respiro pra Machine column */
-    @media (max-width: 1100px) {
-      .machine-table th.th-machine,
-      .machine-table td.td-machine    { width: 45%; }
-      .machine-table th.th-commission,
-      .machine-table td.td-commission { width: 14%; }
-      .machine-table th.th-date,
-      .machine-table td.td-date       { width: 13%; }
-      .machine-table th.th-hours,
-      .machine-table td.td-hours      { width: 10%; }
-      .machine-table th.th-family,
-      .machine-table td.td-family     { width: 12%; }
+    .machine-table tbody tr:hover .col-arrow-cell img {
+      opacity: 1;
+      transform: translateX(2px);
     }
 
     .empty-state {
@@ -1008,21 +996,29 @@
     <!-- Table view (hidden by default) -->
     <div class="machine-table-wrap" id="machine-table-wrap" hidden>
       <table class="machine-table">
+        <colgroup>
+          <col>                              <!-- Machine: auto, absorve sobra -->
+          <col style="width: 160px">         <!-- Commission Nr. -->
+          <col style="width: 130px">         <!-- Install Date -->
+          <col style="width: 110px">         <!-- Hours -->
+          <col style="width: 150px">         <!-- Family -->
+          <col style="width: 60px">          <!-- Arrow -->
+        </colgroup>
         <thead>
           <tr>
-            <th class="th-machine">Machine</th>
-            <th class="th-commission">Commission Nr.</th>
-            <th class="th-date">Install Date</th>
-            <th class="th-hours">Hours</th>
-            <th class="th-family">Family</th>
-            <th class="th-arrow"></th>
+            <th>Machine</th>
+            <th>Commission Nr.</th>
+            <th>Install Date</th>
+            <th>Hours</th>
+            <th>Family</th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="machine-tbody">
           <tr class="machine-row" data-machine
               data-name="Discus 30" data-line="line 1" data-app="Wet Grinding"
               data-commission="2801548-10" data-hours="10345" data-install="2024-08-20">
-            <td class="td-machine">
+            <td>
               <div class="machine-cell">
                 <div class="machine-cell-photo"><img src="../assets/machine-discus30.png" alt=""></div>
                 <div class="machine-cell-text">
@@ -1031,16 +1027,16 @@
                 </div>
               </div>
             </td>
-            <td class="td-commission col-commission-cell">2801548-10</td>
-            <td class="td-date">2024-08-20</td>
-            <td class="td-hours">10,345 h</td>
-            <td class="td-family">Wet Grinding</td>
-            <td class="td-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-commission-cell">2801548-10</td>
+            <td>2024-08-20</td>
+            <td>10,345 h</td>
+            <td>Wet Grinding</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
           <tr class="machine-row" data-machine
               data-name="Zeta 60" data-line="black production only" data-app="Dispersing"
               data-commission="15202462-20" data-hours="8720" data-install="2024-06-15">
-            <td class="td-machine">
+            <td>
               <div class="machine-cell">
                 <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
                 <div class="machine-cell-text">
@@ -1049,16 +1045,16 @@
                 </div>
               </div>
             </td>
-            <td class="td-commission col-commission-cell">15202462-20</td>
-            <td class="td-date">2024-06-15</td>
-            <td class="td-hours">8,720 h</td>
-            <td class="td-family">Dispersing</td>
-            <td class="td-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-commission-cell">15202462-20</td>
+            <td>2024-06-15</td>
+            <td>8,720 h</td>
+            <td>Dispersing</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
           <tr class="machine-row" data-machine
               data-name="MasterMix 45" data-line="line 3" data-app="Mixer"
               data-commission="15202531-10" data-hours="14210" data-install="2024-08-20">
-            <td class="td-machine">
+            <td>
               <div class="machine-cell">
                 <div class="machine-cell-photo"><img src="../assets/machine-mastermix45.png" alt=""></div>
                 <div class="machine-cell-text">
@@ -1067,16 +1063,16 @@
                 </div>
               </div>
             </td>
-            <td class="td-commission col-commission-cell">15202531-10</td>
-            <td class="td-date">2024-08-20</td>
-            <td class="td-hours">14,210 h</td>
-            <td class="td-family">Mixer</td>
-            <td class="td-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-commission-cell">15202531-10</td>
+            <td>2024-08-20</td>
+            <td>14,210 h</td>
+            <td>Mixer</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
           <tr class="machine-row" data-machine
               data-name="ProPhi" data-line="line 4" data-app="Wet Grinding"
               data-commission="15202530-10" data-hours="6580" data-install="2024-08-20">
-            <td class="td-machine">
+            <td>
               <div class="machine-cell">
                 <div class="machine-cell-photo"><img src="../assets/machine-prophi.png" alt=""></div>
                 <div class="machine-cell-text">
@@ -1085,16 +1081,16 @@
                 </div>
               </div>
             </td>
-            <td class="td-commission col-commission-cell">15202530-10</td>
-            <td class="td-date">2024-08-20</td>
-            <td class="td-hours">6,580 h</td>
-            <td class="td-family">Wet Grinding</td>
-            <td class="td-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-commission-cell">15202530-10</td>
+            <td>2024-08-20</td>
+            <td>6,580 h</td>
+            <td>Wet Grinding</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
           <tr class="machine-row" data-machine
               data-name="Alpha Zeta 10" data-line="white production only" data-app="Wet Grinding"
               data-commission="80204882" data-hours="3190" data-install="2024-09-10">
-            <td class="td-machine">
+            <td>
               <div class="machine-cell">
                 <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
                 <div class="machine-cell-text">
@@ -1103,11 +1099,11 @@
                 </div>
               </div>
             </td>
-            <td class="td-commission col-commission-cell">80204882</td>
-            <td class="td-date">2024-09-10</td>
-            <td class="td-hours">3,190 h</td>
-            <td class="td-family">Wet Grinding</td>
-            <td class="td-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-commission-cell">80204882</td>
+            <td>2024-09-10</td>
+            <td>3,190 h</td>
+            <td>Wet Grinding</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
         </tbody>
       </table>
