@@ -845,6 +845,11 @@
       height: 1px;
       background: #e5e7eb;
     }
+
+    /* Subset select wrapper + dropdown */
+    .subset-wrapper {
+      position: relative;
+    }
     .subset-select {
       width: 100%;
       height: 44px;
@@ -860,10 +865,12 @@
       align-items: center;
       justify-content: space-between;
       letter-spacing: -0.15px;
-      transition: border-color 0.15s;
+      transition: border-color 0.2s var(--ease-apple);
     }
+    .subset-select.has-value { color: #1f2937; font-weight: 500; }
     .subset-select:hover,
-    .subset-select:focus {
+    .subset-select:focus,
+    .subset-wrapper.is-open .subset-select {
       border-color: #0b9c92;
       outline: none;
     }
@@ -871,6 +878,59 @@
       width: 14px;
       height: auto;
       display: block;
+      transition: transform 0.3s var(--ease-apple);
+    }
+    .subset-wrapper.is-open .subset-select img {
+      transform: rotate(180deg);
+    }
+
+    .subset-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+      padding: 6px 0;
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+      pointer-events: none;
+      transition:
+        opacity 0.25s var(--ease-apple),
+        transform 0.35s var(--ease-spring);
+      z-index: 50;
+    }
+    .subset-wrapper.is-open .subset-dropdown {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .subset-option {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      cursor: pointer;
+      letter-spacing: -0.05px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .subset-option:hover {
+      background: #f0faf9;
+      color: #007167;
+    }
+    .subset-option.is-selected {
+      background: #e6f4f3;
+      color: #007167;
+      font-weight: 600;
     }
 
     @media (max-width: 900px) {
@@ -1089,10 +1149,18 @@
         <!-- "or" + Select subset -->
         <div class="subset-card">
           <div class="or-divider">or</div>
-          <button type="button" class="subset-select">
-            <span>Select subset</span>
-            <img src="../assets/icon-chevron-down-input.svg" alt="">
-          </button>
+          <div class="subset-wrapper" id="subset-wrapper">
+            <button type="button" class="subset-select" id="subset-select">
+              <span id="subset-select-label">Select subset</span>
+              <img src="../assets/icon-chevron-down-input.svg" alt="">
+            </button>
+            <div class="subset-dropdown" role="listbox">
+              <button type="button" class="subset-option" data-subset="Sealings FFKM">Sealings FFKM</button>
+              <button type="button" class="subset-option" data-subset="Complete bearing">Complete bearing</button>
+              <button type="button" class="subset-option" data-subset="Grinding chamber complete">Grinding chamber complete</button>
+              <button type="button" class="subset-option" data-subset="Inlet flange complete" data-href="machine-subset-inlet-flange.html">Inlet flange complete</button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -1138,6 +1206,39 @@
     // Habilita botão Search quando há texto
     searchInput.addEventListener('input', () => {
       btnSearch.classList.toggle('enabled', searchInput.value.trim().length > 0);
+    });
+
+    // ── Subset select dropdown ──
+    const subsetWrapper = document.getElementById('subset-wrapper');
+    const subsetBtn = document.getElementById('subset-select');
+    const subsetLabel = document.getElementById('subset-select-label');
+    const subsetOptions = subsetWrapper.querySelectorAll('.subset-option');
+
+    subsetBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      subsetWrapper.classList.toggle('is-open');
+    });
+    subsetOptions.forEach(opt => {
+      opt.addEventListener('click', () => {
+        const value = opt.dataset.subset;
+        const href = opt.dataset.href;
+        subsetLabel.textContent = value;
+        subsetBtn.classList.add('has-value');
+        subsetOptions.forEach(o => o.classList.remove('is-selected'));
+        opt.classList.add('is-selected');
+        subsetWrapper.classList.remove('is-open');
+        if (href) {
+          setTimeout(() => { window.location.href = href; }, 250);
+        }
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#subset-wrapper')) {
+        subsetWrapper.classList.remove('is-open');
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') subsetWrapper.classList.remove('is-open');
     });
 
     // Click Search → mostra reasoning loader (~2.4s) → próxima tela
