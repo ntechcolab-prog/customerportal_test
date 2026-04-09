@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discus 30 — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f6f6f6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label {
+      font-size: 16px; font-weight: 500; color: #fff;
+      letter-spacing: -0.31px; white-space: nowrap;
+    }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: auto; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+    }
+    .breadcrumb a {
+      color: #007167;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb-sep { margin: 0 8px; color: #b1b4b7; }
+
+    /* ── PAGE ─── */
+    .page {
+      flex: 1;
+      padding: 24px 32px 48px;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* 2-column layout */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) 2fr;
+      gap: 24px;
+    }
+
+    /* ── CARD ─── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .card + .card { margin-top: 16px; }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+      letter-spacing: -0.15px;
+    }
+
+    /* Field rows (label : value) */
+    .fields {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 12px;
+      align-items: baseline;
+    }
+    .field-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: #9ca3af;
+      letter-spacing: -0.05px;
+    }
+    .field-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      letter-spacing: -0.05px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── LEFT CARD: HEADER WITH PHOTO + NAME ─── */
+    .machine-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .machine-thumb {
+      width: 64px;
+      height: 56px;
+      background: #fafbfc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      flex-shrink: 0;
+    }
+    .machine-thumb img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .machine-title-block {
+      flex: 1;
+      min-width: 0;
+    }
+    .machine-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .machine-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+      letter-spacing: -0.2px;
+    }
+    .machine-edit-btn {
+      width: 24px;
+      height: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9ca3af;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s;
+    }
+    .machine-edit-btn:hover { color: #007167; }
+    .machine-edit-btn svg { width: 14px; height: 14px; }
+
+    .machine-line {
+      font-size: 11px;
+      font-weight: 500;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* Browse documents link */
+    .docs-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      margin-top: 16px;
+    }
+    .docs-link:hover { text-decoration: underline; }
+    .docs-link svg { width: 14px; height: 14px; }
+
+    /* Service Request button (outline teal) */
+    .btn-service {
+      width: 100%;
+      height: 40px;
+      margin-top: 16px;
+      background: #fff;
+      border: 1px solid #0b9c92;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #007167;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s;
+    }
+    .btn-service:hover { background: #f0faf9; }
+    .btn-service svg { width: 16px; height: 16px; }
+
+    /* ── RIGHT COLUMN ─── */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Ask Milla banner */
+    .milla-banner {
+      position: relative;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      border-radius: 16px;
+      padding: 32px 24px 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .milla-banner-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    .btn-milla {
+      position: relative;
+      z-index: 1;
+      height: 48px;
+      padding: 0 28px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.32);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.2px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-milla:hover {
+      background: rgba(255,255,255,0.24);
+      transform: translateY(-1px);
+    }
+    .btn-milla img { width: 20px; height: 20px; }
+    .milla-subtitle {
+      position: relative;
+      z-index: 1;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: -0.05px;
+    }
+
+    /* "or" divider + select subset card */
+    .subset-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #9ca3af;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .or-divider::before,
+    .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e5e7eb;
+    }
+    .subset-select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #d7d9db;
+      border-radius: 10px;
+      padding: 0 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #9ca3af;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      letter-spacing: -0.15px;
+      transition: border-color 0.15s;
+    }
+    .subset-select:hover,
+    .subset-select:focus {
+      border-color: #0b9c92;
+      outline: none;
+    }
+    .subset-select img {
+      width: 14px;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="home.html" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab active">Machines</a>
+        <a href="#" class="nav-tab">Shop</a>
+        <a href="#" class="nav-tab">Orders</a>
+        <a href="#" class="nav-tab">Quotes</a>
+        <a href="#" class="nav-tab">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="machines.html">Machines</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>Discus 30</span>
+  </div>
+
+  <!-- PAGE -->
+  <div class="page">
+    <div class="layout">
+
+      <!-- LEFT COLUMN -->
+      <div class="left-col">
+
+        <!-- Card 1: Machine quick info -->
+        <div class="card">
+          <div class="machine-header">
+            <div class="machine-thumb">
+              <img src="../assets/machine-discus30.png" alt="Discus 30">
+            </div>
+            <div class="machine-title-block">
+              <div class="machine-title-row">
+                <h1 class="machine-title">Discus 30</h1>
+                <button type="button" class="machine-edit-btn" aria-label="Edit machine">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </button>
+              </div>
+              <div class="machine-line">Line 1</div>
+            </div>
+          </div>
+
+          <div class="fields">
+            <div class="field-row">
+              <span class="field-label">Serial Number:</span>
+              <span class="field-value">2801548-10</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Country:</span>
+              <span class="field-value">Brazil</span>
+            </div>
+            <div class="field-row">
+              <span class="field-label">Install Date:</span>
+              <span class="field-value">2024-08-20</span>
+            </div>
+          </div>
+
+          <a href="#" class="docs-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Browse equipment documents and manuals
+          </a>
+
+          <button type="button" class="btn-service">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Service Request
+          </button>
+        </div>
+
+        <!-- Card 2: Machine Information -->
+        <div class="card">
+          <h2 class="card-title">Machine Information</h2>
+          <div class="fields">
+            <div class="field-row"><span class="field-label">Equipment Name:</span><span class="field-value">Discus 30</span></div>
+            <div class="field-row"><span class="field-label">Service by:</span><span class="field-value">NEM</span></div>
+            <div class="field-row"><span class="field-label">Commission Number:</span><span class="field-value">2801548-10</span></div>
+            <div class="field-row"><span class="field-label">Purchase Date</span><span class="field-value">2024-05-12</span></div>
+            <div class="field-row"><span class="field-label">Machine Type:</span><span class="field-value">Bead Mill Stirrer</span></div>
+            <div class="field-row"><span class="field-label">Install Date:</span><span class="field-value">2024-08-20</span></div>
+            <div class="field-row"><span class="field-label">Fig nr.:</span><span class="field-value">12633</span></div>
+            <div class="field-row"><span class="field-label">Warranty Expiration:</span><span class="field-value">2026-08-01</span></div>
+          </div>
+        </div>
+
+        <!-- Card 3: Technical Details -->
+        <div class="card">
+          <h2 class="card-title">Technical Details</h2>
+          <div class="fields">
+            <div class="field-row"><span class="field-label">Grinding System:</span><span class="field-value">Dissolver</span></div>
+            <div class="field-row"><span class="field-label">Service by:</span><span class="field-value">Not applicable</span></div>
+            <div class="field-row"><span class="field-label">Grinding Chamber:</span><span class="field-value">Open batch tank</span></div>
+            <div class="field-row"><span class="field-label">Purchase Date</span><span class="field-value">Not applicable</span></div>
+            <div class="field-row"><span class="field-label">Material Grinding Shaft:</span><span class="field-value">Stainless steel</span></div>
+            <div class="field-row"><span class="field-label">Install Date:</span><span class="field-value">Not applicable</span></div>
+            <div class="field-row"><span class="field-label">Sealing Material:</span><span class="field-value">Mechanical seal</span></div>
+            <div class="field-row"><span class="field-label">Warranty Expiration:</span><span class="field-value">No integrated pump</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+
+        <!-- Ask Milla banner -->
+        <div class="milla-banner">
+          <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
+          <button type="button" class="btn-milla">
+            <img src="../assets/icon-sparkle.svg" alt="">
+            Ask Milla
+          </button>
+          <p class="milla-subtitle">Find documentation, tutorials and get help from Milla AI.</p>
+        </div>
+
+        <!-- "or" + Select subset -->
+        <div class="subset-card">
+          <div class="or-divider">or</div>
+          <button type="button" class="subset-select">
+            <span>Select subset</span>
+            <img src="../assets/icon-chevron-down-input.svg" alt="">
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
