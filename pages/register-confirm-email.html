@@ -389,7 +389,7 @@
         </div>
 
         <!-- Send button -->
-        <button class="btn-send" type="button" onclick="window.location.href='register-email-verification.html'">Send verification code</button>
+        <button class="btn-send" type="button" id="btn-send">Send verification code</button>
 
         <!-- Footer -->
         <p class="form-footer">
@@ -399,6 +399,15 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // Carry the typed email forward to the verification screen
+    document.getElementById('btn-send').addEventListener('click', () => {
+      const email = document.getElementById('email').value.trim();
+      const url = 'register-email-verification.html' + (email ? '?email=' + encodeURIComponent(email) : '');
+      window.location.href = url;
+    });
+  </script>
 
 </body>
 </html>

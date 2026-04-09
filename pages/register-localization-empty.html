@@ -298,7 +298,47 @@
       width: 14px;
       height: auto;
       display: block;
+      transition: transform 0.15s;
     }
+
+    .select-btn.open { border-color: #0b9c92; }
+    .select-btn.open img { transform: rotate(180deg); }
+
+    .select-wrapper { position: relative; }
+
+    .select-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 0.784px solid #b1b4b7;
+      border-radius: 10px;
+      box-shadow:
+        0 10px 15px -3px rgba(0,0,0,0.1),
+        0 4px 6px -4px rgba(0,0,0,0.1);
+      padding: 0.784px;
+      overflow: hidden;
+      z-index: 20;
+    }
+    .select-dropdown[hidden] { display: none; }
+    .select-dropdown-item {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      text-align: left;
+      cursor: pointer;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+    }
+    .select-dropdown-item.selected { background: #e6f4f3; color: #007167; }
+    .select-dropdown-item:not(.selected):hover { background: #f5f7f8; }
 
     .field-helper {
       font-size: 12px;
@@ -545,10 +585,19 @@
         <!-- Preferred language -->
         <div class="field">
           <label class="field-label">Preferred language*</label>
-          <button type="button" class="select-btn placeholder" id="lang-btn" onclick="window.location.href='register-localization-language-selected.html'">
-            <span>Select language</span>
-            <img src="../assets/icon-chevron-down-input.svg" alt="">
-          </button>
+          <div class="select-wrapper">
+            <button type="button" class="select-btn placeholder" id="lang-btn" aria-haspopup="listbox" aria-expanded="false">
+              <span id="lang-label">Select language</span>
+              <img src="../assets/icon-chevron-down-input.svg" alt="">
+            </button>
+            <div class="select-dropdown" id="lang-dropdown" role="listbox" hidden>
+              <button type="button" class="select-dropdown-item" data-lang="English">English</button>
+              <button type="button" class="select-dropdown-item" data-lang="German">German</button>
+              <button type="button" class="select-dropdown-item" data-lang="Portuguese">Portuguese</button>
+              <button type="button" class="select-dropdown-item" data-lang="Chinese">Chinese</button>
+              <button type="button" class="select-dropdown-item" data-lang="Japanese">Japanese</button>
+            </div>
+          </div>
         </div>
 
         <!-- Buttons row -->
@@ -573,8 +622,56 @@
   </div>
 
   <script>
-    document.getElementById('toast-close').addEventListener('click', () => {
-      document.getElementById('toast').classList.add('hidden');
+    // ── Toast: manual close + auto-close after 40s ────────────
+    const toast = document.getElementById('toast');
+    const closeToast = () => toast.classList.add('hidden');
+    document.getElementById('toast-close').addEventListener('click', closeToast);
+    setTimeout(closeToast, 40000);
+
+    // ── Language dropdown (inline) ────────────────────────────
+    const langBtn = document.getElementById('lang-btn');
+    const langLabel = document.getElementById('lang-label');
+    const langDropdown = document.getElementById('lang-dropdown');
+    const items = langDropdown.querySelectorAll('.select-dropdown-item');
+    const btnNext = document.getElementById('btn-next');
+
+    function openDropdown() {
+      langDropdown.hidden = false;
+      langBtn.classList.add('open');
+      langBtn.setAttribute('aria-expanded', 'true');
+    }
+    function closeDropdown() {
+      langDropdown.hidden = true;
+      langBtn.classList.remove('open');
+      langBtn.setAttribute('aria-expanded', 'false');
+    }
+    function toggleDropdown() {
+      langDropdown.hidden ? openDropdown() : closeDropdown();
+    }
+
+    langBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDropdown();
+    });
+
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        const lang = item.dataset.lang;
+        langLabel.textContent = lang;
+        langBtn.classList.remove('placeholder');
+        items.forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+        closeDropdown();
+        // Enable Next once a language is picked
+        btnNext.classList.add('enabled');
+      });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!langDropdown.hidden && !e.target.closest('.select-wrapper')) {
+        closeDropdown();
+      }
     });
   </script>
 

@@ -426,7 +426,7 @@
         </div>
 
         <!-- Continue button -->
-        <button class="btn-continue" id="btn-continue" type="button" onclick="window.location.href='register-localization-empty.html'">Continue</button>
+        <button class="btn-continue" id="btn-continue" type="button">Continue</button>
 
         <!-- Footer -->
         <p class="form-footer">
@@ -438,8 +438,23 @@
   </div>
 
   <script>
+    // Pre-fill email from query string
+    const params = new URLSearchParams(window.location.search);
+    const emailFromQuery = params.get('email');
+    if (emailFromQuery) {
+      document.getElementById('email').value = emailFromQuery;
+    }
+
     const otpInputs = document.querySelectorAll('.otp-input');
     const btnContinue = document.getElementById('btn-continue');
+
+    // Carry email forward when continuing
+    btnContinue.addEventListener('click', () => {
+      if (!btnContinue.classList.contains('enabled')) return;
+      const email = document.getElementById('email').value.trim();
+      const url = 'register-localization-empty.html' + (email ? '?email=' + encodeURIComponent(email) : '');
+      window.location.href = url;
+    });
 
     function checkComplete() {
       const allFilled = Array.from(otpInputs).every(i => i.value.length === 1);
