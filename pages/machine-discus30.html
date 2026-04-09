@@ -551,6 +551,152 @@
       }
     }
 
+    /* ── 3rd STATE: Search by Description form ── */
+    .milla-search-form { display: none; }
+
+    /* Quando is-search ativa: esconde methods e mostra form */
+    .milla-banner.is-search .milla-expanded > .milla-expanded-head,
+    .milla-banner.is-search .milla-expanded > .milla-expanded-subtitle,
+    .milla-banner.is-search .milla-expanded > .milla-methods {
+      display: none;
+    }
+    .milla-banner.is-search .milla-search-form {
+      display: block;
+      animation: milla-slide-in 0.5s var(--ease-out) both;
+    }
+    @keyframes milla-slide-in {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0);    }
+    }
+
+    /* Header do form: back btn + ícone + título */
+    .milla-search-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .milla-search-head-icon {
+      width: 20px;
+      height: 20px;
+    }
+    .milla-search-head-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+
+    .milla-back-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition:
+        background 0.3s var(--ease-apple),
+        border-color 0.3s var(--ease-apple),
+        transform 0.4s var(--ease-spring);
+    }
+    .milla-back-btn:hover {
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.30);
+      transform: translateX(-2px);
+    }
+    .milla-back-btn:active {
+      transform: translateX(-2px) scale(0.92);
+      transition-duration: 0.1s;
+    }
+    .milla-back-btn img { width: 16px; height: 16px; }
+
+    /* Textarea de busca */
+    .milla-search-input {
+      width: 100%;
+      min-height: 116px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.20);
+      border-radius: 16px;
+      padding: 14px 16px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 22.5px;
+      resize: none;
+      outline: none;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .milla-search-input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+    .milla-search-input:focus {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.40);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.06);
+    }
+
+    /* Search button (right-aligned, disabled until text typed) */
+    .milla-search-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+    .btn-milla-search {
+      height: 44px;
+      padding: 0 28px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.30);
+      cursor: not-allowed;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        color 0.4s var(--ease-apple),
+        transform 0.4s var(--ease-spring),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .btn-milla-search.enabled {
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.35);
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-milla-search.enabled:hover {
+      background: rgba(255,255,255,0.28);
+      border-color: rgba(255,255,255,0.45);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .btn-milla-search.enabled:active {
+      transform: translateY(0) scale(0.98);
+      transition-duration: 0.1s;
+    }
+
+    /* Stagger nos elementos do form */
+    .milla-banner.is-search .milla-search-head {
+      animation: milla-text-up 0.5s var(--ease-out) both;
+      animation-delay: 0.05s;
+    }
+    .milla-banner.is-search .milla-search-input {
+      animation: milla-text-up 0.55s var(--ease-out) both;
+      animation-delay: 0.12s;
+    }
+    .milla-banner.is-search .milla-search-actions {
+      animation: milla-text-up 0.55s var(--ease-out) both;
+      animation-delay: 0.18s;
+    }
+
     /* Respeitar prefers-reduced-motion (WCAG AAA) */
     @media (prefers-reduced-motion: reduce) {
       .milla-banner,
@@ -784,18 +930,34 @@
             </div>
             <p class="milla-expanded-subtitle">Choose a method to find what do you need</p>
             <div class="milla-methods">
-              <a href="#" class="method-card">
+              <button type="button" class="method-card" data-method="photo">
                 <img src="../assets/icon-method-photo.svg" alt="">
                 <span>Photo</span>
-              </a>
-              <a href="#" class="method-card">
+              </button>
+              <button type="button" class="method-card" id="btn-method-description">
                 <img src="../assets/icon-method-description.svg" alt="">
                 <span>Description</span>
-              </a>
-              <a href="#" class="method-card">
+              </button>
+              <button type="button" class="method-card" data-method="code">
                 <img src="../assets/icon-method-code.svg" alt="">
                 <span>Product Code</span>
-              </a>
+              </button>
+            </div>
+
+            <!-- 3rd state: Search by Description form -->
+            <div class="milla-search-form">
+              <div class="milla-search-head">
+                <button type="button" class="milla-back-btn" id="btn-milla-back" aria-label="Back">
+                  <img src="../assets/icon-milla-back.svg" alt="">
+                </button>
+                <img class="milla-search-head-icon" src="../assets/icon-method-description.svg" alt="">
+                <span class="milla-search-head-title">Search by Description</span>
+              </div>
+              <textarea class="milla-search-input" id="milla-search-input"
+                placeholder="Describe the spare part you're looking for..."></textarea>
+              <div class="milla-search-actions">
+                <button type="button" class="btn-milla-search" id="btn-milla-search">Search</button>
+              </div>
             </div>
           </div>
         </div>
@@ -816,11 +978,48 @@
 
   <script>
     const banner = document.getElementById('milla-banner');
-    document.getElementById('btn-ask-milla').addEventListener('click', () => {
+    const btnAsk = document.getElementById('btn-ask-milla');
+    const btnClose = document.getElementById('btn-milla-close');
+    const btnDescription = document.getElementById('btn-method-description');
+    const btnBack = document.getElementById('btn-milla-back');
+    const searchInput = document.getElementById('milla-search-input');
+    const btnSearch = document.getElementById('btn-milla-search');
+
+    // Open expanded methods
+    btnAsk.addEventListener('click', () => {
       banner.classList.add('is-open');
+      banner.classList.remove('is-search');
     });
-    document.getElementById('btn-milla-close').addEventListener('click', () => {
-      banner.classList.remove('is-open');
+
+    // Close (back to collapsed)
+    btnClose.addEventListener('click', () => {
+      banner.classList.remove('is-open', 'is-search');
+      // Reset form
+      searchInput.value = '';
+      btnSearch.classList.remove('enabled');
+    });
+
+    // Method: Description → switch to search form
+    btnDescription.addEventListener('click', () => {
+      banner.classList.add('is-search');
+      // Focus input depois da animação
+      setTimeout(() => searchInput.focus(), 350);
+    });
+
+    // Back from search form to methods
+    btnBack.addEventListener('click', () => {
+      banner.classList.remove('is-search');
+    });
+
+    // Habilita botão Search quando há texto
+    searchInput.addEventListener('input', () => {
+      btnSearch.classList.toggle('enabled', searchInput.value.trim().length > 0);
+    });
+
+    // Click Search → próxima tela (placeholder por ora)
+    btnSearch.addEventListener('click', () => {
+      if (!btnSearch.classList.contains('enabled')) return;
+      window.location.href = 'machine-spare-parts-results.html';
     });
   </script>
 
