@@ -254,7 +254,7 @@
 
     .machine-card.is-hidden { display: none; }
 
-    /* ── TABLE VIEW (CSS Grid, 1:1 com Figma 182:12533) ──── */
+    /* ── TABLE VIEW (absolute positioning, igual ao Figma 182:12533) ── */
     .machine-table-wrap {
       background: #fff;
       border: 1px solid #e5e7eb;
@@ -265,75 +265,57 @@
     .machine-table-wrap[hidden] { display: none !important; }
 
     .machine-table {
-      min-width: 980px;
+      position: relative;
+      min-width: 1390px;        /* largura natural do Figma (1376) + buffer */
       font-family: 'Inter', sans-serif;
     }
 
-    /*
-     * Layout grid:
-     *   80px  -> Photo  (Figma: left 16 + thumb 56 + gap 8)
-     *   1fr   -> Machine name+line (absorve sobra; Figma 803.915)
-     *   130px -> Commission Nr.  (Figma 129.983)
-     *   120px -> Install Date    (Figma 119.991)
-     *   100px -> Hours           (Figma 99.99)
-     *   100px -> Family          (Figma 99.99 — força "Wet Grinding" wrap)
-     *   40px  -> Arrow           (Figma 39.986)
-     */
-    .machine-thead-row,
-    .machine-row {
-      display: grid;
-      grid-template-columns: 80px minmax(0, 1fr) 130px 120px 100px 100px 40px;
-      align-items: center;
+    /* ── ROW (header e body usam o mesmo container relativo) ── */
+    .t-row {
+      position: relative;
+      height: 67px;
+      border-bottom: 1px solid #f3f4f6;
     }
 
-    /* ── HEADER ─── */
-    .machine-thead-row {
+    /* ── HEADER ── */
+    .t-head {
       height: 42px;
       background: #007167;
-      color: #fff;
+      border-bottom: 0;
+    }
+    .t-head > span {
+      position: absolute;
+      top: 12px;
       font-size: 12px;
       font-weight: 600;
       line-height: 18px;
-    }
-    .machine-thead-row > div {
-      padding: 0 16px;
+      color: #fff;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
-    .machine-thead-row > .head-photo { padding: 0 8px 0 16px; }
-    .machine-thead-row > .head-arrow { padding: 0 16px 0 0; }
+    /* Posições X EXATAS do Figma — header e body usam os mesmos números */
+    .t-h-machine    { left: 96px; }
+    .t-h-commission { left: 900px; }
+    .t-h-date       { left: 1030px; }
+    .t-h-hours      { left: 1150px; }
+    .t-h-family     { left: 1250px; }
 
-    /* ── BODY ─── */
-    .machine-tbody { background: #fff; }
-
-    .machine-row {
-      height: 67px;
-      border-bottom: 1px solid #f3f4f6;
+    /* ── BODY ── */
+    .t-tbody { background: #fff; }
+    .t-tbody .machine-row {
       cursor: pointer;
       transition: background 0.15s ease;
     }
-    .machine-tbody .machine-row:nth-child(odd)  { background: #ffffff; }
-    .machine-tbody .machine-row:nth-child(even) { background: #fafbfc; }
-    .machine-tbody .machine-row:hover { background: #eff6f5; }
-    .machine-tbody .machine-row:last-child { border-bottom: 0; }
+    .t-tbody .machine-row:nth-child(odd)  { background: #ffffff; }
+    .t-tbody .machine-row:nth-child(even) { background: #fafbfc; }
+    .t-tbody .machine-row:hover { background: #eff6f5; }
+    .t-tbody .machine-row:last-child { border-bottom: 0; }
     .machine-row.is-hidden { display: none; }
 
-    /* Cell padding base */
-    .machine-row > div {
-      padding: 0 16px;
-      min-width: 0;
-    }
-    .machine-row > .cell-photo { padding: 0 8px 0 16px; }
-    .machine-row > .cell-arrow {
-      padding: 0 16px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Photo box */
-    .cell-photo .machine-cell-photo {
+    /* Photo (esquerda, 56x42 rounded 10) */
+    .t-photo {
+      position: absolute;
+      left: 16px;
+      top: 50%;
       width: 56px;
       height: 42px;
       background: #fafbfc;
@@ -342,30 +324,32 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      transform: translateY(-50%);
     }
-    .cell-photo .machine-cell-photo img {
+    .t-photo img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
     }
 
-    /* Machine name + line stack */
-    .cell-machine {
+    /* Machine name + line empilhados, alinhados com header "Machine" */
+    .t-info {
+      position: absolute;
+      left: 96px;
+      top: 50%;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      transform: translateY(-50%);
     }
-    .cell-machine .machine-cell-name {
+    .t-info .t-name {
       font-size: 13px;
       font-weight: 500;
       line-height: 19.5px;
       color: #1f2937;
       letter-spacing: -0.0762px;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
-    .cell-machine .machine-cell-line {
+    .t-info .t-line {
       font-size: 11px;
       font-weight: 400;
       line-height: 16.5px;
@@ -373,57 +357,67 @@
       text-transform: uppercase;
       letter-spacing: 0.0645px;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
-    /* Commission Nr — semibold teal */
-    .cell-commission {
+    /* Cells de dados — todas absolutas, alinhadas com seus headers */
+    .t-commission,
+    .t-date,
+    .t-hours,
+    .t-family {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
       font-size: 12px;
+      line-height: 18px;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: 'tnum';
+    }
+    .t-commission {
+      left: 900px;
       font-weight: 600;
-      line-height: 18px;
       color: #007167;
-      font-variant-numeric: tabular-nums;
-      font-feature-settings: 'tnum';
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
-
-    /* Date/Hours: regular gray */
-    .cell-date,
-    .cell-hours {
-      font-size: 12px;
+    .t-date {
+      left: 1030px;
       font-weight: 400;
-      line-height: 18px;
       color: #374151;
-      font-variant-numeric: tabular-nums;
-      font-feature-settings: 'tnum';
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
-
-    /* Family — pode quebrar em 2 linhas */
-    .cell-family {
-      font-size: 12px;
+    .t-hours {
+      left: 1150px;
       font-weight: 400;
-      line-height: 18px;
+      color: #374151;
+      white-space: nowrap;
+    }
+    /* Family — width 68px força "Wet Grinding" a quebrar em 2 linhas (igual Figma) */
+    .t-family {
+      left: 1250px;
+      width: 68px;
+      font-weight: 400;
       color: #374151;
       white-space: normal;
-      word-break: normal;
       overflow-wrap: break-word;
     }
 
-    /* Arrow chevron */
-    .cell-arrow img {
+    /* Chevron na ponta direita */
+    .t-arrow {
+      position: absolute;
+      left: 1350px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .t-arrow img {
       width: 6px;
       height: 10px;
       display: block;
       opacity: 0.7;
       transition: opacity 0.15s ease, transform 0.15s ease;
     }
-    .machine-row:hover .cell-arrow img {
+    .machine-row:hover .t-arrow img {
       opacity: 1;
       transform: translateX(2px);
     }
@@ -1038,105 +1032,93 @@
       <p class="empty-state" id="empty-state" hidden>No machines match your filters.</p>
     </div>
 
-    <!-- Table view (CSS Grid) -->
+    <!-- Table view (absolute positioning, mirror Figma 182:12533) -->
     <div class="machine-table-wrap" id="machine-table-wrap" hidden>
       <div class="machine-table">
-        <!-- Header row -->
-        <div class="machine-thead-row" role="row">
-          <div class="head-photo"></div>
-          <div class="head-machine">Machine</div>
-          <div class="head-commission">Commission Nr.</div>
-          <div class="head-date">Install Date</div>
-          <div class="head-hours">Hours</div>
-          <div class="head-family">Family</div>
-          <div class="head-arrow"></div>
+        <!-- Header -->
+        <div class="t-row t-head">
+          <span class="t-h-machine">Machine</span>
+          <span class="t-h-commission">Commission Nr.</span>
+          <span class="t-h-date">Install Date</span>
+          <span class="t-h-hours">Hours</span>
+          <span class="t-h-family">Family</span>
         </div>
 
-        <!-- Body rows -->
-        <div class="machine-tbody" id="machine-tbody">
-          <div class="machine-row" data-machine
+        <!-- Body -->
+        <div class="t-tbody" id="machine-tbody">
+          <div class="t-row machine-row" data-machine
                data-name="Discus 30" data-line="line 1" data-app="Wet Grinding"
                data-commission="2801548-10" data-hours="10345" data-install="2024-08-20">
-            <div class="cell-photo">
-              <div class="machine-cell-photo"><img src="../assets/machine-discus30.png" alt=""></div>
+            <div class="t-photo"><img src="../assets/machine-discus30.png" alt=""></div>
+            <div class="t-info">
+              <span class="t-name">Discus 30</span>
+              <span class="t-line">Line 1</span>
             </div>
-            <div class="cell-machine">
-              <span class="machine-cell-name">Discus 30</span>
-              <span class="machine-cell-line">Line 1</span>
-            </div>
-            <div class="cell-commission">2801548-10</div>
-            <div class="cell-date">2024-08-20</div>
-            <div class="cell-hours">10,345 h</div>
-            <div class="cell-family">Wet Grinding</div>
-            <div class="cell-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
+            <span class="t-commission">2801548-10</span>
+            <span class="t-date">2024-08-20</span>
+            <span class="t-hours">10,345 h</span>
+            <span class="t-family">Wet Grinding</span>
+            <div class="t-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
           </div>
 
-          <div class="machine-row" data-machine
+          <div class="t-row machine-row" data-machine
                data-name="Zeta 60" data-line="black production only" data-app="Dispersing"
                data-commission="15202462-20" data-hours="8720" data-install="2024-06-15">
-            <div class="cell-photo">
-              <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
+            <div class="t-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
+            <div class="t-info">
+              <span class="t-name">Zeta 60</span>
+              <span class="t-line">Black Production Only</span>
             </div>
-            <div class="cell-machine">
-              <span class="machine-cell-name">Zeta 60</span>
-              <span class="machine-cell-line">Black Production Only</span>
-            </div>
-            <div class="cell-commission">15202462-20</div>
-            <div class="cell-date">2024-06-15</div>
-            <div class="cell-hours">8,720 h</div>
-            <div class="cell-family">Dispersing</div>
-            <div class="cell-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
+            <span class="t-commission">15202462-20</span>
+            <span class="t-date">2024-06-15</span>
+            <span class="t-hours">8,720 h</span>
+            <span class="t-family">Dispersing</span>
+            <div class="t-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
           </div>
 
-          <div class="machine-row" data-machine
+          <div class="t-row machine-row" data-machine
                data-name="MasterMix 45" data-line="line 3" data-app="Mixer"
                data-commission="15202531-10" data-hours="14210" data-install="2024-08-20">
-            <div class="cell-photo">
-              <div class="machine-cell-photo"><img src="../assets/machine-mastermix45.png" alt=""></div>
+            <div class="t-photo"><img src="../assets/machine-mastermix45.png" alt=""></div>
+            <div class="t-info">
+              <span class="t-name">MasterMix 45</span>
+              <span class="t-line">Line 3</span>
             </div>
-            <div class="cell-machine">
-              <span class="machine-cell-name">MasterMix 45</span>
-              <span class="machine-cell-line">Line 3</span>
-            </div>
-            <div class="cell-commission">15202531-10</div>
-            <div class="cell-date">2024-08-20</div>
-            <div class="cell-hours">14,210 h</div>
-            <div class="cell-family">Mixer</div>
-            <div class="cell-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
+            <span class="t-commission">15202531-10</span>
+            <span class="t-date">2024-08-20</span>
+            <span class="t-hours">14,210 h</span>
+            <span class="t-family">Mixer</span>
+            <div class="t-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
           </div>
 
-          <div class="machine-row" data-machine
+          <div class="t-row machine-row" data-machine
                data-name="ProPhi" data-line="line 4" data-app="Wet Grinding"
                data-commission="15202530-10" data-hours="6580" data-install="2024-08-20">
-            <div class="cell-photo">
-              <div class="machine-cell-photo"><img src="../assets/machine-prophi.png" alt=""></div>
+            <div class="t-photo"><img src="../assets/machine-prophi.png" alt=""></div>
+            <div class="t-info">
+              <span class="t-name">ProPhi</span>
+              <span class="t-line">Line 4</span>
             </div>
-            <div class="cell-machine">
-              <span class="machine-cell-name">ProPhi</span>
-              <span class="machine-cell-line">Line 4</span>
-            </div>
-            <div class="cell-commission">15202530-10</div>
-            <div class="cell-date">2024-08-20</div>
-            <div class="cell-hours">6,580 h</div>
-            <div class="cell-family">Wet Grinding</div>
-            <div class="cell-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
+            <span class="t-commission">15202530-10</span>
+            <span class="t-date">2024-08-20</span>
+            <span class="t-hours">6,580 h</span>
+            <span class="t-family">Wet Grinding</span>
+            <div class="t-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
           </div>
 
-          <div class="machine-row" data-machine
+          <div class="t-row machine-row" data-machine
                data-name="Alpha Zeta 10" data-line="white production only" data-app="Wet Grinding"
                data-commission="80204882" data-hours="3190" data-install="2024-09-10">
-            <div class="cell-photo">
-              <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
+            <div class="t-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
+            <div class="t-info">
+              <span class="t-name">Alpha Zeta 10</span>
+              <span class="t-line">White Production Only</span>
             </div>
-            <div class="cell-machine">
-              <span class="machine-cell-name">Alpha Zeta 10</span>
-              <span class="machine-cell-line">White Production Only</span>
-            </div>
-            <div class="cell-commission">80204882</div>
-            <div class="cell-date">2024-09-10</div>
-            <div class="cell-hours">3,190 h</div>
-            <div class="cell-family">Wet Grinding</div>
-            <div class="cell-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
+            <span class="t-commission">80204882</span>
+            <span class="t-date">2024-09-10</span>
+            <span class="t-hours">3,190 h</span>
+            <span class="t-family">Wet Grinding</span>
+            <div class="t-arrow"><img src="../assets/icon-row-chevron.svg" alt=""></div>
           </div>
         </div>
       </div>
