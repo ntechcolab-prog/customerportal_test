@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Submitted — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─────────────────────────────────────────────── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider {
+      width: 1px;
+      height: 24px;
+      background: rgba(255,255,255,0.3);
+    }
+    .topbar-label {
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      white-space: nowrap;
+    }
+
+    /* ── STAGE (full-bleed bg + centered card) ───────────────── */
+    .stage {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stage-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .stage-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+        rgba(5,103,100,0.7) 43%,
+        rgba(58,124,120,0.74) 54%,
+        rgba(125,166,163,0.83) 76%,
+        rgba(238,244,243,0.98) 113%,
+        #fff 119%
+      );
+    }
+
+    .stage-header {
+      position: relative;
+      z-index: 1;
+      margin-top: 33px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stage-header-icon { width: 40px; height: 40px; object-fit: contain; }
+    .stage-header-text {
+      font-size: 24px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 32px;
+      letter-spacing: 0.07px;
+      white-space: nowrap;
+    }
+
+    .card-wrapper {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .submitted-card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
+    }
+
+    .check-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #e5f1f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .check-circle img {
+      width: 30px;
+      height: auto;
+      display: block;
+    }
+
+    .submitted-title {
+      font-size: 24px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 32px;
+      letter-spacing: 0.07px;
+      text-align: center;
+      max-width: 280px;
+    }
+
+    .submitted-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+      line-height: 20px;
+      letter-spacing: -0.15px;
+      text-align: center;
+    }
+
+    .btn-home {
+      width: 100%;
+      height: 44px;
+      background: #007167;
+      color: #fff;
+      border: 0.784px solid #fff;
+      border-radius: 64px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: -0.31px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      margin-top: 8px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-home:hover { opacity: 0.9; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="home.html" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- STAGE -->
+  <div class="stage">
+    <img class="stage-bg" src="../assets/register-bg.png" alt="">
+    <div class="stage-overlay"></div>
+
+    <!-- Centered top header -->
+    <div class="stage-header">
+      <img class="stage-header-icon" src="../assets/gd-logo-white.svg" alt="">
+      <span class="stage-header-text">G&amp;D Customer Portal</span>
+    </div>
+
+    <!-- Centered card -->
+    <div class="card-wrapper">
+      <div class="submitted-card" role="status" aria-live="polite">
+        <div class="check-circle" aria-hidden="true">
+          <img src="../assets/icon-check-success.svg" alt="">
+        </div>
+        <h1 class="submitted-title">Your registration has been submitted</h1>
+        <p class="submitted-text">We have received your information. Within 72 hours, you will get an email with the confirmation and a link to create your password.</p>
+        <a class="btn-home" href="home.html">Return to Homepage</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
