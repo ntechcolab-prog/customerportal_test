@@ -10,6 +10,13 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Apple-style easing curves */
+    :root {
+      --ease-apple:    cubic-bezier(0.32, 0.72, 0, 1);     /* iOS / macOS signature */
+      --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);       /* "ease out expo" smooth landing */
+      --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);   /* leve overshoot pra spring feel */
+    }
+
     body {
       font-family: 'Inter', sans-serif;
       background: #f6f6f6;
@@ -281,7 +288,14 @@
       border-radius: 16px;
       padding: 32px 24px 28px;
       overflow: hidden;
-      transition: padding 0.25s ease;
+      box-shadow: 0 8px 24px rgba(0, 113, 103, 0.15);
+      transition:
+        padding 0.6s var(--ease-apple),
+        box-shadow 0.6s var(--ease-apple);
+    }
+    .milla-banner.is-open {
+      padding: 24px 32px;
+      box-shadow: 0 16px 48px rgba(0, 113, 103, 0.25);
     }
     .milla-banner-bg {
       position: absolute;
@@ -291,6 +305,11 @@
       object-fit: cover;
       pointer-events: none;
       opacity: 0.5;
+      transition: opacity 0.6s var(--ease-apple), transform 0.8s var(--ease-out);
+    }
+    .milla-banner.is-open .milla-banner-bg {
+      opacity: 0.7;
+      transform: scale(1.05);
     }
 
     /* COLLAPSED STATE */
@@ -302,6 +321,8 @@
       align-items: center;
       gap: 14px;
     }
+    .milla-banner.is-open .milla-collapsed { display: none; }
+
     .btn-milla {
       height: 48px;
       padding: 0 28px;
@@ -319,13 +340,30 @@
       align-items: center;
       gap: 10px;
       letter-spacing: -0.2px;
-      transition: background 0.15s, transform 0.15s;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        transform 0.4s var(--ease-spring),
+        box-shadow 0.4s var(--ease-apple);
     }
     .btn-milla:hover {
       background: rgba(255,255,255,0.24);
-      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.45);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
     }
-    .btn-milla img { width: 20px; height: 20px; }
+    .btn-milla:active {
+      transform: translateY(0) scale(0.97);
+      transition-duration: 0.1s;
+    }
+    .btn-milla img {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.5s var(--ease-spring);
+    }
+    .btn-milla:hover img {
+      transform: rotate(180deg) scale(1.1);
+    }
     .milla-subtitle {
       font-size: 13px;
       font-weight: 500;
@@ -339,9 +377,21 @@
       z-index: 1;
       display: none;
     }
-    .milla-banner.is-open .milla-collapsed { display: none; }
-    .milla-banner.is-open .milla-expanded { display: block; }
-    .milla-banner.is-open { padding: 24px 32px; }
+    .milla-banner.is-open .milla-expanded {
+      display: block;
+      animation: milla-expand-in 0.6s var(--ease-out) both;
+    }
+
+    @keyframes milla-expand-in {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
     .milla-expanded-head {
       display: flex;
@@ -365,6 +415,26 @@
       color: rgba(255,255,255,0.65);
       margin-bottom: 20px;
     }
+    /* Stagger title + subtitle */
+    .milla-banner.is-open .milla-expanded-head {
+      animation: milla-text-up 0.5s var(--ease-out) both;
+      animation-delay: 0.1s;
+    }
+    .milla-banner.is-open .milla-expanded-subtitle {
+      animation: milla-text-up 0.5s var(--ease-out) both;
+      animation-delay: 0.18s;
+    }
+    @keyframes milla-text-up {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .milla-close {
       position: absolute;
       top: 16px;
@@ -379,14 +449,37 @@
       justify-content: center;
       cursor: pointer;
       color: rgba(255,255,255,0.8);
-      transition: background 0.15s;
+      transition:
+        background 0.3s var(--ease-apple),
+        border-color 0.3s var(--ease-apple),
+        transform 0.4s var(--ease-spring);
       z-index: 2;
     }
     .milla-close:hover {
       background: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.35);
       color: #fff;
+      transform: rotate(90deg) scale(1.08);
+    }
+    .milla-close:active {
+      transform: rotate(90deg) scale(0.92);
+      transition-duration: 0.1s;
     }
     .milla-close img { width: 12px; height: 12px; }
+    .milla-banner.is-open .milla-close {
+      animation: milla-pop-in 0.5s var(--ease-spring) both;
+      animation-delay: 0.25s;
+    }
+    @keyframes milla-pop-in {
+      from {
+        opacity: 0;
+        transform: scale(0.4) rotate(-90deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
 
     /* Method picker (Photo / Description / Product Code) */
     .milla-methods {
@@ -404,23 +497,69 @@
       align-items: center;
       gap: 10px;
       cursor: pointer;
-      transition: background 0.15s, transform 0.15s, border-color 0.15s;
       text-decoration: none;
       color: #fff;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        transform 0.5s var(--ease-spring),
+        box-shadow 0.4s var(--ease-apple);
     }
     .method-card:hover {
-      background: rgba(255,255,255,0.18);
-      border-color: rgba(255,255,255,0.32);
-      transform: translateY(-2px);
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+    }
+    .method-card:active {
+      transform: translateY(-1px) scale(0.99);
+      transition-duration: 0.1s;
     }
     .method-card img {
       width: 28px;
       height: 28px;
+      transition: transform 0.5s var(--ease-spring);
+    }
+    .method-card:hover img {
+      transform: scale(1.15) rotate(-4deg);
     }
     .method-card span {
       font-size: 14px;
       font-weight: 500;
       letter-spacing: -0.05px;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .method-card:hover span {
+      transform: translateY(2px);
+    }
+
+    /* Stagger entrance dos method cards */
+    .milla-banner.is-open .method-card {
+      animation: milla-card-in 0.65s var(--ease-out) both;
+    }
+    .milla-banner.is-open .method-card:nth-child(1) { animation-delay: 0.22s; }
+    .milla-banner.is-open .method-card:nth-child(2) { animation-delay: 0.30s; }
+    .milla-banner.is-open .method-card:nth-child(3) { animation-delay: 0.38s; }
+    @keyframes milla-card-in {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Respeitar prefers-reduced-motion (WCAG AAA) */
+    @media (prefers-reduced-motion: reduce) {
+      .milla-banner,
+      .milla-banner *,
+      .milla-banner *::before,
+      .milla-banner *::after {
+        animation-duration: 0.001s !important;
+        transition-duration: 0.001s !important;
+      }
     }
 
     /* "or" divider + select subset card */
