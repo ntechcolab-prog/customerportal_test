@@ -252,7 +252,112 @@
       pointer-events: none;
     }
 
-    .machine-card.is-hidden { display: none; }
+    .machine-card.is-hidden,
+    .machine-row.is-hidden { display: none; }
+
+    /* ── TABLE VIEW ─── */
+    .machine-table-wrap {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .machine-table-wrap[hidden] { display: none; }
+
+    .machine-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .machine-table thead tr {
+      background: #007167;
+    }
+    .machine-table thead th {
+      padding: 14px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      text-align: left;
+      letter-spacing: 0.2px;
+      text-transform: none;
+    }
+    .machine-table thead th.col-machine { width: 32%; }
+    .machine-table thead th.col-commission { width: 16%; }
+    .machine-table thead th.col-date { width: 14%; }
+    .machine-table thead th.col-hours { width: 12%; }
+    .machine-table thead th.col-family { width: 18%; }
+    .machine-table thead th.col-arrow { width: 8%; text-align: right; }
+
+    .machine-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .machine-table tbody tr:last-child { border-bottom: none; }
+    .machine-table tbody tr:hover { background: #f9fafb; }
+
+    .machine-table tbody td {
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #374151;
+      vertical-align: middle;
+    }
+
+    .machine-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .machine-cell-photo {
+      width: 40px;
+      height: 40px;
+      background: #fafbfc;
+      border-radius: 6px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+    .machine-cell-photo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .machine-cell-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .machine-cell-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .machine-cell-line {
+      font-size: 11px;
+      font-weight: 500;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .machine-table .col-commission-cell {
+      color: #007167;
+      font-weight: 600;
+    }
+
+    .machine-table .col-arrow-cell {
+      text-align: right;
+    }
+    .machine-table .col-arrow-cell img {
+      width: 14px;
+      height: auto;
+      display: inline-block;
+      vertical-align: middle;
+    }
 
     .empty-state {
       grid-column: 1 / -1;
@@ -656,11 +761,11 @@
 
     <!-- Toolbar (view toggle) -->
     <div class="toolbar">
-      <div class="view-toggle">
-        <button type="button" aria-label="List view">
+      <div class="view-toggle" id="view-toggle">
+        <button type="button" data-view="list" aria-label="List view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
         </button>
-        <button type="button" class="active" aria-label="Card view">
+        <button type="button" data-view="grid" class="active" aria-label="Card view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
         </button>
       </div>
@@ -862,6 +967,115 @@
 
       <p class="empty-state" id="empty-state" hidden>No machines match your filters.</p>
     </div>
+
+    <!-- Table view (hidden by default) -->
+    <div class="machine-table-wrap" id="machine-table-wrap" hidden>
+      <table class="machine-table">
+        <thead>
+          <tr>
+            <th class="col-machine">Machine</th>
+            <th class="col-commission">Commission Nr.</th>
+            <th class="col-date">Install Date</th>
+            <th class="col-hours">Hours</th>
+            <th class="col-family">Family</th>
+            <th class="col-arrow"></th>
+          </tr>
+        </thead>
+        <tbody id="machine-tbody">
+          <tr class="machine-row" data-machine
+              data-name="Discus 30" data-line="line 1" data-app="Wet Grinding"
+              data-commission="2801548-10" data-hours="10345" data-install="2024-08-20">
+            <td>
+              <div class="machine-cell">
+                <div class="machine-cell-photo"><img src="../assets/machine-discus30.png" alt=""></div>
+                <div class="machine-cell-text">
+                  <span class="machine-cell-name">Discus 30</span>
+                  <span class="machine-cell-line">Line 1</span>
+                </div>
+              </div>
+            </td>
+            <td class="col-commission-cell">2801548-10</td>
+            <td>2024-08-20</td>
+            <td>10,345 h</td>
+            <td>Wet Grinding</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+          </tr>
+          <tr class="machine-row" data-machine
+              data-name="Zeta 60" data-line="black production only" data-app="Dispersing"
+              data-commission="15202462-20" data-hours="8720" data-install="2024-06-15">
+            <td>
+              <div class="machine-cell">
+                <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
+                <div class="machine-cell-text">
+                  <span class="machine-cell-name">Zeta 60</span>
+                  <span class="machine-cell-line">Black Production Only</span>
+                </div>
+              </div>
+            </td>
+            <td class="col-commission-cell">15202462-20</td>
+            <td>2024-06-15</td>
+            <td>8,720 h</td>
+            <td>Dispersing</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+          </tr>
+          <tr class="machine-row" data-machine
+              data-name="MasterMix 45" data-line="line 3" data-app="Mixer"
+              data-commission="15202531-10" data-hours="14210" data-install="2024-08-20">
+            <td>
+              <div class="machine-cell">
+                <div class="machine-cell-photo"><img src="../assets/machine-mastermix45.png" alt=""></div>
+                <div class="machine-cell-text">
+                  <span class="machine-cell-name">MasterMix 45</span>
+                  <span class="machine-cell-line">Line 3</span>
+                </div>
+              </div>
+            </td>
+            <td class="col-commission-cell">15202531-10</td>
+            <td>2024-08-20</td>
+            <td>14,210 h</td>
+            <td>Mixer</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+          </tr>
+          <tr class="machine-row" data-machine
+              data-name="ProPhi" data-line="line 4" data-app="Wet Grinding"
+              data-commission="15202530-10" data-hours="6580" data-install="2024-08-20">
+            <td>
+              <div class="machine-cell">
+                <div class="machine-cell-photo"><img src="../assets/machine-prophi.png" alt=""></div>
+                <div class="machine-cell-text">
+                  <span class="machine-cell-name">ProPhi</span>
+                  <span class="machine-cell-line">Line 4</span>
+                </div>
+              </div>
+            </td>
+            <td class="col-commission-cell">15202530-10</td>
+            <td>2024-08-20</td>
+            <td>6,580 h</td>
+            <td>Wet Grinding</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+          </tr>
+          <tr class="machine-row" data-machine
+              data-name="Alpha Zeta 10" data-line="white production only" data-app="Wet Grinding"
+              data-commission="80204882" data-hours="3190" data-install="2024-09-10">
+            <td>
+              <div class="machine-cell">
+                <div class="machine-cell-photo"><img src="../assets/machine-zeta60.png" alt=""></div>
+                <div class="machine-cell-text">
+                  <span class="machine-cell-name">Alpha Zeta 10</span>
+                  <span class="machine-cell-line">White Production Only</span>
+                </div>
+              </div>
+            </td>
+            <td class="col-commission-cell">80204882</td>
+            <td>2024-09-10</td>
+            <td>3,190 h</td>
+            <td>Wet Grinding</td>
+            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="empty-state" id="empty-state-table" hidden style="padding:32px 24px;">No machines match your filters.</p>
+    </div>
   </div>
 
   <script>
@@ -875,14 +1089,37 @@
       btnFilters.setAttribute('aria-pressed', String(open));
     });
 
-    // ── Filter + sort logic ────────────────────────────────
+    // ── View toggle (grid <-> list) ────────────────────────
     const grid = document.querySelector('.machine-grid');
-    const cards = Array.from(document.querySelectorAll('.machine-card'));
+    const tableWrap = document.getElementById('machine-table-wrap');
+    const viewToggle = document.getElementById('view-toggle');
+
+    viewToggle.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        viewToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const view = btn.dataset.view;
+        if (view === 'list') {
+          grid.hidden = true;
+          tableWrap.hidden = false;
+        } else {
+          grid.hidden = false;
+          tableWrap.hidden = true;
+        }
+      });
+    });
+
+    // ── Filter + sort logic ────────────────────────────────
+    const tbody = document.getElementById('machine-tbody');
+    const cards = Array.from(document.querySelectorAll('.machine-grid .machine-card'));
+    const rows = Array.from(document.querySelectorAll('#machine-tbody .machine-row'));
+    const items = [...cards, ...rows]; // todos os "data-machine" pra filtragem
     const search = document.getElementById('filter-search');
     const sortBy = document.getElementById('filter-sort');
     const appFilter = document.getElementById('filter-app');
     const btnClear = document.getElementById('btn-clear');
     const emptyState = document.getElementById('empty-state');
+    const emptyStateTable = document.getElementById('empty-state-table');
 
     function refreshClearVisibility() {
       const hasAny = search.value.trim() || sortBy.value || appFilter.value;
@@ -893,26 +1130,30 @@
       const q = (search.value || '').trim().toLowerCase();
       const app = appFilter.value;
 
-      let visible = 0;
-      cards.forEach(card => {
-        const name = (card.dataset.name || '').toLowerCase();
-        const line = (card.dataset.line || '').toLowerCase();
-        const commission = (card.dataset.commission || '').toLowerCase();
-        const cardApp = card.dataset.app || '';
+      let visibleCards = 0, visibleRows = 0;
+      items.forEach(el => {
+        const name = (el.dataset.name || '').toLowerCase();
+        const line = (el.dataset.line || '').toLowerCase();
+        const commission = (el.dataset.commission || '').toLowerCase();
+        const elApp = el.dataset.app || '';
 
         const matchesQ = !q || name.includes(q) || commission.includes(q) || line.includes(q);
-        const matchesApp = !app || cardApp === app;
+        const matchesApp = !app || elApp === app;
 
         const show = matchesQ && matchesApp;
-        card.classList.toggle('is-hidden', !show);
-        if (show) visible++;
+        el.classList.toggle('is-hidden', !show);
+        if (show) {
+          if (el.classList.contains('machine-card')) visibleCards++;
+          else visibleRows++;
+        }
       });
 
-      emptyState.hidden = visible > 0;
+      emptyState.hidden = visibleCards > 0;
+      emptyStateTable.hidden = visibleRows > 0;
 
-      // Sort
+      // Sort: aplica em ambas as views
       if (sortBy.value) {
-        const sorted = [...cards].sort((a, b) => {
+        const cmp = (a, b) => {
           switch (sortBy.value) {
             case 'name': return a.dataset.name.localeCompare(b.dataset.name);
             case 'hours-desc': return Number(b.dataset.hours) - Number(a.dataset.hours);
@@ -920,9 +1161,10 @@
             case 'install': return b.dataset.install.localeCompare(a.dataset.install);
             default: return 0;
           }
-        });
-        sorted.forEach(c => grid.appendChild(c));
+        };
+        [...cards].sort(cmp).forEach(c => grid.appendChild(c));
         grid.appendChild(emptyState);
+        [...rows].sort(cmp).forEach(r => tbody.appendChild(r));
       }
     }
 
@@ -934,9 +1176,10 @@
       search.value = '';
       sortBy.value = '';
       appFilter.value = '';
-      // Restore original card order
+      // Restore original order in both views
       cards.forEach(c => grid.appendChild(c));
       grid.appendChild(emptyState);
+      rows.forEach(r => tbody.appendChild(r));
       applyFilters();
       refreshClearVisibility();
       search.focus();
