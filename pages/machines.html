@@ -266,20 +266,19 @@
     .machine-table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
     }
 
     .machine-table thead tr { background: #007167; }
     .machine-table thead th {
-      padding: 16px 20px;
+      padding: 14px 20px;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       color: #fff;
       text-align: left;
       letter-spacing: -0.05px;
       white-space: nowrap;
     }
-    .machine-table thead th.col-arrow { width: 40px; padding-right: 24px; }
-    .machine-table thead th.num { text-align: right; }
 
     .machine-table tbody tr {
       border-top: 1px solid #f3f4f6;
@@ -290,35 +289,37 @@
     .machine-table tbody tr.is-hidden { display: none; }
 
     .machine-table tbody td {
-      padding: 16px 20px;
+      padding: 14px 20px;
       font-size: 13px;
       color: #374151;
       vertical-align: middle;
+      line-height: 1.4;
     }
-    .machine-table tbody td.num { text-align: right; }
-    .machine-table tbody td.col-arrow-cell {
-      width: 40px;
-      padding-right: 24px;
-      text-align: right;
-    }
+
+    .machine-table .col-machine    { width: 32%; }
+    .machine-table .col-commission { width: 16%; }
+    .machine-table .col-date       { width: 14%; }
+    .machine-table .col-hours      { width: 12%; }
+    .machine-table .col-family     { width: 18%; }
+    .machine-table .col-arrow      { width: 8%;  text-align: right; padding-right: 24px; }
 
     .machine-cell {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       min-width: 0;
     }
     .machine-cell-photo {
-      width: 44px;
-      height: 44px;
+      width: 36px;
+      height: 36px;
       background: #fafbfc;
       border: 1px solid #f3f4f6;
-      border-radius: 8px;
+      border-radius: 6px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4px;
+      padding: 3px;
     }
     .machine-cell-photo img {
       max-width: 100%;
@@ -328,21 +329,28 @@
     .machine-cell-text {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 1px;
       min-width: 0;
+      overflow: hidden;
     }
     .machine-cell-name {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #1f2937;
       letter-spacing: -0.1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .machine-cell-line {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 500;
       color: #9ca3af;
       text-transform: uppercase;
       letter-spacing: 0.4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .machine-table .col-commission-cell {
@@ -353,7 +361,7 @@
       width: 14px;
       height: auto;
       display: inline-block;
-      opacity: 0.5;
+      opacity: 0.4;
     }
     .machine-table tbody tr:hover .col-arrow-cell img { opacity: 1; }
 
@@ -970,14 +978,22 @@
     <!-- Table view (hidden by default) -->
     <div class="machine-table-wrap" id="machine-table-wrap" hidden>
       <table class="machine-table">
+        <colgroup>
+          <col class="col-machine">
+          <col class="col-commission">
+          <col class="col-date">
+          <col class="col-hours">
+          <col class="col-family">
+          <col class="col-arrow">
+        </colgroup>
         <thead>
           <tr>
             <th>Machine</th>
-            <th class="num">Commission Nr.</th>
+            <th>Commission Nr.</th>
             <th>Install Date</th>
-            <th class="num">Hours</th>
+            <th>Hours</th>
             <th>Family</th>
-            <th class="col-arrow"></th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="machine-tbody">
@@ -993,11 +1009,11 @@
                 </div>
               </div>
             </td>
-            <td class="col-commission-cell num">2801548-10</td>
+            <td class="col-commission-cell">2801548-10</td>
             <td>2024-08-20</td>
-            <td class="num">10,345 h</td>
+            <td>10,345 h</td>
             <td>Wet Grinding</td>
-            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
           <tr class="machine-row" data-machine
               data-name="Zeta 60" data-line="black production only" data-app="Dispersing"
@@ -1011,11 +1027,11 @@
                 </div>
               </div>
             </td>
-            <td class="col-commission-cell num">15202462-20</td>
+            <td class="col-commission-cell">15202462-20</td>
             <td>2024-06-15</td>
-            <td class="num">8,720 h</td>
+            <td>8,720 h</td>
             <td>Dispersing</td>
-            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
           <tr class="machine-row" data-machine
               data-name="MasterMix 45" data-line="line 3" data-app="Mixer"
@@ -1029,11 +1045,11 @@
                 </div>
               </div>
             </td>
-            <td class="col-commission-cell num">15202531-10</td>
+            <td class="col-commission-cell">15202531-10</td>
             <td>2024-08-20</td>
-            <td class="num">14,210 h</td>
+            <td>14,210 h</td>
             <td>Mixer</td>
-            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
           <tr class="machine-row" data-machine
               data-name="ProPhi" data-line="line 4" data-app="Wet Grinding"
@@ -1047,11 +1063,11 @@
                 </div>
               </div>
             </td>
-            <td class="col-commission-cell num">15202530-10</td>
+            <td class="col-commission-cell">15202530-10</td>
             <td>2024-08-20</td>
-            <td class="num">6,580 h</td>
+            <td>6,580 h</td>
             <td>Wet Grinding</td>
-            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
           <tr class="machine-row" data-machine
               data-name="Alpha Zeta 10" data-line="white production only" data-app="Wet Grinding"
@@ -1065,11 +1081,11 @@
                 </div>
               </div>
             </td>
-            <td class="col-commission-cell num">80204882</td>
+            <td class="col-commission-cell">80204882</td>
             <td>2024-09-10</td>
-            <td class="num">3,190 h</td>
+            <td>3,190 h</td>
             <td>Wet Grinding</td>
-            <td class="col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
+            <td class="col-arrow col-arrow-cell"><img src="../assets/icon-card-chevron.svg" alt=""></td>
           </tr>
         </tbody>
       </table>
