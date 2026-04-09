@@ -122,15 +122,12 @@
       gap: 24px;
     }
 
-    /* ── SUMMARY CARD (title + actions + stats) ─── */
+    /* ── SUMMARY CARD (title + actions only) ─── */
     .summary {
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+      padding: 20px 24px;
     }
 
     /* ── PAGE HEADER ─── */
@@ -194,7 +191,7 @@
       gap: 16px;
     }
     .stat-card {
-      background: #f9fafb;
+      background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 12px;
       padding: 18px 20px;
@@ -470,7 +467,7 @@
   <!-- PAGE -->
   <div class="page">
 
-    <!-- Summary card: title + actions + stats -->
+    <!-- Summary card: title + actions -->
     <div class="summary">
       <div class="page-header">
         <h1 class="page-title">Machines</h1>
@@ -485,6 +482,7 @@
           </button>
         </div>
       </div>
+    </div>
 
     <!-- Stats -->
     <div class="stats">
@@ -524,7 +522,6 @@
           <div class="stat-label">Avg. Operating Hours</div>
         </div>
       </div>
-    </div>
     </div>
 
     <!-- Toolbar (view toggle) -->
