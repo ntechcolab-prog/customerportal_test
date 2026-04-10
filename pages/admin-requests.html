@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Requests — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── ADMIN LAYOUT ─── */
+    .admin-layout {
+      flex: 1;
+      display: flex;
+      padding: 24px 32px 48px;
+      gap: 24px;
+    }
+
+    /* ── SIDEBAR ─── */
+    .admin-sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sidebar-nav {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: background 0.1s;
+    }
+    .sidebar-nav-item:not(:last-child) {
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .sidebar-nav-item:hover { background: #f9fafb; }
+    .sidebar-nav-item.active {
+      background: #f0faf9;
+      color: #007167;
+      font-weight: 600;
+      border-left-color: #007167;
+    }
+    .sidebar-nav-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* Need help card */
+    .help-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+    .help-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e8f5f3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .help-card-icon svg { width: 20px; height: 20px; color: #007167; }
+    .help-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .help-card-text {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+    .help-card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1px solid #007167;
+      border-radius: 999px;
+      background: #fff;
+      color: #007167;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .help-card-btn:hover { background: #f0faf9; }
+
+    /* ── MAIN CONTENT ─── */
+    .admin-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    /* ── TITLE BAR ─── */
+    .title-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .btn-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+    }
+    .btn-filters:hover { background: #f9fafb; }
+    .btn-filters svg { width: 16px; height: 16px; }
+
+    /* ── STAT CARDS ─── */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+    .stat-icon.teal { background: #e8f5f3; color: #007167; }
+    .stat-icon.orange { background: #fef3cd; color: #856404; }
+    .stat-icon.red { background: #fce4e4; color: #c73e20; }
+    .stat-icon.green { background: #d4edda; color: #155724; }
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    /* ── REQUESTS TABLE ─── */
+    .requests-table-wrap {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .requests-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .requests-table thead tr { background: #007167; }
+    .requests-table thead th {
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      text-align: left;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    .requests-table thead th .sort-icon {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-left: 4px;
+      vertical-align: middle;
+      opacity: 0.6;
+    }
+    .requests-table thead th:hover .sort-icon { opacity: 1; }
+    .requests-table thead th:last-child { cursor: default; }
+    .requests-table thead th.no-sort { cursor: default; }
+    .requests-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.1s;
+    }
+    .requests-table tbody tr:last-child { border-bottom: none; }
+    .requests-table tbody tr:hover { background: #fafbfc; }
+    .requests-table tbody td {
+      padding: 14px 20px;
+      font-size: 14px;
+      color: #374151;
+      vertical-align: middle;
+    }
+
+    /* Request cell (3 lines) */
+    .request-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 280px;
+    }
+    .request-cell-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .request-type-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      color: #fff;
+    }
+    .badge-order-approval { background: #007167; }
+    .badge-new-user { background: #7c3aed; }
+    .badge-blocked-order { background: #c73e20; }
+    .badge-access-request { background: #2563eb; }
+    .request-id {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .request-desc {
+      font-size: 13px;
+      color: #6b7280;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 380px;
+    }
+    .request-ref {
+      font-size: 12px;
+      color: #9ca3af;
+      font-family: 'Inter', monospace;
+    }
+
+    /* Requested By cell */
+    .requester-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .requester-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1f2937;
+    }
+    .requester-dept {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    /* Priority */
+    .priority {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .priority-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .priority-high .priority-dot { background: #dc2626; }
+    .priority-high { color: #dc2626; }
+    .priority-medium .priority-dot { background: #d97706; }
+    .priority-medium { color: #d97706; }
+    .priority-low .priority-dot { background: #16a34a; }
+    .priority-low { color: #16a34a; }
+
+    /* Status badges */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-pending { background: #fef3cd; color: #856404; }
+    .status-pending .status-dot { background: #856404; }
+    .status-escalated { background: #fce4e4; color: #c73e20; }
+    .status-escalated .status-dot { background: #c73e20; }
+    .status-approved { background: #e8f5f3; color: #007167; }
+    .status-approved .status-dot { background: #007167; }
+    .status-rejected { background: #fce4e4; color: #c73e20; }
+    .status-rejected .status-dot { background: #c73e20; }
+
+    /* Amount */
+    .amount-cell {
+      text-align: right;
+      font-weight: 600;
+      color: #1f2937;
+      white-space: nowrap;
+    }
+    .amount-none {
+      text-align: right;
+      color: #9ca3af;
+    }
+
+    /* Actions */
+    .actions-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 18px;
+      color: #9ca3af;
+      letter-spacing: 1px;
+    }
+    .actions-btn:hover { background: #f3f4f6; color: #374151; }
+
+    /* ── PAGINATION ─── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-top: 1px solid #f3f4f6;
+    }
+    .pagination-info {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .page-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 10px;
+      background: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: #6b7280;
+      cursor: pointer;
+      letter-spacing: -0.08px;
+    }
+    .page-btn:hover { background: #f3f4f6; }
+    .page-btn.active {
+      background: #007167;
+      color: #fff;
+      font-weight: 600;
+    }
+    .page-btn.active:hover { background: #005f57; }
+    .page-btn.disabled {
+      opacity: 0.3;
+      cursor: default;
+      pointer-events: none;
+    }
+    .page-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab">Shop</a>
+        <a href="orders.html" class="nav-tab">Orders</a>
+        <a href="quotes.html" class="nav-tab">Quotes</a>
+        <a href="services.html" class="nav-tab">Services</a>
+        <a href="help.html" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Admin</span>
+  </div>
+
+  <!-- ADMIN LAYOUT -->
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <nav class="sidebar-nav">
+        <a href="admin-users.html" class="sidebar-nav-item">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 10a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM3 17.5c0-3.5 3.134-5.5 7-5.5s7 2 7 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          User Management
+        </a>
+        <a href="admin-roles.html" class="sidebar-nav-item">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.167 7.5V5.833A4.167 4.167 0 0010 1.667a4.167 4.167 0 00-4.167 4.166V7.5M10 12.5v2.083" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="3.333" y="7.5" width="13.333" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          Access &amp; Roles
+        </a>
+        <a href="admin-requests.html" class="sidebar-nav-item active">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.667 10h6.666M6.667 13.333h4.166" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M11.667 2.5H5.833A2.5 2.5 0 003.333 5v10a2.5 2.5 0 002.5 2.5h8.334a2.5 2.5 0 002.5-2.5V7.5L11.667 2.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.667 2.5V7.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Requests
+        </a>
+        <a href="admin-company.html" class="sidebar-nav-item">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 17.5h15M4.167 17.5V5l7.5-2.5v15M11.667 17.5V7.5l5.833 2.5v7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7.5 8.333v.008M7.5 11.667v.008M7.5 15v.008" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Company Settings
+        </a>
+        <a href="admin-notifications.html" class="sidebar-nav-item">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2.5a5 5 0 00-5 5c0 5-2.5 6.667-2.5 6.667h15S15 12.5 15 7.5a5 5 0 00-5-5zM8.583 17.5a1.667 1.667 0 002.834 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Notifications
+        </a>
+      </nav>
+
+      <!-- Need help card -->
+      <div class="help-card">
+        <div class="help-card-icon">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M7.5 7.917a2.5 2.5 0 014.333 1.666c0 1.667-2.5 2.5-2.5 2.5M10 14.167v.008" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="help-card-title">Need help?</span>
+        <span class="help-card-text">Contact our support team for assistance with admin settings.</span>
+        <a href="help.html" class="help-card-btn">Get Help</a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+      <!-- TITLE BAR -->
+      <div class="title-bar">
+        <h1>Requests</h1>
+        <button class="btn-filters" id="btnFilters">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Filters
+        </button>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-icon teal">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 12h6M9 16h4M13 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V9l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M13 3v6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number">12</span>
+            <span class="stat-label">Total Requests</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number">6</span>
+            <span class="stat-label">Pending</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number">2</span>
+            <span class="stat-label">Escalated</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Approved</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- REQUESTS TABLE -->
+      <div class="requests-table-wrap">
+        <table class="requests-table">
+          <thead>
+            <tr>
+              <th>
+                Request
+                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </th>
+              <th>
+                Requested By
+                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </th>
+              <th>
+                Date
+                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </th>
+              <th>
+                Priority
+                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </th>
+              <th>
+                Status
+                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </th>
+              <th class="no-sort" style="text-align:right;">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- ROW 1 -->
+            <tr>
+              <td>
+                <div class="request-cell">
+                  <div class="request-cell-top">
+                    <span class="request-type-badge badge-order-approval">Order Approval</span>
+                    <span class="request-id">REQ-001</span>
+                  </div>
+                  <span class="request-desc">Grinding Beads YTZ® 0.8-1.0mm — 500 kg</span>
+                  <span class="request-ref">PO-2026-00847</span>
+                </div>
+              </td>
+              <td>
+                <div class="requester-cell">
+                  <span class="requester-name">Noah Anderson</span>
+                  <span class="requester-dept">Procurement</span>
+                </div>
+              </td>
+              <td>Mar 15, 2026</td>
+              <td>
+                <span class="priority priority-high">
+                  <span class="priority-dot"></span>
+                  High
+                </span>
+              </td>
+              <td>
+                <span class="status-badge status-pending">
+                  <span class="status-dot"></span>
+                  Pending
+                </span>
+              </td>
+              <td class="amount-cell">&euro;12,450.00</td>
+            </tr>
+            <!-- ROW 2 -->
+            <tr>
+              <td>
+                <div class="request-cell">
+                  <div class="request-cell-top">
+                    <span class="request-type-badge badge-new-user">New User</span>
+                    <span class="request-id">REQ-002</span>
+                  </div>
+                  <span class="request-desc">Portal access for sarah.klein@acme-corp.com</span>
+                  <span class="request-ref">USR-2026-0031</span>
+                </div>
+              </td>
+              <td>
+                <div class="requester-cell">
+                  <span class="requester-name">John Doe</span>
+                  <span class="requester-dept">Operations</span>
+                </div>
+              </td>
+              <td>Mar 14, 2026</td>
+              <td>
+                <span class="priority priority-medium">
+                  <span class="priority-dot"></span>
+                  Medium
+                </span>
+              </td>
+              <td>
+                <span class="status-badge status-pending">
+                  <span class="status-dot"></span>
+                  Pending
+                </span>
+              </td>
+              <td class="amount-none">&mdash;</td>
+            </tr>
+            <!-- ROW 3 -->
+            <tr>
+              <td>
+                <div class="request-cell">
+                  <div class="request-cell-top">
+                    <span class="request-type-badge badge-blocked-order">Blocked Order</span>
+                    <span class="request-id">REQ-003</span>
+                  </div>
+                  <span class="request-desc">Credit limit exceeded — ZetaRS® Spare Parts</span>
+                  <span class="request-ref">PO-2026-00838</span>
+                </div>
+              </td>
+              <td>
+                <div class="requester-cell">
+                  <span class="requester-name">Benjamin Reed</span>
+                  <span class="requester-dept">Procurement</span>
+                </div>
+              </td>
+              <td>Mar 13, 2026</td>
+              <td>
+                <span class="priority priority-high">
+                  <span class="priority-dot"></span>
+                  High
+                </span>
+              </td>
+              <td>
+                <span class="status-badge status-escalated">
+                  <span class="status-dot"></span>
+                  Escalated
+                </span>
+              </td>
+              <td class="amount-cell">&euro;28,900.00</td>
+            </tr>
+            <!-- ROW 4 -->
+            <tr>
+              <td>
+                <div class="request-cell">
+                  <div class="request-cell-top">
+                    <span class="request-type-badge badge-access-request">Access Request</span>
+                    <span class="request-id">REQ-004</span>
+                  </div>
+                  <span class="request-desc">Request Buyer role for Shop module</span>
+                  <span class="request-ref">ACC-2026-0034</span>
+                </div>
+              </td>
+              <td>
+                <div class="requester-cell">
+                  <span class="requester-name">Emma Wilson</span>
+                  <span class="requester-dept">Quality</span>
+                </div>
+              </td>
+              <td>Mar 13, 2026</td>
+              <td>
+                <span class="priority priority-low">
+                  <span class="priority-dot"></span>
+                  Low
+                </span>
+              </td>
+              <td>
+                <span class="status-badge status-pending">
+                  <span class="status-dot"></span>
+                  Pending
+                </span>
+              </td>
+              <td class="amount-none">&mdash;</td>
+            </tr>
+            <!-- ROW 5 -->
+            <tr>
+              <td>
+                <div class="request-cell">
+                  <div class="request-cell-top">
+                    <span class="request-type-badge badge-order-approval">Order Approval</span>
+                    <span class="request-id">REQ-005</span>
+                  </div>
+                  <span class="request-desc">Grinding Beads ZY® 1.2-1.4mm — 200 kg</span>
+                  <span class="request-ref">PO-2026-00641</span>
+                </div>
+              </td>
+              <td>
+                <div class="requester-cell">
+                  <span class="requester-name">Logan Thompson</span>
+                  <span class="requester-dept">Engineering</span>
+                </div>
+              </td>
+              <td>Mar 12, 2026</td>
+              <td>
+                <span class="priority priority-medium">
+                  <span class="priority-dot"></span>
+                  Medium
+                </span>
+              </td>
+              <td>
+                <span class="status-badge status-approved">
+                  <span class="status-dot"></span>
+                  Approved
+                </span>
+              </td>
+              <td class="amount-cell">&euro;5,320.00</td>
+            </tr>
+            <!-- ROW 6 -->
+            <tr>
+              <td>
+                <div class="request-cell">
+                  <div class="request-cell-top">
+                    <span class="request-type-badge badge-new-user">New User</span>
+                    <span class="request-id">REQ-006</span>
+                  </div>
+                  <span class="request-desc">Portal access for thomas.weber@acme-corp.c.</span>
+                  <span class="request-ref">USR-2026-0068</span>
+                </div>
+              </td>
+              <td>
+                <div class="requester-cell">
+                  <span class="requester-name">John Doe</span>
+                  <span class="requester-dept">Operations</span>
+                </div>
+              </td>
+              <td>Mar 11, 2026</td>
+              <td>
+                <span class="priority priority-medium">
+                  <span class="priority-dot"></span>
+                  Medium
+                </span>
+              </td>
+              <td>
+                <span class="status-badge status-approved">
+                  <span class="status-dot"></span>
+                  Approved
+                </span>
+              </td>
+              <td class="amount-none">&mdash;</td>
+            </tr>
+            <!-- ROW 7 -->
+            <tr>
+              <td>
+                <div class="request-cell">
+                  <div class="request-cell-top">
+                    <span class="request-type-badge badge-blocked-order">Blocked Order</span>
+                    <span class="request-id">REQ-007</span>
+                  </div>
+                  <span class="request-desc">Compliance review required — Restricted regi</span>
+                  <span class="request-ref">PO-2026-00835</span>
+                </div>
+              </td>
+              <td>
+                <div class="requester-cell">
+                  <span class="requester-name">Oliver Mitchell</span>
+                  <span class="requester-dept">Engineering</span>
+                </div>
+              </td>
+              <td>Mar 10, 2026</td>
+              <td>
+                <span class="priority priority-high">
+                  <span class="priority-dot"></span>
+                  High
+                </span>
+              </td>
+              <td>
+                <span class="status-badge status-pending">
+                  <span class="status-dot"></span>
+                  Pending
+                </span>
+              </td>
+              <td class="amount-cell">&euro;41,200.00</td>
+            </tr>
+            <!-- ROW 8 -->
+            <tr>
+              <td>
+                <div class="request-cell">
+                  <div class="request-cell-top">
+                    <span class="request-type-badge badge-access-request">Access Request</span>
+                    <span class="request-id">REQ-008</span>
+                  </div>
+                  <span class="request-desc">Request Approver role for Quotes module</span>
+                  <span class="request-ref">ACC-2026-0031</span>
+                </div>
+              </td>
+              <td>
+                <div class="requester-cell">
+                  <span class="requester-name">Sophia Martinez</span>
+                  <span class="requester-dept">Procurement</span>
+                </div>
+              </td>
+              <td>Mar 09, 2026</td>
+              <td>
+                <span class="priority priority-low">
+                  <span class="priority-dot"></span>
+                  Low
+                </span>
+              </td>
+              <td>
+                <span class="status-badge status-rejected">
+                  <span class="status-dot"></span>
+                  Rejected
+                </span>
+              </td>
+              <td class="amount-none">&mdash;</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- PAGINATION -->
+        <div class="pagination">
+          <span class="pagination-info">Showing 1–8 of 12 requests</span>
+          <div class="pagination-controls">
+            <button class="page-btn disabled" aria-label="Previous page">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn" aria-label="Next page">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access &amp; Roles — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── LAYOUT ─── */
+    .page-layout {
+      flex: 1;
+      display: flex;
+      padding: 24px 32px 48px;
+      gap: 24px;
+    }
+
+    /* ── SIDEBAR ─── */
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sidebar-nav {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: background 0.15s;
+    }
+    .sidebar-item:not(:last-child) {
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .sidebar-item:hover {
+      background: #f9fafb;
+    }
+    .sidebar-item.active {
+      color: #007167;
+      background: #f0fdf9;
+      border-left-color: #007167;
+      font-weight: 600;
+    }
+    .sidebar-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .sidebar-item.active svg {
+      color: #007167;
+    }
+
+    /* Sidebar help card */
+    .sidebar-help {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+    }
+    .sidebar-help-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f0fdf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+    .sidebar-help-icon svg {
+      width: 20px;
+      height: 20px;
+      color: #007167;
+    }
+    .sidebar-help h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+    .sidebar-help p {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .sidebar-help-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 16px;
+      border: 1px solid #007167;
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .sidebar-help-btn:hover { background: #f0fdf9; }
+
+    /* ── MAIN CONTENT ─── */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── TITLE BAR ─── */
+    .title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .btn-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 20px;
+      border: 1px solid #007167;
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+    }
+    .btn-save:hover { background: #f0fdf9; }
+    .btn-save svg { width: 16px; height: 16px; }
+
+    /* ── ROLE CARDS ─── */
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .role-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .role-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .role-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .role-icon svg { width: 20px; height: 20px; }
+    .role-icon.teal { background: #e8f5f3; color: #007167; }
+    .role-icon.orange { background: #fef3e2; color: #d97706; }
+    .role-icon.blue { background: #e8f0fe; color: #2563eb; }
+    .role-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .role-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .role-user-count {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .role-description {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+    .role-progress {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .role-progress-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .role-progress-label span:last-child {
+      font-weight: 600;
+      color: #374151;
+    }
+    .role-progress-bar {
+      width: 100%;
+      height: 4px;
+      background: #e5e7eb;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .role-progress-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+    .role-progress-fill.teal { background: #007167; }
+    .role-progress-fill.orange { background: #d97706; }
+    .role-progress-fill.blue { background: #2563eb; }
+
+    /* ── INFO BANNER ─── */
+    .info-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      background: #e8f5f3;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #065f56;
+      line-height: 1.5;
+    }
+    .info-banner svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: #007167;
+    }
+
+    /* ── PERMISSIONS TABLE ─── */
+    .permissions-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .permissions-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .permissions-table thead th {
+      background: #007167;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 20px;
+      white-space: nowrap;
+    }
+    .permissions-table thead th:first-child {
+      width: 40%;
+    }
+    .permissions-table thead th:not(:first-child) {
+      text-align: center;
+      width: 15%;
+    }
+    .permissions-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .permissions-table tbody tr:hover {
+      background: #f9fafb;
+    }
+    .permissions-table tbody tr:last-child {
+      border-bottom: none;
+    }
+    .permissions-table tbody td {
+      padding: 14px 20px;
+      font-size: 14px;
+      color: #374151;
+    }
+    .permissions-table tbody td:not(:first-child) {
+      text-align: center;
+    }
+    .perm-category {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .perm-chevron {
+      width: 16px;
+      height: 16px;
+      color: #9ca3af;
+      flex-shrink: 0;
+      transition: transform 0.15s;
+    }
+    .perm-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .perm-name {
+      font-weight: 500;
+      color: #1f2937;
+    }
+    .perm-count {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-left: 2px;
+    }
+    .perm-fraction {
+      font-size: 13px;
+      font-weight: 600;
+      color: #007167;
+    }
+
+    /* ── TABLE FOOTER ─── */
+    .permissions-footer {
+      padding: 14px 20px;
+      font-size: 12px;
+      color: #9ca3af;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab">Shop</a>
+        <a href="orders.html" class="nav-tab">Orders</a>
+        <a href="quotes.html" class="nav-tab">Quotes</a>
+        <a href="services.html" class="nav-tab">Services</a>
+        <a href="help.html" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Admin</span>
+  </div>
+
+  <!-- PAGE LAYOUT -->
+  <div class="page-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav" aria-label="Admin navigation">
+        <a href="admin-users.html" class="sidebar-item">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="10" cy="6" r="3.5"/>
+            <path d="M3 17.5c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/>
+          </svg>
+          User Management
+        </a>
+        <a href="admin-roles.html" class="sidebar-item active" aria-current="page">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M10 2l1.5 3.5L15 6l-2.5 3 .5 3.5L10 11l-3 1.5.5-3.5L5 6l3.5-.5z"/>
+            <path d="M10 14v4"/>
+            <path d="M7 18h6"/>
+          </svg>
+          Access &amp; Roles
+        </a>
+        <a href="admin-requests.html" class="sidebar-item">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="3" y="2" width="14" height="16" rx="2"/>
+            <path d="M7 6h6M7 10h6M7 14h3"/>
+          </svg>
+          Requests
+        </a>
+        <a href="admin-company.html" class="sidebar-item">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="3" y="4" width="14" height="14" rx="2"/>
+            <path d="M7 4V2M13 4V2M3 8h14"/>
+          </svg>
+          Company Settings
+        </a>
+        <a href="admin-notifications.html" class="sidebar-item">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M10 2a5 5 0 00-5 5v3l-1.5 2.5h13L15 10V7a5 5 0 00-5-5z"/>
+            <path d="M8 16.5a2 2 0 004 0"/>
+          </svg>
+          Notifications
+        </a>
+      </nav>
+
+      <div class="sidebar-help">
+        <div class="sidebar-help-icon">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="10" cy="10" r="8"/>
+            <path d="M7.5 7.5a2.5 2.5 0 014.5 1.5c0 1.5-2.5 2-2.5 2"/>
+            <circle cx="10" cy="14" r=".5" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Need help?</h3>
+        <p>Learn more about managing roles and permissions in our help center.</p>
+        <a href="help.html" class="sidebar-help-btn">
+          Visit Help Center
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- TITLE BAR -->
+      <div class="title-bar">
+        <h1>Permissions</h1>
+        <button class="btn-save" type="button">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M3 8.5l3.5 3.5L13 4"/>
+          </svg>
+          Save Changes
+        </button>
+      </div>
+
+      <!-- ROLE CARDS -->
+      <div class="role-cards">
+        <!-- Administrator -->
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-icon teal">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M10 1.5l6.5 3v5c0 4.5-3 7.5-6.5 9-3.5-1.5-6.5-4.5-6.5-9v-5z"/>
+                <path d="M7.5 10l2 2 3.5-4"/>
+              </svg>
+            </div>
+            <div class="role-card-info">
+              <span class="role-name">Administrator</span>
+              <span class="role-user-count">1 user</span>
+            </div>
+          </div>
+          <p class="role-description">Full access to all portal features and administration</p>
+          <div class="role-progress">
+            <div class="role-progress-label">
+              <span>Permissions</span>
+              <span>21/21</span>
+            </div>
+            <div class="role-progress-bar">
+              <div class="role-progress-fill teal" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buyer -->
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-icon teal">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="7" cy="6" r="3"/>
+                <circle cx="13" cy="6" r="3"/>
+                <path d="M1 17c0-3 2.5-5 6-5 1 0 1.8.1 2.5.4"/>
+                <path d="M9 17c0-3 2.5-5 6-5s5 2 5 5"/>
+              </svg>
+            </div>
+            <div class="role-card-info">
+              <span class="role-name">Buyer</span>
+              <span class="role-user-count">5 users</span>
+            </div>
+          </div>
+          <p class="role-description">Create and manage orders, request quotes, and complete checkout</p>
+          <div class="role-progress">
+            <div class="role-progress-label">
+              <span>Permissions</span>
+              <span>14/21</span>
+            </div>
+            <div class="role-progress-bar">
+              <div class="role-progress-fill teal" style="width: 66.7%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Approver -->
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-icon orange">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="10" cy="10" r="7.5"/>
+                <path d="M7 10l2 2 4-4"/>
+              </svg>
+            </div>
+            <div class="role-card-info">
+              <span class="role-name">Approver</span>
+              <span class="role-user-count">3 users</span>
+            </div>
+          </div>
+          <p class="role-description">Review and approve quotes, view orders and reports</p>
+          <div class="role-progress">
+            <div class="role-progress-label">
+              <span>Permissions</span>
+              <span>10/21</span>
+            </div>
+            <div class="role-progress-bar">
+              <div class="role-progress-fill orange" style="width: 47.6%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technician -->
+        <div class="role-card">
+          <div class="role-card-header">
+            <div class="role-icon blue">
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 2.5a4.5 4.5 0 00-4 7.3L3 14.8l2.2 2.2 5-5A4.5 4.5 0 0012 2.5z"/>
+                <circle cx="13" cy="6" r="1.5"/>
+              </svg>
+            </div>
+            <div class="role-card-info">
+              <span class="role-name">Technician</span>
+              <span class="role-user-count">2 users</span>
+            </div>
+          </div>
+          <p class="role-description">Manage machines and service cases, view technical data</p>
+          <div class="role-progress">
+            <div class="role-progress-label">
+              <span>Permissions</span>
+              <span>11/21</span>
+            </div>
+            <div class="role-progress-bar">
+              <div class="role-progress-fill blue" style="width: 52.4%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO BANNER -->
+      <div class="info-banner" role="note">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="10" cy="10" r="8"/>
+          <path d="M10 9v5"/>
+          <circle cx="10" cy="6.5" r=".5" fill="currentColor"/>
+        </svg>
+        Administrator role has full access to all features and cannot be restricted. Toggle permissions for other roles as needed.
+      </div>
+
+      <!-- PERMISSIONS TABLE -->
+      <div class="permissions-card">
+        <table class="permissions-table">
+          <thead>
+            <tr>
+              <th scope="col">Permission</th>
+              <th scope="col">Administrator</th>
+              <th scope="col">Buyer</th>
+              <th scope="col">Approver</th>
+              <th scope="col">Technician</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Home -->
+            <tr>
+              <td>
+                <div class="perm-category">
+                  <svg class="perm-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 4l4 4-4 4"/></svg>
+                  <svg class="perm-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 10l7-7 7 7"/><path d="M5 9v7a1 1 0 001 1h3v-4h2v4h3a1 1 0 001-1V9"/></svg>
+                  <span class="perm-name">Home</span>
+                  <span class="perm-count">(2)</span>
+                </div>
+              </td>
+              <td><span class="perm-fraction">2/2</span></td>
+              <td><span class="perm-fraction">1/2</span></td>
+              <td><span class="perm-fraction">2/2</span></td>
+              <td><span class="perm-fraction">1/2</span></td>
+            </tr>
+            <!-- Machines -->
+            <tr>
+              <td>
+                <div class="perm-category">
+                  <svg class="perm-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 4l4 4-4 4"/></svg>
+                  <svg class="perm-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2.5a4.5 4.5 0 00-4 7.3L3 14.8l2.2 2.2 5-5A4.5 4.5 0 0012 2.5z"/><circle cx="13" cy="6" r="1.5"/></svg>
+                  <span class="perm-name">Machines</span>
+                  <span class="perm-count">(3)</span>
+                </div>
+              </td>
+              <td><span class="perm-fraction">3/3</span></td>
+              <td><span class="perm-fraction">2/3</span></td>
+              <td><span class="perm-fraction">2/3</span></td>
+              <td><span class="perm-fraction">3/3</span></td>
+            </tr>
+            <!-- Orders -->
+            <tr>
+              <td>
+                <div class="perm-category">
+                  <svg class="perm-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 4l4 4-4 4"/></svg>
+                  <svg class="perm-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="14" height="14" rx="2"/><path d="M3 8h14"/><path d="M8 8v9"/></svg>
+                  <span class="perm-name">Orders</span>
+                  <span class="perm-count">(4)</span>
+                </div>
+              </td>
+              <td><span class="perm-fraction">4/4</span></td>
+              <td><span class="perm-fraction">4/4</span></td>
+              <td><span class="perm-fraction">1/4</span></td>
+              <td><span class="perm-fraction">1/4</span></td>
+            </tr>
+            <!-- Quotes -->
+            <tr>
+              <td>
+                <div class="perm-category">
+                  <svg class="perm-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 4l4 4-4 4"/></svg>
+                  <svg class="perm-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="2" width="14" height="16" rx="2"/><path d="M7 6h6M7 10h6M7 14h3"/></svg>
+                  <span class="perm-name">Quotes</span>
+                  <span class="perm-count">(3)</span>
+                </div>
+              </td>
+              <td><span class="perm-fraction">3/3</span></td>
+              <td><span class="perm-fraction">2/3</span></td>
+              <td><span class="perm-fraction">3/3</span></td>
+              <td><span class="perm-fraction">1/3</span></td>
+            </tr>
+            <!-- Services -->
+            <tr>
+              <td>
+                <div class="perm-category">
+                  <svg class="perm-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 4l4 4-4 4"/></svg>
+                  <svg class="perm-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2.5a4.5 4.5 0 00-4 7.3L3 14.8l2.2 2.2 5-5A4.5 4.5 0 0012 2.5z"/><circle cx="13" cy="6" r="1.5"/></svg>
+                  <span class="perm-name">Services</span>
+                  <span class="perm-count">(3)</span>
+                </div>
+              </td>
+              <td><span class="perm-fraction">3/3</span></td>
+              <td><span class="perm-fraction">2/3</span></td>
+              <td><span class="perm-fraction">1/3</span></td>
+              <td><span class="perm-fraction">3/3</span></td>
+            </tr>
+            <!-- Shop -->
+            <tr>
+              <td>
+                <div class="perm-category">
+                  <svg class="perm-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 4l4 4-4 4"/></svg>
+                  <svg class="perm-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 2h12l1 5H3z"/><path d="M3 7v9a2 2 0 002 2h10a2 2 0 002-2V7"/><path d="M8 7v3a2 2 0 004 0V7"/></svg>
+                  <span class="perm-name">Shop</span>
+                  <span class="perm-count">(3)</span>
+                </div>
+              </td>
+              <td><span class="perm-fraction">3/3</span></td>
+              <td><span class="perm-fraction">3/3</span></td>
+              <td><span class="perm-fraction">1/3</span></td>
+              <td><span class="perm-fraction">2/3</span></td>
+            </tr>
+            <!-- Administration -->
+            <tr>
+              <td>
+                <div class="perm-category">
+                  <svg class="perm-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 4l4 4-4 4"/></svg>
+                  <svg class="perm-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="10" r="3"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M3.4 3.4l1.4 1.4M15.2 15.2l1.4 1.4M3.4 16.6l1.4-1.4M15.2 4.8l1.4-1.4"/></svg>
+                  <span class="perm-name">Administration</span>
+                  <span class="perm-count">(3)</span>
+                </div>
+              </td>
+              <td><span class="perm-fraction">3/3</span></td>
+              <td><span class="perm-fraction">0/3</span></td>
+              <td><span class="perm-fraction">0/3</span></td>
+              <td><span class="perm-fraction">0/3</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="permissions-footer">
+          7 categories, 21 permissions across 4 roles
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>

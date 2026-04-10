@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Notifications — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab:hover { color: #007167; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── ADMIN LAYOUT ─── */
+    .admin-layout {
+      flex: 1;
+      display: flex;
+      padding: 24px 32px 48px;
+      gap: 24px;
+    }
+
+    /* ── SIDEBAR ─── */
+    .admin-sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sidebar-nav {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      text-decoration: none;
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.1s;
+    }
+    .sidebar-nav-item:last-child { border-bottom: none; }
+    .sidebar-nav-item:hover { background: #f9fafb; }
+    .sidebar-nav-item.active {
+      background: #e8f5f3;
+      color: #007167;
+      font-weight: 600;
+    }
+    .sidebar-nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ── HELP CARD ─── */
+    .help-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+    .help-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #e8f5f3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .help-card-icon svg {
+      width: 24px;
+      height: 24px;
+      color: #007167;
+    }
+    .help-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .help-card-text {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+    .help-card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 16px;
+      border: 1px solid #007167;
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #007167;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .help-card-btn:hover { background: #f0faf9; }
+
+    /* ── MAIN CONTENT ─── */
+    .admin-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    /* ── TITLE BAR ─── */
+    .title-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .btn-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 20px;
+      border: 1px solid #007167;
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #007167;
+      cursor: pointer;
+    }
+    .btn-save:hover { background: #f0faf9; }
+    .btn-save svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ── INFO BANNER ─── */
+    .info-banner {
+      background: #e8f5f3;
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .info-banner-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #007167;
+    }
+    .info-banner-header svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .info-banner-text {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.6;
+      padding-left: 26px;
+    }
+
+    /* ── NOTIFICATION SECTIONS ─── */
+    .notif-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .notif-section {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .notif-section-row {
+      display: flex;
+      align-items: center;
+      padding: 20px 24px;
+      gap: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.1s;
+    }
+    .notif-section-row:hover { background: #fafbfc; }
+
+    .notif-section-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+    .notif-section-icon.preferences { background: #f3f4f6; }
+    .notif-section-icon.orders { background: #e8f5f3; }
+    .notif-section-icon.quotes { background: #ede9fe; }
+    .notif-section-icon.services { background: #fef3cd; }
+    .notif-section-icon.users { background: #dbeafe; }
+    .notif-section-icon.system { background: #fee2e2; }
+
+    .notif-section-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .notif-section-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    .notif-section-desc {
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .notif-section-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .active-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border: 1px solid #007167;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #007167;
+      white-space: nowrap;
+    }
+    .chevron-icon {
+      width: 20px;
+      height: 20px;
+      color: #9ca3af;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab">Shop</a>
+        <a href="orders.html" class="nav-tab">Orders</a>
+        <a href="quotes.html" class="nav-tab">Quotes</a>
+        <a href="services.html" class="nav-tab">Services</a>
+        <a href="help.html" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Admin</span>
+  </div>
+
+  <!-- ADMIN LAYOUT -->
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <nav class="sidebar-nav">
+        <a href="admin-users.html" class="sidebar-nav-item">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12.75c2.071.37 3.75 1.16 3.75 2.25v1.5H2.25V15c0-1.09 1.679-1.88 3.75-2.25" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="9" cy="6" r="3.25" stroke="currentColor" stroke-width="1.4"/>
+          </svg>
+          User Management
+        </a>
+        <a href="admin-roles.html" class="sidebar-nav-item">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2.25" y="2.25" width="13.5" height="13.5" rx="2" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M6 6h6M6 9h6M6 12h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+          Access &amp; Roles
+        </a>
+        <a href="admin-requests.html" class="sidebar-nav-item">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 2.25v5.25h5.25" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14.25 7.5V14a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V4a1.5 1.5 0 011.5-1.5H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Requests
+        </a>
+        <a href="admin-company.html" class="sidebar-nav-item">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.25 15.75h13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <rect x="3.75" y="3.75" width="10.5" height="12" rx="1" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M6.75 7.5h1.5M9.75 7.5h1.5M6.75 10.5h1.5M9.75 10.5h1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M7.5 15.75v-3h3v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Company Settings
+        </a>
+        <a href="admin-notifications.html" class="sidebar-nav-item active">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.5 6.75a4.5 4.5 0 00-9 0c0 5.25-2.25 6.75-2.25 6.75h13.5s-2.25-1.5-2.25-6.75" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10.298 15.75a1.5 1.5 0 01-2.596 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Notifications
+        </a>
+      </nav>
+
+      <!-- HELP CARD -->
+      <div class="help-card">
+        <div class="help-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="17" r="0.5" fill="currentColor" stroke="currentColor" stroke-width="0.5"/>
+          </svg>
+        </div>
+        <div class="help-card-title">Need help?</div>
+        <div class="help-card-text">Contact our support team for assistance with admin settings.</div>
+        <a href="help.html" class="help-card-btn">
+          Get Support
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+      <!-- TITLE BAR -->
+      <div class="title-bar">
+        <h1>Notifications</h1>
+        <button class="btn-save">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.75 9.75l3 3 7.5-7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Save Changes
+        </button>
+      </div>
+
+      <!-- INFO BANNER -->
+      <div class="info-banner">
+        <div class="info-banner-header">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M9 8.25v4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <circle cx="9" cy="6" r="0.75" fill="currentColor"/>
+          </svg>
+          About notification preferences
+        </div>
+        <div class="info-banner-text">
+          These settings apply to all users in your organization by default. Individual users can override non-critical notifications in their personal profile settings. Critical notifications (marked with a red badge) are always delivered and cannot be disabled.
+        </div>
+      </div>
+
+      <!-- NOTIFICATION SECTIONS -->
+      <div class="notif-sections">
+
+        <!-- 1. Notification Preferences -->
+        <div class="notif-section">
+          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Notification Preferences">
+            <div class="notif-section-icon preferences">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" stroke="#374151" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.167 12.5a1.375 1.375 0 00.275 1.517l.05.05a1.667 1.667 0 11-2.359 2.358l-.05-.05a1.375 1.375 0 00-1.516-.275 1.375 1.375 0 00-.834 1.259v.141a1.667 1.667 0 11-3.333 0v-.075a1.375 1.375 0 00-.9-1.258 1.375 1.375 0 00-1.517.275l-.05.05A1.667 1.667 0 113.575 13.133l.05-.05a1.375 1.375 0 00.275-1.516 1.375 1.375 0 00-1.258-.834H2.5a1.667 1.667 0 110-3.333h.075a1.375 1.375 0 001.258-.9 1.375 1.375 0 00-.275-1.517l-.05-.05A1.667 1.667 0 115.867 2.575l.05.05a1.375 1.375 0 001.516.275h.067a1.375 1.375 0 00.833-1.258V1.5a1.667 1.667 0 013.334 0v.075a1.375 1.375 0 00.833 1.258 1.375 1.375 0 001.517-.275l.05-.05a1.667 1.667 0 112.358 2.359l-.05.05a1.375 1.375 0 00-.275 1.516v.067a1.375 1.375 0 001.258.833h.142a1.667 1.667 0 010 3.334h-.075a1.375 1.375 0 00-1.258.833z" stroke="#374151" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="notif-section-content">
+              <div class="notif-section-title">Notification Preferences</div>
+              <div class="notif-section-desc">Email digest frequency, timezone, quiet hours and weekend delivery</div>
+            </div>
+            <div class="notif-section-right">
+              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Orders -->
+        <div class="notif-section">
+          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Orders notifications">
+            <div class="notif-section-icon orders">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.5 5l2.5-2.5h10L17.5 5" stroke="#007167" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="2.5" y="5" width="15" height="12.5" rx="1.5" stroke="#007167" stroke-width="1.4"/>
+                <path d="M7.5 8.75L10 11.25l2.5-2.5" stroke="#007167" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="notif-section-content">
+              <div class="notif-section-title">Orders</div>
+              <div class="notif-section-desc">Purchase orders, approvals and delivery updates</div>
+            </div>
+            <div class="notif-section-right">
+              <span class="active-badge">7/7 active</span>
+              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Quotes -->
+        <div class="notif-section">
+          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Quotes notifications">
+            <div class="notif-section-icon quotes">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3.75" y="2.5" width="12.5" height="15" rx="1.5" stroke="#6d28d9" stroke-width="1.4"/>
+                <path d="M7.5 7.5h5M7.5 10h5M7.5 12.5h3" stroke="#6d28d9" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="notif-section-content">
+              <div class="notif-section-title">Quotes</div>
+              <div class="notif-section-desc">Quotation requests, approvals and expiration alerts</div>
+            </div>
+            <div class="notif-section-right">
+              <span class="active-badge">4/4 active</span>
+              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Services -->
+        <div class="notif-section">
+          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Services notifications">
+            <div class="notif-section-icon services">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.5 2.5l-1.25 3.75L15 10l3.75-1.25L12.5 2.5z" stroke="#856404" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M11.25 6.25L2.5 15l2.5 2.5 8.75-8.75" stroke="#856404" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="notif-section-content">
+              <div class="notif-section-title">Services</div>
+              <div class="notif-section-desc">Service requests, case updates and maintenance reminders</div>
+            </div>
+            <div class="notif-section-right">
+              <span class="active-badge">5/5 active</span>
+              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Users & Access -->
+        <div class="notif-section">
+          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Users and Access notifications">
+            <div class="notif-section-icon users">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.75 17.5v-1.25a2.5 2.5 0 00-2.5-2.5H5a2.5 2.5 0 00-2.5 2.5v1.25" stroke="#1d4ed8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="8.125" cy="8.125" r="2.5" stroke="#1d4ed8" stroke-width="1.4"/>
+                <path d="M17.5 17.5v-1.25a2.5 2.5 0 00-1.875-2.419M13.125 5.706a2.5 2.5 0 010 4.838" stroke="#1d4ed8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="notif-section-content">
+              <div class="notif-section-title">Users &amp; Access</div>
+              <div class="notif-section-desc">User registrations, access requests and role changes</div>
+            </div>
+            <div class="notif-section-right">
+              <span class="active-badge">4/4 active</span>
+              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. System -->
+        <div class="notif-section">
+          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand System notifications">
+            <div class="notif-section-icon system">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2.5" y="3.75" width="15" height="10" rx="1.5" stroke="#dc2626" stroke-width="1.4"/>
+                <path d="M6.25 16.25h7.5" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M10 13.75v2.5" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M8.75 7.5l1.25 1.25 2.5-2.5" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="notif-section-content">
+              <div class="notif-section-title">System</div>
+              <div class="notif-section-desc">Platform maintenance, security alerts and announcements</div>
+            </div>
+            <div class="notif-section-right">
+              <span class="active-badge">3/3 active</span>
+              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
