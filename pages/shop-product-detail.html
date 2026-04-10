@@ -421,6 +421,246 @@
       font-weight: 600;
       color: #007167;
     }
+
+    /* ── DELIVERY INFO ─── */
+    .delivery-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .delivery-label {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .delivery-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    /* ── ACTIVE CART BUTTON ─── */
+    .btn-add-cart.active {
+      background: #007167;
+      border-color: #007167;
+      color: #fff;
+    }
+    .btn-add-cart.active:hover { background: #005f57; }
+    .form-select.selected { color: #1f2937; }
+
+    /* ── DOCUMENT LIST ─── */
+    .doc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .doc-link {
+      font-size: 14px;
+      color: #007167;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .doc-link:hover { text-decoration: underline; }
+
+    /* ── SPECS GRID ─── */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .spec-item { display: flex; flex-direction: column; gap: 4px; }
+    .spec-label { font-size: 13px; color: #6b7280; }
+    .spec-value { font-size: 15px; font-weight: 600; color: #1f2937; }
+
+    /* ── TOAST ─── */
+    .toast {
+      position: fixed;
+      top: 60px;
+      right: 24px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      z-index: 200;
+      min-width: 280px;
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast-icon {
+      width: 20px; height: 20px;
+      color: #007167; flex-shrink: 0; margin-top: 2px;
+    }
+    .toast-body { flex: 1; }
+    .toast-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    .toast-subtitle {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .toast-link {
+      font-size: 12px;
+      color: #007167;
+      font-weight: 500;
+      text-decoration: none;
+      display: block;
+      margin-top: 4px;
+    }
+    .toast-close {
+      background: none; border: none;
+      cursor: pointer; color: #9ca3af;
+      width: 16px; height: 16px; flex-shrink: 0;
+    }
+
+    /* ── CART DROPDOWN ─── */
+    .cart-dropdown {
+      position: fixed;
+      top: 100px;
+      right: 80px;
+      width: 320px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      z-index: 200;
+      display: none;
+      padding: 20px;
+    }
+    .cart-dropdown.show { display: block; }
+    .cart-dd-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .cart-dd-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .cart-dd-close {
+      background: none; border: none;
+      cursor: pointer; font-size: 18px; color: #6b7280;
+    }
+    .cart-dd-item {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .cart-dd-item-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    .cart-dd-item-ref {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .cart-dd-item-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2937;
+      text-align: right;
+      margin-bottom: 8px;
+    }
+    .cart-dd-qty-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cart-dd-qty-label {
+      font-size: 13px;
+      color: #374151;
+    }
+    .cart-dd-delete {
+      background: none; border: none; cursor: pointer;
+      color: #c73e20; width: 16px; height: 16px;
+    }
+    .cart-dd-qty { font-size: 13px; color: #374151; }
+    .cart-dd-subtotal {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+    }
+    .cart-dd-subtotal-label { font-size: 14px; font-weight: 500; color: #374151; }
+    .cart-dd-subtotal-value { font-size: 16px; font-weight: 700; color: #1f2937; }
+    .btn-view-cart {
+      width: 100%;
+      height: 44px;
+      border-radius: 10px;
+      background: #007167;
+      border: none;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-view-cart:hover { background: #005f57; }
+
+    /* ── PROFILE DROPDOWN ─── */
+    .profile-dropdown {
+      position: fixed;
+      top: 100px;
+      right: 32px;
+      width: 220px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      z-index: 200;
+      display: none;
+      overflow: hidden;
+    }
+    .profile-dropdown.show { display: block; }
+    .profile-dd-header {
+      padding: 16px;
+      background: #007167;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .profile-dd-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%; object-fit: cover;
+    }
+    .profile-dd-name { font-size: 14px; font-weight: 600; }
+    .profile-dd-email { font-size: 11px; opacity: 0.8; }
+    .profile-dd-menu { padding: 8px 0; }
+    .profile-dd-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px;
+      font-size: 14px; color: #374151;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .profile-dd-item:hover { background: #f9fafb; }
+    .profile-dd-item svg { width: 16px; height: 16px; color: #6b7280; }
+    .profile-dd-item.logout { color: #c73e20; border-top: 1px solid #f3f4f6; }
+    .profile-dd-item.logout svg { color: #c73e20; }
+
+    /* ── CART BADGE ─── */
+    .cart-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #007167; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: none;
+      align-items: center; justify-content: center;
+    }
+    .cart-badge.show { display: flex; }
   </style>
 </head>
 <body>
@@ -457,10 +697,11 @@
         <img src="../assets/icon-bell.svg" alt="Notifications">
         <span class="notif-badge">1</span>
       </button>
-      <button class="header-icon-btn">
+      <button class="header-icon-btn" id="cartBtn">
         <img src="../assets/icon-cart.svg" alt="Cart">
+        <span class="cart-badge" id="cartBadge">1</span>
       </button>
-      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus" id="avatarBtn">
       <button class="lang-btn">
         <img src="../assets/icon-globe.svg" alt="">
         EN
@@ -525,14 +766,36 @@
         </div>
       </div>
 
-      <!-- Tab: Documents (placeholder) -->
+      <!-- Tab: Documents -->
       <div class="tab-content" id="tab-documents">
-        <p class="product-description">Documents will be displayed here.</p>
+        <ul class="doc-list">
+          <li><a href="#" class="doc-link">Product Data NETZSCH BEADS CERABEADS – English</a></li>
+          <li><a href="#" class="doc-link">Safety Data NETZSCH BEADS CERABEADS – English</a></li>
+          <li><a href="#" class="doc-link">Product Data NETZSCH BEADS CERABEADS – German</a></li>
+          <li><a href="#" class="doc-link">Safety Data NETZSCH BEADS CERABEADS – German</a></li>
+        </ul>
       </div>
 
-      <!-- Tab: Mechanical Specs (placeholder) -->
+      <!-- Tab: Mechanical Specs -->
       <div class="tab-content" id="tab-specs">
-        <p class="product-description">Mechanical specifications will be displayed here.</p>
+        <div class="specs-grid">
+          <div class="spec-item">
+            <span class="spec-label">Bulk Density</span>
+            <span class="spec-value">3,8 kg/l</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Specific weight</span>
+            <span class="spec-value">6,20 kg/dm3</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Hardness</span>
+            <span class="spec-value">&gt;1180 HV</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Color</span>
+            <span class="spec-value">Yellow</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -545,9 +808,13 @@
         <label class="form-label">Select a size <span>*</span></label>
         <select class="form-select">
           <option value="" disabled selected>Select a size</option>
-          <option>0.4 - 0.6 mm</option>
-          <option>0.6 - 0.8 mm</option>
-          <option>0.8 - 1.0 mm</option>
+          <option value="0.40-0.60">0,40 - 0,60 mm</option>
+          <option value="0.60-0.80">0,60 - 0,80 mm</option>
+          <option value="0.90-1.10">0,90 - 1,10 mm</option>
+          <option value="1.20-1.40">1,20 - 1,40 mm</option>
+          <option value="1.40-1.60">1,40 - 1,60 mm</option>
+          <option value="1.60-1.80">1,60 - 1,80 mm</option>
+          <option value="1.80-2.00">1,80 - 2,00 mm</option>
         </select>
       </div>
 
@@ -565,6 +832,12 @@
           <label class="form-label">Unity</label>
           <span class="unity-label">Kilogram (kg)</span>
         </div>
+      </div>
+
+      <!-- Delivery Time (hidden until size selected) -->
+      <div class="delivery-info" id="deliveryInfo" style="display:none;">
+        <span class="delivery-label">Est. delivery time</span>
+        <span class="delivery-value">15 - 20 days</span>
       </div>
 
       <!-- Total Price -->
@@ -615,6 +888,72 @@
 
   </div>
 
+  <!-- TOAST (Wishlist) -->
+  <div class="toast" id="wishlistToast">
+    <svg class="toast-icon" viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" fill="#007167"/></svg>
+    <div class="toast-body">
+      <div class="toast-title">Added to Wishlist</div>
+      <div class="toast-subtitle">NETZSCH CERABEADS 0.4</div>
+      <a href="#" class="toast-link">View Wishlist</a>
+    </div>
+    <button class="toast-close" id="toastClose">&#x2715;</button>
+  </div>
+
+  <!-- CART DROPDOWN -->
+  <div class="cart-dropdown" id="cartDropdown">
+    <div class="cart-dd-header">
+      <span class="cart-dd-title">Shopping Cart</span>
+      <button class="cart-dd-close" id="cartDdClose">&#x2715;</button>
+    </div>
+    <div class="cart-dd-item">
+      <div class="cart-dd-item-name">NETZSCH CERABEADS 0.4 – 1,20 - 1,40 mm</div>
+      <div class="cart-dd-item-ref">443385</div>
+      <div class="cart-dd-item-price">39,75 €</div>
+      <div class="cart-dd-qty-row">
+        <span class="cart-dd-qty-label">Quantity</span>
+        <button class="cart-dd-delete" title="Remove">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 0 1 1.34-1.34h2.66a1.33 1.33 0 0 1 1.34 1.34V4m2 0v9.33a1.33 1.33 0 0 1-1.34 1.34H4.67a1.33 1.33 0 0 1-1.34-1.34V4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span class="cart-dd-qty">1</span>
+        <button class="qty-btn">+</button>
+      </div>
+    </div>
+    <div class="cart-dd-subtotal">
+      <span class="cart-dd-subtotal-label">Subtotal</span>
+      <span class="cart-dd-subtotal-value">39,75 €</span>
+    </div>
+    <button class="btn-view-cart">View Cart</button>
+  </div>
+
+  <!-- PROFILE DROPDOWN -->
+  <div class="profile-dropdown" id="profileDropdown">
+    <div class="profile-dd-header">
+      <img class="profile-dd-avatar" src="../assets/avatar-marcus.jpg" alt="John Doe">
+      <div>
+        <div class="profile-dd-name">John Doe</div>
+        <div class="profile-dd-email">john.doe@acme-corp.com</div>
+      </div>
+    </div>
+    <div class="profile-dd-menu">
+      <a href="#" class="profile-dd-item">
+        <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M2 14c0-2.21 2.69-4 6-4s6 1.79 6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Profile
+      </a>
+      <a href="#" class="profile-dd-item">
+        <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Admin
+      </a>
+      <a href="#" class="profile-dd-item">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg>
+        My Wishlist
+      </a>
+      <a href="#" class="profile-dd-item logout">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M6 14H3.33A1.33 1.33 0 0 1 2 12.67V3.33A1.33 1.33 0 0 1 3.33 2H6M10.67 11.33L14 8l-3.33-3.33M14 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Log out
+      </a>
+    </div>
+  </div>
+
   <script>
     // Thumbnail gallery
     document.querySelectorAll('.product-thumb').forEach(thumb => {
@@ -643,6 +982,59 @@
     });
     document.getElementById('qtyPlus').addEventListener('click', () => {
       qtyValue.textContent = parseInt(qtyValue.textContent) + 1;
+    });
+
+    // Size select → show delivery time + activate Add to Cart
+    const sizeSelect = document.querySelector('.form-select');
+    const deliveryInfo = document.getElementById('deliveryInfo');
+    const btnCart = document.querySelector('.btn-add-cart');
+    sizeSelect.addEventListener('change', () => {
+      sizeSelect.classList.add('selected');
+      deliveryInfo.style.display = 'flex';
+      btnCart.classList.add('active');
+    });
+
+    // Wishlist toast
+    const toast = document.getElementById('wishlistToast');
+    document.querySelector('.btn-wishlist').addEventListener('click', () => {
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    });
+    document.getElementById('toastClose').addEventListener('click', () => {
+      toast.classList.remove('show');
+    });
+
+    // Add to Cart → show cart dropdown + badge
+    btnCart.addEventListener('click', () => {
+      if (!btnCart.classList.contains('active')) return;
+      document.getElementById('cartBadge').classList.add('show');
+      document.getElementById('cartDropdown').classList.add('show');
+    });
+    document.getElementById('cartDdClose').addEventListener('click', () => {
+      document.getElementById('cartDropdown').classList.remove('show');
+    });
+
+    // Cart header button toggle
+    document.getElementById('cartBtn').addEventListener('click', () => {
+      const dd = document.getElementById('cartDropdown');
+      if (document.getElementById('cartBadge').classList.contains('show')) {
+        dd.classList.toggle('show');
+      }
+    });
+
+    // Profile dropdown
+    document.getElementById('avatarBtn').addEventListener('click', () => {
+      document.getElementById('profileDropdown').classList.toggle('show');
+    });
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#cartBtn') && !e.target.closest('#cartDropdown')) {
+        document.getElementById('cartDropdown').classList.remove('show');
+      }
+      if (!e.target.closest('#avatarBtn') && !e.target.closest('#profileDropdown')) {
+        document.getElementById('profileDropdown').classList.remove('show');
+      }
     });
   </script>
 
