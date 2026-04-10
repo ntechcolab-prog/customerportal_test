@@ -989,55 +989,6 @@
 
   </div>
 
-  <script>
-    // Toggle filters
-    const btnFilters = document.getElementById('btnFilters');
-    const filterBar = document.getElementById('filterBar');
-    btnFilters.addEventListener('click', () => {
-      const visible = filterBar.classList.toggle('visible');
-      btnFilters.classList.toggle('active', visible);
-    });
-
-    // Toggle view (list / grid)
-    const btnList = document.getElementById('btnListView');
-    const btnGrid = document.getElementById('btnGridView');
-    const tableView = document.getElementById('tableView');
-
-    btnList.addEventListener('click', () => {
-      btnList.classList.add('active');
-      btnGrid.classList.remove('active');
-      tableView.style.display = '';
-    });
-
-    btnGrid.addEventListener('click', () => {
-      btnGrid.classList.add('active');
-      btnList.classList.remove('active');
-    });
-
-    // Tracking drawer
-    const overlay = document.getElementById('drawerOverlay');
-    const drawer = document.getElementById('trackingDrawer');
-    const drawerClose = document.getElementById('drawerClose');
-
-    function openDrawer() {
-      overlay.classList.add('show');
-      drawer.classList.add('show');
-    }
-    function closeDrawer() {
-      overlay.classList.remove('show');
-      drawer.classList.remove('show');
-    }
-
-    document.querySelectorAll('.action-btn[title="Track order"]').forEach(btn => {
-      btn.addEventListener('click', openDrawer);
-    });
-    drawerClose.addEventListener('click', closeDrawer);
-    overlay.addEventListener('click', closeDrawer);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeDrawer();
-    });
-  </script>
-
   <!-- DRAWER OVERLAY -->
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
@@ -1135,6 +1086,55 @@
       </button>
     </div>
   </div>
+
+  <script>
+    // Toggle filters
+    const btnFilters = document.getElementById('btnFilters');
+    const filterBar = document.getElementById('filterBar');
+    btnFilters.addEventListener('click', () => {
+      const visible = filterBar.classList.toggle('visible');
+      btnFilters.classList.toggle('active', visible);
+    });
+
+    // Toggle view (list / grid)
+    const btnList = document.getElementById('btnListView');
+    const btnGrid = document.getElementById('btnGridView');
+    const tableView = document.getElementById('tableView');
+
+    btnList.addEventListener('click', () => {
+      btnList.classList.add('active');
+      btnGrid.classList.remove('active');
+      tableView.style.display = '';
+    });
+
+    btnGrid.addEventListener('click', () => {
+      btnGrid.classList.add('active');
+      btnList.classList.remove('active');
+    });
+
+    // Tracking drawer
+    const overlay = document.getElementById('drawerOverlay');
+    const drawer = document.getElementById('trackingDrawer');
+    const drawerClose = document.getElementById('drawerClose');
+
+    function openDrawer() {
+      overlay.classList.add('show');
+      drawer.classList.add('show');
+    }
+    function closeDrawer() {
+      overlay.classList.remove('show');
+      drawer.classList.remove('show');
+    }
+
+    document.querySelectorAll('.action-btn[title="Track order"]').forEach(btn => {
+      btn.addEventListener('click', openDrawer);
+    });
+    drawerClose.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
+    });
+  </script>
 
 </body>
 </html>
