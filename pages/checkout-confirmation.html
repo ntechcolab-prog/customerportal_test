@@ -212,50 +212,65 @@
     }
 
     /* ── PROGRESS BAR ─── */
-    .progress-steps {
+    .progress-bar-wrap {
+      border-radius: 20px;
+      overflow: hidden;
       display: flex;
-      align-items: center;
-      gap: 0;
       width: 100%;
     }
     .progress-step {
       flex: 1;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 40px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #6b7280;
-      background: #e5e7eb;
+      font-size: 14px;
+      font-weight: 400;
+      color: #4c4d57;
+      background: #dee0e0;
       position: relative;
       white-space: nowrap;
     }
-    .progress-step:first-child {
-      border-radius: 999px 0 0 999px;
+    .progress-step:not(:first-child) {
+      margin-left: -10px;
     }
-    .progress-step:last-child {
-      border-radius: 0 999px 999px 0;
-    }
-    .progress-step:not(:first-child)::before {
+    .progress-step::after {
       content: '';
       position: absolute;
-      left: 0;
+      right: -10px;
       top: 0;
       width: 0;
       height: 0;
-      border-top: 20px solid transparent;
-      border-bottom: 20px solid transparent;
-      border-left: 12px solid #fff;
+      border-top: 16px solid transparent;
+      border-bottom: 16px solid transparent;
+      border-left: 10px solid #dee0e0;
+      z-index: 2;
+    }
+    .progress-step:last-child::after {
+      display: none;
+    }
+    .progress-step::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: 0;
+      width: 0;
+      height: 0;
+      border-top: 16px solid transparent;
+      border-bottom: 16px solid transparent;
+      border-left: 10px solid #fff;
       z-index: 1;
     }
-    .progress-step.active {
-      background: #007167;
-      color: #fff;
-      font-weight: 600;
+    .progress-step:first-child::before {
+      display: none;
     }
-    .progress-step.active + .progress-step::before {
-      border-left-color: #fff;
+    .progress-step.active {
+      background: #4e98aa;
+      color: #fff;
+      font-weight: 700;
+    }
+    .progress-step.active::after {
+      border-left-color: #4e98aa;
     }
 
     /* ── TWO COLUMN LAYOUT ─── */
@@ -437,7 +452,7 @@
     <!-- ORDER PROGRESS -->
     <div class="card">
       <div class="card-title">Order Progress</div>
-      <div class="progress-steps">
+      <div class="progress-bar-wrap">
         <div class="progress-step active">Order Placed</div>
         <div class="progress-step">Dispatched</div>
         <div class="progress-step">Out for delivery</div>
