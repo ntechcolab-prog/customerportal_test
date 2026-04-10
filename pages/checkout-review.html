@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout Review — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cart-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #007167; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── BACK LINK ─── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* ── PAGE TITLE ─── */
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-top: 4px;
+    }
+    .page-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    /* ── TWO-COLUMN LAYOUT ─── */
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    /* ── CARDS ─── */
+    .review-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .review-card:last-child { margin-bottom: 0; }
+    .review-card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+
+    /* ── PRODUCT CARD ─── */
+    .product-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .product-thumb {
+      width: 120px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #fafbfc;
+      flex-shrink: 0;
+    }
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .product-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      line-height: 1.4;
+    }
+    .product-ref {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .product-size {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    /* ── PRODUCT TABLE ─── */
+    .product-detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
+    .product-detail-table thead th {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6b7280;
+      text-align: left;
+      padding: 8px 0;
+      border-bottom: 1px solid #e5e7eb;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .product-detail-table thead th:last-child { text-align: right; }
+    .product-detail-table tbody td {
+      font-size: 14px;
+      color: #1f2937;
+      padding: 12px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .product-detail-table tbody td:last-child {
+      text-align: right;
+      font-weight: 600;
+    }
+
+    /* ── CHANGE LINK ─── */
+    .change-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      padding-top: 4px;
+    }
+    .change-link:hover { text-decoration: underline; }
+
+    /* ── SHIPPING CARD ─── */
+    .shipping-section {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 4px;
+    }
+    .shipping-block {
+      flex: 1;
+    }
+    .shipping-block-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .shipping-block strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+    .shipping-block p {
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .delivery-free {
+      font-weight: 700;
+      color: #007167;
+      float: right;
+    }
+
+    /* ── PO / SPECIAL REQUEST ─── */
+    .po-value {
+      font-size: 14px;
+      color: #1f2937;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .special-request-text {
+      font-size: 14px;
+      color: #9ca3af;
+      font-style: italic;
+      margin-bottom: 12px;
+    }
+
+    /* ── SIDEBAR ─── */
+    .sidebar {
+      position: sticky;
+      top: 24px;
+      align-self: flex-start;
+    }
+    .sidebar-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 20px;
+    }
+    .sidebar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    .sidebar-row-label { color: #6b7280; }
+    .sidebar-row-value { color: #1f2937; font-weight: 500; }
+    .sidebar-divider {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 16px 0;
+    }
+    .coupon-link {
+      font-size: 13px;
+      color: #007167;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .coupon-link:hover { text-decoration: underline; }
+    .order-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .order-total-label {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .order-total-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    /* ── TERMS ─── */
+    .terms-text {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .terms-text a {
+      color: #007167;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .terms-text a:hover { text-decoration: underline; }
+
+    /* ── BUTTONS ─── */
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 48px;
+      border-radius: 10px;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      text-decoration: none;
+      color: #fff;
+      background: #007167;
+    }
+    .btn-primary:hover { background: #005f57; }
+    .btn-primary + .btn-primary { margin-top: 10px; }
+    .btn-primary svg { width: 18px; height: 18px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab active">Shop</a>
+        <a href="#" class="nav-tab">Orders</a>
+        <a href="#" class="nav-tab">Quotes</a>
+        <a href="#" class="nav-tab">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+        <span class="cart-badge">1</span>
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="shopping-cart.html">Shopping Cart</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Checkout</span>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- BACK LINK -->
+    <a href="checkout-order-details.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Checkout Information
+    </a>
+
+    <!-- PAGE TITLE -->
+    <h1 class="page-title">Review</h1>
+    <p class="page-subtitle">Check all order information before placing your order or requesting a quotation.</p>
+
+    <!-- TWO-COLUMN LAYOUT -->
+    <div class="checkout-layout">
+
+      <!-- LEFT COLUMN -->
+      <div class="left-column">
+
+        <!-- CARD 1 — Products -->
+        <div class="review-card">
+          <h2 class="review-card-title">Products</h2>
+          <div class="product-row">
+            <img class="product-thumb" src="../assets/shop-cerabeads.png" alt="NETZSCH CERABEADS">
+            <div class="product-info">
+              <span class="product-name">NETZSCH CERABEADS 0.4 - 1,20 - 1,40 mm</span>
+              <span class="product-ref">Ref: 443385</span>
+              <span class="product-size">Size: 1,20 - 1,40 mm</span>
+            </div>
+          </div>
+          <table class="product-detail-table">
+            <thead>
+              <tr>
+                <th>Unit price</th>
+                <th>Quantity</th>
+                <th>Unity</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&euro;39.75</td>
+                <td>1</td>
+                <td>kg</td>
+                <td>39,75 &euro;</td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="shopping-cart.html" class="change-link">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Change products
+          </a>
+        </div>
+
+        <!-- CARD 2 — Shipping and Delivery -->
+        <div class="review-card">
+          <h2 class="review-card-title">Shipping and Delivery</h2>
+          <div class="shipping-section">
+            <div class="shipping-block">
+              <div class="shipping-block-label">Address</div>
+              <strong>Central NY</strong>
+              <p>
+                123 Main Street, Apt 4B<br>
+                New York, NY 10001<br>
+                United States<br>
+                Phone: +1 (555) 123-4567
+              </p>
+            </div>
+            <div class="shipping-block">
+              <div class="shipping-block-label">Delivery</div>
+              <strong>Pick-up at company</strong>
+              <p>
+                Available within 2 business days<br>
+                <span class="delivery-free">Free</span>
+              </p>
+            </div>
+          </div>
+          <a href="checkout-order-details.html" class="change-link" style="margin-top: 12px;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Change address or delivery method
+          </a>
+        </div>
+
+        <!-- CARD 3 — Purchase Order Number -->
+        <div class="review-card">
+          <h2 class="review-card-title">Purchase Order Number</h2>
+          <p class="po-value">12189291</p>
+          <a href="checkout-order-details.html" class="change-link">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Change PO Number
+          </a>
+        </div>
+
+        <!-- CARD 4 — Special Request -->
+        <div class="review-card">
+          <h2 class="review-card-title">Special Request</h2>
+          <p class="special-request-text">No special request made in this order.</p>
+          <a href="checkout-order-details.html" class="change-link">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Change Special Request
+          </a>
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <div class="sidebar">
+        <div class="sidebar-card">
+          <h2 class="sidebar-title">Payment Details</h2>
+
+          <div class="sidebar-row">
+            <span class="sidebar-row-label">Subtotal</span>
+            <span class="sidebar-row-value">39.75 &euro;</span>
+          </div>
+          <div class="sidebar-row">
+            <span class="sidebar-row-label">Shipping</span>
+            <span class="sidebar-row-value">25.00 &euro;</span>
+          </div>
+          <div class="sidebar-row">
+            <span class="sidebar-row-label">Total before discount</span>
+            <span class="sidebar-row-value">64.75 &euro;</span>
+          </div>
+
+          <div class="sidebar-row">
+            <span class="sidebar-row-label">Coupon</span>
+            <a href="#" class="coupon-link">Add Coupon</a>
+          </div>
+
+          <hr class="sidebar-divider">
+
+          <div class="order-total-row">
+            <span class="order-total-label">Order Total</span>
+            <span class="order-total-value">64.75 &euro;</span>
+          </div>
+
+          <!-- Terms -->
+          <p class="terms-text">
+            By ticking, you are confirming that you have read, understood and agree with our
+            <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>.
+          </p>
+
+          <!-- Action Buttons -->
+          <a href="checkout-confirmation.html" class="btn-primary">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4.5" y="8" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            Place Order
+          </a>
+          <a href="checkout-quote.html" class="btn-primary">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.5 9.5l3 3 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Request Quotation for Approval
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

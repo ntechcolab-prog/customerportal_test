@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Order Details — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cart-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #007167; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── BACK LINK ─── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* ── PAGE TITLE ─── */
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-top: 4px;
+    }
+    .page-subtitle {
+      font-size: 14px;
+      color: #6b6e73;
+      margin-top: 4px;
+    }
+
+    /* ── TWO-COLUMN LAYOUT ─── */
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    /* ── CARD ─── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+    }
+
+    /* ── FORM SECTIONS ─── */
+    .form-section + .form-section {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid #f3f4f6;
+    }
+    .form-section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+    .form-label .required {
+      color: #c73e20;
+    }
+    .form-input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #b1b4b7;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+    }
+    .form-input::placeholder { color: #9ca3af; }
+    .form-input:focus { outline: none; border-color: #007167; }
+
+    .form-textarea {
+      width: 100%;
+      min-height: 80px;
+      border: 1px solid #b1b4b7;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+      resize: vertical;
+    }
+    .form-textarea::placeholder { color: #9ca3af; }
+    .form-textarea:focus { outline: none; border-color: #007167; }
+
+    /* ── INFO BANNER ─── */
+    .info-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #e8f5f3;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+    .info-banner-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: #007167;
+    }
+    .info-banner-text {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    /* ── SIDEBAR — PAYMENT DETAILS ─── */
+    .sidebar-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+      align-self: flex-start;
+    }
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 20px;
+    }
+    .summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+    }
+    .summary-label {
+      font-size: 14px;
+      color: #6b6e73;
+    }
+    .summary-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1f2937;
+    }
+    .summary-divider {
+      border: none;
+      border-top: 1px solid #f3f4f6;
+      margin: 12px 0;
+    }
+    .coupon-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .coupon-link:hover { text-decoration: underline; }
+    .summary-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+    }
+    .summary-total-label {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .summary-total-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    /* ── REVIEW ORDER BUTTON ─── */
+    .btn-review {
+      display: block;
+      width: 100%;
+      height: 44px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      text-align: center;
+      text-decoration: none;
+      line-height: 44px;
+    }
+    .btn-review.disabled {
+      background: #d1d5db;
+      color: #9ca3af;
+      pointer-events: none;
+    }
+    .btn-review.active {
+      background: #007167;
+      color: #fff;
+    }
+    .btn-review.active:hover {
+      background: #005f57;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab active">Shop</a>
+        <a href="#" class="nav-tab">Orders</a>
+        <a href="#" class="nav-tab">Quotes</a>
+        <a href="#" class="nav-tab">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn" aria-label="Search">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn" aria-label="Notifications">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn" aria-label="Cart">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+        <span class="cart-badge">1</span>
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn" aria-label="Language">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="checkout-cart.html">Shopping Cart</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Checkout</span>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- BACK LINK -->
+    <a href="checkout-cart.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Shopping Cart
+    </a>
+
+    <!-- PAGE TITLE -->
+    <h1 class="page-title">Checkout</h1>
+    <p class="page-subtitle">Provide your purchase order number and optionally add notes for this order.</p>
+
+    <!-- TWO-COLUMN LAYOUT -->
+    <div class="checkout-layout">
+
+      <!-- LEFT COLUMN -->
+      <div class="card">
+
+        <!-- Order Details Section -->
+        <div class="form-section">
+          <h2 class="form-section-title">Order Details</h2>
+          <label class="form-label" for="poNumber">Purchase Order Number <span class="required" aria-label="required">*</span></label>
+          <input
+            class="form-input"
+            type="text"
+            id="poNumber"
+            placeholder="Write here your purchase order number"
+            required
+            aria-required="true"
+          >
+        </div>
+
+        <!-- Special Request / Comments Section -->
+        <div class="form-section">
+          <h2 class="form-section-title">Special Request / Comments</h2>
+          <div class="info-banner" role="note">
+            <svg class="info-banner-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M9 8v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="9" cy="5.5" r="0.75" fill="currentColor"/>
+            </svg>
+            <span class="info-banner-text">Adding a special request will change your order to a quote request.</span>
+          </div>
+          <label class="form-label" for="specialRequest">Comments</label>
+          <textarea
+            class="form-textarea"
+            id="specialRequest"
+            placeholder="Write your special request/comments here"
+          ></textarea>
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <div class="sidebar-card">
+        <h2 class="sidebar-title">Payment Details</h2>
+
+        <div class="summary-row">
+          <span class="summary-label">Subtotal</span>
+          <span class="summary-value">39.75 &euro;</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Shipping</span>
+          <span class="summary-value">25.00 &euro;</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Total before discount</span>
+          <span class="summary-value">64.75 &euro;</span>
+        </div>
+
+        <hr class="summary-divider">
+
+        <div class="summary-row">
+          <span class="summary-label">Coupon</span>
+          <a href="#" class="coupon-link">+ Add Coupon</a>
+        </div>
+
+        <hr class="summary-divider">
+
+        <div class="summary-total-row">
+          <span class="summary-total-label">Order Total</span>
+          <span class="summary-total-value">64.75 &euro;</span>
+        </div>
+
+        <!-- Review Order Button (disabled by default) -->
+        <span id="reviewBtn" class="btn-review disabled" role="link" aria-disabled="true" tabindex="-1">Review Order</span>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const poInput = document.getElementById('poNumber');
+    const reviewBtn = document.getElementById('reviewBtn');
+
+    function updateReviewButton() {
+      const hasValue = poInput.value.trim().length > 0;
+      if (hasValue) {
+        // Convert to active link
+        if (reviewBtn.tagName === 'SPAN') {
+          const link = document.createElement('a');
+          link.id = 'reviewBtn';
+          link.className = 'btn-review active';
+          link.href = 'checkout-review.html';
+          link.textContent = 'Review Order';
+          link.removeAttribute('aria-disabled');
+          link.setAttribute('tabindex', '0');
+          reviewBtn.parentNode.replaceChild(link, reviewBtn);
+        } else {
+          reviewBtn.className = 'btn-review active';
+          reviewBtn.href = 'checkout-review.html';
+          reviewBtn.removeAttribute('aria-disabled');
+          reviewBtn.setAttribute('tabindex', '0');
+        }
+      } else {
+        // Convert back to disabled span
+        const currentBtn = document.getElementById('reviewBtn');
+        if (currentBtn.tagName === 'A') {
+          const span = document.createElement('span');
+          span.id = 'reviewBtn';
+          span.className = 'btn-review disabled';
+          span.textContent = 'Review Order';
+          span.setAttribute('role', 'link');
+          span.setAttribute('aria-disabled', 'true');
+          span.setAttribute('tabindex', '-1');
+          currentBtn.parentNode.replaceChild(span, currentBtn);
+        }
+      }
+    }
+
+    poInput.addEventListener('input', updateReviewButton);
+  </script>
+
+</body>
+</html>

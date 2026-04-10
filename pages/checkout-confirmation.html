@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cart-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #007167; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── TOP LINKS ─── */
+    .top-links {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .top-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .top-links a:hover { text-decoration: underline; }
+
+    /* ── TITLE BAR ─── */
+    .title-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .title-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 10px;
+      background: #007167;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: #005f57; }
+    .btn-primary svg { width: 16px; height: 16px; }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px solid #007167;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-outline:hover { background: #f0faf9; }
+    .btn-outline svg { width: 16px; height: 16px; }
+
+    /* ── CARD ─── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 20px;
+    }
+
+    /* ── PROGRESS BAR ─── */
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .progress-step {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      padding: 0 24px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      background: #e5e7eb;
+      position: relative;
+      white-space: nowrap;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%);
+    }
+    .progress-step:first-child {
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+      border-radius: 8px 0 0 8px;
+    }
+    .progress-step:last-child {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 14px 50%);
+      border-radius: 0 8px 8px 0;
+    }
+    .progress-step.active {
+      background: #007167;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* ── TWO COLUMN LAYOUT ─── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 16px;
+    }
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── ORDER TABLE ─── */
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .order-table thead th {
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+    .order-table tbody td {
+      padding: 16px;
+      font-size: 14px;
+      color: #374151;
+      vertical-align: middle;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .order-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .product-name {
+      font-weight: 600;
+      color: #1f2937;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .product-detail {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    /* ── SHIPPING CARD ─── */
+    .shipping-method {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+    .shipping-detail {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 2px;
+    }
+    .shipping-price {
+      font-size: 14px;
+      font-weight: 600;
+      color: #007167;
+    }
+
+    /* ── PAYMENT DETAILS ─── */
+    .payment-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+      color: #374151;
+    }
+    .payment-row + .payment-row {
+      border-top: 1px solid #f3f4f6;
+    }
+    .payment-total {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+      border-top: 2px solid #e5e7eb;
+      padding-top: 12px;
+      margin-top: 4px;
+    }
+    .payment-total span:last-child {
+      font-size: 20px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab active">Shop</a>
+        <a href="#" class="nav-tab">Orders</a>
+        <a href="#" class="nav-tab">Quotes</a>
+        <a href="#" class="nav-tab">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+        <span class="cart-badge">1</span>
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="#">Shopping Cart</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Order Confirmation</span>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOP LINKS -->
+    <div class="top-links">
+      <a href="shop.html">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Continue Shopping
+      </a>
+      <a href="#">
+        View all Orders
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <!-- TITLE BAR -->
+    <div class="title-bar">
+      <h1>Order #20034044</h1>
+      <div class="title-bar-actions">
+        <button class="btn-primary">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M1 10.5v2a1.5 1.5 0 001.5 1.5h11a1.5 1.5 0 001.5-1.5v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5 2.5h8.5a1 1 0 011 1v4a1 1 0 01-1 1H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="3" cy="5" r="1" fill="currentColor"/><path d="M1.5 3.5h3M1.5 5h3M1.5 6.5h3" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/></svg>
+          Track Order
+        </button>
+        <button class="btn-outline">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M8 11V5M8 5l-3 3M8 5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180 8 8)"/><path d="M2 11v2.5a.5.5 0 00.5.5h11a.5.5 0 00.5-.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- ORDER PROGRESS -->
+    <div class="card">
+      <div class="card-title">Order Progress</div>
+      <div class="progress-steps">
+        <div class="progress-step active">Order Placed</div>
+        <div class="progress-step">Dispatched</div>
+        <div class="progress-step">Out for delivery</div>
+        <div class="progress-step">Delivered</div>
+      </div>
+    </div>
+
+    <!-- TWO COLUMN LAYOUT -->
+    <div class="two-col">
+      <div class="left-col">
+
+        <!-- ORDER ITEMS -->
+        <div class="card">
+          <div class="card-title">Order Items (1)</div>
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Unit price</th>
+                <th>Quantity</th>
+                <th>Unity</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="product-name">NETZSCH CERABEADS 0.4 - 1,20 - 1,40 mm</span>
+                  <span class="product-detail">443385, Size: 1,20 - 1,40 mm</span>
+                </td>
+                <td>&euro;39,75</td>
+                <td>1</td>
+                <td>kg</td>
+                <td>39,75 &euro;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SHIPPING AND DELIVERY -->
+        <div class="card">
+          <div class="card-title">Shipping and Delivery</div>
+          <div class="shipping-method">Pick-up at company</div>
+          <div class="shipping-detail">Available within 2 business days</div>
+          <div class="shipping-price">Free</div>
+        </div>
+
+      </div>
+
+      <!-- PAYMENT DETAILS -->
+      <div class="card">
+        <div class="card-title">Payment Details</div>
+        <div class="payment-row">
+          <span>Subtotal</span>
+          <span>39,75 &euro;</span>
+        </div>
+        <div class="payment-row">
+          <span>Shipping</span>
+          <span>25,00 &euro;</span>
+        </div>
+        <div class="payment-row">
+          <span>Total before discount</span>
+          <span>64,75 &euro;</span>
+        </div>
+        <div class="payment-row">
+          <span>Coupon</span>
+          <span>0,00 &euro;</span>
+        </div>
+        <div class="payment-row payment-total">
+          <span>Order Total</span>
+          <span>64,75 &euro;</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
