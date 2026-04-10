@@ -441,6 +441,205 @@
       width: 16px;
       height: 16px;
     }
+
+    /* ── TRACKING DRAWER ─── */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 299;
+      display: none;
+    }
+    .drawer-overlay.show { display: block; }
+    .tracking-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 100vh;
+      background: #fff;
+      z-index: 300;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .tracking-drawer.show { transform: translateX(0); }
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px;
+      border-bottom: 1px solid #e5e7eb;
+      flex-shrink: 0;
+    }
+    .drawer-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .drawer-close {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer;
+      font-size: 20px; color: #6b7280; border-radius: 6px;
+    }
+    .drawer-close:hover { background: #f3f4f6; }
+    .drawer-body {
+      padding: 24px;
+      flex: 1;
+    }
+    .drawer-order-id {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    .drawer-tracking-num {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    /* Timeline */
+    .timeline { display: flex; flex-direction: column; gap: 0; margin-bottom: 28px; }
+    .timeline-item {
+      display: flex;
+      gap: 14px;
+      position: relative;
+      padding-bottom: 24px;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 17px;
+      top: 36px;
+      bottom: 0;
+      width: 2px;
+      background: #e5e7eb;
+    }
+    .timeline-item:last-child::before { display: none; }
+    .timeline-item.active::before { background: #0b9c92; }
+    .timeline-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #f3f4f6;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .timeline-icon svg { width: 16px; height: 16px; color: #9ca3af; }
+    .timeline-item.active .timeline-icon {
+      background: #007167;
+    }
+    .timeline-item.active .timeline-icon svg { color: #fff; }
+    .timeline-content { flex: 1; padding-top: 2px; }
+    .timeline-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    .timeline-item.active .timeline-title { color: #007167; }
+    .timeline-desc {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+    .timeline-date {
+      font-size: 12px;
+      color: #007167;
+      font-weight: 500;
+    }
+
+    /* Drawer sections */
+    .drawer-section {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    .drawer-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+    .drawer-section-text {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .drawer-section-text strong {
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    /* Map placeholder */
+    .map-placeholder {
+      background: linear-gradient(160deg, #e8f5f3 0%, #d1ece8 100%);
+      border-radius: 12px;
+      height: 160px;
+      margin-top: 12px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .map-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #007167;
+      background: #fff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      position: absolute;
+    }
+    .map-label.warehouse { top: 30px; left: 40px; }
+    .map-label.location { bottom: 20px; right: 30px; }
+    .map-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #007167;
+      position: absolute;
+    }
+    .map-dot.warehouse-dot { top: 48px; left: 80px; }
+    .map-dot.location-dot { bottom: 38px; right: 70px; }
+    .map-line {
+      position: absolute;
+      top: 53px; left: 85px;
+      width: 160px; height: 80px;
+      border: none;
+      border-bottom: 2px dashed #0b9c92;
+      border-right: 2px dashed #0b9c92;
+      border-radius: 0 0 40px 0;
+      opacity: 0.5;
+    }
+
+    /* Contact button */
+    .btn-contact {
+      width: 100%;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid #007167;
+      background: #fff;
+      color: #007167;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      margin-top: 24px;
+    }
+    .btn-contact:hover { background: #f0faf9; }
+    .btn-contact svg { width: 16px; height: 16px; }
   </style>
 </head>
 <body>
@@ -813,9 +1012,129 @@
     btnGrid.addEventListener('click', () => {
       btnGrid.classList.add('active');
       btnList.classList.remove('active');
-      // Grid view not implemented for orders; keep table visible
+    });
+
+    // Tracking drawer
+    const overlay = document.getElementById('drawerOverlay');
+    const drawer = document.getElementById('trackingDrawer');
+    const drawerClose = document.getElementById('drawerClose');
+
+    function openDrawer() {
+      overlay.classList.add('show');
+      drawer.classList.add('show');
+    }
+    function closeDrawer() {
+      overlay.classList.remove('show');
+      drawer.classList.remove('show');
+    }
+
+    document.querySelectorAll('.action-btn[title="Track order"]').forEach(btn => {
+      btn.addEventListener('click', openDrawer);
+    });
+    drawerClose.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
     });
   </script>
+
+  <!-- DRAWER OVERLAY -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- TRACKING DRAWER -->
+  <div class="tracking-drawer" id="trackingDrawer" role="dialog" aria-label="Order Tracking">
+    <div class="drawer-header">
+      <span class="drawer-title">Order Tracking</span>
+      <button class="drawer-close" id="drawerClose">&#x2715;</button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-order-id">Order #15345678</div>
+      <div class="drawer-tracking-num">Tracking number: PK367366373</div>
+
+      <!-- Timeline -->
+      <div class="timeline">
+        <div class="timeline-item active">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13z" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 8l2 2 3-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Order Placed</div>
+            <div class="timeline-desc">Your order has been confirmed.</div>
+            <div class="timeline-date">Confirmed: Nov 13, 2025 at 12:30 AM</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5v3.5l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Dispatched</div>
+            <div class="timeline-desc">Your order has been dispatched.</div>
+            <div class="timeline-desc">Pending</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M2 10.5l4-1.5 4 2 4-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9V5.5L2 7v3.5M10 11V7.5l4-1.5V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Out for Delivery</div>
+            <div class="timeline-desc">Your order is out for delivery.</div>
+            <div class="timeline-desc">Pending</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 8l2 2 3-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Delivered</div>
+            <div class="timeline-desc">Your order has been delivered.</div>
+            <div class="timeline-desc">Pending Completion</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estimated Delivery -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Estimated Delivery</div>
+        <div class="drawer-section-text">Nov 13, 2025 by 16:00 PM</div>
+      </div>
+
+      <!-- Delivery Address -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Delivery Address</div>
+        <div class="drawer-section-text">
+          <strong>John Doe</strong><br>
+          123 Main Street, Apt 4B<br>
+          New York, NY 10001<br>
+          United States<br>
+          Phone: +1 (555) 123-4567
+        </div>
+      </div>
+
+      <!-- Carrier Information -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Carrier Information</div>
+        <div class="drawer-section-text">Fedex Express</div>
+      </div>
+
+      <!-- Map -->
+      <div class="map-placeholder">
+        <span class="map-label warehouse">Warehouse</span>
+        <div class="map-dot warehouse-dot"></div>
+        <div class="map-line"></div>
+        <div class="map-dot location-dot"></div>
+        <span class="map-label location">Your location</span>
+      </div>
+
+      <!-- Contact Support -->
+      <button class="btn-contact">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 14.5a6.5 6.5 0 100-13 6.5 6.5 0 000 13z" stroke="currentColor" stroke-width="1.5"/><path d="M6 6.5a2 2 0 013.88.67c0 1.33-2 2-2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11.5" r="0.5" fill="currentColor"/></svg>
+        Contact Support
+      </button>
+    </div>
+  </div>
 
 </body>
 </html>
