@@ -355,11 +355,24 @@
     }
 
     /* ── TERMS ─── */
+    .terms-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .terms-checkbox {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: #007167;
+      margin-top: 1px;
+    }
     .terms-text {
       font-size: 12px;
       color: #6b7280;
       line-height: 1.6;
-      margin-bottom: 20px;
     }
     .terms-text a {
       color: #007167;
@@ -594,10 +607,13 @@
           </div>
 
           <!-- Terms -->
-          <p class="terms-text">
-            By ticking, you are confirming that you have read, understood and agree with our
-            <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>.
-          </p>
+          <label class="terms-row">
+            <input type="checkbox" class="terms-checkbox" id="termsCheck">
+            <span class="terms-text">
+              By ticking, you are confirming that you have read, understood and agree with our
+              <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>.
+            </span>
+          </label>
 
           <!-- Action Buttons -->
           <a href="checkout-confirmation.html" class="btn-primary">
