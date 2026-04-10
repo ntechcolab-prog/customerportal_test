@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order #2800998-06 — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── BACK LINK ─── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #007167;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .back-link svg { width: 16px; height: 16px; }
+
+    /* ── TITLE BAR ─── */
+    .title-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .title-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .btn-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 999px;
+      background: #007167;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-track:hover { background: #005f57; }
+    .btn-track svg { width: 18px; height: 18px; }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid #007167;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-download:hover { background: #f0faf9; }
+    .btn-download svg { width: 18px; height: 18px; }
+
+    /* ── ORDER PROGRESS ─── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+    .progress-bar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .progress-step {
+      flex: 1;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: #4c4d57;
+      background: #dee0e0;
+      position: relative;
+      white-space: nowrap;
+    }
+    .progress-step.active {
+      background: #4e98aa;
+      color: #fff;
+      font-weight: 700;
+    }
+    .progress-step:first-child {
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+      border-radius: 20px 0 0 20px;
+    }
+    .progress-step:not(:first-child):not(:last-child) {
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+      margin-left: -9px;
+    }
+    .progress-step:last-child {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
+      margin-left: -9px;
+      border-radius: 0 20px 20px 0;
+    }
+
+    /* ── TWO COLUMN LAYOUT ─── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 16px;
+    }
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── ORDER ITEMS TABLE ─── */
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .card-header-row .card-title { margin-bottom: 0; }
+    .repeat-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #007167;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .repeat-link:hover { text-decoration: underline; }
+
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .order-table thead th {
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #6b7280;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+    .order-table tbody td {
+      padding: 14px 12px;
+      font-size: 14px;
+      color: #374151;
+      vertical-align: middle;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .order-table tbody tr:last-child td { border-bottom: none; }
+    .product-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .product-cell img {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #fafbfc;
+      flex-shrink: 0;
+    }
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .product-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .product-meta {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    /* ── SHIPPING CARD ─── */
+    .shipping-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .shipping-address {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .shipping-delivery {
+      border-top: 1px solid #f3f4f6;
+      padding-top: 16px;
+    }
+    .delivery-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+    .delivery-detail {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+    .delivery-free {
+      font-size: 14px;
+      font-weight: 700;
+      color: #007167;
+    }
+
+    /* ── PAYMENT DETAILS (SIDEBAR) ─── */
+    .payment-card {
+      position: sticky;
+      top: 24px;
+    }
+    .payment-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+      color: #374151;
+    }
+    .payment-row.total {
+      border-top: 2px solid #1f2937;
+      margin-top: 8px;
+      padding-top: 16px;
+    }
+    .payment-row.total .payment-label,
+    .payment-row.total .payment-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .payment-label { color: #6b7280; }
+    .payment-value { font-weight: 500; color: #1f2937; }
+    .payment-value.free { color: #007167; font-weight: 600; }
+    .payment-value.discount { color: #c73e20; }
+
+    /* ── TRACKING DRAWER ─── */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 299;
+    }
+    .drawer-overlay.open { display: block; }
+
+    .tracking-drawer {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+      z-index: 300;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .tracking-drawer.open {
+      display: flex;
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid #eaeaea;
+      flex-shrink: 0;
+    }
+    .drawer-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .drawer-close {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 8px;
+      color: #6b7280;
+    }
+    .drawer-close:hover { background: #f3f4f6; }
+    .drawer-close svg { width: 20px; height: 20px; }
+
+    .drawer-body {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .drawer-order-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .drawer-order-id {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .drawer-tracking-num {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    /* ── TIMELINE ─── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    .timeline-step {
+      display: flex;
+      gap: 16px;
+      position: relative;
+      padding-bottom: 24px;
+    }
+    .timeline-step:last-child { padding-bottom: 0; }
+    .timeline-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 32px;
+    }
+    .timeline-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: #e5e7eb;
+    }
+    .timeline-circle.active {
+      background: #007167;
+    }
+    .timeline-circle svg { width: 16px; height: 16px; }
+    .timeline-line {
+      width: 2px;
+      flex: 1;
+      background: #e5e7eb;
+      margin-top: 4px;
+    }
+    .timeline-step.active .timeline-line {
+      background: #007167;
+    }
+    .timeline-content {
+      flex: 1;
+      padding-top: 4px;
+    }
+    .timeline-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+    .timeline-desc {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+    .timeline-date {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    /* ── DRAWER SECTIONS ─── */
+    .drawer-section {
+      border-top: 1px solid #f3f4f6;
+      padding-top: 20px;
+    }
+    .drawer-section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .drawer-section-value {
+      font-size: 14px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .drawer-section-value strong {
+      font-weight: 600;
+    }
+
+    /* ── MAP PLACEHOLDER ─── */
+    .map-placeholder {
+      background: #e8f5f3;
+      border-radius: 12px;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .map-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      z-index: 1;
+    }
+    .map-marker-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #007167;
+    }
+    .map-marker-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #007167;
+    }
+    .map-route {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .map-dotted-line {
+      width: 80px;
+      border-top: 2px dashed #007167;
+    }
+
+    /* ── CONTACT SUPPORT BUTTON ─── */
+    .btn-contact-support {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 44px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid #007167;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-contact-support:hover { background: #f0faf9; }
+
+    /* ── REDUCED MOTION ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab">Shop</a>
+        <a href="orders.html" class="nav-tab active">Orders</a>
+        <a href="#" class="nav-tab">Quotes</a>
+        <a href="#" class="nav-tab">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="orders.html">Orders</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Order #2800998-06</span>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- BACK LINK -->
+    <a href="orders.html" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Orders
+    </a>
+
+    <!-- TITLE BAR -->
+    <div class="title-bar">
+      <h1>Order #2800998-06</h1>
+      <div class="title-bar-actions">
+        <button class="btn-track" id="btnTrackOrder" aria-label="Track Order">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 4.5h10v8H1z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11 7h3l2.5 3v2.5h-5.5V7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="4.5" cy="13.5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="14" cy="13.5" r="1.5" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          Track Order
+        </button>
+        <button class="btn-download" aria-label="Download PDF">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 2v9m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 13v2h12v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Download PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- ORDER PROGRESS -->
+    <div class="card">
+      <div class="card-title">Order Progress</div>
+      <div class="progress-bar">
+        <div class="progress-step active">Received</div>
+        <div class="progress-step">Pending Approval</div>
+        <div class="progress-step">Approved</div>
+        <div class="progress-step">Converted to Order</div>
+      </div>
+    </div>
+
+    <!-- TWO COLUMN LAYOUT -->
+    <div class="two-col">
+
+      <!-- LEFT COLUMN -->
+      <div class="left-col">
+
+        <!-- ORDER ITEMS -->
+        <div class="card">
+          <div class="card-header-row">
+            <div class="card-title">Order Items (1)</div>
+            <a href="#" class="repeat-link">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.75 7a5.25 5.25 0 019.02-3.675M12.25 7a5.25 5.25 0 01-9.02 3.675" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.5 1.75v1.75h1.75" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3.5 12.25v-1.75H1.75" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Repeat Order
+            </a>
+          </div>
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Unit price</th>
+                <th>Quantity</th>
+                <th>Unity</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="product-cell">
+                    <img src="../assets/shop-cerabeads.png" alt="NETZSCH CERABEADS 0.4">
+                    <div class="product-info">
+                      <span class="product-name">NETZSCH CERABEADS 0.4</span>
+                      <span class="product-meta">Ref: 443385</span>
+                      <span class="product-meta">Size: 0,40 - 0,60 mm</span>
+                    </div>
+                  </div>
+                </td>
+                <td>39,75 &euro;</td>
+                <td>1</td>
+                <td>Kilogram (kg)</td>
+                <td><strong>39,75 &euro;</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- SHIPPING AND DELIVERY -->
+        <div class="card">
+          <div class="card-title">Shipping and Delivery</div>
+          <div class="shipping-section">
+            <div class="shipping-address">
+              John Doe<br>
+              123 Main Street, Apt 4B<br>
+              New York, NY 10001<br>
+              United States<br>
+              Phone: +1 (555) 123-4567
+            </div>
+            <div class="shipping-delivery">
+              <div class="delivery-label">Delivery to your address</div>
+              <div class="delivery-detail">Expected within 2-3 business days</div>
+              <div class="delivery-free">Free</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR - PAYMENT DETAILS -->
+      <div class="card payment-card">
+        <div class="card-title">Payment Details</div>
+        <div class="payment-row">
+          <span class="payment-label">Subtotal</span>
+          <span class="payment-value">39,75 &euro;</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-label">Tax</span>
+          <span class="payment-value">2,00 &euro;</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-label">Shipping</span>
+          <span class="payment-value free">Free</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-label">Total before discount</span>
+          <span class="payment-value">41,75 &euro;</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-label">Coupon</span>
+          <span class="payment-value discount">-4,00 &euro;</span>
+        </div>
+        <div class="payment-row total">
+          <span class="payment-label">Order Total</span>
+          <span class="payment-value">37,75 &euro;</span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- TRACKING DRAWER OVERLAY -->
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+
+  <!-- TRACKING DRAWER -->
+  <aside class="tracking-drawer" id="trackingDrawer" role="dialog" aria-label="Order Tracking" aria-hidden="true">
+    <div class="drawer-header">
+      <h2>Order Tracking</h2>
+      <button class="drawer-close" id="drawerClose" aria-label="Close tracking drawer">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="drawer-body">
+
+      <!-- Order info -->
+      <div class="drawer-order-info">
+        <span class="drawer-order-id">Order #15345678</span>
+        <span class="drawer-tracking-num">Tracking number: PK367366373</span>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline">
+        <!-- Step 1 - Active -->
+        <div class="timeline-step active">
+          <div class="timeline-marker">
+            <div class="timeline-circle active">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.5 8.5l3 3 6-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Order Placed</div>
+            <div class="timeline-desc">Your order has been confirmed.</div>
+            <div class="timeline-date">Confirmed: Nov 13, 2025 at 12:30 AM</div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="timeline-step">
+          <div class="timeline-marker">
+            <div class="timeline-circle">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="8" r="3" fill="#9ca3af"/>
+              </svg>
+            </div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Dispatched</div>
+            <div class="timeline-desc">Your order has been dispatched.</div>
+            <div class="timeline-date">Pending</div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="timeline-step">
+          <div class="timeline-marker">
+            <div class="timeline-circle">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="8" r="3" fill="#9ca3af"/>
+              </svg>
+            </div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Out for Delivery</div>
+            <div class="timeline-desc">Your order is out for delivery.</div>
+            <div class="timeline-date">Pending</div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="timeline-step">
+          <div class="timeline-marker">
+            <div class="timeline-circle">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="8" r="3" fill="#9ca3af"/>
+              </svg>
+            </div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Delivered</div>
+            <div class="timeline-desc">Your order has been delivered.</div>
+            <div class="timeline-date">Pending Completion</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estimated Delivery -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Estimated Delivery</div>
+        <div class="drawer-section-value"><strong>Nov 13, 2025 by 16:00 PM</strong></div>
+      </div>
+
+      <!-- Delivery Address -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Delivery Address</div>
+        <div class="drawer-section-value">
+          John Doe<br>
+          123 Main Street, Apt 4B<br>
+          New York, NY 10001<br>
+          United States<br>
+          Phone: +1 (555) 123-4567
+        </div>
+      </div>
+
+      <!-- Carrier Information -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Carrier Information</div>
+        <div class="drawer-section-value"><strong>Fedex Express</strong></div>
+      </div>
+
+      <!-- Map Placeholder -->
+      <div class="map-placeholder">
+        <div class="map-route">
+          <div class="map-marker">
+            <div class="map-marker-dot"></div>
+            <span class="map-marker-label">Warehouse</span>
+          </div>
+          <div class="map-dotted-line"></div>
+          <div class="map-marker">
+            <div class="map-marker-dot"></div>
+            <span class="map-marker-label">Your location</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Support -->
+      <button class="btn-contact-support">Contact Support</button>
+
+    </div>
+  </aside>
+
+  <script>
+    // Tracking drawer
+    const btnTrack = document.getElementById('btnTrackOrder');
+    const drawer = document.getElementById('trackingDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const btnClose = document.getElementById('drawerClose');
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+      overlay.setAttribute('aria-hidden', 'false');
+      btnClose.focus();
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
+      btnTrack.focus();
+    }
+
+    btnTrack.addEventListener('click', openDrawer);
+    btnClose.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && drawer.classList.contains('open')) {
+        closeDrawer();
+      }
+    });
+  </script>
+
+</body>
+</html>
