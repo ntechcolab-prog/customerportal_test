@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service #268718 — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── BACK LINK ─── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #007167;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .back-link svg { width: 16px; height: 16px; }
+
+    /* ── TITLE BAR ─── */
+    .title-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .btn-download-pdf {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 999px;
+      background: #007167;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-download-pdf:hover { background: #005f57; }
+    .btn-download-pdf svg { width: 18px; height: 18px; }
+
+    /* ── CARD ─── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+
+    /* ── PROGRESS BAR ─── */
+    .progress-bar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .progress-step {
+      flex: 1;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: #4c4d57;
+      background: #dee0e0;
+      position: relative;
+      white-space: nowrap;
+    }
+    .progress-step.active {
+      background: #4e98aa;
+      color: #fff;
+      font-weight: 700;
+    }
+    .progress-step:first-child {
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+      border-radius: 20px 0 0 20px;
+    }
+    .progress-step:not(:first-child):not(:last-child) {
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+      margin-left: -9px;
+    }
+    .progress-step:last-child {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
+      margin-left: -9px;
+      border-radius: 0 20px 20px 0;
+    }
+
+    /* ── TWO COLUMN LAYOUT ─── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 16px;
+    }
+
+    /* ── MACHINE INFO CARD (LEFT) ─── */
+    .machine-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .machine-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #fafbfc;
+      flex-shrink: 0;
+    }
+    .machine-header-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .machine-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .machine-meta {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+    .machine-meta span {
+      display: block;
+    }
+    .machine-section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 12px;
+    }
+    .machine-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .machine-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 14px;
+    }
+    .machine-detail-label {
+      color: #6b7280;
+      flex-shrink: 0;
+    }
+    .machine-detail-value {
+      color: #1f2937;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* ── SERVICE DETAILS CARD (RIGHT) ─── */
+    .section-title-upper {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2937;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+    .form-label .required {
+      color: #c73e20;
+    }
+
+    /* Radio group */
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: default;
+    }
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .radio-option.selected .radio-circle {
+      border-color: #007167;
+    }
+    .radio-option.selected .radio-circle::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #007167;
+    }
+    .radio-label {
+      font-size: 14px;
+      color: #374151;
+    }
+
+    /* Input fields */
+    .form-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fafbfc;
+    }
+    .form-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 12px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fafbfc;
+      resize: vertical;
+    }
+
+    /* Drop zone */
+    .drop-zone {
+      border: 2px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .drop-zone:hover {
+      border-color: #007167;
+    }
+    .drop-zone-icon {
+      width: 40px;
+      height: 40px;
+      color: #9ca3af;
+    }
+    .drop-zone-text {
+      font-size: 14px;
+      color: #374151;
+      font-weight: 500;
+    }
+    .drop-zone-hint {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="" aria-hidden="true">
+      <div class="topbar-divider" aria-hidden="true"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <header class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider" aria-hidden="true"></div>
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab">Shop</a>
+        <a href="orders.html" class="nav-tab">Orders</a>
+        <a href="quotes.html" class="nav-tab">Quotes</a>
+        <a href="services.html" class="nav-tab active" aria-current="page">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn" aria-label="Search">
+        <img src="../assets/icon-search.svg" alt="" aria-hidden="true">
+      </button>
+      <button class="header-icon-btn" aria-label="Notifications, 1 new">
+        <img src="../assets/icon-bell.svg" alt="" aria-hidden="true">
+        <span class="notif-badge" aria-hidden="true">1</span>
+      </button>
+      <button class="header-icon-btn" aria-label="Cart">
+        <img src="../assets/icon-cart.svg" alt="" aria-hidden="true">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus profile">
+      <button class="lang-btn" aria-label="Language: English">
+        <img src="../assets/icon-globe.svg" alt="" aria-hidden="true">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="" aria-hidden="true">
+      </button>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <a href="services.html">Services</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <span class="breadcrumb-current" aria-current="page">Service Request</span>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- BACK LINK -->
+    <a href="services.html" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Services
+    </a>
+
+    <!-- TITLE BAR -->
+    <div class="title-bar">
+      <h1>Service #268718</h1>
+      <button class="btn-download-pdf" aria-label="Download PDF">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M15.75 11.25v3a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5.25 7.5L9 11.25l3.75-3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 11.25v-9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Download PDF
+      </button>
+    </div>
+
+    <!-- SERVICE PROGRESS -->
+    <div class="card">
+      <h2 class="card-title">Service Progress</h2>
+      <div class="progress-bar" role="list" aria-label="Service progress steps">
+        <div class="progress-step active" role="listitem" aria-current="step">Submitted</div>
+        <div class="progress-step" role="listitem">In Progress</div>
+        <div class="progress-step" role="listitem">Completed</div>
+      </div>
+    </div>
+
+    <!-- TWO COLUMN LAYOUT -->
+    <div class="two-col">
+
+      <!-- LEFT: Machine Info -->
+      <div class="card">
+        <div class="machine-header">
+          <img class="machine-img" src="../assets/shop-cerabeads.png" alt="Discus 30 machine">
+          <div class="machine-header-info">
+            <div class="machine-name">Discus 30</div>
+            <div class="machine-meta">
+              <span>Serial Number: 232345</span>
+              <span>Country: Brazil</span>
+              <span>Install Date: 2024-08-20</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="machine-section-title">Machine Information</h3>
+        <div class="machine-details">
+          <div class="machine-detail-row">
+            <span class="machine-detail-label">Equipment Name</span>
+            <span class="machine-detail-value">Discus 30</span>
+          </div>
+          <div class="machine-detail-row">
+            <span class="machine-detail-label">Commission Number</span>
+            <span class="machine-detail-value">232345</span>
+          </div>
+          <div class="machine-detail-row">
+            <span class="machine-detail-label">Machine Type</span>
+            <span class="machine-detail-value">Bead Mill Stirrer</span>
+          </div>
+          <div class="machine-detail-row">
+            <span class="machine-detail-label">Fig nr.</span>
+            <span class="machine-detail-value">12633</span>
+          </div>
+          <div class="machine-detail-row">
+            <span class="machine-detail-label">Service by</span>
+            <span class="machine-detail-value">NEM</span>
+          </div>
+          <div class="machine-detail-row">
+            <span class="machine-detail-label">Purchase Date</span>
+            <span class="machine-detail-value">2024-05-12</span>
+          </div>
+          <div class="machine-detail-row">
+            <span class="machine-detail-label">Install Date</span>
+            <span class="machine-detail-value">2024-08-20</span>
+          </div>
+          <div class="machine-detail-row">
+            <span class="machine-detail-label">Warranty Expiration</span>
+            <span class="machine-detail-value">2026-06-01</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Service Details -->
+      <div class="card">
+        <h2 class="section-title-upper">Service Details</h2>
+
+        <!-- Request Type -->
+        <fieldset class="form-group" style="border: none; padding: 0;">
+          <legend class="form-label">Request Type <span class="required" aria-hidden="true">*</span></legend>
+          <div class="radio-group" role="radiogroup" aria-label="Request Type">
+            <div class="radio-option" role="radio" aria-checked="false" tabindex="-1">
+              <span class="radio-circle" aria-hidden="true"></span>
+              <span class="radio-label">Repair</span>
+            </div>
+            <div class="radio-option" role="radio" aria-checked="false" tabindex="-1">
+              <span class="radio-circle" aria-hidden="true"></span>
+              <span class="radio-label">Maintenance</span>
+            </div>
+            <div class="radio-option selected" role="radio" aria-checked="true" tabindex="0">
+              <span class="radio-circle" aria-hidden="true"></span>
+              <span class="radio-label">Spare Parts Request</span>
+            </div>
+            <div class="radio-option" role="radio" aria-checked="false" tabindex="-1">
+              <span class="radio-circle" aria-hidden="true"></span>
+              <span class="radio-label">Consultation</span>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Title -->
+        <div class="form-group">
+          <label class="form-label" for="service-title">Title <span class="required" aria-hidden="true">*</span></label>
+          <input type="text" id="service-title" class="form-input" value="ee" readonly aria-readonly="true">
+        </div>
+
+        <!-- Problem Description -->
+        <div class="form-group">
+          <label class="form-label" for="service-description">Problem Description <span class="required" aria-hidden="true">*</span></label>
+          <textarea id="service-description" class="form-textarea" readonly aria-readonly="true">ee</textarea>
+        </div>
+
+        <!-- Attachments -->
+        <div class="form-group">
+          <span class="form-label">Attachments</span>
+          <div class="drop-zone" role="button" tabindex="0" aria-label="Drop files here or click to upload">
+            <svg class="drop-zone-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M20 28V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M13 19l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M33 28a6 6 0 0 0-3.2-10.5A9 9 0 1 0 12.1 22 6 6 0 0 0 7 28" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="drop-zone-text">Drop files here or click to upload</span>
+            <span class="drop-zone-hint">Supports: PDF, JPG, PNG</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
