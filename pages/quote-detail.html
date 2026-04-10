@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quote Confirmation — NETZSCH Customer Portal</title>
+  <title>Quotation #15098765 — NETZSCH Customer Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -77,13 +77,6 @@
       border-radius: 50%; width: 16px; height: 16px;
       display: flex; align-items: center; justify-content: center;
     }
-    .cart-badge {
-      position: absolute; top: 4px; right: 4px;
-      background: #007167; color: #fff;
-      font-size: 10px; font-weight: 700;
-      border-radius: 50%; width: 16px; height: 16px;
-      display: flex; align-items: center; justify-content: center;
-    }
     .user-avatar {
       width: 44px; height: 44px; border-radius: 50%;
       object-fit: cover; cursor: pointer;
@@ -121,35 +114,68 @@
       gap: 16px;
     }
 
+    /* ── BACK LINK ─── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #007167;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .back-link svg { width: 16px; height: 16px; }
+
     /* ── TITLE BAR ─── */
     .title-bar {
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       padding: 24px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 24px;
     }
-    .title-bar-text h1 {
+    .title-bar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar h1 {
       font-size: 24px;
       font-weight: 700;
       color: #1f2937;
-      margin-bottom: 8px;
     }
-    .title-bar-text p {
+    .title-bar-subtitle {
       font-size: 14px;
-      color: #6b7280;
-      line-height: 1.5;
+      color: #374151;
+      line-height: 1.6;
+      margin-top: 12px;
     }
     .title-bar-actions {
       display: flex;
       align-items: center;
       gap: 12px;
-      flex-shrink: 0;
+      margin-top: 16px;
     }
-    .btn-primary {
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid #007167;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-download:hover { background: #f0faf9; }
+    .btn-download svg { width: 18px; height: 18px; }
+    .btn-approve {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -166,9 +192,9 @@
       white-space: nowrap;
       transition: background 0.15s;
     }
-    .btn-primary:hover { background: #005f57; }
-    .btn-primary svg { width: 16px; height: 16px; }
-    .btn-gray-outline {
+    .btn-approve:hover { background: #005f57; }
+    .btn-approve svg { width: 18px; height: 18px; }
+    .btn-decline {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -180,15 +206,15 @@
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 500;
-      color: #6b7280;
+      color: #374151;
       cursor: pointer;
       white-space: nowrap;
       transition: background 0.15s;
     }
-    .btn-gray-outline:hover { background: #f9fafb; }
-    .btn-gray-outline svg { width: 16px; height: 16px; }
+    .btn-decline:hover { background: #f9fafb; }
+    .btn-decline svg { width: 18px; height: 18px; }
 
-    /* ── CARD ─── */
+    /* ── CARDS ─── */
     .card {
       background: #fff;
       border: 1px solid #e5e7eb;
@@ -196,18 +222,19 @@
       padding: 24px;
     }
     .card-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
       color: #1f2937;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
-    /* ── PROGRESS BAR ─── */
-    .progress-bar-wrap {
+    /* ── QUOTATION PROGRESS ─── */
+    .progress-bar {
       display: flex;
+      align-items: center;
+      background: #fff;
       border-radius: 20px;
       overflow: hidden;
-      background: #fff;
     }
     .progress-step {
       flex: 1;
@@ -215,34 +242,36 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #dee0e0;
+      font-size: 13px;
+      font-weight: 500;
       color: #4c4d57;
-      font-size: 14px;
-      font-weight: 400;
+      background: #dee0e0;
+      position: relative;
       white-space: nowrap;
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
-      margin-left: -9px;
-      padding: 0 8px 0 16px;
-    }
-    .progress-step:first-child {
-      margin-left: 0;
-      padding-left: 20px;
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
-    }
-    .progress-step:last-child {
-      padding-right: 20px;
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
     }
     .progress-step.active {
       background: #4e98aa;
       color: #fff;
       font-weight: 700;
     }
+    .progress-step:first-child {
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+      border-radius: 20px 0 0 20px;
+    }
+    .progress-step:not(:first-child):not(:last-child) {
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+      margin-left: -9px;
+    }
+    .progress-step:last-child {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
+      margin-left: -9px;
+      border-radius: 0 20px 20px 0;
+    }
 
     /* ── TWO COLUMN LAYOUT ─── */
     .two-col {
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: 1fr 360px;
       gap: 16px;
     }
     .left-col {
@@ -251,85 +280,78 @@
       gap: 16px;
     }
 
-    /* ── ORDER TABLE ─── */
+    /* ── ORDER ITEMS TABLE ─── */
     .order-table {
       width: 100%;
       border-collapse: collapse;
     }
     .order-table thead th {
-      padding: 12px 16px;
-      font-size: 13px;
+      padding: 10px 12px;
+      font-size: 12px;
       font-weight: 600;
       color: #6b7280;
       text-align: left;
       border-bottom: 1px solid #e5e7eb;
       white-space: nowrap;
     }
+    .order-table thead th:last-child {
+      text-align: right;
+    }
     .order-table tbody td {
-      padding: 16px;
+      padding: 14px 12px;
       font-size: 14px;
       color: #374151;
       vertical-align: middle;
       border-bottom: 1px solid #f3f4f6;
     }
-    .order-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-    .product-name {
-      font-weight: 600;
-      color: #1f2937;
-      display: block;
-      margin-bottom: 2px;
-    }
-    .product-detail {
-      font-size: 12px;
-      color: #9ca3af;
-    }
-    .quotation-only {
-      font-weight: 700;
-      color: #1f2937;
+    .order-table tbody tr:last-child td { border-bottom: none; }
+    .order-table tbody td:last-child {
+      text-align: right;
     }
 
     /* ── SHIPPING CARD ─── */
-    .shipping-method {
+    .shipping-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .shipping-address {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .shipping-delivery {
+      border-top: 1px solid #f3f4f6;
+      padding-top: 16px;
+    }
+    .delivery-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .delivery-label {
+      font-size: 14px;
       font-weight: 600;
       color: #1f2937;
       margin-bottom: 4px;
     }
-    .shipping-detail {
+    .delivery-detail {
       font-size: 14px;
       color: #6b7280;
-      margin-bottom: 2px;
+      line-height: 1.6;
     }
-    .shipping-price {
+    .delivery-free {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       color: #007167;
     }
 
-    /* ── PAYMENT DETAILS ─── */
-    .payment-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 0;
-      font-size: 14px;
-      color: #374151;
-    }
-    .payment-row + .payment-row {
-      border-top: 1px solid #f3f4f6;
-    }
-    .payment-total {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1f2937;
-      border-top: 2px solid #e5e7eb;
-      padding-top: 12px;
-      margin-top: 4px;
-    }
-    .payment-total span:last-child {
-      font-size: 20px;
-      font-weight: 700;
+    /* ── REDUCED MOTION ─── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
     }
   </style>
 </head>
@@ -352,9 +374,9 @@
       <nav class="header-nav">
         <a href="dashboard.html" class="nav-tab">Home</a>
         <a href="machines.html" class="nav-tab">Machines</a>
-        <a href="shop.html" class="nav-tab active">Shop</a>
+        <a href="shop.html" class="nav-tab">Shop</a>
         <a href="orders.html" class="nav-tab">Orders</a>
-        <a href="quotes.html" class="nav-tab">Quotes</a>
+        <a href="quotes.html" class="nav-tab active">Quotes</a>
         <a href="#" class="nav-tab">Services</a>
         <a href="#" class="nav-tab">Help</a>
       </nav>
@@ -369,7 +391,6 @@
       </button>
       <button class="header-icon-btn">
         <img src="../assets/icon-cart.svg" alt="Cart">
-        <span class="cart-badge">1</span>
       </button>
       <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
       <button class="lang-btn">
@@ -384,28 +405,49 @@
   <div class="breadcrumb">
     <a href="dashboard.html">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <a href="#">Shopping Cart</a>
+    <a href="quotes.html">Quotes</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Quote confirmation</span>
+    <span class="breadcrumb-current">Quotation #15098765</span>
   </div>
 
   <!-- MAIN -->
-  <div class="main">
+  <main class="main">
+
+    <!-- BACK LINK -->
+    <a href="quotes.html" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Quotes
+    </a>
 
     <!-- TITLE BAR -->
     <div class="title-bar">
-      <div class="title-bar-text">
-        <h1>Quotation #13435602</h1>
-        <p>Our sales team will review your request and send a confirmation by email within 3 business days.</p>
-      </div>
-      <div class="title-bar-actions">
-        <button class="btn-gray-outline">
-          <svg viewBox="0 0 16 16" fill="none"><path d="M8 11V5M8 5l-3 3M8 5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180 8 8)"/><path d="M2 11v2.5a.5.5 0 00.5.5h11a.5.5 0 00.5-.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="title-bar-top">
+        <h1>Quotation #15098765</h1>
+        <button class="btn-download" aria-label="Download PDF">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M9 2v9m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 13v2h12v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           Download PDF
         </button>
-        <button class="btn-primary">
-          <svg viewBox="0 0 16 16" fill="none"><path d="M8 3C4.5 3 1.7 5.5 1 8c.7 2.5 3.5 5 7 5s6.3-2.5 7-5c-.7-2.5-3.5-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-          View Quote
+      </div>
+      <p class="title-bar-subtitle">
+        This quotation requires your approval to proceed. Please review the details and approve within <strong>30 days</strong>. After this period, the quotation will expire automatically.
+      </p>
+      <div class="title-bar-actions">
+        <button class="btn-approve" aria-label="Approve Quotation">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 9.5l3.5 3.5L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Approve Quotation
+        </button>
+        <button class="btn-decline" aria-label="Decline Quotation">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 5l8 8M13 5l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Decline Quotation
         </button>
       </div>
     </div>
@@ -413,16 +455,18 @@
     <!-- QUOTATION PROGRESS -->
     <div class="card">
       <div class="card-title">Quotation Progress</div>
-      <div class="progress-bar-wrap">
-        <div class="progress-step active">Received</div>
-        <div class="progress-step">Pending Approval</div>
-        <div class="progress-step">Approved</div>
-        <div class="progress-step">Converted to Order</div>
+      <div class="progress-bar" role="list">
+        <div class="progress-step active" role="listitem">Received</div>
+        <div class="progress-step active" role="listitem">Pending Approval</div>
+        <div class="progress-step" role="listitem">Approved</div>
+        <div class="progress-step" role="listitem">Converted to Order</div>
       </div>
     </div>
 
     <!-- TWO COLUMN LAYOUT -->
     <div class="two-col">
+
+      <!-- LEFT COLUMN -->
       <div class="left-col">
 
         <!-- ORDER ITEMS -->
@@ -434,66 +478,48 @@
                 <th>Product</th>
                 <th>Unit price</th>
                 <th>Quantity</th>
-                <th>Unity</th>
                 <th>Total</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <span class="product-name">NETZSCH CERABEADS 0.4 - 1,20 - 1,40 mm</span>
-                  <span class="product-detail">443385, Size: 1,20 - 1,40 mm</span>
-                </td>
-                <td>--</td>
-                <td>1</td>
-                <td>kg</td>
-                <td><span class="quotation-only">Quotation Only</span></td>
+                <td>O-Ring <span style="color:#9ca3af; font-size:12px;">(Ref: 539256)</span></td>
+                <td>&euro;25.00</td>
+                <td>2</td>
+                <td><strong>&euro;50.00</strong></td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <!-- SHIPPING AND DELIVERY -->
-        <div class="card">
-          <div class="card-title">Shipping and Delivery</div>
-          <div class="shipping-method">Pick-up at company</div>
-          <div class="shipping-detail">Available within 2 business days</div>
-          <div class="shipping-price">Free</div>
-        </div>
-
       </div>
 
-      <!-- PAYMENT DETAILS -->
+      <!-- RIGHT COLUMN - SHIPPING AND DELIVERY -->
       <div class="card">
-        <div class="card-title">Payment Details</div>
-        <div class="payment-row">
-          <span>Subtotal</span>
-          <span>--</span>
-        </div>
-        <div class="payment-row">
-          <span>Tax</span>
-          <span>--</span>
-        </div>
-        <div class="payment-row">
-          <span>Shipping</span>
-          <span>--</span>
-        </div>
-        <div class="payment-row">
-          <span>Total before discount</span>
-          <span>--</span>
-        </div>
-        <div class="payment-row">
-          <span>Coupon</span>
-          <span>--</span>
-        </div>
-        <div class="payment-row payment-total">
-          <span>Order Total</span>
-          <span>--</span>
+        <div class="card-title">Shipping and Delivery</div>
+        <div class="shipping-section">
+          <div class="shipping-address">
+            <strong>Central NY</strong><br>
+            123 Main Street, Apt 4B<br>
+            New York, NY 10001<br>
+            United States<br>
+            Phone: +1 (555) 123-4567
+          </div>
+          <div class="shipping-delivery">
+            <div class="delivery-row">
+              <div>
+                <div class="delivery-label">Pick-up at company</div>
+                <div class="delivery-detail">Available within 2 business days</div>
+              </div>
+              <div class="delivery-free">Free</div>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
 
-  </div>
+  </main>
 
 </body>
 </html>

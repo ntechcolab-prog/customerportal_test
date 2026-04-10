@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotes — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── TITLE BAR ─── */
+    .title-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .title-bar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .btn-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+    }
+    .btn-filters:hover { background: #f9fafb; }
+    .btn-filters.active {
+      background: #007167;
+      border-color: #007167;
+      color: #fff;
+    }
+    .btn-filters svg { width: 16px; height: 16px; }
+
+    /* ── FILTER BAR ─── */
+    .filter-bar {
+      display: none;
+      gap: 12px;
+      align-items: center;
+    }
+    .filter-bar.visible { display: flex; }
+    .filter-input {
+      position: relative;
+      flex: 1;
+      max-width: 280px;
+    }
+    .filter-input input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0 12px 0 36px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+    }
+    .filter-input input::placeholder { color: #9ca3af; }
+    .filter-input input:focus { outline: none; border-color: #007167; }
+    .filter-input svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: #9ca3af;
+      pointer-events: none;
+    }
+    .filter-select {
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0 32px 0 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #374151;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+      appearance: none;
+      cursor: pointer;
+      min-width: 130px;
+    }
+    .filter-select:focus { outline: none; border-color: #007167; }
+
+    /* ── STAT CARDS ─── */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #e8f5f3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-icon svg {
+      width: 24px;
+      height: 24px;
+      color: #007167;
+    }
+    .stat-icon.orange { background: #fef3cd; }
+    .stat-icon.orange svg { color: #856404; }
+    .stat-icon.blue { background: #e8f5f3; }
+    .stat-icon.blue svg { color: #007167; }
+    .stat-icon.red { background: #fde8e8; }
+    .stat-icon.red svg { color: #c73e20; }
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    /* ── TOOLBAR ─── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    /* ── VIEW TOGGLE ─── */
+    .view-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .view-toggle-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      color: #9ca3af;
+    }
+    .view-toggle-btn.active {
+      border-color: #007167;
+      color: #007167;
+      background: #f0faf9;
+    }
+    .view-toggle-btn svg { width: 16px; height: 16px; }
+
+    /* ── QUOTES TABLE ─── */
+    .quotes-table-wrap {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .quotes-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .quotes-table thead tr { background: #007167; }
+    .quotes-table thead th {
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      text-align: left;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    .quotes-table thead th .sort-icon {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-left: 4px;
+      vertical-align: middle;
+      opacity: 0.6;
+    }
+    .quotes-table thead th:hover .sort-icon { opacity: 1; }
+    .quotes-table thead th:last-child { cursor: default; }
+    .quotes-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.1s;
+    }
+    .quotes-table tbody tr:last-child { border-bottom: none; }
+    .quotes-table tbody tr:hover { background: #fafbfc; }
+    .quotes-table tbody td {
+      padding: 12px 20px;
+      font-size: 14px;
+      color: #374151;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    /* Quote link */
+    .quote-link {
+      color: #007167;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .quote-link:hover { text-decoration: underline; }
+
+    /* Status badges */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-pending { background: #fef3cd; color: #856404; }
+    .status-pending .status-dot { background: #856404; }
+    .status-placed { background: #e8f5f3; color: #007167; }
+    .status-placed .status-dot { background: #007167; }
+    .status-expired { background: #fde8e8; color: #c73e20; }
+    .status-expired .status-dot { background: #c73e20; }
+    .status-progress { background: #e8f5f3; color: #007167; }
+    .status-progress .status-dot { background: #007167; }
+
+    /* Top Item cell */
+    .top-item-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+      line-height: 1.3;
+    }
+    .top-item-ref {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.3;
+    }
+
+    /* Actions */
+    .actions-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .action-btn {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.1s;
+    }
+    .action-btn:hover { background: #f0faf9; }
+    .action-btn img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
+    .action-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── PAGINATION ─── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-top: 1px solid #f3f4f6;
+    }
+    .pagination-info {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab">Shop</a>
+        <a href="orders.html" class="nav-tab">Orders</a>
+        <a href="quotes.html" class="nav-tab active">Quotes</a>
+        <a href="#" class="nav-tab">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Quotes</span>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TITLE BAR + FILTERS -->
+    <div class="title-bar">
+      <div class="title-bar-top">
+        <h1>Quotes</h1>
+        <button class="btn-filters" id="btnFilters">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Filters
+        </button>
+      </div>
+      <div class="filter-bar" id="filterBar">
+        <div class="filter-input">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="text" placeholder="Search quote, reference...">
+        </div>
+        <select class="filter-select">
+          <option value="" disabled selected>Sort by</option>
+          <option>Date Newest</option>
+          <option>Date Oldest</option>
+        </select>
+        <select class="filter-select">
+          <option value="" disabled selected>Status</option>
+          <option>Pending for Approval</option>
+          <option>Quote Placed</option>
+          <option>In Progress</option>
+          <option>Expired</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">4</span>
+          <span class="stat-label">Total Quotes</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">1</span>
+          <span class="stat-label">Pending Approval</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">1</span>
+          <span class="stat-label">In Progress</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon red">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">1</span>
+          <span class="stat-label">Expired</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" id="btnListView" title="List view">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 3h12M2 6.5h12M2 10h12M2 13.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="view-toggle-btn" id="btnGridView" title="Grid view">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="9.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="1.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="9.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- QUOTES TABLE -->
+    <div class="quotes-table-wrap" id="tableView">
+      <table class="quotes-table">
+        <thead>
+          <tr>
+            <th>Quote <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Date <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Status <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Description <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Items <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Top Item</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a class="quote-link" href="quote-detail.html">#15098765</a></td>
+            <td>Mar 12, 2026</td>
+            <td><span class="status-badge status-pending"><span class="status-dot"></span>Pending for Approval</span></td>
+            <td>O-Ring spare parts</td>
+            <td>1</td>
+            <td>
+              <div class="top-item-name">O-Ring</div>
+              <div class="top-item-ref">Ref: 539256</div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View quote"><img src="../assets/icon-order-eye.svg" alt="View"></button>
+                <button class="action-btn" title="Duplicate quote">
+                  <svg viewBox="0 0 14 14" fill="none"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5" stroke="#0B9C92" stroke-width="1.2"/><path d="M9.5 4.5V2.5a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1h2" stroke="#0B9C92" stroke-width="1.2"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><a class="quote-link" href="quote-detail.html">#15345678</a></td>
+            <td>Feb 2, 2026</td>
+            <td><span class="status-badge status-placed"><span class="status-dot"></span>Quote Placed</span></td>
+            <td>CERABEADS grinding media</td>
+            <td>2</td>
+            <td>
+              <div class="top-item-name">NETZSCH CERABEADS 0.4</div>
+              <div class="top-item-ref">Ref: 443385</div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View quote"><img src="../assets/icon-order-eye.svg" alt="View"></button>
+                <button class="action-btn" title="Duplicate quote">
+                  <svg viewBox="0 0 14 14" fill="none"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5" stroke="#0B9C92" stroke-width="1.2"/><path d="M9.5 4.5V2.5a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1h2" stroke="#0B9C92" stroke-width="1.2"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><a class="quote-link" href="quote-detail.html">#15234567</a></td>
+            <td>Jan 28, 2026</td>
+            <td><span class="status-badge status-expired"><span class="status-dot"></span>Expired</span></td>
+            <td>GLASSBEADS grinding media</td>
+            <td>1</td>
+            <td>
+              <div class="top-item-name">NETZSCH GLASSBEADS 0.9</div>
+              <div class="top-item-ref">Ref: 443385</div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View quote"><img src="../assets/icon-order-eye.svg" alt="View"></button>
+                <button class="action-btn" title="Duplicate quote">
+                  <svg viewBox="0 0 14 14" fill="none"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5" stroke="#0B9C92" stroke-width="1.2"/><path d="M9.5 4.5V2.5a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1h2" stroke="#0B9C92" stroke-width="1.2"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><a class="quote-link" href="quote-detail.html">#15123456</a></td>
+            <td>Jan 15, 2026</td>
+            <td><span class="status-badge status-progress"><span class="status-dot"></span>In Progress</span></td>
+            <td>Mechanical seal &amp; chamber parts</td>
+            <td>3</td>
+            <td>
+              <div class="top-item-name">Mechanical seal GRD070</div>
+              <div class="top-item-ref">Ref: 140045012</div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View quote"><img src="../assets/icon-order-eye.svg" alt="View"></button>
+                <button class="action-btn" title="Duplicate quote">
+                  <svg viewBox="0 0 14 14" fill="none"><rect x="4.5" y="4.5" width="8" height="8" rx="1.5" stroke="#0B9C92" stroke-width="1.2"/><path d="M9.5 4.5V2.5a1 1 0 00-1-1h-6a1 1 0 00-1 1v6a1 1 0 001 1h2" stroke="#0B9C92" stroke-width="1.2"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- PAGINATION (inside table card) -->
+      <div class="pagination">
+        <span class="pagination-info">Showing 1–4 of 4 quotes</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Toggle filters
+    const btnFilters = document.getElementById('btnFilters');
+    const filterBar = document.getElementById('filterBar');
+    btnFilters.addEventListener('click', () => {
+      const visible = filterBar.classList.toggle('visible');
+      btnFilters.classList.toggle('active', visible);
+    });
+
+    // Toggle view (list / grid)
+    const btnList = document.getElementById('btnListView');
+    const btnGrid = document.getElementById('btnGridView');
+    const tableView = document.getElementById('tableView');
+
+    btnList.addEventListener('click', () => {
+      btnList.classList.add('active');
+      btnGrid.classList.remove('active');
+      tableView.style.display = '';
+    });
+
+    btnGrid.addEventListener('click', () => {
+      btnGrid.classList.add('active');
+      btnList.classList.remove('active');
+    });
+  </script>
+
+</body>
+</html>
