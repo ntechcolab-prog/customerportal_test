@@ -397,11 +397,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 4px;
+      padding: 16px 12px 4px;
     }
     .pagination-info {
-      font-size: 13px;
-      color: #6b7280;
+      font-size: 12px;
+      color: #9ca3af;
     }
     .pagination-controls {
       display: flex;
@@ -415,21 +415,27 @@
       align-items: center;
       justify-content: center;
       border: none;
-      border-radius: 50%;
+      border-radius: 10px;
       background: none;
       font-family: 'Inter', sans-serif;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 400;
       color: #6b7280;
       cursor: pointer;
-      transition: background 0.1s;
+      letter-spacing: -0.08px;
     }
     .page-btn:hover { background: #f3f4f6; }
     .page-btn.active {
       background: #007167;
       color: #fff;
+      font-weight: 600;
     }
     .page-btn.active:hover { background: #005f57; }
+    .page-btn.disabled {
+      opacity: 0.3;
+      cursor: default;
+      pointer-events: none;
+    }
     .page-btn svg {
       width: 16px;
       height: 16px;
@@ -793,8 +799,11 @@
 
     <!-- PAGINATION -->
     <div class="pagination">
-      <span class="pagination-info">Showing 1-8 of 9 orders</span>
+      <span class="pagination-info">Showing 1–8 of 9 orders</span>
       <div class="pagination-controls">
+        <button class="page-btn disabled" title="Previous page">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
         <button class="page-btn active">1</button>
         <button class="page-btn">2</button>
         <button class="page-btn" title="Next page">
