@@ -577,47 +577,16 @@
       color: #1f2937;
     }
 
-    /* Map placeholder */
-    .map-placeholder {
-      background: linear-gradient(160deg, #e8f5f3 0%, #d1ece8 100%);
-      border-radius: 12px;
-      height: 160px;
+    /* Map image */
+    .map-image {
+      border-radius: 8px;
       margin-top: 12px;
-      position: relative;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-    .map-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: #007167;
-      background: #fff;
-      padding: 4px 10px;
-      border-radius: 999px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-      position: absolute;
-    }
-    .map-label.warehouse { top: 30px; left: 40px; }
-    .map-label.location { bottom: 20px; right: 30px; }
-    .map-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: #007167;
-      position: absolute;
-    }
-    .map-dot.warehouse-dot { top: 48px; left: 80px; }
-    .map-dot.location-dot { bottom: 38px; right: 70px; }
-    .map-line {
-      position: absolute;
-      top: 53px; left: 85px;
-      width: 160px; height: 80px;
-      border: none;
-      border-bottom: 2px dashed #0b9c92;
-      border-right: 2px dashed #0b9c92;
-      border-radius: 0 0 40px 0;
-      opacity: 0.5;
+    .map-image img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
     }
 
     /* Contact button */
@@ -1071,12 +1040,8 @@
       </div>
 
       <!-- Map -->
-      <div class="map-placeholder">
-        <span class="map-label warehouse">Warehouse</span>
-        <div class="map-dot warehouse-dot"></div>
-        <div class="map-line"></div>
-        <div class="map-dot location-dot"></div>
-        <span class="map-label location">Your location</span>
+      <div class="map-image">
+        <img src="../assets/tracking-map.png" alt="Delivery tracking map">
       </div>
 
       <!-- Contact Support -->
