@@ -397,7 +397,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 12px 4px;
+      padding: 16px 20px;
+      border-top: 1px solid #f3f4f6;
     }
     .pagination-info {
       font-size: 12px;
@@ -795,20 +796,19 @@
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <!-- PAGINATION -->
-    <div class="pagination">
-      <span class="pagination-info">Showing 1–8 of 9 orders</span>
-      <div class="pagination-controls">
-        <button class="page-btn disabled" title="Previous page">
-          <svg viewBox="0 0 16 16" fill="none"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button class="page-btn active">1</button>
-        <button class="page-btn">2</button>
-        <button class="page-btn" title="Next page">
-          <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
+      <!-- PAGINATION (inside table card) -->
+      <div class="pagination">
+        <span class="pagination-info">Showing 1–8 of 9 orders</span>
+        <div class="pagination-controls">
+          <button class="page-btn disabled" title="Previous page">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn" title="Next page">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
       </div>
     </div>
 
