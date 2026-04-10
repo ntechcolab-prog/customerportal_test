@@ -207,33 +207,46 @@
       display: flex;
       align-items: center;
       gap: 0;
+      width: 100%;
     }
     .progress-step {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 44px;
-      padding: 0 24px;
-      font-size: 14px;
+      height: 40px;
+      font-size: 13px;
       font-weight: 500;
       color: #6b7280;
       background: #e5e7eb;
       position: relative;
       white-space: nowrap;
-      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%);
     }
     .progress-step:first-child {
-      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
-      border-radius: 8px 0 0 8px;
+      border-radius: 999px 0 0 999px;
     }
     .progress-step:last-child {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 14px 50%);
-      border-radius: 0 8px 8px 0;
+      border-radius: 0 999px 999px 0;
+    }
+    .progress-step:not(:first-child)::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+      border-left: 12px solid #fff;
+      z-index: 1;
     }
     .progress-step.active {
       background: #007167;
       color: #fff;
       font-weight: 600;
+    }
+    .progress-step.active + .progress-step::before {
+      border-left-color: #fff;
     }
 
     /* ── TWO COLUMN LAYOUT ─── */
