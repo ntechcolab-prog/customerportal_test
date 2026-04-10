@@ -213,10 +213,10 @@
 
     /* ── PROGRESS BAR ─── */
     .progress-bar-wrap {
+      display: flex;
       border-radius: 20px;
       overflow: hidden;
-      display: flex;
-      width: 100%;
+      background: #fff;
     }
     .progress-step {
       flex: 1;
@@ -224,53 +224,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      background: #dee0e0;
+      color: #4c4d57;
       font-size: 14px;
       font-weight: 400;
-      color: #4c4d57;
-      background: #dee0e0;
-      position: relative;
       white-space: nowrap;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+      margin-left: -9px;
+      padding: 0 8px 0 16px;
     }
-    .progress-step:not(:first-child) {
-      margin-left: -10px;
+    .progress-step:first-child {
+      margin-left: 0;
+      padding-left: 20px;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
     }
-    .progress-step::after {
-      content: '';
-      position: absolute;
-      right: -10px;
-      top: 0;
-      width: 0;
-      height: 0;
-      border-top: 16px solid transparent;
-      border-bottom: 16px solid transparent;
-      border-left: 10px solid #dee0e0;
-      z-index: 2;
-    }
-    .progress-step:last-child::after {
-      display: none;
-    }
-    .progress-step::before {
-      content: '';
-      position: absolute;
-      left: -1px;
-      top: 0;
-      width: 0;
-      height: 0;
-      border-top: 16px solid transparent;
-      border-bottom: 16px solid transparent;
-      border-left: 10px solid #fff;
-      z-index: 1;
-    }
-    .progress-step:first-child::before {
-      display: none;
+    .progress-step:last-child {
+      padding-right: 20px;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
     }
     .progress-step.active {
       background: #4e98aa;
       color: #fff;
       font-weight: 700;
-    }
-    .progress-step.active::after {
-      border-left-color: #4e98aa;
     }
 
     /* ── TWO COLUMN LAYOUT ─── */
