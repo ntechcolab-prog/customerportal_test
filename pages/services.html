@@ -457,10 +457,21 @@
       height: 14px;
       object-fit: contain;
     }
-    .action-btn svg {
+    .action-chevron {
       width: 14px;
       height: 14px;
-      color: #0B9C92;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: none;
+      border: none;
+      flex-shrink: 0;
+    }
+    .action-chevron img {
+      width: 14px;
+      height: 14px;
+      object-fit: contain;
     }
 
     /* ── PAGINATION ─── */
@@ -732,8 +743,10 @@
                 <button class="action-btn" title="View details" aria-label="View service details">
                   <img src="../assets/icon-service-eye.svg" alt="">
                 </button>
-              </div>
-            </td>
+                <span class="action-chevron">
+                  <img src="../assets/icon-service-info.svg" alt="">
+                </span>
+              </div></td>
           </tr>
           <!-- Row 2: Spare Parts, In Progress -->
           <tr>
@@ -758,9 +771,10 @@
                 <button class="action-btn" title="View details" aria-label="View service details">
                   <img src="../assets/icon-service-eye.svg" alt="">
                 </button>
-                <button class="action-btn" title="More info" aria-label="More info"><img src="../assets/icon-service-eye.svg" alt=""></button>
-              </div>
-            </td>
+                <span class="action-chevron">
+                  <img src="../assets/icon-service-info.svg" alt="">
+                </span>
+              </div></td>
           </tr>
           <!-- Row 3: Maintenance, Completed -->
           <tr>
@@ -785,9 +799,10 @@
                 <button class="action-btn" title="View details" aria-label="View service details">
                   <img src="../assets/icon-service-eye.svg" alt="">
                 </button>
-                <button class="action-btn" title="More info" aria-label="More info"><img src="../assets/icon-service-eye.svg" alt=""></button>
-              </div>
-            </td>
+                <span class="action-chevron">
+                  <img src="../assets/icon-service-info.svg" alt="">
+                </span>
+              </div></td>
           </tr>
           <!-- Row 4: Consultation, Submitted -->
           <tr>
@@ -812,9 +827,10 @@
                 <button class="action-btn" title="View details" aria-label="View service details">
                   <img src="../assets/icon-service-eye.svg" alt="">
                 </button>
-                <button class="action-btn" title="More info" aria-label="More info"><img src="../assets/icon-service-eye.svg" alt=""></button>
-              </div>
-            </td>
+                <span class="action-chevron">
+                  <img src="../assets/icon-service-info.svg" alt="">
+                </span>
+              </div></td>
           </tr>
           <!-- Row 5: Repair, Cancelled -->
           <tr>
@@ -839,8 +855,10 @@
                 <button class="action-btn" title="View details" aria-label="View service details">
                   <img src="../assets/icon-service-eye.svg" alt="">
                 </button>
-              </div>
-            </td>
+                <span class="action-chevron">
+                  <img src="../assets/icon-service-info.svg" alt="">
+                </span>
+              </div></td>
           </tr>
         </tbody>
       </table>
