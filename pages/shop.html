@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a {
+      color: #007167;
+      text-decoration: none;
+    }
+    .breadcrumb-sep {
+      color: #c3c5c7;
+    }
+    .breadcrumb-current {
+      color: #4c4d57;
+    }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── TITLE BAR ─── */
+    .title-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+    .title-bar h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .btn-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+    }
+    .btn-filters:hover { background: #f9fafb; }
+    .btn-filters svg { width: 16px; height: 16px; }
+
+    /* ── VIEW TOGGLE ─── */
+    .view-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      align-self: flex-end;
+    }
+    .view-toggle-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      color: #9ca3af;
+    }
+    .view-toggle-btn.active {
+      border-color: #007167;
+      color: #007167;
+      background: #f0faf9;
+    }
+    .view-toggle-btn svg { width: 16px; height: 16px; }
+
+    /* ── PRODUCT GRID ─── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    /* ── PRODUCT CARD ─── */
+    .product-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+    .product-card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .product-card-img {
+      background: #fafbfc;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow: hidden;
+    }
+    .product-card-img img {
+      max-width: 100%;
+      max-height: 168px;
+      object-fit: contain;
+    }
+    .product-card-body {
+      padding: 16px;
+      border-top: 1px solid #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+    .product-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .product-card-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+      letter-spacing: -0.23px;
+      line-height: 22px;
+    }
+    .product-card-chevron {
+      width: 16px;
+      height: 16px;
+      color: #9ca3af;
+      flex-shrink: 0;
+    }
+    .product-card-ref {
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 18px;
+    }
+    .product-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f3f4f6;
+      padding-top: 12px;
+      margin-top: 8px;
+    }
+    .product-card-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1f2937;
+      letter-spacing: -0.23px;
+    }
+    .btn-view-options {
+      height: 32px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: #007167;
+      border: 1px solid #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-view-options:hover { background: #005f57; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab active">Shop</a>
+        <a href="#" class="nav-tab">Orders</a>
+        <a href="#" class="nav-tab">Quotes</a>
+        <a href="#" class="nav-tab">Services</a>
+        <a href="#" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Shop</span>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TITLE BAR -->
+    <div class="title-bar">
+      <h1>Shop</h1>
+      <button class="btn-filters">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Filters
+      </button>
+    </div>
+
+    <!-- VIEW TOGGLE -->
+    <div class="view-toggle">
+      <button class="view-toggle-btn" title="List view">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 3h12M2 6.5h12M2 10h12M2 13.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="view-toggle-btn active" title="Grid view">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="9.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="1.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="9.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <div class="product-grid">
+
+      <!-- Cerabeads -->
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="../assets/shop-cerabeads.png" alt="Cerabeads">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-header">
+            <span class="product-card-name">Cerabeads</span>
+            <svg class="product-card-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="product-card-ref">Ref.: 443142</span>
+          <div class="product-card-footer">
+            <span class="product-card-price">from 39 €</span>
+            <button class="btn-view-options">View Options</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zetabeads Nano -->
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="../assets/shop-zetabeads-nano.png" alt="Zetabeads Nano">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-header">
+            <span class="product-card-name">Zetabeads Nano</span>
+            <svg class="product-card-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="product-card-ref">Ref.: 443141</span>
+          <div class="product-card-footer">
+            <span class="product-card-price">from 1300 €</span>
+            <button class="btn-view-options">View Options</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Steelbeads Micro -->
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="../assets/shop-steelbeads-micro.png" alt="Steelbeads Micro">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-header">
+            <span class="product-card-name">Steelbeads Micro</span>
+            <svg class="product-card-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="product-card-ref">Ref.: 443141</span>
+          <div class="product-card-footer">
+            <span class="product-card-price">From €53</span>
+            <button class="btn-view-options">View Options</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ZS Beads -->
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="../assets/shop-zs-beads.png" alt="ZS Beads">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-header">
+            <span class="product-card-name">ZS Beads</span>
+            <svg class="product-card-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="product-card-ref">Ref.: 443141</span>
+          <div class="product-card-footer">
+            <span class="product-card-price">from 12 €</span>
+            <button class="btn-view-options">View Options</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Steelbeads Q -->
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="../assets/shop-steelbeads-q.png" alt="Steelbeads Q">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-header">
+            <span class="product-card-name">Steelbeads Q</span>
+            <svg class="product-card-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="product-card-ref">Ref.: 443141</span>
+          <div class="product-card-footer">
+            <span class="product-card-price">from 10 €</span>
+            <button class="btn-view-options">View Options</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ZetaBeads Plus -->
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="../assets/shop-zetabeads-plus.png" alt="ZetaBeads Plus">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-header">
+            <span class="product-card-name">ZetaBeads Plus</span>
+            <svg class="product-card-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="product-card-ref">Ref.: 443141</span>
+          <div class="product-card-footer">
+            <span class="product-card-price">From €53</span>
+            <button class="btn-view-options">View Options</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glassbeads -->
+      <div class="product-card">
+        <div class="product-card-img">
+          <img src="../assets/shop-glassbeads.png" alt="Glassbeads">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-header">
+            <span class="product-card-name">Glassbeads</span>
+            <svg class="product-card-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="product-card-ref">Ref.: 443141</span>
+          <div class="product-card-footer">
+            <span class="product-card-price">from 3 €</span>
+            <button class="btn-view-options">View Options</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
