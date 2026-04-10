@@ -101,16 +101,9 @@
       color: #4c4d57;
       gap: 8px;
     }
-    .breadcrumb a {
-      color: #007167;
-      text-decoration: none;
-    }
-    .breadcrumb-sep {
-      color: #c3c5c7;
-    }
-    .breadcrumb-current {
-      color: #4c4d57;
-    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
 
     /* ── MAIN ─── */
     .main {
@@ -126,11 +119,15 @@
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
-      height: 64px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .title-bar-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
     }
     .title-bar h1 {
       font-size: 20px;
@@ -153,14 +150,80 @@
       cursor: pointer;
     }
     .btn-filters:hover { background: #f9fafb; }
+    .btn-filters.active {
+      background: #007167;
+      border-color: #007167;
+      color: #fff;
+    }
     .btn-filters svg { width: 16px; height: 16px; }
+
+    /* ── FILTER BAR ─── */
+    .filter-bar {
+      display: none;
+      gap: 12px;
+      align-items: center;
+    }
+    .filter-bar.visible { display: flex; }
+    .filter-input {
+      position: relative;
+      flex: 1;
+      max-width: 280px;
+    }
+    .filter-input input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0 12px 0 36px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+    }
+    .filter-input input::placeholder { color: #9ca3af; }
+    .filter-input input:focus { outline: none; border-color: #007167; }
+    .filter-input svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: #9ca3af;
+      pointer-events: none;
+    }
+    .filter-select {
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0 32px 0 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #374151;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+      appearance: none;
+      cursor: pointer;
+      min-width: 130px;
+    }
+    .filter-select:focus { outline: none; border-color: #007167; }
+    .filter-icon-prefix {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── TOOLBAR ─── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
 
     /* ── VIEW TOGGLE ─── */
     .view-toggle {
       display: flex;
       align-items: center;
       gap: 4px;
-      align-self: flex-end;
     }
     .view-toggle-btn {
       width: 32px;
@@ -181,12 +244,13 @@
     }
     .view-toggle-btn svg { width: 16px; height: 16px; }
 
-    /* ── PRODUCT GRID ─── */
+    /* ── PRODUCT GRID (Card View) ─── */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
     }
+    .product-grid.hidden { display: none; }
 
     /* ── PRODUCT CARD ─── */
     .product-card {
@@ -199,9 +263,7 @@
       cursor: pointer;
       transition: box-shadow 0.15s;
     }
-    .product-card:hover {
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
+    .product-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
     .product-card-img {
       background: #fafbfc;
       height: 200px;
@@ -237,10 +299,8 @@
       line-height: 22px;
     }
     .product-card-chevron {
-      width: 16px;
-      height: 16px;
-      color: #9ca3af;
-      flex-shrink: 0;
+      width: 16px; height: 16px;
+      color: #9ca3af; flex-shrink: 0;
     }
     .product-card-ref {
       font-size: 12px;
@@ -276,6 +336,75 @@
       transition: background 0.15s;
     }
     .btn-view-options:hover { background: #005f57; }
+
+    /* ── PRODUCT TABLE (Table View) ─── */
+    .product-table-wrap {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .product-table-wrap.hidden { display: none; }
+    .product-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .product-table thead tr { background: #007167; }
+    .product-table thead th {
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      text-align: left;
+      white-space: nowrap;
+    }
+    .product-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.1s;
+    }
+    .product-table tbody tr:last-child { border-bottom: none; }
+    .product-table tbody tr:hover { background: #fafbfc; }
+    .product-table tbody td {
+      padding: 12px 20px;
+      font-size: 14px;
+      color: #374151;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+    .table-product-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .table-product-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: #fafbfc;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .table-product-name {
+      font-weight: 500;
+      color: #1f2937;
+    }
+    .table-category {
+      color: #6b7280;
+      font-size: 13px;
+    }
+    .table-price {
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .table-action-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .table-chevron {
+      width: 16px; height: 16px;
+      color: #9ca3af;
+    }
   </style>
 </head>
 <body>
@@ -334,39 +463,65 @@
   <!-- MAIN -->
   <div class="main">
 
-    <!-- TITLE BAR -->
+    <!-- TITLE BAR + FILTERS -->
     <div class="title-bar">
-      <h1>Shop</h1>
-      <button class="btn-filters">
-        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        Filters
-      </button>
+      <div class="title-bar-top">
+        <h1>Shop</h1>
+        <button class="btn-filters" id="btnFilters">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Filters
+        </button>
+      </div>
+      <div class="filter-bar" id="filterBar">
+        <div class="filter-input">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="text" placeholder="Search product, reference...">
+        </div>
+        <select class="filter-select">
+          <option value="" disabled selected>Sort by</option>
+          <option>Name A-Z</option>
+          <option>Name Z-A</option>
+          <option>Price Low-High</option>
+          <option>Price High-Low</option>
+        </select>
+        <select class="filter-select">
+          <option value="" disabled selected>Category</option>
+          <option>Ceramic</option>
+          <option>Steel</option>
+          <option>Glass</option>
+        </select>
+      </div>
     </div>
 
-    <!-- VIEW TOGGLE -->
-    <div class="view-toggle">
-      <button class="view-toggle-btn" title="List view">
-        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2 3h12M2 6.5h12M2 10h12M2 13.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </button>
-      <button class="view-toggle-btn active" title="Grid view">
-        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
-          <rect x="9.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
-          <rect x="1.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
-          <rect x="9.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
-        </svg>
-      </button>
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="view-toggle">
+        <button class="view-toggle-btn" id="btnListView" title="List view">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 3h12M2 6.5h12M2 10h12M2 13.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="view-toggle-btn active" id="btnGridView" title="Grid view">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="9.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="1.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="9.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <!-- PRODUCT GRID -->
-    <div class="product-grid">
+    <!-- PRODUCT GRID (Card View) -->
+    <div class="product-grid" id="gridView">
 
       <!-- Cerabeads -->
-      <div class="product-card">
+      <a class="product-card" href="shop-product-detail.html">
         <div class="product-card-img">
           <img src="../assets/shop-cerabeads.png" alt="Cerabeads">
         </div>
@@ -381,10 +536,10 @@
             <button class="btn-view-options">View Options</button>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- Zetabeads Nano -->
-      <div class="product-card">
+      <a class="product-card" href="shop-product-detail.html">
         <div class="product-card-img">
           <img src="../assets/shop-zetabeads-nano.png" alt="Zetabeads Nano">
         </div>
@@ -399,10 +554,10 @@
             <button class="btn-view-options">View Options</button>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- Steelbeads Micro -->
-      <div class="product-card">
+      <a class="product-card" href="shop-product-detail.html">
         <div class="product-card-img">
           <img src="../assets/shop-steelbeads-micro.png" alt="Steelbeads Micro">
         </div>
@@ -417,10 +572,10 @@
             <button class="btn-view-options">View Options</button>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- ZS Beads -->
-      <div class="product-card">
+      <a class="product-card" href="shop-product-detail.html">
         <div class="product-card-img">
           <img src="../assets/shop-zs-beads.png" alt="ZS Beads">
         </div>
@@ -435,10 +590,10 @@
             <button class="btn-view-options">View Options</button>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- Steelbeads Q -->
-      <div class="product-card">
+      <a class="product-card" href="shop-product-detail.html">
         <div class="product-card-img">
           <img src="../assets/shop-steelbeads-q.png" alt="Steelbeads Q">
         </div>
@@ -453,10 +608,10 @@
             <button class="btn-view-options">View Options</button>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- ZetaBeads Plus -->
-      <div class="product-card">
+      <a class="product-card" href="shop-product-detail.html">
         <div class="product-card-img">
           <img src="../assets/shop-zetabeads-plus.png" alt="ZetaBeads Plus">
         </div>
@@ -471,10 +626,10 @@
             <button class="btn-view-options">View Options</button>
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- Glassbeads -->
-      <div class="product-card">
+      <a class="product-card" href="shop-product-detail.html">
         <div class="product-card-img">
           <img src="../assets/shop-glassbeads.png" alt="Glassbeads">
         </div>
@@ -489,10 +644,115 @@
             <button class="btn-view-options">View Options</button>
           </div>
         </div>
-      </div>
+      </a>
 
     </div>
+
+    <!-- PRODUCT TABLE (Table View) -->
+    <div class="product-table-wrap hidden" id="tableView">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Reference</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Action</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="table-product-cell"><img class="table-product-thumb" src="../assets/shop-cerabeads.png" alt="Cerabeads"><span class="table-product-name">Cerabeads</span></div></td>
+            <td>443142</td>
+            <td><span class="table-category">Ceramic</span></td>
+            <td><span class="table-price">39 €</span></td>
+            <td><button class="btn-view-options">View Options</button></td>
+            <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          </tr>
+          <tr>
+            <td><div class="table-product-cell"><img class="table-product-thumb" src="../assets/shop-zetabeads-nano.png" alt="Zetabeads Nano"><span class="table-product-name">Zetabeads Nano</span></div></td>
+            <td>443141</td>
+            <td><span class="table-category">Ceramic</span></td>
+            <td><span class="table-price">1300 €</span></td>
+            <td><button class="btn-view-options">View Options</button></td>
+            <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          </tr>
+          <tr>
+            <td><div class="table-product-cell"><img class="table-product-thumb" src="../assets/shop-steelbeads-micro.png" alt="Steelbeads Micro"><span class="table-product-name">Steelbeads Micro</span></div></td>
+            <td>443141</td>
+            <td><span class="table-category">Steel</span></td>
+            <td><span class="table-price">€53</span></td>
+            <td><button class="btn-view-options">View Options</button></td>
+            <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          </tr>
+          <tr>
+            <td><div class="table-product-cell"><img class="table-product-thumb" src="../assets/shop-zs-beads.png" alt="ZS Beads"><span class="table-product-name">ZS Beads</span></div></td>
+            <td>443141</td>
+            <td><span class="table-category">Steel</span></td>
+            <td><span class="table-price">12 €</span></td>
+            <td><button class="btn-view-options">View Options</button></td>
+            <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          </tr>
+          <tr>
+            <td><div class="table-product-cell"><img class="table-product-thumb" src="../assets/shop-steelbeads-q.png" alt="Steelbeads Q"><span class="table-product-name">Steelbeads Q</span></div></td>
+            <td>443141</td>
+            <td><span class="table-category">Steel</span></td>
+            <td><span class="table-price">10 €</span></td>
+            <td><button class="btn-view-options">View Options</button></td>
+            <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          </tr>
+          <tr>
+            <td><div class="table-product-cell"><img class="table-product-thumb" src="../assets/shop-zetabeads-plus.png" alt="ZetaBeads Plus"><span class="table-product-name">ZetaBeads Plus</span></div></td>
+            <td>443141</td>
+            <td><span class="table-category">Ceramic</span></td>
+            <td><span class="table-price">€53</span></td>
+            <td><button class="btn-view-options">View Options</button></td>
+            <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          </tr>
+          <tr>
+            <td><div class="table-product-cell"><img class="table-product-thumb" src="../assets/shop-glassbeads.png" alt="Glassbeads"><span class="table-product-name">Glassbeads</span></div></td>
+            <td>443141</td>
+            <td><span class="table-category">Glass</span></td>
+            <td><span class="table-price">3 €</span></td>
+            <td><button class="btn-view-options">View Options</button></td>
+            <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
+
+  <script>
+    // Toggle filters
+    const btnFilters = document.getElementById('btnFilters');
+    const filterBar = document.getElementById('filterBar');
+    btnFilters.addEventListener('click', () => {
+      const visible = filterBar.classList.toggle('visible');
+      btnFilters.classList.toggle('active', visible);
+    });
+
+    // Toggle view (grid / table)
+    const btnGrid = document.getElementById('btnGridView');
+    const btnList = document.getElementById('btnListView');
+    const gridView = document.getElementById('gridView');
+    const tableView = document.getElementById('tableView');
+
+    btnGrid.addEventListener('click', () => {
+      btnGrid.classList.add('active');
+      btnList.classList.remove('active');
+      gridView.classList.remove('hidden');
+      tableView.classList.add('hidden');
+    });
+
+    btnList.addEventListener('click', () => {
+      btnList.classList.add('active');
+      btnGrid.classList.remove('active');
+      tableView.classList.remove('hidden');
+      gridView.classList.add('hidden');
+    });
+  </script>
 
 </body>
 </html>
