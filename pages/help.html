@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ── HERO BANNER ─── */
+    .hero-banner {
+      background: linear-gradient(176deg, #007167 0%, #0b9c92 50%, #13b5a8 100%);
+      border-radius: 14px;
+      height: 64px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hero-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .btn-ask-milla {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-ask-milla:hover { background: rgba(255,255,255,0.22); }
+    .btn-ask-milla svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* ── CATEGORIES ─── */
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .category-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      cursor: pointer;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .category-card:hover {
+      border-color: #007167;
+      box-shadow: 0 2px 8px rgba(0,113,103,0.08);
+    }
+    .category-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #e8f5f3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .category-icon svg {
+      width: 20px;
+      height: 20px;
+      color: #007167;
+    }
+    .category-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .category-desc {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+    .category-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: #007167;
+    }
+
+    /* ── ARTICLES TABLE ─── */
+    .articles-table-wrap {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .articles-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .articles-table thead tr { background: #007167; }
+    .articles-table thead th {
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      text-align: left;
+      white-space: nowrap;
+    }
+    .articles-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.1s;
+    }
+    .articles-table tbody tr:last-child { border-bottom: none; }
+    .articles-table tbody tr:hover { background: #fafbfc; }
+    .articles-table tbody td {
+      padding: 12px 20px;
+      font-size: 14px;
+      color: #374151;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    /* Article title link */
+    .article-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #007167;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .article-link:hover { text-decoration: underline; }
+    .article-link svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: #007167;
+    }
+
+    /* Category badges */
+    .cat-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .cat-service { background: #e8f5f3; color: #007167; }
+    .cat-orders { background: #fef3cd; color: #856404; }
+    .cat-machine { background: #d1ecf1; color: #0c5460; }
+    .cat-portal { background: #e5e7eb; color: #4c4d57; }
+
+    /* Date with clock icon */
+    .date-cell {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .date-cell svg {
+      width: 14px;
+      height: 14px;
+      color: #9ca3af;
+      flex-shrink: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab">Shop</a>
+        <a href="orders.html" class="nav-tab">Orders</a>
+        <a href="quotes.html" class="nav-tab">Quotes</a>
+        <a href="services.html" class="nav-tab">Services</a>
+        <a href="help.html" class="nav-tab active">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">Help</span>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HERO BANNER -->
+    <div class="hero-banner">
+      <h1 class="hero-title">Help</h1>
+      <a href="#" class="btn-ask-milla">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11 6.5 7.5 3 6l3.5-1.5L8 1z" fill="currentColor"/><path d="M12 10l.75 1.75L14.5 12.5l-1.75.75L12 15l-.75-1.75L9.5 12.5l1.75-.75L12 10z" fill="currentColor" opacity="0.6"/></svg>
+        Ask Milla
+      </a>
+    </div>
+
+    <!-- CATEGORIES -->
+    <section aria-labelledby="categories-heading">
+      <h2 id="categories-heading" class="section-title" style="margin-bottom: 16px;">Categories</h2>
+      <div class="categories-grid">
+
+        <!-- Card 1: Machine Documentation -->
+        <div class="category-card" tabindex="0" role="button" aria-label="Machine Documentation, 24 articles">
+          <div class="category-icon">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 3h5.5a2.5 2.5 0 012.5 2.5V17a1.5 1.5 0 00-1.5-1.5H3V3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 3h-5.5A2.5 2.5 0 009 5.5V17a1.5 1.5 0 011.5-1.5H17V3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="category-name">Machine Documentation</span>
+          <span class="category-desc">Manuals, specifications and technical guides for machines.</span>
+          <span class="category-count">24 articles</span>
+        </div>
+
+        <!-- Card 2: Orders & Invoices -->
+        <div class="category-card" tabindex="0" role="button" aria-label="Orders and Invoices, 18 articles">
+          <div class="category-icon">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 2h7l4 4v10a2 2 0 01-2 2H5a2 2 0 01-2-2V4a2 2 0 012-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 2v4h4M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="category-name">Orders &amp; Invoices</span>
+          <span class="category-desc">Information about quotations, orders, invoices and billing.</span>
+          <span class="category-count">18 articles</span>
+        </div>
+
+        <!-- Card 3: Service & Maintenance -->
+        <div class="category-card" tabindex="0" role="button" aria-label="Service and Maintenance, 31 articles">
+          <div class="category-icon">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12.5 3.5a3.5 3.5 0 014 4l-2.5 2.5-4-4L12.5 3.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 6L3.5 12.5a2.12 2.12 0 003 3L13 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="category-name">Service &amp; Maintenance</span>
+          <span class="category-desc">Service reports, troubleshooting and maintenance guides.</span>
+          <span class="category-count">31 articles</span>
+        </div>
+
+        <!-- Card 4: Customer Portal Guides -->
+        <div class="category-card" tabindex="0" role="button" aria-label="Customer Portal Guides, 12 articles">
+          <div class="category-icon">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <span class="category-name">Customer Portal Guides</span>
+          <span class="category-desc">Tutorials explaining how to use the portal features.</span>
+          <span class="category-count">12 articles</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- LATEST HELP ARTICLES -->
+    <section aria-labelledby="articles-heading">
+      <h2 id="articles-heading" class="section-title" style="margin-bottom: 16px;">Latest Help Articles</h2>
+      <div class="articles-table-wrap">
+        <table class="articles-table">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Category</th>
+              <th scope="col">Related Machine</th>
+              <th scope="col">Last Updated</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to download a service report
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 28, 2026
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Understanding your invoice
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 25, 2026
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Machine error codes explained
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Zeta 60, Alpha Zeta 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 20, 2026
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to request maintenance
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 15, 2026
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Uploading documents to the portal
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 10, 2026
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

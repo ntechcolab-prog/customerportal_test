@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Wishlist — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 90;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      object-fit: cover; cursor: pointer;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px;
+      background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── TITLE BAR ─── */
+    .title-bar {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .title-bar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title-bar h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .btn-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 36px;
+      padding: 0 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+    }
+    .btn-filters:hover { background: #f9fafb; }
+    .btn-filters.active {
+      background: #007167;
+      border-color: #007167;
+      color: #fff;
+    }
+    .btn-filters svg { width: 16px; height: 16px; }
+
+    /* ── FILTER BAR ─── */
+    .filter-bar {
+      display: none;
+      gap: 12px;
+      align-items: center;
+    }
+    .filter-bar.visible { display: flex; }
+    .filter-input {
+      position: relative;
+      flex: 1;
+      max-width: 280px;
+    }
+    .filter-input input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0 12px 0 36px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+    }
+    .filter-input input::placeholder { color: #9ca3af; }
+    .filter-input input:focus { outline: none; border-color: #007167; }
+    .filter-input svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: #9ca3af;
+      pointer-events: none;
+    }
+    .filter-select {
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0 32px 0 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #374151;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+      appearance: none;
+      cursor: pointer;
+      min-width: 130px;
+    }
+    .filter-select:focus { outline: none; border-color: #007167; }
+
+    /* ── STAT CARDS ─── */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .stat-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+    .stat-icon.teal { background: #e8f5f3; }
+    .stat-icon.teal svg { color: #007167; }
+    .stat-icon.green { background: #d4edda; }
+    .stat-icon.green svg { color: #155724; }
+    .stat-icon.orange { background: #fef3cd; }
+    .stat-icon.orange svg { color: #856404; }
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    /* ── TOOLBAR ─── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    /* ── VIEW TOGGLE ─── */
+    .view-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .view-toggle-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      color: #9ca3af;
+    }
+    .view-toggle-btn.active {
+      border-color: #007167;
+      color: #007167;
+      background: #f0faf9;
+    }
+    .view-toggle-btn svg { width: 16px; height: 16px; }
+
+    /* ── TABLE VIEW ─── */
+    .wishlist-table-wrap {
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .wishlist-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .wishlist-table thead tr { background: #007167; }
+    .wishlist-table thead th {
+      padding: 14px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      text-align: left;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    .wishlist-table thead th.no-sort { cursor: default; }
+    .wishlist-table thead th .sort-icon {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-left: 4px;
+      vertical-align: middle;
+      opacity: 0.6;
+    }
+    .wishlist-table thead th:hover .sort-icon { opacity: 1; }
+    .wishlist-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.1s;
+    }
+    .wishlist-table tbody tr:last-child { border-bottom: none; }
+    .wishlist-table tbody tr:hover { background: #fafbfc; }
+    .wishlist-table tbody td {
+      padding: 12px 20px;
+      font-size: 14px;
+      color: #374151;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    /* Product thumb */
+    .product-thumb {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      vertical-align: middle;
+    }
+    .product-thumb-placeholder {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #e8f5f3;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+    }
+    .product-thumb-placeholder svg {
+      width: 16px;
+      height: 16px;
+      color: #007167;
+    }
+
+    /* Product link */
+    .product-link {
+      color: #007167;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .product-link:hover { text-decoration: underline; }
+
+    /* Availability badges */
+    .avail-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .avail-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .avail-instock { background: #e8f5f3; color: #007167; }
+    .avail-instock .avail-dot { background: #007167; }
+    .avail-lowstock { background: #fef3cd; color: #856404; }
+    .avail-lowstock .avail-dot { background: #856404; }
+    .avail-quotation { background: #fef3cd; color: #856404; }
+    .avail-quotation .avail-dot { background: #856404; }
+
+    /* Actions */
+    .actions-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .action-btn {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.1s;
+      color: #007167;
+    }
+    .action-btn:hover { background: #f0faf9; }
+    .action-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── PAGINATION ─── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-top: 1px solid #f3f4f6;
+    }
+    .pagination-info {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .page-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 10px;
+      background: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: #6b7280;
+      cursor: pointer;
+      letter-spacing: -0.08px;
+    }
+    .page-btn:hover { background: #f3f4f6; }
+    .page-btn.active {
+      background: #007167;
+      color: #fff;
+      font-weight: 600;
+    }
+    .page-btn.active:hover { background: #005f57; }
+    .page-btn.disabled {
+      opacity: 0.3;
+      cursor: default;
+      pointer-events: none;
+    }
+    .page-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── GRID VIEW ─── */
+    .grid-view {
+      display: none;
+    }
+    .grid-view.active {
+      display: block;
+    }
+    .list-view {
+      display: block;
+    }
+    .list-view.hidden {
+      display: none;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .product-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: box-shadow 0.15s;
+    }
+    .product-card:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .card-image-area {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .card-image-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card-image-placeholder {
+      width: 100%;
+      height: 100%;
+      background: #e8f5f3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-image-placeholder svg {
+      width: 48px;
+      height: 48px;
+      color: #007167;
+      opacity: 0.4;
+    }
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+    }
+    .card-heart {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .card-heart svg {
+      width: 16px;
+      height: 16px;
+      color: #e53e3e;
+      fill: #e53e3e;
+    }
+    .card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-ref {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .card-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2937;
+      line-height: 1.3;
+    }
+    .card-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #007167;
+    }
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .btn-add-cart {
+      flex: 1;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #007167;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-add-cart:hover { background: #005f57; }
+    .btn-add-cart svg { width: 16px; height: 16px; }
+    .btn-card-eye {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d1d5db;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      color: #007167;
+      flex-shrink: 0;
+    }
+    .btn-card-eye:hover { background: #f0faf9; }
+    .btn-card-eye svg { width: 16px; height: 16px; }
+
+    /* Grid pagination wrapper */
+    .grid-pagination-wrap {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      margin-top: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <header class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab">Shop</a>
+        <a href="orders.html" class="nav-tab">Orders</a>
+        <a href="quotes.html" class="nav-tab">Quotes</a>
+        <a href="services.html" class="nav-tab">Services</a>
+        <a href="help.html" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn" aria-label="Search">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <button class="header-icon-btn" aria-label="Notifications">
+        <img src="../assets/icon-bell.svg" alt="Notifications">
+        <span class="notif-badge">1</span>
+      </button>
+      <button class="header-icon-btn" aria-label="Cart">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+      </button>
+      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <button class="lang-btn" aria-label="Language">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep" aria-hidden="true">/</span>
+    <span class="breadcrumb-current" aria-current="page">My Wishlist</span>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TITLE BAR + FILTERS -->
+    <div class="title-bar">
+      <div class="title-bar-top">
+        <h1>My Wishlist</h1>
+        <button class="btn-filters" id="btnFilters" aria-expanded="false" aria-controls="filterBar">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Filters
+        </button>
+      </div>
+      <div class="filter-bar" id="filterBar">
+        <div class="filter-input">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="text" placeholder="Search product, reference..." aria-label="Search wishlist">
+        </div>
+        <select class="filter-select" aria-label="Sort by">
+          <option value="" disabled selected>Sort by</option>
+          <option>Date Newest</option>
+          <option>Date Oldest</option>
+          <option>Price High-Low</option>
+          <option>Price Low-High</option>
+        </select>
+        <select class="filter-select" aria-label="Category">
+          <option value="" disabled selected>Category</option>
+          <option>Beads</option>
+          <option>Spare Part</option>
+        </select>
+        <select class="filter-select" aria-label="Availability">
+          <option value="" disabled selected>Availability</option>
+          <option>In Stock</option>
+          <option>Low Stock</option>
+          <option>Quotation Only</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-icon teal">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">11</span>
+          <span class="stat-label">Total Items</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22 4L12 14.01l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">7</span>
+          <span class="stat-label">In Stock</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">1</span>
+          <span class="stat-label">Low Stock</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon teal">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number">2</span>
+          <span class="stat-label">Quotation Only</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="view-toggle" role="group" aria-label="View mode">
+        <button class="view-toggle-btn active" id="btnListView" aria-label="List view" aria-pressed="true">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="view-toggle-btn" id="btnGridView" aria-label="Grid view" aria-pressed="false">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="9.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="1.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="9.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- LIST VIEW (default) -->
+    <div class="list-view" id="listView">
+      <div class="wishlist-table-wrap">
+        <table class="wishlist-table">
+          <thead>
+            <tr>
+              <th class="no-sort">Image</th>
+              <th>Product <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Ref <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Category <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Price <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Added On <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Availability <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th class="no-sort">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Row 1 -->
+            <tr>
+              <td><img class="product-thumb" src="../assets/shop-cerabeads.png" alt="Cerabeads"></td>
+              <td><a href="#" class="product-link">Cerabeads</a></td>
+              <td>443142</td>
+              <td>Beads</td>
+              <td>39,00 &euro;</td>
+              <td>Mar 10, 2026</td>
+              <td><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" aria-label="Add to cart">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="View product">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="Remove from wishlist">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 2 -->
+            <tr>
+              <td><img class="product-thumb" src="../assets/shop-zetabeads-nano.png" alt="Zetabeads Nano"></td>
+              <td><a href="#" class="product-link">Zetabeads Nano</a></td>
+              <td>443141</td>
+              <td>Beads</td>
+              <td>1.300,00 &euro;</td>
+              <td>Mar 5, 2026</td>
+              <td><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" aria-label="Add to cart">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="View product">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="Remove from wishlist">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 3 -->
+            <tr>
+              <td><img class="product-thumb" src="../assets/shop-steelbeads-micro.png" alt="Steelbeads Micro"></td>
+              <td><a href="#" class="product-link">Steelbeads Micro</a></td>
+              <td>443141</td>
+              <td>Beads</td>
+              <td>Quote Only</td>
+              <td>Feb 28, 2026</td>
+              <td><span class="avail-badge avail-quotation"><span class="avail-dot"></span>Quotation Only</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" aria-label="Add to cart">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="View product">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="Remove from wishlist">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 4 -->
+            <tr>
+              <td>
+                <span class="product-thumb-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </td>
+              <td><a href="#" class="product-link">Sealing Ring - O Ring - FFKM</a></td>
+              <td>517794</td>
+              <td>Spare Part</td>
+              <td>27,80 &euro;</td>
+              <td>Feb 20, 2026</td>
+              <td><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" aria-label="Add to cart">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="View product">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="Remove from wishlist">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 5 -->
+            <tr>
+              <td>
+                <span class="product-thumb-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </td>
+              <td><a href="#" class="product-link">Bare Roller Bearing</a></td>
+              <td>582524</td>
+              <td>Spare Part</td>
+              <td>27,80 &euro;</td>
+              <td>Feb 15, 2026</td>
+              <td><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" aria-label="Add to cart">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="View product">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="Remove from wishlist">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 6 -->
+            <tr>
+              <td>
+                <span class="product-thumb-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </td>
+              <td><a href="#" class="product-link">Double-row Ball Bearing</a></td>
+              <td>580229</td>
+              <td>Spare Part</td>
+              <td>55,90 &euro;</td>
+              <td>Jan 30, 2026</td>
+              <td><span class="avail-badge avail-lowstock"><span class="avail-dot"></span>Low Stock</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" aria-label="Add to cart">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="View product">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="Remove from wishlist">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 7 -->
+            <tr>
+              <td>
+                <span class="product-thumb-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </td>
+              <td><a href="#" class="product-link">Inner Pipe of Chamber</a></td>
+              <td>140027379</td>
+              <td>Spare Part</td>
+              <td>Quote Only</td>
+              <td>Jan 25, 2026</td>
+              <td><span class="avail-badge avail-quotation"><span class="avail-dot"></span>Quotation Only</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" aria-label="Add to cart">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="View product">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="Remove from wishlist">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <!-- Row 8 -->
+            <tr>
+              <td>
+                <span class="product-thumb-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </td>
+              <td><a href="#" class="product-link">Ring - AISI 304</a></td>
+              <td>140045213</td>
+              <td>Spare Part</td>
+              <td>75,89 &euro;</td>
+              <td>Jan 20, 2026</td>
+              <td><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" aria-label="Add to cart">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="View product">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </button>
+                  <button class="action-btn" aria-label="Remove from wishlist">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="pagination">
+          <span class="pagination-info">Showing 1&ndash;8 of 11 items</span>
+          <div class="pagination-controls">
+            <button class="page-btn disabled" aria-label="Previous page">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="page-btn active" aria-current="page">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn" aria-label="Next page">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRID VIEW -->
+    <div class="grid-view" id="gridView">
+      <div class="product-grid">
+        <!-- Card 1: Cerabeads -->
+        <div class="product-card">
+          <div class="card-image-area">
+            <img src="../assets/shop-cerabeads.png" alt="Cerabeads">
+            <div class="card-badge"><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></div>
+            <button class="card-heart" aria-label="In wishlist"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.89 3.11a3.67 3.67 0 00-5.18 0L8 3.82l-.71-.71a3.67 3.67 0 00-5.18 5.18l.71.71L8 14.18l5.18-5.18.71-.71a3.67 3.67 0 000-5.18z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="card-body">
+            <span class="card-ref">Ref: 443142 &middot; Beads</span>
+            <span class="card-name">Cerabeads</span>
+            <span class="card-price">39,00 &euro;</span>
+            <div class="card-actions">
+              <button class="btn-add-cart">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                Add to Cart
+              </button>
+              <button class="btn-card-eye" aria-label="View product">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Zetabeads Nano -->
+        <div class="product-card">
+          <div class="card-image-area">
+            <img src="../assets/shop-zetabeads-nano.png" alt="Zetabeads Nano">
+            <div class="card-badge"><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></div>
+            <button class="card-heart" aria-label="In wishlist"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.89 3.11a3.67 3.67 0 00-5.18 0L8 3.82l-.71-.71a3.67 3.67 0 00-5.18 5.18l.71.71L8 14.18l5.18-5.18.71-.71a3.67 3.67 0 000-5.18z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="card-body">
+            <span class="card-ref">Ref: 443141 &middot; Beads</span>
+            <span class="card-name">Zetabeads Nano</span>
+            <span class="card-price">1.300,00 &euro;</span>
+            <div class="card-actions">
+              <button class="btn-add-cart">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                Add to Cart
+              </button>
+              <button class="btn-card-eye" aria-label="View product">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Steelbeads Micro -->
+        <div class="product-card">
+          <div class="card-image-area">
+            <img src="../assets/shop-steelbeads-micro.png" alt="Steelbeads Micro">
+            <div class="card-badge"><span class="avail-badge avail-quotation"><span class="avail-dot"></span>Quotation Only</span></div>
+            <button class="card-heart" aria-label="In wishlist"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.89 3.11a3.67 3.67 0 00-5.18 0L8 3.82l-.71-.71a3.67 3.67 0 00-5.18 5.18l.71.71L8 14.18l5.18-5.18.71-.71a3.67 3.67 0 000-5.18z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="card-body">
+            <span class="card-ref">Ref: 443141 &middot; Beads</span>
+            <span class="card-name">Steelbeads Micro</span>
+            <span class="card-price">Quotation Only</span>
+            <div class="card-actions">
+              <button class="btn-add-cart">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                Add to Cart
+              </button>
+              <button class="btn-card-eye" aria-label="View product">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Sealing Ring -->
+        <div class="product-card">
+          <div class="card-image-area">
+            <div class="card-image-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="card-badge"><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></div>
+            <button class="card-heart" aria-label="In wishlist"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.89 3.11a3.67 3.67 0 00-5.18 0L8 3.82l-.71-.71a3.67 3.67 0 00-5.18 5.18l.71.71L8 14.18l5.18-5.18.71-.71a3.67 3.67 0 000-5.18z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="card-body">
+            <span class="card-ref">Ref: 517794 &middot; Spare Part</span>
+            <span class="card-name">Sealing Ring - O Ring - FFKM</span>
+            <span class="card-price">27,80 &euro;</span>
+            <div class="card-actions">
+              <button class="btn-add-cart">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                Add to Cart
+              </button>
+              <button class="btn-card-eye" aria-label="View product">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Bare Roller Bearing -->
+        <div class="product-card">
+          <div class="card-image-area">
+            <div class="card-image-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="card-badge"><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></div>
+            <button class="card-heart" aria-label="In wishlist"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.89 3.11a3.67 3.67 0 00-5.18 0L8 3.82l-.71-.71a3.67 3.67 0 00-5.18 5.18l.71.71L8 14.18l5.18-5.18.71-.71a3.67 3.67 0 000-5.18z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="card-body">
+            <span class="card-ref">Ref: 582524 &middot; Spare Part</span>
+            <span class="card-name">Bare Roller Bearing</span>
+            <span class="card-price">27,80 &euro;</span>
+            <div class="card-actions">
+              <button class="btn-add-cart">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                Add to Cart
+              </button>
+              <button class="btn-card-eye" aria-label="View product">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6: Double-row Ball Bearing -->
+        <div class="product-card">
+          <div class="card-image-area">
+            <div class="card-image-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="card-badge"><span class="avail-badge avail-lowstock"><span class="avail-dot"></span>Low Stock</span></div>
+            <button class="card-heart" aria-label="In wishlist"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.89 3.11a3.67 3.67 0 00-5.18 0L8 3.82l-.71-.71a3.67 3.67 0 00-5.18 5.18l.71.71L8 14.18l5.18-5.18.71-.71a3.67 3.67 0 000-5.18z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="card-body">
+            <span class="card-ref">Ref: 580229 &middot; Spare Part</span>
+            <span class="card-name">Double-row Ball Bearing</span>
+            <span class="card-price">55,90 &euro;</span>
+            <div class="card-actions">
+              <button class="btn-add-cart">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                Add to Cart
+              </button>
+              <button class="btn-card-eye" aria-label="View product">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 7: Inner Pipe of Chamber -->
+        <div class="product-card">
+          <div class="card-image-area">
+            <div class="card-image-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="card-badge"><span class="avail-badge avail-quotation"><span class="avail-dot"></span>Quotation Only</span></div>
+            <button class="card-heart" aria-label="In wishlist"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.89 3.11a3.67 3.67 0 00-5.18 0L8 3.82l-.71-.71a3.67 3.67 0 00-5.18 5.18l.71.71L8 14.18l5.18-5.18.71-.71a3.67 3.67 0 000-5.18z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="card-body">
+            <span class="card-ref">Ref: 140027379 &middot; Spare Part</span>
+            <span class="card-name">Inner Pipe of Chamber</span>
+            <span class="card-price">Quotation Only</span>
+            <div class="card-actions">
+              <button class="btn-add-cart">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                Add to Cart
+              </button>
+              <button class="btn-card-eye" aria-label="View product">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 8: Ring - AISI 304 -->
+        <div class="product-card">
+          <div class="card-image-area">
+            <div class="card-image-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="card-badge"><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></div>
+            <button class="card-heart" aria-label="In wishlist"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.89 3.11a3.67 3.67 0 00-5.18 0L8 3.82l-.71-.71a3.67 3.67 0 00-5.18 5.18l.71.71L8 14.18l5.18-5.18.71-.71a3.67 3.67 0 000-5.18z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+          <div class="card-body">
+            <span class="card-ref">Ref: 140045213 &middot; Spare Part</span>
+            <span class="card-name">Ring - AISI 304</span>
+            <span class="card-price">75,89 &euro;</span>
+            <div class="card-actions">
+              <button class="btn-add-cart">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+                Add to Cart
+              </button>
+              <button class="btn-card-eye" aria-label="View product">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid Pagination -->
+      <div class="grid-pagination-wrap" style="margin-top: 16px;">
+        <div class="pagination">
+          <span class="pagination-info">Showing 1&ndash;8 of 11 items</span>
+          <div class="pagination-controls">
+            <button class="page-btn disabled" aria-label="Previous page">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="page-btn active" aria-current="page">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn" aria-label="Next page">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Toggle filters
+    const btnFilters = document.getElementById('btnFilters');
+    const filterBar = document.getElementById('filterBar');
+    btnFilters.addEventListener('click', function() {
+      const isVisible = filterBar.classList.toggle('visible');
+      btnFilters.classList.toggle('active', isVisible);
+      btnFilters.setAttribute('aria-expanded', isVisible);
+    });
+
+    // Toggle list/grid view
+    const btnListView = document.getElementById('btnListView');
+    const btnGridView = document.getElementById('btnGridView');
+    const listView = document.getElementById('listView');
+    const gridView = document.getElementById('gridView');
+
+    btnListView.addEventListener('click', function() {
+      btnListView.classList.add('active');
+      btnListView.setAttribute('aria-pressed', 'true');
+      btnGridView.classList.remove('active');
+      btnGridView.setAttribute('aria-pressed', 'false');
+      listView.classList.remove('hidden');
+      gridView.classList.remove('active');
+    });
+
+    btnGridView.addEventListener('click', function() {
+      btnGridView.classList.add('active');
+      btnGridView.setAttribute('aria-pressed', 'true');
+      btnListView.classList.remove('active');
+      btnListView.setAttribute('aria-pressed', 'false');
+      listView.classList.add('hidden');
+      gridView.classList.add('active');
+    });
+  </script>
+
+</body>
+</html>
