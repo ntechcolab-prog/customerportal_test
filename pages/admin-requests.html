@@ -185,6 +185,9 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      position: sticky;
+      top: 24px;
+      align-self: flex-start;
     }
     .sidebar-nav {
       background: #fff;
@@ -203,6 +206,7 @@
       text-decoration: none;
       border-left: 3px solid transparent;
       transition: background 0.1s;
+      white-space: nowrap;
     }
     .sidebar-nav-item:not(:last-child) {
       border-bottom: 1px solid #f3f4f6;
