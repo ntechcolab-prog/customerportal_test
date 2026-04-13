@@ -153,6 +153,146 @@
     }
     .profile-dropdown-item.logout { color: #ef4444; }
 
+    /* ── NOTIFICATIONS DROPDOWN ─── */
+    .notif-wrapper { position: relative; }
+    .notif-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 378px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .notif-dropdown.open { display: block; }
+    .notif-dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 57px;
+      border-bottom: 1px solid #eaeaea;
+    }
+    .notif-dropdown-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notif-dropdown-title span {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.31px;
+    }
+    .notif-count-badge {
+      background: #c73e20;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 1px 6px;
+      line-height: 16.5px;
+    }
+    .notif-mark-read {
+      font-size: 12px;
+      font-weight: 500;
+      color: #007167;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .notif-mark-read:hover { text-decoration: underline; }
+    .notif-list { max-height: 360px; overflow-y: auto; }
+    .notif-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #f3f3f3;
+    }
+    .notif-item.unread { background: #f8fbfa; }
+    .notif-item-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notif-item-icon img { width: 16px; height: 16px; }
+    .notif-item-icon.quote { background: #fff3d6; }
+    .notif-item-icon.order { background: #e0f2ee; }
+    .notif-item-icon.service { background: #e8e0f4; }
+    .notif-item-content { flex: 1; min-width: 0; }
+    .notif-item-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notif-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.08px;
+      line-height: 18px;
+    }
+    .notif-item.unread .notif-item-title { font-weight: 600; }
+    .notif-item:not(.unread) .notif-item-title { font-weight: 400; }
+    .notif-unread-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #007167;
+      flex-shrink: 0;
+    }
+    .notif-item-desc {
+      font-size: 12px;
+      color: #6b6e73;
+      line-height: 16px;
+      margin-top: 2px;
+    }
+    .notif-item-time {
+      font-size: 11px;
+      color: #9ca0a5;
+      line-height: 16.5px;
+      margin-top: 2px;
+    }
+    .notif-item-action {
+      display: inline-block;
+      margin-top: 6px;
+      background: #007167;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      line-height: 16.5px;
+    }
+    .notif-item-action:hover { background: #005f57; }
+    .notif-dropdown-footer {
+      border-top: 1px solid #eaeaea;
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .notif-view-all {
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      letter-spacing: -0.08px;
+    }
+    .notif-view-all:hover { text-decoration: underline; }
+
+
     .lang-btn {
       display: flex; align-items: center; gap: 4px;
       font-size: 14px; font-weight: 500; color: #007167;
@@ -428,10 +568,62 @@
       <button class="header-icon-btn">
         <img src="../assets/icon-search.svg" alt="Search">
       </button>
-      <button class="header-icon-btn">
-        <img src="../assets/icon-bell.svg" alt="Notifications">
-        <span class="notif-badge">1</span>
-      </button>
+      <div class="notif-wrapper">
+        <button class="header-icon-btn" onclick="toggleNotifDropdown(event)">
+          <img src="../assets/icon-bell.svg" alt="Notifications">
+          <span class="notif-badge">1</span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-dropdown-header">
+            <div class="notif-dropdown-title">
+              <span>Notifications</span>
+              <span class="notif-count-badge">1</span>
+            </div>
+            <button class="notif-mark-read">Mark all as read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item unread">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <div class="notif-item-title-row">
+                  <span class="notif-item-title">Quote #QT-2026-0042 ready for approval</span>
+                  <span class="notif-unread-dot"></span>
+                </div>
+                <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — €12,450.00</div>
+                <div class="notif-item-time">5 min ago</div>
+                <a href="quote-detail.html" class="notif-item-action">Review &amp; Approve</a>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Quote #QT-2026-0039 awaiting your decision</span>
+                <div class="notif-item-desc">Grinding beads bundle for Zeta 60 — €8,720.00</div>
+                <div class="notif-item-time">2 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon order"><img src="../assets/icon-notif-order.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Order #ORD-78234 shipped</span>
+                <div class="notif-item-desc">Your order has been dispatched and is on the way.</div>
+                <div class="notif-item-time">1 day ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon service"><img src="../assets/icon-notif-service.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Service Request #SR-1192 updated</span>
+                <div class="notif-item-desc">Technician assigned — scheduled for Mar 20, 2026.</div>
+                <div class="notif-item-time">2 days ago</div>
+              </div>
+            </div>
+          </div>
+          <div class="notif-dropdown-footer">
+            <a href="admin-notifications.html" class="notif-view-all">View all notifications</a>
+          </div>
+        </div>
+      </div>
       <button class="header-icon-btn">
         <img src="../assets/icon-cart.svg" alt="Cart">
         <span class="cart-badge">1</span>
@@ -582,11 +774,19 @@
 <script>
 function toggleProfileDropdown(e) {
   e.stopPropagation();
+  document.getElementById('notifDropdown').classList.remove('open');
   document.getElementById('profileDropdown').classList.toggle('open');
+}
+function toggleNotifDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('profileDropdown').classList.remove('open');
+  document.getElementById('notifDropdown').classList.toggle('open');
 }
 document.addEventListener('click', function(e) {
   var dd = document.getElementById('profileDropdown');
+  var nd = document.getElementById('notifDropdown');
   if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
 </script>
 </body>
