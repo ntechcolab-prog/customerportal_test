@@ -323,6 +323,19 @@
       border-radius: 14px;
       padding: 32px;
     }
+    .product-header {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+    .product-header-gallery {
+      width: 320px;
+      flex-shrink: 0;
+    }
+    .product-header-info {
+      flex: 1;
+      min-width: 0;
+    }
     .product-title {
       font-size: 24px;
       font-weight: 700;
@@ -332,13 +345,18 @@
     .product-ref {
       font-size: 14px;
       color: #6b7280;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
+    }
+    .product-short-desc {
+      font-size: 14px;
+      color: #4c4d57;
+      line-height: 1.6;
     }
 
     /* ── GALLERY ─── */
     .product-gallery-main {
       width: 100%;
-      aspect-ratio: 16/9;
+      aspect-ratio: 1/1;
       border-radius: 10px;
       overflow: hidden;
       background: #fafbfc;
@@ -355,7 +373,6 @@
     .product-thumbs {
       display: flex;
       gap: 8px;
-      margin-bottom: 32px;
     }
     .product-thumb {
       width: 56px;
@@ -968,26 +985,32 @@
 
     <!-- LEFT: Product Info -->
     <div class="product-info">
-      <h1 class="product-title">NETZSCH CERABEADS 0.4</h1>
-      <p class="product-ref">Ref: 443385</p>
-
-      <!-- Gallery -->
-      <div class="product-gallery-main" id="mainImage">
-        <img src="../assets/shop-cerabeads.png" alt="NETZSCH CERABEADS 0.4" id="mainImg">
-      </div>
-      <div class="product-thumbs">
-        <button class="product-thumb active" data-img="../assets/shop-cerabeads.png">
-          <img src="../assets/shop-cerabeads.png" alt="Thumbnail 1">
-        </button>
-        <button class="product-thumb" data-img="../assets/shop-cerabeads-thumb1.png">
-          <img src="../assets/shop-cerabeads-thumb1.png" alt="Thumbnail 2">
-        </button>
-        <button class="product-thumb" data-img="../assets/shop-cerabeads-thumb2.png">
-          <img src="../assets/shop-cerabeads-thumb2.png" alt="Thumbnail 3">
-        </button>
-        <button class="product-thumb" data-img="../assets/shop-cerabeads-thumb3.png">
-          <img src="../assets/shop-cerabeads-thumb3.png" alt="Thumbnail 4">
-        </button>
+      <!-- Product Header: Gallery + Info side by side -->
+      <div class="product-header">
+        <div class="product-header-gallery">
+          <div class="product-gallery-main" id="mainImage">
+            <img src="../assets/shop-cerabeads.png" alt="NETZSCH CERABEADS 0.4" id="mainImg">
+          </div>
+          <div class="product-thumbs">
+            <button class="product-thumb active" data-img="../assets/shop-cerabeads.png">
+              <img src="../assets/shop-cerabeads.png" alt="Thumbnail 1">
+            </button>
+            <button class="product-thumb" data-img="../assets/shop-cerabeads-thumb1.png">
+              <img src="../assets/shop-cerabeads-thumb1.png" alt="Thumbnail 2">
+            </button>
+            <button class="product-thumb" data-img="../assets/shop-cerabeads-thumb2.png">
+              <img src="../assets/shop-cerabeads-thumb2.png" alt="Thumbnail 3">
+            </button>
+            <button class="product-thumb" data-img="../assets/shop-cerabeads-thumb3.png">
+              <img src="../assets/shop-cerabeads-thumb3.png" alt="Thumbnail 4">
+            </button>
+          </div>
+        </div>
+        <div class="product-header-info">
+          <h1 class="product-title">NETZSCH CERABEADS 0.4</h1>
+          <p class="product-ref">Ref: 443385</p>
+          <p class="product-short-desc">CeraBeads 0.4 are made of Zirconium dioxide powder, stabilized with Cerium Oxide, in a size range of 0.4 – 0.6 mm. With a density close to the ZrO2 – Yttrium stabilized beads, these beads offer an excellent compromise Price / Quality for many applications.</p>
+        </div>
       </div>
 
       <!-- Tabs -->
