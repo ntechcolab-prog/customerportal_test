@@ -306,7 +306,7 @@
 
     /* ── ACCOUNT SETTINGS SIDEBAR ─── */
     .account-sidebar {
-      width: 220px;
+      width: 240px;
       flex-shrink: 0;
       position: sticky;
       top: 24px;
@@ -316,42 +316,48 @@
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
-      padding: 16px;
+      overflow: hidden;
     }
     .account-sidebar-title {
       font-size: 14px;
       font-weight: 600;
       color: #1f2937;
-      margin-bottom: 12px;
-      padding: 0 8px;
+      letter-spacing: -0.15px;
+      line-height: 21px;
+      padding: 16px 20px;
+      border-bottom: 1px solid #f3f4f6;
     }
     .account-nav {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      padding-top: 4px;
       list-style: none;
     }
     .account-nav-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 8px;
+      gap: 12px;
+      padding: 12px 20px;
       font-size: 14px;
-      color: #374151;
+      font-weight: 400;
+      color: #6b7280;
       text-decoration: none;
+      letter-spacing: -0.15px;
+      line-height: 21px;
       transition: background 0.15s;
       white-space: nowrap;
+      border-right: 1px solid transparent;
     }
-    .account-nav-item:hover { background: #f3f4f6; }
+    .account-nav-item:hover { background: #f9fafb; }
     .account-nav-item.active {
-      background: #e8f5f3;
+      background: #f0fdfa;
       color: #007167;
       font-weight: 600;
+      border-right-color: #007167;
     }
     .account-nav-item svg {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       flex-shrink: 0;
     }
     .account-nav-item.active svg { color: #007167; }
@@ -359,13 +365,12 @@
       margin-left: auto;
       width: 14px;
       height: 14px;
-      color: #9ca3af;
+      color: #007167;
     }
-    .account-nav-item.active .chevron { color: #007167; }
     .account-nav-divider {
       height: 1px;
       background: #f3f4f6;
-      margin: 6px 0;
+      margin: 4px 0;
     }
     .account-nav-item.signout { color: #ef4444; }
     .account-nav-item.signout svg { color: #ef4444; }
