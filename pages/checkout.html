@@ -88,6 +88,71 @@
       width: 44px; height: 44px; border-radius: 50%;
       object-fit: cover; cursor: pointer;
     }
+    .user-avatar-wrapper {
+      position: relative;
+    }
+    /* ── PROFILE DROPDOWN ─── */
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 238px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .profile-dropdown.open { display: block; }
+    .profile-dropdown-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .profile-dropdown-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      object-fit: cover; border: 1px solid #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+    }
+    .profile-dropdown-info { display: flex; flex-direction: column; }
+    .profile-dropdown-name {
+      font-size: 13px; font-weight: 600; color: #1f2937;
+      letter-spacing: -0.08px; line-height: 19.5px;
+    }
+    .profile-dropdown-email {
+      font-size: 11px; font-weight: 400; color: #9ca3af;
+      letter-spacing: 0.06px; line-height: 16.5px;
+    }
+    .profile-dropdown-menu {
+      padding: 6px 0 0 0;
+      list-style: none;
+    }
+    .profile-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      letter-spacing: -0.08px;
+      cursor: pointer;
+    }
+    .profile-dropdown-item:hover { background: #f3f4f6; }
+    .profile-dropdown-item img { width: 15px; height: 15px; }
+    .profile-dropdown-divider {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 0;
+      padding-top: 1px;
+    }
+    .profile-dropdown-item.logout { color: #ef4444; }
+
     .lang-btn {
       display: flex; align-items: center; gap: 4px;
       font-size: 14px; font-weight: 500; color: #007167;
@@ -413,7 +478,26 @@
         <img src="../assets/icon-cart.svg" alt="Cart">
         <span class="cart-badge">1</span>
       </button>
-      <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+      <div class="user-avatar-wrapper">
+        <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus" onclick="toggleProfileDropdown(event)">
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="profile-dropdown-header">
+            <img class="profile-dropdown-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+            <div class="profile-dropdown-info">
+              <span class="profile-dropdown-name">John Doe</span>
+              <span class="profile-dropdown-email">john.doe@acme-corp.com</span>
+            </div>
+          </div>
+          <ul class="profile-dropdown-menu">
+            <li><a class="profile-dropdown-item" href="dashboard.html"><img src="../assets/icon-profile-user.svg" alt="">Profile</a></li>
+            <li><a class="profile-dropdown-item" href="admin-users.html"><img src="../assets/icon-admin-settings.svg" alt="">Admin</a></li>
+            <li><a class="profile-dropdown-item" href="wishlist.html"><img src="../assets/icon-wishlist-heart.svg" alt="">My Wishlist</a></li>
+          </ul>
+          <div class="profile-dropdown-divider">
+            <a class="profile-dropdown-item logout" href="../index.html"><img src="../assets/icon-logout.svg" alt="">Log out</a>
+          </div>
+        </div>
+      </div>
       <button class="lang-btn">
         <img src="../assets/icon-globe.svg" alt="">
         EN
@@ -573,6 +657,16 @@
 
   </main>
 
+<script>
+function toggleProfileDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('profileDropdown').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('profileDropdown');
+  if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
+</script>
   <script>
     // State
     let selectedAddress = null;
