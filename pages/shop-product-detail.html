@@ -613,8 +613,12 @@
     }
     .bulk-text a { color: #0b9c92; font-weight: 500; }
     .bulk-table {
-      width: 100%;
+      width: auto;
       border-collapse: collapse;
+    }
+    .bulk-table th:first-child,
+    .bulk-table td:first-child {
+      width: 120px;
     }
     .bulk-table th {
       font-size: 10px;
