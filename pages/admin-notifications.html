@@ -223,57 +223,41 @@
 
     /* ── HELP CARD ─── */
     .help-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
+      background: linear-gradient(148deg, #007167 0%, #0b9c92 100%);
       border-radius: 14px;
       padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 12px;
-    }
-    .help-card-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: #e8f5f3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .help-card-icon svg {
-      width: 24px;
-      height: 24px;
-      color: #007167;
     }
     .help-card-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
-      color: #1f2937;
+      color: #fff;
+      line-height: 21px;
+      letter-spacing: -0.15px;
+      margin-bottom: 4px;
     }
     .help-card-text {
-      font-size: 13px;
-      color: #6b7280;
-      line-height: 1.5;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      line-height: 18px;
+      margin-bottom: 16px;
     }
     .help-card-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      height: 36px;
-      padding: 0 16px;
-      border: 1px solid #007167;
-      border-radius: 999px;
-      background: #fff;
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: #007167;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 999px;
+      border: none;
       cursor: pointer;
       text-decoration: none;
+      text-align: center;
+      line-height: 18px;
     }
-    .help-card-btn:hover { background: #f0faf9; }
+    .help-card-btn:hover { background: rgba(255,255,255,0.3); }
 
     /* ── MAIN CONTENT ─── */
     .admin-main {
@@ -548,18 +532,9 @@
 
       <!-- HELP CARD -->
       <div class="help-card">
-        <div class="help-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="12" cy="17" r="0.5" fill="currentColor" stroke="currentColor" stroke-width="0.5"/>
-          </svg>
-        </div>
         <div class="help-card-title">Need help?</div>
-        <div class="help-card-text">Contact our support team for assistance with admin settings.</div>
-        <a href="help.html" class="help-card-btn">
-          Get Support
-        </a>
+        <div class="help-card-text">Contact your NETZSCH account manager for assistance with admin settings.</div>
+        <a href="help.html" class="help-card-btn">Contact Support</a>
       </div>
     </aside>
 

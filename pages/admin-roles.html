@@ -230,57 +230,42 @@
     }
 
     /* Sidebar help card */
-    .sidebar-help {
-      background: #fff;
-      border: 1px solid #e5e7eb;
+    .help-card {
+      background: linear-gradient(148deg, #007167 0%, #0b9c92 100%);
       border-radius: 14px;
       padding: 20px;
-      text-align: center;
     }
-    .sidebar-help-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #f0fdf9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 12px;
-    }
-    .sidebar-help-icon svg {
-      width: 20px;
-      height: 20px;
-      color: #007167;
-    }
-    .sidebar-help h3 {
+    .help-card-title {
       font-size: 14px;
       font-weight: 600;
-      color: #1f2937;
+      color: #fff;
+      line-height: 21px;
+      letter-spacing: -0.15px;
       margin-bottom: 4px;
     }
-    .sidebar-help p {
+    .help-card-text {
       font-size: 12px;
-      color: #6b7280;
-      line-height: 1.5;
-      margin-bottom: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      line-height: 18px;
+      margin-bottom: 16px;
     }
-    .sidebar-help-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      height: 32px;
-      padding: 0 16px;
-      border: 1px solid #007167;
-      border-radius: 999px;
-      background: #fff;
+    .help-card-btn {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
-      color: #007167;
+      padding: 8px 20px;
+      border-radius: 999px;
+      border: none;
       cursor: pointer;
       text-decoration: none;
+      text-align: center;
+      line-height: 18px;
     }
-    .sidebar-help-btn:hover { background: #f0fdf9; }
+    .help-card-btn:hover { background: rgba(255,255,255,0.3); }
 
     /* ── MAIN CONTENT ─── */
     .main-content {
@@ -629,19 +614,10 @@
         </a>
       </nav>
 
-      <div class="sidebar-help">
-        <div class="sidebar-help-icon">
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="10" cy="10" r="8"/>
-            <path d="M7.5 7.5a2.5 2.5 0 014.5 1.5c0 1.5-2.5 2-2.5 2"/>
-            <circle cx="10" cy="14" r=".5" fill="currentColor"/>
-          </svg>
-        </div>
-        <h3>Need help?</h3>
-        <p>Learn more about managing roles and permissions in our help center.</p>
-        <a href="help.html" class="sidebar-help-btn">
-          Visit Help Center
-        </a>
+      <div class="help-card">
+        <div class="help-card-title">Need help?</div>
+        <div class="help-card-text">Contact your NETZSCH account manager for assistance with admin settings.</div>
+        <a href="help.html" class="help-card-btn">Contact Support</a>
       </div>
     </aside>
 
