@@ -185,6 +185,11 @@
       position: sticky;
       top: 24px;
       align-self: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .admin-sidebar-nav {
       background: #fff;
       border-radius: 14px;
       border: 1px solid #e5e7eb;
@@ -226,7 +231,6 @@
     }
 
     .help-card {
-      margin-top: 16px;
       background: linear-gradient(148deg, #007167 0%, #0b9c92 100%);
       border-radius: 14px;
       padding: 20px;
@@ -759,6 +763,7 @@
 
     <!-- LEFT SIDEBAR -->
     <aside class="admin-sidebar" aria-label="Administration navigation">
+      <div class="admin-sidebar-nav">
       <div class="admin-sidebar-label">Administration</div>
       <nav class="admin-nav">
         <a href="admin-users.html" class="admin-nav-item active" aria-current="page">
@@ -795,6 +800,7 @@
           Notifications
         </a>
       </nav>
+      </div>
 
       <div class="help-card">
         <div class="help-card-title">Need help?</div>
