@@ -182,42 +182,51 @@
     .admin-sidebar {
       width: 240px;
       flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
       position: sticky;
       top: 24px;
       align-self: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-    .sidebar-nav {
+    .admin-sidebar-nav {
       background: #fff;
-      border: 1px solid #e5e7eb;
       border-radius: 14px;
-      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      padding: 16px;
     }
-    .sidebar-nav-item {
+    .admin-sidebar-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #6b7280;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .admin-nav { display: flex; flex-direction: column; gap: 4px; }
+    .admin-nav-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 14px 20px;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 8px;
       font-size: 14px;
-      font-weight: 500;
       color: #374151;
       text-decoration: none;
-      border-bottom: 1px solid #f3f4f6;
-      transition: background 0.1s;
+      border-left: 3px solid transparent;
+      transition: background 0.15s;
       white-space: nowrap;
     }
-    .sidebar-nav-item:last-child { border-bottom: none; }
-    .sidebar-nav-item:hover { background: #f9fafb; }
-    .sidebar-nav-item.active {
-      background: #e8f5f3;
+    .admin-nav-item:hover { background: #f3f4f6; }
+    .admin-nav-item.active {
       color: #007167;
       font-weight: 600;
+      border-left-color: #007167;
+      background: #f0faf9;
     }
-    .sidebar-nav-item svg {
-      width: 18px;
-      height: 18px;
+    .admin-nav-item svg {
+      width: 16px;
+      height: 16px;
       flex-shrink: 0;
     }
 
@@ -489,48 +498,46 @@
   <div class="admin-layout">
 
     <!-- SIDEBAR -->
-    <aside class="admin-sidebar">
-      <nav class="sidebar-nav">
-        <a href="admin-users.html" class="sidebar-nav-item">
-          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12.75c2.071.37 3.75 1.16 3.75 2.25v1.5H2.25V15c0-1.09 1.679-1.88 3.75-2.25" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="9" cy="6" r="3.25" stroke="currentColor" stroke-width="1.4"/>
+    <aside class="admin-sidebar" aria-label="Administration navigation">
+      <div class="admin-sidebar-nav">
+      <div class="admin-sidebar-label">Administration</div>
+      <nav class="admin-nav">
+        <a href="admin-users.html" class="admin-nav-item">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM3 14c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           User Management
         </a>
-        <a href="admin-roles.html" class="sidebar-nav-item">
-          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2.25" y="2.25" width="13.5" height="13.5" rx="2" stroke="currentColor" stroke-width="1.4"/>
-            <path d="M6 6h6M6 9h6M6 12h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <a href="admin-roles.html" class="admin-nav-item">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
           </svg>
           Access &amp; Roles
         </a>
-        <a href="admin-requests.html" class="sidebar-nav-item">
-          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 2.25v5.25h5.25" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14.25 7.5V14a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V4a1.5 1.5 0 011.5-1.5H9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <a href="admin-requests.html" class="admin-nav-item">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2.5" y="2" width="11" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
           </svg>
           Requests
         </a>
-        <a href="admin-company.html" class="sidebar-nav-item">
-          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.25 15.75h13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <rect x="3.75" y="3.75" width="10.5" height="12" rx="1" stroke="currentColor" stroke-width="1.4"/>
-            <path d="M6.75 7.5h1.5M9.75 7.5h1.5M6.75 10.5h1.5M9.75 10.5h1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M7.5 15.75v-3h3v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <a href="admin-company.html" class="admin-nav-item">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="8" cy="8" r="5.25" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M8 5.5v5M5.5 8h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
           </svg>
           Company Settings
         </a>
-        <a href="admin-notifications.html" class="sidebar-nav-item active">
-          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.5 6.75a4.5 4.5 0 00-9 0c0 5.25-2.25 6.75-2.25 6.75h13.5s-2.25-1.5-2.25-6.75" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10.298 15.75a1.5 1.5 0 01-2.596 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <a href="admin-notifications.html" class="admin-nav-item active" aria-current="page">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 2a4 4 0 00-4 4v2.5L3 10v1h10v-1l-1-1.5V6a4 4 0 00-4-4zM6.5 12a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Notifications
         </a>
       </nav>
+      </div>
 
-      <!-- HELP CARD -->
       <div class="help-card">
         <div class="help-card-title">Need help?</div>
         <div class="help-card-text">Contact your NETZSCH account manager for assistance with admin settings.</div>
