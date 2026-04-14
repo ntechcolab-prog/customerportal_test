@@ -356,7 +356,7 @@
     /* ── CART LAYOUT ─── */
     .cart-layout {
       display: grid;
-      grid-template-columns: 1fr 360px;
+      grid-template-columns: 7fr 3fr;
       gap: 24px;
       align-items: start;
     }
@@ -726,11 +726,11 @@
         </div>
         <div class="payment-row">
           <span class="label">Shipping</span>
-          <span class="value">--</span>
+          <span class="value" id="payShipping">--</span>
         </div>
         <div class="payment-row">
           <span class="label">Tax</span>
-          <span class="value">--</span>
+          <span class="value" id="payTax">--</span>
         </div>
 
         <hr class="payment-separator">

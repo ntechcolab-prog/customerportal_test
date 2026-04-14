@@ -363,7 +363,7 @@
     /* ── TWO-COLUMN LAYOUT ─── */
     .checkout-layout {
       display: grid;
-      grid-template-columns: 1fr 360px;
+      grid-template-columns: 7fr 3fr;
       gap: 24px;
       align-items: start;
     }
@@ -505,52 +505,52 @@
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
       position: sticky;
       top: 24px;
     }
-    .sidebar-card h2 {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1f2937;
-    }
-    .summary-rows {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .summary-row {
+    .payment-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    .summary-label {
       font-size: 14px;
       color: #6b7280;
+      padding: 6px 0;
     }
-    .summary-value {
-      font-size: 14px;
-      font-weight: 500;
+    .payment-row .label { color: #6b7280; }
+    .payment-row .value { color: #1f2937; font-weight: 500; }
+    .payment-row.bold .label,
+    .payment-row.bold .value {
+      font-weight: 700;
       color: #1f2937;
     }
-    .summary-divider {
+    .payment-separator {
       border: none;
       border-top: 1px solid #e5e7eb;
+      margin: 10px 0;
     }
-    .summary-total {
+    .coupon-link {
+      color: #007167;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .coupon-link:hover { text-decoration: underline; }
+    .order-total-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 6px 0;
     }
-    .summary-total-label {
+    .order-total-label {
       font-size: 16px;
       font-weight: 700;
       color: #1f2937;
     }
-    .summary-total-value {
-      font-size: 18px;
+    .order-total-value {
+      font-size: 24px;
       font-weight: 700;
       color: #1f2937;
     }
@@ -829,26 +829,40 @@
 
       <!-- RIGHT SIDEBAR -->
       <div class="sidebar-card">
-        <h2>Payment Details</h2>
-        <div class="summary-rows">
-          <div class="summary-row">
-            <span class="summary-label">Subtotal</span>
-            <span class="summary-value">1,300.00 &euro;</span>
-          </div>
-          <div class="summary-row">
-            <span class="summary-label">Shipping</span>
-            <span class="summary-value" id="shippingValue">--</span>
-          </div>
-          <div class="summary-row">
-            <span class="summary-label">Tax (19%)</span>
-            <span class="summary-value" id="taxValue">247.00 &euro;</span>
-          </div>
+        <h2 class="card-title">Payment Details</h2>
+
+        <div class="payment-row">
+          <span class="label">Subtotal</span>
+          <span class="value" id="paySubtotal">--</span>
         </div>
-        <hr class="summary-divider">
-        <div class="summary-total">
-          <span class="summary-total-label">Total</span>
-          <span class="summary-total-value" id="totalValue">1,547.00 &euro;</span>
+        <div class="payment-row">
+          <span class="label">Shipping</span>
+          <span class="value" id="payShipping">--</span>
         </div>
+        <div class="payment-row">
+          <span class="label">Tax</span>
+          <span class="value" id="payTax">--</span>
+        </div>
+
+        <hr class="payment-separator">
+
+        <div class="payment-row bold">
+          <span class="label">Total before discount</span>
+          <span class="value" id="payTotalBefore">--</span>
+        </div>
+
+        <div class="payment-row">
+          <span class="label">Coupon</span>
+          <a href="#" class="coupon-link">+ Add Coupon</a>
+        </div>
+
+        <hr class="payment-separator">
+
+        <div class="order-total-row">
+          <span class="order-total-label">Order Total</span>
+          <span class="order-total-value" id="payOrderTotal">--</span>
+        </div>
+
         <a href="#" class="btn-proceed disabled" id="btnProceed" aria-disabled="true">Proceed to Checkout</a>
       </div>
 
@@ -902,19 +916,22 @@ document.addEventListener('click', function(e) {
 
     var addressCards = document.querySelectorAll('.address-card');
     var deliveryOptions = document.querySelectorAll('.delivery-option');
-    var shippingValue = document.getElementById('shippingValue');
-    var taxValue = document.getElementById('taxValue');
-    var totalValue = document.getElementById('totalValue');
+    var paySubtotal = document.getElementById('paySubtotal');
+    var payShipping = document.getElementById('payShipping');
+    var payTax = document.getElementById('payTax');
+    var payTotalBefore = document.getElementById('payTotalBefore');
+    var payOrderTotal = document.getElementById('payOrderTotal');
     var btnProceed = document.getElementById('btnProceed');
 
     // Update subtotal display from cart
-    var subtotalEl = document.querySelector('.summary-value');
     if (hasQuotation) {
-      if (subtotalEl) subtotalEl.textContent = '--';
-      taxValue.textContent = '--';
-      totalValue.textContent = '--';
+      paySubtotal.textContent = '--';
+      payShipping.textContent = '--';
+      payTax.textContent = '--';
+      payTotalBefore.textContent = '--';
+      payOrderTotal.textContent = '--';
     } else {
-      if (subtotalEl) subtotalEl.textContent = SUBTOTAL > 0 ? formatCurrency(SUBTOTAL) : '--';
+      paySubtotal.textContent = SUBTOTAL > 0 ? formatCurrency(SUBTOTAL) : '--';
     }
 
     // Update cart badge
@@ -979,25 +996,28 @@ document.addEventListener('click', function(e) {
 
     function updateCheckout() {
       if (hasQuotation) {
-        shippingValue.textContent = '--';
-        taxValue.textContent = '--';
-        totalValue.textContent = '--';
+        payShipping.textContent = '--';
+        payTax.textContent = '--';
+        payTotalBefore.textContent = '--';
+        payOrderTotal.textContent = '--';
       } else if (selectedDelivery) {
         if (selectedDelivery.price === 0) {
-          shippingValue.textContent = 'Free';
+          payShipping.textContent = 'Free';
         } else {
-          shippingValue.textContent = formatCurrency(selectedDelivery.price);
+          payShipping.textContent = formatCurrency(selectedDelivery.price);
         }
 
         var shipping = selectedDelivery.price;
         var taxableAmount = SUBTOTAL + shipping;
         var tax = taxableAmount * TAX_RATE;
+        var totalBefore = SUBTOTAL + shipping;
         var total = taxableAmount + tax;
 
-        taxValue.textContent = formatCurrency(tax);
-        totalValue.textContent = formatCurrency(total);
+        payTax.textContent = formatCurrency(tax);
+        payTotalBefore.textContent = formatCurrency(totalBefore);
+        payOrderTotal.textContent = formatCurrency(total);
       } else {
-        shippingValue.textContent = '--';
+        payShipping.textContent = '--';
       }
 
       if (selectedAddress && selectedDelivery) {

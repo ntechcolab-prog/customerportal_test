@@ -361,7 +361,7 @@
     /* ── TWO-COLUMN LAYOUT ─── */
     .checkout-layout {
       display: grid;
-      grid-template-columns: 1fr 360px;
+      grid-template-columns: 7fr 3fr;
       gap: 24px;
       margin-top: 8px;
     }
@@ -456,53 +456,49 @@
       padding: 24px;
       align-self: flex-start;
     }
-    .sidebar-title {
+    .payment-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #6b7280;
+      padding: 6px 0;
+    }
+    .payment-row .label { color: #6b7280; }
+    .payment-row .value { color: #1f2937; font-weight: 500; }
+    .payment-row.bold .label,
+    .payment-row.bold .value {
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .payment-separator {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 10px 0;
+    }
+    .coupon-link {
+      color: #007167;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .coupon-link:hover { text-decoration: underline; }
+    .order-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+    }
+    .order-total-label {
       font-size: 16px;
       font-weight: 700;
       color: #1f2937;
-      margin-bottom: 20px;
     }
-    .summary-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 0;
-    }
-    .summary-label {
-      font-size: 14px;
-      color: #6b6e73;
-    }
-    .summary-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: #1f2937;
-    }
-    .summary-divider {
-      border: none;
-      border-top: 1px solid #f3f4f6;
-      margin: 12px 0;
-    }
-    .coupon-link {
-      font-size: 13px;
-      font-weight: 500;
-      color: #007167;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .coupon-link:hover { text-decoration: underline; }
-    .summary-total-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 0;
-    }
-    .summary-total-label {
-      font-size: 15px;
-      font-weight: 700;
-      color: #1f2937;
-    }
-    .summary-total-value {
-      font-size: 15px;
+    .order-total-value {
+      font-size: 24px;
       font-weight: 700;
       color: #1f2937;
     }
@@ -727,33 +723,38 @@
 
       <!-- RIGHT SIDEBAR -->
       <div class="sidebar-card">
-        <h2 class="sidebar-title">Payment Details</h2>
+        <h2 class="card-title">Payment Details</h2>
 
-        <div class="summary-row">
-          <span class="summary-label">Subtotal</span>
-          <span class="summary-value" id="sideSubtotal">--</span>
+        <div class="payment-row">
+          <span class="label">Subtotal</span>
+          <span class="value" id="paySubtotal">--</span>
         </div>
-        <div class="summary-row">
-          <span class="summary-label">Shipping</span>
-          <span class="summary-value" id="sideShipping">--</span>
+        <div class="payment-row">
+          <span class="label">Shipping</span>
+          <span class="value" id="payShipping">--</span>
         </div>
-        <div class="summary-row">
-          <span class="summary-label">Total before discount</span>
-          <span class="summary-value" id="sideTotalBefore">--</span>
+        <div class="payment-row">
+          <span class="label">Tax</span>
+          <span class="value" id="payTax">--</span>
         </div>
 
-        <hr class="summary-divider">
+        <hr class="payment-separator">
 
-        <div class="summary-row">
-          <span class="summary-label">Coupon</span>
+        <div class="payment-row bold">
+          <span class="label">Total before discount</span>
+          <span class="value" id="payTotalBefore">--</span>
+        </div>
+
+        <div class="payment-row">
+          <span class="label">Coupon</span>
           <a href="#" class="coupon-link">+ Add Coupon</a>
         </div>
 
-        <hr class="summary-divider">
+        <hr class="payment-separator">
 
-        <div class="summary-total-row">
-          <span class="summary-total-label">Order Total</span>
-          <span class="summary-total-value" id="sideOrderTotal">--</span>
+        <div class="order-total-row">
+          <span class="order-total-label">Order Total</span>
+          <span class="order-total-value" id="payOrderTotal">--</span>
         </div>
 
         <!-- Review Order Button (disabled by default) -->
@@ -807,15 +808,17 @@ document.addEventListener('click', function(e) {
     var hasQuotation = items.some(function(item) { return item.quotation; });
 
     if (hasQuotation) {
-      document.getElementById('sideSubtotal').textContent = '--';
-      document.getElementById('sideShipping').textContent = '--';
-      document.getElementById('sideTotalBefore').textContent = '--';
-      document.getElementById('sideOrderTotal').textContent = '--';
+      document.getElementById('paySubtotal').textContent = '--';
+      document.getElementById('payShipping').textContent = '--';
+      document.getElementById('payTax').textContent = '--';
+      document.getElementById('payTotalBefore').textContent = '--';
+      document.getElementById('payOrderTotal').textContent = '--';
     } else {
-      document.getElementById('sideSubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
-      document.getElementById('sideShipping').textContent = shipping > 0 ? formatPrice(shipping) : (delivery.method === 'pickup' ? 'Free' : '--');
-      document.getElementById('sideTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
-      document.getElementById('sideOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+      document.getElementById('paySubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
+      document.getElementById('payShipping').textContent = shipping > 0 ? formatPrice(shipping) : (delivery.method === 'pickup' ? 'Free' : '--');
+      document.getElementById('payTax').textContent = '--';
+      document.getElementById('payTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+      document.getElementById('payOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
     }
 
     // Update cart badge

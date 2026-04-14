@@ -454,7 +454,7 @@
     /* ── TWO COLUMN LAYOUT ─── */
     .two-col {
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: 7fr 3fr;
       gap: 16px;
     }
     .left-col {
@@ -522,26 +522,39 @@
     /* ── PAYMENT DETAILS ─── */
     .payment-row {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 8px 0;
+      align-items: center;
       font-size: 14px;
-      color: #374151;
+      color: #6b7280;
+      padding: 6px 0;
     }
-    .payment-row + .payment-row {
-      border-top: 1px solid #f3f4f6;
-    }
-    .payment-total {
-      font-size: 20px;
+    .payment-row .label { color: #6b7280; }
+    .payment-row .value { color: #1f2937; font-weight: 500; }
+    .payment-row.bold .label,
+    .payment-row.bold .value {
       font-weight: 700;
       color: #1f2937;
-      border-top: 2px solid #e5e7eb;
-      padding-top: 12px;
-      margin-top: 4px;
     }
-    .payment-total span:last-child {
-      font-size: 20px;
+    .payment-separator {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 10px 0;
+    }
+    .order-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+    }
+    .order-total-label {
+      font-size: 16px;
       font-weight: 700;
+      color: #1f2937;
+    }
+    .order-total-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
     }
   </style>
 </head>
@@ -737,30 +750,38 @@
 
       <!-- PAYMENT DETAILS -->
       <div class="card">
-        <div class="card-title">Payment Details</div>
+        <h2 class="card-title">Payment Details</h2>
+
         <div class="payment-row">
-          <span>Subtotal</span>
-          <span>--</span>
+          <span class="label">Subtotal</span>
+          <span class="value" id="paySubtotal">--</span>
         </div>
         <div class="payment-row">
-          <span>Tax</span>
-          <span>--</span>
+          <span class="label">Shipping</span>
+          <span class="value" id="payShipping">--</span>
         </div>
         <div class="payment-row">
-          <span>Shipping</span>
-          <span>--</span>
+          <span class="label">Tax</span>
+          <span class="value" id="payTax">--</span>
         </div>
+
+        <hr class="payment-separator">
+
+        <div class="payment-row bold">
+          <span class="label">Total before discount</span>
+          <span class="value" id="payTotalBefore">--</span>
+        </div>
+
         <div class="payment-row">
-          <span>Total before discount</span>
-          <span>--</span>
+          <span class="label">Coupon</span>
+          <span class="value">--</span>
         </div>
-        <div class="payment-row">
-          <span>Coupon</span>
-          <span>--</span>
-        </div>
-        <div class="payment-row payment-total">
-          <span>Order Total</span>
-          <span>--</span>
+
+        <hr class="payment-separator">
+
+        <div class="order-total-row">
+          <span class="order-total-label">Order Total</span>
+          <span class="order-total-value" id="payOrderTotal">--</span>
         </div>
       </div>
     </div>
