@@ -834,6 +834,136 @@
       margin-top: 0;
     }
 
+    /* ── TOAST ─── */
+    .toast {
+      position: fixed;
+      top: 60px;
+      right: 24px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      z-index: 300;
+      min-width: 280px;
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast-icon {
+      width: 20px; height: 20px;
+      color: #007167; flex-shrink: 0; margin-top: 2px;
+    }
+    .toast-body { flex: 1; }
+    .toast-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    .toast-subtitle {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .toast-link {
+      font-size: 12px;
+      color: #007167;
+      font-weight: 500;
+      text-decoration: none;
+      display: block;
+      margin-top: 4px;
+    }
+    .toast-link:hover { text-decoration: underline; }
+    .toast-close {
+      background: none; border: none;
+      cursor: pointer; color: #9ca3af;
+      width: 16px; height: 16px; flex-shrink: 0;
+      font-size: 14px; line-height: 1;
+    }
+
+    /* ── REMOVE MODAL ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 400;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 14px;
+      padding: 32px;
+      width: 420px;
+      max-width: 90vw;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .modal-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #fef2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .modal-icon svg {
+      width: 24px; height: 24px; color: #c73e20;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+    .modal-text {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .modal-product-name {
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    .modal-btn {
+      height: 44px;
+      padding: 0 24px;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+    }
+    .modal-btn-cancel {
+      background: #fff;
+      border: 1px solid #d1d5db;
+      color: #374151;
+    }
+    .modal-btn-cancel:hover { background: #f9fafb; }
+    .modal-btn-remove {
+      background: #c73e20;
+      border: 1px solid #c73e20;
+      color: #fff;
+    }
+    .modal-btn-remove:hover { background: #a83219; }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         transition: none !important;
@@ -1095,9 +1225,9 @@
           </thead>
           <tbody>
             <!-- Row 1 -->
-            <tr>
+            <tr data-product-name="Cerabeads" data-product-url="shop-product-detail.html">
               <td><img class="product-thumb" src="../assets/shop-cerabeads.png" alt="Cerabeads"></td>
-              <td><a href="#" class="product-link">Cerabeads</a></td>
+              <td><a href="shop-product-detail.html" class="product-link">Cerabeads</a></td>
               <td>443142</td>
               <td>Beads</td>
               <td>39,00 &euro;</td>
@@ -1118,9 +1248,9 @@
               </td>
             </tr>
             <!-- Row 2 -->
-            <tr>
+            <tr data-product-name="Zetabeads Nano" data-product-url="shop-product-zetabeads-nano.html">
               <td><img class="product-thumb" src="../assets/shop-zetabeads-nano.png" alt="Zetabeads Nano"></td>
-              <td><a href="#" class="product-link">Zetabeads Nano</a></td>
+              <td><a href="shop-product-zetabeads-nano.html" class="product-link">Zetabeads Nano</a></td>
               <td>443141</td>
               <td>Beads</td>
               <td>1.300,00 &euro;</td>
@@ -1141,9 +1271,9 @@
               </td>
             </tr>
             <!-- Row 3 -->
-            <tr>
+            <tr data-product-name="Steelbeads Micro" data-product-url="shop-product-steelbeads-micro.html">
               <td><img class="product-thumb" src="../assets/shop-steelbeads-micro.png" alt="Steelbeads Micro"></td>
-              <td><a href="#" class="product-link">Steelbeads Micro</a></td>
+              <td><a href="shop-product-steelbeads-micro.html" class="product-link">Steelbeads Micro</a></td>
               <td>443141</td>
               <td>Beads</td>
               <td>Quote Only</td>
@@ -1164,7 +1294,7 @@
               </td>
             </tr>
             <!-- Row 4 -->
-            <tr>
+            <tr data-product-name="Sealing Ring - O Ring - FFKM" data-product-url="#">
               <td>
                 <span class="product-thumb-placeholder">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1191,7 +1321,7 @@
               </td>
             </tr>
             <!-- Row 5 -->
-            <tr>
+            <tr data-product-name="Bare Roller Bearing" data-product-url="#">
               <td>
                 <span class="product-thumb-placeholder">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1218,7 +1348,7 @@
               </td>
             </tr>
             <!-- Row 6 -->
-            <tr>
+            <tr data-product-name="Double-row Ball Bearing" data-product-url="#">
               <td>
                 <span class="product-thumb-placeholder">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1245,7 +1375,7 @@
               </td>
             </tr>
             <!-- Row 7 -->
-            <tr>
+            <tr data-product-name="Inner Pipe of Chamber" data-product-url="#">
               <td>
                 <span class="product-thumb-placeholder">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1272,7 +1402,7 @@
               </td>
             </tr>
             <!-- Row 8 -->
-            <tr>
+            <tr data-product-name="Ring - AISI 304" data-product-url="#">
               <td>
                 <span class="product-thumb-placeholder">
                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1321,7 +1451,7 @@
     <div class="grid-view" id="gridView">
       <div class="product-grid">
         <!-- Card 1: Cerabeads -->
-        <div class="product-card">
+        <div class="product-card" data-product-name="Cerabeads" data-product-url="shop-product-detail.html">
           <div class="card-image-area">
             <img src="../assets/shop-cerabeads.png" alt="Cerabeads">
             <div class="card-badge"><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></div>
@@ -1344,7 +1474,7 @@
         </div>
 
         <!-- Card 2: Zetabeads Nano -->
-        <div class="product-card">
+        <div class="product-card" data-product-name="Zetabeads Nano" data-product-url="shop-product-zetabeads-nano.html">
           <div class="card-image-area">
             <img src="../assets/shop-zetabeads-nano.png" alt="Zetabeads Nano">
             <div class="card-badge"><span class="avail-badge avail-instock"><span class="avail-dot"></span>In Stock</span></div>
@@ -1367,7 +1497,7 @@
         </div>
 
         <!-- Card 3: Steelbeads Micro -->
-        <div class="product-card">
+        <div class="product-card" data-product-name="Steelbeads Micro" data-product-url="shop-product-steelbeads-micro.html">
           <div class="card-image-area">
             <img src="../assets/shop-steelbeads-micro.png" alt="Steelbeads Micro">
             <div class="card-badge"><span class="avail-badge avail-quotation"><span class="avail-dot"></span>Quotation Only</span></div>
@@ -1390,7 +1520,7 @@
         </div>
 
         <!-- Card 4: Sealing Ring -->
-        <div class="product-card">
+        <div class="product-card" data-product-name="Sealing Ring - O Ring - FFKM" data-product-url="#">
           <div class="card-image-area">
             <div class="card-image-placeholder">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1415,7 +1545,7 @@
         </div>
 
         <!-- Card 5: Bare Roller Bearing -->
-        <div class="product-card">
+        <div class="product-card" data-product-name="Bare Roller Bearing" data-product-url="#">
           <div class="card-image-area">
             <div class="card-image-placeholder">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1440,7 +1570,7 @@
         </div>
 
         <!-- Card 6: Double-row Ball Bearing -->
-        <div class="product-card">
+        <div class="product-card" data-product-name="Double-row Ball Bearing" data-product-url="#">
           <div class="card-image-area">
             <div class="card-image-placeholder">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1465,7 +1595,7 @@
         </div>
 
         <!-- Card 7: Inner Pipe of Chamber -->
-        <div class="product-card">
+        <div class="product-card" data-product-name="Inner Pipe of Chamber" data-product-url="#">
           <div class="card-image-area">
             <div class="card-image-placeholder">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1490,7 +1620,7 @@
         </div>
 
         <!-- Card 8: Ring - AISI 304 -->
-        <div class="product-card">
+        <div class="product-card" data-product-name="Ring - AISI 304" data-product-url="#">
           <div class="card-image-area">
             <div class="card-image-placeholder">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1534,6 +1664,32 @@
     </div>
 
   </main>
+
+  <!-- TOAST (Add to Cart) -->
+  <div class="toast" id="cartToast">
+    <svg class="toast-icon" viewBox="0 0 16 16" fill="none"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
+    <div class="toast-body">
+      <div class="toast-title">Added to Cart</div>
+      <div class="toast-subtitle" id="toastProductName"></div>
+      <a href="checkout-cart.html" class="toast-link">View Cart</a>
+    </div>
+    <button class="toast-close" id="toastClose">&#x2715;</button>
+  </div>
+
+  <!-- REMOVE MODAL -->
+  <div class="modal-overlay" id="removeModal">
+    <div class="modal">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="modal-title">Remove from Wishlist</div>
+      <div class="modal-text">Are you sure you want to remove <span class="modal-product-name" id="modalProductName"></span> from your wishlist?</div>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-cancel" id="modalCancel">Cancel</button>
+        <button class="modal-btn modal-btn-remove" id="modalConfirm">Remove</button>
+      </div>
+    </div>
+  </div>
 
 <script>
 function toggleProfileDropdown(e) {
@@ -1585,6 +1741,90 @@ document.addEventListener('click', function(e) {
       btnListView.setAttribute('aria-pressed', 'false');
       listView.classList.add('hidden');
       gridView.classList.add('active');
+    });
+
+    // ── TOAST (Add to Cart) ───
+    const cartToast = document.getElementById('cartToast');
+    const toastProductName = document.getElementById('toastProductName');
+    let toastTimer;
+
+    function showCartToast(name) {
+      toastProductName.textContent = name;
+      cartToast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() { cartToast.classList.remove('show'); }, 4000);
+    }
+    document.getElementById('toastClose').addEventListener('click', function() {
+      cartToast.classList.remove('show');
+      clearTimeout(toastTimer);
+    });
+
+    // ── REMOVE MODAL ───
+    const removeModal = document.getElementById('removeModal');
+    const modalProductName = document.getElementById('modalProductName');
+    let pendingRemoveEl = null;
+
+    function openRemoveModal(name, el) {
+      modalProductName.textContent = name;
+      pendingRemoveEl = el;
+      removeModal.classList.add('open');
+    }
+    document.getElementById('modalCancel').addEventListener('click', function() {
+      removeModal.classList.remove('open');
+      pendingRemoveEl = null;
+    });
+    removeModal.addEventListener('click', function(e) {
+      if (e.target === removeModal) {
+        removeModal.classList.remove('open');
+        pendingRemoveEl = null;
+      }
+    });
+    document.getElementById('modalConfirm').addEventListener('click', function() {
+      if (pendingRemoveEl) {
+        pendingRemoveEl.style.transition = 'opacity 0.2s ease';
+        pendingRemoveEl.style.opacity = '0';
+        setTimeout(function() { pendingRemoveEl.remove(); }, 200);
+      }
+      removeModal.classList.remove('open');
+      pendingRemoveEl = null;
+    });
+
+    // ── TABLE VIEW: action buttons ───
+    document.querySelectorAll('.wishlist-table tbody tr').forEach(function(row) {
+      var name = row.dataset.productName;
+      var url = row.dataset.productUrl;
+      var btns = row.querySelectorAll('.action-btn');
+
+      // Add to Cart
+      btns[0].addEventListener('click', function() { showCartToast(name); });
+
+      // View Product
+      btns[1].addEventListener('click', function() {
+        if (url && url !== '#') location.href = url;
+      });
+
+      // Remove from Wishlist
+      btns[2].addEventListener('click', function() { openRemoveModal(name, row); });
+    });
+
+    // ── GRID VIEW: action buttons ───
+    document.querySelectorAll('.grid-view .product-card').forEach(function(card) {
+      var name = card.dataset.productName;
+      var url = card.dataset.productUrl;
+
+      // Add to Cart
+      var cartBtn = card.querySelector('.btn-add-cart');
+      if (cartBtn) cartBtn.addEventListener('click', function() { showCartToast(name); });
+
+      // View Product (eye button)
+      var eyeBtn = card.querySelector('.btn-card-eye');
+      if (eyeBtn) eyeBtn.addEventListener('click', function() {
+        if (url && url !== '#') location.href = url;
+      });
+
+      // Heart button = remove from wishlist
+      var heartBtn = card.querySelector('.card-heart');
+      if (heartBtn) heartBtn.addEventListener('click', function() { openRemoveModal(name, card); });
     });
   </script>
 
