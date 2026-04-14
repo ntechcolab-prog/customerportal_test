@@ -731,15 +731,15 @@
 
         <div class="summary-row">
           <span class="summary-label">Subtotal</span>
-          <span class="summary-value">39.75 &euro;</span>
+          <span class="summary-value" id="sideSubtotal">--</span>
         </div>
         <div class="summary-row">
           <span class="summary-label">Shipping</span>
-          <span class="summary-value">25.00 &euro;</span>
+          <span class="summary-value" id="sideShipping">--</span>
         </div>
         <div class="summary-row">
           <span class="summary-label">Total before discount</span>
-          <span class="summary-value">64.75 &euro;</span>
+          <span class="summary-value" id="sideTotalBefore">--</span>
         </div>
 
         <hr class="summary-divider">
@@ -753,7 +753,7 @@
 
         <div class="summary-total-row">
           <span class="summary-total-label">Order Total</span>
-          <span class="summary-total-value">64.75 &euro;</span>
+          <span class="summary-total-value" id="sideOrderTotal">--</span>
         </div>
 
         <!-- Review Order Button (disabled by default) -->
@@ -783,15 +783,59 @@ document.addEventListener('click', function(e) {
 });
 </script>
   <script>
-    const poInput = document.getElementById('poNumber');
-    const reviewBtn = document.getElementById('reviewBtn');
+    // ── localStorage cart utilities ──
+    function getCart() {
+      try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; }
+    }
+    function saveCart(cart) {
+      localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+    }
+    function formatPrice(num) {
+      var fixed = num.toFixed(2);
+      var parts = fixed.split('.');
+      var integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return integer + ',' + parts[1] + ' \u20ac';
+    }
+
+    // Load cart and update sidebar
+    var cart = getCart();
+    var items = cart.items || [];
+    var delivery = cart.delivery || { method: '', price: 0 };
+    var subtotal = items.reduce(function(s, i) { return s + (i.unitPrice * i.qty); }, 0);
+    var shipping = delivery.price || 0;
+    var totalBefore = subtotal + shipping;
+
+    document.getElementById('sideSubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
+    document.getElementById('sideShipping').textContent = shipping > 0 ? formatPrice(shipping) : (delivery.method === 'pickup' ? 'Free' : '--');
+    document.getElementById('sideTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+    document.getElementById('sideOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+
+    // Update cart badge
+    var cartBadge = document.querySelector('.cart-badge');
+    if (cartBadge) {
+      var totalQty = items.reduce(function(s, i) { return s + i.qty; }, 0);
+      cartBadge.textContent = totalQty;
+    }
+
+    // Restore PO and special request from localStorage
+    var poInput = document.getElementById('poNumber');
+    var specialInput = document.getElementById('specialRequest');
+    if (cart.poNumber) poInput.value = cart.poNumber;
+    if (cart.specialRequest) specialInput.value = cart.specialRequest;
+
+    var reviewBtn = document.getElementById('reviewBtn');
 
     function updateReviewButton() {
-      const hasValue = poInput.value.trim().length > 0;
+      var hasValue = poInput.value.trim().length > 0;
+      // Save to localStorage on every input
+      var c = getCart();
+      c.poNumber = poInput.value.trim();
+      c.specialRequest = specialInput.value.trim();
+      saveCart(c);
+
       if (hasValue) {
-        // Convert to active link
         if (reviewBtn.tagName === 'SPAN') {
-          const link = document.createElement('a');
+          var link = document.createElement('a');
           link.id = 'reviewBtn';
           link.className = 'btn-review active';
           link.href = 'checkout-review.html';
@@ -799,6 +843,7 @@ document.addEventListener('click', function(e) {
           link.removeAttribute('aria-disabled');
           link.setAttribute('tabindex', '0');
           reviewBtn.parentNode.replaceChild(link, reviewBtn);
+          reviewBtn = link;
         } else {
           reviewBtn.className = 'btn-review active';
           reviewBtn.href = 'checkout-review.html';
@@ -806,10 +851,9 @@ document.addEventListener('click', function(e) {
           reviewBtn.setAttribute('tabindex', '0');
         }
       } else {
-        // Convert back to disabled span
-        const currentBtn = document.getElementById('reviewBtn');
+        var currentBtn = document.getElementById('reviewBtn');
         if (currentBtn.tagName === 'A') {
-          const span = document.createElement('span');
+          var span = document.createElement('span');
           span.id = 'reviewBtn';
           span.className = 'btn-review disabled';
           span.textContent = 'Review Order';
@@ -817,11 +861,20 @@ document.addEventListener('click', function(e) {
           span.setAttribute('aria-disabled', 'true');
           span.setAttribute('tabindex', '-1');
           currentBtn.parentNode.replaceChild(span, currentBtn);
+          reviewBtn = span;
         }
       }
     }
 
     poInput.addEventListener('input', updateReviewButton);
+    specialInput.addEventListener('input', function() {
+      var c = getCart();
+      c.specialRequest = specialInput.value.trim();
+      saveCart(c);
+    });
+
+    // Trigger initial check (for restored PO)
+    updateReviewButton();
   </script>
 
 </body>

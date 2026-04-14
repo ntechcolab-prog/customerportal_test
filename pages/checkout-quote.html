@@ -678,7 +678,7 @@
     <!-- TITLE BAR -->
     <div class="title-bar">
       <div class="title-bar-text">
-        <h1>Quotation #13435602</h1>
+        <h1 id="quoteTitle">Quotation #--</h1>
         <p>Our sales team will review your request and send a confirmation by email within 3 business days.</p>
       </div>
       <div class="title-bar-actions">
@@ -710,7 +710,7 @@
 
         <!-- ORDER ITEMS -->
         <div class="card">
-          <div class="card-title">Order Items (1)</div>
+          <div class="card-title" id="quoteItemsTitle">Order Items (0)</div>
           <table class="order-table">
             <thead>
               <tr>
@@ -721,27 +721,16 @@
                 <th>Total</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <span class="product-name">NETZSCH CERABEADS 0.4 - 1,20 - 1,40 mm</span>
-                  <span class="product-detail">443385, Size: 1,20 - 1,40 mm</span>
-                </td>
-                <td>--</td>
-                <td>1</td>
-                <td>kg</td>
-                <td><span class="quotation-only">Quotation Only</span></td>
-              </tr>
-            </tbody>
+            <tbody id="quoteItemsBody"></tbody>
           </table>
         </div>
 
         <!-- SHIPPING AND DELIVERY -->
         <div class="card">
           <div class="card-title">Shipping and Delivery</div>
-          <div class="shipping-method">Pick-up at company</div>
-          <div class="shipping-detail">Available within 2 business days</div>
-          <div class="shipping-price">Free</div>
+          <div class="shipping-method" id="quoteDeliveryMethod">--</div>
+          <div class="shipping-detail" id="quoteDeliveryDetail"></div>
+          <div class="shipping-price" id="quoteDeliveryPrice"></div>
         </div>
 
       </div>
@@ -795,6 +784,40 @@ document.addEventListener('click', function(e) {
   if (dd && !dd.contains(e.target)) dd.classList.remove('open');
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
+</script>
+<script>
+  // Read cart BEFORE clearing
+  var cart = {};
+  try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) {}
+  var items = cart.items || [];
+  var delivery = cart.delivery || {};
+
+  // Generate random quote number
+  var quoteNum = Math.floor(10000000 + Math.random() * 90000000);
+  document.getElementById('quoteTitle').textContent = 'Quotation #' + quoteNum;
+
+  // Render items (quotation mode - all prices shown as "--")
+  var html = '';
+  items.forEach(function(item) {
+    html += '<tr><td><span class="product-name">' + item.name + '</span><span class="product-detail">' + item.ref + '</span></td>' +
+      '<td>--</td><td>' + item.qty + '</td><td>kg</td><td><span class="quotation-only">Quotation Only</span></td></tr>';
+  });
+  document.getElementById('quoteItemsBody').innerHTML = html;
+  document.getElementById('quoteItemsTitle').textContent = 'Order Items (' + items.length + ')';
+
+  // Delivery
+  var deliveryNames = { standard: 'Standard', express: 'Express', pickup: 'Pick-up at company' };
+  var deliveryDetails = { standard: '3-5 business days', express: '5-7 business days', pickup: 'Available within 2 business days' };
+  document.getElementById('quoteDeliveryMethod').textContent = deliveryNames[delivery.method] || '--';
+  document.getElementById('quoteDeliveryDetail').textContent = deliveryDetails[delivery.method] || '';
+  document.getElementById('quoteDeliveryPrice').textContent = delivery.price === 0 ? 'Free' : '--';
+
+  // Clear cart badge
+  var cartBadge = document.querySelector('.cart-badge');
+  if (cartBadge) cartBadge.textContent = '0';
+
+  // Clear cart from localStorage
+  localStorage.removeItem('netzsch_cart');
 </script>
 </body>
 </html>

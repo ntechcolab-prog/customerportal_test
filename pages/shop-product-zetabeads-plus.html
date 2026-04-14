@@ -1152,22 +1152,10 @@
       <span class="cart-dd-title">Shopping Cart</span>
       <button class="cart-dd-close" id="cartDdClose">&#x2715;</button>
     </div>
-    <div class="cart-dd-item">
-      <div class="cart-dd-item-name">NETZSCH ZETABEADS PLUS – 1,20 - 1,40 mm</div>
-      <div class="cart-dd-item-ref">443146</div>
-      <div class="cart-dd-item-price">53.00 €</div>
-      <div class="cart-dd-qty-row">
-        <span class="cart-dd-qty-label">Quantity</span>
-        <button class="cart-dd-delete" title="Remove">
-          <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 0 1 1.34-1.34h2.66a1.33 1.33 0 0 1 1.34 1.34V4m2 0v9.33a1.33 1.33 0 0 1-1.34 1.34H4.67a1.33 1.33 0 0 1-1.34-1.34V4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <span class="cart-dd-qty">1</span>
-        <button class="qty-btn">+</button>
-      </div>
-    </div>
+    <div class="cart-dd-items" id="cartDdItems"></div>
     <div class="cart-dd-subtotal">
       <span class="cart-dd-subtotal-label">Subtotal</span>
-      <span class="cart-dd-subtotal-value">53.00 €</span>
+      <span class="cart-dd-subtotal-value" id="cartDdSubtotal">0,00 &euro;</span>
     </div>
     <a href="checkout-cart.html" class="btn-view-cart">View Cart</a>
   </div>
@@ -1191,6 +1179,118 @@ document.addEventListener('click', function(e) {
 });
 </script>
 <script>
+    // ── localStorage cart utilities ──
+    function parsePrice(str) {
+      if (!str) return 0;
+      var clean = str.replace(/[^\d.,]/g, '');
+      if (!clean) return 0;
+      if (clean.indexOf(',') > -1 && clean.indexOf('.') > -1) {
+        clean = clean.replace(/\./g, '').replace(',', '.');
+      } else if (clean.indexOf(',') > -1) {
+        clean = clean.replace(',', '.');
+      }
+      return parseFloat(clean) || 0;
+    }
+    function formatPrice(num) {
+      var fixed = num.toFixed(2);
+      var parts = fixed.split('.');
+      var integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return integer + ',' + parts[1] + ' \u20ac';
+    }
+    function getCart() {
+      try { var c = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); return c; } catch(e) { return {}; }
+    }
+    function getCartItems() { var c = getCart(); return c.items || []; }
+    function saveCart(items) {
+      var c = getCart();
+      c.items = items;
+      localStorage.setItem('netzsch_cart', JSON.stringify(c));
+    }
+
+    var cartItems = getCartItems();
+    var cartDropdown = document.getElementById('cartDropdown');
+    var cartDdItems = document.getElementById('cartDdItems');
+    var cartDdSubtotal = document.getElementById('cartDdSubtotal');
+    var cartBadge = document.getElementById('cartBadge');
+
+    var placeholderSvg = '<div style="width:40px;height:40px;background:#f3f4f6;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#9ca3af;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></div>';
+    var trashSvg = '<svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var minusSvg = '<svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+    var plusSvg = '<svg viewBox="0 0 14 14" fill="none"><path d="M7 3v8M3 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+
+    function addToCart(name, ref, unitPrice, imgSrc) {
+      var existing = cartItems.find(function(item) { return item.ref === ref; });
+      if (existing) {
+        existing.qty++;
+      } else {
+        cartItems.push({ name: name, ref: ref, unitPrice: unitPrice, img: imgSrc || '', qty: 1 });
+      }
+      saveCart(cartItems);
+      renderCartDropdown();
+      cartDropdown.classList.add('show');
+      updateCartBadge();
+    }
+
+    function updateCartBadge() {
+      var total = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
+      cartBadge.textContent = total;
+      cartBadge.classList.toggle('show', total > 0);
+    }
+
+    function renderCartDropdown() {
+      var html = '';
+      var subtotal = 0;
+      cartItems.forEach(function(item, i) {
+        var lineTotal = item.unitPrice * item.qty;
+        subtotal += lineTotal;
+        var imgHtml = item.img
+          ? '<img style="width:40px;height:40px;border-radius:6px;object-fit:contain;background:#fafbfc;flex-shrink:0;" src="' + item.img + '" alt="' + item.name + '">'
+          : placeholderSvg;
+        var leftBtn = item.qty === 1
+          ? '<button class="cart-dd-qty-btn delete" data-action="remove" data-index="' + i + '" title="Remove" style="background:none;border:none;cursor:pointer;color:#ef4444;width:24px;height:24px;">' + trashSvg + '</button>'
+          : '<button class="cart-dd-qty-btn" data-action="minus" data-index="' + i + '" style="background:none;border:none;cursor:pointer;color:#007167;width:24px;height:24px;">' + minusSvg + '</button>';
+
+        html += '<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f3f4f6;align-items:flex-start;">' +
+          imgHtml +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="display:flex;justify-content:space-between;gap:8px;"><span class="cart-dd-item-name">' + item.name + '</span><span class="cart-dd-item-price">' + formatPrice(lineTotal) + '</span></div>' +
+            '<div class="cart-dd-item-ref">Ref: ' + item.ref + '</div>' +
+            '<div class="cart-dd-qty-row" style="margin-top:6px;">' +
+              '<span class="cart-dd-qty-label">Quantity</span>' +
+              '<div style="display:flex;align-items:center;gap:4px;">' +
+                leftBtn +
+                '<span class="cart-dd-qty" style="font-size:13px;color:#374151;min-width:16px;text-align:center;">' + item.qty + '</span>' +
+                '<button class="cart-dd-qty-btn" data-action="plus" data-index="' + i + '" style="background:none;border:none;cursor:pointer;color:#007167;width:24px;height:24px;">' + plusSvg + '</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      });
+
+      if (cartItems.length === 0) {
+        html = '<div style="text-align:center;padding:20px 0;color:#6b7280;font-size:13px;">Your cart is empty</div>';
+      }
+
+      cartDdItems.innerHTML = html;
+      cartDdSubtotal.textContent = formatPrice(subtotal);
+
+      // Bind qty buttons
+      cartDdItems.querySelectorAll('.cart-dd-qty-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var idx = parseInt(btn.dataset.index);
+          var action = btn.dataset.action;
+          if (action === 'plus') { cartItems[idx].qty++; }
+          else if (action === 'minus') { cartItems[idx].qty--; }
+          else if (action === 'remove') { cartItems.splice(idx, 1); }
+          saveCart(cartItems);
+          renderCartDropdown();
+          updateCartBadge();
+          if (cartItems.length === 0) cartDropdown.classList.remove('show');
+        });
+      });
+    }
+
     // Thumbnail gallery
     document.querySelectorAll('.product-thumb').forEach(thumb => {
       thumb.addEventListener('click', () => {
@@ -1220,7 +1320,7 @@ document.addEventListener('click', function(e) {
       qtyValue.textContent = parseInt(qtyValue.textContent) + 1;
     });
 
-    // Size select → show delivery time + activate Add to Cart
+    // Size select -> show delivery time + activate Add to Cart
     const sizeSelect = document.querySelector('.form-select');
     const deliveryInfo = document.getElementById('deliveryInfo');
     const btnCart = document.querySelector('.btn-add-cart');
@@ -1240,38 +1340,52 @@ document.addEventListener('click', function(e) {
       toast.classList.remove('show');
     });
 
-    // Add to Cart → show cart dropdown + badge
+    // Add to Cart -> add item to localStorage cart + show dropdown
     btnCart.addEventListener('click', () => {
       if (!btnCart.classList.contains('active')) return;
-      document.getElementById('cartBadge').classList.add('show');
-      document.getElementById('cartDropdown').classList.add('show');
+      var productName = document.querySelector('.product-title').textContent.trim();
+      var sizeOpt = sizeSelect.options[sizeSelect.selectedIndex];
+      var sizeText = sizeOpt ? sizeOpt.text : '';
+      var fullName = productName + (sizeText ? ' - ' + sizeText : '');
+      var ref = document.querySelector('.product-ref').textContent.replace('Ref: ', '').trim();
+      var priceText = document.querySelector('.price-value').textContent;
+      var unitPrice = parsePrice(priceText);
+      var qty = parseInt(qtyValue.textContent) || 1;
+      var imgSrc = document.getElementById('mainImg').src;
+
+      // Add qty items (or increment)
+      var existing = cartItems.find(function(item) { return item.ref === ref && item.name === fullName; });
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cartItems.push({ name: fullName, ref: ref, unitPrice: unitPrice, img: imgSrc, qty: qty });
+      }
+      saveCart(cartItems);
+      renderCartDropdown();
+      updateCartBadge();
+      cartDropdown.classList.add('show');
     });
+
     document.getElementById('cartDdClose').addEventListener('click', () => {
-      document.getElementById('cartDropdown').classList.remove('show');
+      cartDropdown.classList.remove('show');
     });
 
     // Cart header button toggle
-    document.getElementById('cartBtn').addEventListener('click', () => {
-      const dd = document.getElementById('cartDropdown');
-      if (document.getElementById('cartBadge').classList.contains('show')) {
-        dd.classList.toggle('show');
-      }
-    });
-
-    // Profile dropdown
-    document.getElementById('avatarBtn').addEventListener('click', () => {
-      document.getElementById('profileDropdown').classList.toggle('show');
+    document.getElementById('cartBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (cartItems.length > 0) cartDropdown.classList.toggle('show');
     });
 
     // Close dropdowns on outside click
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('#cartBtn') && !e.target.closest('#cartDropdown')) {
-        document.getElementById('cartDropdown').classList.remove('show');
-      }
-      if (!e.target.closest('#avatarBtn') && !e.target.closest('#profileDropdown')) {
-        document.getElementById('profileDropdown').classList.remove('show');
+      if (!e.target.closest('#cartBtn') && !e.target.closest('#cartDropdown') && !e.target.closest('.btn-add-cart')) {
+        cartDropdown.classList.remove('show');
       }
     });
+
+    // Initial render
+    renderCartDropdown();
+    updateCartBadge();
   </script>
 
 </body>

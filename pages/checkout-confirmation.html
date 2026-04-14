@@ -694,7 +694,7 @@
 
     <!-- TITLE BAR -->
     <div class="title-bar">
-      <h1>Order #20034044</h1>
+      <h1 id="orderTitle">Order #--</h1>
       <div class="title-bar-actions">
         <button class="btn-primary">
           <svg viewBox="0 0 16 16" fill="none"><path d="M1 10.5v2a1.5 1.5 0 001.5 1.5h11a1.5 1.5 0 001.5-1.5v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5 2.5h8.5a1 1 0 011 1v4a1 1 0 01-1 1H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="3" cy="5" r="1" fill="currentColor"/><path d="M1.5 3.5h3M1.5 5h3M1.5 6.5h3" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/></svg>
@@ -724,7 +724,7 @@
 
         <!-- ORDER ITEMS -->
         <div class="card">
-          <div class="card-title">Order Items (1)</div>
+          <div class="card-title" id="orderItemsTitle">Order Items (0)</div>
           <table class="order-table">
             <thead>
               <tr>
@@ -735,27 +735,16 @@
                 <th>Total</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <span class="product-name">NETZSCH CERABEADS 0.4 - 1,20 - 1,40 mm</span>
-                  <span class="product-detail">443385, Size: 1,20 - 1,40 mm</span>
-                </td>
-                <td>&euro;39,75</td>
-                <td>1</td>
-                <td>kg</td>
-                <td>39,75 &euro;</td>
-              </tr>
-            </tbody>
+            <tbody id="orderItemsBody"></tbody>
           </table>
         </div>
 
         <!-- SHIPPING AND DELIVERY -->
         <div class="card">
           <div class="card-title">Shipping and Delivery</div>
-          <div class="shipping-method">Pick-up at company</div>
-          <div class="shipping-detail">Available within 2 business days</div>
-          <div class="shipping-price">Free</div>
+          <div class="shipping-method" id="confDeliveryMethod">--</div>
+          <div class="shipping-detail" id="confDeliveryDetail"></div>
+          <div class="shipping-price" id="confDeliveryPrice"></div>
         </div>
 
       </div>
@@ -765,15 +754,15 @@
         <div class="card-title">Payment Details</div>
         <div class="payment-row">
           <span>Subtotal</span>
-          <span>39,75 &euro;</span>
+          <span id="confSubtotal">--</span>
         </div>
         <div class="payment-row">
           <span>Shipping</span>
-          <span>25,00 &euro;</span>
+          <span id="confShipping">--</span>
         </div>
         <div class="payment-row">
           <span>Total before discount</span>
-          <span>64,75 &euro;</span>
+          <span id="confTotalBefore">--</span>
         </div>
         <div class="payment-row">
           <span>Coupon</span>
@@ -781,7 +770,7 @@
         </div>
         <div class="payment-row payment-total">
           <span>Order Total</span>
-          <span>64,75 &euro;</span>
+          <span id="confOrderTotal">--</span>
         </div>
       </div>
     </div>
@@ -805,6 +794,58 @@ document.addEventListener('click', function(e) {
   if (dd && !dd.contains(e.target)) dd.classList.remove('open');
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
+</script>
+<script>
+  function formatPrice(num) {
+    var fixed = num.toFixed(2);
+    var parts = fixed.split('.');
+    var integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return integer + ',' + parts[1] + ' \u20ac';
+  }
+
+  // Read cart BEFORE clearing
+  var cart = {};
+  try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) {}
+  var items = cart.items || [];
+  var delivery = cart.delivery || {};
+
+  // Generate random order number
+  var orderNum = Math.floor(10000000 + Math.random() * 90000000);
+  document.getElementById('orderTitle').textContent = 'Order #' + orderNum;
+
+  // Render items
+  var subtotal = 0;
+  var html = '';
+  items.forEach(function(item) {
+    var lineTotal = item.unitPrice * item.qty;
+    subtotal += lineTotal;
+    html += '<tr><td><span class="product-name">' + item.name + '</span><span class="product-detail">' + item.ref + '</span></td>' +
+      '<td>' + formatPrice(item.unitPrice) + '</td><td>' + item.qty + '</td><td>kg</td><td>' + formatPrice(lineTotal) + '</td></tr>';
+  });
+  document.getElementById('orderItemsBody').innerHTML = html;
+  document.getElementById('orderItemsTitle').textContent = 'Order Items (' + items.length + ')';
+
+  // Delivery
+  var deliveryNames = { standard: 'Standard', express: 'Express', pickup: 'Pick-up at company' };
+  var deliveryDetails = { standard: '3-5 business days', express: '5-7 business days', pickup: 'Available within 2 business days' };
+  document.getElementById('confDeliveryMethod').textContent = deliveryNames[delivery.method] || '--';
+  document.getElementById('confDeliveryDetail').textContent = deliveryDetails[delivery.method] || '';
+  document.getElementById('confDeliveryPrice').textContent = delivery.price === 0 ? 'Free' : (delivery.price ? formatPrice(delivery.price) : '--');
+
+  // Totals
+  var shipping = delivery.price || 0;
+  var totalBefore = subtotal + shipping;
+  document.getElementById('confSubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
+  document.getElementById('confShipping').textContent = shipping > 0 ? formatPrice(shipping) : (delivery.method === 'pickup' ? 'Free' : '--');
+  document.getElementById('confTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+  document.getElementById('confOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+
+  // Clear cart badge
+  var cartBadge = document.querySelector('.cart-badge');
+  if (cartBadge) cartBadge.textContent = '0';
+
+  // Clear cart from localStorage
+  localStorage.removeItem('netzsch_cart');
 </script>
 </body>
 </html>

@@ -699,49 +699,9 @@
     <div class="cart-layout">
 
       <!-- LEFT: PRODUCTS -->
-      <div class="card">
+      <div class="card" id="productsCard">
         <h2 class="card-title">Products</h2>
-
-        <!-- Product Row -->
-        <div class="product-row">
-          <img class="product-thumb" src="../assets/shop-cerabeads.png" alt="NETZSCH CERABEADS">
-
-          <div class="product-info">
-            <span class="product-name">NETZSCH CERABEADS 0.4 – 1,20 - 1,40 mm</span>
-            <span class="product-meta">Ref: 443385</span>
-            <span class="product-meta">Size: 1,20 - 1,40 mm</span>
-          </div>
-
-          <div class="quantity-col">
-            <span class="col-label">Quantity</span>
-            <div class="quantity-controls">
-              <!-- Trash / Delete button -->
-              <button class="qty-btn" aria-label="Remove item" title="Remove item">
-                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 4h12M5.333 4V2.667a1.333 1.333 0 011.334-1.334h2.666a1.333 1.333 0 011.334 1.334V4M6.667 7.333v4M9.333 7.333v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M3.333 4h9.334l-.667 9.333a1.333 1.333 0 01-1.333 1.334H5.333A1.333 1.333 0 014 13.333L3.333 4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-              <input class="qty-input" type="number" value="1" min="1" aria-label="Quantity">
-              <!-- Plus button -->
-              <button class="qty-btn" aria-label="Increase quantity" title="Increase quantity">
-                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="unity-col">
-            <span class="col-label">Unity</span>
-            <span class="unity-value">kg</span>
-          </div>
-
-          <div class="total-col">
-            <span class="col-label">Total</span>
-            <span class="total-value">39.75 &euro;</span>
-          </div>
-        </div>
+        <div id="cartItemsContainer"></div>
 
         <!-- Delivery Row -->
         <div class="delivery-row">
@@ -762,7 +722,7 @@
 
         <div class="payment-row">
           <span class="label">Subtotal</span>
-          <span class="value">39.75 &euro;</span>
+          <span class="value" id="paySubtotal">--</span>
         </div>
         <div class="payment-row">
           <span class="label">Shipping</span>
@@ -777,7 +737,7 @@
 
         <div class="payment-row bold">
           <span class="label">Total before discount</span>
-          <span class="value">39.75 &euro;</span>
+          <span class="value" id="payTotalBefore">--</span>
         </div>
 
         <div class="payment-row">
@@ -789,7 +749,7 @@
 
         <div class="order-total-row">
           <span class="order-total-label">Order Total</span>
-          <span class="order-total-value">39.75 &euro;</span>
+          <span class="order-total-value" id="payOrderTotal">--</span>
         </div>
 
         <a href="checkout.html" class="btn-checkout">
@@ -822,6 +782,133 @@ document.addEventListener('click', function(e) {
   if (dd && !dd.contains(e.target)) dd.classList.remove('open');
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
+</script>
+<script>
+  // ── localStorage cart utilities ──
+  function formatPrice(num) {
+    var fixed = num.toFixed(2);
+    var parts = fixed.split('.');
+    var integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return integer + ',' + parts[1] + ' \u20ac';
+  }
+  function getCart() {
+    try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; }
+  }
+  function saveCart(cart) {
+    localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+  }
+
+  var placeholderSvg = '<div style="width:80px;height:80px;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#9ca3af;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></div>';
+
+  function renderCartPage() {
+    var cart = getCart();
+    var items = cart.items || [];
+    var container = document.getElementById('cartItemsContainer');
+    var paySubtotal = document.getElementById('paySubtotal');
+    var payTotalBefore = document.getElementById('payTotalBefore');
+    var payOrderTotal = document.getElementById('payOrderTotal');
+    var cartBadge = document.querySelector('.cart-badge');
+
+    if (items.length === 0) {
+      container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#6b7280;font-size:14px;">Your cart is empty.<br><a href="shop.html" style="color:#007167;font-weight:600;text-decoration:none;margin-top:8px;display:inline-block;">Browse Shop</a></div>';
+      paySubtotal.textContent = '--';
+      payTotalBefore.textContent = '--';
+      payOrderTotal.textContent = '--';
+      if (cartBadge) cartBadge.textContent = '0';
+      return;
+    }
+
+    var html = '';
+    var subtotal = 0;
+    var totalQty = 0;
+
+    items.forEach(function(item, i) {
+      var lineTotal = item.unitPrice * item.qty;
+      subtotal += lineTotal;
+      totalQty += item.qty;
+
+      var imgHtml = item.img
+        ? '<img class="product-thumb" src="' + item.img + '" alt="' + item.name + '">'
+        : placeholderSvg;
+
+      var trashSvg = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12M5.333 4V2.667a1.333 1.333 0 011.334-1.334h2.666a1.333 1.333 0 011.334 1.334V4M6.667 7.333v4M9.333 7.333v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.333 4h9.334l-.667 9.333a1.333 1.333 0 01-1.333 1.334H5.333A1.333 1.333 0 014 13.333L3.333 4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      var plusSvg = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+      var minusSvg = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+
+      var leftBtn = item.qty <= 1
+        ? '<button class="qty-btn" data-action="remove" data-index="' + i + '" aria-label="Remove item" title="Remove item">' + trashSvg + '</button>'
+        : '<button class="qty-btn" data-action="minus" data-index="' + i + '" aria-label="Decrease quantity" title="Decrease">' + minusSvg + '</button>';
+
+      html += '<div class="product-row" style="' + (i < items.length - 1 ? '' : 'border-bottom:none;') + '">' +
+        imgHtml +
+        '<div class="product-info">' +
+          '<span class="product-name">' + item.name + '</span>' +
+          '<span class="product-meta">Ref: ' + item.ref + '</span>' +
+        '</div>' +
+        '<div class="quantity-col">' +
+          '<span class="col-label">Quantity</span>' +
+          '<div class="quantity-controls">' +
+            leftBtn +
+            '<input class="qty-input" type="number" value="' + item.qty + '" min="1" data-index="' + i + '" aria-label="Quantity">' +
+            '<button class="qty-btn" data-action="plus" data-index="' + i + '" aria-label="Increase quantity" title="Increase quantity">' + plusSvg + '</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="unity-col">' +
+          '<span class="col-label">Unity</span>' +
+          '<span class="unity-value">kg</span>' +
+        '</div>' +
+        '<div class="total-col">' +
+          '<span class="col-label">Total</span>' +
+          '<span class="total-value">' + formatPrice(lineTotal) + '</span>' +
+        '</div>' +
+      '</div>';
+    });
+
+    container.innerHTML = html;
+    paySubtotal.textContent = formatPrice(subtotal);
+    payTotalBefore.textContent = formatPrice(subtotal);
+    payOrderTotal.textContent = formatPrice(subtotal);
+    if (cartBadge) cartBadge.textContent = totalQty;
+
+    // Bind buttons
+    container.querySelectorAll('.qty-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var idx = parseInt(btn.dataset.index);
+        var action = btn.dataset.action;
+        var cart = getCart();
+        var items = cart.items || [];
+        if (action === 'plus') {
+          items[idx].qty++;
+        } else if (action === 'minus') {
+          items[idx].qty--;
+          if (items[idx].qty <= 0) items.splice(idx, 1);
+        } else if (action === 'remove') {
+          items.splice(idx, 1);
+        }
+        cart.items = items;
+        saveCart(cart);
+        renderCartPage();
+      });
+    });
+
+    // Bind qty inputs
+    container.querySelectorAll('.qty-input').forEach(function(input) {
+      input.addEventListener('change', function() {
+        var idx = parseInt(input.dataset.index);
+        var newVal = parseInt(input.value) || 1;
+        if (newVal < 1) newVal = 1;
+        var cart = getCart();
+        var items = cart.items || [];
+        items[idx].qty = newVal;
+        cart.items = items;
+        saveCart(cart);
+        renderCartPage();
+      });
+    });
+  }
+
+  // Initial render
+  renderCartPage();
 </script>
 </body>
 </html>

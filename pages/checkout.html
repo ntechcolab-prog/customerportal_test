@@ -875,24 +875,52 @@ document.addEventListener('click', function(e) {
 });
 </script>
   <script>
+    // ── localStorage cart utilities ──
+    function getCart() {
+      try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; }
+    }
+    function saveCart(cart) {
+      localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+    }
+    function formatCurrency(amount) {
+      var fixed = amount.toFixed(2);
+      var parts = fixed.split('.');
+      var integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return integer + ',' + parts[1] + ' \u20AC';
+    }
+
+    // Calculate subtotal from cart items
+    var cart = getCart();
+    var cartItems = cart.items || [];
+    var SUBTOTAL = cartItems.reduce(function(s, i) { return s + (i.unitPrice * i.qty); }, 0);
+    var TAX_RATE = 0.19;
+
     // State
-    let selectedAddress = null;
-    let selectedDelivery = null;
+    var selectedAddress = null;
+    var selectedDelivery = null;
 
-    const addressCards = document.querySelectorAll('.address-card');
-    const deliveryOptions = document.querySelectorAll('.delivery-option');
-    const shippingValue = document.getElementById('shippingValue');
-    const taxValue = document.getElementById('taxValue');
-    const totalValue = document.getElementById('totalValue');
-    const btnProceed = document.getElementById('btnProceed');
+    var addressCards = document.querySelectorAll('.address-card');
+    var deliveryOptions = document.querySelectorAll('.delivery-option');
+    var shippingValue = document.getElementById('shippingValue');
+    var taxValue = document.getElementById('taxValue');
+    var totalValue = document.getElementById('totalValue');
+    var btnProceed = document.getElementById('btnProceed');
 
-    const SUBTOTAL = 1300.00;
-    const TAX_RATE = 0.19;
+    // Update subtotal display from cart
+    var subtotalEl = document.querySelector('.summary-value');
+    if (subtotalEl) subtotalEl.textContent = SUBTOTAL > 0 ? formatCurrency(SUBTOTAL) : '--';
+
+    // Update cart badge
+    var cartBadge = document.querySelector('.cart-badge');
+    if (cartBadge) {
+      var totalQty = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
+      cartBadge.textContent = totalQty;
+    }
 
     // Address selection
-    addressCards.forEach(card => {
-      card.addEventListener('click', () => selectAddress(card));
-      card.addEventListener('keydown', (e) => {
+    addressCards.forEach(function(card) {
+      card.addEventListener('click', function() { selectAddress(card); });
+      card.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           selectAddress(card);
@@ -901,7 +929,7 @@ document.addEventListener('click', function(e) {
     });
 
     function selectAddress(card) {
-      addressCards.forEach(c => {
+      addressCards.forEach(function(c) {
         c.classList.remove('selected');
         c.setAttribute('aria-checked', 'false');
       });
@@ -912,9 +940,9 @@ document.addEventListener('click', function(e) {
     }
 
     // Delivery selection
-    deliveryOptions.forEach(option => {
-      option.addEventListener('click', () => selectDelivery(option));
-      option.addEventListener('keydown', (e) => {
+    deliveryOptions.forEach(function(option) {
+      option.addEventListener('click', function() { selectDelivery(option); });
+      option.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           selectDelivery(option);
@@ -923,33 +951,37 @@ document.addEventListener('click', function(e) {
     });
 
     function selectDelivery(option) {
-      deliveryOptions.forEach(o => {
+      deliveryOptions.forEach(function(o) {
         o.classList.remove('selected');
         o.setAttribute('aria-checked', 'false');
       });
       option.classList.add('selected');
       option.setAttribute('aria-checked', 'true');
       selectedDelivery = {
-        type: option.dataset.delivery,
+        method: option.dataset.delivery,
         price: parseFloat(option.dataset.price)
       };
+
+      // Save delivery to localStorage
+      var c = getCart();
+      c.delivery = { method: selectedDelivery.method, price: selectedDelivery.price };
+      saveCart(c);
+
       updateCheckout();
     }
 
     function updateCheckout() {
-      // Update shipping display
       if (selectedDelivery) {
         if (selectedDelivery.price === 0) {
           shippingValue.textContent = 'Free';
         } else {
-          shippingValue.textContent = selectedDelivery.price.toFixed(2) + ' \u20AC';
+          shippingValue.textContent = formatCurrency(selectedDelivery.price);
         }
 
-        // Recalculate totals
-        const shipping = selectedDelivery.price;
-        const taxableAmount = SUBTOTAL + shipping;
-        const tax = taxableAmount * TAX_RATE;
-        const total = taxableAmount + tax;
+        var shipping = selectedDelivery.price;
+        var taxableAmount = SUBTOTAL + shipping;
+        var tax = taxableAmount * TAX_RATE;
+        var total = taxableAmount + tax;
 
         taxValue.textContent = formatCurrency(tax);
         totalValue.textContent = formatCurrency(total);
@@ -957,7 +989,6 @@ document.addEventListener('click', function(e) {
         shippingValue.textContent = '--';
       }
 
-      // Activate / deactivate button
       if (selectedAddress && selectedDelivery) {
         btnProceed.classList.remove('disabled');
         btnProceed.classList.add('active');
@@ -971,12 +1002,14 @@ document.addEventListener('click', function(e) {
       }
     }
 
-    function formatCurrency(amount) {
-      return amount.toLocaleString('de-DE', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }) + ' \u20AC';
-    }
+    // Restore delivery from localStorage if previously selected
+    (function() {
+      var c = getCart();
+      if (c.delivery && c.delivery.method) {
+        var opt = document.querySelector('.delivery-option[data-delivery="' + c.delivery.method + '"]');
+        if (opt) selectDelivery(opt);
+      }
+    })();
   </script>
 
 </body>

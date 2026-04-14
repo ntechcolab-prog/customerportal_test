@@ -1854,9 +1854,21 @@ document.addEventListener('click', function(e) {
     var cartDdItems = document.getElementById('cartDdItems');
     var cartDdSubtotal = document.getElementById('cartDdSubtotal');
     var cartBadge = document.getElementById('cartBadge');
-    var cartItems = [];
+    // ── localStorage cart ──
+    function getStoredCart() {
+      try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; }
+    }
+    function saveCartToStorage() {
+      var c = getStoredCart();
+      c.items = cartItems;
+      localStorage.setItem('netzsch_cart', JSON.stringify(c));
+    }
+    var cartItems = (function() {
+      var stored = getStoredCart();
+      return (stored.items && stored.items.length > 0) ? stored.items : [];
+    })();
 
-    // Parse European price: "1.300,00 €" → 1300.00 | "39,00 €" → 39.00
+    // Parse European price: "1.300,00 €" -> 1300.00 | "39,00 €" -> 39.00
     function parsePrice(str) {
       if (!str) return 0;
       var clean = str.replace(/[^\d.,]/g, '');
@@ -1888,6 +1900,7 @@ document.addEventListener('click', function(e) {
       } else {
         cartItems.push({ name: name, ref: ref, unitPrice: unitPrice, img: imgSrc || '', qty: 1 });
       }
+      saveCartToStorage();
       renderCartDropdown();
       cartDropdown.classList.add('show');
       updateCartBadge();
@@ -1953,6 +1966,7 @@ document.addEventListener('click', function(e) {
           } else if (action === 'remove') {
             cartItems.splice(idx, 1);
           }
+          saveCartToStorage();
           renderCartDropdown();
           updateCartBadge();
           if (cartItems.length === 0) {
@@ -1978,6 +1992,10 @@ document.addEventListener('click', function(e) {
         cartDropdown.classList.remove('show');
       }
     });
+
+    // Initial cart render from localStorage
+    renderCartDropdown();
+    updateCartBadge();
 
     // ── REMOVE MODAL ───
     var removeModal = document.getElementById('removeModal');

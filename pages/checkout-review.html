@@ -768,14 +768,7 @@
         <!-- CARD 1 — Products -->
         <div class="review-card">
           <h2 class="review-card-title">Products</h2>
-          <div class="product-row">
-            <img class="product-thumb" src="../assets/shop-cerabeads.png" alt="NETZSCH CERABEADS">
-            <div class="product-info">
-              <span class="product-name">NETZSCH CERABEADS 0.4 - 1,20 - 1,40 mm</span>
-              <span class="product-ref">Ref: 443385</span>
-              <span class="product-size">Size: 1,20 - 1,40 mm</span>
-            </div>
-          </div>
+          <div id="reviewProducts"></div>
           <table class="product-detail-table">
             <thead>
               <tr>
@@ -785,16 +778,9 @@
                 <th>Total</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>&euro;39.75</td>
-                <td>1</td>
-                <td>kg</td>
-                <td>39,75 &euro;</td>
-              </tr>
-            </tbody>
+            <tbody id="reviewProductsTable"></tbody>
           </table>
-          <a href="shopping-cart.html" class="change-link">
+          <a href="checkout-cart.html" class="change-link">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -816,16 +802,13 @@
                 Phone: +1 (555) 123-4567
               </p>
             </div>
-            <div class="shipping-block">
+            <div class="shipping-block" id="reviewDeliveryBlock">
               <div class="shipping-block-label">Delivery</div>
-              <strong>Pick-up at company</strong>
-              <p>
-                Available within 2 business days<br>
-                <span class="delivery-free">Free</span>
-              </p>
+              <strong id="reviewDeliveryMethod">--</strong>
+              <p id="reviewDeliveryDetail"></p>
             </div>
           </div>
-          <a href="checkout-order-details.html" class="change-link" style="margin-top: 12px;">
+          <a href="checkout.html" class="change-link" style="margin-top: 12px;">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -836,7 +819,7 @@
         <!-- CARD 3 — Purchase Order Number -->
         <div class="review-card">
           <h2 class="review-card-title">Purchase Order Number</h2>
-          <p class="po-value">12189291</p>
+          <p class="po-value" id="reviewPoNumber">--</p>
           <a href="checkout-order-details.html" class="change-link">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -848,7 +831,7 @@
         <!-- CARD 4 — Special Request -->
         <div class="review-card">
           <h2 class="review-card-title">Special Request</h2>
-          <p class="special-request-text">No special request made in this order.</p>
+          <p class="special-request-text" id="reviewSpecialRequest">No special request made in this order.</p>
           <a href="checkout-order-details.html" class="change-link">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -866,15 +849,15 @@
 
           <div class="sidebar-row">
             <span class="sidebar-row-label">Subtotal</span>
-            <span class="sidebar-row-value">39.75 &euro;</span>
+            <span class="sidebar-row-value" id="revSubtotal">--</span>
           </div>
           <div class="sidebar-row">
             <span class="sidebar-row-label">Shipping</span>
-            <span class="sidebar-row-value">25.00 &euro;</span>
+            <span class="sidebar-row-value" id="revShipping">--</span>
           </div>
           <div class="sidebar-row">
             <span class="sidebar-row-label">Total before discount</span>
-            <span class="sidebar-row-value">64.75 &euro;</span>
+            <span class="sidebar-row-value" id="revTotalBefore">--</span>
           </div>
 
           <div class="sidebar-row">
@@ -886,7 +869,7 @@
 
           <div class="order-total-row">
             <span class="order-total-label">Order Total</span>
-            <span class="order-total-value">64.75 &euro;</span>
+            <span class="order-total-value" id="revOrderTotal">--</span>
           </div>
 
           <!-- Terms -->
@@ -936,6 +919,68 @@ document.addEventListener('click', function(e) {
   if (dd && !dd.contains(e.target)) dd.classList.remove('open');
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
+</script>
+<script>
+  // ── localStorage cart rendering ──
+  function getCart() {
+    try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; }
+  }
+  function formatPrice(num) {
+    var fixed = num.toFixed(2);
+    var parts = fixed.split('.');
+    var integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return integer + ',' + parts[1] + ' \u20ac';
+  }
+
+  var placeholderSvg = '<div style="width:60px;height:60px;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#9ca3af;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></div>';
+
+  var cart = getCart();
+  var items = cart.items || [];
+  var delivery = cart.delivery || {};
+  var subtotal = items.reduce(function(s, i) { return s + (i.unitPrice * i.qty); }, 0);
+  var shipping = delivery.price || 0;
+  var totalBefore = subtotal + shipping;
+
+  // Render products
+  var productsHtml = '';
+  var tableHtml = '';
+  items.forEach(function(item) {
+    var imgHtml = item.img
+      ? '<img class="product-thumb" src="' + item.img + '" alt="' + item.name + '" style="width:60px;height:60px;border-radius:8px;object-fit:contain;background:#fafbfc;">'
+      : placeholderSvg;
+    productsHtml += '<div class="product-row">' + imgHtml +
+      '<div class="product-info"><span class="product-name">' + item.name + '</span><span class="product-ref">Ref: ' + item.ref + '</span></div></div>';
+    var lineTotal = item.unitPrice * item.qty;
+    tableHtml += '<tr><td>' + formatPrice(item.unitPrice) + '</td><td>' + item.qty + '</td><td>kg</td><td>' + formatPrice(lineTotal) + '</td></tr>';
+  });
+  document.getElementById('reviewProducts').innerHTML = productsHtml;
+  document.getElementById('reviewProductsTable').innerHTML = tableHtml;
+
+  // Delivery info
+  var deliveryNames = { standard: 'Standard', express: 'Express', pickup: 'Pick-up at Company' };
+  var deliveryDetails = { standard: '3-5 business days', express: '5-7 business days', pickup: 'Available within 2 business days' };
+  var deliveryMethod = delivery.method || '';
+  document.getElementById('reviewDeliveryMethod').textContent = deliveryNames[deliveryMethod] || '--';
+  var detailText = deliveryDetails[deliveryMethod] || '';
+  var priceText = delivery.price === 0 ? '<span class="delivery-free">Free</span>' : (delivery.price ? formatPrice(delivery.price) : '');
+  document.getElementById('reviewDeliveryDetail').innerHTML = detailText + (priceText ? '<br>' + priceText : '');
+
+  // PO number and special request
+  document.getElementById('reviewPoNumber').textContent = cart.poNumber || '--';
+  document.getElementById('reviewSpecialRequest').textContent = cart.specialRequest || 'No special request made in this order.';
+
+  // Sidebar totals
+  document.getElementById('revSubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
+  document.getElementById('revShipping').textContent = shipping > 0 ? formatPrice(shipping) : (deliveryMethod === 'pickup' ? 'Free' : '--');
+  document.getElementById('revTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+  document.getElementById('revOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+
+  // Cart badge
+  var cartBadge = document.querySelector('.cart-badge');
+  if (cartBadge) {
+    var totalQty = items.reduce(function(s, i) { return s + i.qty; }, 0);
+    cartBadge.textContent = totalQty;
+  }
 </script>
 </body>
 </html>
