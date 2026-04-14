@@ -1744,9 +1744,9 @@ document.addEventListener('click', function(e) {
     });
 
     // ── TOAST (Add to Cart) ───
-    const cartToast = document.getElementById('cartToast');
-    const toastProductName = document.getElementById('toastProductName');
-    let toastTimer;
+    var cartToast = document.getElementById('cartToast');
+    var toastProductName = document.getElementById('toastProductName');
+    var toastTimer;
 
     function showCartToast(name) {
       toastProductName.textContent = name;
@@ -1760,40 +1760,102 @@ document.addEventListener('click', function(e) {
     });
 
     // ── REMOVE MODAL ───
-    const removeModal = document.getElementById('removeModal');
-    const modalProductName = document.getElementById('modalProductName');
-    let pendingRemoveEl = null;
+    var removeModal = document.getElementById('removeModal');
+    var modalProductName = document.getElementById('modalProductName');
+    var pendingRemoveName = null;
 
-    function openRemoveModal(name, el) {
+    function openRemoveModal(name) {
       modalProductName.textContent = name;
-      pendingRemoveEl = el;
+      pendingRemoveName = name;
       removeModal.classList.add('open');
     }
     document.getElementById('modalCancel').addEventListener('click', function() {
       removeModal.classList.remove('open');
-      pendingRemoveEl = null;
+      pendingRemoveName = null;
     });
     removeModal.addEventListener('click', function(e) {
       if (e.target === removeModal) {
         removeModal.classList.remove('open');
-        pendingRemoveEl = null;
+        pendingRemoveName = null;
       }
     });
+
+    function removeItemByName(name) {
+      // Remove from table view
+      var row = document.querySelector('.wishlist-table tbody tr[data-product-name="' + name + '"]');
+      if (row) {
+        row.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        row.style.opacity = '0';
+        row.style.transform = 'translateX(-20px)';
+        setTimeout(function() { row.remove(); updateStats(); }, 250);
+      }
+      // Remove from grid view
+      var card = document.querySelector('.grid-view .product-card[data-product-name="' + name + '"]');
+      if (card) {
+        card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.95)';
+        setTimeout(function() { card.remove(); }, 250);
+      }
+    }
+
+    function updateStats() {
+      var rows = document.querySelectorAll('.wishlist-table tbody tr');
+      var total = rows.length;
+      var inStock = 0, lowStock = 0, quotation = 0;
+
+      rows.forEach(function(r) {
+        var badge = r.querySelector('.avail-badge');
+        if (!badge) return;
+        if (badge.classList.contains('avail-instock')) inStock++;
+        else if (badge.classList.contains('avail-lowstock')) lowStock++;
+        else if (badge.classList.contains('avail-quotation')) quotation++;
+      });
+
+      // Update stat card numbers
+      var statNumbers = document.querySelectorAll('.stat-number');
+      statNumbers[0].textContent = total;
+      statNumbers[1].textContent = inStock;
+      statNumbers[2].textContent = lowStock;
+      statNumbers[3].textContent = quotation;
+
+      // Update pagination text
+      document.querySelectorAll('.pagination-info').forEach(function(el) {
+        if (total === 0) {
+          el.textContent = 'No items';
+        } else {
+          var showing = Math.min(total, 8);
+          el.textContent = 'Showing 1\u2013' + showing + ' of ' + total + ' item' + (total !== 1 ? 's' : '');
+        }
+      });
+
+      // If no items, show empty state
+      if (total === 0) {
+        var tbody = document.querySelector('.wishlist-table tbody');
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:48px 20px;color:#6b7280;font-size:14px;">Your wishlist is empty.<br><a href="shop.html" style="color:#007167;font-weight:600;text-decoration:none;margin-top:8px;display:inline-block;">Browse Shop</a></td></tr>';
+        var grid = document.querySelector('.grid-view .product-grid');
+        if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:#6b7280;font-size:14px;">Your wishlist is empty.<br><a href="shop.html" style="color:#007167;font-weight:600;text-decoration:none;margin-top:8px;display:inline-block;">Browse Shop</a></div>';
+      }
+    }
+
     document.getElementById('modalConfirm').addEventListener('click', function() {
-      if (pendingRemoveEl) {
-        pendingRemoveEl.style.transition = 'opacity 0.2s ease';
-        pendingRemoveEl.style.opacity = '0';
-        setTimeout(function() { pendingRemoveEl.remove(); }, 200);
+      if (pendingRemoveName) {
+        removeItemByName(pendingRemoveName);
       }
       removeModal.classList.remove('open');
-      pendingRemoveEl = null;
+      pendingRemoveName = null;
     });
 
     // ── TABLE VIEW: action buttons ───
     document.querySelectorAll('.wishlist-table tbody tr').forEach(function(row) {
+      setupTableRow(row);
+    });
+
+    function setupTableRow(row) {
       var name = row.dataset.productName;
       var url = row.dataset.productUrl;
       var btns = row.querySelectorAll('.action-btn');
+      if (!btns.length) return;
 
       // Add to Cart
       btns[0].addEventListener('click', function() { showCartToast(name); });
@@ -1804,11 +1866,15 @@ document.addEventListener('click', function(e) {
       });
 
       // Remove from Wishlist
-      btns[2].addEventListener('click', function() { openRemoveModal(name, row); });
-    });
+      btns[2].addEventListener('click', function() { openRemoveModal(name); });
+    }
 
     // ── GRID VIEW: action buttons ───
     document.querySelectorAll('.grid-view .product-card').forEach(function(card) {
+      setupGridCard(card);
+    });
+
+    function setupGridCard(card) {
       var name = card.dataset.productName;
       var url = card.dataset.productUrl;
 
@@ -1824,8 +1890,8 @@ document.addEventListener('click', function(e) {
 
       // Heart button = remove from wishlist
       var heartBtn = card.querySelector('.card-heart');
-      if (heartBtn) heartBtn.addEventListener('click', function() { openRemoveModal(name, card); });
-    });
+      if (heartBtn) heartBtn.addEventListener('click', function() { openRemoveModal(name); });
+    }
   </script>
 
 </body>
