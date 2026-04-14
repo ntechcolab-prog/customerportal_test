@@ -864,29 +864,55 @@
       background: none; border: none;
       cursor: pointer; font-size: 18px; color: #6b7280;
     }
-    .cart-dd-items { }
+    .cart-dd-items { max-height: 320px; overflow-y: auto; }
     .cart-dd-item {
-      margin-bottom: 12px;
-      padding-bottom: 12px;
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
       border-bottom: 1px solid #f3f4f6;
     }
-    .cart-dd-item:last-child { margin-bottom: 0; }
+    .cart-dd-item:first-child { padding-top: 0; }
+    .cart-dd-item:last-child { border-bottom: none; }
+    .cart-dd-item-img {
+      width: 48px; height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #f3f4f6;
+      flex-shrink: 0;
+    }
+    .cart-dd-item-placeholder {
+      width: 48px; height: 48px;
+      border-radius: 8px;
+      background: #e8f5f3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cart-dd-item-placeholder svg { width: 20px; height: 20px; color: #007167; opacity: 0.5; }
+    .cart-dd-item-body { flex: 1; min-width: 0; }
+    .cart-dd-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
     .cart-dd-item-name {
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       color: #1f2937;
-      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+    .cart-dd-item-price {
+      font-size: 13px;
+      font-weight: 700;
+      color: #007167;
+      white-space: nowrap;
     }
     .cart-dd-item-ref {
       font-size: 11px;
       color: #9ca3af;
-      margin-bottom: 4px;
-    }
-    .cart-dd-item-price {
-      font-size: 14px;
-      font-weight: 700;
-      color: #1f2937;
-      text-align: right;
       margin-bottom: 8px;
     }
     .cart-dd-qty-row {
@@ -1830,20 +1856,37 @@ document.addEventListener('click', function(e) {
     var cartBadge = document.getElementById('cartBadge');
     var cartItems = [];
 
+    // Parse European price: "1.300,00 €" → 1300.00 | "39,00 €" → 39.00
     function parsePrice(str) {
-      return parseFloat(str.replace(/[^0-9.,]/g, '').replace('.', '').replace(',', '.')) || 0;
-    }
-    function formatPrice(num) {
-      return num.toFixed(2).replace('.', ',') + ' €';
+      if (!str) return 0;
+      var clean = str.replace(/[^\d.,]/g, '');
+      if (!clean) return 0;
+      // European format: dots are thousands, comma is decimal
+      var parts = clean.split(',');
+      var integer = parts[0].replace(/\./g, '');
+      var decimal = parts[1] || '00';
+      return parseFloat(integer + '.' + decimal) || 0;
     }
 
-    function addToCart(name, ref, price) {
-      // If already in cart, just increase qty
+    // Format number to European price: 1300 → "1.300,00 €"
+    function formatPrice(num) {
+      var fixed = num.toFixed(2);
+      var parts = fixed.split('.');
+      var integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return integer + ',' + parts[1] + ' \u20ac';
+    }
+
+    var placeholderSvg = '<div class="cart-dd-item-placeholder"><svg viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+    var trashSvg = '<svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var minusSvg = '<svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+    var plusSvg = '<svg viewBox="0 0 14 14" fill="none"><path d="M7 3v8M3 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+
+    function addToCart(name, ref, unitPrice, imgSrc) {
       var existing = cartItems.find(function(item) { return item.name === name; });
       if (existing) {
         existing.qty++;
       } else {
-        cartItems.push({ name: name, ref: ref, price: price, unitPrice: parsePrice(price), qty: 1 });
+        cartItems.push({ name: name, ref: ref, unitPrice: unitPrice, img: imgSrc || '', qty: 1 });
       }
       renderCartDropdown();
       cartDropdown.classList.add('show');
@@ -1851,18 +1894,10 @@ document.addEventListener('click', function(e) {
     }
 
     function updateCartBadge() {
-      var total = cartItems.reduce(function(sum, item) { return sum + item.qty; }, 0);
+      var total = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
       cartBadge.textContent = total;
-      if (total > 0) {
-        cartBadge.classList.add('show');
-      } else {
-        cartBadge.classList.remove('show');
-      }
+      cartBadge.classList.toggle('show', total > 0);
     }
-
-    var trashSvg = '<svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    var minusSvg = '<svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
-    var plusSvg = '<svg viewBox="0 0 14 14" fill="none"><path d="M7 3v8M3 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
 
     function renderCartDropdown() {
       var html = '';
@@ -1870,30 +1905,45 @@ document.addEventListener('click', function(e) {
       cartItems.forEach(function(item, i) {
         var lineTotal = item.unitPrice * item.qty;
         subtotal += lineTotal;
+
+        var imgHtml = item.img
+          ? '<img class="cart-dd-item-img" src="' + item.img + '" alt="' + item.name + '">'
+          : placeholderSvg;
+
         var leftBtn = item.qty === 1
           ? '<button class="cart-dd-qty-btn delete" data-action="remove" data-index="' + i + '" title="Remove">' + trashSvg + '</button>'
           : '<button class="cart-dd-qty-btn" data-action="minus" data-index="' + i + '">' + minusSvg + '</button>';
 
         html += '<div class="cart-dd-item">' +
-          '<div class="cart-dd-item-name">' + item.name + '</div>' +
-          '<div class="cart-dd-item-ref">' + item.ref + '</div>' +
-          '<div class="cart-dd-item-price">' + formatPrice(lineTotal) + '</div>' +
-          '<div class="cart-dd-qty-row">' +
-            '<span class="cart-dd-qty-label">Quantity</span>' +
-            '<div class="cart-dd-qty-control">' +
-              leftBtn +
-              '<span class="cart-dd-qty-value">' + item.qty + '</span>' +
-              '<button class="cart-dd-qty-btn" data-action="plus" data-index="' + i + '">' + plusSvg + '</button>' +
+          imgHtml +
+          '<div class="cart-dd-item-body">' +
+            '<div class="cart-dd-item-top">' +
+              '<span class="cart-dd-item-name">' + item.name + '</span>' +
+              '<span class="cart-dd-item-price">' + formatPrice(lineTotal) + '</span>' +
+            '</div>' +
+            '<div class="cart-dd-item-ref">Ref: ' + item.ref + '</div>' +
+            '<div class="cart-dd-qty-row">' +
+              '<div class="cart-dd-qty-control">' +
+                leftBtn +
+                '<span class="cart-dd-qty-value">' + item.qty + '</span>' +
+                '<button class="cart-dd-qty-btn" data-action="plus" data-index="' + i + '">' + plusSvg + '</button>' +
+              '</div>' +
             '</div>' +
           '</div>' +
         '</div>';
       });
+
+      if (cartItems.length === 0) {
+        html = '<div style="text-align:center;padding:20px 0;color:#6b7280;font-size:13px;">Your cart is empty</div>';
+      }
+
       cartDdItems.innerHTML = html;
       cartDdSubtotal.textContent = formatPrice(subtotal);
 
       // Bind qty buttons
       cartDdItems.querySelectorAll('.cart-dd-qty-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
           var idx = parseInt(btn.dataset.index);
           var action = btn.dataset.action;
           if (action === 'plus') {
@@ -2028,10 +2078,20 @@ document.addEventListener('click', function(e) {
       if (!btns.length) return;
       var cells = row.querySelectorAll('td');
       var ref = cells[2] ? cells[2].textContent.trim() : '';
-      var price = cells[4] ? cells[4].textContent.trim() : '';
+      var priceText = cells[4] ? cells[4].textContent.trim() : '';
+      var unitPrice = parsePrice(priceText);
+      var imgEl = cells[0] ? cells[0].querySelector('img') : null;
+      var imgSrc = imgEl ? imgEl.src : '';
+      var isQuoteOnly = priceText.toLowerCase().indexOf('quote') !== -1;
 
-      // Add to Cart
-      btns[0].addEventListener('click', function(e) { e.stopPropagation(); addToCart(name, ref, price); });
+      // Add to Cart (disabled for Quote Only)
+      if (isQuoteOnly) {
+        btns[0].style.opacity = '0.35';
+        btns[0].style.cursor = 'not-allowed';
+        btns[0].title = 'Contact sales for a quote';
+      } else {
+        btns[0].addEventListener('click', function(e) { e.stopPropagation(); addToCart(name, ref, unitPrice, imgSrc); });
+      }
 
       // View Product
       btns[1].addEventListener('click', function() {
@@ -2051,13 +2111,23 @@ document.addEventListener('click', function(e) {
       var name = card.dataset.productName;
       var url = card.dataset.productUrl;
       var refEl = card.querySelector('.card-ref');
-      var ref = refEl ? refEl.textContent.replace(/Ref:\s*/, '').split('·')[0].trim() : '';
+      var ref = refEl ? refEl.textContent.replace(/Ref:\s*/, '').split('\u00b7')[0].trim() : '';
       var priceEl = card.querySelector('.card-price');
-      var price = priceEl ? priceEl.textContent.trim() : '';
+      var priceText = priceEl ? priceEl.textContent.trim() : '';
+      var unitPrice = parsePrice(priceText);
+      var imgEl = card.querySelector('.card-image-area img');
+      var imgSrc = imgEl ? imgEl.src : '';
+      var isQuoteOnly = priceText.toLowerCase().indexOf('quotation') !== -1 || priceText.toLowerCase().indexOf('quote') !== -1;
 
-      // Add to Cart
+      // Add to Cart (disabled for Quote Only)
       var cartBtn = card.querySelector('.btn-add-cart');
-      if (cartBtn) cartBtn.addEventListener('click', function(e) { e.stopPropagation(); addToCart(name, ref, price); });
+      if (isQuoteOnly && cartBtn) {
+        cartBtn.style.opacity = '0.35';
+        cartBtn.style.cursor = 'not-allowed';
+        cartBtn.title = 'Contact sales for a quote';
+      } else if (cartBtn) {
+        cartBtn.addEventListener('click', function(e) { e.stopPropagation(); addToCart(name, ref, unitPrice, imgSrc); });
+      }
 
       // View Product (eye button)
       var eyeBtn = card.querySelector('.btn-card-eye');
