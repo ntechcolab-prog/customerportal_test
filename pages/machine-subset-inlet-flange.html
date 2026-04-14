@@ -1619,7 +1619,7 @@
     .results-table th.col-itm { width: 60px; }
     .results-table th.col-mat { width: 130px; }
     .results-table th.col-price { width: 120px; }
-    .results-table th.col-cart { width: 120px; text-align: right; padding-right: 16px; }
+    .results-table th.col-cart { width: 160px; text-align: right; padding-right: 16px; }
 
     .results-table tbody tr {
       border-top: 1px solid #f3f4f6;
@@ -1682,8 +1682,10 @@
       padding: 0;
       font-family: 'Inter', sans-serif;
       transition: color 0.15s;
+      white-space: nowrap;
     }
     .add-to-cart:hover { color: #0b9c92; text-decoration: underline; }
+    .add-to-cart:disabled { opacity: 0.35; cursor: not-allowed; text-decoration: none; }
 
     .heart-btn {
       width: 24px;
