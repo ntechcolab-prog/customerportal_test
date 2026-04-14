@@ -2517,13 +2517,13 @@ document.addEventListener('click', function(e) {
 
     function addToCart(name, mat, priceText) {
       const unitPrice = parsePrice(priceText);
-      if (unitPrice === 0) return; // Quotation Only
+      const isQuote = priceText.toLowerCase().includes('quotation');
       const key = mat;
       const existing = cart.find(i => i.key === key);
       if (existing) {
         existing.qty++;
       } else {
-        cart.push({ key, name, mat, unitPrice, qty: 1 });
+        cart.push({ key, name, mat, unitPrice, qty: 1, quotation: isQuote });
       }
       renderCart();
       saveCartToStorage();
@@ -2578,7 +2578,7 @@ document.addEventListener('click', function(e) {
 
         html += '<div class="cart-item">'
           + '<div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div><div class="cart-item-mat">' + item.mat + '</div></div>'
-          + '<div class="cart-item-price"><div class="cart-item-price-label">TOTAL PRICE</div><div class="cart-item-price-value">' + fmtPrice(lineTotal) + '</div></div>'
+          + '<div class="cart-item-price"><div class="cart-item-price-label">TOTAL PRICE</div><div class="cart-item-price-value">' + (item.quotation ? 'Quotation' : fmtPrice(lineTotal)) + '</div></div>'
           + '</div>'
           + '<div class="cart-quantity">'
           + '<span class="cart-quantity-label">Quantity</span>'
@@ -2629,10 +2629,6 @@ document.addEventListener('click', function(e) {
       const priceText = tds[4] ? tds[4].textContent.trim() : '';
       const btn = row.querySelector('.add-to-cart');
       if (!btn) return;
-      if (priceText.toLowerCase().includes('quotation')) {
-        btn.disabled = true;
-        return;
-      }
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const description = tds[3] ? tds[3].textContent.trim() : '';
@@ -2649,7 +2645,6 @@ document.addEventListener('click', function(e) {
         const row = cb.closest('tr');
         const tds = row.querySelectorAll('td');
         const priceText = tds[4] ? tds[4].textContent.trim() : '';
-        if (priceText.toLowerCase().includes('quotation')) return;
         const description = tds[3] ? tds[3].textContent.trim() : '';
         const mat = tds[2] ? tds[2].textContent.trim() : '';
         addToCart(description, mat, priceText);
