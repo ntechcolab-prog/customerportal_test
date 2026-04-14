@@ -1912,11 +1912,16 @@ document.addEventListener('click', function(e) {
       });
     }
 
-    document.getElementById('cartDdClose').addEventListener('click', function() {
+    document.getElementById('cartDdClose').addEventListener('click', function(e) {
+      e.stopPropagation();
       cartDropdown.classList.remove('show');
     });
-    document.getElementById('cartBtn').addEventListener('click', function() {
+    document.getElementById('cartBtn').addEventListener('click', function(e) {
+      e.stopPropagation();
       if (cartItems.length > 0) cartDropdown.classList.toggle('show');
+    });
+    cartDropdown.addEventListener('click', function(e) {
+      e.stopPropagation();
     });
     document.addEventListener('click', function(e) {
       if (!e.target.closest('#cartBtn') && !e.target.closest('#cartDropdown')) {
@@ -2026,7 +2031,7 @@ document.addEventListener('click', function(e) {
       var price = cells[4] ? cells[4].textContent.trim() : '';
 
       // Add to Cart
-      btns[0].addEventListener('click', function() { addToCart(name, ref, price); });
+      btns[0].addEventListener('click', function(e) { e.stopPropagation(); addToCart(name, ref, price); });
 
       // View Product
       btns[1].addEventListener('click', function() {
@@ -2052,7 +2057,7 @@ document.addEventListener('click', function(e) {
 
       // Add to Cart
       var cartBtn = card.querySelector('.btn-add-cart');
-      if (cartBtn) cartBtn.addEventListener('click', function() { addToCart(name, ref, price); });
+      if (cartBtn) cartBtn.addEventListener('click', function(e) { e.stopPropagation(); addToCart(name, ref, price); });
 
       // View Product (eye button)
       var eyeBtn = card.querySelector('.btn-card-eye');
