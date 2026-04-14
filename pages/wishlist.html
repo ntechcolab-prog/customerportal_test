@@ -834,55 +834,109 @@
       margin-top: 0;
     }
 
-    /* ── TOAST ─── */
-    .toast {
+    /* ── CART DROPDOWN ─── */
+    .cart-dropdown {
       position: fixed;
-      top: 60px;
-      right: 24px;
+      top: 100px;
+      right: 80px;
+      width: 320px;
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 12px;
-      padding: 16px 20px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
       z-index: 300;
-      min-width: 280px;
-      transform: translateX(120%);
-      transition: transform 0.3s ease;
+      display: none;
+      padding: 20px;
     }
-    .toast.show { transform: translateX(0); }
-    .toast-icon {
-      width: 20px; height: 20px;
-      color: #007167; flex-shrink: 0; margin-top: 2px;
+    .cart-dropdown.show { display: block; }
+    .cart-dd-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
     }
-    .toast-body { flex: 1; }
-    .toast-title {
-      font-size: 14px;
-      font-weight: 600;
+    .cart-dd-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .cart-dd-close {
+      background: none; border: none;
+      cursor: pointer; font-size: 18px; color: #6b7280;
+    }
+    .cart-dd-items { }
+    .cart-dd-item {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .cart-dd-item:last-child { margin-bottom: 0; }
+    .cart-dd-item-name {
+      font-size: 13px;
+      font-weight: 500;
       color: #1f2937;
       margin-bottom: 2px;
     }
-    .toast-subtitle {
-      font-size: 12px;
-      color: #6b7280;
+    .cart-dd-item-ref {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
     }
-    .toast-link {
-      font-size: 12px;
-      color: #007167;
-      font-weight: 500;
+    .cart-dd-item-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2937;
+      text-align: right;
+      margin-bottom: 8px;
+    }
+    .cart-dd-qty-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cart-dd-qty-label {
+      font-size: 13px;
+      color: #374151;
+    }
+    .cart-dd-delete {
+      background: none; border: none; cursor: pointer;
+      color: #c73e20; width: 16px; height: 16px;
+    }
+    .cart-dd-qty { font-size: 13px; color: #374151; }
+    .cart-dd-subtotal {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+    }
+    .cart-dd-subtotal-label { font-size: 14px; font-weight: 500; color: #374151; }
+    .cart-dd-subtotal-value { font-size: 16px; font-weight: 700; color: #1f2937; }
+    .btn-view-cart {
+      width: 100%;
+      height: 44px;
+      border-radius: 999px;
+      background: #007167;
+      border: none;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
-      display: block;
-      margin-top: 4px;
     }
-    .toast-link:hover { text-decoration: underline; }
-    .toast-close {
-      background: none; border: none;
-      cursor: pointer; color: #9ca3af;
-      width: 16px; height: 16px; flex-shrink: 0;
-      font-size: 14px; line-height: 1;
+    .btn-view-cart:hover { background: #005f57; }
+    .cart-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #007167; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: none;
+      align-items: center; justify-content: center;
     }
+    .cart-badge.show { display: flex; }
 
     /* ── REMOVE MODAL ─── */
     .modal-overlay {
@@ -1058,8 +1112,9 @@
           </div>
         </div>
       </div>
-      <button class="header-icon-btn" aria-label="Cart">
+      <button class="header-icon-btn" id="cartBtn" aria-label="Cart">
         <img src="../assets/icon-cart.svg" alt="Cart">
+        <span class="cart-badge" id="cartBadge">0</span>
       </button>
       <div class="user-avatar-wrapper">
         <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus" onclick="toggleProfileDropdown(event)">
@@ -1665,15 +1720,18 @@
 
   </main>
 
-  <!-- TOAST (Add to Cart) -->
-  <div class="toast" id="cartToast">
-    <svg class="toast-icon" viewBox="0 0 16 16" fill="none"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
-    <div class="toast-body">
-      <div class="toast-title">Added to Cart</div>
-      <div class="toast-subtitle" id="toastProductName"></div>
-      <a href="checkout-cart.html" class="toast-link">View Cart</a>
+  <!-- CART DROPDOWN -->
+  <div class="cart-dropdown" id="cartDropdown">
+    <div class="cart-dd-header">
+      <span class="cart-dd-title">Shopping Cart</span>
+      <button class="cart-dd-close" id="cartDdClose">&#x2715;</button>
     </div>
-    <button class="toast-close" id="toastClose">&#x2715;</button>
+    <div class="cart-dd-items" id="cartDdItems"></div>
+    <div class="cart-dd-subtotal">
+      <span class="cart-dd-subtotal-label">Subtotal</span>
+      <span class="cart-dd-subtotal-value" id="cartDdSubtotal">0,00 €</span>
+    </div>
+    <a href="checkout-cart.html" class="btn-view-cart">View Cart</a>
   </div>
 
   <!-- REMOVE MODAL -->
@@ -1743,20 +1801,67 @@ document.addEventListener('click', function(e) {
       gridView.classList.add('active');
     });
 
-    // ── TOAST (Add to Cart) ───
-    var cartToast = document.getElementById('cartToast');
-    var toastProductName = document.getElementById('toastProductName');
-    var toastTimer;
+    // ── CART DROPDOWN ───
+    var cartDropdown = document.getElementById('cartDropdown');
+    var cartDdItems = document.getElementById('cartDdItems');
+    var cartDdSubtotal = document.getElementById('cartDdSubtotal');
+    var cartBadge = document.getElementById('cartBadge');
+    var cartItems = [];
 
-    function showCartToast(name) {
-      toastProductName.textContent = name;
-      cartToast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(function() { cartToast.classList.remove('show'); }, 4000);
+    function addToCart(name, ref, price) {
+      cartItems.push({ name: name, ref: ref, price: price });
+      renderCartDropdown();
+      cartDropdown.classList.add('show');
+      cartBadge.textContent = cartItems.length;
+      cartBadge.classList.add('show');
     }
-    document.getElementById('toastClose').addEventListener('click', function() {
-      cartToast.classList.remove('show');
-      clearTimeout(toastTimer);
+
+    function renderCartDropdown() {
+      var html = '';
+      var subtotal = 0;
+      cartItems.forEach(function(item, i) {
+        var numPrice = parseFloat(item.price.replace(/[^0-9.,]/g, '').replace('.', '').replace(',', '.')) || 0;
+        subtotal += numPrice;
+        html += '<div class="cart-dd-item">' +
+          '<div class="cart-dd-item-name">' + item.name + '</div>' +
+          '<div class="cart-dd-item-ref">' + item.ref + '</div>' +
+          '<div class="cart-dd-item-price">' + item.price + '</div>' +
+          '<div class="cart-dd-qty-row">' +
+            '<span class="cart-dd-qty-label">Quantity</span>' +
+            '<button class="cart-dd-delete" data-index="' + i + '" title="Remove">' +
+              '<svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            '</button>' +
+            '<span class="cart-dd-qty">1</span>' +
+          '</div>' +
+        '</div>';
+      });
+      cartDdItems.innerHTML = html;
+      cartDdSubtotal.textContent = subtotal.toFixed(2).replace('.', ',') + ' €';
+
+      // Bind delete buttons
+      cartDdItems.querySelectorAll('.cart-dd-delete').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          cartItems.splice(parseInt(btn.dataset.index), 1);
+          renderCartDropdown();
+          cartBadge.textContent = cartItems.length;
+          if (cartItems.length === 0) {
+            cartBadge.classList.remove('show');
+            cartDropdown.classList.remove('show');
+          }
+        });
+      });
+    }
+
+    document.getElementById('cartDdClose').addEventListener('click', function() {
+      cartDropdown.classList.remove('show');
+    });
+    document.getElementById('cartBtn').addEventListener('click', function() {
+      if (cartItems.length > 0) cartDropdown.classList.toggle('show');
+    });
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('#cartBtn') && !e.target.closest('#cartDropdown')) {
+        cartDropdown.classList.remove('show');
+      }
     });
 
     // ── REMOVE MODAL ───
@@ -1856,9 +1961,12 @@ document.addEventListener('click', function(e) {
       var url = row.dataset.productUrl;
       var btns = row.querySelectorAll('.action-btn');
       if (!btns.length) return;
+      var cells = row.querySelectorAll('td');
+      var ref = cells[2] ? cells[2].textContent.trim() : '';
+      var price = cells[4] ? cells[4].textContent.trim() : '';
 
       // Add to Cart
-      btns[0].addEventListener('click', function() { showCartToast(name); });
+      btns[0].addEventListener('click', function() { addToCart(name, ref, price); });
 
       // View Product
       btns[1].addEventListener('click', function() {
@@ -1877,10 +1985,14 @@ document.addEventListener('click', function(e) {
     function setupGridCard(card) {
       var name = card.dataset.productName;
       var url = card.dataset.productUrl;
+      var refEl = card.querySelector('.card-ref');
+      var ref = refEl ? refEl.textContent.replace(/Ref:\s*/, '').split('·')[0].trim() : '';
+      var priceEl = card.querySelector('.card-price');
+      var price = priceEl ? priceEl.textContent.trim() : '';
 
       // Add to Cart
       var cartBtn = card.querySelector('.btn-add-cart');
-      if (cartBtn) cartBtn.addEventListener('click', function() { showCartToast(name); });
+      if (cartBtn) cartBtn.addEventListener('click', function() { addToCart(name, ref, price); });
 
       // View Product (eye button)
       var eyeBtn = card.querySelector('.btn-card-eye');
