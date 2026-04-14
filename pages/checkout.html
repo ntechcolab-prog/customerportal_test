@@ -1033,14 +1033,8 @@ document.addEventListener('click', function(e) {
       }
     }
 
-    // Restore delivery from localStorage if previously selected
-    (function() {
-      var c = getCart();
-      if (c.delivery && c.delivery.method) {
-        var opt = document.querySelector('.delivery-option[data-delivery="' + c.delivery.method + '"]');
-        if (opt) selectDelivery(opt);
-      }
-    })();
+    // Start fresh — user selects address and delivery on this page
+    updateCheckout();
   </script>
 
 </body>
