@@ -796,11 +796,20 @@ document.addEventListener('click', function(e) {
   var quoteNum = Math.floor(10000000 + Math.random() * 90000000);
   document.getElementById('quoteTitle').textContent = 'Quotation #' + quoteNum;
 
-  // Render items (quotation mode - all prices shown as "--")
+  function formatPrice(num) {
+    var fixed = num.toFixed(2);
+    var parts = fixed.split('.');
+    var integer = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return integer + ',' + parts[1] + ' \u20ac';
+  }
+
+  // Render items
   var html = '';
   items.forEach(function(item) {
+    var unitPriceDisplay = item.quotation ? '--' : formatPrice(item.unitPrice);
+    var totalDisplay = item.quotation ? '<span class="quotation-only">Quotation Only</span>' : formatPrice(item.unitPrice * item.qty);
     html += '<tr><td><span class="product-name">' + item.name + '</span><span class="product-detail">' + item.ref + '</span></td>' +
-      '<td>--</td><td>' + item.qty + '</td><td>kg</td><td><span class="quotation-only">Quotation Only</span></td></tr>';
+      '<td>' + unitPriceDisplay + '</td><td>' + item.qty + '</td><td>kg</td><td>' + totalDisplay + '</td></tr>';
   });
   document.getElementById('quoteItemsBody').innerHTML = html;
   document.getElementById('quoteItemsTitle').textContent = 'Order Items (' + items.length + ')';

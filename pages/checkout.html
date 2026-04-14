@@ -894,6 +894,7 @@ document.addEventListener('click', function(e) {
     var cartItems = cart.items || [];
     var SUBTOTAL = cartItems.reduce(function(s, i) { return s + (i.unitPrice * i.qty); }, 0);
     var TAX_RATE = 0.19;
+    var hasQuotation = cartItems.some(function(item) { return item.quotation; });
 
     // State
     var selectedAddress = null;
@@ -908,7 +909,13 @@ document.addEventListener('click', function(e) {
 
     // Update subtotal display from cart
     var subtotalEl = document.querySelector('.summary-value');
-    if (subtotalEl) subtotalEl.textContent = SUBTOTAL > 0 ? formatCurrency(SUBTOTAL) : '--';
+    if (hasQuotation) {
+      if (subtotalEl) subtotalEl.textContent = '--';
+      taxValue.textContent = '--';
+      totalValue.textContent = '--';
+    } else {
+      if (subtotalEl) subtotalEl.textContent = SUBTOTAL > 0 ? formatCurrency(SUBTOTAL) : '--';
+    }
 
     // Update cart badge
     var cartBadge = document.querySelector('.cart-badge');
@@ -971,7 +978,11 @@ document.addEventListener('click', function(e) {
     }
 
     function updateCheckout() {
-      if (selectedDelivery) {
+      if (hasQuotation) {
+        shippingValue.textContent = '--';
+        taxValue.textContent = '--';
+        totalValue.textContent = '--';
+      } else if (selectedDelivery) {
         if (selectedDelivery.price === 0) {
           shippingValue.textContent = 'Free';
         } else {

@@ -804,11 +804,19 @@ document.addEventListener('click', function(e) {
     var subtotal = items.reduce(function(s, i) { return s + (i.unitPrice * i.qty); }, 0);
     var shipping = delivery.price || 0;
     var totalBefore = subtotal + shipping;
+    var hasQuotation = items.some(function(item) { return item.quotation; });
 
-    document.getElementById('sideSubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
-    document.getElementById('sideShipping').textContent = shipping > 0 ? formatPrice(shipping) : (delivery.method === 'pickup' ? 'Free' : '--');
-    document.getElementById('sideTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
-    document.getElementById('sideOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+    if (hasQuotation) {
+      document.getElementById('sideSubtotal').textContent = '--';
+      document.getElementById('sideShipping').textContent = '--';
+      document.getElementById('sideTotalBefore').textContent = '--';
+      document.getElementById('sideOrderTotal').textContent = '--';
+    } else {
+      document.getElementById('sideSubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
+      document.getElementById('sideShipping').textContent = shipping > 0 ? formatPrice(shipping) : (delivery.method === 'pickup' ? 'Free' : '--');
+      document.getElementById('sideTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+      document.getElementById('sideOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+    }
 
     // Update cart badge
     var cartBadge = document.querySelector('.cart-badge');

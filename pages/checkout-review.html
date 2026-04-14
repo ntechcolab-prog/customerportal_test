@@ -882,14 +882,14 @@
           </label>
 
           <!-- Action Buttons -->
-          <a href="checkout-confirmation.html" class="btn-primary">
+          <a href="checkout-confirmation.html" class="btn-primary" id="btnPlaceOrder">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="4.5" y="8" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
               <path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
             </svg>
             Place Order
           </a>
-          <a href="checkout-quote.html" class="btn-primary">
+          <a href="checkout-quote.html" class="btn-primary" id="btnRequestQuote">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4.5 9.5l3 3 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -940,6 +940,7 @@ document.addEventListener('click', function(e) {
   var subtotal = items.reduce(function(s, i) { return s + (i.unitPrice * i.qty); }, 0);
   var shipping = delivery.price || 0;
   var totalBefore = subtotal + shipping;
+  var hasQuotation = items.some(function(item) { return item.quotation; });
 
   // Render products
   var productsHtml = '';
@@ -951,7 +952,9 @@ document.addEventListener('click', function(e) {
     productsHtml += '<div class="product-row">' + imgHtml +
       '<div class="product-info"><span class="product-name">' + item.name + '</span><span class="product-ref">Ref: ' + item.ref + '</span></div></div>';
     var lineTotal = item.unitPrice * item.qty;
-    tableHtml += '<tr><td>' + formatPrice(item.unitPrice) + '</td><td>' + item.qty + '</td><td>kg</td><td>' + formatPrice(lineTotal) + '</td></tr>';
+    var unitPriceDisplay = item.quotation ? 'Quotation Only' : formatPrice(item.unitPrice);
+    var totalDisplay = item.quotation ? 'Quotation Only' : formatPrice(lineTotal);
+    tableHtml += '<tr><td>' + unitPriceDisplay + '</td><td>' + item.qty + '</td><td>kg</td><td>' + totalDisplay + '</td></tr>';
   });
   document.getElementById('reviewProducts').innerHTML = productsHtml;
   document.getElementById('reviewProductsTable').innerHTML = tableHtml;
@@ -970,10 +973,30 @@ document.addEventListener('click', function(e) {
   document.getElementById('reviewSpecialRequest').textContent = cart.specialRequest || 'No special request made in this order.';
 
   // Sidebar totals
-  document.getElementById('revSubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
-  document.getElementById('revShipping').textContent = shipping > 0 ? formatPrice(shipping) : (deliveryMethod === 'pickup' ? 'Free' : '--');
-  document.getElementById('revTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
-  document.getElementById('revOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+  if (hasQuotation) {
+    document.getElementById('revSubtotal').textContent = '--';
+    document.getElementById('revShipping').textContent = '--';
+    document.getElementById('revTotalBefore').textContent = '--';
+    document.getElementById('revOrderTotal').textContent = '--';
+  } else {
+    document.getElementById('revSubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
+    document.getElementById('revShipping').textContent = shipping > 0 ? formatPrice(shipping) : (deliveryMethod === 'pickup' ? 'Free' : '--');
+    document.getElementById('revTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+    document.getElementById('revOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+  }
+
+  // Show/hide buttons based on quotation status
+  var placeOrderBtn = document.getElementById('btnPlaceOrder');
+  var requestQuoteBtn = document.getElementById('btnRequestQuote');
+  if (hasQuotation) {
+    // Hide Place Order, show only Request Quotation
+    if (placeOrderBtn) placeOrderBtn.style.display = 'none';
+    if (requestQuoteBtn) requestQuoteBtn.style.display = 'flex';
+  } else {
+    // Show both buttons
+    if (placeOrderBtn) placeOrderBtn.style.display = 'flex';
+    if (requestQuoteBtn) requestQuoteBtn.style.display = 'flex';
+  }
 
   // Cart badge
   var cartBadge = document.querySelector('.cart-badge');

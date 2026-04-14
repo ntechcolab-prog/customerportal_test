@@ -822,6 +822,8 @@ document.addEventListener('click', function(e) {
     var subtotal = 0;
     var totalQty = 0;
 
+    var hasQuotation = items.some(function(item) { return item.quotation; });
+
     items.forEach(function(item, i) {
       var lineTotal = item.unitPrice * item.qty;
       subtotal += lineTotal;
@@ -859,15 +861,21 @@ document.addEventListener('click', function(e) {
         '</div>' +
         '<div class="total-col">' +
           '<span class="col-label">Total</span>' +
-          '<span class="total-value">' + formatPrice(lineTotal) + '</span>' +
+          '<span class="total-value">' + (item.quotation ? 'Quotation Only' : formatPrice(lineTotal)) + '</span>' +
         '</div>' +
       '</div>';
     });
 
     container.innerHTML = html;
-    paySubtotal.textContent = formatPrice(subtotal);
-    payTotalBefore.textContent = formatPrice(subtotal);
-    payOrderTotal.textContent = formatPrice(subtotal);
+    if (hasQuotation) {
+      paySubtotal.textContent = '--';
+      payTotalBefore.textContent = '--';
+      payOrderTotal.textContent = '--';
+    } else {
+      paySubtotal.textContent = formatPrice(subtotal);
+      payTotalBefore.textContent = formatPrice(subtotal);
+      payOrderTotal.textContent = formatPrice(subtotal);
+    }
     if (cartBadge) cartBadge.textContent = totalQty;
 
     // Bind buttons
