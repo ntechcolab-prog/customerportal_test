@@ -892,17 +892,39 @@
     .cart-dd-qty-row {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: space-between;
     }
     .cart-dd-qty-label {
       font-size: 13px;
       color: #374151;
     }
-    .cart-dd-delete {
-      background: none; border: none; cursor: pointer;
-      color: #c73e20; width: 16px; height: 16px;
+    .cart-dd-qty-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      height: 32px;
+      overflow: hidden;
     }
-    .cart-dd-qty { font-size: 13px; color: #374151; }
+    .cart-dd-qty-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none;
+      cursor: pointer; font-size: 14px; color: #374151;
+    }
+    .cart-dd-qty-btn:hover { background: #f3f4f6; }
+    .cart-dd-qty-btn.delete {
+      color: #c73e20;
+    }
+    .cart-dd-qty-btn.delete:hover { background: #fef2f2; }
+    .cart-dd-qty-btn svg { width: 14px; height: 14px; }
+    .cart-dd-qty-value {
+      width: 32px; text-align: center;
+      font-size: 13px; font-weight: 600; color: #1f2937;
+      border-left: 1px solid #d1d5db;
+      border-right: 1px solid #d1d5db;
+      height: 32px; line-height: 32px;
+    }
     .cart-dd-subtotal {
       display: flex;
       justify-content: space-between;
@@ -1808,44 +1830,82 @@ document.addEventListener('click', function(e) {
     var cartBadge = document.getElementById('cartBadge');
     var cartItems = [];
 
+    function parsePrice(str) {
+      return parseFloat(str.replace(/[^0-9.,]/g, '').replace('.', '').replace(',', '.')) || 0;
+    }
+    function formatPrice(num) {
+      return num.toFixed(2).replace('.', ',') + ' €';
+    }
+
     function addToCart(name, ref, price) {
-      cartItems.push({ name: name, ref: ref, price: price });
+      // If already in cart, just increase qty
+      var existing = cartItems.find(function(item) { return item.name === name; });
+      if (existing) {
+        existing.qty++;
+      } else {
+        cartItems.push({ name: name, ref: ref, price: price, unitPrice: parsePrice(price), qty: 1 });
+      }
       renderCartDropdown();
       cartDropdown.classList.add('show');
-      cartBadge.textContent = cartItems.length;
-      cartBadge.classList.add('show');
+      updateCartBadge();
     }
+
+    function updateCartBadge() {
+      var total = cartItems.reduce(function(sum, item) { return sum + item.qty; }, 0);
+      cartBadge.textContent = total;
+      if (total > 0) {
+        cartBadge.classList.add('show');
+      } else {
+        cartBadge.classList.remove('show');
+      }
+    }
+
+    var trashSvg = '<svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var minusSvg = '<svg viewBox="0 0 14 14" fill="none"><path d="M3 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+    var plusSvg = '<svg viewBox="0 0 14 14" fill="none"><path d="M7 3v8M3 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
 
     function renderCartDropdown() {
       var html = '';
       var subtotal = 0;
       cartItems.forEach(function(item, i) {
-        var numPrice = parseFloat(item.price.replace(/[^0-9.,]/g, '').replace('.', '').replace(',', '.')) || 0;
-        subtotal += numPrice;
+        var lineTotal = item.unitPrice * item.qty;
+        subtotal += lineTotal;
+        var leftBtn = item.qty === 1
+          ? '<button class="cart-dd-qty-btn delete" data-action="remove" data-index="' + i + '" title="Remove">' + trashSvg + '</button>'
+          : '<button class="cart-dd-qty-btn" data-action="minus" data-index="' + i + '">' + minusSvg + '</button>';
+
         html += '<div class="cart-dd-item">' +
           '<div class="cart-dd-item-name">' + item.name + '</div>' +
           '<div class="cart-dd-item-ref">' + item.ref + '</div>' +
-          '<div class="cart-dd-item-price">' + item.price + '</div>' +
+          '<div class="cart-dd-item-price">' + formatPrice(lineTotal) + '</div>' +
           '<div class="cart-dd-qty-row">' +
             '<span class="cart-dd-qty-label">Quantity</span>' +
-            '<button class="cart-dd-delete" data-index="' + i + '" title="Remove">' +
-              '<svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 011.34-1.34h2.66a1.33 1.33 0 011.34 1.34V4M12.67 4v9.33a1.33 1.33 0 01-1.34 1.34H4.67a1.33 1.33 0 01-1.34-1.34V4h9.34z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-            '</button>' +
-            '<span class="cart-dd-qty">1</span>' +
+            '<div class="cart-dd-qty-control">' +
+              leftBtn +
+              '<span class="cart-dd-qty-value">' + item.qty + '</span>' +
+              '<button class="cart-dd-qty-btn" data-action="plus" data-index="' + i + '">' + plusSvg + '</button>' +
+            '</div>' +
           '</div>' +
         '</div>';
       });
       cartDdItems.innerHTML = html;
-      cartDdSubtotal.textContent = subtotal.toFixed(2).replace('.', ',') + ' €';
+      cartDdSubtotal.textContent = formatPrice(subtotal);
 
-      // Bind delete buttons
-      cartDdItems.querySelectorAll('.cart-dd-delete').forEach(function(btn) {
+      // Bind qty buttons
+      cartDdItems.querySelectorAll('.cart-dd-qty-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
-          cartItems.splice(parseInt(btn.dataset.index), 1);
+          var idx = parseInt(btn.dataset.index);
+          var action = btn.dataset.action;
+          if (action === 'plus') {
+            cartItems[idx].qty++;
+          } else if (action === 'minus') {
+            cartItems[idx].qty--;
+          } else if (action === 'remove') {
+            cartItems.splice(idx, 1);
+          }
           renderCartDropdown();
-          cartBadge.textContent = cartItems.length;
+          updateCartBadge();
           if (cartItems.length === 0) {
-            cartBadge.classList.remove('show');
             cartDropdown.classList.remove('show');
           }
         });
