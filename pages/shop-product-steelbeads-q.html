@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NETZSCH STEELBEADS Q — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: #fff;
+      height: 60px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+    .app-header-left { display: flex; align-items: center; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: #eaeaea; margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 0 16px; height: 60px;
+      display: flex; align-items: center;
+      font-size: 16px; color: #6b6e73;
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px; white-space: nowrap;
+    }
+    .nav-tab.active { color: #007167; border-bottom-color: #007167; font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 4px; }
+    .header-icon-btn {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; cursor: pointer; position: relative;
+      background: none; border: none;
+    }
+    .header-icon-btn img { width: 24px; height: 24px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #c73e20; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; cursor: pointer; }
+    .user-avatar-wrapper {
+      position: relative;
+    }
+    /* ── PROFILE DROPDOWN ─── */
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 238px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .profile-dropdown.open { display: block; }
+    .profile-dropdown-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .profile-dropdown-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      object-fit: cover; border: 1px solid #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+    }
+    .profile-dropdown-info { display: flex; flex-direction: column; }
+    .profile-dropdown-name {
+      font-size: 13px; font-weight: 600; color: #1f2937;
+      letter-spacing: -0.08px; line-height: 19.5px;
+    }
+    .profile-dropdown-email {
+      font-size: 11px; font-weight: 400; color: #9ca3af;
+      letter-spacing: 0.06px; line-height: 16.5px;
+    }
+    .profile-dropdown-menu {
+      padding: 6px 0 0 0;
+      list-style: none;
+    }
+    .profile-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      letter-spacing: -0.08px;
+      cursor: pointer;
+    }
+    .profile-dropdown-item:hover { background: #f3f4f6; }
+    .profile-dropdown-item img { width: 15px; height: 15px; }
+    .profile-dropdown-divider {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 0;
+      padding-top: 1px;
+    }
+    .profile-dropdown-item.logout { color: #ef4444; }
+    /* ── NOTIFICATIONS DROPDOWN ─── */
+    .notif-wrapper { position: relative; }
+    .notif-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: 378px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .notif-dropdown.open { display: block; }
+    .notif-dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 57px;
+      border-bottom: 1px solid #eaeaea;
+    }
+    .notif-dropdown-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notif-dropdown-title > span:first-child {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.31px;
+    }
+    .notif-count-badge {
+      background: #c73e20;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .notif-mark-read {
+      font-size: 12px;
+      font-weight: 500;
+      color: #007167;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .notif-mark-read:hover { text-decoration: underline; }
+    .notif-list { max-height: 360px; overflow-y: auto; }
+    .notif-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #f3f3f3;
+    }
+    .notif-item.unread { background: #f8fbfa; }
+    .notif-item-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notif-item-icon img { width: 16px; height: 16px; }
+    .notif-item-icon.quote { background: #fff3d6; }
+    .notif-item-icon.order { background: #e0f2ee; }
+    .notif-item-icon.service { background: #e8e0f4; }
+    .notif-item-content { flex: 1; min-width: 0; }
+    .notif-item-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .notif-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.08px;
+      line-height: 18px;
+    }
+    .notif-item.unread .notif-item-title { font-weight: 600; }
+    .notif-item:not(.unread) .notif-item-title { font-weight: 400; }
+    .notif-unread-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #007167;
+      flex-shrink: 0;
+    }
+    .notif-item-desc {
+      font-size: 12px;
+      color: #6b6e73;
+      line-height: 16px;
+      margin-top: 2px;
+    }
+    .notif-item-time {
+      font-size: 11px;
+      color: #9ca0a5;
+      line-height: 16.5px;
+      margin-top: 2px;
+    }
+    .notif-item-action {
+      display: inline-block;
+      margin-top: 8px;
+      background: #007167;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      height: 23px;
+      line-height: 16.5px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      line-height: 16.5px;
+    }
+    .notif-item-action:hover { background: #005f57; }
+    .notif-dropdown-footer {
+      border-top: 1px solid #eaeaea;
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .notif-view-all {
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      letter-spacing: -0.08px;
+    }
+    .notif-view-all:hover { text-decoration: underline; }
+
+
+    .lang-btn {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 14px; font-weight: 500; color: #007167;
+      cursor: pointer; padding: 0 4px; background: none; border: none;
+    }
+    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid #eaeaea;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #4c4d57;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #4c4d57; }
+
+    /* ── MAIN LAYOUT ─── */
+    .main {
+      flex: 1;
+      padding: 20px 32px 32px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    /* ── LEFT (Product Info) ─── */
+    .product-info {
+      flex: 3;
+      min-width: 0;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .product-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    .product-ref {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+
+    /* ── GALLERY ─── */
+    .product-gallery-main {
+      width: 100%;
+      height: 220px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fafbfc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .product-gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-thumbs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .product-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      overflow: hidden;
+      cursor: pointer;
+      background: #fafbfc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .product-thumb.active { border-color: #007167; }
+    .product-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* ── TABS ─── */
+    .product-tabs {
+      display: flex;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 16px;
+      gap: 0;
+    }
+    .product-tab {
+      padding: 0 0 10px 0;
+      margin-right: 24px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .product-tab.active {
+      color: #007167;
+      border-bottom-color: #007167;
+      font-weight: 600;
+    }
+
+    /* ── TAB CONTENT ─── */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .product-description {
+      font-size: 13px;
+      line-height: 20px;
+      color: #374151;
+      margin-bottom: 16px;
+    }
+    .product-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+    .app-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .app-tag {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: #007167;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    /* ── RIGHT (Order Info) ─── */
+    .order-panel {
+      flex: 2;
+      min-width: 0;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .order-panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #4c4d57;
+      text-transform: uppercase;
+    }
+
+    /* ── SELECT SIZE ─── */
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+    }
+    .form-label span { color: #c73e20; }
+    .form-select {
+      height: 40px;
+      border: 1px solid #b1b4b7;
+      border-radius: 10px;
+      padding: 0 36px 0 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #8d9094;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+      appearance: none;
+      cursor: pointer;
+    }
+    .form-select:focus { outline: none; border-color: #007167; }
+
+    /* ── QUANTITY + UNITY ─── */
+    .qty-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-end;
+    }
+    .qty-group { flex: 0 0 auto; }
+    .qty-control {
+      height: 40px;
+      border: 1px solid #b1b4b7;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      width: 130px;
+    }
+    .qty-btn {
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; background: none; border: none;
+      font-size: 18px; color: #4c4d57; line-height: 1;
+    }
+    .qty-value {
+      font-size: 14px;
+      color: #8d9094;
+      text-align: center;
+      min-width: 32px;
+    }
+    .unity-label {
+      font-size: 14px;
+      color: #8d9094;
+      padding-bottom: 10px;
+    }
+
+    /* ── TOTAL PRICE ─── */
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 4px;
+      border-top: 1px solid #e5e7eb;
+    }
+    .price-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #4c4d57;
+    }
+    .price-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    /* ── ACTION BUTTONS ─── */
+    .action-btns {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-wishlist {
+      flex: 1;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid #007167;
+      background: #fff;
+      color: #007167;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .btn-wishlist:hover { background: #f0faf9; }
+    .btn-wishlist svg { width: 16px; height: 16px; }
+    .btn-add-cart {
+      flex: 1;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      color: #374151;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .btn-add-cart:hover { background: #f9fafb; }
+    .btn-add-cart svg { width: 16px; height: 16px; }
+
+    /* ── BULK PRICING CARD ─── */
+    .bulk-card {
+      background: #f8fffe;
+      border: 1px solid #d1e9e7;
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .bulk-icon {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #007167;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .bulk-body { flex: 1; min-width: 0; }
+    .bulk-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0a0a0a;
+      margin-bottom: 6px;
+    }
+    .bulk-text {
+      font-size: 12px;
+      color: #5c5c5c;
+      line-height: 18px;
+      margin-bottom: 12px;
+    }
+    .bulk-text a { color: #0b9c92; font-weight: 500; }
+    .bulk-table {
+      width: auto;
+      border-collapse: collapse;
+    }
+    .bulk-table th:first-child,
+    .bulk-table td:first-child {
+      width: 120px;
+    }
+    .bulk-table th {
+      font-size: 10px;
+      font-weight: 500;
+      color: #6b6e73;
+      text-align: left;
+      padding-bottom: 8px;
+      letter-spacing: 0.12px;
+    }
+    .bulk-table td {
+      font-size: 12px;
+      color: #374151;
+      padding: 4px 0;
+    }
+    .bulk-table td:last-child {
+      font-weight: 600;
+      color: #007167;
+    }
+
+    /* ── DELIVERY INFO ─── */
+    .delivery-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .delivery-label {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .delivery-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    /* ── ACTIVE CART BUTTON ─── */
+    .btn-add-cart.active {
+      background: #007167;
+      border-color: #007167;
+      color: #fff;
+    }
+    .btn-add-cart.active:hover { background: #005f57; }
+    .form-select.selected { color: #1f2937; }
+
+    /* ── DOCUMENT LIST ─── */
+    .doc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .doc-link {
+      font-size: 14px;
+      color: #007167;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .doc-link:hover { text-decoration: underline; }
+
+    /* ── SPECS GRID ─── */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .spec-item { display: flex; flex-direction: column; gap: 4px; }
+    .spec-label { font-size: 13px; color: #6b7280; }
+    .spec-value { font-size: 15px; font-weight: 600; color: #1f2937; }
+
+    /* ── TOAST ─── */
+    .toast {
+      position: fixed;
+      top: 60px;
+      right: 24px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      z-index: 200;
+      min-width: 280px;
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast-icon {
+      width: 20px; height: 20px;
+      color: #007167; flex-shrink: 0; margin-top: 2px;
+    }
+    .toast-body { flex: 1; }
+    .toast-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    .toast-subtitle {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .toast-link {
+      font-size: 12px;
+      color: #007167;
+      font-weight: 500;
+      text-decoration: none;
+      display: block;
+      margin-top: 4px;
+    }
+    .toast-close {
+      background: none; border: none;
+      cursor: pointer; color: #9ca3af;
+      width: 16px; height: 16px; flex-shrink: 0;
+    }
+
+    /* ── CART DROPDOWN ─── */
+    .cart-dropdown {
+      position: fixed;
+      top: 100px;
+      right: 80px;
+      width: 320px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      z-index: 200;
+      display: none;
+      padding: 20px;
+    }
+    .cart-dropdown.show { display: block; }
+    .cart-dd-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .cart-dd-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .cart-dd-close {
+      background: none; border: none;
+      cursor: pointer; font-size: 18px; color: #6b7280;
+    }
+    .cart-dd-item {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .cart-dd-item-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1f2937;
+      margin-bottom: 2px;
+    }
+    .cart-dd-item-ref {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .cart-dd-item-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1f2937;
+      text-align: right;
+      margin-bottom: 8px;
+    }
+    .cart-dd-qty-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cart-dd-qty-label {
+      font-size: 13px;
+      color: #374151;
+    }
+    .cart-dd-delete {
+      background: none; border: none; cursor: pointer;
+      color: #c73e20; width: 16px; height: 16px;
+    }
+    .cart-dd-qty { font-size: 13px; color: #374151; }
+    .cart-dd-subtotal {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+    }
+    .cart-dd-subtotal-label { font-size: 14px; font-weight: 500; color: #374151; }
+    .cart-dd-subtotal-value { font-size: 16px; font-weight: 700; color: #1f2937; }
+    .btn-view-cart {
+      width: 100%;
+      height: 44px;
+      border-radius: 999px;
+      background: #007167;
+      border: none;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+    .btn-view-cart:hover { background: #005f57; }
+
+    /* ── CART BADGE ─── */
+    .cart-badge {
+      position: absolute; top: 4px; right: 4px;
+      background: #007167; color: #fff;
+      font-size: 10px; font-weight: 700;
+      border-radius: 50%; width: 16px; height: 16px;
+      display: none;
+      align-items: center; justify-content: center;
+    }
+    .cart-badge.show { display: flex; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab">Home</a>
+        <a href="machines.html" class="nav-tab">Machines</a>
+        <a href="shop.html" class="nav-tab active">Shop</a>
+        <a href="orders.html" class="nav-tab">Orders</a>
+        <a href="quotes.html" class="nav-tab">Quotes</a>
+        <a href="services.html" class="nav-tab">Services</a>
+        <a href="help.html" class="nav-tab">Help</a>
+      </nav>
+    </div>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <div class="notif-wrapper">
+        <button class="header-icon-btn" onclick="toggleNotifDropdown(event)">
+          <img src="../assets/icon-bell.svg" alt="Notifications">
+          <span class="notif-badge">1</span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-dropdown-header">
+            <div class="notif-dropdown-title">
+              <span>Notifications</span>
+              <span class="notif-count-badge">1</span>
+            </div>
+            <button class="notif-mark-read">Mark all as read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item unread">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <div class="notif-item-title-row">
+                  <span class="notif-item-title">Quote #QT-2026-0042 ready for approval</span>
+                  <span class="notif-unread-dot"></span>
+                </div>
+                <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — €12,450.00</div>
+                <div class="notif-item-time">5 min ago</div>
+                <a href="quote-detail.html" class="notif-item-action">Review &amp; Approve</a>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Quote #QT-2026-0039 awaiting your decision</span>
+                <div class="notif-item-desc">Grinding beads bundle for Zeta 60 — €8,720.00</div>
+                <div class="notif-item-time">2 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon order"><img src="../assets/icon-notif-order.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Order #ORD-78234 shipped</span>
+                <div class="notif-item-desc">Your order has been dispatched and is on the way.</div>
+                <div class="notif-item-time">1 day ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon service"><img src="../assets/icon-notif-service.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Service Request #SR-1192 updated</span>
+                <div class="notif-item-desc">Technician assigned — scheduled for Mar 20, 2026.</div>
+                <div class="notif-item-time">2 days ago</div>
+              </div>
+            </div>
+          </div>
+          <div class="notif-dropdown-footer">
+            <a href="admin-notifications.html" class="notif-view-all">View all notifications</a>
+          </div>
+        </div>
+      </div>
+      <button class="header-icon-btn" id="cartBtn">
+        <img src="../assets/icon-cart.svg" alt="Cart">
+        <span class="cart-badge" id="cartBadge">1</span>
+      </button>
+      <div class="user-avatar-wrapper">
+        <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus" onclick="toggleProfileDropdown(event)">
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="profile-dropdown-header">
+            <img class="profile-dropdown-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+            <div class="profile-dropdown-info">
+              <span class="profile-dropdown-name">John Doe</span>
+              <span class="profile-dropdown-email">john.doe@acme-corp.com</span>
+            </div>
+          </div>
+          <ul class="profile-dropdown-menu">
+            <li><a class="profile-dropdown-item" href="profile.html"><img src="../assets/icon-profile-user.svg" alt="">Profile</a></li>
+            <li><a class="profile-dropdown-item" href="admin-users.html"><img src="../assets/icon-admin-settings.svg" alt="">Admin</a></li>
+            <li><a class="profile-dropdown-item" href="wishlist.html"><img src="../assets/icon-wishlist-heart.svg" alt="">My Wishlist</a></li>
+          </ul>
+          <div class="profile-dropdown-divider">
+            <a class="profile-dropdown-item logout" href="../index.html"><img src="../assets/icon-logout.svg" alt="">Log out</a>
+          </div>
+        </div>
+      </div>
+      <button class="lang-btn">
+        <img src="../assets/icon-globe.svg" alt="">
+        EN
+        <img src="../assets/icon-chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="shop.html">Shop</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">NETZSCH STEELBEADS Q</span>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- LEFT: Product Info -->
+    <div class="product-info">
+      <h1 class="product-title">NETZSCH STEELBEADS Q</h1>
+      <p class="product-ref">Ref: 443145</p>
+
+      <!-- Gallery -->
+      <div class="product-gallery-main" id="mainImage">
+        <img src="../assets/shop-steelbeads-q.png" alt="NETZSCH STEELBEADS Q" id="mainImg">
+      </div>
+      <div class="product-thumbs">
+        <button class="product-thumb active" data-img="../assets/shop-steelbeads-q.png">
+          <img src="../assets/shop-steelbeads-q.png" alt="Thumbnail 1">
+        </button>
+        <button class="product-thumb" data-img="../assets/shop-steelbeads-q.png">
+          <img src="../assets/shop-steelbeads-q.png" alt="Thumbnail 2">
+        </button>
+        <button class="product-thumb" data-img="../assets/shop-steelbeads-q.png">
+          <img src="../assets/shop-steelbeads-q.png" alt="Thumbnail 3">
+        </button>
+        <button class="product-thumb" data-img="../assets/shop-steelbeads-q.png">
+          <img src="../assets/shop-steelbeads-q.png" alt="Thumbnail 4">
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="product-tabs">
+        <button class="product-tab active" data-tab="description">Product Description</button>
+        <button class="product-tab" data-tab="documents">Documents</button>
+        <button class="product-tab" data-tab="specs">Mechanical Specs</button>
+      </div>
+
+      <!-- Tab: Description -->
+      <div class="tab-content active" id="tab-description">
+        <p class="product-description">
+          SteelBeads Q are high-quality carbon steel grinding beads offering reliable performance for standard grinding applications. With consistent sphericity and surface finish, they provide dependable results in paint, lacquer, and general chemical processing. An economical solution for high-throughput milling. Available in sizes from 0.8 mm to 3.0 mm.
+        </p>
+        <h3 class="product-section-title">Applications</h3>
+        <div class="app-tags">
+          <span class="app-tag">Paint Milling</span>
+          <span class="app-tag">Lacquer Processing</span>
+          <span class="app-tag">General Milling</span>
+        </div>
+      </div>
+
+      <!-- Tab: Documents -->
+      <div class="tab-content" id="tab-documents">
+        <ul class="doc-list">
+          <li><a href="#" class="doc-link">Product Data NETZSCH BEADS STEELBEADS Q – English</a></li>
+          <li><a href="#" class="doc-link">Safety Data NETZSCH BEADS STEELBEADS Q – English</a></li>
+          <li><a href="#" class="doc-link">Product Data NETZSCH BEADS STEELBEADS Q – German</a></li>
+          <li><a href="#" class="doc-link">Safety Data NETZSCH BEADS STEELBEADS Q – German</a></li>
+        </ul>
+      </div>
+
+      <!-- Tab: Mechanical Specs -->
+      <div class="tab-content" id="tab-specs">
+        <div class="specs-grid">
+          <div class="spec-item">
+            <span class="spec-label">Bulk Density</span>
+            <span class="spec-value">4,4 kg/l</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Specific weight</span>
+            <span class="spec-value">7,80 kg/dm3</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Hardness</span>
+            <span class="spec-value">>600 HV</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Color</span>
+            <span class="spec-value">Dark Silver</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Order Panel -->
+    <div class="order-panel">
+      <h2 class="order-panel-title">Order Information</h2>
+
+      <!-- Select Size -->
+      <div class="form-group">
+        <label class="form-label">Select a size <span>*</span></label>
+        <select class="form-select">
+          <option value="" disabled selected>Select a size</option>
+          <option value="0.80-1.00">0,80 - 1,00 mm</option>
+          <option value="1.00-1.40">1,00 - 1,40 mm</option>
+          <option value="1.40-2.00">1,40 - 2,00 mm</option>
+          <option value="2.00-2.50">2,00 - 2,50 mm</option>
+          <option value="2.50-3.00">2,50 - 3,00 mm</option>
+        </select>
+      </div>
+
+      <!-- Quantity + Unity -->
+      <div class="qty-row">
+        <div class="form-group qty-group">
+          <label class="form-label">Quantity</label>
+          <div class="qty-control">
+            <button class="qty-btn" id="qtyMinus">−</button>
+            <span class="qty-value" id="qtyValue">1</span>
+            <button class="qty-btn" id="qtyPlus">+</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Unity</label>
+          <span class="unity-label">Kilogram (kg)</span>
+        </div>
+      </div>
+
+      <!-- Delivery Time (hidden until size selected) -->
+      <div class="delivery-info" id="deliveryInfo" style="display:none;">
+        <span class="delivery-label">Est. delivery time</span>
+        <span class="delivery-value">15 - 20 days</span>
+      </div>
+
+      <!-- Total Price -->
+      <div class="price-row">
+        <span class="price-label">Total price</span>
+        <span class="price-value">10.00 €</span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-btns">
+        <button class="btn-wishlist">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.15"/></svg>
+          Add to Wishlist
+        </button>
+        <button class="btn-add-cart">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M1 1h2l1.5 8h8L15 3H4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/></svg>
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Bulk Pricing -->
+      <div class="bulk-card">
+        <div class="bulk-icon">i</div>
+        <div class="bulk-body">
+          <div class="bulk-title">Bulk Pricing Available</div>
+          <div class="bulk-text">
+            Order 20kg+ for volume discounts. Contact our sales team for custom pricing. Need help? <a href="#">Contact us</a>
+          </div>
+          <table class="bulk-table">
+          <thead>
+            <tr>
+              <th>kg</th>
+              <th>Pricing/kg</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0 - 19</td><td>€10.00</td></tr>
+            <tr><td>20 - 199</td><td>€9.10</td></tr>
+            <tr><td>200 - 999</td><td>€8.35</td></tr>
+            <tr><td>1000 - ∞</td><td>€7.65</td></tr>
+          </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TOAST (Wishlist) -->
+  <div class="toast" id="wishlistToast">
+    <svg class="toast-icon" viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" fill="#007167"/></svg>
+    <div class="toast-body">
+      <div class="toast-title">Added to Wishlist</div>
+      <div class="toast-subtitle">NETZSCH STEELBEADS Q</div>
+      <a href="#" class="toast-link">View Wishlist</a>
+    </div>
+    <button class="toast-close" id="toastClose">&#x2715;</button>
+  </div>
+
+  <!-- CART DROPDOWN -->
+  <div class="cart-dropdown" id="cartDropdown">
+    <div class="cart-dd-header">
+      <span class="cart-dd-title">Shopping Cart</span>
+      <button class="cart-dd-close" id="cartDdClose">&#x2715;</button>
+    </div>
+    <div class="cart-dd-item">
+      <div class="cart-dd-item-name">NETZSCH STEELBEADS Q – 1,20 - 1,40 mm</div>
+      <div class="cart-dd-item-ref">443145</div>
+      <div class="cart-dd-item-price">10.00 €</div>
+      <div class="cart-dd-qty-row">
+        <span class="cart-dd-qty-label">Quantity</span>
+        <button class="cart-dd-delete" title="Remove">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M5.33 4V2.67a1.33 1.33 0 0 1 1.34-1.34h2.66a1.33 1.33 0 0 1 1.34 1.34V4m2 0v9.33a1.33 1.33 0 0 1-1.34 1.34H4.67a1.33 1.33 0 0 1-1.34-1.34V4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span class="cart-dd-qty">1</span>
+        <button class="qty-btn">+</button>
+      </div>
+    </div>
+    <div class="cart-dd-subtotal">
+      <span class="cart-dd-subtotal-label">Subtotal</span>
+      <span class="cart-dd-subtotal-value">10.00 €</span>
+    </div>
+    <a href="checkout-cart.html" class="btn-view-cart">View Cart</a>
+  </div>
+
+  <script>
+function toggleProfileDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('notifDropdown').classList.remove('open');
+  document.getElementById('profileDropdown').classList.toggle('open');
+}
+function toggleNotifDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('profileDropdown').classList.remove('open');
+  document.getElementById('notifDropdown').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('profileDropdown');
+  var nd = document.getElementById('notifDropdown');
+  if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  if (nd && !nd.contains(e.target)) nd.classList.remove('open');
+});
+</script>
+<script>
+    // Thumbnail gallery
+    document.querySelectorAll('.product-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        document.querySelectorAll('.product-thumb').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+        document.getElementById('mainImg').src = thumb.dataset.img;
+      });
+    });
+
+    // Tabs
+    document.querySelectorAll('.product-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.product-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Quantity controls
+    const qtyValue = document.getElementById('qtyValue');
+    document.getElementById('qtyMinus').addEventListener('click', () => {
+      const v = parseInt(qtyValue.textContent);
+      if (v > 1) qtyValue.textContent = v - 1;
+    });
+    document.getElementById('qtyPlus').addEventListener('click', () => {
+      qtyValue.textContent = parseInt(qtyValue.textContent) + 1;
+    });
+
+    // Size select → show delivery time + activate Add to Cart
+    const sizeSelect = document.querySelector('.form-select');
+    const deliveryInfo = document.getElementById('deliveryInfo');
+    const btnCart = document.querySelector('.btn-add-cart');
+    sizeSelect.addEventListener('change', () => {
+      sizeSelect.classList.add('selected');
+      deliveryInfo.style.display = 'flex';
+      btnCart.classList.add('active');
+    });
+
+    // Wishlist toast
+    const toast = document.getElementById('wishlistToast');
+    document.querySelector('.btn-wishlist').addEventListener('click', () => {
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    });
+    document.getElementById('toastClose').addEventListener('click', () => {
+      toast.classList.remove('show');
+    });
+
+    // Add to Cart → show cart dropdown + badge
+    btnCart.addEventListener('click', () => {
+      if (!btnCart.classList.contains('active')) return;
+      document.getElementById('cartBadge').classList.add('show');
+      document.getElementById('cartDropdown').classList.add('show');
+    });
+    document.getElementById('cartDdClose').addEventListener('click', () => {
+      document.getElementById('cartDropdown').classList.remove('show');
+    });
+
+    // Cart header button toggle
+    document.getElementById('cartBtn').addEventListener('click', () => {
+      const dd = document.getElementById('cartDropdown');
+      if (document.getElementById('cartBadge').classList.contains('show')) {
+        dd.classList.toggle('show');
+      }
+    });
+
+    // Profile dropdown
+    document.getElementById('avatarBtn').addEventListener('click', () => {
+      document.getElementById('profileDropdown').classList.toggle('show');
+    });
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#cartBtn') && !e.target.closest('#cartDropdown')) {
+        document.getElementById('cartDropdown').classList.remove('show');
+      }
+      if (!e.target.closest('#avatarBtn') && !e.target.closest('#profileDropdown')) {
+        document.getElementById('profileDropdown').classList.remove('show');
+      }
+    });
+  </script>
+
+</body>
+</html>
