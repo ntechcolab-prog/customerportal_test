@@ -934,56 +934,80 @@
     .cart-badge.is-visible { display: flex; }
 
     /* ── MILLA SEARCH ─── */
-    .milla-searchbar {
+    .milla-search-wrapper {
       position: absolute;
+      right: 180px;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scaleX(0);
-      width: 560px;
-      height: 46px;
-      background: #fff;
-      border: 1.5px solid #007167;
-      border-radius: 9999px;
-      box-shadow: 0 4px 24px rgba(0, 113, 103, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0 18px;
-      opacity: 0;
-      pointer-events: none;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+      transform: translateY(-50%);
       z-index: 200;
     }
-    .milla-searchbar.open {
-      transform: translate(-50%, -50%) scaleX(1);
-      opacity: 1;
-      pointer-events: auto;
+    .milla-searchbar {
+      width: 44px;
+      height: 44px;
+      background: #fff;
+      border: 1.5px solid transparent;
+      border-radius: 9999px;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0 11px;
+      overflow: hidden;
+      transition:
+        width 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        padding 0.3s ease,
+        gap 0.3s ease;
     }
-    .milla-searchbar img.sparkle { width: 22px; height: 22px; flex-shrink: 0; }
+    .milla-searchbar.open {
+      width: 520px;
+      border-color: #007167;
+      box-shadow: 0 4px 24px rgba(0, 113, 103, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+      padding: 0 16px;
+      gap: 12px;
+    }
+    .milla-searchbar img.sparkle {
+      width: 22px; height: 22px; flex-shrink: 0;
+      opacity: 0; transform: scale(0.5);
+      transition: opacity 0.25s ease 0.15s, transform 0.25s ease 0.15s;
+    }
+    .milla-searchbar.open img.sparkle {
+      opacity: 1; transform: scale(1);
+    }
     .milla-searchbar input {
       flex: 1;
+      min-width: 0;
       border: none;
       outline: none;
       font-family: 'Inter', sans-serif;
       font-size: 16px;
       color: #2d2e33;
       background: transparent;
+      opacity: 0;
+      transition: opacity 0.2s ease 0.2s;
+    }
+    .milla-searchbar.open input {
+      opacity: 1;
     }
     .milla-searchbar input::placeholder { color: #9ca0a5; }
     .milla-searchbar .milla-close {
       width: 28px; height: 28px;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; background: none; border: none; padding: 0; flex-shrink: 0;
+      opacity: 0; transform: scale(0.5);
+      transition: opacity 0.2s ease 0.2s, transform 0.2s ease 0.2s;
+    }
+    .milla-searchbar.open .milla-close {
+      opacity: 1; transform: scale(1);
     }
     .milla-searchbar .milla-close img { width: 16px; height: 16px; }
 
     .milla-dropdown-anchor {
       position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
+      top: calc(100% + 8px);
+      right: 0;
       z-index: 200;
-      padding-top: 8px;
     }
     .milla-suggestions {
       width: 520px;
@@ -1070,6 +1094,7 @@
       z-index: 150;
     }
     .milla-backdrop.open { display: block; }
+    #btn-milla-search.hidden { opacity: 0; pointer-events: none; transition: opacity 0.15s ease; }
   </style>
 </head>
 <body>
@@ -1205,18 +1230,17 @@
       </button>
     </div>
 
-    <!-- MILLA SEARCH BAR (inline no header) -->
-    <div class="milla-searchbar" id="millaSearchbar">
-      <img class="sparkle" src="../assets/sparkle-icon-teal.svg" alt="" aria-hidden="true">
-      <input type="text" placeholder="Ask Milla AI..." id="millaInput" autocomplete="off">
-      <button class="milla-close" onclick="closeMillaSearch()" aria-label="Close search">
-        <img src="../assets/close-icon-gray.svg" alt="">
-      </button>
-    </div>
-
-    <!-- MILLA SUGGESTIONS DROPDOWN -->
-    <div class="milla-dropdown-anchor">
-      <div class="milla-suggestions" id="millaSuggestions">
+    <!-- MILLA SEARCH (inline, expande do ícone) -->
+    <div class="milla-search-wrapper" id="millaWrapper">
+      <div class="milla-searchbar" id="millaSearchbar">
+        <img class="sparkle" src="../assets/sparkle-icon-teal.svg" alt="" aria-hidden="true">
+        <input type="text" placeholder="Ask Milla AI..." id="millaInput" autocomplete="off">
+        <button class="milla-close" onclick="closeMillaSearch()" aria-label="Close search">
+          <img src="../assets/close-icon-gray.svg" alt="">
+        </button>
+      </div>
+      <div class="milla-dropdown-anchor">
+        <div class="milla-suggestions" id="millaSuggestions">
         <div class="milla-suggestions-header">
           <img src="../assets/sparkle-icon-green.svg" alt="" aria-hidden="true">
           <span>AI Suggestions</span>
@@ -1244,6 +1268,7 @@
         </div>
       </div>
     </div>
+    </div><!-- /milla-search-wrapper -->
   </div>
 
   <!-- BREADCRUMB -->
@@ -1857,22 +1882,37 @@ document.addEventListener('click', function(e) {
 function toggleMillaSearch(e) {
   e.stopPropagation();
   var bar = document.getElementById('millaSearchbar');
-  var suggestions = document.getElementById('millaSuggestions');
-  var backdrop = document.getElementById('millaBackdrop');
   var isOpen = bar.classList.contains('open');
   if (isOpen) {
     closeMillaSearch();
   } else {
-    bar.classList.add('open');
-    suggestions.classList.add('open');
-    backdrop.classList.add('open');
-    document.getElementById('millaInput').focus();
+    openMillaSearch();
   }
 }
+function openMillaSearch() {
+  var bar = document.getElementById('millaSearchbar');
+  var btn = document.getElementById('btn-milla-search');
+  var suggestions = document.getElementById('millaSuggestions');
+  var backdrop = document.getElementById('millaBackdrop');
+  btn.classList.add('hidden');
+  bar.classList.add('open');
+  backdrop.classList.add('open');
+  setTimeout(function() {
+    suggestions.classList.add('open');
+    document.getElementById('millaInput').focus();
+  }, 200);
+}
 function closeMillaSearch() {
-  document.getElementById('millaSearchbar').classList.remove('open');
-  document.getElementById('millaSuggestions').classList.remove('open');
-  document.getElementById('millaBackdrop').classList.remove('open');
+  var bar = document.getElementById('millaSearchbar');
+  var btn = document.getElementById('btn-milla-search');
+  var suggestions = document.getElementById('millaSuggestions');
+  var backdrop = document.getElementById('millaBackdrop');
+  suggestions.classList.remove('open');
+  setTimeout(function() {
+    bar.classList.remove('open');
+    backdrop.classList.remove('open');
+    btn.classList.remove('hidden');
+  }, 150);
   document.getElementById('millaInput').value = '';
 }
 document.getElementById('millaBackdrop').addEventListener('click', closeMillaSearch);
