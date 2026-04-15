@@ -1314,6 +1314,7 @@ document.addEventListener('click', function(e) {
       var html = '';
       var subtotal = 0;
       var subtotalRow = document.getElementById('cart-subtotal-row');
+      var hasQuotation = cartItems.some(function(item) { return item.quotation; });
       cartItems.forEach(function(item, i) {
         var lineTotal = item.unitPrice * item.qty;
         subtotal += lineTotal;
@@ -1333,7 +1334,7 @@ document.addEventListener('click', function(e) {
           '</div>' +
           '<div class="cart-item-price">' +
             '<div class="cart-item-price-label">TOTAL PRICE</div>' +
-            '<div class="cart-item-price-value">' + formatPrice(lineTotal) + '</div>' +
+            '<div class="cart-item-price-value">' + (hasQuotation ? 'Quotation' : formatPrice(lineTotal)) + '</div>' +
           '</div>' +
         '</div>' +
         '<div class="cart-quantity">' +
@@ -1354,7 +1355,7 @@ document.addEventListener('click', function(e) {
       }
 
       cartDdItems.innerHTML = html;
-      cartDdSubtotal.textContent = formatPrice(subtotal);
+      cartDdSubtotal.textContent = hasQuotation ? '--' : formatPrice(subtotal);
 
       // Bind qty buttons
       cartDdItems.querySelectorAll('.qty-btn').forEach(function(btn) {

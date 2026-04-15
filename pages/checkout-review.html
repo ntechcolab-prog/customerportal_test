@@ -969,8 +969,8 @@ document.addEventListener('click', function(e) {
     productsHtml += '<div class="product-row">' + imgHtml +
       '<div class="product-info"><span class="product-name">' + item.name + '</span><span class="product-ref">Ref: ' + item.ref + '</span></div></div>';
     var lineTotal = item.unitPrice * item.qty;
-    var unitPriceDisplay = item.quotation ? 'Quotation Only' : formatPrice(item.unitPrice);
-    var totalDisplay = item.quotation ? 'Quotation Only' : formatPrice(lineTotal);
+    var unitPriceDisplay = hasQuotation ? 'Quotation Only' : formatPrice(item.unitPrice);
+    var totalDisplay = hasQuotation ? 'Quotation Only' : formatPrice(lineTotal);
     tableHtml += '<tr><td>' + unitPriceDisplay + '</td><td>' + item.qty + '</td><td>kg</td><td>' + totalDisplay + '</td></tr>';
   });
   document.getElementById('reviewProducts').innerHTML = productsHtml;

@@ -826,9 +826,10 @@ document.addEventListener('click', function(e) {
 
   // Render items
   var html = '';
+  var hasQuotation = items.some(function(it) { return it.quotation; });
   items.forEach(function(item) {
-    var unitPriceDisplay = item.quotation ? '--' : formatPrice(item.unitPrice);
-    var totalDisplay = item.quotation ? '<span class="quotation-only">Quotation Only</span>' : formatPrice(item.unitPrice * item.qty);
+    var unitPriceDisplay = hasQuotation ? '--' : formatPrice(item.unitPrice);
+    var totalDisplay = hasQuotation ? '<span class="quotation-only">Quotation Only</span>' : formatPrice(item.unitPrice * item.qty);
     html += '<tr><td><span class="product-name">' + item.name + '</span><span class="product-detail">' + item.ref + '</span></td>' +
       '<td>' + unitPriceDisplay + '</td><td>' + item.qty + '</td><td>kg</td><td>' + totalDisplay + '</td></tr>';
   });

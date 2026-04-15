@@ -2314,7 +2314,7 @@ document.addEventListener('click', function(e) {
     // ── localStorage persistence ──
     function saveCartToStorage() {
       var storageItems = cart.map(function(i) {
-        return { name: i.name, ref: i.key, unitPrice: i.unitPrice, qty: i.qty, img: '' };
+        return { name: i.name, ref: i.key, unitPrice: i.unitPrice, qty: i.qty, img: '', quotation: i.quotation || false };
       });
       var stored = JSON.parse(localStorage.getItem('netzsch_cart') || '{}');
       stored.items = storageItems;
@@ -2325,7 +2325,7 @@ document.addEventListener('click', function(e) {
         var stored = JSON.parse(localStorage.getItem('netzsch_cart') || '{}');
         if (stored.items && stored.items.length > 0) {
           cart = stored.items.map(function(i) {
-            return { key: i.ref, name: i.name, mat: i.ref, unitPrice: i.unitPrice, qty: i.qty };
+            return { key: i.ref, name: i.name, mat: i.ref, unitPrice: i.unitPrice, qty: i.qty, quotation: i.quotation || false };
           });
         }
       } catch(e) {}
@@ -2402,6 +2402,7 @@ document.addEventListener('click', function(e) {
 
       let html = '';
       let subtotal = 0;
+      const hasQuotation = cart.some(i => i.quotation);
       cart.forEach(item => {
         const lineTotal = item.unitPrice * item.qty;
         subtotal += lineTotal;
@@ -2411,7 +2412,7 @@ document.addEventListener('click', function(e) {
 
         html += '<div class="cart-item">'
           + '<div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div><div class="cart-item-mat">' + item.mat + '</div></div>'
-          + '<div class="cart-item-price"><div class="cart-item-price-label">TOTAL PRICE</div><div class="cart-item-price-value">' + (item.quotation ? 'Quotation' : fmtPrice(lineTotal)) + '</div></div>'
+          + '<div class="cart-item-price"><div class="cart-item-price-label">TOTAL PRICE</div><div class="cart-item-price-value">' + (hasQuotation ? 'Quotation' : fmtPrice(lineTotal)) + '</div></div>'
           + '</div>'
           + '<div class="cart-quantity">'
           + '<span class="cart-quantity-label">Quantity</span>'
@@ -2422,7 +2423,7 @@ document.addEventListener('click', function(e) {
           + '</div></div>';
       });
       cartItemsEl.innerHTML = html;
-      cartSubtotalEl.textContent = fmtPrice(subtotal);
+      cartSubtotalEl.textContent = hasQuotation ? '--' : fmtPrice(subtotal);
       cartSubtotalRow.style.display = '';
     }
 
