@@ -591,6 +591,56 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; }
     }
+
+    /* ── CART DROPDOWN ─── */
+    :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .cart-dropdown-anchor { position: relative; }
+    .cart-dropdown {
+      position: absolute; top: calc(100% + 8px); right: -8px; width: 360px;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.14); padding: 20px 22px;
+      opacity: 0; transform: translateY(-8px) scale(0.96); pointer-events: none;
+      transition: opacity 0.3s var(--ease-apple), transform 0.4s var(--ease-spring); z-index: 200;
+    }
+    .cart-dropdown.is-open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .cart-dropdown::before {
+      content: ''; position: absolute; top: -6px; right: 24px; width: 12px; height: 12px;
+      background: #fff; border-top: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; transform: rotate(45deg);
+    }
+    .cart-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .cart-title { font-size: 16px; font-weight: 600; color: #1f2937; letter-spacing: -0.15px; }
+    .cart-close-btn { width: 22px; height: 22px; background: none; border: none; color: #9ca3af; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: color 0.15s, transform 0.3s var(--ease-spring); }
+    .cart-close-btn:hover { color: #4b5563; transform: rotate(90deg); }
+    .cart-close-btn svg { width: 14px; height: 14px; }
+    .cart-dd-items { max-height: 260px; overflow-y: auto; }
+    .cart-dd-empty { font-size: 13px; color: #9ca3af; text-align: center; padding: 24px 0; }
+    .cart-dd-item { display: flex; gap: 10px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #f1f3f5; }
+    .cart-dd-item + .cart-dd-item { padding-top: 14px; }
+    .cart-dd-item-info { flex: 1; min-width: 0; }
+    .cart-dd-item-name { font-size: 12px; font-weight: 500; color: #4c4d57; line-height: 16px; }
+    .cart-dd-item-mat { font-size: 10px; font-weight: 400; color: #6b7280; letter-spacing: 0.1px; margin-top: 4px; }
+    .cart-dd-item-price { text-align: right; flex-shrink: 0; }
+    .cart-dd-item-price-label { font-size: 10px; font-weight: 500; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.4px; }
+    .cart-dd-item-price-value { font-size: 14px; font-weight: 700; color: #1f2937; margin-top: 2px; }
+    .cart-dd-quantity { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #f1f3f5; }
+    .cart-dd-quantity-label { font-size: 13px; font-weight: 500; color: #4c4d57; }
+    .cart-dd-quantity-controls { display: flex; align-items: center; gap: 14px; }
+    .cart-dd-qty-btn { width: 28px; height: 28px; background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #6b7280; border-radius: 6px; transition: background 0.15s, color 0.15s; }
+    .cart-dd-qty-btn:hover { background: #f3f4f6; color: #1f2937; }
+    .cart-dd-qty-btn.delete { color: #c73e20; }
+    .cart-dd-qty-btn.delete:hover { background: #fdf2f0; }
+    .cart-dd-qty-btn.minus { color: #6b7280; }
+    .cart-dd-qty-btn svg { width: 14px; height: 14px; }
+    .cart-dd-qty-value { font-size: 14px; font-weight: 600; color: #1f2937; min-width: 16px; text-align: center; font-variant-numeric: tabular-nums; }
+    .cart-dd-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 16px; }
+    .cart-dd-subtotal-label { font-size: 14px; font-weight: 500; color: #4c4d57; }
+    .cart-dd-subtotal-value { font-size: 16px; font-weight: 700; color: #1f2937; font-variant-numeric: tabular-nums; }
+    .btn-view-cart-dd { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background 0.2s, transform 0.3s var(--ease-spring); }
+    .btn-view-cart-dd:hover { background: #0b9c92; transform: translateY(-1px); }
+    .btn-view-cart-dd:active { transform: scale(0.98); }
+    .cart-dd-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
+    .cart-dd-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
+    .cart-dd-item-placeholder svg { width: 18px; height: 18px; }
   </style>
 </head>
 <body>
@@ -679,10 +729,26 @@
           </div>
         </div>
       </div>
-      <button class="header-icon-btn" aria-label="Cart">
-        <img src="../assets/icon-cart.svg" alt="Cart">
-        <span class="cart-badge">1</span>
-      </button>
+      <div class="cart-dropdown-anchor">
+        <button class="header-icon-btn" id="btn-cart-dd">
+          <img src="../assets/icon-cart.svg" alt="Cart">
+          <span class="cart-badge" id="cart-badge-dd">0</span>
+        </button>
+        <div class="cart-dropdown" id="cart-dropdown-dd" role="dialog" aria-label="Shopping cart">
+          <div class="cart-head">
+            <h3 class="cart-title">Shopping Cart</h3>
+            <button type="button" class="cart-close-btn" id="cart-close-dd" aria-label="Close cart">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="cart-dd-items" id="cart-dd-items"></div>
+          <div class="cart-dd-subtotal" id="cart-dd-subtotal-row" style="display:none;">
+            <span class="cart-dd-subtotal-label">Subtotal</span>
+            <span class="cart-dd-subtotal-value" id="cart-dd-subtotal">0,00 €</span>
+          </div>
+          <a href="checkout-cart.html" class="btn-view-cart-dd">View Cart</a>
+        </div>
+      </div>
       <div class="user-avatar-wrapper">
         <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus" onclick="toggleProfileDropdown(event)">
         <div class="profile-dropdown" id="profileDropdown">
@@ -1043,5 +1109,64 @@ document.addEventListener('click', function(e) {
     updateCheckout();
   </script>
 
+<script>
+(function() {
+  var cartDd = document.getElementById('cart-dropdown-dd');
+  var cartDdItemsEl = document.getElementById('cart-dd-items');
+  var cartDdSubtotalEl = document.getElementById('cart-dd-subtotal');
+  var cartDdBadge = document.getElementById('cart-badge-dd');
+  if (!cartDd) return;
+  function getCrt() { try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; } }
+  function getCrtItems() { return getCrt().items || []; }
+  function saveCrt(items) { var c = getCrt(); c.items = items; localStorage.setItem('netzsch_cart', JSON.stringify(c)); }
+  function fmtP(num) { var f = num.toFixed(2).split('.'); return f[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + f[1] + ' \u20ac'; }
+  var tSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
+  var mSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  var pSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  var phSvg = '<div class="cart-dd-item-placeholder"><svg viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+  function renderDd() {
+    var items = getCrtItems();
+    var html = '', sub = 0;
+    var subRow = document.getElementById('cart-dd-subtotal-row');
+    var hasQ = items.some(function(it) { return it.quotation; });
+    items.forEach(function(item, i) {
+      var lt = item.unitPrice * item.qty; sub += lt;
+      var lb = item.qty === 1
+        ? '<button class="cart-dd-qty-btn delete" data-action="remove" data-index="' + i + '">' + tSvg + '</button>'
+        : '<button class="cart-dd-qty-btn minus" data-action="minus" data-index="' + i + '">' + mSvg + '</button>';
+      var img = item.img ? '<img class="cart-dd-item-img" src="' + item.img + '" alt="' + item.name + '">' : phSvg;
+      html += '<div class="cart-dd-item">' + img +
+        '<div class="cart-dd-item-info"><div class="cart-dd-item-name">' + item.name + '</div><div class="cart-dd-item-mat">Ref: ' + item.ref + '</div></div>' +
+        '<div class="cart-dd-item-price"><div class="cart-dd-item-price-label">TOTAL PRICE</div><div class="cart-dd-item-price-value">' + (hasQ ? 'Quotation' : fmtP(lt)) + '</div></div></div>' +
+        '<div class="cart-dd-quantity"><span class="cart-dd-quantity-label">Quantity</span><div class="cart-dd-quantity-controls">' + lb +
+        '<span class="cart-dd-qty-value">' + item.qty + '</span>' +
+        '<button class="cart-dd-qty-btn" data-action="plus" data-index="' + i + '">' + pSvg + '</button></div></div>';
+    });
+    if (items.length === 0) { html = '<div class="cart-dd-empty">Your cart is empty</div>'; if (subRow) subRow.style.display = 'none'; }
+    else { if (subRow) subRow.style.display = ''; }
+    cartDdItemsEl.innerHTML = html;
+    cartDdSubtotalEl.textContent = hasQ ? '--' : fmtP(sub);
+    var tot = items.reduce(function(s, i) { return s + i.qty; }, 0);
+    cartDdBadge.textContent = tot;
+    cartDdBadge.classList.toggle('is-visible', tot > 0);
+    cartDdItemsEl.querySelectorAll('.cart-dd-qty-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var idx = parseInt(btn.dataset.index), act = btn.dataset.action, its = getCrtItems();
+        if (act === 'plus') its[idx].qty++;
+        else if (act === 'minus') { its[idx].qty--; if (its[idx].qty <= 0) its.splice(idx, 1); }
+        else if (act === 'remove') its.splice(idx, 1);
+        saveCrt(its); renderDd();
+        if (its.length === 0) cartDd.classList.remove('is-open');
+        if (typeof renderCartPage === 'function') renderCartPage();
+      });
+    });
+  }
+  renderDd();
+  document.getElementById('btn-cart-dd').addEventListener('click', function(e) { e.stopPropagation(); if (getCrtItems().length > 0) cartDd.classList.toggle('is-open'); });
+  document.getElementById('cart-close-dd').addEventListener('click', function(e) { e.stopPropagation(); cartDd.classList.remove('is-open'); });
+  document.addEventListener('click', function(e) { if (!e.target.closest('#btn-cart-dd') && !e.target.closest('#cart-dropdown-dd')) cartDd.classList.remove('is-open'); });
+})();
+</script>
 </body>
 </html>
