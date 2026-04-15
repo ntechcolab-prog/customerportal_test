@@ -46,7 +46,8 @@
       justify-content: space-between;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 90;
+      z-index: 160;
+      position: relative;
     }
     .app-header-left { display: flex; align-items: center; gap: 0; }
     .netzsch-logo { height: 22px; object-fit: contain; }
@@ -932,25 +933,14 @@
     .cart-badge { position: absolute; top: 4px; right: 4px; background: #c73e20; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 999px; display: none; align-items: center; justify-content: center; padding: 0 3px; letter-spacing: 0.12px; line-height: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1); }
     .cart-badge.is-visible { display: flex; }
 
-    /* ── MILLA SEARCH OVERLAY ─── */
-    .milla-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 30, 27, 0.45);
-      z-index: 300;
-      justify-content: center;
-      padding-top: 48px;
-    }
-    .milla-overlay.open {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
+    /* ── MILLA SEARCH ─── */
     .milla-searchbar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scaleX(0);
       width: 560px;
-      height: 55px;
+      height: 46px;
       background: #fff;
       border: 1.5px solid #007167;
       border-radius: 9999px;
@@ -958,7 +948,16 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 0 22px;
+      padding: 0 18px;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+      z-index: 200;
+    }
+    .milla-searchbar.open {
+      transform: translate(-50%, -50%) scaleX(1);
+      opacity: 1;
+      pointer-events: auto;
     }
     .milla-searchbar img.sparkle { width: 22px; height: 22px; flex-shrink: 0; }
     .milla-searchbar input {
@@ -978,12 +977,29 @@
     }
     .milla-searchbar .milla-close img { width: 16px; height: 16px; }
 
+    .milla-dropdown-anchor {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      padding-top: 8px;
+    }
     .milla-suggestions {
       width: 520px;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.04);
       overflow: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+    }
+    .milla-suggestions.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
     .milla-suggestions-header {
       display: flex;
@@ -1045,6 +1061,15 @@
       line-height: 19.5px;
     }
     .milla-suggestions-footer a:hover { text-decoration: underline; }
+
+    .milla-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 30, 27, 0.45);
+      z-index: 150;
+    }
+    .milla-backdrop.open { display: block; }
   </style>
 </head>
 <body>
@@ -1178,6 +1203,46 @@
         EN
         <img src="../assets/icon-chevron-down.svg" alt="">
       </button>
+    </div>
+
+    <!-- MILLA SEARCH BAR (inline no header) -->
+    <div class="milla-searchbar" id="millaSearchbar">
+      <img class="sparkle" src="../assets/sparkle-icon-teal.svg" alt="" aria-hidden="true">
+      <input type="text" placeholder="Ask Milla AI..." id="millaInput" autocomplete="off">
+      <button class="milla-close" onclick="closeMillaSearch()" aria-label="Close search">
+        <img src="../assets/close-icon-gray.svg" alt="">
+      </button>
+    </div>
+
+    <!-- MILLA SUGGESTIONS DROPDOWN -->
+    <div class="milla-dropdown-anchor">
+      <div class="milla-suggestions" id="millaSuggestions">
+        <div class="milla-suggestions-header">
+          <img src="../assets/sparkle-icon-green.svg" alt="" aria-hidden="true">
+          <span>AI Suggestions</span>
+        </div>
+        <div class="milla-suggestions-list">
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span>Check my order status</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span>Recommend products for me</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span>Show purchase history</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span>Help me find documents</span>
+          </button>
+        </div>
+        <div class="milla-suggestions-footer">
+          <a href="#">Find spare parts by photo, description, or product code.</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1785,59 +1850,32 @@ document.addEventListener('click', function(e) {
 })();
 </script>
 
-<!-- ── MILLA SEARCH OVERLAY ─── -->
-<div class="milla-overlay" id="millaOverlay" role="dialog" aria-label="Milla AI Search">
-  <div class="milla-searchbar">
-    <img class="sparkle" src="../assets/sparkle-icon-teal.svg" alt="" aria-hidden="true">
-    <input type="text" placeholder="Ask Milla AI..." id="millaInput" autocomplete="off">
-    <button class="milla-close" onclick="closeMillaSearch()" aria-label="Close search">
-      <img src="../assets/close-icon-gray.svg" alt="">
-    </button>
-  </div>
-  <div class="milla-suggestions">
-    <div class="milla-suggestions-header">
-      <img src="../assets/sparkle-icon-green.svg" alt="" aria-hidden="true">
-      <span>AI Suggestions</span>
-    </div>
-    <div class="milla-suggestions-list">
-      <button class="milla-suggestion-item">
-        <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
-        <span>Check my order status</span>
-      </button>
-      <button class="milla-suggestion-item">
-        <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
-        <span>Recommend products for me</span>
-      </button>
-      <button class="milla-suggestion-item">
-        <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
-        <span>Show purchase history</span>
-      </button>
-      <button class="milla-suggestion-item">
-        <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
-        <span>Help me find documents</span>
-      </button>
-    </div>
-    <div class="milla-suggestions-footer">
-      <a href="#">Find spare parts by photo, description, or product code.</a>
-    </div>
-  </div>
-</div>
+<!-- ── MILLA BACKDROP ─── -->
+<div class="milla-backdrop" id="millaBackdrop"></div>
 
 <script>
 function toggleMillaSearch(e) {
   e.stopPropagation();
-  var overlay = document.getElementById('millaOverlay');
-  overlay.classList.toggle('open');
-  if (overlay.classList.contains('open')) {
+  var bar = document.getElementById('millaSearchbar');
+  var suggestions = document.getElementById('millaSuggestions');
+  var backdrop = document.getElementById('millaBackdrop');
+  var isOpen = bar.classList.contains('open');
+  if (isOpen) {
+    closeMillaSearch();
+  } else {
+    bar.classList.add('open');
+    suggestions.classList.add('open');
+    backdrop.classList.add('open');
     document.getElementById('millaInput').focus();
   }
 }
 function closeMillaSearch() {
-  document.getElementById('millaOverlay').classList.remove('open');
+  document.getElementById('millaSearchbar').classList.remove('open');
+  document.getElementById('millaSuggestions').classList.remove('open');
+  document.getElementById('millaBackdrop').classList.remove('open');
+  document.getElementById('millaInput').value = '';
 }
-document.getElementById('millaOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeMillaSearch();
-});
+document.getElementById('millaBackdrop').addEventListener('click', closeMillaSearch);
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeMillaSearch();
 });
