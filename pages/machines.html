@@ -1297,6 +1297,73 @@
     .milla-chat-send.active { background: #007167; }
     .milla-chat-send img { width: 18px; height: 18px; }
 
+    /* ── MILLA CHAT SMALLER (bottom-right) ─── */
+    .milla-chat-small {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 400px;
+      height: 580px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 400;
+      transform: scale(0.4) translateY(40px);
+      transform-origin: bottom right;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.25s ease;
+    }
+    .milla-chat-small.open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .milla-chat-small .milla-chat-header { padding: 10px 16px; }
+    .milla-chat-small .milla-chat-avatar { width: 34px; height: 34px; }
+    .milla-chat-small .milla-chat-avatar img { width: 16px; height: 16px; }
+    .milla-chat-small .milla-chat-name { font-size: 14px; }
+    .milla-chat-small .milla-chat-status { font-size: 11px; }
+    .milla-chat-small .milla-chat-tabs { padding: 10px 16px; gap: 6px; }
+    .milla-chat-small .milla-chat-tab { padding: 7px 12px; font-size: 12px; }
+    .milla-chat-small .milla-chat-body { padding: 12px 16px; min-height: 200px; }
+    .milla-chat-small .milla-chat-footer { padding: 12px 16px; }
+    .milla-chat-small .milla-msg-user,
+    .milla-chat-small .milla-msg-bot-bubble { font-size: 13px; line-height: 20px; max-width: 85%; }
+
+    /* ── MILLA FAB (minimized) ─── */
+    .milla-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      box-shadow: 0 8px 24px rgba(0, 113, 103, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      z-index: 400;
+      transform: scale(0);
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s ease, box-shadow 0.2s ease;
+    }
+    .milla-fab.open {
+      transform: scale(1);
+      opacity: 1;
+    }
+    .milla-fab:hover {
+      box-shadow: 0 12px 32px rgba(0, 113, 103, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05);
+    }
+    .milla-fab img { width: 28px; height: 28px; }
+
     .milla-backdrop {
       position: fixed;
       top: 100px;
@@ -2140,6 +2207,52 @@ document.addEventListener('click', function(e) {
   </div>
 </div>
 
+<!-- ── MILLA CHAT SMALLER ─── -->
+<div class="milla-chat-small" id="millaChatSmall">
+  <div class="milla-chat-header">
+    <div class="milla-chat-header-left">
+      <div class="milla-chat-avatar">
+        <img src="../assets/milla-sparkle-white.svg" alt="" aria-hidden="true">
+      </div>
+      <div class="milla-chat-info">
+        <span class="milla-chat-name">Milla AI Assistant</span>
+        <span class="milla-chat-status">Online — Ready to help</span>
+      </div>
+    </div>
+    <div class="milla-chat-header-actions">
+      <button class="milla-chat-header-btn" aria-label="Expand" title="Expand" onclick="expandMillaChat()">
+        <img src="../assets/milla-icon-expand.svg" alt="">
+      </button>
+      <button class="milla-chat-header-btn" aria-label="Minimize" title="Minimize" onclick="minimizeMillaChat()">
+        <img src="../assets/milla-icon-minimize.svg" alt="">
+      </button>
+      <button class="milla-chat-header-btn" aria-label="Close" title="Close" onclick="closeMillaChat()">
+        <img src="../assets/milla-icon-close-white.svg" alt="">
+      </button>
+    </div>
+  </div>
+  <div class="milla-chat-tabs">
+    <button class="milla-chat-tab">Spare parts</button>
+    <button class="milla-chat-tab">Order status</button>
+    <button class="milla-chat-tab">Documents</button>
+    <button class="milla-chat-tab">Recommendations</button>
+  </div>
+  <div class="milla-chat-body" id="millaChatSmallBody"></div>
+  <div class="milla-chat-footer">
+    <div class="milla-chat-input-wrap">
+      <input type="text" placeholder="Ask Milla anything...">
+    </div>
+    <button class="milla-chat-send">
+      <img src="../assets/milla-icon-send.svg" alt="Send">
+    </button>
+  </div>
+</div>
+
+<!-- ── MILLA FAB ─── -->
+<button class="milla-fab" id="millaFab" onclick="openMillaChatSmall()" aria-label="Open Milla AI Assistant">
+  <img src="../assets/milla-fab.svg" alt="">
+</button>
+
 <script>
 function toggleMillaSearch(e) {
   e.stopPropagation();
@@ -2185,20 +2298,23 @@ document.getElementById('millaBackdrop').addEventListener('click', closeMillaSea
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     if (document.getElementById('millaChatOverlay').classList.contains('open')) {
-      closeMillaChat();
+      shrinkMillaChat();
+    } else if (document.getElementById('millaChatSmall').classList.contains('open')) {
+      minimizeMillaChat();
     } else {
       closeMillaSearch();
     }
   }
 });
 
-// Milla Chat
+// Milla Chat — state management
 var millaResponse = {
   'Check my order status': 'I found your most recent order: <strong>Order #ORD-2026-0847</strong>\n\nStatus: In Transit\nEstimated Delivery: March 03, 2026\n\nThe order has left the distribution center in Selb, Germany and is on its way to the final destination.\nWould you like to track it in real time?',
   'Recommend products for me': 'Based on your machine fleet, I recommend checking our new grinding bead sets optimized for your Discus 30 and Zeta 60. Would you like me to show available options?',
   'Show purchase history': 'Here are your recent purchases:\n\n• Order #ORD-2026-0847 — Spare parts kit, €3,240.00\n• Order #ORD-2026-0812 — Grinding beads, €8,720.00\n• Order #ORD-2026-0798 — Inlet flange set, €1,450.00\n\nWould you like details on any of these?',
   'Help me find documents': 'I can help you find technical documents for your machines. What are you looking for?\n\n• Operating manuals\n• Maintenance guides\n• Spare parts catalogs\n• Certificates & compliance docs'
 };
+var millaCurrentMessages = '';
 
 document.querySelectorAll('.milla-suggestion-item').forEach(function(btn) {
   btn.addEventListener('click', function() {
@@ -2213,21 +2329,20 @@ function openMillaChat(userMessage) {
   var body = document.getElementById('millaChatBody');
   body.innerHTML = '';
 
-  // User message
   var userDiv = document.createElement('div');
   userDiv.className = 'milla-msg-user';
   userDiv.textContent = userMessage;
   body.appendChild(userDiv);
 
-  // Bot typing
   var botRow = document.createElement('div');
   botRow.className = 'milla-msg-bot';
   botRow.innerHTML = '<div class="milla-msg-bot-avatar"><img src="../assets/milla-sparkle-small.svg" alt="" aria-hidden="true"></div><div class="milla-typing-dots"><span></span><span></span><span></span></div>';
   body.appendChild(botRow);
 
+  document.getElementById('millaFab').classList.remove('open');
+  document.getElementById('millaChatSmall').classList.remove('open');
   overlay.classList.add('open');
 
-  // Simulate response after delay
   setTimeout(function() {
     var responseText = millaResponse[userMessage] || 'I can help you with that. Let me look into it...';
     var bubble = document.createElement('div');
@@ -2236,15 +2351,70 @@ function openMillaChat(userMessage) {
     botRow.querySelector('.milla-typing-dots').remove();
     botRow.appendChild(bubble);
     body.scrollTop = body.scrollHeight;
+    millaCurrentMessages = body.innerHTML;
   }, 1500);
 }
 
-function closeMillaChat() {
-  document.getElementById('millaChatOverlay').classList.remove('open');
+// Sync messages between big and small chat
+function syncMessages(fromId, toId) {
+  var from = document.getElementById(fromId);
+  var to = document.getElementById(toId);
+  to.innerHTML = from.innerHTML;
+  to.scrollTop = to.scrollHeight;
 }
 
+// Minimize: big modal → small chat
+function shrinkMillaChat() {
+  syncMessages('millaChatBody', 'millaChatSmallBody');
+  document.getElementById('millaChatOverlay').classList.remove('open');
+  setTimeout(function() {
+    document.getElementById('millaChatSmall').classList.add('open');
+  }, 150);
+}
+
+// Minimize: small chat → FAB
+function minimizeMillaChat() {
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() {
+    document.getElementById('millaFab').classList.add('open');
+  }, 200);
+}
+
+// Expand: small chat → big modal
+function expandMillaChat() {
+  syncMessages('millaChatSmallBody', 'millaChatBody');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() {
+    document.getElementById('millaChatOverlay').classList.add('open');
+  }, 150);
+}
+
+// FAB → open small chat
+function openMillaChatSmall() {
+  document.getElementById('millaFab').classList.remove('open');
+  var smallBody = document.getElementById('millaChatSmallBody');
+  if (!smallBody.innerHTML.trim() && millaCurrentMessages) {
+    smallBody.innerHTML = millaCurrentMessages;
+  }
+  setTimeout(function() {
+    document.getElementById('millaChatSmall').classList.add('open');
+  }, 100);
+}
+
+// Close: any state → FAB
+function closeMillaChat() {
+  document.getElementById('millaChatOverlay').classList.remove('open');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() {
+    document.getElementById('millaFab').classList.add('open');
+  }, 200);
+}
+
+// Wire minimize button on big modal
+document.querySelector('#millaChatOverlay .milla-chat-header-btn[aria-label="Minimize"]').addEventListener('click', shrinkMillaChat);
+
 document.getElementById('millaChatOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeMillaChat();
+  if (e.target === this) shrinkMillaChat();
 });
 
 // Chat input
