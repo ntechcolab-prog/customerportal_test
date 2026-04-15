@@ -936,12 +936,10 @@
     /* ── MILLA SEARCH ─── */
     .milla-search-wrapper {
       position: absolute;
-      right: 180px;
+      left: 50%;
       top: 50%;
-      transform: translateY(-50%);
+      transform: translate(-50%, -50%);
       z-index: 200;
-      display: flex;
-      justify-content: flex-end;
     }
     .milla-searchbar {
       width: 0;
@@ -955,7 +953,6 @@
       gap: 0;
       padding: 0;
       overflow: hidden;
-      margin-left: auto;
       transition:
         width 0.4s cubic-bezier(0.32, 0.72, 0, 1),
         border-color 0.3s ease,
@@ -1009,7 +1006,8 @@
     .milla-dropdown-anchor {
       position: absolute;
       top: calc(100% + 8px);
-      right: 0;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 200;
     }
     .milla-suggestions {
