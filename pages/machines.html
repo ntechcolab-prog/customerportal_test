@@ -1099,7 +1099,8 @@
       z-index: 150;
     }
     .milla-backdrop.open { display: block; }
-    #btn-milla-search.hidden { opacity: 0; pointer-events: none; transition: opacity 0.15s ease; }
+    #btn-milla-search { transition: opacity 0.15s ease, width 0.15s ease, padding 0.15s ease; }
+    #btn-milla-search.hidden { opacity: 0; pointer-events: none; width: 0; overflow: hidden; padding: 0; }
   </style>
 </head>
 <body>
