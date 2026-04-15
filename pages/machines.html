@@ -1092,13 +1092,18 @@
     .milla-suggestions-footer a:hover { text-decoration: underline; }
 
     .milla-backdrop {
-      display: none;
       position: fixed;
-      inset: 0;
+      top: 100px;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: rgba(0, 30, 27, 0.45);
       z-index: 150;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
     }
-    .milla-backdrop.open { display: block; }
+    .milla-backdrop.open { opacity: 1; pointer-events: auto; }
     #btn-milla-search { transition: opacity 0.15s ease, width 0.15s ease, padding 0.15s ease; }
     #btn-milla-search.hidden { opacity: 0; pointer-events: none; width: 0; overflow: hidden; padding: 0; }
   </style>
