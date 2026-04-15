@@ -940,6 +940,10 @@
       top: 50%;
       transform: translate(-50%, -50%);
       z-index: 200;
+      pointer-events: none;
+    }
+    .milla-search-wrapper.open {
+      pointer-events: auto;
     }
     .milla-searchbar {
       width: 0;
@@ -1891,11 +1895,13 @@ function toggleMillaSearch(e) {
   }
 }
 function openMillaSearch() {
+  var wrapper = document.getElementById('millaWrapper');
   var bar = document.getElementById('millaSearchbar');
   var btn = document.getElementById('btn-milla-search');
   var suggestions = document.getElementById('millaSuggestions');
   var backdrop = document.getElementById('millaBackdrop');
   btn.classList.add('hidden');
+  wrapper.classList.add('open');
   bar.classList.add('open');
   backdrop.classList.add('open');
   setTimeout(function() {
@@ -1904,6 +1910,7 @@ function openMillaSearch() {
   }, 200);
 }
 function closeMillaSearch() {
+  var wrapper = document.getElementById('millaWrapper');
   var bar = document.getElementById('millaSearchbar');
   var btn = document.getElementById('btn-milla-search');
   var suggestions = document.getElementById('millaSuggestions');
@@ -1911,6 +1918,7 @@ function closeMillaSearch() {
   suggestions.classList.remove('open');
   setTimeout(function() {
     bar.classList.remove('open');
+    wrapper.classList.remove('open');
     backdrop.classList.remove('open');
     btn.classList.remove('hidden');
   }, 150);
