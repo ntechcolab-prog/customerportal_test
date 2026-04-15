@@ -78,10 +78,13 @@
       display: flex; align-items: center; justify-content: center;
     }
     .cart-badge {
-      position: absolute; top: 4px; right: 4px;
-      background: #007167; color: #fff;
+      position: absolute; top: 4px; right: -2px;
+      background: #c73e20; color: #fff;
       font-size: 10px; font-weight: 700;
-      border-radius: 50%; width: 16px; height: 16px;
+      border-radius: 999px; min-width: 16px; height: 16px;
+      padding: 0 3px;
+      letter-spacing: 0.12px; line-height: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1);
       display: flex; align-items: center; justify-content: center;
     }
     .user-avatar {
@@ -1009,7 +1012,7 @@ document.addEventListener('click', function(e) {
     });
   }
   renderDd();
-  document.getElementById('btn-cart-dd').addEventListener('click', function(e) { e.stopPropagation(); if (getCrtItems().length > 0) cartDd.classList.toggle('is-open'); });
+  document.getElementById('btn-cart-dd').addEventListener('click', function(e) { e.stopPropagation(); cartDd.classList.toggle('is-open'); });
   document.getElementById('cart-close-dd').addEventListener('click', function(e) { e.stopPropagation(); cartDd.classList.remove('is-open'); });
   document.addEventListener('click', function(e) { if (!e.target.closest('#btn-cart-dd') && !e.target.closest('#cart-dropdown-dd')) cartDd.classList.remove('is-open'); });
 })();
