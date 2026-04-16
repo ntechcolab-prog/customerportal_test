@@ -1363,8 +1363,12 @@
         .section-expand.open { display: block; }
         .section-expand-inner { padding-top: 16px; border-top: 1px solid #eaeaea; }
         .se-edit { display: flex; justify-content: flex-end; margin-bottom: 16px; }
-        .se-edit-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; border: 1px solid #d4d6d8; background: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #4c4d57; cursor: pointer; transition: background 0.15s; }
-        .se-edit-btn:hover { background: #f3f4f6; }
+        .se-edit-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; border: 1px solid #007167; background: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #007167; cursor: pointer; transition: all 0.15s; }
+        .se-edit-btn:hover { background: #e8f5f3; }
+        .se-edit-btn.editing { background: #007167; color: #fff; border-color: #007167; }
+        .se-edit-btn.editing:hover { background: #005f57; }
+        .se-field-value input { width: 100%; height: 32px; border: 1px solid #007167; border-radius: 6px; padding: 0 10px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #2d2e33; outline: none; }
+        .se-field-value input:focus { box-shadow: 0 0 0 2px rgba(0,113,103,0.15); }
         .se-edit-btn svg { width: 14px; height: 14px; }
         .se-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 48px; }
         .se-field-label { font-size: 11px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
@@ -1502,6 +1506,43 @@
             setTimeout(function() {
               self.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 50);
+          });
+        });
+        // Edit functionality
+        var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+        container.querySelectorAll('.se-edit-btn').forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var panel = this.closest('.section-expand-inner');
+            var isEditing = this.classList.contains('editing');
+
+            if (isEditing) {
+              // Save: convert inputs back to text
+              panel.querySelectorAll('.se-field-value').forEach(function(fv) {
+                var input = fv.querySelector('input');
+                if (input) {
+                  var val = input.value;
+                  var isLink = val.startsWith('http') || val.includes('@');
+                  fv.innerHTML = isLink ? '<a href="#">' + val + '</a>' : val;
+                }
+              });
+              this.classList.remove('editing');
+              this.innerHTML = pencilSvg + ' Edit';
+            } else {
+              // Edit: convert text fields to inputs
+              panel.querySelectorAll('.se-field-value').forEach(function(fv) {
+                var link = fv.querySelector('a');
+                var currentVal = link ? link.textContent.trim() : fv.textContent.trim();
+                if (!fv.closest('.se-tax-status') && !fv.closest('.se-stat-card')) {
+                  fv.innerHTML = '<input type="text" value="' + currentVal.replace(/"/g, '&quot;') + '">';
+                }
+              });
+              this.classList.add('editing');
+              this.innerHTML = checkSvg + ' Save';
+              var firstInput = panel.querySelector('.se-field-value input');
+              if (firstInput) firstInput.focus();
+            }
           });
         });
       })();
