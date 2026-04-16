@@ -13,16 +13,12 @@
     administrator: [],
     buyer: [],
     approver: ['Shop'],
-    technician: ['Shop', 'Quotes']
+    technician: ['Quotes']
   };
 
   // Pages that should redirect to dashboard if role has no access
   var blockedPages = {
     technician: [
-      'shop.html', 'shop-product-detail.html', 'shop-product-glassbeads.html',
-      'shop-product-steelbeads-micro.html', 'shop-product-steelbeads-q.html',
-      'shop-product-zetabeads-nano.html', 'shop-product-zetabeads-plus.html',
-      'shop-product-zs-beads.html',
       'checkout.html', 'checkout-cart.html', 'checkout-review.html',
       'checkout-confirmation.html', 'checkout-order-details.html', 'checkout-quote.html',
       'quotes.html', 'quote-detail.html',
@@ -114,10 +110,20 @@
       el.style.display = 'none';
     });
 
-    // Hide price spans in cards (wishlist, product cards)
-    document.querySelectorAll('.card-price, .product-price, .price, .item-price').forEach(function (el) {
+    // Hide price spans in cards (wishlist, shop, product cards)
+    document.querySelectorAll('.card-price, .product-price, .price, .item-price, .product-card-price, .table-price, .price-value').forEach(function (el) {
       el.textContent = '—';
       el.style.color = '#a0a3a8';
+    });
+
+    // Hide price labels (shop product detail)
+    document.querySelectorAll('.price-label').forEach(function (el) {
+      el.textContent = '';
+    });
+
+    // Hide bulk pricing card (shop product detail)
+    document.querySelectorAll('.bulk-card').forEach(function (el) {
+      el.style.display = 'none';
     });
 
     // Hide € in notification descriptions
