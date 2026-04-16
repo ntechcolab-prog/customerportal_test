@@ -673,6 +673,456 @@
     .cart-dd-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
     .cart-dd-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-dd-item-placeholder svg { width: 18px; height: 18px; }
+
+    /* ── MILLA SEARCH ─── */
+    .milla-search-wrapper {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 200;
+      display: none;
+    }
+    .milla-search-wrapper.open {
+      display: block;
+    }
+    .milla-searchbar {
+      width: 0;
+      height: 44px;
+      background: #fff;
+      border: 1.5px solid transparent;
+      border-radius: 9999px;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+      overflow: hidden;
+      transition:
+        width 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        padding 0.3s ease,
+        gap 0.3s ease;
+    }
+    .milla-searchbar.open {
+      width: 520px;
+      border-color: #007167;
+      box-shadow: 0 4px 24px rgba(0, 113, 103, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+      padding: 0 16px;
+      gap: 12px;
+    }
+    .milla-searchbar img.sparkle {
+      width: 22px; height: 22px; flex-shrink: 0;
+      opacity: 0; transform: scale(0.5);
+      transition: opacity 0.25s ease 0.15s, transform 0.25s ease 0.15s;
+    }
+    .milla-searchbar.open img.sparkle {
+      opacity: 1; transform: scale(1);
+    }
+    .milla-searchbar input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: #2d2e33;
+      background: transparent;
+      opacity: 0;
+      transition: opacity 0.2s ease 0.2s;
+    }
+    .milla-searchbar.open input {
+      opacity: 1;
+    }
+    .milla-searchbar input::placeholder { color: #9ca0a5; }
+    .milla-searchbar .milla-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; background: none; border: none; padding: 0; flex-shrink: 0;
+      opacity: 0; transform: scale(0.5);
+      transition: opacity 0.2s ease 0.2s, transform 0.2s ease 0.2s;
+    }
+    .milla-searchbar.open .milla-close {
+      opacity: 1; transform: scale(1);
+    }
+    .milla-searchbar .milla-close img { width: 16px; height: 16px; }
+
+    .milla-dropdown-anchor {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+    }
+    .milla-suggestions {
+      width: 520px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+    }
+    .milla-suggestions.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .milla-suggestions-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 24px 12px 24px;
+    }
+    .milla-suggestions-header img { width: 18px; height: 18px; flex-shrink: 0; }
+    .milla-suggestions-header span {
+      font-size: 13px;
+      font-weight: 700;
+      color: #007167;
+      text-transform: uppercase;
+      letter-spacing: 0.57px;
+      line-height: 19.5px;
+    }
+    .milla-suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+    }
+    .milla-suggestion-item:not(:first-child) {
+      border-top: 1px solid #f0f1f2;
+    }
+    .milla-suggestion-item:hover {
+      background: #f8f9fa;
+    }
+    .milla-suggestion-item .arrow-wrap {
+      width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.6; flex-shrink: 0;
+    }
+    .milla-suggestion-item .arrow-wrap img { width: 16px; height: 16px; }
+    .milla-suggestion-item span {
+      font-size: 15px;
+      font-weight: 500;
+      color: #2d2e33;
+      letter-spacing: -0.23px;
+      line-height: 22.5px;
+    }
+    .milla-suggestions-footer {
+      border-top: 1px solid #f0f1f2;
+      padding: 15px 24px;
+      text-align: center;
+    }
+    .milla-suggestions-footer a {
+      font-size: 13px;
+      font-style: italic;
+      color: #007167;
+      text-decoration: none;
+      letter-spacing: -0.08px;
+      line-height: 19.5px;
+    }
+    .milla-suggestions-footer a:hover { text-decoration: underline; }
+
+    /* ── MILLA CHAT MODAL ─── */
+    .milla-chat-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 30, 27, 0.45);
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .milla-chat-overlay.open { opacity: 1; pointer-events: auto; }
+
+    .milla-chat {
+      width: 680px;
+      max-height: 80vh;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.95) translateY(10px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .milla-chat-overlay.open .milla-chat {
+      transform: scale(1) translateY(0);
+    }
+    .milla-chat-header {
+      background: linear-gradient(176deg, #007167 0%, #0b9c92 60%, #048a7f 100%);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .milla-chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .milla-chat-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .milla-chat-avatar img { width: 18px; height: 18px; }
+    .milla-chat-info { display: flex; flex-direction: column; }
+    .milla-chat-name {
+      font-size: 15px; font-weight: 600; color: #fff;
+      letter-spacing: -0.38px; line-height: 22.5px;
+    }
+    .milla-chat-status {
+      font-size: 12px; font-weight: 400; color: #7ee8dc;
+      line-height: 18px;
+    }
+    .milla-chat-header-actions {
+      display: flex; align-items: center; gap: 2px;
+    }
+    .milla-chat-header-btn {
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .milla-chat-header-btn:hover { background: rgba(255,255,255,0.15); }
+    .milla-chat-header-btn img { width: 16px; height: 16px; }
+
+    .milla-chat-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-bottom: 1px solid #eaeaea;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .milla-chat-tab {
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid #d4d6d8;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #2d2e33;
+      letter-spacing: -0.08px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .milla-chat-tab:hover { background: #f8f9fa; }
+    .milla-chat-tab.active { background: #007167; color: #fff; border-color: #007167; }
+
+    .milla-chat-body {
+      flex: 1;
+      padding: 16px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 300px;
+    }
+    .milla-msg-user {
+      align-self: flex-end;
+      background: #007167;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 16px 16px 6px 16px;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: -0.15px;
+      max-width: 70%;
+    }
+    .milla-msg-bot {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .milla-msg-bot-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .milla-msg-bot-avatar img { width: 14px; height: 14px; }
+    .milla-msg-bot-bubble {
+      background: #f2f3f5;
+      padding: 14px 20px;
+      border-radius: 6px 16px 16px 16px;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: -0.15px;
+      color: #2d2e33;
+      max-width: 70%;
+    }
+    .milla-typing-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+    }
+    .milla-typing-dots span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #0b9c92;
+      animation: millaDot 1.4s ease-in-out infinite;
+    }
+    .milla-typing-dots span:nth-child(1) { opacity: 0.5; animation-delay: 0s; }
+    .milla-typing-dots span:nth-child(2) { opacity: 0.73; animation-delay: 0.2s; }
+    .milla-typing-dots span:nth-child(3) { opacity: 1; animation-delay: 0.4s; }
+    @keyframes millaDot {
+      0%, 80%, 100% { transform: scale(1); }
+      40% { transform: scale(1.3); }
+    }
+
+    .milla-chat-footer {
+      padding: 16px 20px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .milla-chat-input-wrap {
+      flex: 1;
+      height: 46px;
+      background: #f2f3f5;
+      border: 1px solid #e8eaeb;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+    }
+    .milla-chat-input-wrap input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #2d2e33;
+      letter-spacing: -0.15px;
+    }
+    .milla-chat-input-wrap input::placeholder { color: #a0a3a8; }
+    .milla-chat-send {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #e0e2e4;
+      display: flex; align-items: center; justify-content: center;
+      border: none; cursor: pointer; flex-shrink: 0;
+      transition: background 0.15s ease;
+      pointer-events: auto;
+      position: relative;
+      z-index: 10;
+    }
+    .milla-chat-send.active { background: #007167; }
+    .milla-chat-send img { width: 18px; height: 18px; }
+
+    /* ── MILLA CHAT SMALLER (bottom-right) ─── */
+    .milla-chat-small {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 400px;
+      height: 580px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 400;
+      transform: scale(0.4) translateY(40px);
+      transform-origin: bottom right;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.25s ease;
+    }
+    .milla-chat-small.open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .milla-chat-small .milla-chat-header { padding: 10px 16px; }
+    .milla-chat-small .milla-chat-avatar { width: 34px; height: 34px; }
+    .milla-chat-small .milla-chat-avatar img { width: 16px; height: 16px; }
+    .milla-chat-small .milla-chat-name { font-size: 14px; }
+    .milla-chat-small .milla-chat-status { font-size: 11px; }
+    .milla-chat-small .milla-chat-tabs { padding: 10px 16px; gap: 6px; }
+    .milla-chat-small .milla-chat-tab { padding: 7px 12px; font-size: 12px; }
+    .milla-chat-small .milla-chat-body { padding: 12px 16px; min-height: 200px; }
+    .milla-chat-small .milla-chat-footer { padding: 12px 16px; }
+    .milla-chat-small .milla-msg-user,
+    .milla-chat-small .milla-msg-bot-bubble { font-size: 13px; line-height: 20px; max-width: 85%; }
+
+    /* ── MILLA FAB (minimized) ─── */
+    .milla-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      box-shadow: 0 8px 24px rgba(0, 113, 103, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      z-index: 400;
+      transform: scale(0);
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s ease, box-shadow 0.2s ease;
+    }
+    .milla-fab.open {
+      transform: scale(1);
+      opacity: 1;
+    }
+    .milla-fab:hover {
+      box-shadow: 0 12px 32px rgba(0, 113, 103, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05);
+    }
+    .milla-fab img { width: 28px; height: 28px; }
+
+    .milla-backdrop {
+      position: fixed;
+      top: 100px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 30, 27, 0.45);
+      z-index: 150;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .milla-backdrop.open { opacity: 1; pointer-events: auto; }
+    #btn-milla-search { transition: opacity 0.15s ease, width 0.15s ease, padding 0.15s ease; }
+    #btn-milla-search.hidden { opacity: 0; pointer-events: none; width: 0; overflow: hidden; padding: 0; }
   </style>
 </head>
 <body>
@@ -806,7 +1256,48 @@
         EN
         <img src="../assets/icon-chevron-down.svg" alt="">
       </button>
+    
+    <!-- MILLA SEARCH (inline, expande do ícone) -->
+    <div class="milla-search-wrapper" id="millaWrapper">
+      <div class="milla-searchbar" id="millaSearchbar">
+        <img class="sparkle" src="../assets/sparkle-icon-teal.svg" alt="" aria-hidden="true">
+        <input type="text" placeholder="Ask Milla AI..." id="millaInput" autocomplete="off">
+        <button class="milla-close" onclick="closeMillaSearch()" aria-label="Close search">
+          <img src="../assets/close-icon-gray.svg" alt="">
+        </button>
+      </div>
+      <div class="milla-dropdown-anchor">
+        <div class="milla-suggestions" id="millaSuggestions">
+        <div class="milla-suggestions-header">
+          <img src="../assets/sparkle-icon-green.svg" alt="" aria-hidden="true">
+          <span>AI Suggestions</span>
+        </div>
+        <div class="milla-suggestions-list">
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span>Check my order status</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span>Recommend products for me</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span>Show purchase history</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span>Help me find documents</span>
+          </button>
+        </div>
+        <div class="milla-suggestions-footer">
+          <a href="#">Find spare parts by photo, description, or product code.</a>
+        </div>
+      </div>
     </div>
+    </div><!-- /milla-search-wrapper -->
+
+  </div>
   </div>
 
   <!-- BREADCRUMB -->
@@ -1147,5 +1638,268 @@ document.addEventListener('click', function(e) {
   document.addEventListener('click', function(e) { if (!e.target.closest('#btn-cart-dd') && !e.target.closest('#cart-dropdown-dd')) cartDd.classList.remove('is-open'); });
 })();
 </script>
+
+<!-- ── MILLA BACKDROP ─── -->
+<div class="milla-backdrop" id="millaBackdrop"></div>
+
+<!-- ── MILLA CHAT MODAL ─── -->
+<div class="milla-chat-overlay" id="millaChatOverlay">
+  <div class="milla-chat">
+    <div class="milla-chat-header">
+      <div class="milla-chat-header-left">
+        <div class="milla-chat-avatar">
+          <img src="../assets/milla-sparkle-white.svg" alt="" aria-hidden="true">
+        </div>
+        <div class="milla-chat-info">
+          <span class="milla-chat-name">Milla AI Assistant</span>
+          <span class="milla-chat-status">Online — Ready to help</span>
+        </div>
+      </div>
+      <div class="milla-chat-header-actions">
+        <button class="milla-chat-header-btn" aria-label="Expand" title="Expand">
+          <img src="../assets/milla-icon-expand.svg" alt="">
+        </button>
+        <button class="milla-chat-header-btn" aria-label="Minimize" title="Minimize">
+          <img src="../assets/milla-icon-minimize.svg" alt="">
+        </button>
+        <button class="milla-chat-header-btn" aria-label="Close" title="Close" onclick="closeMillaChat()">
+          <img src="../assets/milla-icon-close-white.svg" alt="">
+        </button>
+      </div>
+    </div>
+    <div class="milla-chat-tabs">
+      <button class="milla-chat-tab">Spare parts</button>
+      <button class="milla-chat-tab">Order status</button>
+      <button class="milla-chat-tab">Documents</button>
+      <button class="milla-chat-tab">Recommendations</button>
+    </div>
+    <div class="milla-chat-body" id="millaChatBody">
+      <!-- Messages injected by JS -->
+    </div>
+    <div class="milla-chat-footer">
+      <div class="milla-chat-input-wrap">
+        <input type="text" placeholder="Ask Milla anything..." id="millaChatInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromBigChat();}">
+      </div>
+      <button class="milla-chat-send active" id="millaChatSend" onclick="sendFromBigChat()">
+        <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MILLA CHAT SMALLER ─── -->
+<div class="milla-chat-small" id="millaChatSmall">
+  <div class="milla-chat-header">
+    <div class="milla-chat-header-left">
+      <div class="milla-chat-avatar">
+        <img src="../assets/milla-sparkle-white.svg" alt="" aria-hidden="true">
+      </div>
+      <div class="milla-chat-info">
+        <span class="milla-chat-name">Milla AI Assistant</span>
+        <span class="milla-chat-status">Online — Ready to help</span>
+      </div>
+    </div>
+    <div class="milla-chat-header-actions">
+      <button class="milla-chat-header-btn" aria-label="Expand" title="Expand" onclick="expandMillaChat()">
+        <img src="../assets/milla-icon-expand.svg" alt="">
+      </button>
+      <button class="milla-chat-header-btn" aria-label="Minimize" title="Minimize" onclick="minimizeMillaChat()">
+        <img src="../assets/milla-icon-minimize.svg" alt="">
+      </button>
+      <button class="milla-chat-header-btn" aria-label="Close" title="Close" onclick="closeMillaChat()">
+        <img src="../assets/milla-icon-close-white.svg" alt="">
+      </button>
+    </div>
+  </div>
+  <div class="milla-chat-tabs">
+    <button class="milla-chat-tab">Spare parts</button>
+    <button class="milla-chat-tab">Order status</button>
+    <button class="milla-chat-tab">Documents</button>
+    <button class="milla-chat-tab">Recommendations</button>
+  </div>
+  <div class="milla-chat-body" id="millaChatSmallBody"></div>
+  <div class="milla-chat-footer">
+    <div class="milla-chat-input-wrap">
+      <input type="text" placeholder="Ask Milla anything..." id="millaChatSmallInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromSmallChat();}">
+    </div>
+    <button class="milla-chat-send active" id="millaChatSmallSend" onclick="sendFromSmallChat()">
+      <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
+    </button>
+  </div>
+</div>
+
+<!-- ── MILLA FAB ─── -->
+<button class="milla-fab" id="millaFab" onclick="openMillaChatSmall()" aria-label="Open Milla AI Assistant">
+  <img src="../assets/milla-fab.svg" alt="">
+</button>
+
+<script>
+// ── MILLA SEARCH ──
+function toggleMillaSearch(e) {
+  e.stopPropagation();
+  var bar = document.getElementById('millaSearchbar');
+  var isOpen = bar.classList.contains('open');
+  if (isOpen) { closeMillaSearch(); } else { openMillaSearch(); }
+}
+function openMillaSearch() {
+  var wrapper = document.getElementById('millaWrapper');
+  var bar = document.getElementById('millaSearchbar');
+  var btn = document.getElementById('btn-milla-search');
+  var suggestions = document.getElementById('millaSuggestions');
+  var backdrop = document.getElementById('millaBackdrop');
+  btn.classList.add('hidden');
+  wrapper.classList.add('open');
+  bar.classList.add('open');
+  backdrop.classList.add('open');
+  setTimeout(function() {
+    suggestions.classList.add('open');
+    document.getElementById('millaInput').focus();
+  }, 200);
+}
+function closeMillaSearch() {
+  var wrapper = document.getElementById('millaWrapper');
+  var bar = document.getElementById('millaSearchbar');
+  var btn = document.getElementById('btn-milla-search');
+  var suggestions = document.getElementById('millaSuggestions');
+  var backdrop = document.getElementById('millaBackdrop');
+  suggestions.classList.remove('open');
+  setTimeout(function() {
+    bar.classList.remove('open');
+    wrapper.classList.remove('open');
+    backdrop.classList.remove('open');
+    btn.classList.remove('hidden');
+  }, 150);
+  document.getElementById('millaInput').value = '';
+}
+document.getElementById('millaBackdrop').addEventListener('click', closeMillaSearch);
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (document.getElementById('millaChatOverlay').classList.contains('open')) {
+      shrinkMillaChat();
+    } else if (document.getElementById('millaChatSmall').classList.contains('open')) {
+      minimizeMillaChat();
+    } else {
+      closeMillaSearch();
+    }
+  }
+});
+
+// ── MILLA CHAT STATE ──
+var millaResponse = {
+  'Check my order status': 'I found your most recent order: <strong>Order #ORD-2026-0847</strong>\n\nStatus: In Transit\nEstimated Delivery: March 03, 2026\n\nThe order has left the distribution center in Selb, Germany and is on its way to the final destination.\nWould you like to track it in real time?',
+  'Recommend products for me': 'Based on your machine fleet, I recommend checking our new grinding bead sets optimized for your Discus 30 and Zeta 60. Would you like me to show available options?',
+  'Show purchase history': 'Here are your recent purchases:\n\n\u2022 Order #ORD-2026-0847 \u2014 Spare parts kit, \u20ac3,240.00\n\u2022 Order #ORD-2026-0812 \u2014 Grinding beads, \u20ac8,720.00\n\u2022 Order #ORD-2026-0798 \u2014 Inlet flange set, \u20ac1,450.00\n\nWould you like details on any of these?',
+  'Help me find documents': 'I can help you find technical documents for your machines. What are you looking for?\n\n\u2022 Operating manuals\n\u2022 Maintenance guides\n\u2022 Spare parts catalogs\n\u2022 Certificates & compliance docs'
+};
+var millaCurrentMessages = '';
+
+document.querySelectorAll('.milla-suggestion-item').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var text = btn.querySelector('span:last-child').textContent;
+    closeMillaSearch();
+    setTimeout(function() { openMillaChat(text); }, 200);
+  });
+});
+
+function openMillaChat(userMessage) {
+  var overlay = document.getElementById('millaChatOverlay');
+  var body = document.getElementById('millaChatBody');
+  body.innerHTML = '';
+  var userDiv = document.createElement('div');
+  userDiv.className = 'milla-msg-user';
+  userDiv.textContent = userMessage;
+  body.appendChild(userDiv);
+  var botRow = document.createElement('div');
+  botRow.className = 'milla-msg-bot';
+  botRow.innerHTML = '<div class="milla-msg-bot-avatar"><img src="../assets/milla-sparkle-small.svg" alt="" aria-hidden="true"></div><div class="milla-typing-dots"><span></span><span></span><span></span></div>';
+  body.appendChild(botRow);
+  document.getElementById('millaFab').classList.remove('open');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  overlay.classList.add('open');
+  setTimeout(function() {
+    var responseText = millaResponse[userMessage] || 'I can help you with that. Let me look into it...';
+    var bubble = document.createElement('div');
+    bubble.className = 'milla-msg-bot-bubble';
+    bubble.innerHTML = responseText.replace(/\n/g, '<br>');
+    botRow.querySelector('.milla-typing-dots').remove();
+    botRow.appendChild(bubble);
+    body.scrollTop = body.scrollHeight;
+    millaCurrentMessages = body.innerHTML;
+  }, 1500);
+}
+
+function syncMessages(fromId, toId) {
+  var from = document.getElementById(fromId);
+  var to = document.getElementById(toId);
+  to.innerHTML = from.innerHTML;
+  to.scrollTop = to.scrollHeight;
+}
+function shrinkMillaChat() {
+  syncMessages('millaChatBody', 'millaChatSmallBody');
+  document.getElementById('millaChatOverlay').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaChatSmall').classList.add('open'); }, 150);
+}
+function minimizeMillaChat() {
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaFab').classList.add('open'); }, 200);
+}
+function expandMillaChat() {
+  syncMessages('millaChatSmallBody', 'millaChatBody');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaChatOverlay').classList.add('open'); }, 150);
+}
+function openMillaChatSmall() {
+  document.getElementById('millaFab').classList.remove('open');
+  var smallBody = document.getElementById('millaChatSmallBody');
+  if (!smallBody.innerHTML.trim() && millaCurrentMessages) { smallBody.innerHTML = millaCurrentMessages; }
+  setTimeout(function() { document.getElementById('millaChatSmall').classList.add('open'); }, 100);
+}
+function closeMillaChat() {
+  document.getElementById('millaChatOverlay').classList.remove('open');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaFab').classList.add('open'); }, 200);
+}
+document.querySelector('#millaChatOverlay .milla-chat-header-btn[aria-label="Minimize"]').addEventListener('click', shrinkMillaChat);
+document.getElementById('millaChatOverlay').addEventListener('click', function(e) { if (e.target === this) shrinkMillaChat(); });
+</script>
+
+<script>
+// ── MILLA CHAT INPUT — standalone script ──
+var millaGenericResponse = 'Thank you for your message. I\'m currently processing your request. In the meantime, feel free to explore our product catalog or check your order status using the tabs above.';
+
+function sendMillaMessage(inputEl, bodyEl) {
+  var text = inputEl.value.trim();
+  if (!text) return;
+  inputEl.value = '';
+  var userDiv = document.createElement('div');
+  userDiv.className = 'milla-msg-user';
+  userDiv.textContent = text;
+  bodyEl.appendChild(userDiv);
+  bodyEl.scrollTop = bodyEl.scrollHeight;
+  var botRow = document.createElement('div');
+  botRow.className = 'milla-msg-bot';
+  botRow.innerHTML = '<div class="milla-msg-bot-avatar"><img src="../assets/milla-sparkle-small.svg" alt="" aria-hidden="true"></div><div class="milla-typing-dots"><span></span><span></span><span></span></div>';
+  bodyEl.appendChild(botRow);
+  bodyEl.scrollTop = bodyEl.scrollHeight;
+  setTimeout(function() {
+    var bubble = document.createElement('div');
+    bubble.className = 'milla-msg-bot-bubble';
+    bubble.innerHTML = millaGenericResponse;
+    botRow.querySelector('.milla-typing-dots').remove();
+    botRow.appendChild(bubble);
+    bodyEl.scrollTop = bodyEl.scrollHeight;
+    if (typeof millaCurrentMessages !== 'undefined') {
+      millaCurrentMessages = document.getElementById('millaChatBody').innerHTML || document.getElementById('millaChatSmallBody').innerHTML;
+    }
+  }, 1500);
+}
+function sendFromBigChat() {
+  sendMillaMessage(document.getElementById('millaChatInput'), document.getElementById('millaChatBody'));
+}
+function sendFromSmallChat() {
+  sendMillaMessage(document.getElementById('millaChatSmallInput'), document.getElementById('millaChatSmallBody'));
+}
+</script>
+
 </body>
 </html>
