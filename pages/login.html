@@ -311,8 +311,12 @@
       transition: opacity 0.15s;
     }
 
-    .btn-signin:hover {
+    .btn-signin:hover:not(:disabled) {
       opacity: 0.9;
+    }
+    .btn-signin:disabled {
+      background: #b1b4b7;
+      cursor: not-allowed;
     }
 
     .btn-sso {
@@ -477,8 +481,8 @@
           <select class="field-input" id="user-role">
             <option value="" disabled selected>Select your profile type</option>
             <option value="administrator">Administrator</option>
-            <option value="buyer">Buyer</option>
-            <option value="approver">Approver</option>
+            <option value="buyer" disabled>Buyer (coming soon)</option>
+            <option value="approver" disabled>Approver (coming soon)</option>
             <option value="technician">Technician</option>
           </select>
         </div>
@@ -494,7 +498,7 @@
 
         <!-- Buttons -->
         <div class="buttons-group">
-          <button class="btn-signin" type="button" id="btn-login">Log In</button>
+          <button class="btn-signin" type="button" id="btn-login" disabled>Log In</button>
           <div class="divider">
             <div class="divider-line"></div>
             <span class="divider-text">or</span>
@@ -527,10 +531,24 @@
       input.type = input.type === 'password' ? 'text' : 'password';
     });
 
+    // Enable Log In button only when all fields are filled
+    var emailField = document.getElementById('email');
+    var passField = document.getElementById('password');
+    var roleField = document.getElementById('user-role');
+    var loginBtn = document.getElementById('btn-login');
+
+    function checkForm() {
+      var valid = emailField.value.trim() !== '' && passField.value.trim() !== '' && roleField.value !== '';
+      loginBtn.disabled = !valid;
+    }
+    emailField.addEventListener('input', checkForm);
+    passField.addEventListener('input', checkForm);
+    roleField.addEventListener('change', checkForm);
+
     // Login — save role and redirect
-    document.getElementById('btn-login').addEventListener('click', function () {
-      var role = document.getElementById('user-role').value;
-      localStorage.setItem('netzsch_user_role', role);
+    loginBtn.addEventListener('click', function () {
+      if (this.disabled) return;
+      localStorage.setItem('netzsch_user_role', roleField.value);
       window.location.href = 'dashboard.html';
     });
   </script>
