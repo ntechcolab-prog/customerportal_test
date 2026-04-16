@@ -26,6 +26,12 @@
     '.docs-header-close { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; font-size:18px; color:#6b6e73; transition:background 0.15s; }',
     '.docs-header-close:hover { background:#f3f4f6; }',
 
+    '.docs-search { padding:16px 24px 0; flex-shrink:0; }',
+    '.docs-search-input { width:100%; height:40px; border:1px solid #d4d6d8; border-radius:10px; padding:0 16px 0 40px; font-family:"Inter",sans-serif; font-size:14px; color:#2d2e33; background:#fff url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%239ca0a5\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Ccircle cx=\'11\' cy=\'11\' r=\'8\'/%3E%3Cline x1=\'21\' y1=\'21\' x2=\'16.65\' y2=\'16.65\'/%3E%3C/svg%3E") no-repeat 14px center; outline:none; transition:border-color 0.15s; }',
+    '.docs-search-input:focus { border-color:#007167; }',
+    '.docs-search-input::placeholder { color:#9ca0a5; }',
+    '.docs-no-results { padding:32px 0; text-align:center; color:#9ca0a5; font-size:14px; display:none; }',
+
     '.docs-body { flex:1; overflow-y:auto; padding:24px; }',
 
     '.docs-category { margin-bottom:24px; }',
@@ -114,14 +120,44 @@
     '    </div>' +
     '    <button class="docs-header-close" aria-label="Close">&#x2715;</button>' +
     '  </div>' +
-    '  <div class="docs-body">' + bodyHtml + '</div>' +
+    '  <div class="docs-search"><input class="docs-search-input" type="text" placeholder="Search documents..." id="docsSearch"></div>' +
+    '  <div class="docs-no-results" id="docsNoResults">No documents found.</div>' +
+    '  <div class="docs-body" id="docsBody">' + bodyHtml + '</div>' +
     '</div>';
   document.body.appendChild(overlay);
+
+  // ── Search / filter ──
+  var searchInput = document.getElementById('docsSearch');
+  var noResults = document.getElementById('docsNoResults');
+  var docsBody = document.getElementById('docsBody');
+
+  searchInput.addEventListener('input', function () {
+    var q = this.value.trim().toLowerCase();
+    var totalVisible = 0;
+
+    docsBody.querySelectorAll('.docs-category').forEach(function (cat) {
+      var catVisible = 0;
+      cat.querySelectorAll('.docs-item').forEach(function (item) {
+        var name = item.querySelector('.docs-item-name').textContent.toLowerCase();
+        var meta = item.querySelector('.docs-item-meta').textContent.toLowerCase();
+        var match = !q || name.indexOf(q) !== -1 || meta.indexOf(q) !== -1;
+        item.style.display = match ? '' : 'none';
+        if (match) catVisible++;
+      });
+      cat.style.display = catVisible > 0 ? '' : 'none';
+      totalVisible += catVisible;
+    });
+
+    noResults.style.display = totalVisible === 0 ? '' : 'none';
+  });
 
   // ── Events ──
   function openDocs(e) {
     e.preventDefault();
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
     overlay.classList.add('open');
+    setTimeout(function () { searchInput.focus(); }, 300);
   }
   function closeDocs() {
     overlay.classList.remove('open');
