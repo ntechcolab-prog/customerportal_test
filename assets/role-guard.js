@@ -45,16 +45,18 @@
     return;
   }
 
-  // 2. Hide menu items
+  // 2. Hide or rename menu items
   var hidden = hiddenMenus[role] || [];
-  if (hidden.length > 0) {
-    document.querySelectorAll('.nav-tab').forEach(function (tab) {
-      var label = tab.textContent.trim();
-      if (hidden.indexOf(label) !== -1) {
-        tab.style.display = 'none';
-      }
-    });
-  }
+  document.querySelectorAll('.nav-tab').forEach(function (tab) {
+    var label = tab.textContent.trim();
+    if (hidden.indexOf(label) !== -1) {
+      tab.style.display = 'none';
+    }
+    // Rename "Orders" to "Requests" for technician
+    if (role === 'technician' && label === 'Orders') {
+      tab.textContent = 'Requests';
+    }
+  });
 
   // 3. Hide Admin link in profile dropdown for non-admin roles
   if (role !== 'administrator') {
