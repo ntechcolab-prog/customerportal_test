@@ -194,10 +194,10 @@
         };
 
         var priorityMap = {
-          low: '<span style="color:#6b6e73;">Low</span>',
-          medium: '<span style="color:#2563eb; font-weight:500;">Medium</span>',
-          high: '<span style="color:#d97706; font-weight:600;">High</span>',
-          urgent: '<span style="color:#c73e20; font-weight:700;">Urgent</span>'
+          low: 'Low',
+          medium: 'Medium',
+          high: 'High',
+          urgent: 'Urgent'
         };
 
         tbody.innerHTML = requests.map(function (r) {
