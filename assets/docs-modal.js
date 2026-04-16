@@ -57,36 +57,31 @@
   ].join('\n');
   document.head.appendChild(style);
 
-  // ── Documents data (per machine) ──
-  var docsData = {
-    'Discus 30': {
-      'Operating Manuals': [
-        { name: 'Discus 30 — Operating Manual v3.2', type: 'pdf', size: '4.2 MB', date: 'Jan 2026' },
-        { name: 'Discus 30 — Quick Start Guide', type: 'pdf', size: '1.1 MB', date: 'Jan 2026' },
-      ],
-      'Maintenance Guides': [
-        { name: 'Discus 30 — Preventive Maintenance Schedule', type: 'pdf', size: '2.8 MB', date: 'Dec 2025' },
-        { name: 'Discus 30 — Troubleshooting Guide', type: 'pdf', size: '3.5 MB', date: 'Nov 2025' },
-      ],
-      'Spare Parts Catalog': [
-        { name: 'Discus 30 — Spare Parts Catalog 2026', type: 'pdf', size: '8.6 MB', date: 'Feb 2026' },
-        { name: 'Discus 30 — Wear Parts Reference', type: 'pdf', size: '1.9 MB', date: 'Oct 2025' },
-      ],
-      'Certificates & Compliance': [
-        { name: 'Discus 30 — CE Declaration of Conformity', type: 'pdf', size: '420 KB', date: 'Aug 2024' },
-        { name: 'Discus 30 — Calibration Certificate', type: 'pdf', size: '380 KB', date: 'Mar 2026' },
-        { name: 'Discus 30 — ATEX Compliance Report', type: 'pdf', size: '1.2 MB', date: 'Aug 2024' },
-      ],
-      'Technical Drawings': [
-        { name: 'Discus 30 — General Assembly Drawing', type: 'dwg', size: '5.4 MB', date: 'Aug 2024' },
-        { name: 'Discus 30 — Inlet Flange Detail', type: 'dwg', size: '2.1 MB', date: 'Aug 2024' },
-      ],
-    }
+  // ── Documents data (dynamic per machine) ──
+  var m = machineTitle;
+  var machineDocs = {
+    'Operating Manuals': [
+      { name: m + ' — Operating Manual v3.2', type: 'pdf', size: '4.2 MB', date: 'Jan 2026' },
+      { name: m + ' — Quick Start Guide', type: 'pdf', size: '1.1 MB', date: 'Jan 2026' },
+    ],
+    'Maintenance Guides': [
+      { name: m + ' — Preventive Maintenance Schedule', type: 'pdf', size: '2.8 MB', date: 'Dec 2025' },
+      { name: m + ' — Troubleshooting Guide', type: 'pdf', size: '3.5 MB', date: 'Nov 2025' },
+    ],
+    'Spare Parts Catalog': [
+      { name: m + ' — Spare Parts Catalog 2026', type: 'pdf', size: '8.6 MB', date: 'Feb 2026' },
+      { name: m + ' — Wear Parts Reference', type: 'pdf', size: '1.9 MB', date: 'Oct 2025' },
+    ],
+    'Certificates & Compliance': [
+      { name: m + ' — CE Declaration of Conformity', type: 'pdf', size: '420 KB', date: 'Aug 2024' },
+      { name: m + ' — Calibration Certificate', type: 'pdf', size: '380 KB', date: 'Mar 2026' },
+      { name: m + ' — ATEX Compliance Report', type: 'pdf', size: '1.2 MB', date: 'Aug 2024' },
+    ],
+    'Technical Drawings': [
+      { name: m + ' — General Assembly Drawing', type: 'dwg', size: '5.4 MB', date: 'Aug 2024' },
+      { name: m + ' — Inlet Flange Detail', type: 'dwg', size: '2.1 MB', date: 'Aug 2024' },
+    ],
   };
-
-  // Fallback for unknown machines
-  var defaultDocs = docsData['Discus 30'];
-  var machineDocs = docsData[machineTitle] || defaultDocs;
 
   // ── Build modal HTML ──
   var downloadSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
