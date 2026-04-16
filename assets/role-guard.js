@@ -77,6 +77,55 @@
     if (cartDropdown) cartDropdown.style.display = 'none';
   }
 
-  // 5. Expose role for other scripts
+  // 5. Hide all prices/monetary values for technician (Price = "-" in CRUD matrix)
+  if (role === 'technician') {
+    // Hide € symbols in table cells (orders, spare parts, wishlist, etc.)
+    document.querySelectorAll('td').forEach(function (td) {
+      var text = td.textContent.trim();
+      if (/€/.test(text) || /\d+[.,]\d{2}\s*€/.test(text)) {
+        td.textContent = '—';
+        td.style.color = '#a0a3a8';
+      }
+    });
+
+    // Hide table header columns that say "price" or "total"
+    document.querySelectorAll('th').forEach(function (th) {
+      var text = th.textContent.trim().toLowerCase();
+      if (text === 'unit price' || text === 'total' || text === 'price') {
+        var idx = th.cellIndex;
+        th.textContent = '—';
+        th.style.color = '#a0a3a8';
+        // Also hide corresponding td cells in same column
+        var table = th.closest('table');
+        if (table) {
+          table.querySelectorAll('tbody tr').forEach(function (row) {
+            var cell = row.cells[idx];
+            if (cell) {
+              cell.textContent = '—';
+              cell.style.color = '#a0a3a8';
+            }
+          });
+        }
+      }
+    });
+
+    // Hide payment details card (order-detail)
+    document.querySelectorAll('.payment-card').forEach(function (el) {
+      el.style.display = 'none';
+    });
+
+    // Hide price spans in cards (wishlist, product cards)
+    document.querySelectorAll('.card-price, .product-price, .price, .item-price').forEach(function (el) {
+      el.textContent = '—';
+      el.style.color = '#a0a3a8';
+    });
+
+    // Hide € in notification descriptions
+    document.querySelectorAll('.notif-item-desc').forEach(function (el) {
+      el.textContent = el.textContent.replace(/\s*—\s*€[\d,.]+/g, '');
+    });
+  }
+
+  // 6. Expose role for other scripts
   window.netzschUserRole = role;
 })();
