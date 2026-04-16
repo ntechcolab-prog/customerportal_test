@@ -1330,8 +1330,8 @@
 
       <!-- NOTIFICATION SECTIONS -->
       <style>
-        .notif-expand { display:none; padding:0 24px 24px; background:#fff; border-radius:0 0 12px 12px; margin-top:-8px; margin-bottom:4px; }
-        .notif-expand.open { display:block; }
+        .notif-expand { max-height:0; overflow:hidden; padding:0 24px; background:#fff; border-radius:0 0 12px 12px; margin-top:-8px; margin-bottom:4px; transition:max-height 0.3s ease, padding 0.3s ease; }
+        .notif-expand.open { max-height:2000px; padding:0 24px 24px; }
         .notif-section-row.open .chevron-icon { transform:rotate(90deg); }
         .chevron-icon { transition:transform 0.2s ease; }
         .ne-channels { display:flex; align-items:center; justify-content:flex-end; gap:32px; padding:12px 0; border-bottom:1px solid #eaeaea; margin-bottom:4px; }
@@ -1472,21 +1472,14 @@
           if (icons[cls]) el.innerHTML = icons[cls];
         });
 
-        // Toggle
+        // Toggle — multiple can be open, no scroll jump
         container.querySelectorAll('.notif-section-row').forEach(function(row) {
           row.addEventListener('click', function(e) {
             if (e.target.closest('input, select')) return;
-            var self = this;
             var idx = this.dataset.idx;
             var expand = container.querySelector('[data-expand="' + idx + '"]');
-            var isOpen = this.classList.contains('open');
-            container.querySelectorAll('.notif-section-row').forEach(function(r) { r.classList.remove('open'); });
-            container.querySelectorAll('.notif-expand').forEach(function(ex) { ex.classList.remove('open'); });
-            if (!isOpen) {
-              this.classList.add('open');
-              expand.classList.add('open');
-            }
-            setTimeout(function() { self.scrollIntoView({ behavior:'smooth', block:'start' }); }, 50);
+            this.classList.toggle('open');
+            expand.classList.toggle('open');
           });
         });
       })();

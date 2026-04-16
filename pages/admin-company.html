@@ -1359,8 +1359,8 @@
         .section-row { cursor: pointer; }
         .section-row.open .section-chevron { transform: rotate(90deg); }
         .section-chevron { transition: transform 0.2s ease; }
-        .section-expand { display: none; padding: 0 24px 24px; background: #fff; border-radius: 0 0 12px 12px; margin-top: -8px; margin-bottom: 8px; }
-        .section-expand.open { display: block; }
+        .section-expand { max-height: 0; overflow: hidden; padding: 0 24px; background: #fff; border-radius: 0 0 12px 12px; margin-top: -8px; margin-bottom: 8px; transition: max-height 0.3s ease, padding 0.3s ease; }
+        .section-expand.open { max-height: 2000px; padding: 0 24px 24px; }
         .section-expand-inner { padding-top: 16px; border-top: 1px solid #eaeaea; }
         .se-edit { display: flex; justify-content: flex-end; margin-bottom: 16px; }
         .se-edit-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; border: 1px solid #007167; background: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #007167; cursor: pointer; transition: all 0.15s; }
@@ -1486,26 +1486,15 @@
         });
         container.innerHTML = html;
 
-        // Toggle
+        // Toggle — multiple can be open, no scroll jump
         container.querySelectorAll('.section-row').forEach(function(row) {
           row.addEventListener('click', function(e) {
             e.preventDefault();
-            var self = this;
+            if (e.target.closest('input, select, button')) return;
             var idx = this.dataset.idx;
             var expand = container.querySelector('[data-expand="' + idx + '"]');
-            var isOpen = this.classList.contains('open');
-            // Close all
-            container.querySelectorAll('.section-row').forEach(function(r) { r.classList.remove('open'); });
-            container.querySelectorAll('.section-expand').forEach(function(ex) { ex.classList.remove('open'); });
-            // Open clicked (if was closed)
-            if (!isOpen) {
-              this.classList.add('open');
-              expand.classList.add('open');
-            }
-            // Scroll to the clicked section header
-            setTimeout(function() {
-              self.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 50);
+            this.classList.toggle('open');
+            expand.classList.toggle('open');
           });
         });
         // Edit functionality
