@@ -1170,6 +1170,7 @@
         <a href="orders.html" class="nav-tab">Orders</a>
         <a href="quotes.html" class="nav-tab">Quotes</a>
         <a href="services.html" class="nav-tab">Services</a>
+        <a href="lab-tests.html" class="nav-tab">Lab Tests</a>
         <a href="help.html" class="nav-tab">Help</a>
       </nav>
     </div>
@@ -1554,6 +1555,12 @@
               ['View prices', 'See product pricing and volume discounts', true, true, false, false],
               ['Add to cart', 'Add products to cart and proceed to checkout', true, true, false, false],
             ]},
+          { name: 'Lab Tests', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 2v6l-4 7a1 1 0 00.87 1.5h12.26A1 1 0 0017 15l-4-7V2"/><line x1="6" y1="2" x2="14" y2="2"/><path d="M9 10h2"/></svg>',
+            perms: [
+              ['View lab tests', 'Browse lab test results and reports', true, true, true, true],
+              ['Download reports', 'Download test result PDF reports', true, true, false, true],
+              ['Request lab test', 'Submit new lab test requests', true, true, false, false],
+            ]},
           { name: 'Administration', icon: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="3"/><path d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M3.4 3.4l1.4 1.4M15.2 15.2l1.4 1.4M3.4 16.6l1.4-1.4M15.2 4.8l1.4-1.4"/></svg>',
             perms: [
               ['Manage users', 'Invite, edit, and remove portal users', true, false, false, false],
@@ -1605,7 +1612,7 @@
         });
 
         html += '</tbody></table>';
-        html += '<div class="permissions-footer">7 categories, 21 permissions across 4 roles</div>';
+        html += '<div class="permissions-footer">8 categories, 24 permissions across 4 roles</div>';
 
         document.getElementById('permissionsCard').innerHTML = html;
 

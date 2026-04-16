@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Requests — NETZSCH Customer Portal</title>
+  <title>Lab Tests — NETZSCH Customer Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -276,7 +276,6 @@
       border: none;
       cursor: pointer;
       text-decoration: none;
-      line-height: 16.5px;
     }
     .notif-item-action:hover { background: #005f57; }
     .notif-dropdown-footer {
@@ -318,111 +317,13 @@
     .breadcrumb-sep { color: #c3c5c7; }
     .breadcrumb-current { color: #4c4d57; }
 
-    /* ── ADMIN LAYOUT ─── */
-    .admin-layout {
+    /* ── MAIN ─── */
+    .main {
       flex: 1;
-      display: flex;
       padding: 24px 32px 48px;
-      gap: 24px;
-    }
-
-    /* ── SIDEBAR ─── */
-    .admin-sidebar {
-      width: 240px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 24px;
-      align-self: flex-start;
       display: flex;
       flex-direction: column;
       gap: 16px;
-    }
-    .admin-sidebar-nav {
-      background: #fff;
-      border-radius: 14px;
-      border: 1px solid #e5e7eb;
-      padding: 16px;
-    }
-    .admin-sidebar-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: #6b7280;
-      letter-spacing: 1px;
-      margin-bottom: 16px;
-    }
-    .admin-nav { display: flex; flex-direction: column; gap: 4px; }
-    .admin-nav-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 14px;
-      color: #374151;
-      text-decoration: none;
-      border-left: 3px solid transparent;
-      transition: background 0.15s;
-      white-space: nowrap;
-    }
-    .admin-nav-item:hover { background: #f3f4f6; }
-    .admin-nav-item.active {
-      color: #007167;
-      font-weight: 600;
-      border-left-color: #007167;
-      background: #f0faf9;
-    }
-    .admin-nav-item svg {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
-
-    /* Need help card */
-    .help-card {
-      background: linear-gradient(148deg, #007167 0%, #0b9c92 100%);
-      border-radius: 14px;
-      padding: 20px;
-    }
-    .help-card-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #fff;
-      line-height: 21px;
-      letter-spacing: -0.15px;
-      margin-bottom: 4px;
-    }
-    .help-card-text {
-      font-size: 12px;
-      font-weight: 400;
-      color: rgba(255,255,255,0.7);
-      line-height: 18px;
-      margin-bottom: 16px;
-    }
-    .help-card-btn {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 8px 20px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      text-align: center;
-      line-height: 18px;
-    }
-    .help-card-btn:hover { background: rgba(255,255,255,0.3); }
-
-    /* ── MAIN CONTENT ─── */
-    .admin-main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      min-width: 0;
     }
 
     /* ── TITLE BAR ─── */
@@ -431,6 +332,11 @@
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .title-bar-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -456,70 +362,90 @@
       cursor: pointer;
     }
     .btn-filters:hover { background: #f9fafb; }
+    .btn-filters.active {
+      background: #007167;
+      border-color: #007167;
+      color: #fff;
+    }
     .btn-filters svg { width: 16px; height: 16px; }
 
-    /* ── STAT CARDS ─── */
-    .stat-cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-    .stat-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px;
-      display: flex;
+    /* ── FILTER BAR ─── */
+    .filter-bar {
+      display: none;
+      gap: 12px;
       align-items: center;
-      gap: 16px;
     }
-    .stat-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+    .filter-bar.visible { display: flex; }
+    .filter-input {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
     }
-    .stat-icon svg {
-      width: 24px;
-      height: 24px;
-    }
-    .stat-icon.teal { background: #e8f5f3; color: #007167; }
-    .stat-icon.orange { background: #fef3cd; color: #856404; }
-    .stat-icon.red { background: #fce4e4; color: #c73e20; }
-    .stat-icon.green { background: #d4edda; color: #155724; }
-    .stat-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .stat-number {
-      font-size: 24px;
-      font-weight: 700;
+    .filter-input input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0 12px 0 36px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
       color: #1f2937;
-      line-height: 1.2;
+      background: #fff;
     }
-    .stat-label {
+    .filter-input input::placeholder { color: #9ca3af; }
+    .filter-input input:focus { outline: none; border-color: #007167; }
+    .filter-input svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: #9ca3af;
+      pointer-events: none;
+    }
+    .filter-select {
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0 32px 0 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #374151;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+      appearance: none;
+      cursor: pointer;
+      min-width: 130px;
+    }
+    .filter-select:focus { outline: none; border-color: #007167; }
+    .btn-clear-filters {
+      height: 40px;
+      padding: 0 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
       font-size: 13px;
-      color: #6b7280;
       font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      white-space: nowrap;
     }
+    .btn-clear-filters:hover { background: #f9fafb; color: #374151; }
 
-    /* ── REQUESTS TABLE ─── */
-    .requests-table-wrap {
+    /* ── LAB TESTS TABLE ─── */
+    .orders-table-wrap {
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       overflow: hidden;
       background: #fff;
     }
-    .requests-table {
+    .orders-table {
       width: 100%;
       border-collapse: collapse;
     }
-    .requests-table thead tr { background: #007167; }
-    .requests-table thead th {
+    .orders-table thead tr { background: #007167; }
+    .orders-table thead th {
       padding: 14px 20px;
       font-size: 13px;
       font-weight: 600;
@@ -529,7 +455,7 @@
       cursor: pointer;
       user-select: none;
     }
-    .requests-table thead th .sort-icon {
+    .orders-table thead th .sort-icon {
       display: inline-block;
       width: 12px;
       height: 12px;
@@ -537,104 +463,29 @@
       vertical-align: middle;
       opacity: 0.6;
     }
-    .requests-table thead th:hover .sort-icon { opacity: 1; }
-    .requests-table thead th:last-child { cursor: default; }
-    .requests-table thead th.no-sort { cursor: default; }
-    .requests-table tbody tr {
+    .orders-table thead th:hover .sort-icon { opacity: 1; }
+    .orders-table thead th:last-child { cursor: default; }
+    .orders-table tbody tr {
       border-bottom: 1px solid #f3f4f6;
       transition: background 0.1s;
     }
-    .requests-table tbody tr:last-child { border-bottom: none; }
-    .requests-table tbody tr:hover { background: #fafbfc; }
-    .requests-table tbody td {
-      padding: 14px 20px;
+    .orders-table tbody tr:last-child { border-bottom: none; }
+    .orders-table tbody tr:hover { background: #fafbfc; }
+    .orders-table tbody td {
+      padding: 12px 20px;
       font-size: 14px;
       color: #374151;
+      white-space: nowrap;
       vertical-align: middle;
     }
 
-    /* Request cell (3 lines) */
-    .request-cell {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-width: 280px;
-    }
-    .request-cell-top {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .request-type-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 11px;
+    /* Order link */
+    .order-link {
+      color: #007167;
+      text-decoration: none;
       font-weight: 600;
-      white-space: nowrap;
-      color: #fff;
     }
-    .badge-order-approval { background: #007167; }
-    .badge-new-user { background: #7c3aed; }
-    .badge-blocked-order { background: #c73e20; }
-    .badge-access-request { background: #2563eb; }
-    .request-id {
-      font-size: 14px;
-      font-weight: 600;
-      color: #1f2937;
-    }
-    .request-desc {
-      font-size: 13px;
-      color: #6b7280;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 380px;
-    }
-    .request-ref {
-      font-size: 12px;
-      color: #9ca3af;
-      font-family: 'Inter', monospace;
-    }
-
-    /* Requested By cell */
-    .requester-cell {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .requester-name {
-      font-size: 14px;
-      font-weight: 500;
-      color: #1f2937;
-    }
-    .requester-dept {
-      font-size: 12px;
-      color: #9ca3af;
-    }
-
-    /* Priority */
-    .priority {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    .priority-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .priority-high .priority-dot { background: #dc2626; }
-    .priority-high { color: #dc2626; }
-    .priority-medium .priority-dot { background: #d97706; }
-    .priority-medium { color: #d97706; }
-    .priority-low .priority-dot { background: #16a34a; }
-    .priority-low { color: #16a34a; }
+    .order-link:hover { text-decoration: underline; }
 
     /* Status badges */
     .status-badge {
@@ -653,31 +504,25 @@
       border-radius: 50%;
       flex-shrink: 0;
     }
-    .status-pending { background: #fef3cd; color: #856404; }
-    .status-pending .status-dot { background: #856404; }
-    .status-escalated { background: #fce4e4; color: #c73e20; }
-    .status-escalated .status-dot { background: #c73e20; }
-    .status-approved { background: #e8f5f3; color: #007167; }
-    .status-approved .status-dot { background: #007167; }
-    .status-rejected { background: #fce4e4; color: #c73e20; }
-    .status-rejected .status-dot { background: #c73e20; }
-
-    /* Amount */
-    .amount-cell {
-      text-align: right;
-      font-weight: 600;
-      color: #1f2937;
-      white-space: nowrap;
-    }
-    .amount-none {
-      text-align: right;
-      color: #9ca3af;
-    }
+    .status-placed { background: #e8f5f3; color: #007167; }
+    .status-placed .status-dot { background: #007167; }
+    .status-process { background: #fef3cd; color: #856404; }
+    .status-process .status-dot { background: #856404; }
+    .status-shipped { background: #d1ecf1; color: #0c5460; }
+    .status-shipped .status-dot { background: #0c5460; }
+    .status-delivered { background: #d4edda; color: #155724; }
+    .status-delivered .status-dot { background: #155724; }
 
     /* Actions */
-    .actions-btn {
-      width: 32px;
-      height: 32px;
+    .actions-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .action-btn {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -685,11 +530,20 @@
       background: none;
       cursor: pointer;
       border-radius: 6px;
-      font-size: 18px;
-      color: #9ca3af;
-      letter-spacing: 1px;
+      transition: background 0.1s;
     }
-    .actions-btn:hover { background: #f3f4f6; color: #374151; }
+    .action-btn:hover { background: #f0faf9; }
+    .action-btn img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
+    .action-btn svg {
+      width: 16px;
+      height: 16px;
+      color: #6b7280;
+    }
+    .action-btn:hover svg { color: #007167; }
 
     /* ── PAGINATION ─── */
     .pagination {
@@ -741,12 +595,163 @@
       height: 16px;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        transition: none !important;
-        animation: none !important;
-      }
+    /* ── TEST DETAILS DRAWER ─── */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 299;
+      display: none;
     }
+    .drawer-overlay.show { display: block; }
+    .tracking-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 420px;
+      height: 100vh;
+      background: #fff;
+      z-index: 300;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .tracking-drawer.show { transform: translateX(0); }
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px;
+      border-bottom: 1px solid #e5e7eb;
+      flex-shrink: 0;
+    }
+    .drawer-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+    .drawer-close {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer;
+      font-size: 20px; color: #6b7280; border-radius: 6px;
+    }
+    .drawer-close:hover { background: #f3f4f6; }
+    .drawer-body {
+      padding: 24px;
+      flex: 1;
+    }
+
+    /* Drawer sections */
+    .drawer-section {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    .drawer-section:first-child {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
+    }
+    .drawer-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .drawer-section-text {
+      font-size: 14px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .drawer-section-text strong {
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .drawer-test-id {
+      font-size: 16px;
+      font-weight: 700;
+      color: #007167;
+      margin-bottom: 4px;
+    }
+    .drawer-test-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+    .drawer-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 0;
+    }
+    .drawer-meta-item {}
+    .drawer-meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .drawer-meta-value {
+      font-size: 14px;
+      color: #1f2937;
+      font-weight: 500;
+    }
+    .drawer-params {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .drawer-param-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .drawer-param-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .drawer-param-value {
+      font-size: 14px;
+      color: #1f2937;
+      font-weight: 500;
+    }
+    .drawer-results-text {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    .btn-download-report {
+      width: 100%;
+      height: 44px;
+      border-radius: 999px;
+      border: none;
+      background: #007167;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      margin-top: 24px;
+    }
+    .btn-download-report:hover { background: #005f57; }
+    .btn-download-report svg { width: 16px; height: 16px; }
+
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
     .cart-dropdown-anchor { position: relative; }
@@ -1245,7 +1250,6 @@
     #btn-milla-search.hidden { opacity: 0; pointer-events: none; width: 0; overflow: hidden; padding: 0; }
   </style>
 </head>
-
 <body>
 
   <!-- TOP BAR -->
@@ -1269,7 +1273,7 @@
         <a href="orders.html" class="nav-tab">Orders</a>
         <a href="quotes.html" class="nav-tab">Quotes</a>
         <a href="services.html" class="nav-tab">Services</a>
-        <a href="lab-tests.html" class="nav-tab">Lab Tests</a>
+        <a href="lab-tests.html" class="nav-tab active">Lab Tests</a>
         <a href="help.html" class="nav-tab">Help</a>
       </nav>
     </div>
@@ -1378,8 +1382,8 @@
         EN
         <img src="../assets/icon-chevron-down.svg" alt="">
       </button>
-    
-    <!-- MILLA SEARCH (inline, expande do ícone) -->
+
+    <!-- MILLA SEARCH (inline, expande do icone) -->
     <div class="milla-search-wrapper" id="millaWrapper">
       <div class="milla-searchbar" id="millaSearchbar">
         <img class="sparkle" src="../assets/sparkle-icon-teal.svg" alt="" aria-hidden="true">
@@ -1426,66 +1430,16 @@
   <div class="breadcrumb">
     <a href="dashboard.html">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Admin</span>
+    <span class="breadcrumb-current">Lab Tests</span>
   </div>
 
-  <!-- ADMIN LAYOUT -->
-  <div class="admin-layout">
+  <!-- MAIN -->
+  <div class="main">
 
-    <!-- SIDEBAR -->
-    <aside class="admin-sidebar" aria-label="Administration navigation">
-      <div class="admin-sidebar-nav">
-      <div class="admin-sidebar-label">Administration</div>
-      <nav class="admin-nav">
-        <a href="admin-users.html" class="admin-nav-item">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM3 14c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          User Management
-        </a>
-        <a href="admin-roles.html" class="admin-nav-item">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
-            <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
-          Access &amp; Roles
-        </a>
-        <a href="admin-requests.html" class="admin-nav-item active" aria-current="page">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <rect x="2.5" y="2" width="11" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
-            <path d="M5.5 5.5h5M5.5 8h5M5.5 10.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
-          Requests
-        </a>
-        <a href="admin-company.html" class="admin-nav-item">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="8" cy="8" r="5.25" stroke="currentColor" stroke-width="1.4"/>
-            <path d="M8 5.5v5M5.5 8h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
-          Company Settings
-        </a>
-        <a href="admin-notifications.html" class="admin-nav-item">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M8 2a4 4 0 00-4 4v2.5L3 10v1h10v-1l-1-1.5V6a4 4 0 00-4-4zM6.5 12a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Notifications
-        </a>
-      </nav>
-      </div>
-
-      <div class="help-card">
-        <div class="help-card-title">Need help?</div>
-        <div class="help-card-text">Contact your NETZSCH account manager for assistance with admin settings.</div>
-        <a href="help.html" class="help-card-btn">Contact Support</a>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="admin-main">
-
-      <!-- TITLE BAR -->
-      <div class="title-bar">
-        <h1>Requests</h1>
+    <!-- TITLE BAR + FILTERS -->
+    <div class="title-bar">
+      <div class="title-bar-top">
+        <h1>Lab Tests</h1>
         <button class="btn-filters" id="btnFilters">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -1493,371 +1447,197 @@
           Filters
         </button>
       </div>
+      <div class="filter-bar" id="filterBar">
+        <div class="filter-input">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="text" placeholder="Search test, material, machine...">
+        </div>
+        <select class="filter-select" id="filterStatus">
+          <option value="">Status</option>
+          <option value="completed">Completed</option>
+          <option value="in-progress">In Progress</option>
+          <option value="pending-review">Pending Review</option>
+        </select>
+        <select class="filter-select" id="filterMachine">
+          <option value="">Machine</option>
+          <option value="discus-30">Discus 30</option>
+          <option value="zeta-60">Zeta 60</option>
+          <option value="mastermix-45">MasterMix 45</option>
+          <option value="alpha-zeta-10">Alpha Zeta 10</option>
+        </select>
+        <button class="btn-clear-filters" id="btnClearFilters">Clear filters</button>
+      </div>
+    </div>
 
-      <!-- STAT CARDS -->
-      <div class="stat-cards">
-        <div class="stat-card">
-          <div class="stat-icon teal">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 12h6M9 16h4M13 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V9l-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M13 3v6h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="stat-info">
-            <span class="stat-number">12</span>
-            <span class="stat-label">Total Requests</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon orange">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="stat-info">
-            <span class="stat-number">6</span>
-            <span class="stat-label">Pending</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon red">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="stat-info">
-            <span class="stat-number">2</span>
-            <span class="stat-label">Escalated</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon green">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
-            </svg>
-          </div>
-          <div class="stat-info">
-            <span class="stat-number">3</span>
-            <span class="stat-label">Approved</span>
-          </div>
+    <!-- LAB TESTS TABLE -->
+    <div class="orders-table-wrap" id="tableView">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Test ID <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Test Name <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Machine <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Material <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Date <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Status <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-test-id="LAB-2026-0892" data-test-name="Particle Size Distribution — Batch 42" data-machine="Zeta 60" data-material="Calcium Carbonate" data-date="Apr 14, 2026" data-status="Completed">
+            <td><a class="order-link" href="#" onclick="openTestDrawer(this.closest('tr')); return false;">LAB-2026-0892</a></td>
+            <td>Particle Size Distribution — Batch 42</td>
+            <td>Zeta 60</td>
+            <td>Calcium Carbonate</td>
+            <td>Apr 14, 2026</td>
+            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr data-test-id="LAB-2026-0885" data-test-name="Wet Grinding Efficiency Test" data-machine="MasterMix 45" data-material="Titanium Dioxide" data-date="Apr 12, 2026" data-status="Completed">
+            <td><a class="order-link" href="#" onclick="openTestDrawer(this.closest('tr')); return false;">LAB-2026-0885</a></td>
+            <td>Wet Grinding Efficiency Test</td>
+            <td>MasterMix 45</td>
+            <td>Titanium Dioxide</td>
+            <td>Apr 12, 2026</td>
+            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr data-test-id="LAB-2026-0871" data-test-name="Deagglomeration Performance" data-machine="Discus 30" data-material="Carbon Black" data-date="Apr 10, 2026" data-status="In Progress">
+            <td><a class="order-link" href="#" onclick="openTestDrawer(this.closest('tr')); return false;">LAB-2026-0871</a></td>
+            <td>Deagglomeration Performance</td>
+            <td>Discus 30</td>
+            <td>Carbon Black</td>
+            <td>Apr 10, 2026</td>
+            <td><span class="status-badge status-process"><span class="status-dot"></span>In Progress</span></td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr data-test-id="LAB-2026-0864" data-test-name="Bead Wear Analysis — 500h" data-machine="Zeta 60" data-material="Silicon Carbide" data-date="Apr 8, 2026" data-status="Completed">
+            <td><a class="order-link" href="#" onclick="openTestDrawer(this.closest('tr')); return false;">LAB-2026-0864</a></td>
+            <td>Bead Wear Analysis — 500h</td>
+            <td>Zeta 60</td>
+            <td>Silicon Carbide</td>
+            <td>Apr 8, 2026</td>
+            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr data-test-id="LAB-2026-0852" data-test-name="Temperature Stability Test" data-machine="Alpha Zeta 10" data-material="Lithium Iron Phosphate" data-date="Apr 5, 2026" data-status="Pending Review">
+            <td><a class="order-link" href="#" onclick="openTestDrawer(this.closest('tr')); return false;">LAB-2026-0852</a></td>
+            <td>Temperature Stability Test</td>
+            <td>Alpha Zeta 10</td>
+            <td>Lithium Iron Phosphate</td>
+            <td>Apr 5, 2026</td>
+            <td><span class="status-badge status-placed"><span class="status-dot"></span>Pending Review</span></td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr data-test-id="LAB-2026-0841" data-test-name="Viscosity Reduction Trial" data-machine="Discus 30" data-material="Kaolin Clay" data-date="Apr 2, 2026" data-status="Completed">
+            <td><a class="order-link" href="#" onclick="openTestDrawer(this.closest('tr')); return false;">LAB-2026-0841</a></td>
+            <td>Viscosity Reduction Trial</td>
+            <td>Discus 30</td>
+            <td>Kaolin Clay</td>
+            <td>Apr 2, 2026</td>
+            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr data-test-id="LAB-2026-0833" data-test-name="Nano Milling Feasibility" data-machine="Zeta 60" data-material="Barium Titanate" data-date="Mar 28, 2026" data-status="Completed">
+            <td><a class="order-link" href="#" onclick="openTestDrawer(this.closest('tr')); return false;">LAB-2026-0833</a></td>
+            <td>Nano Milling Feasibility</td>
+            <td>Zeta 60</td>
+            <td>Barium Titanate</td>
+            <td>Mar 28, 2026</td>
+            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr data-test-id="LAB-2026-0819" data-test-name="Contamination Analysis" data-machine="MasterMix 45" data-material="Alumina Powder" data-date="Mar 25, 2026" data-status="Pending Review">
+            <td><a class="order-link" href="#" onclick="openTestDrawer(this.closest('tr')); return false;">LAB-2026-0819</a></td>
+            <td>Contamination Analysis</td>
+            <td>MasterMix 45</td>
+            <td>Alumina Powder</td>
+            <td>Mar 25, 2026</td>
+            <td><span class="status-badge status-placed"><span class="status-dot"></span>Pending Review</span></td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- PAGINATION -->
+      <div class="pagination">
+        <span class="pagination-info">Showing 1–8 of 8 tests</span>
+        <div class="pagination-controls">
+          <button class="page-btn disabled" title="Previous page">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn disabled" title="Next page">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
       </div>
+    </div>
 
-      <!-- REQUESTS TABLE -->
-      <div class="requests-table-wrap">
-        <table class="requests-table">
-          <thead>
-            <tr>
-              <th>
-                Request
-                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </th>
-              <th>
-                Requested By
-                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </th>
-              <th>
-                Date
-                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </th>
-              <th>
-                Priority
-                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </th>
-              <th>
-                Status
-                <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </th>
-              <th class="no-sort" style="text-align:right;">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- ROW 1 -->
-            <tr>
-              <td>
-                <div class="request-cell">
-                  <div class="request-cell-top">
-                    <span class="request-type-badge badge-order-approval">Order Approval</span>
-                    <span class="request-id">REQ-001</span>
-                  </div>
-                  <span class="request-desc">Grinding Beads YTZ® 0.8-1.0mm — 500 kg</span>
-                  <span class="request-ref">PO-2026-00847</span>
-                </div>
-              </td>
-              <td>
-                <div class="requester-cell">
-                  <span class="requester-name">Noah Anderson</span>
-                  <span class="requester-dept">Procurement</span>
-                </div>
-              </td>
-              <td>Mar 15, 2026</td>
-              <td>
-                <span class="priority priority-high">
-                  <span class="priority-dot"></span>
-                  High
-                </span>
-              </td>
-              <td>
-                <span class="status-badge status-pending">
-                  <span class="status-dot"></span>
-                  Pending
-                </span>
-              </td>
-              <td class="amount-cell">&euro;12,450.00</td>
-            </tr>
-            <!-- ROW 2 -->
-            <tr>
-              <td>
-                <div class="request-cell">
-                  <div class="request-cell-top">
-                    <span class="request-type-badge badge-new-user">New User</span>
-                    <span class="request-id">REQ-002</span>
-                  </div>
-                  <span class="request-desc">Portal access for sarah.klein@acme-corp.com</span>
-                  <span class="request-ref">USR-2026-0031</span>
-                </div>
-              </td>
-              <td>
-                <div class="requester-cell">
-                  <span class="requester-name">John Doe</span>
-                  <span class="requester-dept">Operations</span>
-                </div>
-              </td>
-              <td>Mar 14, 2026</td>
-              <td>
-                <span class="priority priority-medium">
-                  <span class="priority-dot"></span>
-                  Medium
-                </span>
-              </td>
-              <td>
-                <span class="status-badge status-pending">
-                  <span class="status-dot"></span>
-                  Pending
-                </span>
-              </td>
-              <td class="amount-none">&mdash;</td>
-            </tr>
-            <!-- ROW 3 -->
-            <tr>
-              <td>
-                <div class="request-cell">
-                  <div class="request-cell-top">
-                    <span class="request-type-badge badge-blocked-order">Blocked Order</span>
-                    <span class="request-id">REQ-003</span>
-                  </div>
-                  <span class="request-desc">Credit limit exceeded — ZetaRS® Spare Parts</span>
-                  <span class="request-ref">PO-2026-00838</span>
-                </div>
-              </td>
-              <td>
-                <div class="requester-cell">
-                  <span class="requester-name">Benjamin Reed</span>
-                  <span class="requester-dept">Procurement</span>
-                </div>
-              </td>
-              <td>Mar 13, 2026</td>
-              <td>
-                <span class="priority priority-high">
-                  <span class="priority-dot"></span>
-                  High
-                </span>
-              </td>
-              <td>
-                <span class="status-badge status-escalated">
-                  <span class="status-dot"></span>
-                  Escalated
-                </span>
-              </td>
-              <td class="amount-cell">&euro;28,900.00</td>
-            </tr>
-            <!-- ROW 4 -->
-            <tr>
-              <td>
-                <div class="request-cell">
-                  <div class="request-cell-top">
-                    <span class="request-type-badge badge-access-request">Access Request</span>
-                    <span class="request-id">REQ-004</span>
-                  </div>
-                  <span class="request-desc">Request Buyer role for Shop module</span>
-                  <span class="request-ref">ACC-2026-0034</span>
-                </div>
-              </td>
-              <td>
-                <div class="requester-cell">
-                  <span class="requester-name">Emma Wilson</span>
-                  <span class="requester-dept">Quality</span>
-                </div>
-              </td>
-              <td>Mar 13, 2026</td>
-              <td>
-                <span class="priority priority-low">
-                  <span class="priority-dot"></span>
-                  Low
-                </span>
-              </td>
-              <td>
-                <span class="status-badge status-pending">
-                  <span class="status-dot"></span>
-                  Pending
-                </span>
-              </td>
-              <td class="amount-none">&mdash;</td>
-            </tr>
-            <!-- ROW 5 -->
-            <tr>
-              <td>
-                <div class="request-cell">
-                  <div class="request-cell-top">
-                    <span class="request-type-badge badge-order-approval">Order Approval</span>
-                    <span class="request-id">REQ-005</span>
-                  </div>
-                  <span class="request-desc">Grinding Beads ZY® 1.2-1.4mm — 200 kg</span>
-                  <span class="request-ref">PO-2026-00641</span>
-                </div>
-              </td>
-              <td>
-                <div class="requester-cell">
-                  <span class="requester-name">Logan Thompson</span>
-                  <span class="requester-dept">Engineering</span>
-                </div>
-              </td>
-              <td>Mar 12, 2026</td>
-              <td>
-                <span class="priority priority-medium">
-                  <span class="priority-dot"></span>
-                  Medium
-                </span>
-              </td>
-              <td>
-                <span class="status-badge status-approved">
-                  <span class="status-dot"></span>
-                  Approved
-                </span>
-              </td>
-              <td class="amount-cell">&euro;5,320.00</td>
-            </tr>
-            <!-- ROW 6 -->
-            <tr>
-              <td>
-                <div class="request-cell">
-                  <div class="request-cell-top">
-                    <span class="request-type-badge badge-new-user">New User</span>
-                    <span class="request-id">REQ-006</span>
-                  </div>
-                  <span class="request-desc">Portal access for thomas.weber@acme-corp.c.</span>
-                  <span class="request-ref">USR-2026-0068</span>
-                </div>
-              </td>
-              <td>
-                <div class="requester-cell">
-                  <span class="requester-name">John Doe</span>
-                  <span class="requester-dept">Operations</span>
-                </div>
-              </td>
-              <td>Mar 11, 2026</td>
-              <td>
-                <span class="priority priority-medium">
-                  <span class="priority-dot"></span>
-                  Medium
-                </span>
-              </td>
-              <td>
-                <span class="status-badge status-approved">
-                  <span class="status-dot"></span>
-                  Approved
-                </span>
-              </td>
-              <td class="amount-none">&mdash;</td>
-            </tr>
-            <!-- ROW 7 -->
-            <tr>
-              <td>
-                <div class="request-cell">
-                  <div class="request-cell-top">
-                    <span class="request-type-badge badge-blocked-order">Blocked Order</span>
-                    <span class="request-id">REQ-007</span>
-                  </div>
-                  <span class="request-desc">Compliance review required — Restricted regi</span>
-                  <span class="request-ref">PO-2026-00835</span>
-                </div>
-              </td>
-              <td>
-                <div class="requester-cell">
-                  <span class="requester-name">Oliver Mitchell</span>
-                  <span class="requester-dept">Engineering</span>
-                </div>
-              </td>
-              <td>Mar 10, 2026</td>
-              <td>
-                <span class="priority priority-high">
-                  <span class="priority-dot"></span>
-                  High
-                </span>
-              </td>
-              <td>
-                <span class="status-badge status-pending">
-                  <span class="status-dot"></span>
-                  Pending
-                </span>
-              </td>
-              <td class="amount-cell">&euro;41,200.00</td>
-            </tr>
-            <!-- ROW 8 -->
-            <tr>
-              <td>
-                <div class="request-cell">
-                  <div class="request-cell-top">
-                    <span class="request-type-badge badge-access-request">Access Request</span>
-                    <span class="request-id">REQ-008</span>
-                  </div>
-                  <span class="request-desc">Request Approver role for Quotes module</span>
-                  <span class="request-ref">ACC-2026-0031</span>
-                </div>
-              </td>
-              <td>
-                <div class="requester-cell">
-                  <span class="requester-name">Sophia Martinez</span>
-                  <span class="requester-dept">Procurement</span>
-                </div>
-              </td>
-              <td>Mar 09, 2026</td>
-              <td>
-                <span class="priority priority-low">
-                  <span class="priority-dot"></span>
-                  Low
-                </span>
-              </td>
-              <td>
-                <span class="status-badge status-rejected">
-                  <span class="status-dot"></span>
-                  Rejected
-                </span>
-              </td>
-              <td class="amount-none">&mdash;</td>
-            </tr>
-          </tbody>
-        </table>
+  </div>
 
-        <!-- PAGINATION -->
-        <div class="pagination">
-          <span class="pagination-info">Showing 1–8 of 12 requests</span>
-          <div class="pagination-controls">
-            <button class="page-btn disabled" aria-label="Previous page">
-              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="page-btn active">1</button>
-            <button class="page-btn">2</button>
-            <button class="page-btn" aria-label="Next page">
-              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
+  <!-- DRAWER OVERLAY -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
 
-    </main>
+  <!-- TEST DETAILS DRAWER -->
+  <div class="tracking-drawer" id="testDrawer" role="dialog" aria-label="Test Details">
+    <div class="drawer-header">
+      <span class="drawer-title">Test Details</span>
+      <button class="drawer-close" id="drawerClose">&#x2715;</button>
+    </div>
+    <div class="drawer-body" id="drawerBody">
+      <!-- Populated by JS -->
+    </div>
   </div>
 
 <script>
@@ -1878,6 +1658,112 @@ document.addEventListener('click', function(e) {
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
 </script>
+
+<script>
+  // Toggle filters
+  var btnFilters = document.getElementById('btnFilters');
+  var filterBar = document.getElementById('filterBar');
+  btnFilters.addEventListener('click', function() {
+    var visible = filterBar.classList.toggle('visible');
+    btnFilters.classList.toggle('active', visible);
+  });
+
+  // Clear filters
+  document.getElementById('btnClearFilters').addEventListener('click', function() {
+    filterBar.querySelector('input').value = '';
+    document.getElementById('filterStatus').value = '';
+    document.getElementById('filterMachine').value = '';
+  });
+
+  // Test Details Drawer
+  var overlay = document.getElementById('drawerOverlay');
+  var drawer = document.getElementById('testDrawer');
+  var drawerClose = document.getElementById('drawerClose');
+  var drawerBody = document.getElementById('drawerBody');
+
+  var testDetails = {
+    'LAB-2026-0892': {
+      results: 'D50 achieved at 2.1 \u00b5m after 3h grinding cycle. Target of D50 < 3 \u00b5m met successfully. Particle distribution shows narrow band with span value of 1.12. No oversize particles detected above 10 \u00b5m threshold.'
+    },
+    'LAB-2026-0885': {
+      results: 'Energy consumption reduced by 18% compared to baseline. Final particle size D90 = 8.4 \u00b5m achieved in 2.5h vs. 3.2h standard. Specific energy input: 142 kWh/t.'
+    },
+    'LAB-2026-0871': {
+      results: 'Test in progress. Preliminary results show 94% deagglomeration efficiency at 2,800 RPM. Final measurements pending after 4h cycle completion.'
+    },
+    'LAB-2026-0864': {
+      results: 'Bead wear rate: 0.023 g/h over 500h continuous operation. No significant deviation from expected wear curve. Bead integrity maintained above 97%. Recommended replacement interval confirmed at 800h.'
+    },
+    'LAB-2026-0852': {
+      results: 'Awaiting final review. Temperature held stable at 25\u00b10.3\u00b0C throughout 4h cycle. No thermal drift detected. Viscosity measurements pending lab technician validation.'
+    },
+    'LAB-2026-0841': {
+      results: 'Viscosity reduced from 1,840 mPa\u00b7s to 620 mPa\u00b7s (66% reduction). Target of < 700 mPa\u00b7s achieved. Optimal dispersant loading confirmed at 0.8 wt%.'
+    },
+    'LAB-2026-0833': {
+      results: 'Nano-scale milling feasibility confirmed. D50 = 180 nm achieved after 6h processing. Particle distribution acceptable for target application. Recommended scale-up to pilot batch.'
+    },
+    'LAB-2026-0819': {
+      results: 'Awaiting review. Contamination levels measured at < 5 ppm Fe, < 2 ppm Cr. Within acceptable thresholds for pharmaceutical-grade applications. Full elemental analysis report pending.'
+    }
+  };
+
+  function openTestDrawer(row) {
+    var testId = row.dataset.testId;
+    var testName = row.dataset.testName;
+    var machine = row.dataset.machine;
+    var material = row.dataset.material;
+    var date = row.dataset.date;
+    var status = row.dataset.status;
+    var details = testDetails[testId] || { results: 'No results available yet.' };
+
+    var statusClass = 'status-delivered';
+    if (status === 'In Progress') statusClass = 'status-process';
+    if (status === 'Pending Review') statusClass = 'status-placed';
+
+    drawerBody.innerHTML =
+      '<div class="drawer-test-id">' + testId + '</div>' +
+      '<div class="drawer-test-name">' + testName + '</div>' +
+      '<div class="drawer-meta-grid">' +
+        '<div class="drawer-meta-item"><div class="drawer-meta-label">Date</div><div class="drawer-meta-value">' + date + '</div></div>' +
+        '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '"><span class="status-dot"></span>' + status + '</span></div></div>' +
+        '<div class="drawer-meta-item"><div class="drawer-meta-label">Machine</div><div class="drawer-meta-value">' + machine + '</div></div>' +
+        '<div class="drawer-meta-item"><div class="drawer-meta-label">Material</div><div class="drawer-meta-value">' + material + '</div></div>' +
+      '</div>' +
+      '<div class="drawer-section">' +
+        '<div class="drawer-section-title">Parameters</div>' +
+        '<div class="drawer-params">' +
+          '<div class="drawer-param-item"><div class="drawer-param-label">RPM</div><div class="drawer-param-value">3,200</div></div>' +
+          '<div class="drawer-param-item"><div class="drawer-param-label">Temperature</div><div class="drawer-param-value">25\u00b0C</div></div>' +
+          '<div class="drawer-param-item"><div class="drawer-param-label">Duration</div><div class="drawer-param-value">4h</div></div>' +
+          '<div class="drawer-param-item"><div class="drawer-param-label">Grinding Media</div><div class="drawer-param-value">ZetaBeads 0.3mm</div></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="drawer-section">' +
+        '<div class="drawer-section-title">Results Summary</div>' +
+        '<div class="drawer-results-text">' + details.results + '</div>' +
+      '</div>' +
+      '<button class="btn-download-report" onclick="alert(\'Downloading report for ' + testId + '...\')">' +
+        '<svg viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        'Download Report' +
+      '</button>';
+
+    overlay.classList.add('show');
+    drawer.classList.add('show');
+  }
+
+  function closeDrawer() {
+    overlay.classList.remove('show');
+    drawer.classList.remove('show');
+  }
+
+  drawerClose.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDrawer();
+  });
+</script>
+
 <script>
 (function() {
   var cartDropdown = document.getElementById('cart-dropdown');
@@ -1885,14 +1771,17 @@ document.addEventListener('click', function(e) {
   var cartDdSubtotal = document.getElementById('cart-subtotal');
   var cartBadge = document.getElementById('cart-badge');
   if (!cartDropdown) return;
+
   function getCart() { try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; } }
   function getCartItems() { return getCart().items || []; }
   function saveCart(items) { var c = getCart(); c.items = items; localStorage.setItem('netzsch_cart', JSON.stringify(c)); }
   function formatPrice(num) { var f = num.toFixed(2).split('.'); return f[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + f[1] + ' \u20ac'; }
+
   var svgTrash = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
   var svgMinus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
   var svgPlus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
   var svgPlaceholder = '<div class="cart-item-placeholder"><svg viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+
   function renderCartDropdown() {
     var cartItems = getCartItems();
     var html = '';
@@ -1941,12 +1830,14 @@ document.addEventListener('click', function(e) {
       });
     });
   }
+
   renderCartDropdown();
   document.getElementById('btn-cart').addEventListener('click', function(e) { e.stopPropagation(); cartDropdown.classList.toggle('is-open'); });
   document.getElementById('cart-close').addEventListener('click', function(e) { e.stopPropagation(); cartDropdown.classList.remove('is-open'); });
   document.addEventListener('click', function(e) { if (!e.target.closest('#btn-cart') && !e.target.closest('#cart-dropdown')) cartDropdown.classList.remove('is-open'); });
 })();
 </script>
+
 
 <!-- ── MILLA BACKDROP ─── -->
 <div class="milla-backdrop" id="millaBackdrop"></div>
