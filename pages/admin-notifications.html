@@ -1329,144 +1329,168 @@
       </div>
 
       <!-- NOTIFICATION SECTIONS -->
-      <div class="notif-sections">
+      <style>
+        .notif-expand { display:none; padding:0 24px 24px; background:#fff; border-radius:0 0 12px 12px; margin-top:-8px; margin-bottom:4px; }
+        .notif-expand.open { display:block; }
+        .notif-section-row.open .chevron-icon { transform:rotate(90deg); }
+        .chevron-icon { transition:transform 0.2s ease; }
+        .ne-channels { display:flex; align-items:center; justify-content:flex-end; gap:32px; padding:12px 0; border-bottom:1px solid #eaeaea; margin-bottom:4px; }
+        .ne-channel-label { font-size:11px; font-weight:600; color:#6b6e73; text-transform:uppercase; letter-spacing:0.5px; text-align:center; width:48px; }
+        .ne-channel-head { font-size:11px; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:0.5px; }
+        .ne-item { display:flex; align-items:center; padding:14px 0; border-bottom:1px solid #f5f5f5; }
+        .ne-item:last-child { border-bottom:none; }
+        .ne-item-info { flex:1; display:flex; align-items:center; gap:10px; }
+        .ne-item-icon { width:20px; height:20px; color:#6b6e73; flex-shrink:0; }
+        .ne-item-icon svg { width:16px; height:16px; }
+        .ne-item-text { display:flex; flex-direction:column; }
+        .ne-item-name { font-size:14px; font-weight:500; color:#2d2e33; display:flex; align-items:center; gap:8px; }
+        .ne-item-desc { font-size:12px; color:#9ca3af; margin-top:2px; }
+        .ne-critical { font-size:10px; font-weight:700; color:#fff; background:#c73e20; padding:1px 6px; border-radius:4px; text-transform:uppercase; letter-spacing:0.3px; }
+        .ne-checks { display:flex; align-items:center; gap:32px; }
+        .ne-check { width:48px; display:flex; justify-content:center; }
+        .ne-check input { width:18px; height:18px; accent-color:#007167; cursor:pointer; }
+        .ne-prefs-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:16px 0; border-bottom:1px solid #eaeaea; }
+        .ne-pref-label { font-size:12px; font-weight:600; color:#6b6e73; margin-bottom:6px; }
+        .ne-pref-select { width:100%; height:36px; border:1px solid #d4d6d8; border-radius:8px; padding:0 12px; font-family:'Inter',sans-serif; font-size:13px; color:#2d2e33; background:#fff; outline:none; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%236b6e73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; cursor:pointer; }
+        .ne-pref-select:focus { border-color:#007167; }
+        .ne-pref-note { font-size:12px; color:#9ca3af; font-style:italic; grid-column:1/-1; }
+        .ne-toggle-row { display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid #f5f5f5; }
+        .ne-toggle-row:last-child { border-bottom:none; }
+        .ne-toggle-name { font-size:14px; font-weight:500; color:#2d2e33; }
+        .ne-toggle-desc { font-size:12px; color:#9ca3af; }
+        .ne-toggle-switch { width:18px; height:18px; accent-color:#007167; cursor:pointer; }
+      </style>
+      <div class="notif-sections" id="notifSections"></div>
 
-        <!-- 1. Notification Preferences -->
-        <div class="notif-section">
-          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Notification Preferences">
-            <div class="notif-section-icon preferences">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" stroke="#374151" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M16.167 12.5a1.375 1.375 0 00.275 1.517l.05.05a1.667 1.667 0 11-2.359 2.358l-.05-.05a1.375 1.375 0 00-1.516-.275 1.375 1.375 0 00-.834 1.259v.141a1.667 1.667 0 11-3.333 0v-.075a1.375 1.375 0 00-.9-1.258 1.375 1.375 0 00-1.517.275l-.05.05A1.667 1.667 0 113.575 13.133l.05-.05a1.375 1.375 0 00.275-1.516 1.375 1.375 0 00-1.258-.834H2.5a1.667 1.667 0 110-3.333h.075a1.375 1.375 0 001.258-.9 1.375 1.375 0 00-.275-1.517l-.05-.05A1.667 1.667 0 115.867 2.575l.05.05a1.375 1.375 0 001.516.275h.067a1.375 1.375 0 00.833-1.258V1.5a1.667 1.667 0 013.334 0v.075a1.375 1.375 0 00.833 1.258 1.375 1.375 0 001.517-.275l.05-.05a1.667 1.667 0 112.358 2.359l-.05.05a1.375 1.375 0 00-.275 1.516v.067a1.375 1.375 0 001.258.833h.142a1.667 1.667 0 010 3.334h-.075a1.375 1.375 0 00-1.258.833z" stroke="#374151" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="notif-section-content">
-              <div class="notif-section-title">Notification Preferences</div>
-              <div class="notif-section-desc">Email digest frequency, timezone, quiet hours and weekend delivery</div>
-            </div>
-            <div class="notif-section-right">
-              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+      <script>
+      (function() {
+        var data = [
+          { title:'Notification Preferences', desc:'Email digest frequency, timezone, quiet hours and weekend delivery', badge:'',
+            iconClass:'preferences', type:'prefs' },
+          { title:'Orders', desc:'Purchase orders, approvals and delivery updates', badge:'7/7 active',
+            iconClass:'orders', type:'channels',
+            items:[
+              {name:'Order Approval Needed', desc:'When an order requires your approval before processing', critical:true, email:true, portal:true, mobile:true},
+              {name:'Order Approved', desc:'When a submitted order has been approved by an approver', critical:false, email:true, portal:true, mobile:false},
+              {name:'Order Rejected', desc:'When a submitted order has been rejected', critical:true, email:true, portal:true, mobile:true},
+              {name:'Order Confirmation', desc:'When NETZSCH confirms receipt and processing of an order', critical:false, email:true, portal:true, mobile:false},
+              {name:'Order Shipped', desc:'When an order has been dispatched with tracking information', critical:false, email:true, portal:true, mobile:false},
+              {name:'Order Delivered', desc:'When a shipment has been delivered to the destination', critical:false, email:true, portal:true, mobile:false},
+              {name:'Order Blocked', desc:'When an order is blocked due to credit limit or compliance', critical:true, email:true, portal:true, mobile:true},
+            ]},
+          { title:'Quotes', desc:'Quotation requests, approvals and expiration alerts', badge:'4/4 active',
+            iconClass:'quotes', type:'channels',
+            items:[
+              {name:'Quote Requested', desc:'When a new quote has been submitted for review', critical:false, email:true, portal:true, mobile:false},
+              {name:'Quote Ready', desc:'When a requested quote is ready for review', critical:false, email:true, portal:true, mobile:true},
+              {name:'Quote Expiring', desc:'Reminder before a quote expires', critical:false, email:true, portal:true, mobile:false},
+              {name:'Quote Approved', desc:'When a quote has been approved and converted to order', critical:false, email:true, portal:true, mobile:true},
+            ]},
+          { title:'Services', desc:'Service requests, case updates and maintenance reminders', badge:'5/5 active',
+            iconClass:'services', type:'channels',
+            items:[
+              {name:'Service Request Created', desc:'Confirmation when a new service request is submitted', critical:false, email:true, portal:true, mobile:false},
+              {name:'Case Updates', desc:'When there is a status change or new message on a service case', critical:false, email:true, portal:true, mobile:true},
+              {name:'Service Completed', desc:'When a service request has been resolved and closed', critical:false, email:true, portal:true, mobile:false},
+              {name:'Maintenance Reminders', desc:'Scheduled maintenance alerts for your registered machines', critical:false, email:true, portal:true, mobile:true},
+              {name:'Case Escalated', desc:'When a service case has been escalated to a higher priority', critical:true, email:true, portal:true, mobile:true},
+            ]},
+          { title:'Users & Access', desc:'User registrations, access requests and role changes', badge:'4/4 active',
+            iconClass:'users', type:'channels',
+            items:[
+              {name:'New User Registration', desc:'When a new user registers for portal access', critical:false, email:true, portal:true, mobile:false},
+              {name:'Access Request', desc:'When a user requests access to restricted features', critical:false, email:true, portal:true, mobile:true},
+              {name:'Role Changed', desc:'When a user role or permissions have been modified', critical:false, email:true, portal:true, mobile:false},
+              {name:'User Deactivated', desc:'When a user account has been deactivated or removed', critical:false, email:true, portal:true, mobile:true},
+            ]},
+          { title:'System', desc:'Platform maintenance, security alerts and announcements', badge:'3/3 active',
+            iconClass:'system', type:'channels',
+            items:[
+              {name:'Scheduled Maintenance', desc:'Advance notice of planned portal downtime or updates', critical:false, email:true, portal:true, mobile:false},
+              {name:'Security Alerts', desc:'Unusual login activity or potential security concerns', critical:true, email:true, portal:true, mobile:true},
+              {name:'Product & Feature Updates', desc:'New features, improvements and portal enhancements', critical:false, email:true, portal:true, mobile:false},
+            ]},
+        ];
 
-        <!-- 2. Orders -->
-        <div class="notif-section">
-          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Orders notifications">
-            <div class="notif-section-icon orders">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2.5 5l2.5-2.5h10L17.5 5" stroke="#007167" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                <rect x="2.5" y="5" width="15" height="12.5" rx="1.5" stroke="#007167" stroke-width="1.4"/>
-                <path d="M7.5 8.75L10 11.25l2.5-2.5" stroke="#007167" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="notif-section-content">
-              <div class="notif-section-title">Orders</div>
-              <div class="notif-section-desc">Purchase orders, approvals and delivery updates</div>
-            </div>
-            <div class="notif-section-right">
-              <span class="active-badge">7/7 active</span>
-              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+        var chevron = '<svg class="chevron-icon" viewBox="0 0 20 20" fill="none"><path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        var container = document.getElementById('notifSections');
+        var html = '';
 
-        <!-- 3. Quotes -->
-        <div class="notif-section">
-          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Quotes notifications">
-            <div class="notif-section-icon quotes">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3.75" y="2.5" width="12.5" height="15" rx="1.5" stroke="#6d28d9" stroke-width="1.4"/>
-                <path d="M7.5 7.5h5M7.5 10h5M7.5 12.5h3" stroke="#6d28d9" stroke-width="1.4" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div class="notif-section-content">
-              <div class="notif-section-title">Quotes</div>
-              <div class="notif-section-desc">Quotation requests, approvals and expiration alerts</div>
-            </div>
-            <div class="notif-section-right">
-              <span class="active-badge">4/4 active</span>
-              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+        data.forEach(function(s, i) {
+          // Section header row
+          html += '<div class="notif-section"><div class="notif-section-row" data-idx="' + i + '" role="button" tabindex="0">';
+          html += '<div class="notif-section-icon ' + s.iconClass + '"></div>';
+          html += '<div class="notif-section-content"><div class="notif-section-title">' + s.title + '</div><div class="notif-section-desc">' + s.desc + '</div></div>';
+          html += '<div class="notif-section-right">';
+          if (s.badge) html += '<span class="active-badge">' + s.badge + '</span>';
+          html += chevron + '</div></div>';
 
-        <!-- 4. Services -->
-        <div class="notif-section">
-          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Services notifications">
-            <div class="notif-section-icon services">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.5 2.5l-1.25 3.75L15 10l3.75-1.25L12.5 2.5z" stroke="#856404" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11.25 6.25L2.5 15l2.5 2.5 8.75-8.75" stroke="#856404" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="notif-section-content">
-              <div class="notif-section-title">Services</div>
-              <div class="notif-section-desc">Service requests, case updates and maintenance reminders</div>
-            </div>
-            <div class="notif-section-right">
-              <span class="active-badge">5/5 active</span>
-              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+          // Expanded content
+          html += '<div class="notif-expand" data-expand="' + i + '">';
 
-        <!-- 5. Users & Access -->
-        <div class="notif-section">
-          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand Users and Access notifications">
-            <div class="notif-section-icon users">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13.75 17.5v-1.25a2.5 2.5 0 00-2.5-2.5H5a2.5 2.5 0 00-2.5 2.5v1.25" stroke="#1d4ed8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="8.125" cy="8.125" r="2.5" stroke="#1d4ed8" stroke-width="1.4"/>
-                <path d="M17.5 17.5v-1.25a2.5 2.5 0 00-1.875-2.419M13.125 5.706a2.5 2.5 0 010 4.838" stroke="#1d4ed8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="notif-section-content">
-              <div class="notif-section-title">Users &amp; Access</div>
-              <div class="notif-section-desc">User registrations, access requests and role changes</div>
-            </div>
-            <div class="notif-section-right">
-              <span class="active-badge">4/4 active</span>
-              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+          if (s.type === 'prefs') {
+            html += '<div class="ne-prefs-grid">';
+            html += '<div><div class="ne-pref-label">Email Digest Frequency</div><select class="ne-pref-select"><option>Immediate</option><option selected>Daily Digest</option><option>Weekly Digest</option></select></div>';
+            html += '<div><div class="ne-pref-label">Timezone</div><select class="ne-pref-select"><option selected>Europe/Berlin (CET)</option><option>America/New_York (EST)</option><option>Asia/Tokyo (JST)</option></select></div>';
+            html += '<div class="ne-pref-note">Critical notifications are always sent immediately regardless of this setting.</div>';
+            html += '</div>';
+            html += '<div class="ne-toggle-row"><div><div class="ne-toggle-name">Quiet Hours</div><div class="ne-toggle-desc">Pause non-critical email notifications during specific hours</div></div><input type="checkbox" class="ne-toggle-switch"></div>';
+            html += '<div class="ne-toggle-row"><div><div class="ne-toggle-name">Weekend Emails</div><div class="ne-toggle-desc">Send non-critical email notifications on Saturdays and Sundays</div></div><input type="checkbox" class="ne-toggle-switch"></div>';
+          } else {
+            // Channel header
+            html += '<div class="ne-channels"><span class="ne-channel-head">TOGGLE ALL CHANNELS</span><div class="ne-check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b6e73" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><div class="ne-channel-label">Email</div></div><div class="ne-check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b6e73" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><div class="ne-channel-label">Portal</div></div><div class="ne-check"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b6e73" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg><div class="ne-channel-label">Mobile</div></div></div>';
+            // Items
+            s.items.forEach(function(item) {
+              html += '<div class="ne-item"><div class="ne-item-info"><div class="ne-item-text"><span class="ne-item-name">' + item.name;
+              if (item.critical) html += ' <span class="ne-critical">Critical</span>';
+              html += '</span><span class="ne-item-desc">' + item.desc + '</span></div></div>';
+              html += '<div class="ne-checks">';
+              html += '<div class="ne-check"><input type="checkbox"' + (item.email ? ' checked' : '') + ' style="width:18px;height:18px;accent-color:#007167;cursor:pointer;"></div>';
+              html += '<div class="ne-check"><input type="checkbox"' + (item.portal ? ' checked' : '') + ' style="width:18px;height:18px;accent-color:#007167;cursor:pointer;"></div>';
+              html += '<div class="ne-check"><input type="checkbox"' + (item.mobile ? ' checked' : '') + ' style="width:18px;height:18px;accent-color:#007167;cursor:pointer;"></div>';
+              html += '</div></div>';
+            });
+          }
 
-        <!-- 6. System -->
-        <div class="notif-section">
-          <div class="notif-section-row" role="button" tabindex="0" aria-label="Expand System notifications">
-            <div class="notif-section-icon system">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2.5" y="3.75" width="15" height="10" rx="1.5" stroke="#dc2626" stroke-width="1.4"/>
-                <path d="M6.25 16.25h7.5" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round"/>
-                <path d="M10 13.75v2.5" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round"/>
-                <path d="M8.75 7.5l1.25 1.25 2.5-2.5" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div class="notif-section-content">
-              <div class="notif-section-title">System</div>
-              <div class="notif-section-desc">Platform maintenance, security alerts and announcements</div>
-            </div>
-            <div class="notif-section-right">
-              <span class="active-badge">3/3 active</span>
-              <svg class="chevron-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.5 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+          html += '</div></div>';
+        });
 
-      </div>
+        container.innerHTML = html;
+
+        // Restore original icons (they were in the static HTML but lost in JS rebuild)
+        // Re-inject icons into the icon divs
+        var icons = {
+          preferences: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" stroke="#374151" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.167 12.5a1.375 1.375 0 00.275 1.517l.05.05a1.667 1.667 0 11-2.359 2.358l-.05-.05a1.375 1.375 0 00-1.516-.275 1.375 1.375 0 00-.834 1.259v.141a1.667 1.667 0 11-3.333 0v-.075a1.375 1.375 0 00-.9-1.258 1.375 1.375 0 00-1.517.275l-.05.05A1.667 1.667 0 113.575 13.133l.05-.05a1.375 1.375 0 00.275-1.516 1.375 1.375 0 00-1.258-.834H2.5a1.667 1.667 0 110-3.333h.075a1.375 1.375 0 001.258-.9 1.375 1.375 0 00-.275-1.517l-.05-.05A1.667 1.667 0 115.867 2.575l.05.05a1.375 1.375 0 001.516.275h.067a1.375 1.375 0 00.833-1.258V1.5a1.667 1.667 0 013.334 0v.075a1.375 1.375 0 00.833 1.258 1.375 1.375 0 001.517-.275l.05-.05a1.667 1.667 0 112.358 2.359l-.05.05a1.375 1.375 0 00-.275 1.516v.067a1.375 1.375 0 001.258.833h.142a1.667 1.667 0 010 3.334h-.075a1.375 1.375 0 00-1.258.833z" stroke="#374151" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+          orders: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2.5 5l2.5-2.5h10L17.5 5" stroke="#007167" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="2.5" y="5" width="15" height="12.5" rx="1.5" stroke="#007167" stroke-width="1.4"/><path d="M7.5 8.75L10 11.25l2.5-2.5" stroke="#007167" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+          quotes: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3.75" y="2.5" width="12.5" height="15" rx="1.5" stroke="#6d28d9" stroke-width="1.4"/><path d="M7.5 7.5h5M7.5 10h5M7.5 12.5h3" stroke="#6d28d9" stroke-width="1.4" stroke-linecap="round"/></svg>',
+          services: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 2.5l-1.25 3.75L15 10l3.75-1.25L12.5 2.5z" stroke="#856404" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.25 6.25L2.5 15l2.5 2.5 8.75-8.75" stroke="#856404" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+          users: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13.75 17.5v-1.25a2.5 2.5 0 00-2.5-2.5H5a2.5 2.5 0 00-2.5 2.5v1.25" stroke="#1d4ed8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.125" cy="8.125" r="2.5" stroke="#1d4ed8" stroke-width="1.4"/><path d="M17.5 17.5v-1.25a2.5 2.5 0 00-1.875-2.419M13.125 5.706a2.5 2.5 0 010 4.838" stroke="#1d4ed8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+          system: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="3.75" width="15" height="10" rx="1.5" stroke="#dc2626" stroke-width="1.4"/><path d="M6.25 16.25h7.5" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round"/><path d="M10 13.75v2.5" stroke="#dc2626" stroke-width="1.4" stroke-linecap="round"/></svg>'
+        };
+        container.querySelectorAll('.notif-section-icon').forEach(function(el) {
+          var cls = el.className.replace('notif-section-icon ', '').trim();
+          if (icons[cls]) el.innerHTML = icons[cls];
+        });
+
+        // Toggle
+        container.querySelectorAll('.notif-section-row').forEach(function(row) {
+          row.addEventListener('click', function(e) {
+            if (e.target.closest('input, select')) return;
+            var self = this;
+            var idx = this.dataset.idx;
+            var expand = container.querySelector('[data-expand="' + idx + '"]');
+            var isOpen = this.classList.contains('open');
+            container.querySelectorAll('.notif-section-row').forEach(function(r) { r.classList.remove('open'); });
+            container.querySelectorAll('.notif-expand').forEach(function(ex) { ex.classList.remove('open'); });
+            if (!isOpen) {
+              this.classList.add('open');
+              expand.classList.add('open');
+            }
+            setTimeout(function() { self.scrollIntoView({ behavior:'smooth', block:'start' }); }, 50);
+          });
+        });
+      })();
+      </script>
     </main>
   </div>
 
