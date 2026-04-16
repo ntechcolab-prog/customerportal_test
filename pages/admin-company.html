@@ -1486,6 +1486,7 @@
         container.querySelectorAll('.section-row').forEach(function(row) {
           row.addEventListener('click', function(e) {
             e.preventDefault();
+            var self = this;
             var idx = this.dataset.idx;
             var expand = container.querySelector('[data-expand="' + idx + '"]');
             var isOpen = this.classList.contains('open');
@@ -1497,6 +1498,10 @@
               this.classList.add('open');
               expand.classList.add('open');
             }
+            // Scroll to the clicked section header
+            setTimeout(function() {
+              self.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
           });
         });
       })();
