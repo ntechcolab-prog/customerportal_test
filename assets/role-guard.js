@@ -299,6 +299,104 @@
     }
   }
 
-  // 9. Expose role for other scripts
+  // 9. Transform Services page for technician — remove type icons, add detail drawer
+  if (role === 'technician' && currentPage === 'services.html') {
+    // Remove type icons, keep text only in black
+    document.querySelectorAll('.type-cell').forEach(function (cell) {
+      var icon = cell.querySelector('.type-icon');
+      if (icon) icon.remove();
+      cell.style.color = '#2d2e33';
+    });
+
+    // Inject drawer CSS
+    var drawerStyle = document.createElement('style');
+    drawerStyle.textContent = [
+      '.svc-drawer-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:500; display:none; }',
+      '.svc-drawer-overlay.show { display:block; }',
+      '.svc-drawer { position:fixed; top:0; right:0; width:440px; height:100vh; background:#fff; box-shadow:-4px 0 24px rgba(0,0,0,0.12); z-index:501; transform:translateX(100%); transition:transform 0.3s cubic-bezier(0.32,0.72,0,1); display:flex; flex-direction:column; }',
+      '.svc-drawer.show { transform:translateX(0); }',
+      '.svc-drawer-header { display:flex; align-items:center; justify-content:space-between; padding:20px 24px; border-bottom:1px solid #eaeaea; flex-shrink:0; }',
+      '.svc-drawer-title { font-size:17px; font-weight:600; color:#2d2e33; letter-spacing:-0.38px; }',
+      '.svc-drawer-close { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; font-size:18px; color:#6b6e73; transition:background 0.15s; }',
+      '.svc-drawer-close:hover { background:#f3f4f6; }',
+      '.svc-drawer-body { flex:1; overflow-y:auto; padding:24px; }',
+      '.svc-detail-section { margin-bottom:20px; }',
+      '.svc-detail-label { font-size:12px; font-weight:700; color:#9ca0a5; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }',
+      '.svc-detail-value { font-size:14px; color:#2d2e33; line-height:22px; }',
+      '.svc-detail-value strong { font-weight:600; }',
+    ].join('\n');
+    document.head.appendChild(drawerStyle);
+
+    // Inject drawer HTML
+    var drawerOverlay = document.createElement('div');
+    drawerOverlay.className = 'svc-drawer-overlay';
+    drawerOverlay.id = 'svcDrawerOverlay';
+    document.body.appendChild(drawerOverlay);
+
+    var drawerEl = document.createElement('div');
+    drawerEl.className = 'svc-drawer';
+    drawerEl.id = 'svcDrawer';
+    drawerEl.innerHTML = '<div class="svc-drawer-header"><span class="svc-drawer-title">Service Details</span><button class="svc-drawer-close" id="svcDrawerClose">&#x2715;</button></div><div class="svc-drawer-body" id="svcDrawerBody"></div>';
+    document.body.appendChild(drawerEl);
+
+    // Service data matching the table rows
+    var servicesData = [
+      { id:'#15345678', date:'Feb 2, 2026', type:'Repair', status:'In Progress', statusClass:'status-in-progress', desc:'Strange noise during operation at high RPM', machine:'Zeta 300', serial:'S/N: 232345', technician:'Carla Mendes', notes:'Bearing inspection scheduled. Possible rotor imbalance detected during preliminary diagnostics. Awaiting replacement parts.' },
+      { id:'#15345679', date:'Feb 2, 2026', type:'Spare Parts', status:'In Progress', statusClass:'status-in-progress', desc:'I need a spare part for this machine.', machine:'Zeta 300', serial:'S/N: 232345', technician:'Carla Mendes', notes:'Spare part identified: O-Ring set (517225). Ordered from warehouse, expected delivery in 3 business days.' },
+      { id:'#15345680', date:'Jan 20, 2026', type:'Maintenance', status:'Completed', statusClass:'status-completed', desc:'Scheduled preventive maintenance.', machine:'Zeta 300', serial:'S/N: 232345', technician:'Carla Mendes', notes:'Full preventive maintenance completed. All wear parts inspected and replaced as needed. Machine recalibrated and tested. Next maintenance due in 6 months.' },
+      { id:'#15345681', date:'Jan 10, 2026', type:'Consultation', status:'Submitted', statusClass:'status-submitted', desc:'Need expert advice on grinding parameters.', machine:'Discus 30', serial:'S/N: 456123', technician:'Carla Mendes', notes:'Awaiting assignment to technical specialist.' },
+      { id:'#15345682', date:'Dec 15, 2025', type:'Repair', status:'Cancelled', statusClass:'status-cancelled', desc:'Issue resolved before service visit.', machine:'ProPhi', serial:'S/N: 789123', technician:'Carla Mendes', notes:'Customer reported issue resolved after machine restart. Service request cancelled by technician.' },
+    ];
+
+    function openSvcDrawer(index) {
+      var s = servicesData[index];
+      if (!s) return;
+      var body = document.getElementById('svcDrawerBody');
+
+      var html = '';
+      html += '<div class="svc-detail-section"><div class="svc-detail-label">Service ID</div><div class="svc-detail-value"><strong>' + s.id + '</strong></div></div>';
+      html += '<div class="svc-detail-section"><div class="svc-detail-label">Date</div><div class="svc-detail-value">' + s.date + '</div></div>';
+      html += '<div class="svc-detail-section"><div class="svc-detail-label">Status</div><div class="svc-detail-value"><span class="status-badge ' + s.statusClass + '"><span class="status-dot"></span>' + s.status + '</span></div></div>';
+      html += '<div class="svc-detail-section"><div class="svc-detail-label">Type</div><div class="svc-detail-value">' + s.type + '</div></div>';
+      html += '<div class="svc-detail-section"><div class="svc-detail-label">Description</div><div class="svc-detail-value">' + s.desc + '</div></div>';
+      html += '<div class="svc-detail-section"><div class="svc-detail-label">Machine</div><div class="svc-detail-value"><strong>' + s.machine + '</strong><br>' + s.serial + '</div></div>';
+      html += '<div class="svc-detail-section"><div class="svc-detail-label">Assigned Technician</div><div class="svc-detail-value">' + s.technician + '</div></div>';
+      html += '<div class="svc-detail-section"><div class="svc-detail-label">Notes</div><div class="svc-detail-value">' + s.notes + '</div></div>';
+
+      body.innerHTML = html;
+      drawerOverlay.classList.add('show');
+      drawerEl.classList.add('show');
+    }
+
+    function closeSvcDrawer() {
+      drawerOverlay.classList.remove('show');
+      drawerEl.classList.remove('show');
+    }
+
+    document.getElementById('svcDrawerClose').addEventListener('click', closeSvcDrawer);
+    drawerOverlay.addEventListener('click', closeSvcDrawer);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawerEl.classList.contains('show')) closeSvcDrawer();
+    });
+
+    // Wire view buttons
+    document.querySelectorAll('.action-btn[title="View details"]').forEach(function (btn, i) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        openSvcDrawer(i);
+      });
+    });
+
+    // Wire service ID links
+    document.querySelectorAll('.service-link').forEach(function (link, i) {
+      link.href = '#';
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        openSvcDrawer(i);
+      });
+    });
+  }
+
+  // 10. Expose role for other scripts
   window.netzschUserRole = role;
 })();
