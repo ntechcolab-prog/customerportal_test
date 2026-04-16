@@ -160,6 +160,12 @@
     });
     document.title = 'Requests — NETZSCH Customer Portal';
 
+    // Transform drawer into Request Details
+    var drawerTitle = document.querySelector('.drawer-title');
+    if (drawerTitle) drawerTitle.textContent = 'Request Details';
+    var drawer = document.getElementById('trackingDrawer');
+    if (drawer) drawer.setAttribute('aria-label', 'Request Details');
+
     // Replace table with requests data
     var sortSvg = '<svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     var table = document.querySelector('.orders-table');
@@ -215,6 +221,84 @@
     }
   }
 
-  // 8. Expose role for other scripts
+  // 8. Wire request detail drawer for technician
+  if (role === 'technician' && currentPage === 'orders.html') {
+    var drawerBody = document.querySelector('.drawer-body');
+    var drawerEl = document.getElementById('trackingDrawer');
+    var overlayEl = document.getElementById('drawerOverlay');
+
+    if (drawerBody && drawerEl && overlayEl) {
+      var requestsData = [
+        { id:'REQ-2026-4781', product:'NETZSCH CERABEADS 0.4', ref:'443385', machine:'Alpha Zeta 10', priority:'High', date:'Apr 15, 2026', status:'pending', justification:'Scheduled maintenance — current grinding beads showing signs of wear after 2,400 operating hours. Replacement needed before next production cycle.' },
+        { id:'REQ-2026-4756', product:'O-Ring (517225)', ref:'517225', machine:'Discus 30', priority:'Urgent', date:'Apr 14, 2026', status:'approved', justification:'Seal failure detected during routine inspection. Machine currently offline. Urgent replacement required to resume production.', approver:'Daniel Costa', approvedDate:'Apr 14, 2026' },
+        { id:'REQ-2026-4730', product:'Ring - AISI 304', ref:'509812', machine:'Zeta 60', priority:'Medium', date:'Apr 12, 2026', status:'approved', justification:'Preventive replacement as part of quarterly maintenance schedule.', approver:'Daniel Costa', approvedDate:'Apr 13, 2026' },
+        { id:'REQ-2026-4698', product:'Inlet Flange Set', ref:'FL-2200', machine:'Alpha Zeta 10', priority:'Low', date:'Apr 10, 2026', status:'rejected', justification:'Minor corrosion on current flange. Requesting replacement as precaution.', approver:'Daniel Costa', rejectedDate:'Apr 11, 2026', rejectReason:'Current flange inspected and deemed within acceptable tolerance. Re-evaluate in next quarterly review.' },
+        { id:'REQ-2026-4652', product:'ZetaBeads Plus 0.3mm', ref:'ZB-030P', machine:'NEOS 03', priority:'Medium', date:'Apr 8, 2026', status:'approved', justification:'New batch needed for nano milling project starting Apr 20.', approver:'Daniel Costa', approvedDate:'Apr 9, 2026' },
+        { id:'REQ-2026-4619', product:'Steel Beads Micro 0.1mm', ref:'SB-010M', machine:'Zeta 60', priority:'High', date:'Apr 5, 2026', status:'pending', justification:'Current stock running low. Estimated depletion within 2 weeks at current usage rate.' },
+      ];
+
+      var statusLabels = {
+        pending: '<span class="status-badge status-placed" style="font-size:13px;"><span class="status-dot"></span>Pending Approval</span>',
+        approved: '<span class="status-badge status-delivered" style="font-size:13px;"><span class="status-dot"></span>Approved</span>',
+        rejected: '<span class="status-badge" style="background:#fce8e6;color:#c73e20;font-size:13px;"><span class="status-dot" style="background:#c73e20;"></span>Rejected</span>'
+      };
+
+      function openRequestDrawer(index) {
+        var r = requestsData[index];
+        if (!r) return;
+
+        var html = '<div class="drawer-order-id" style="margin-bottom:4px;">' + r.id + '</div>';
+        html += '<div style="font-size:13px; color:#6b6e73; margin-bottom:20px;">Submitted on ' + r.date + '</div>';
+        html += '<div style="margin-bottom:20px;">' + (statusLabels[r.status] || r.status) + '</div>';
+
+        html += '<div class="drawer-section"><div class="drawer-section-title">Product</div>';
+        html += '<div class="drawer-section-text"><strong>' + r.product + '</strong><br>Ref: ' + r.ref + '</div></div>';
+
+        html += '<div class="drawer-section"><div class="drawer-section-title">Related Machine</div>';
+        html += '<div class="drawer-section-text">' + r.machine + '</div></div>';
+
+        html += '<div class="drawer-section"><div class="drawer-section-title">Priority</div>';
+        html += '<div class="drawer-section-text">' + r.priority + '</div></div>';
+
+        html += '<div class="drawer-section"><div class="drawer-section-title">Justification</div>';
+        html += '<div class="drawer-section-text">' + r.justification + '</div></div>';
+
+        if (r.status === 'approved') {
+          html += '<div class="drawer-section"><div class="drawer-section-title">Approved by</div>';
+          html += '<div class="drawer-section-text"><strong>' + r.approver + '</strong><br>' + r.approvedDate + '</div></div>';
+        }
+
+        if (r.status === 'rejected') {
+          html += '<div class="drawer-section"><div class="drawer-section-title">Rejected by</div>';
+          html += '<div class="drawer-section-text"><strong>' + r.approver + '</strong><br>' + r.rejectedDate + '</div></div>';
+          html += '<div class="drawer-section"><div class="drawer-section-title">Reason</div>';
+          html += '<div class="drawer-section-text" style="color:#c73e20;">' + r.rejectReason + '</div></div>';
+        }
+
+        drawerBody.innerHTML = html;
+        overlayEl.classList.add('show');
+        drawerEl.classList.add('show');
+      }
+
+      // Wire view buttons
+      document.querySelectorAll('.action-btn[title="View details"]').forEach(function (btn, i) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          openRequestDrawer(i);
+        });
+      });
+
+      // Also wire request ID links
+      document.querySelectorAll('.order-link').forEach(function (link, i) {
+        link.href = '#';
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          openRequestDrawer(i);
+        });
+      });
+    }
+  }
+
+  // 9. Expose role for other scripts
   window.netzschUserRole = role;
 })();
