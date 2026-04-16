@@ -1293,6 +1293,9 @@
       display: flex; align-items: center; justify-content: center;
       border: none; cursor: pointer; flex-shrink: 0;
       transition: background 0.15s ease;
+      pointer-events: auto;
+      position: relative;
+      z-index: 10;
     }
     .milla-chat-send.active { background: #007167; }
     .milla-chat-send img { width: 18px; height: 18px; }
@@ -2198,10 +2201,10 @@ document.addEventListener('click', function(e) {
     </div>
     <div class="milla-chat-footer">
       <div class="milla-chat-input-wrap">
-        <input type="text" placeholder="Ask Milla anything..." id="millaChatInput">
+        <input type="text" placeholder="Ask Milla anything..." id="millaChatInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromBigChat();}">
       </div>
-      <button class="milla-chat-send" id="millaChatSend">
-        <img src="../assets/milla-icon-send.svg" alt="Send">
+      <button class="milla-chat-send active" id="millaChatSend" onclick="sendFromBigChat()">
+        <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
       </button>
     </div>
   </div>
@@ -2240,10 +2243,10 @@ document.addEventListener('click', function(e) {
   <div class="milla-chat-body" id="millaChatSmallBody"></div>
   <div class="milla-chat-footer">
     <div class="milla-chat-input-wrap">
-      <input type="text" placeholder="Ask Milla anything...">
+      <input type="text" placeholder="Ask Milla anything..." id="millaChatSmallInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromSmallChat();}">
     </div>
-    <button class="milla-chat-send">
-      <img src="../assets/milla-icon-send.svg" alt="Send">
+    <button class="milla-chat-send active" id="millaChatSmallSend" onclick="sendFromSmallChat()">
+      <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
     </button>
   </div>
 </div>
@@ -2417,10 +2420,50 @@ document.getElementById('millaChatOverlay').addEventListener('click', function(e
   if (e.target === this) shrinkMillaChat();
 });
 
-// Chat input
-document.getElementById('millaChatInput').addEventListener('input', function() {
-  document.getElementById('millaChatSend').classList.toggle('active', this.value.trim().length > 0);
-});
+
+</script>
+
+<script>
+// ── MILLA CHAT INPUT — standalone script ──
+var millaGenericResponse = 'Thank you for your message. I\'m currently processing your request. In the meantime, feel free to explore our product catalog or check your order status using the tabs above.';
+
+function sendMillaMessage(inputEl, bodyEl) {
+  var text = inputEl.value.trim();
+  if (!text) return;
+  inputEl.value = '';
+
+  var userDiv = document.createElement('div');
+  userDiv.className = 'milla-msg-user';
+  userDiv.textContent = text;
+  bodyEl.appendChild(userDiv);
+  bodyEl.scrollTop = bodyEl.scrollHeight;
+
+  var botRow = document.createElement('div');
+  botRow.className = 'milla-msg-bot';
+  botRow.innerHTML = '<div class="milla-msg-bot-avatar"><img src="../assets/milla-sparkle-small.svg" alt="" aria-hidden="true"></div><div class="milla-typing-dots"><span></span><span></span><span></span></div>';
+  bodyEl.appendChild(botRow);
+  bodyEl.scrollTop = bodyEl.scrollHeight;
+
+  setTimeout(function() {
+    var bubble = document.createElement('div');
+    bubble.className = 'milla-msg-bot-bubble';
+    bubble.innerHTML = millaGenericResponse;
+    botRow.querySelector('.milla-typing-dots').remove();
+    botRow.appendChild(bubble);
+    bodyEl.scrollTop = bodyEl.scrollHeight;
+    if (typeof millaCurrentMessages !== 'undefined') {
+      millaCurrentMessages = document.getElementById('millaChatBody').innerHTML || document.getElementById('millaChatSmallBody').innerHTML;
+    }
+  }, 1500);
+}
+
+function sendFromBigChat() {
+  sendMillaMessage(document.getElementById('millaChatInput'), document.getElementById('millaChatBody'));
+}
+
+function sendFromSmallChat() {
+  sendMillaMessage(document.getElementById('millaChatSmallInput'), document.getElementById('millaChatSmallBody'));
+}
 </script>
 
 </body>
