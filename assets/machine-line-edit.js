@@ -32,6 +32,9 @@
     '.machine-line-cancel { background:#f3f4f6; color:#6b6e73; }',
     '.machine-line-cancel:hover { background:#e5e7eb; }',
     '.machine-line-save svg, .machine-line-cancel svg { width:10px; height:10px; }',
+    '.machine-line-edit-btn { width:18px; height:18px; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; color:#9ca3af; padding:0; transition:color 0.15s; flex-shrink:0; }',
+    '.machine-line-edit-btn:hover { color:#007167; }',
+    '.machine-line-edit-btn svg { width:11px; height:11px; }',
   ].join('\n');
   document.head.appendChild(style);
 
@@ -95,9 +98,22 @@
     setTimeout(function () { t.remove(); }, 3000);
   }
 
-  // Wire the existing edit button
+  // Move edit button next to subtitle and restyle
   if (editBtn) {
-    editBtn.addEventListener('click', function (e) {
+    editBtn.remove();
+    lineEl.style.display = 'inline-flex';
+    lineEl.style.alignItems = 'center';
+    lineEl.style.gap = '6px';
+
+    var inlineBtn = document.createElement('button');
+    inlineBtn.type = 'button';
+    inlineBtn.className = 'machine-line-edit-btn';
+    inlineBtn.setAttribute('aria-label', 'Edit label');
+    inlineBtn.title = 'Edit label';
+    inlineBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    lineEl.appendChild(inlineBtn);
+
+    inlineBtn.addEventListener('click', function (e) {
       e.preventDefault();
       startEdit();
     });
