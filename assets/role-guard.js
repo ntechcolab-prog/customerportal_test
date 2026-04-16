@@ -150,6 +150,71 @@
     });
   }
 
-  // 7. Expose role for other scripts
+  // 7. Transform Orders page into Requests page for technician
+  if (role === 'technician' && currentPage === 'orders.html') {
+    // Rename title and breadcrumb
+    var h1 = document.querySelector('.title-bar h1');
+    if (h1) h1.textContent = 'Requests';
+    document.querySelectorAll('.breadcrumb-current').forEach(function (el) {
+      if (el.textContent.trim() === 'Orders') el.textContent = 'Requests';
+    });
+    document.title = 'Requests — NETZSCH Customer Portal';
+
+    // Replace table with requests data
+    var sortSvg = '<svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var table = document.querySelector('.orders-table');
+    if (table) {
+      var thead = table.querySelector('thead tr');
+      if (thead) {
+        thead.innerHTML =
+          '<th>Request ' + sortSvg + '</th>' +
+          '<th>Product ' + sortSvg + '</th>' +
+          '<th>Machine ' + sortSvg + '</th>' +
+          '<th>Priority ' + sortSvg + '</th>' +
+          '<th>Submitted ' + sortSvg + '</th>' +
+          '<th>Status ' + sortSvg + '</th>' +
+          '<th>Actions</th>';
+      }
+
+      var tbody = table.querySelector('tbody');
+      if (tbody) {
+        var requests = [
+          { id: 'REQ-2026-4781', product: 'NETZSCH CERABEADS 0.4', machine: 'Alpha Zeta 10', priority: 'high', date: 'Apr 15, 2026', status: 'pending' },
+          { id: 'REQ-2026-4756', product: 'O-Ring (517225)', machine: 'Discus 30', priority: 'urgent', date: 'Apr 14, 2026', status: 'approved' },
+          { id: 'REQ-2026-4730', product: 'Ring - AISI 304', machine: 'Zeta 60', priority: 'medium', date: 'Apr 12, 2026', status: 'approved' },
+          { id: 'REQ-2026-4698', product: 'Inlet Flange Set', machine: 'Alpha Zeta 10', priority: 'low', date: 'Apr 10, 2026', status: 'rejected' },
+          { id: 'REQ-2026-4652', product: 'ZetaBeads Plus 0.3mm', machine: 'NEOS 03', priority: 'medium', date: 'Apr 8, 2026', status: 'approved' },
+          { id: 'REQ-2026-4619', product: 'Steel Beads Micro 0.1mm', machine: 'Zeta 60', priority: 'high', date: 'Apr 5, 2026', status: 'pending' },
+        ];
+
+        var statusMap = {
+          pending: '<span class="status-badge status-placed"><span class="status-dot"></span>Pending Approval</span>',
+          approved: '<span class="status-badge status-delivered"><span class="status-dot"></span>Approved</span>',
+          rejected: '<span class="status-badge" style="background:#fce8e6;color:#c73e20;"><span class="status-dot" style="background:#c73e20;"></span>Rejected</span>'
+        };
+
+        var priorityMap = {
+          low: '<span style="color:#6b6e73;">Low</span>',
+          medium: '<span style="color:#2563eb; font-weight:500;">Medium</span>',
+          high: '<span style="color:#d97706; font-weight:600;">High</span>',
+          urgent: '<span style="color:#c73e20; font-weight:700;">Urgent</span>'
+        };
+
+        tbody.innerHTML = requests.map(function (r) {
+          return '<tr>' +
+            '<td><a class="order-link" href="order-detail.html">' + r.id + '</a></td>' +
+            '<td>' + r.product + '</td>' +
+            '<td>' + r.machine + '</td>' +
+            '<td>' + (priorityMap[r.priority] || r.priority) + '</td>' +
+            '<td>' + r.date + '</td>' +
+            '<td>' + (statusMap[r.status] || r.status) + '</td>' +
+            '<td><div class="actions-cell"><button class="action-btn" title="View details"><img src="../assets/icon-order-eye.svg" alt="View"></button></div></td>' +
+            '</tr>';
+        }).join('');
+      }
+    }
+  }
+
+  // 8. Expose role for other scripts
   window.netzschUserRole = role;
 })();
