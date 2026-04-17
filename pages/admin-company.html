@@ -139,7 +139,8 @@
       cursor: pointer;
     }
     .profile-dropdown-item:hover { background: #f3f4f6; }
-    .profile-dropdown-item img { width: 15px; height: 15px; }
+    .profile-dropdown-item img,
+    .profile-dropdown-item svg { width: 15px; height: 15px; }
     .profile-dropdown-divider {
       border-top: 1px solid #e5e7eb;
       margin-top: 0;
@@ -1189,7 +1190,7 @@
             <li><a class="profile-dropdown-item" href="profile.html"><img src="../assets/icon-profile-user.svg" alt="">Profile</a></li>
             <li><a class="profile-dropdown-item" href="admin-users.html"><img src="../assets/icon-admin-settings.svg" alt="">Admin</a></li>
             <li><a class="profile-dropdown-item" href="wishlist.html"><img src="../assets/icon-wishlist-heart.svg" alt="">My Wishlist</a></li>
-            <li><a class="profile-dropdown-item" href="contracts.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Contracts</a></li>
+            <li><a class="profile-dropdown-item" href="contracts.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Contracts</a></li>
           </ul>
           <div class="profile-dropdown-divider">
             <a class="profile-dropdown-item logout" href="../index.html"><img src="../assets/icon-logout.svg" alt="">Log out</a>
@@ -1453,6 +1454,25 @@
               '<div><div class="se-field-label">Intrastat Number</div><div class="se-field-value">DE 987654321</div></div>' +
               '</div>' +
               '<div class="se-tax-status"><div><div class="se-option-name">Tax Exempt Status</div><div class="se-option-desc">Standard tax rates apply to all orders.</div></div><span class="se-option-badge">Standard Taxation</span></div>'
+          },
+          { title: 'Credit & Payment Terms', desc: 'Credit limit, payment conditions and account standing',
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>',
+            content: '<div class="se-sub-title">Credit Overview</div>' +
+              '<div class="se-stat-cards">' +
+              '<div class="se-stat-card"><div class="se-stat-label">Credit Limit</div><div class="se-stat-value">&euro;500,000.00</div><div class="se-stat-desc">Approved by NETZSCH</div></div>' +
+              '<div class="se-stat-card"><div class="se-stat-label">Available Credit</div><div class="se-stat-value" style="color:#007167">&euro;387,240.00</div><div class="se-stat-desc">Remaining balance</div></div>' +
+              '<div class="se-stat-card"><div class="se-stat-label">Outstanding Balance</div><div class="se-stat-value">&euro;112,760.00</div><div class="se-stat-desc">Open invoices</div></div>' +
+              '</div>' +
+              '<div class="se-sub-title">Payment Terms</div>' +
+              '<div class="se-grid" style="margin-bottom:20px;">' +
+              '<div><div class="se-field-label">Payment Terms</div><div class="se-field-value">Net 30</div></div>' +
+              '<div><div class="se-field-label">Payment Method</div><div class="se-field-value">Bank Transfer (SEPA)</div></div>' +
+              '<div><div class="se-field-label">Currency</div><div class="se-field-value">EUR (&euro;)</div></div>' +
+              '<div><div class="se-field-label">Credit Rating</div><div class="se-field-value">A — Preferred</div></div>' +
+              '</div>' +
+              '<div class="se-option-row"><div><div class="se-option-name">Account Status</div><div class="se-option-desc">Current standing with NETZSCH credit department</div></div><span class="se-option-badge" style="background:#e6f5f3;color:#007167">Active — Good Standing</span></div>' +
+              '<div class="se-option-row"><div><div class="se-option-name">Credit Limit Increase</div><div class="se-option-desc">Request a higher credit limit from your NETZSCH account manager</div></div><span class="se-option-badge">Request Increase</span></div>' +
+              '<div class="se-warning"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Credit limits are managed by NETZSCH. Orders exceeding available credit will require approval from the credit department before processing.</div>'
           },
           { title: 'Purchase Settings', desc: 'Approval workflows, budgets and ordering preferences',
             icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>',
