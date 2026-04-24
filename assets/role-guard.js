@@ -147,7 +147,13 @@
     // Text-style buttons in spare parts tables
     document.querySelectorAll('.add-to-cart').forEach(function (btn) {
       btn.textContent = 'Request for Approval';
-      btn.style.color = '#007167';
+      btn.style.color = '#fff';
+      btn.style.background = '#007167';
+      btn.style.border = 'none';
+      btn.style.borderRadius = '999px';
+      btn.style.padding = '6px 16px';
+      btn.style.fontWeight = '500';
+      btn.style.cursor = 'pointer';
     });
 
     // Solid buttons in wishlist cards
