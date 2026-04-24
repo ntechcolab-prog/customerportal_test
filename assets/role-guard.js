@@ -147,14 +147,14 @@
     // Text-style buttons in spare parts tables
     document.querySelectorAll('.add-to-cart').forEach(function (btn) {
       btn.textContent = 'Request for Approval';
-      btn.style.color = '#d97706';
+      btn.style.color = '#007167';
     });
 
     // Solid buttons in wishlist cards
     document.querySelectorAll('.btn-add-cart').forEach(function (btn) {
       // Replace inner content (SVG + text) with new label
       btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Request for Approval';
-      btn.style.background = '#d97706';
+      btn.style.background = '#007167';
     });
   }
 
