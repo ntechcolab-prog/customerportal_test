@@ -21,7 +21,7 @@
     technician: [
       'checkout.html', 'checkout-cart.html', 'checkout-review.html',
       'checkout-confirmation.html', 'checkout-order-details.html', 'checkout-quote.html',
-      'quotes.html', 'quote-detail.html',
+      'quotes.html', 'quote-detail.html', 'contracts.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html'
     ],
@@ -58,10 +58,18 @@
     }
   });
 
-  // 3. Hide Admin link in profile dropdown for non-admin roles
+  // 3. Hide specific links in profile dropdown per role
   if (role !== 'administrator') {
     document.querySelectorAll('.profile-dropdown-item').forEach(function (item) {
-      if (item.textContent.trim() === 'Admin') {
+      var label = item.textContent.trim();
+      if (label === 'Admin') {
+        item.closest('li').style.display = 'none';
+      }
+    });
+  }
+  if (role === 'technician') {
+    document.querySelectorAll('.profile-dropdown-item').forEach(function (item) {
+      if (item.textContent.trim() === 'Contracts') {
         item.closest('li').style.display = 'none';
       }
     });
