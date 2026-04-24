@@ -564,7 +564,25 @@
       font-weight: 600;
       white-space: nowrap;
     }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
     .status-placed { background: #e8f5f3; color: #007167; }
+    .status-placed .status-dot { background: #007167; }
+    .status-process { background: #fef3cd; color: #856404; }
+    .status-process .status-dot { background: #856404; }
+    .status-shipped { background: #d1ecf1; color: #0c5460; }
+    .status-shipped .status-dot { background: #0c5460; }
+    .status-delivered { background: #d4edda; color: #155724; }
+    .status-delivered .status-dot { background: #155724; }
+
+    /* Actions */
+    .actions-cell {
+      display: flex;
+      align-items: center;
       gap: 8px;
     }
     .action-btn {
@@ -1614,7 +1632,7 @@
             <td>12345</td>
             <td>Oct 3, 2025</td>
             <td>Nov 3, 2025</td>
-            <td><span class="status-badge status-placed">Order Placed</span></td>
+            <td><span class="status-badge status-placed"><span class="status-dot"></span>Order Placed</span></td>
             <td>4,000.00 &euro;</td>
             <td>LMZ60 spares</td>
             <td>
@@ -1633,7 +1651,7 @@
             <td>56789</td>
             <td>Sep 24, 2025</td>
             <td>Nov 3, 2025</td>
-            <td><span class="status-badge status-process">In Process</span></td>
+            <td><span class="status-badge status-process"><span class="status-dot"></span>In Process</span></td>
             <td>12,000.00 &euro;</td>
             <td>Mastermix spares</td>
             <td>
@@ -1652,7 +1670,7 @@
             <td>12332</td>
             <td>Sep 5, 2025</td>
             <td>Nov 3, 2025</td>
-            <td><span class="status-badge status-process">In Process</span></td>
+            <td><span class="status-badge status-process"><span class="status-dot"></span>In Process</span></td>
             <td>10,000.00 &euro;</td>
             <td>Prophi spares</td>
             <td>
@@ -1671,7 +1689,7 @@
             <td>34567</td>
             <td>Jul 10, 2025</td>
             <td>Nov 3, 2025</td>
-            <td><span class="status-badge status-process">In Process</span></td>
+            <td><span class="status-badge status-process"><span class="status-dot"></span>In Process</span></td>
             <td>1,000.00 &euro;</td>
             <td>LMZ60 spares</td>
             <td>
@@ -1690,7 +1708,7 @@
             <td>13579</td>
             <td>Jun 20, 2025</td>
             <td>Nov 3, 2025</td>
-            <td><span class="status-badge status-shipped">Shipped</span></td>
+            <td><span class="status-badge status-shipped"><span class="status-dot"></span>Shipped</span></td>
             <td>900.00 &euro;</td>
             <td>Mastermix spares</td>
             <td>
@@ -1709,7 +1727,7 @@
             <td>24882</td>
             <td>Oct 13, 2025</td>
             <td>Nov 3, 2025</td>
-            <td><span class="status-badge status-delivered">Delivered</span></td>
+            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Delivered</span></td>
             <td>2,700.00 &euro;</td>
             <td>Prophi spares</td>
             <td>
@@ -1728,7 +1746,7 @@
             <td>24680</td>
             <td>Apr 20, 2025</td>
             <td>Nov 3, 2025</td>
-            <td><span class="status-badge status-shipped">Shipped</span></td>
+            <td><span class="status-badge status-shipped"><span class="status-dot"></span>Shipped</span></td>
             <td>2,700.00 &euro;</td>
             <td>LMZ60 spares</td>
             <td>
@@ -1747,7 +1765,7 @@
             <td>97531</td>
             <td>Oct 12, 2025</td>
             <td>Nov 3, 2025</td>
-            <td><span class="status-badge status-shipped">Shipped</span></td>
+            <td><span class="status-badge status-shipped"><span class="status-dot"></span>Shipped</span></td>
             <td>2,700.00 &euro;</td>
             <td>Mastermix spares</td>
             <td>

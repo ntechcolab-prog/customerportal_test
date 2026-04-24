@@ -607,7 +607,25 @@
       font-weight: 600;
       white-space: nowrap;
     }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
     .status-in-progress { background: #e8f5f3; color: #007167; }
+    .status-in-progress .status-dot { background: #007167; }
+    .status-completed { background: #d4edda; color: #155724; }
+    .status-completed .status-dot { background: #155724; }
+    .status-submitted { background: #d1ecf1; color: #0c5460; }
+    .status-submitted .status-dot { background: #0c5460; }
+    .status-cancelled { background: #fde8e8; color: #c73e20; }
+    .status-cancelled .status-dot { background: #c73e20; }
+
+    /* Machine cell */
+    .machine-cell {
+      display: flex;
+      flex-direction: column;
       gap: 1px;
     }
     .machine-name {
@@ -1553,7 +1571,7 @@
                 Repair
               </span>
             </td>
-            <td><span class="status-badge status-in-progress">In Progress</span></td>
+            <td><span class="status-badge status-in-progress"><span class="status-dot"></span>In Progress</span></td>
             <td class="desc-cell">Strange noise during operation at high RPM</td>
             <td>
               <div class="machine-cell">
@@ -1581,7 +1599,7 @@
                 Spare Parts
               </span>
             </td>
-            <td><span class="status-badge status-in-progress">In Progress</span></td>
+            <td><span class="status-badge status-in-progress"><span class="status-dot"></span>In Progress</span></td>
             <td class="desc-cell">I need a spare part for this machine.</td>
             <td>
               <div class="machine-cell">
@@ -1609,7 +1627,7 @@
                 Maintenance
               </span>
             </td>
-            <td><span class="status-badge status-completed">Completed</span></td>
+            <td><span class="status-badge status-completed"><span class="status-dot"></span>Completed</span></td>
             <td class="desc-cell">Scheduled preventive maintenance.</td>
             <td>
               <div class="machine-cell">
@@ -1637,7 +1655,7 @@
                 Consultation
               </span>
             </td>
-            <td><span class="status-badge status-submitted">Submitted</span></td>
+            <td><span class="status-badge status-submitted"><span class="status-dot"></span>Submitted</span></td>
             <td class="desc-cell">Need expert advice on grinding parameters.</td>
             <td>
               <div class="machine-cell">
@@ -1665,7 +1683,7 @@
                 Repair
               </span>
             </td>
-            <td><span class="status-badge status-cancelled">Cancelled</span></td>
+            <td><span class="status-badge status-cancelled"><span class="status-dot"></span>Cancelled</span></td>
             <td class="desc-cell">Issue resolved before service visit.</td>
             <td>
               <div class="machine-cell">

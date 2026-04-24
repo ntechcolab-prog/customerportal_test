@@ -570,7 +570,25 @@
       font-weight: 600;
       white-space: nowrap;
     }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
     .status-pending { background: #fef3cd; color: #856404; }
+    .status-pending .status-dot { background: #856404; }
+    .status-placed { background: #e8f5f3; color: #007167; }
+    .status-placed .status-dot { background: #007167; }
+    .status-expired { background: #fde8e8; color: #c73e20; }
+    .status-expired .status-dot { background: #c73e20; }
+    .status-progress { background: #e8f5f3; color: #007167; }
+    .status-progress .status-dot { background: #007167; }
+
+    /* Top Item cell */
+    .top-item-name {
+      font-size: 13px;
+      font-weight: 600;
       color: #1f2937;
       line-height: 1.3;
     }
@@ -1427,7 +1445,7 @@
           <tr>
             <td><a class="quote-link" href="quote-detail.html">#15098765</a></td>
             <td>Mar 12, 2026</td>
-            <td><span class="status-badge status-pending">Pending for Approval</span></td>
+            <td><span class="status-badge status-pending"><span class="status-dot"></span>Pending for Approval</span></td>
             <td>O-Ring spare parts</td>
             <td>1</td>
             <td>
@@ -1446,7 +1464,7 @@
           <tr>
             <td><a class="quote-link" href="quote-detail.html">#15345678</a></td>
             <td>Feb 2, 2026</td>
-            <td><span class="status-badge status-placed">Quote Placed</span></td>
+            <td><span class="status-badge status-placed"><span class="status-dot"></span>Quote Placed</span></td>
             <td>CERABEADS grinding media</td>
             <td>2</td>
             <td>
@@ -1465,7 +1483,7 @@
           <tr>
             <td><a class="quote-link" href="quote-detail.html">#15234567</a></td>
             <td>Jan 28, 2026</td>
-            <td><span class="status-badge status-expired">Expired</span></td>
+            <td><span class="status-badge status-expired"><span class="status-dot"></span>Expired</span></td>
             <td>GLASSBEADS grinding media</td>
             <td>1</td>
             <td>
@@ -1484,7 +1502,7 @@
           <tr>
             <td><a class="quote-link" href="quote-detail.html">#15123456</a></td>
             <td>Jan 15, 2026</td>
-            <td><span class="status-badge status-progress">In Progress</span></td>
+            <td><span class="status-badge status-progress"><span class="status-dot"></span>In Progress</span></td>
             <td>Mechanical seal &amp; chamber parts</td>
             <td>3</td>
             <td>
