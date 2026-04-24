@@ -514,9 +514,25 @@
       gap: 4px;
       background: #fff;
     }
-    .profile-card:hover {
+    .profile-card:not(.is-disabled):hover {
       border-color: #0b9c92;
       background: #f0faf9;
+    }
+    .profile-card.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .profile-card-soon {
+      font-size: 10px;
+      font-weight: 600;
+      color: #6b6e73;
+      background: #eaeaea;
+      border-radius: 999px;
+      padding: 1px 8px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      vertical-align: middle;
+      margin-left: 6px;
     }
     .profile-card.is-selected {
       border-color: #007167;
@@ -704,12 +720,12 @@
             <span class="profile-card-name">Technician</span>
             <span class="profile-card-desc">Machine management, service requests and technical data.</span>
           </div>
-          <div class="profile-card" data-role="buyer" tabindex="0">
-            <span class="profile-card-name">Buyer</span>
+          <div class="profile-card is-disabled" data-role="buyer">
+            <span class="profile-card-name">Buyer <span class="profile-card-soon">Coming soon</span></span>
             <span class="profile-card-desc">Purchasing, orders, quotes and shop access.</span>
           </div>
-          <div class="profile-card" data-role="approver" tabindex="0">
-            <span class="profile-card-name">Approver</span>
+          <div class="profile-card is-disabled" data-role="approver">
+            <span class="profile-card-name">Approver <span class="profile-card-soon">Coming soon</span></span>
             <span class="profile-card-desc">Review and approve purchase requests.</span>
           </div>
         </div>
@@ -755,9 +771,10 @@
       modal.classList.add('is-open');
     });
 
-    // Card selection
+    // Card selection (skip disabled cards)
     profileCards.forEach(function (card) {
       card.addEventListener('click', function () {
+        if (card.classList.contains('is-disabled')) return;
         profileCards.forEach(function (c) { c.classList.remove('is-selected'); });
         card.classList.add('is-selected');
         selectedRole = card.getAttribute('data-role');
