@@ -498,25 +498,7 @@
       font-weight: 600;
       white-space: nowrap;
     }
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
     .status-placed { background: #e8f5f3; color: #007167; }
-    .status-placed .status-dot { background: #007167; }
-    .status-process { background: #fef3cd; color: #856404; }
-    .status-process .status-dot { background: #856404; }
-    .status-shipped { background: #d1ecf1; color: #0c5460; }
-    .status-shipped .status-dot { background: #0c5460; }
-    .status-delivered { background: #d4edda; color: #155724; }
-    .status-delivered .status-dot { background: #155724; }
-
-    /* Actions */
-    .actions-cell {
-      display: flex;
-      align-items: center;
       gap: 8px;
     }
     .action-btn {
@@ -1501,7 +1483,7 @@
             <td>Zeta 60</td>
             <td>Jan 15, 2025</td>
             <td>Jan 15, 2027</td>
-            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Active</span></td>
+            <td><span class="status-badge status-delivered">Active</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
@@ -1516,7 +1498,7 @@
             <td>Discus 30</td>
             <td>Aug 20, 2024</td>
             <td>Aug 20, 2026</td>
-            <td><span class="status-badge" style="background:#fef3e2;color:#d97706"><span class="status-dot" style="background:#d97706"></span>Expiring Soon</span></td>
+            <td><span class="status-badge" style="background:#fef3e2;color:#d97706">Expiring Soon</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
@@ -1531,7 +1513,7 @@
             <td>All Machines</td>
             <td>Mar 1, 2025</td>
             <td>Mar 1, 2026</td>
-            <td><span class="status-badge" style="background:#fce8e6;color:#c73e20"><span class="status-dot" style="background:#c73e20"></span>Expired</span></td>
+            <td><span class="status-badge" style="background:#fce8e6;color:#c73e20">Expired</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
@@ -1546,7 +1528,7 @@
             <td>MasterMix 45</td>
             <td>Jun 10, 2025</td>
             <td>Jun 10, 2027</td>
-            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Active</span></td>
+            <td><span class="status-badge status-delivered">Active</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
@@ -1561,7 +1543,7 @@
             <td>Alpha Zeta 10</td>
             <td>Sep 1, 2025</td>
             <td>Sep 1, 2027</td>
-            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Active</span></td>
+            <td><span class="status-badge status-delivered">Active</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
@@ -1576,7 +1558,7 @@
             <td>Zeta 60</td>
             <td>Apr 1, 2024</td>
             <td>Apr 1, 2026</td>
-            <td><span class="status-badge status-placed"><span class="status-dot"></span>Pending Renewal</span></td>
+            <td><span class="status-badge status-placed">Pending Renewal</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
@@ -1691,7 +1673,7 @@ document.addEventListener('click', function(e) {
       '<div class="drawer-contract-type">' + type + '</div>' +
       '<div class="drawer-meta-grid">' +
         '<div class="drawer-meta-item"><div class="drawer-meta-label">Machine / Scope</div><div class="drawer-meta-value">' + scope + '</div></div>' +
-        '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '"' + statusStyle + '><span class="status-dot"' + dotStyle + '></span>' + status + '</span></div></div>' +
+        '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '"' + statusStyle + '>' + status + '</span></div></div>' +
         '<div class="drawer-meta-item"><div class="drawer-meta-label">Start Date</div><div class="drawer-meta-value">' + start + '</div></div>' +
         '<div class="drawer-meta-item"><div class="drawer-meta-label">End Date</div><div class="drawer-meta-value">' + end + '</div></div>' +
       '</div>' +

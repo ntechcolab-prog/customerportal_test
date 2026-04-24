@@ -498,25 +498,7 @@
       font-weight: 600;
       white-space: nowrap;
     }
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
     .status-placed { background: #e8f5f3; color: #007167; }
-    .status-placed .status-dot { background: #007167; }
-    .status-process { background: #fef3cd; color: #856404; }
-    .status-process .status-dot { background: #856404; }
-    .status-shipped { background: #d1ecf1; color: #0c5460; }
-    .status-shipped .status-dot { background: #0c5460; }
-    .status-delivered { background: #d4edda; color: #155724; }
-    .status-delivered .status-dot { background: #155724; }
-
-    /* Actions */
-    .actions-cell {
-      display: flex;
-      align-items: center;
       gap: 8px;
     }
     .action-btn {
@@ -1494,7 +1476,7 @@
             <td>Zeta 60</td>
             <td>Calcium Carbonate</td>
             <td>Apr 14, 2026</td>
-            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td><span class="status-badge status-delivered">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1509,7 +1491,7 @@
             <td>MasterMix 45</td>
             <td>Titanium Dioxide</td>
             <td>Apr 12, 2026</td>
-            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td><span class="status-badge status-delivered">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1524,7 +1506,7 @@
             <td>Discus 30</td>
             <td>Carbon Black</td>
             <td>Apr 10, 2026</td>
-            <td><span class="status-badge status-process"><span class="status-dot"></span>In Progress</span></td>
+            <td><span class="status-badge status-process">In Progress</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1539,7 +1521,7 @@
             <td>Zeta 60</td>
             <td>Silicon Carbide</td>
             <td>Apr 8, 2026</td>
-            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td><span class="status-badge status-delivered">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1554,7 +1536,7 @@
             <td>Alpha Zeta 10</td>
             <td>Lithium Iron Phosphate</td>
             <td>Apr 5, 2026</td>
-            <td><span class="status-badge status-placed"><span class="status-dot"></span>Pending Review</span></td>
+            <td><span class="status-badge status-placed">Pending Review</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1569,7 +1551,7 @@
             <td>Discus 30</td>
             <td>Kaolin Clay</td>
             <td>Apr 2, 2026</td>
-            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td><span class="status-badge status-delivered">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1584,7 +1566,7 @@
             <td>Zeta 60</td>
             <td>Barium Titanate</td>
             <td>Mar 28, 2026</td>
-            <td><span class="status-badge status-delivered"><span class="status-dot"></span>Completed</span></td>
+            <td><span class="status-badge status-delivered">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1599,7 +1581,7 @@
             <td>MasterMix 45</td>
             <td>Alumina Powder</td>
             <td>Mar 25, 2026</td>
-            <td><span class="status-badge status-placed"><span class="status-dot"></span>Pending Review</span></td>
+            <td><span class="status-badge status-placed">Pending Review</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1727,7 +1709,7 @@ document.addEventListener('click', function(e) {
       '<div class="drawer-test-name">' + testName + '</div>' +
       '<div class="drawer-meta-grid">' +
         '<div class="drawer-meta-item"><div class="drawer-meta-label">Date</div><div class="drawer-meta-value">' + date + '</div></div>' +
-        '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '"><span class="status-dot"></span>' + status + '</span></div></div>' +
+        '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '">' + status + '</span></div></div>' +
         '<div class="drawer-meta-item"><div class="drawer-meta-label">Machine</div><div class="drawer-meta-value">' + machine + '</div></div>' +
         '<div class="drawer-meta-item"><div class="drawer-meta-label">Material</div><div class="drawer-meta-value">' + material + '</div></div>' +
       '</div>' +
