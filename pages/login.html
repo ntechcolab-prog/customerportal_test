@@ -403,17 +403,176 @@
       font-weight: 500;
     }
 
-    select.field-input {
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%236b6e73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 16px center;
-      padding-right: 40px;
-      cursor: pointer;
+    /* ── PROFILE MODAL (temporary – remove before go-live) ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 30, 27, 0.45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
     }
-    select.field-input:focus {
+    .modal-overlay.is-open {
+      display: flex;
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: 16px;
+      width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      animation: modalIn 0.2s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-header {
+      background: linear-gradient(176deg, #007167 0%, #0b9c92 60%, #048a7f 100%);
+      padding: 24px 28px 20px;
+      border-radius: 16px 16px 0 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .modal-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .modal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      line-height: 20px;
+      width: fit-content;
+      margin-bottom: 8px;
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 28px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.15s;
+    }
+    .modal-close:hover {
+      opacity: 1;
+    }
+    .modal-body {
+      padding: 24px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .modal-desc {
+      font-size: 14px;
+      color: #4c4d57;
+      line-height: 22px;
+      letter-spacing: -0.15px;
+    }
+    .modal-note {
+      font-size: 13px;
+      color: #6b6e73;
+      line-height: 20px;
+      font-style: italic;
+      letter-spacing: -0.15px;
+    }
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .profile-card {
+      border: 2px solid #d4d6d8;
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: #fff;
+    }
+    .profile-card:hover {
+      border-color: #0b9c92;
+      background: #f0faf9;
+    }
+    .profile-card.is-selected {
       border-color: #007167;
+      background: #eef8f7;
+    }
+    .profile-card-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #3d4246;
+      line-height: 22px;
+    }
+    .profile-card-desc {
+      font-size: 12px;
+      color: #6b6e73;
+      line-height: 18px;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .btn-modal-cancel {
+      height: 40px;
+      padding: 0 20px;
+      background: #fff;
+      color: #4c4d57;
+      border: 1px solid #b1b4b7;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-modal-cancel:hover {
+      background: #f6f6f6;
+    }
+    .btn-modal-continue {
+      height: 40px;
+      padding: 0 24px;
+      background: #007167;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-modal-continue:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+    .btn-modal-continue:disabled {
+      background: #b1b4b7;
+      cursor: not-allowed;
     }
   </style>
 </head>
@@ -475,18 +634,6 @@
           </div>
         </div>
 
-        <!-- User Role -->
-        <div class="field">
-          <label class="field-label" for="user-role">User Role *</label>
-          <select class="field-input" id="user-role">
-            <option value="" disabled selected>Select your profile type</option>
-            <option value="administrator">Administrator</option>
-            <option value="buyer" disabled>Buyer (coming soon)</option>
-            <option value="approver" disabled>Approver (coming soon)</option>
-            <option value="technician">Technician</option>
-          </select>
-        </div>
-
         <!-- Remember + Forgot -->
         <div class="form-row">
           <label class="remember-label">
@@ -524,6 +671,56 @@
     </div>
   </div>
 
+  <!--
+    ┌─────────────────────────────────────────────────────────────┐
+    │  TEMPORARY: Profile Selection Modal                        │
+    │  This modal exists for testing purposes only.              │
+    │  Remove before the portal goes live — in production the    │
+    │  profile will be assigned automatically by the backend.    │
+    └─────────────────────────────────────────────────────────────┘
+  -->
+  <div class="modal-overlay" id="profile-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <span class="modal-badge">⚙ Test Mode</span>
+          <h3 class="modal-title" id="modal-title">Testing Mode — Profile Selection</h3>
+        </div>
+        <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          To continue, please select the user profile you want to test. Each profile represents a different type of Customer Portal user and has its own set of permissions and views.
+        </p>
+        <p class="modal-note">
+          Note: This step exists for testing purposes only and will be removed before the portal goes live. In the final version, the profile will be automatically assigned based on your account.
+        </p>
+        <div class="profile-grid">
+          <div class="profile-card" data-role="administrator" tabindex="0">
+            <span class="profile-card-name">Admin</span>
+            <span class="profile-card-desc">Full access to all portal features and settings.</span>
+          </div>
+          <div class="profile-card" data-role="technician" tabindex="0">
+            <span class="profile-card-name">Technician</span>
+            <span class="profile-card-desc">Machine management, service requests and technical data.</span>
+          </div>
+          <div class="profile-card" data-role="buyer" tabindex="0">
+            <span class="profile-card-name">Buyer</span>
+            <span class="profile-card-desc">Purchasing, orders, quotes and shop access.</span>
+          </div>
+          <div class="profile-card" data-role="approver" tabindex="0">
+            <span class="profile-card-name">Approver</span>
+            <span class="profile-card-desc">Review and approve purchase requests.</span>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-modal-cancel" id="modal-cancel" type="button">Cancel</button>
+          <button class="btn-modal-continue" id="modal-continue" type="button" disabled>Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Toggle password visibility
     document.getElementById('toggle-password').addEventListener('click', function () {
@@ -531,25 +728,68 @@
       input.type = input.type === 'password' ? 'text' : 'password';
     });
 
-    // Enable Log In button only when all fields are filled
+    // Enable Log In button when email + password are filled
     var emailField = document.getElementById('email');
     var passField = document.getElementById('password');
-    var roleField = document.getElementById('user-role');
     var loginBtn = document.getElementById('btn-login');
 
     function checkForm() {
-      var valid = emailField.value.trim() !== '' && passField.value.trim() !== '' && roleField.value !== '';
+      var valid = emailField.value.trim() !== '' && passField.value.trim() !== '';
       loginBtn.disabled = !valid;
     }
     emailField.addEventListener('input', checkForm);
     passField.addEventListener('input', checkForm);
-    roleField.addEventListener('change', checkForm);
 
-    // Login — save role and redirect
+    // ── Profile Modal logic (temporary – remove before go-live) ──
+    var modal = document.getElementById('profile-modal');
+    var continueBtn = document.getElementById('modal-continue');
+    var selectedRole = null;
+    var profileCards = document.querySelectorAll('.profile-card');
+
+    // Open modal on Login click
     loginBtn.addEventListener('click', function () {
       if (this.disabled) return;
-      localStorage.setItem('netzsch_user_role', roleField.value);
+      selectedRole = null;
+      continueBtn.disabled = true;
+      profileCards.forEach(function (c) { c.classList.remove('is-selected'); });
+      modal.classList.add('is-open');
+    });
+
+    // Card selection
+    profileCards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        profileCards.forEach(function (c) { c.classList.remove('is-selected'); });
+        card.classList.add('is-selected');
+        selectedRole = card.getAttribute('data-role');
+        continueBtn.disabled = false;
+      });
+      // Keyboard support (Enter / Space)
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+
+    // Continue — save role and redirect
+    continueBtn.addEventListener('click', function () {
+      if (!selectedRole) return;
+      localStorage.setItem('netzsch_user_role', selectedRole);
       window.location.href = 'dashboard.html';
+    });
+
+    // Close modal
+    function closeModal() {
+      modal.classList.remove('is-open');
+    }
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-cancel').addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
     });
   </script>
 
