@@ -706,13 +706,20 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 48px;
       margin-bottom: 48px;
+      align-items: start;
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
     }
 
     .footer-col-title {
       font-size: 14px;
       font-weight: 700;
       color: #007167;
-      line-height: 21px;
+      line-height: 20px;
       letter-spacing: -0.15px;
       margin-bottom: 16px;
     }
@@ -721,7 +728,7 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .footer-list li a,
@@ -729,7 +736,7 @@
       font-size: 14px;
       font-weight: 400;
       color: #5c5f62;
-      line-height: 21px;
+      line-height: 20px;
       letter-spacing: -0.15px;
       text-decoration: none;
     }
@@ -738,21 +745,22 @@
       font-size: 14px;
       font-weight: 400;
       color: #5c5f62;
-      line-height: 21px;
+      line-height: 20px;
       letter-spacing: -0.15px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .footer-socials {
       display: flex;
-      gap: 12px;
+      gap: 10px;
+      align-items: center;
     }
 
     .social-link {
       width: 32px;
       height: 32px;
       background: #007167;
-      border-radius: 4px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -771,7 +779,7 @@
       color: #8b8e91;
       line-height: 18px;
       border-top: 1px solid #eaeaea;
-      padding-top: 18px;
+      padding-top: 24px;
     }
   </style>
 </head>
@@ -1043,14 +1051,14 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-grid">
-      <div>
+      <div class="footer-col">
         <div class="footer-col-title">NETZSCH Website</div>
         <ul class="footer-list">
           <li><a href="#">Grinding &amp; Dispersing</a></li>
           <li><a href="#">Process Technology</a></li>
         </ul>
       </div>
-      <div>
+      <div class="footer-col">
         <div class="footer-col-title">Online Shop</div>
         <ul class="footer-list">
           <li><a href="#">Grinding Conditions</a></li>
@@ -1058,7 +1066,7 @@
           <li><a href="#">View all Conditions</a></li>
         </ul>
       </div>
-      <div>
+      <div class="footer-col">
         <div class="footer-col-title">Legal</div>
         <ul class="footer-list">
           <li><a href="#">Privacy Policy</a></li>
@@ -1066,14 +1074,14 @@
           <li><a href="#">Terms of Use</a></li>
         </ul>
       </div>
-      <div>
+      <div class="footer-col">
         <div class="footer-col-title">Connect</div>
         <p class="footer-contact-text">Contact Our Team</p>
         <div class="footer-socials">
-          <a href="#" class="social-link">
+          <a href="#" class="social-link" aria-label="LinkedIn">
             <img src="../assets/social-linkedin.svg" alt="LinkedIn">
           </a>
-          <a href="#" class="social-link">
+          <a href="#" class="social-link" aria-label="Instagram">
             <img src="../assets/social-instagram.svg" alt="Instagram">
           </a>
         </div>
