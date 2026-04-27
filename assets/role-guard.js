@@ -209,9 +209,9 @@
         ];
 
         var statusMap = {
-          pending: '<span class="status-badge status-placed"><span class="status-dot"></span>Pending Approval</span>',
-          approved: '<span class="status-badge status-delivered"><span class="status-dot"></span>Approved</span>',
-          rejected: '<span class="status-badge" style="background:#fce8e6;color:#c73e20;"><span class="status-dot" style="background:#c73e20;"></span>Rejected</span>'
+          pending: '<span class="status-badge status-placed">Pending Approval</span>',
+          approved: '<span class="status-badge status-delivered">Approved</span>',
+          rejected: '<span class="status-badge" style="background:#fce8e6;color:#c73e20;">Rejected</span>'
         };
 
         var priorityMap = {
@@ -253,9 +253,9 @@
       ];
 
       var statusLabels = {
-        pending: '<span class="status-badge status-placed" style="font-size:13px;"><span class="status-dot"></span>Pending Approval</span>',
-        approved: '<span class="status-badge status-delivered" style="font-size:13px;"><span class="status-dot"></span>Approved</span>',
-        rejected: '<span class="status-badge" style="background:#fce8e6;color:#c73e20;font-size:13px;"><span class="status-dot" style="background:#c73e20;"></span>Rejected</span>'
+        pending: '<span class="status-badge status-placed" style="font-size:13px;">Pending Approval</span>',
+        approved: '<span class="status-badge status-delivered" style="font-size:13px;">Approved</span>',
+        rejected: '<span class="status-badge" style="background:#fce8e6;color:#c73e20;font-size:13px;">Rejected</span>'
       };
 
       function openRequestDrawer(index) {
@@ -371,7 +371,7 @@
       var html = '';
       html += '<div class="svc-detail-section"><div class="svc-detail-label">Service ID</div><div class="svc-detail-value"><strong>' + s.id + '</strong></div></div>';
       html += '<div class="svc-detail-section"><div class="svc-detail-label">Date</div><div class="svc-detail-value">' + s.date + '</div></div>';
-      html += '<div class="svc-detail-section"><div class="svc-detail-label">Status</div><div class="svc-detail-value"><span class="status-badge ' + s.statusClass + '"><span class="status-dot"></span>' + s.status + '</span></div></div>';
+      html += '<div class="svc-detail-section"><div class="svc-detail-label">Status</div><div class="svc-detail-value"><span class="status-badge ' + s.statusClass + '">' + s.status + '</span></div></div>';
       html += '<div class="svc-detail-section"><div class="svc-detail-label">Type</div><div class="svc-detail-value">' + s.type + '</div></div>';
       html += '<div class="svc-detail-section"><div class="svc-detail-label">Description</div><div class="svc-detail-value">' + s.desc + '</div></div>';
       html += '<div class="svc-detail-section"><div class="svc-detail-label">Machine</div><div class="svc-detail-value"><strong>' + s.machine + '</strong><br>' + s.serial + '</div></div>';
