@@ -189,6 +189,12 @@
       '</tr>';
     });
 
+    // Fill empty rows to keep table height stable
+    var emptyCount = perPage - pageItems.length;
+    for (var e = 0; e < emptyCount; e++) {
+      html += '<tr class="doc-row-empty"><td colspan="4">&nbsp;</td></tr>';
+    }
+
     html += '</tbody></table>';
 
     // Pagination footer
