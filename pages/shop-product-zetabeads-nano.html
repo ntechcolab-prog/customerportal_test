@@ -665,20 +665,101 @@
     .btn-add-cart.active:hover { background: #005f57; }
     .form-select.selected { color: #1f2937; }
 
+    /* ── DOCUMENT FILTERS ─── */
+    .doc-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .doc-filter-label {
+      display: flex;
+      align-items: center;
+      color: #6b7280;
+      flex-shrink: 0;
+    }
+    .doc-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .doc-chip {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #d4d6d8;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #4c4d57;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .doc-chip:hover { background: #f3f4f6; }
+    .doc-chip.active {
+      background: #007167;
+      color: #fff;
+      border-color: #007167;
+    }
+    .doc-chip.active:hover { background: #005f57; }
+
     /* ── DOCUMENT LIST ─── */
-    .doc-list {
-      list-style: none;
+    .doc-list-wrap {
       display: flex;
       flex-direction: column;
+      gap: 0;
+    }
+    .doc-row {
+      display: flex;
+      align-items: center;
       gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f3f4f6;
     }
-    .doc-link {
+    .doc-row:last-child { border-bottom: none; }
+    .doc-row-icon {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+    .doc-row-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .doc-row-title {
       font-size: 14px;
-      color: #007167;
-      text-decoration: none;
       font-weight: 500;
+      color: #2d2e33;
     }
-    .doc-link:hover { text-decoration: underline; }
+    .doc-row-meta {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .doc-row-download {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      color: #007167;
+      transition: background 0.15s;
+    }
+    .doc-row-download:hover { background: #f0faf9; }
+    .doc-counter {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+    .doc-empty {
+      padding: 24px 0;
+      font-size: 14px;
+      color: #9ca3af;
+      text-align: center;
+    }
 
     /* ── SPECS GRID ─── */
     .specs-grid {
@@ -1471,14 +1552,7 @@
       </div>
 
       <!-- Tab: Documents -->
-      <div class="tab-content" id="tab-documents">
-        <ul class="doc-list">
-          <li><a href="#" class="doc-link">Product Data NETZSCH BEADS ZETABEADS NANO – English</a></li>
-          <li><a href="#" class="doc-link">Safety Data NETZSCH BEADS ZETABEADS NANO – English</a></li>
-          <li><a href="#" class="doc-link">Product Data NETZSCH BEADS ZETABEADS NANO – German</a></li>
-          <li><a href="#" class="doc-link">Safety Data NETZSCH BEADS ZETABEADS NANO – German</a></li>
-        </ul>
-      </div>
+      <div class="tab-content" id="tab-documents" data-product="NETZSCH BEADS ZETABEADS NANO"></div>
 
       <!-- Tab: Mechanical Specs -->
       <div class="tab-content" id="tab-specs">
@@ -2110,6 +2184,7 @@ function sendFromSmallChat() {
     var s = d.createElement("script");s.async = true;s.src = "https://static.userback.io/widget/v1.js";(d.head || d.body).appendChild(s);
   })(document);
 </script>
+<script src="../assets/doc-filter.js"></script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
 </body>
