@@ -1,5 +1,5 @@
 /**
- * NETZSCH Customer Portal — Document tab with dropdown language + type chips + table
+ * NETZSCH Customer Portal — Document tab with dropdown language + type chips + table + pagination
  * Reads data-product from #tab-documents to build the doc list dynamically.
  */
 (function () {
@@ -7,6 +7,7 @@
   if (!container) return;
 
   var productName = container.getAttribute('data-product') || 'PRODUCT';
+  var perPage = 8;
 
   // ── Document catalog ──
   var types = [
@@ -85,15 +86,14 @@
   // ── State ──
   var activeLang = 'en';
   var activeCategory = 'all';
+  var currentPage = 1;
 
   // ── Build UI ──
   container.innerHTML = '';
 
-  // Top bar: language dropdown + type chips
+  // Top bar: language dropdown
   var topBar = document.createElement('div');
   topBar.className = 'doc-top-bar';
-
-  // Language dropdown
   var langWrap = document.createElement('div');
   langWrap.className = 'doc-lang-wrap';
   langWrap.innerHTML =
@@ -118,6 +118,7 @@
     chip.setAttribute('data-category', cat.key);
     chip.addEventListener('click', function () {
       activeCategory = cat.key;
+      currentPage = 1;
       render();
     });
     typeChips.appendChild(chip);
@@ -130,16 +131,16 @@
   tableWrap.className = 'doc-table-wrap';
   container.appendChild(tableWrap);
 
-  // Counter
-  var counter = document.createElement('div');
-  counter.className = 'doc-counter';
-  container.appendChild(counter);
-
   // Wire language dropdown
   document.getElementById('docLangSelect').addEventListener('change', function () {
     activeLang = this.value;
+    currentPage = 1;
     render();
   });
+
+  // ── SVG arrows ──
+  var svgPrev = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var svgNext = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   // ── Render ──
   function render() {
@@ -155,6 +156,14 @@
       return true;
     });
 
+    var totalFiltered = filtered.length;
+    var totalPages = Math.max(1, Math.ceil(totalFiltered / perPage));
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    var start = (currentPage - 1) * perPage;
+    var end = Math.min(start + perPage, totalFiltered);
+    var pageItems = filtered.slice(start, end);
+
     // Build table
     var html = '<table class="doc-table">' +
       '<thead><tr>' +
@@ -164,7 +173,7 @@
       '<th></th>' +
       '</tr></thead><tbody>';
 
-    filtered.forEach(function (d) {
+    pageItems.forEach(function (d) {
       html += '<tr>' +
         '<td class="doc-td-name">' +
           '<svg class="doc-file-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>' +
@@ -182,14 +191,45 @@
 
     html += '</tbody></table>';
 
-    if (filtered.length === 0) {
+    // Pagination footer
+    html += '<div class="doc-pagination">';
+    html += '<span class="doc-pagination-info">Showing ' + (totalFiltered === 0 ? '0' : (start + 1)) + '\u2013' + end + ' of ' + totalFiltered + ' documents</span>';
+    html += '<div class="doc-pagination-controls">';
+
+    // Prev button
+    html += '<button class="doc-page-btn' + (currentPage === 1 ? ' disabled' : '') + '" data-page="prev" aria-label="Previous page">' + svgPrev + '</button>';
+
+    // Page numbers
+    for (var i = 1; i <= totalPages; i++) {
+      html += '<button class="doc-page-btn' + (i === currentPage ? ' active' : '') + '" data-page="' + i + '" aria-label="Page ' + i + '"' + (i === currentPage ? ' aria-current="page"' : '') + '>' + i + '</button>';
+    }
+
+    // Next button
+    html += '<button class="doc-page-btn' + (currentPage === totalPages ? ' disabled' : '') + '" data-page="next" aria-label="Next page">' + svgNext + '</button>';
+
+    html += '</div></div>';
+
+    if (totalFiltered === 0) {
       html = '<div class="doc-empty">No documents found for the selected filters.</div>';
     }
 
     tableWrap.innerHTML = html;
 
-    var totalForLang = docs.filter(function (d) { return d.lang === activeLang; }).length;
-    counter.textContent = 'Showing ' + filtered.length + ' of ' + totalForLang + ' documents';
+    // Wire pagination buttons
+    tableWrap.querySelectorAll('.doc-page-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var p = btn.getAttribute('data-page');
+        if (p === 'prev') goTo(currentPage - 1);
+        else if (p === 'next') goTo(currentPage + 1);
+        else goTo(parseInt(p));
+      });
+    });
+  }
+
+  function goTo(page) {
+    if (page < 1) return;
+    currentPage = page;
+    render();
   }
 
   render();
