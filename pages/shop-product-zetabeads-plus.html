@@ -666,17 +666,41 @@
     .form-select.selected { color: #1f2937; }
 
     /* ── DOCUMENT FILTERS ─── */
-    .doc-filter-bar {
+    .doc-top-bar {
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
       margin-bottom: 16px;
     }
-    .doc-filter-label {
+    .doc-lang-wrap {
       display: flex;
       align-items: center;
+      gap: 8px;
+    }
+    .doc-lang-label {
+      font-size: 13px;
+      font-weight: 500;
       color: #6b7280;
-      flex-shrink: 0;
+    }
+    .doc-lang-select {
+      appearance: none;
+      -webkit-appearance: none;
+      border: 1px solid #d4d6d8;
+      border-radius: 8px;
+      padding: 7px 36px 7px 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #2d2e33;
+      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%236b6e73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .doc-lang-select:focus { border-color: #007167; }
+
+    .doc-type-bar {
+      margin-bottom: 20px;
     }
     .doc-chips {
       display: flex;
@@ -703,59 +727,99 @@
     }
     .doc-chip.active:hover { background: #005f57; }
 
-    /* ── DOCUMENT LIST ─── */
-    .doc-list-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
+    /* ── DOCUMENT TABLE ─── */
+    .doc-table-wrap {
+      border: 1px solid #eef0f2;
+      border-radius: 10px;
+      overflow: hidden;
     }
-    .doc-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid #f3f4f6;
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
     }
-    .doc-row:last-child { border-bottom: none; }
-    .doc-row-icon {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-    }
-    .doc-row-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .doc-row-title {
-      font-size: 14px;
-      font-weight: 500;
-      color: #2d2e33;
-    }
-    .doc-row-meta {
+    .doc-table thead th {
+      text-align: left;
+      padding: 10px 16px;
       font-size: 12px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      background: #f9fafb;
+      border-bottom: 1px solid #eef0f2;
+    }
+    .doc-table thead th:last-child {
+      text-align: center;
+      width: 56px;
+    }
+    .doc-table tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.1s;
+    }
+    .doc-table tbody tr:last-child { border-bottom: none; }
+    .doc-table tbody tr:hover { background: #f9fdfb; }
+    .doc-table tbody td {
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #2d2e33;
+      vertical-align: middle;
+    }
+    .doc-td-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+    .doc-file-icon {
+      flex-shrink: 0;
       color: #9ca3af;
     }
-    .doc-row-download {
-      flex-shrink: 0;
-      width: 36px;
-      height: 36px;
-      display: flex;
+    .doc-td-format {
+      font-size: 12px;
+      font-weight: 500;
+      color: #9ca3af;
+      text-transform: uppercase;
+    }
+    .doc-td-action {
+      text-align: center;
+    }
+
+    /* Type badges */
+    .doc-type-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .doc-type-product-data { background: #e8f5f3; color: #007167; }
+    .doc-type-safety { background: #fef3cd; color: #856404; }
+    .doc-type-certificates { background: #d1ecf1; color: #0c5460; }
+    .doc-type-technical { background: #e8eaed; color: #4c4d57; }
+    .doc-type-installation { background: #ede9fe; color: #6d28d9; }
+    .doc-type-maintenance { background: #fde8e8; color: #c73e20; }
+
+    .doc-download-btn {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      width: 32px;
+      height: 32px;
       border-radius: 8px;
       color: #007167;
       transition: background 0.15s;
     }
-    .doc-row-download:hover { background: #f0faf9; }
+    .doc-download-btn:hover { background: #e8f5f3; }
+
     .doc-counter {
-      margin-top: 16px;
+      margin-top: 14px;
       font-size: 12px;
       color: #9ca3af;
     }
     .doc-empty {
-      padding: 24px 0;
+      padding: 32px 0;
       font-size: 14px;
       color: #9ca3af;
       text-align: center;
