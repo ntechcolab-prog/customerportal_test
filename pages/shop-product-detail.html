@@ -557,6 +557,8 @@
       cursor: pointer;
     }
     .btn-wishlist:hover { background: #f0faf9; }
+    .btn-wishlist.wishlisted { background: #e8f5f3; border-color: #007167; color: #007167; }
+    .btn-wishlist.wishlisted:hover { background: #d5edea; }
     .btn-wishlist svg { width: 16px; height: 16px; }
     .btn-add-cart {
       flex: 1;
@@ -1964,15 +1966,7 @@ document.addEventListener('click', function(e) {
       btnCart.classList.add('active');
     });
 
-    // Wishlist toast
-    const toast = document.getElementById('wishlistToast');
-    document.querySelector('.btn-wishlist').addEventListener('click', () => {
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 4000);
-    });
-    document.getElementById('toastClose').addEventListener('click', () => {
-      toast.classList.remove('show');
-    });
+    // Wishlist toggle handled by wishlist-toggle.js
 
     // Add to Cart -> add item to localStorage cart + show dropdown
     btnCart.addEventListener('click', (e) => {
@@ -2294,6 +2288,7 @@ function sendFromSmallChat() {
   })(document);
 </script>
 <script src="../assets/doc-filter.js"></script>
+<script src="../assets/wishlist-toggle.js"></script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
 </body>
