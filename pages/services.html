@@ -1691,17 +1691,102 @@
                 </span>
               </div></td>
           </tr>
+          <!-- Row 6: Maintenance, In Progress (page 2) -->
+          <tr>
+            <td><a class="service-link" href="service-request-submitted.html">#15345683</a></td>
+            <td>Nov 28, 2025</td>
+            <td>
+              <span class="type-cell">
+                <img class="type-icon type-maintenance" src="../assets/icon-type-maintenance.svg" alt="">
+                Maintenance
+              </span>
+            </td>
+            <td><span class="status-badge status-in-progress">In Progress</span></td>
+            <td class="desc-cell">Annual calibration and alignment check.</td>
+            <td>
+              <div class="machine-cell">
+                <span class="machine-name">Alpha Zeta 10</span>
+                <span class="machine-serial">S/N: 334455</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" aria-label="View service details">
+                  <img src="../assets/icon-service-eye.svg" alt="">
+                </button>
+                <span class="action-chevron">
+                  <img src="../assets/icon-service-info.svg" alt="">
+                </span>
+              </div></td>
+          </tr>
+          <!-- Row 7: Spare Parts, Completed (page 2) -->
+          <tr>
+            <td><a class="service-link" href="service-request-submitted.html">#15345684</a></td>
+            <td>Nov 15, 2025</td>
+            <td>
+              <span class="type-cell">
+                <img class="type-icon type-spare-parts" src="../assets/icon-type-spare-parts.svg" alt="">
+                Spare Parts
+              </span>
+            </td>
+            <td><span class="status-badge status-completed">Completed</span></td>
+            <td class="desc-cell">Replacement grinding discs for quarterly swap.</td>
+            <td>
+              <div class="machine-cell">
+                <span class="machine-name">Discus 30</span>
+                <span class="machine-serial">S/N: 456123</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" aria-label="View service details">
+                  <img src="../assets/icon-service-eye.svg" alt="">
+                </button>
+                <span class="action-chevron">
+                  <img src="../assets/icon-service-info.svg" alt="">
+                </span>
+              </div></td>
+          </tr>
+          <!-- Row 8: Consultation, Submitted (page 2) -->
+          <tr>
+            <td><a class="service-link" href="service-request-submitted.html">#15345685</a></td>
+            <td>Nov 3, 2025</td>
+            <td>
+              <span class="type-cell">
+                <img class="type-icon type-consultation" src="../assets/icon-type-consultation.svg" alt="">
+                Consultation
+              </span>
+            </td>
+            <td><span class="status-badge status-submitted">Submitted</span></td>
+            <td class="desc-cell">Process optimization for new material batch.</td>
+            <td>
+              <div class="machine-cell">
+                <span class="machine-name">MasterMix 45</span>
+                <span class="machine-serial">S/N: 667788</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" title="View details" aria-label="View service details">
+                  <img src="../assets/icon-service-eye.svg" alt="">
+                </button>
+                <span class="action-chevron">
+                  <img src="../assets/icon-service-info.svg" alt="">
+                </span>
+              </div></td>
+          </tr>
         </tbody>
       </table>
       <!-- PAGINATION -->
       <div class="pagination">
-        <span class="pagination-info">Showing 1–5 of 5 services</span>
+        <span class="pagination-info" id="paginationInfo">Showing 1–5 of 8 services</span>
         <div class="pagination-controls">
-          <button class="page-btn disabled" aria-label="Previous page">
+          <button class="page-btn disabled" id="btnPrev" aria-label="Previous page">
             <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <button class="page-btn active" aria-label="Page 1" aria-current="page">1</button>
-          <button class="page-btn disabled" aria-label="Next page">
+          <button class="page-btn active" id="btnPage1" aria-label="Page 1" aria-current="page">1</button>
+          <button class="page-btn" id="btnPage2" aria-label="Page 2">2</button>
+          <button class="page-btn" id="btnNext" aria-label="Next page">
             <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -2093,6 +2178,53 @@ function sendFromSmallChat() {
   (function(d) {
     var s = d.createElement("script");s.async = true;s.src = "https://static.userback.io/widget/v1.js";(d.head || d.body).appendChild(s);
   })(document);
+</script>
+<script>
+(function() {
+  var rows = document.querySelectorAll('.data-table tbody tr');
+  var perPage = 5;
+  var totalRows = rows.length;
+  var totalPages = Math.ceil(totalRows / perPage);
+  var currentPage = 1;
+
+  var info = document.getElementById('paginationInfo');
+  var btnPrev = document.getElementById('btnPrev');
+  var btnNext = document.getElementById('btnNext');
+  var btnPage1 = document.getElementById('btnPage1');
+  var btnPage2 = document.getElementById('btnPage2');
+
+  function render() {
+    var start = (currentPage - 1) * perPage;
+    var end = Math.min(start + perPage, totalRows);
+
+    rows.forEach(function(row, i) {
+      row.style.display = (i >= start && i < end) ? '' : 'none';
+    });
+
+    info.textContent = 'Showing ' + (start + 1) + '\u2013' + end + ' of ' + totalRows + ' services';
+
+    btnPage1.classList.toggle('active', currentPage === 1);
+    btnPage1.setAttribute('aria-current', currentPage === 1 ? 'page' : 'false');
+    btnPage2.classList.toggle('active', currentPage === 2);
+    btnPage2.setAttribute('aria-current', currentPage === 2 ? 'page' : 'false');
+
+    btnPrev.classList.toggle('disabled', currentPage === 1);
+    btnNext.classList.toggle('disabled', currentPage === totalPages);
+  }
+
+  function goTo(page) {
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    render();
+  }
+
+  btnPage1.addEventListener('click', function() { goTo(1); });
+  btnPage2.addEventListener('click', function() { goTo(2); });
+  btnPrev.addEventListener('click', function() { goTo(currentPage - 1); });
+  btnNext.addEventListener('click', function() { goTo(currentPage + 1); });
+
+  render();
+})();
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
