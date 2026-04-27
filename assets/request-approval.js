@@ -100,8 +100,8 @@
     '      </div>',
 
     '      <div class="rfa-field">',
-    '        <label class="rfa-label">Justification *</label>',
-    '        <textarea class="rfa-textarea" id="rfaJustification" placeholder="Explain why this part is needed (e.g., scheduled maintenance, component wear, machine failure)..."></textarea>',
+    '        <label class="rfa-label">Request Details</label>',
+    '        <textarea class="rfa-textarea" id="rfaJustification" placeholder="Add any details about this request (e.g., scheduled maintenance, component wear, machine failure)..."></textarea>',
     '      </div>',
     '    </div>',
 
@@ -162,13 +162,6 @@
 
   // ── Submit ──
   function submitRfa() {
-    var justification = document.getElementById('rfaJustification').value.trim();
-    if (!justification) {
-      document.getElementById('rfaJustification').style.borderColor = '#c73e20';
-      document.getElementById('rfaJustification').focus();
-      return;
-    }
-
     // Generate fake request ID
     var reqId = 'REQ-2026-' + String(Math.floor(Math.random() * 9000) + 1000);
     document.getElementById('rfaRequestId').textContent = reqId;
@@ -185,11 +178,6 @@
   overlay.addEventListener('click', function (e) { if (e.target === overlay) closeRfa(); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && overlay.classList.contains('open')) closeRfa();
-  });
-
-  // Reset justification border on input
-  document.getElementById('rfaJustification').addEventListener('input', function () {
-    this.style.borderColor = '';
   });
 
   // ── Intercept "Request for Approval" button clicks ──
