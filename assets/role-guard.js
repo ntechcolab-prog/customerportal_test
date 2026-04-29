@@ -88,40 +88,66 @@
     if (cartDropdown) cartDropdown.style.display = 'none';
   }
 
-  // 4b. Set persona (name, email, avatar) per role
+  // 4b. Set persona (name, email, initials, color) per role
   var personas = {
-    administrator: { name: 'Marcus Weber',   email: 'marcus.weber@acme-corp.com',   avatar: '../assets/avatar-marcus.jpg',  alt: 'Marcus' },
-    buyer:         { name: 'Sarah Mitchell',  email: 'sarah.mitchell@acme-corp.com',  avatar: '../assets/avatar-sarah.jpg',   alt: 'Sarah' },
-    technician:    { name: 'Carlos Andrade',  email: 'carlos.andrade@acme-corp.com',  avatar: '../assets/avatar-carlos.jpg',  alt: 'Carlos' },
-    approver:      { name: 'Daniel Costa',    email: 'daniel.costa@acme-corp.com',    avatar: '../assets/avatar-daniel.jpg',  alt: 'Daniel' }
+    administrator: { name: 'Marcus Weber',   email: 'marcus.weber@acme-corp.com',   initials: 'MW', color: '#007167' },
+    buyer:         { name: 'Sarah Mitchell',  email: 'sarah.mitchell@acme-corp.com',  initials: 'SM', color: '#0b9c92' },
+    technician:    { name: 'Carlos Andrade',  email: 'carlos.andrade@acme-corp.com',  initials: 'CA', color: '#3d4246' },
+    approver:      { name: 'Daniel Costa',    email: 'daniel.costa@acme-corp.com',    initials: 'DC', color: '#5c5f62' }
   };
+
+  // Helper: create initials circle element
+  function createInitialsEl(initials, bg, size, fontSize) {
+    var el = document.createElement('div');
+    el.textContent = initials;
+    el.setAttribute('aria-label', initials);
+    el.style.cssText = 'width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:' + bg +
+      ';color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Inter",sans-serif;' +
+      'font-size:' + fontSize + 'px;font-weight:600;letter-spacing:0.5px;cursor:pointer;flex-shrink:0;user-select:none;';
+    return el;
+  }
 
   var persona = personas[role];
   if (persona) {
-    // Header avatar
+    // Inject avatar styles
+    var avatarStyle = document.createElement('style');
+    avatarStyle.textContent = '.profile-dropdown { width: 280px !important; } .profile-dropdown-email { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }';
+    document.head.appendChild(avatarStyle);
+
+    // Header avatar → initials
     var headerAvatar = document.querySelector('.user-avatar');
     if (headerAvatar) {
-      headerAvatar.src = persona.avatar;
-      headerAvatar.alt = persona.alt;
+      var headerInitials = createInitialsEl(persona.initials, persona.color, 44, 15);
+      headerInitials.setAttribute('onclick', 'toggleProfileDropdown(event)');
+      headerAvatar.parentNode.replaceChild(headerInitials, headerAvatar);
     }
 
-    // Profile dropdown avatar + info
+    // Dropdown avatar → initials
     var dropdownAvatar = document.querySelector('.profile-dropdown-avatar');
     if (dropdownAvatar) {
-      dropdownAvatar.src = persona.avatar;
-      dropdownAvatar.alt = persona.alt;
+      var ddInitials = createInitialsEl(persona.initials, persona.color, 36, 13);
+      ddInitials.style.border = '1px solid #fff';
+      ddInitials.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+      ddInitials.style.cursor = 'default';
+      dropdownAvatar.parentNode.replaceChild(ddInitials, dropdownAvatar);
     }
+
+    // Dropdown name + email
     var dropdownName = document.querySelector('.profile-dropdown-name');
     if (dropdownName) dropdownName.textContent = persona.name;
     var dropdownEmail = document.querySelector('.profile-dropdown-email');
     if (dropdownEmail) dropdownEmail.textContent = persona.email;
 
-    // Profile page — avatar, name, email, info fields
+    // Profile page — large avatar → initials
     var profileAvatar = document.querySelector('.profile-avatar');
     if (profileAvatar) {
-      profileAvatar.src = persona.avatar;
-      profileAvatar.alt = persona.name;
+      var profileInitials = createInitialsEl(persona.initials, persona.color, 80, 26);
+      profileInitials.style.border = '3px solid rgba(255,255,255,0.3)';
+      profileInitials.style.cursor = 'default';
+      profileAvatar.parentNode.replaceChild(profileInitials, profileAvatar);
     }
+
+    // Profile name
     var profileName = document.querySelector('.profile-name');
     if (profileName) profileName.textContent = persona.name;
 
@@ -129,11 +155,6 @@
     document.querySelectorAll('.info-field-value').forEach(function (field) {
       if (field.textContent.trim() === 'John Doe') field.textContent = persona.name;
       if (field.textContent.trim() === 'john.doe@acme-corp.com') field.textContent = persona.email;
-    });
-
-    // Email link in profile page
-    document.querySelectorAll('.profile-email, .info-email').forEach(function (el) {
-      if (el.textContent.trim() === 'john.doe@acme-corp.com') el.textContent = persona.email;
     });
 
     // Profile role subtitle
