@@ -983,6 +983,176 @@
     if (backLink) backLink.setAttribute('href', 'orders.html');
   }
 
-  // 12. Expose role for other scripts
+  // ══════════════════════════════════════════════════════════════════════
+  // 12. BUYER — Personalized Dashboard
+  // ══════════════════════════════════════════════════════════════════════
+  if (role === 'buyer' && currentPage === 'dashboard.html') {
+
+    // ── 12a. Inject buyer dashboard styles ──
+    var buyerDashStyle = document.createElement('style');
+    buyerDashStyle.textContent = [
+      '.status-pending-approval{background:#fff8e1;color:#b8860b;}',
+      '.status-approved{background:#e8f5e9;color:#2e7d32;}',
+      '.status-rejected{background:#fce8e6;color:#c73e20;}',
+      '.status-converted{background:#e8f5f3;color:#007167;}',
+      /* Approval summary card */
+      '.approval-summary{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px 24px;display:flex;align-items:center;gap:20px;margin-bottom:0;}',
+      '.approval-summary-icon{width:48px;height:48px;border-radius:50%;background:#fff8e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;}',
+      '.approval-summary-icon svg{width:24px;height:24px;color:#b8860b;}',
+      '.approval-summary-content{flex:1;}',
+      '.approval-summary-title{font-size:15px;font-weight:600;color:#1f2937;margin-bottom:2px;}',
+      '.approval-summary-desc{font-size:13px;color:#6b7280;line-height:20px;}',
+      '.approval-summary-link{font-size:13px;font-weight:600;color:#007167;text-decoration:none;flex-shrink:0;display:flex;align-items:center;gap:4px;}',
+      '.approval-summary-link:hover{text-decoration:underline;}',
+      '.approval-summary-link svg{width:14px;height:14px;}',
+      /* Spending card */
+      '.spending-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:24px;}',
+      '.spending-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}',
+      '.spending-title{font-size:15px;font-weight:700;color:#1f2937;}',
+      '.spending-period{font-size:12px;color:#9ca0a5;font-weight:500;}',
+      '.spending-total{font-size:28px;font-weight:700;color:#1f2937;margin-bottom:4px;letter-spacing:-0.5px;}',
+      '.spending-label{font-size:12px;color:#6b7280;margin-bottom:20px;}',
+      '.spending-bar-wrap{height:8px;background:#f3f4f6;border-radius:999px;overflow:hidden;margin-bottom:16px;}',
+      '.spending-bar{height:100%;background:#007167;border-radius:999px;transition:width 0.6s cubic-bezier(0.32,0.72,0,1);}',
+      '.spending-breakdown{display:flex;gap:24px;}',
+      '.spending-item{display:flex;flex-direction:column;gap:2px;}',
+      '.spending-item-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;}',
+      '.spending-item-label{font-size:12px;color:#6b7280;display:flex;align-items:center;}',
+      '.spending-item-value{font-size:14px;font-weight:600;color:#1f2937;}',
+    ].join('\n');
+    document.head.appendChild(buyerDashStyle);
+
+    // ── 12b. Welcome banner — change name ──
+    var welcomeTitle = document.querySelector('.welcome-title');
+    if (welcomeTitle) {
+      var hour = new Date().getHours();
+      var greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+      welcomeTitle.textContent = greeting + ', Sarah';
+    }
+
+    // ── 12c. Replace stat cards with buyer-centric metrics ──
+    var statCards = document.querySelector('.stat-cards');
+    if (statCards) {
+      statCards.innerHTML = [
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap" style="background:#fff8e1;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#b8860b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">3</div><div class="stat-label">Pending Approval</div></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap" style="background:#e8f5e9;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">7</div><div class="stat-label">Approved</div></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">12</div><div class="stat-label">Total Orders</div></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">4</div><div class="stat-label">Wishlist Items</div></div>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // ── 12d. Replace middle row: AI Insights → Approval Alert + Spending ──
+    var middleRow = document.querySelector('.middle-row');
+    if (middleRow) {
+      middleRow.innerHTML = [
+        // Approval summary alert
+        '<div class="approval-summary">',
+        '  <div class="approval-summary-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div class="approval-summary-content">',
+        '    <div class="approval-summary-title">3 orders awaiting approval</div>',
+        '    <div class="approval-summary-desc">Your most recent order (2800998-30) was submitted yesterday and is being reviewed by Daniel Costa.</div>',
+        '  </div>',
+        '  <a href="orders.html" class="approval-summary-link">View Orders <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>',
+        '</div>',
+        // Spending overview
+        '<div class="spending-card">',
+        '  <div class="spending-header">',
+        '    <span class="spending-title">Spending Overview</span>',
+        '    <span class="spending-period">Apr 2026</span>',
+        '  </div>',
+        '  <div class="spending-total">24.279,25 €</div>',
+        '  <div class="spending-label">Total spent this month</div>',
+        '  <div class="spending-bar-wrap"><div class="spending-bar" style="width:61%;"></div></div>',
+        '  <div class="spending-breakdown">',
+        '    <div class="spending-item">',
+        '      <span class="spending-item-label"><span class="spending-item-dot" style="background:#007167;"></span>Spare Parts</span>',
+        '      <span class="spending-item-value">14.700,00 €</span>',
+        '    </div>',
+        '    <div class="spending-item">',
+        '      <span class="spending-item-label"><span class="spending-item-dot" style="background:#0b9c92;"></span>Grinding Media</span>',
+        '      <span class="spending-item-value">8.379,25 €</span>',
+        '    </div>',
+        '    <div class="spending-item">',
+        '      <span class="spending-item-label"><span class="spending-item-dot" style="background:#d7d9db;"></span>Other</span>',
+        '      <span class="spending-item-value">1.200,00 €</span>',
+        '    </div>',
+        '  </div>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // ── 12e. Replace Recent Orders table with approval-centric data ──
+    var ordersHeader = document.querySelector('.orders-header');
+    if (ordersHeader) {
+      ordersHeader.querySelector('.card-title').textContent = 'Recent Orders';
+      var viewAllBtn = ordersHeader.querySelector('.btn-view-all');
+      if (viewAllBtn) {
+        viewAllBtn.onclick = function () { window.location.href = 'orders.html'; };
+      }
+    }
+
+    var ordersTable = document.querySelector('.orders-table');
+    if (ordersTable) {
+      var thead = ordersTable.querySelector('thead tr');
+      if (thead) {
+        thead.innerHTML = '<th>Order #</th><th>Product</th><th>Date</th><th>Total</th><th>Approval</th><th>Approver</th>';
+      }
+
+      var tbody = ordersTable.querySelector('tbody');
+      if (tbody) {
+        var recentOrders = [
+          { id:'2800998-30', product:'LMZ60 spares', date:'Apr 28, 2026', total:'4.000,00 €', status:'pending', statusLabel:'Pending Approval', approver:'Daniel Costa' },
+          { id:'2800998-29', product:'CERABEADS 0.4 (x3)', date:'Apr 25, 2026', total:'119,25 €', status:'pending', statusLabel:'Pending Approval', approver:'Daniel Costa' },
+          { id:'2800998-28', product:'ZetaBeads Plus 0.3mm', date:'Apr 22, 2026', total:'850,00 €', status:'pending', statusLabel:'Pending Approval', approver:'Ana Ferreira' },
+          { id:'2800998-27', product:'Steel Beads Micro', date:'Apr 20, 2026', total:'1.200,00 €', status:'approved', statusLabel:'Approved', approver:'Daniel Costa' },
+          { id:'2800998-25', product:'Mastermix 45 spares', date:'Apr 15, 2026', total:'12.000,00 €', status:'rejected', statusLabel:'Rejected', approver:'Daniel Costa' },
+        ];
+
+        var statusClasses = {
+          pending: 'status-pending-approval',
+          approved: 'status-approved',
+          rejected: 'status-rejected',
+          converted: 'status-converted'
+        };
+
+        tbody.innerHTML = recentOrders.map(function (o) {
+          return '<tr>' +
+            '<td><a class="order-link" href="orders.html">' + o.id + '</a></td>' +
+            '<td>' + o.product + '</td>' +
+            '<td><span class="order-date"><img src="../assets/icon-package.svg" alt="">' + o.date + '</span></td>' +
+            '<td>' + o.total + '</td>' +
+            '<td><span class="status-badge ' + statusClasses[o.status] + '">' + o.statusLabel + '</span></td>' +
+            '<td>' + o.approver + '</td>' +
+            '</tr>';
+        }).join('');
+      }
+    }
+
+    // ── 12f. Quick Actions — customize for buyer ──
+    var quickActionsList = document.querySelector('.quick-actions-list');
+    if (quickActionsList) {
+      quickActionsList.innerHTML = [
+        '<button class="btn-quick-action" onclick="window.location.href=\'shop.html\'">Browse Shop</button>',
+        '<button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Orders</button>',
+        '<button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Request Quote</button>',
+        '<button class="btn-quick-action" onclick="window.location.href=\'wishlist.html\'">My Wishlist</button>',
+        '<button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
+      ].join('\n');
+    }
+  }
+
+  // 13. Expose role for other scripts
   window.netzschUserRole = role;
 })();
