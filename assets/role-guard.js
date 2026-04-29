@@ -26,6 +26,7 @@
       'admin-requests.html', 'admin-notifications.html'
     ],
     buyer: [
+      'contracts.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html'
     ],
@@ -71,7 +72,7 @@
       }
     });
   }
-  if (role === 'technician') {
+  if (role === 'technician' || role === 'buyer') {
     document.querySelectorAll('.profile-dropdown-item').forEach(function (item) {
       if (item.textContent.trim() === 'Contracts') {
         item.closest('li').style.display = 'none';
