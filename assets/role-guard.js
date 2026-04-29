@@ -88,6 +88,78 @@
     if (cartDropdown) cartDropdown.style.display = 'none';
   }
 
+  // 4b. Set persona (name, email, avatar) per role
+  var personas = {
+    administrator: { name: 'Marcus Weber',   email: 'marcus.weber@acme-corp.com',   avatar: '../assets/avatar-marcus.jpg',  alt: 'Marcus' },
+    buyer:         { name: 'Sarah Mitchell',  email: 'sarah.mitchell@acme-corp.com',  avatar: '../assets/avatar-sarah.jpg',   alt: 'Sarah' },
+    technician:    { name: 'Carlos Andrade',  email: 'carlos.andrade@acme-corp.com',  avatar: '../assets/avatar-carlos.jpg',  alt: 'Carlos' },
+    approver:      { name: 'Daniel Costa',    email: 'daniel.costa@acme-corp.com',    avatar: '../assets/avatar-daniel.jpg',  alt: 'Daniel' }
+  };
+
+  var persona = personas[role];
+  if (persona) {
+    // Header avatar
+    var headerAvatar = document.querySelector('.user-avatar');
+    if (headerAvatar) {
+      headerAvatar.src = persona.avatar;
+      headerAvatar.alt = persona.alt;
+    }
+
+    // Profile dropdown avatar + info
+    var dropdownAvatar = document.querySelector('.profile-dropdown-avatar');
+    if (dropdownAvatar) {
+      dropdownAvatar.src = persona.avatar;
+      dropdownAvatar.alt = persona.alt;
+    }
+    var dropdownName = document.querySelector('.profile-dropdown-name');
+    if (dropdownName) dropdownName.textContent = persona.name;
+    var dropdownEmail = document.querySelector('.profile-dropdown-email');
+    if (dropdownEmail) dropdownEmail.textContent = persona.email;
+
+    // Profile page — avatar, name, email, info fields
+    var profileAvatar = document.querySelector('.profile-avatar');
+    if (profileAvatar) {
+      profileAvatar.src = persona.avatar;
+      profileAvatar.alt = persona.name;
+    }
+    var profileName = document.querySelector('.profile-name');
+    if (profileName) profileName.textContent = persona.name;
+
+    // Info fields on profile page (Full Name, Email)
+    document.querySelectorAll('.info-field-value').forEach(function (field) {
+      if (field.textContent.trim() === 'John Doe') field.textContent = persona.name;
+      if (field.textContent.trim() === 'john.doe@acme-corp.com') field.textContent = persona.email;
+    });
+
+    // Email link in profile page
+    document.querySelectorAll('.profile-email, .info-email').forEach(function (el) {
+      if (el.textContent.trim() === 'john.doe@acme-corp.com') el.textContent = persona.email;
+    });
+
+    // Profile role subtitle
+    var roles = {
+      administrator: 'System Administrator at ACME Corporation',
+      buyer:         'Procurement Specialist at ACME Corporation',
+      technician:    'Field Technician at ACME Corporation',
+      approver:      'Procurement Manager at ACME Corporation'
+    };
+    var profileRole = document.querySelector('.profile-role');
+    if (profileRole) profileRole.textContent = roles[role] || profileRole.textContent;
+
+    // Email in profile-meta-item (plain text next to SVG icon)
+    document.querySelectorAll('.profile-meta-item').forEach(function (el) {
+      var text = el.textContent.trim();
+      if (text.indexOf('john.doe@acme-corp.com') !== -1) {
+        // Replace only the text node, preserve the SVG
+        el.childNodes.forEach(function (node) {
+          if (node.nodeType === 3 && node.textContent.trim().indexOf('john.doe@acme-corp.com') !== -1) {
+            node.textContent = '\n          ' + persona.email + '\n        ';
+          }
+        });
+      }
+    });
+  }
+
   // 5. Hide all prices/monetary values for technician (Price = "-" in CRUD matrix)
   if (role === 'technician') {
     // Hide € symbols in table cells (orders, spare parts, wishlist, etc.)
