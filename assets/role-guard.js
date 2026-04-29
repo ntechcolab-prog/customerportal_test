@@ -150,7 +150,6 @@
     document.querySelectorAll('.profile-meta-item').forEach(function (el) {
       var text = el.textContent.trim();
       if (text.indexOf('john.doe@acme-corp.com') !== -1) {
-        // Replace only the text node, preserve the SVG
         el.childNodes.forEach(function (node) {
           if (node.nodeType === 3 && node.textContent.trim().indexOf('john.doe@acme-corp.com') !== -1) {
             node.textContent = '\n          ' + persona.email + '\n        ';
@@ -158,6 +157,33 @@
         });
       }
     });
+
+    // Role badge on profile page
+    var badgeLabels = {
+      administrator: 'Administrator',
+      buyer:         'Buyer',
+      technician:    'Technician',
+      approver:      'Approver'
+    };
+    var badgeAdmin = document.querySelector('.badge-admin');
+    if (badgeAdmin) {
+      // Replace text only, keep the SVG icon
+      badgeAdmin.childNodes.forEach(function (node) {
+        if (node.nodeType === 3 && node.textContent.trim().length > 0) {
+          node.textContent = '\n            ' + (badgeLabels[role] || role) + '\n          ';
+        }
+      });
+    }
+
+    // Only admin can edit profile — hide edit buttons for other roles
+    if (role !== 'administrator') {
+      var avatarEditBtn = document.querySelector('.profile-avatar-edit');
+      if (avatarEditBtn) avatarEditBtn.style.display = 'none';
+
+      document.querySelectorAll('.btn-edit').forEach(function (btn) {
+        btn.style.display = 'none';
+      });
+    }
   }
 
   // 5. Hide all prices/monetary values for technician (Price = "-" in CRUD matrix)
