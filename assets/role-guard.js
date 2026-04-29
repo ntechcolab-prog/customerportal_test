@@ -11,7 +11,7 @@
   // Menu items to hide per role (nav-tab text content → hide if listed)
   var hiddenMenus = {
     administrator: [],
-    buyer: [],
+    buyer: ['Lab Tests'],
     approver: ['Shop'],
     technician: ['Quotes']
   };
@@ -26,7 +26,7 @@
       'admin-requests.html', 'admin-notifications.html'
     ],
     buyer: [
-      'contracts.html',
+      'lab-tests.html', 'contracts.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html'
     ],
