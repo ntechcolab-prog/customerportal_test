@@ -1241,6 +1241,31 @@
     if (notifViewAllNonAdmin) notifViewAllNonAdmin.setAttribute('href', 'notifications.html');
   }
 
-  // 15. Expose role for other scripts
+  // ══════════════════════════════════════════════════════════════════════
+  // 15. "Mark all as read" handler for notification dropdown (all roles)
+  // ══════════════════════════════════════════════════════════════════════
+  var markReadBtn = document.querySelector('.notif-mark-read');
+  if (markReadBtn) {
+    markReadBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var dropdown = document.getElementById('notifDropdown');
+      if (!dropdown) return;
+      // Remove unread state from items
+      dropdown.querySelectorAll('.notif-item.unread').forEach(function (item) {
+        item.classList.remove('unread');
+        var dot = item.querySelector('.notif-unread-dot');
+        if (dot) dot.remove();
+      });
+      // Update badges to 0
+      var badge = document.querySelector('.notif-badge');
+      var countBadge = document.querySelector('.notif-count-badge');
+      if (badge) badge.style.display = 'none';
+      if (countBadge) countBadge.textContent = '0';
+      // Hide the button itself
+      markReadBtn.style.display = 'none';
+    });
+  }
+
+  // 16. Expose role for other scripts
   window.netzschUserRole = role;
 })();
