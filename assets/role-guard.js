@@ -1115,44 +1115,60 @@
       ].join('\n');
     }
 
-    // ── 12d. Replace middle row: AI Insights → Approval Alert + Spending ──
-    var middleRow = document.querySelector('.middle-row');
-    if (middleRow) {
-      middleRow.innerHTML = [
-        // Approval summary alert
-        '<div class="approval-summary">',
-        '  <div class="approval-summary-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
-        '  <div class="approval-summary-content">',
-        '    <div class="approval-summary-title">3 orders awaiting approval</div>',
-        '    <div class="approval-summary-desc">Your most recent order (2800998-30) was submitted yesterday and is being reviewed by Daniel Costa.</div>',
+    // ── 12d. Replace AI Insights content with buyer-relevant insights ──
+    var insightCardTitle = document.querySelector('.middle-row .card-header .card-title');
+    if (insightCardTitle) insightCardTitle.textContent = 'Buyer Insights';
+    var insightIcon = document.querySelector('.middle-row .card-header img');
+    if (insightIcon) insightIcon.style.display = 'none';
+
+    var insightList = document.querySelector('.insight-list');
+    if (insightList) {
+      insightList.innerHTML = [
+        // 1. Approval alert
+        '<div class="insight-item">',
+        '  <div class="insight-dot yellow"></div>',
+        '  <div class="insight-body">',
+        '    <div class="insight-label"><span class="insight-label-text">Pending Approvals</span></div>',
+        '    <div class="insight-text">3 orders awaiting approval. Most recent (#2800998-30) is being reviewed by Daniel Costa.</div>',
         '  </div>',
-        '  <a href="orders.html" class="approval-summary-link">View Orders <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>',
+        '  <button class="btn-insight" onclick="window.location.href=\'orders.html\'">View Orders <img src="../assets/icon-arrow-right.svg" alt=""></button>',
         '</div>',
-        // Spending overview
-        '<div class="spending-card">',
-        '  <div class="spending-header">',
-        '    <span class="spending-title">Spending Overview</span>',
-        '    <span class="spending-period">Apr 2026</span>',
+        // 2. Reorder suggestion
+        '<div class="insight-item">',
+        '  <div class="insight-dot yellow"></div>',
+        '  <div class="insight-body">',
+        '    <div class="insight-label"><span class="insight-label-text">Reorder Suggestion</span></div>',
+        '    <div class="insight-text">You usually reorder Steel Beads Micro 0.1mm every 20 days. Last purchase was 17 days ago (5 kg, 1.200,00 €).</div>',
         '  </div>',
-        '  <div class="spending-total">24.279,25 €</div>',
-        '  <div class="spending-label">Total spent this month</div>',
-        '  <div class="spending-bar-wrap"><div class="spending-bar" style="width:61%;"></div></div>',
-        '  <div class="spending-breakdown">',
-        '    <div class="spending-item">',
-        '      <span class="spending-item-label"><span class="spending-item-dot" style="background:#007167;"></span>Spare Parts</span>',
-        '      <span class="spending-item-value">14.700,00 €</span>',
-        '    </div>',
-        '    <div class="spending-item">',
-        '      <span class="spending-item-label"><span class="spending-item-dot" style="background:#0b9c92;"></span>Grinding Media</span>',
-        '      <span class="spending-item-value">8.379,25 €</span>',
-        '    </div>',
-        '    <div class="spending-item">',
-        '      <span class="spending-item-label"><span class="spending-item-dot" style="background:#d7d9db;"></span>Other</span>',
-        '      <span class="spending-item-value">1.200,00 €</span>',
-        '    </div>',
+        '  <button class="btn-insight" id="btnInsightReorder">Reorder Now <img src="../assets/icon-arrow-right.svg" alt=""></button>',
+        '</div>',
+        // 3. Spending alert
+        '<div class="insight-item">',
+        '  <div class="insight-dot red"></div>',
+        '  <div class="insight-body">',
+        '    <div class="insight-label"><span class="insight-label-text">Monthly Spending</span></div>',
+        '    <div class="insight-text">You have spent 24.279,25 € this month (61% of budget). Spare Parts account for 60% of total.</div>',
         '  </div>',
+        '  <button class="btn-insight" onclick="window.location.href=\'orders.html\'">View Orders <img src="../assets/icon-arrow-right.svg" alt=""></button>',
         '</div>',
       ].join('\n');
+
+      // Wire "Reorder Now" insight button
+      var insightReorder = document.getElementById('btnInsightReorder');
+      if (insightReorder) {
+        insightReorder.addEventListener('click', function () {
+          var cart;
+          try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
+          var cartItems = cart.items || [];
+          var existing = cartItems.find(function (c) { return c.ref === 'SB-010M'; });
+          if (existing) { existing.qty += 5; } else {
+            cartItems.push({ name: 'Steel Beads Micro 0.1mm', ref: 'SB-010M', qty: 5, unitPrice: 240, img: '' });
+          }
+          cart.items = cartItems;
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+          window.location.href = 'checkout-cart.html';
+        });
+      }
     }
 
     // ── 12e. Replace Recent Orders table with approval-centric data ──
@@ -1202,16 +1218,58 @@
       }
     }
 
-    // ── 12f. Quick Actions — customize for buyer ──
-    var quickActionsList = document.querySelector('.quick-actions-list');
-    if (quickActionsList) {
-      quickActionsList.innerHTML = [
-        '<button class="btn-quick-action" onclick="window.location.href=\'shop.html\'">Browse Shop</button>',
-        '<button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Orders</button>',
-        '<button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Request Quote</button>',
-        '<button class="btn-quick-action" onclick="window.location.href=\'wishlist.html\'">My Wishlist</button>',
-        '<button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
+    // ── 12f. Quick Actions — reorder card + buyer actions ──
+    var quickActionsCard = document.querySelector('.middle-row .card:last-child');
+    if (quickActionsCard) {
+      quickActionsCard.innerHTML = [
+        '<div class="card-header">',
+        '  <span class="card-title">Quick Actions</span>',
+        '</div>',
+        // Reorder card (highlighted)
+        '<div style="background:#f0faf9;border:1px solid #d0ebe7;border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">',
+        '  <div style="width:36px;height:36px;border-radius:50%;background:#007167;display:flex;align-items:center;justify-content:center;flex-shrink:0;">',
+        '    <svg viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M3.33 10a6.67 6.67 0 0111.44-4.71M16.67 10a6.67 6.67 0 01-11.44 4.71" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.17 2.5v3.33h-3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83 17.5v-3.33h3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        '  </div>',
+        '  <div style="flex:1;min-width:0;">',
+        '    <div style="font-size:13px;font-weight:600;color:#1f2937;">Steel Beads Micro 0.1mm</div>',
+        '    <div style="font-size:12px;color:#6b7280;">5 kg — ordered 17 days ago</div>',
+        '  </div>',
+        '  <button id="btnReorderQuick" style="background:#007167;color:#fff;border:none;border-radius:999px;padding:7px 16px;font-family:Inter,sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">Reorder</button>',
+        '</div>',
+        // Action buttons
+        '<div class="quick-actions-list">',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'shop.html\'">Browse Shop</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Orders</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Request Quote</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'wishlist.html\'">My Wishlist</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
+        '</div>',
       ].join('\n');
+
+      // Wire Reorder button
+      var reorderQuickBtn = document.getElementById('btnReorderQuick');
+      if (reorderQuickBtn) {
+        reorderQuickBtn.addEventListener('click', function () {
+          var cart;
+          try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
+          var cartItems = cart.items || [];
+          var existing = cartItems.find(function (c) { return c.ref === 'SB-010M'; });
+          if (existing) { existing.qty += 5; } else {
+            cartItems.push({ name: 'Steel Beads Micro 0.1mm', ref: 'SB-010M', qty: 5, unitPrice: 240, img: '' });
+          }
+          cart.items = cartItems;
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+          reorderQuickBtn.textContent = 'Added!';
+          reorderQuickBtn.style.background = '#2e7d32';
+          var badge = document.getElementById('cart-badge');
+          if (badge) {
+            var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
+            badge.textContent = total;
+            badge.classList.add('is-visible');
+          }
+          setTimeout(function () { window.location.href = 'checkout-cart.html'; }, 800);
+        });
+      }
     }
   }
 
