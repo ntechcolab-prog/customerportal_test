@@ -1153,6 +1153,94 @@
     }
   }
 
-  // 13. Expose role for other scripts
+  // ══════════════════════════════════════════════════════════════════════
+  // 13. BUYER — Notification dropdown customization (all pages)
+  // ══════════════════════════════════════════════════════════════════════
+  if (role === 'buyer') {
+    var notifList = document.querySelector('.notif-list');
+    var notifBadge = document.querySelector('.notif-badge');
+    var notifCountBadge = document.querySelector('.notif-count-badge');
+    var notifViewAll = document.querySelector('.notif-view-all');
+
+    if (notifList) {
+      // Add approval icon style
+      var approvalStyle = document.createElement('style');
+      approvalStyle.textContent = '.notif-item-icon.approval{background:#e8f5e9;} .notif-item-icon.rejection{background:#fce8e6;}';
+      document.head.appendChild(approvalStyle);
+
+      notifList.innerHTML = [
+        // 1. Order approved (UNREAD)
+        '<div class="notif-item unread">',
+        '  <div class="notif-item-icon approval"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <div class="notif-item-title-row">',
+        '      <span class="notif-item-title">Order #2800998-27 approved</span>',
+        '      <span class="notif-unread-dot"></span>',
+        '    </div>',
+        '    <div class="notif-item-desc">Daniel Costa approved your order — Steel Beads Micro (1.200,00 €)</div>',
+        '    <div class="notif-item-time">20 min ago</div>',
+        '    <a href="orders.html" class="notif-item-action">View Order</a>',
+        '  </div>',
+        '</div>',
+        // 2. Order rejected (UNREAD)
+        '<div class="notif-item unread">',
+        '  <div class="notif-item-icon rejection"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <div class="notif-item-title-row">',
+        '      <span class="notif-item-title">Order #2800998-25 rejected</span>',
+        '      <span class="notif-unread-dot"></span>',
+        '    </div>',
+        '    <div class="notif-item-desc">Daniel Costa rejected your order — &quot;Exceeds Q2 budget limit for spare parts&quot;</div>',
+        '    <div class="notif-item-time">2 hours ago</div>',
+        '    <a href="orders.html" class="notif-item-action">Edit &amp; Resubmit</a>',
+        '  </div>',
+        '</div>',
+        // 3. Order shipped (read)
+        '<div class="notif-item">',
+        '  <div class="notif-item-icon order"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <span class="notif-item-title">Order #2800998-24 shipped</span>',
+        '    <div class="notif-item-desc">Your order has been dispatched — tracking available.</div>',
+        '    <div class="notif-item-time">1 day ago</div>',
+        '  </div>',
+        '</div>',
+        // 4. Quote ready for review (read)
+        '<div class="notif-item">',
+        '  <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <span class="notif-item-title">Quote #QT-2026-0041 ready for review</span>',
+        '    <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — 12.450,00 €</div>',
+        '    <div class="notif-item-time">2 days ago</div>',
+        '  </div>',
+        '</div>',
+        // 5. Approval reminder (read)
+        '<div class="notif-item">',
+        '  <div class="notif-item-icon approval"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <span class="notif-item-title">Reminder: 3 orders pending approval</span>',
+        '    <div class="notif-item-desc">Orders #2800998-28, #29, #30 are awaiting approver review.</div>',
+        '    <div class="notif-item-time">3 days ago</div>',
+        '  </div>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // Update badge count (2 unread)
+    if (notifBadge) notifBadge.textContent = '2';
+    if (notifCountBadge) notifCountBadge.textContent = '2';
+
+    // Link to buyer notifications page instead of admin
+    if (notifViewAll) notifViewAll.setAttribute('href', 'notifications.html');
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // 14. NON-ADMIN — Redirect "View all notifications" to notifications.html
+  // ══════════════════════════════════════════════════════════════════════
+  if (role !== 'administrator') {
+    var notifViewAllNonAdmin = document.querySelector('.notif-view-all');
+    if (notifViewAllNonAdmin) notifViewAllNonAdmin.setAttribute('href', 'notifications.html');
+  }
+
+  // 15. Expose role for other scripts
   window.netzschUserRole = role;
 })();
