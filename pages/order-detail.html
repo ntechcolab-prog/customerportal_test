@@ -482,6 +482,42 @@
     }
     .repeat-link:hover { text-decoration: underline; }
 
+    /* ── REORDER TOAST ─── */
+    .reorder-toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1f2937;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 500;
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .reorder-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .reorder-toast svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .reorder-toast-action {
+      color: #0b9c92;
+      font-weight: 600;
+      text-decoration: none;
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+    .reorder-toast-action:hover { text-decoration: underline; }
+
     .order-table {
       width: 100%;
       border-collapse: collapse;
@@ -2182,6 +2218,92 @@ function sendFromBigChat() {
 function sendFromSmallChat() {
   sendMillaMessage(document.getElementById('millaChatSmallInput'), document.getElementById('millaChatSmallBody'));
 }
+</script>
+
+<!-- REORDER TOAST -->
+<div class="reorder-toast" id="reorderToast">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="reorderToastMsg">Items added to cart</span>
+  <a href="checkout-cart.html" class="reorder-toast-action">View Cart</a>
+</div>
+
+<script>
+// ── REPEAT ORDER ──
+(function () {
+  function getCart() { try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; } }
+  function getCartItems() { return getCart().items || []; }
+  function saveCart(items) { var c = getCart(); c.items = items; localStorage.setItem('netzsch_cart', JSON.stringify(c)); }
+
+  function parsePrice(text) {
+    // "39,75 €" → 39.75
+    var clean = text.replace(/[^\d,]/g, '').replace(',', '.');
+    return parseFloat(clean) || 0;
+  }
+
+  function showToast(count) {
+    var toast = document.getElementById('reorderToast');
+    var msg = document.getElementById('reorderToastMsg');
+    msg.textContent = count + (count === 1 ? ' item added to cart' : ' items added to cart');
+    toast.classList.add('show');
+    setTimeout(function () { toast.classList.remove('show'); }, 4000);
+  }
+
+  function repeatOrder() {
+    var rows = document.querySelectorAll('.order-table tbody tr');
+    var cartItems = getCartItems();
+    var added = 0;
+
+    rows.forEach(function (row) {
+      var productCell = row.querySelector('.product-cell');
+      if (!productCell) return;
+
+      var name = (productCell.querySelector('.product-name') || {}).textContent || '';
+      var refEl = productCell.querySelector('.product-meta');
+      var ref = refEl ? refEl.textContent.replace('Ref: ', '').trim() : '';
+      var img = (productCell.querySelector('img') || {}).src || '';
+      var qtyText = row.cells[2] ? row.cells[2].textContent.trim() : '1';
+      var qty = parseInt(qtyText) || 1;
+      var priceText = row.cells[1] ? row.cells[1].textContent.trim() : '0';
+      var unitPrice = parsePrice(priceText);
+
+      // Check if already in cart — increment qty
+      var existing = cartItems.find(function (item) { return item.ref === ref; });
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cartItems.push({ name: name, ref: ref, qty: qty, unitPrice: unitPrice, img: img });
+      }
+      added++;
+    });
+
+    if (added > 0) {
+      saveCart(cartItems);
+      showToast(added);
+      // Update cart badge
+      var badge = document.getElementById('cart-badge');
+      if (badge) {
+        var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
+        badge.textContent = total;
+        badge.classList.add('is-visible');
+      }
+      // Re-render cart dropdown if function exists
+      if (typeof renderCartDropdown === 'function') renderCartDropdown();
+    }
+  }
+
+  // Wire up the Repeat Order link
+  var repeatLink = document.querySelector('.repeat-link');
+  if (repeatLink) {
+    repeatLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      repeatOrder();
+    });
+  }
+
+  // Expose for reuse by role-guard
+  window.netzschRepeatOrder = repeatOrder;
+  window.netzschShowReorderToast = showToast;
+})();
 </script>
 
 <script>

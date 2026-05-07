@@ -867,6 +867,14 @@
           html += '</button>';
         }
 
+        // CTA for approved/converted — Reorder
+        if (o.approval === 'approved' || o.approval === 'converted') {
+          html += '<button class="btn-resubmit" data-reorder="' + index + '" style="background:#007167;">';
+          html += '  <svg viewBox="0 0 16 16" fill="none"><path d="M2 8a6 6 0 0110.3-4.2M14 8a6 6 0 01-10.3 4.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 2v2.5h-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14v-2.5h2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          html += '  Reorder';
+          html += '</button>';
+        }
+
         drawerBody.innerHTML = html;
         overlayEl.classList.add('show');
         drawerEl.classList.add('show');
@@ -902,6 +910,60 @@
           e.preventDefault();
           openBuyerDrawer(i);
         });
+      });
+
+      // Wire Reorder buttons inside drawer (event delegation)
+      drawerBody.addEventListener('click', function (e) {
+        var reorderBtn = e.target.closest('[data-reorder]');
+        if (!reorderBtn) return;
+        var idx = parseInt(reorderBtn.dataset.reorder);
+        var o = buyerOrdersData[idx];
+        if (!o) return;
+
+        // Parse unit price from total / qty approximation
+        function parseEur(text) {
+          var clean = text.replace(/[^\d,]/g, '').replace('.', '').replace(',', '.');
+          return parseFloat(clean) || 0;
+        }
+
+        var cart;
+        try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
+        var cartItems = cart.items || [];
+
+        o.items.forEach(function (item) {
+          var qty = parseInt(item.qty) || 1;
+          var totalPrice = parseEur(o.total);
+          var unitPrice = o.items.length === 1 ? totalPrice / qty : totalPrice;
+
+          var existing = cartItems.find(function (c) { return c.ref === item.ref; });
+          if (existing) {
+            existing.qty += qty;
+          } else {
+            cartItems.push({ name: item.name, ref: item.ref, qty: qty, unitPrice: unitPrice, img: '' });
+          }
+        });
+
+        cart.items = cartItems;
+        localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+
+        // Update cart badge
+        var badge = document.getElementById('cart-badge');
+        if (badge) {
+          var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
+          badge.textContent = total;
+          badge.classList.add('is-visible');
+        }
+
+        // Visual feedback on button
+        reorderBtn.textContent = 'Added to cart';
+        reorderBtn.style.background = '#2e7d32';
+        reorderBtn.disabled = true;
+
+        // Close drawer after short delay and navigate to cart
+        setTimeout(function () {
+          closeBuyerDrawer();
+          window.location.href = 'checkout-cart.html';
+        }, 800);
       });
     }
   }
@@ -1146,10 +1208,57 @@
       quickActionsList.innerHTML = [
         '<button class="btn-quick-action" onclick="window.location.href=\'shop.html\'">Browse Shop</button>',
         '<button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Orders</button>',
+        '<button class="btn-quick-action" id="btnReorderQuick">Reorder Last</button>',
         '<button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Request Quote</button>',
         '<button class="btn-quick-action" onclick="window.location.href=\'wishlist.html\'">My Wishlist</button>',
-        '<button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
       ].join('\n');
+
+      // Wire Reorder Last quick action — adds last approved order to cart
+      var reorderQuickBtn = document.getElementById('btnReorderQuick');
+      if (reorderQuickBtn) {
+        reorderQuickBtn.addEventListener('click', function () {
+          var cart;
+          try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
+          var cartItems = cart.items || [];
+          // Last approved order: Steel Beads Micro 0.1mm, ref SB-010M, 5 kg, €1200
+          var existing = cartItems.find(function (c) { return c.ref === 'SB-010M'; });
+          if (existing) { existing.qty += 5; } else {
+            cartItems.push({ name: 'Steel Beads Micro 0.1mm', ref: 'SB-010M', qty: 5, unitPrice: 240, img: '' });
+          }
+          cart.items = cartItems;
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+          reorderQuickBtn.textContent = 'Added to cart!';
+          reorderQuickBtn.style.background = '#007167';
+          reorderQuickBtn.style.color = '#fff';
+          // Update cart badge
+          var badge = document.getElementById('cart-badge');
+          if (badge) {
+            var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
+            badge.textContent = total;
+            badge.classList.add('is-visible');
+          }
+          setTimeout(function () { window.location.href = 'checkout-cart.html'; }, 800);
+        });
+      }
+    }
+
+    // ── 12g. Wire AI Insight "Reorder Now" button ──
+    var insightBtns = document.querySelectorAll('.btn-insight');
+    if (insightBtns.length > 0) {
+      // The first insight is "Reorder Suggestion" for Grinding Beads ZY 20mm
+      insightBtns[0].addEventListener('click', function (e) {
+        e.preventDefault();
+        var cart;
+        try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
+        var cartItems = cart.items || [];
+        var existing = cartItems.find(function (c) { return c.ref === 'GB-080'; });
+        if (existing) { existing.qty += 5; } else {
+          cartItems.push({ name: 'Glass Beads 0.8mm', ref: 'GB-080', qty: 5, unitPrice: 95, img: '' });
+        }
+        cart.items = cartItems;
+        localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+        window.location.href = 'checkout-cart.html';
+      });
     }
   }
 
