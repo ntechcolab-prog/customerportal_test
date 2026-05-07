@@ -1115,20 +1115,43 @@
       ].join('\n');
     }
 
-    // ── 12d. Replace middle row: AI Insights → Approval Alert + Spending ──
+    // ── 12d. Replace middle row: AI Insights + Quick Actions → Alerts/Reorder + Spending ──
     var middleRow = document.querySelector('.middle-row');
     if (middleRow) {
       middleRow.innerHTML = [
-        // Approval summary alert
-        '<div class="approval-summary">',
-        '  <div class="approval-summary-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
-        '  <div class="approval-summary-content">',
-        '    <div class="approval-summary-title">3 orders awaiting approval</div>',
-        '    <div class="approval-summary-desc">Your most recent order (2800998-30) was submitted yesterday and is being reviewed by Daniel Costa.</div>',
+        // LEFT CARD — Alerts & Quick Reorder
+        '<div class="card" style="display:flex;flex-direction:column;gap:0;">',
+        '  <div class="card-header" style="padding-bottom:16px;">',
+        '    <span class="card-title">Activity & Quick Reorder</span>',
         '  </div>',
-        '  <a href="orders.html" class="approval-summary-link">View Orders <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>',
+        // Approval alert
+        '  <div class="approval-summary" style="margin:0 0 16px;">',
+        '    <div class="approval-summary-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '    <div class="approval-summary-content">',
+        '      <div class="approval-summary-title">3 orders awaiting approval</div>',
+        '      <div class="approval-summary-desc">Most recent: #2800998-30 is being reviewed by Daniel Costa.</div>',
+        '    </div>',
+        '    <a href="orders.html" class="approval-summary-link">View <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>',
+        '  </div>',
+        // Reorder suggestion
+        '  <div class="approval-summary" style="margin:0 0 16px;border-color:#e8f5e9;">',
+        '    <div class="approval-summary-icon" style="background:#e8f5e9;"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0113.66-5.66M20 12a8 8 0 01-13.66 5.66" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 3v4h-4" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 21v-4h4" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '    <div class="approval-summary-content">',
+        '      <div class="approval-summary-title">Reorder: Steel Beads Micro 0.1mm</div>',
+        '      <div class="approval-summary-desc">Last ordered 17 days ago (5 kg, 1.200,00 €).</div>',
+        '    </div>',
+        '    <button id="btnReorderQuick" class="approval-summary-link" style="background:none;border:none;cursor:pointer;font-family:Inter,sans-serif;">Reorder <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>',
+        '  </div>',
+        // Quick actions
+        '  <div class="quick-actions-list" style="padding-top:0;">',
+        '    <button class="btn-quick-action" onclick="window.location.href=\'shop.html\'">Browse Shop</button>',
+        '    <button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Orders</button>',
+        '    <button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Request Quote</button>',
+        '    <button class="btn-quick-action" onclick="window.location.href=\'wishlist.html\'">My Wishlist</button>',
+        '    <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
+        '  </div>',
         '</div>',
-        // Spending overview
+        // RIGHT CARD — Spending Overview
         '<div class="spending-card">',
         '  <div class="spending-header">',
         '    <span class="spending-title">Spending Overview</span>',
@@ -1153,6 +1176,30 @@
         '  </div>',
         '</div>',
       ].join('\n');
+
+      // Wire Reorder quick button
+      var reorderQuickBtn = document.getElementById('btnReorderQuick');
+      if (reorderQuickBtn) {
+        reorderQuickBtn.addEventListener('click', function () {
+          var cart;
+          try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
+          var cartItems = cart.items || [];
+          var existing = cartItems.find(function (c) { return c.ref === 'SB-010M'; });
+          if (existing) { existing.qty += 5; } else {
+            cartItems.push({ name: 'Steel Beads Micro 0.1mm', ref: 'SB-010M', qty: 5, unitPrice: 240, img: '' });
+          }
+          cart.items = cartItems;
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+          reorderQuickBtn.innerHTML = 'Added! <svg viewBox="0 0 16 16" fill="none"><path d="M4 8.5l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          var badge = document.getElementById('cart-badge');
+          if (badge) {
+            var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
+            badge.textContent = total;
+            badge.classList.add('is-visible');
+          }
+          setTimeout(function () { window.location.href = 'checkout-cart.html'; }, 800);
+        });
+      }
     }
 
     // ── 12e. Replace Recent Orders table with approval-centric data ──
@@ -1202,64 +1249,6 @@
       }
     }
 
-    // ── 12f. Quick Actions — customize for buyer ──
-    var quickActionsList = document.querySelector('.quick-actions-list');
-    if (quickActionsList) {
-      quickActionsList.innerHTML = [
-        '<button class="btn-quick-action" onclick="window.location.href=\'shop.html\'">Browse Shop</button>',
-        '<button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Orders</button>',
-        '<button class="btn-quick-action" id="btnReorderQuick">Reorder Last</button>',
-        '<button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Request Quote</button>',
-        '<button class="btn-quick-action" onclick="window.location.href=\'wishlist.html\'">My Wishlist</button>',
-      ].join('\n');
-
-      // Wire Reorder Last quick action — adds last approved order to cart
-      var reorderQuickBtn = document.getElementById('btnReorderQuick');
-      if (reorderQuickBtn) {
-        reorderQuickBtn.addEventListener('click', function () {
-          var cart;
-          try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
-          var cartItems = cart.items || [];
-          // Last approved order: Steel Beads Micro 0.1mm, ref SB-010M, 5 kg, €1200
-          var existing = cartItems.find(function (c) { return c.ref === 'SB-010M'; });
-          if (existing) { existing.qty += 5; } else {
-            cartItems.push({ name: 'Steel Beads Micro 0.1mm', ref: 'SB-010M', qty: 5, unitPrice: 240, img: '' });
-          }
-          cart.items = cartItems;
-          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
-          reorderQuickBtn.textContent = 'Added to cart!';
-          reorderQuickBtn.style.background = '#007167';
-          reorderQuickBtn.style.color = '#fff';
-          // Update cart badge
-          var badge = document.getElementById('cart-badge');
-          if (badge) {
-            var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
-            badge.textContent = total;
-            badge.classList.add('is-visible');
-          }
-          setTimeout(function () { window.location.href = 'checkout-cart.html'; }, 800);
-        });
-      }
-    }
-
-    // ── 12g. Wire AI Insight "Reorder Now" button ──
-    var insightBtns = document.querySelectorAll('.btn-insight');
-    if (insightBtns.length > 0) {
-      // The first insight is "Reorder Suggestion" for Grinding Beads ZY 20mm
-      insightBtns[0].addEventListener('click', function (e) {
-        e.preventDefault();
-        var cart;
-        try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
-        var cartItems = cart.items || [];
-        var existing = cartItems.find(function (c) { return c.ref === 'GB-080'; });
-        if (existing) { existing.qty += 5; } else {
-          cartItems.push({ name: 'Glass Beads 0.8mm', ref: 'GB-080', qty: 5, unitPrice: 95, img: '' });
-        }
-        cart.items = cartItems;
-        localStorage.setItem('netzsch_cart', JSON.stringify(cart));
-        window.location.href = 'checkout-cart.html';
-      });
-    }
   }
 
   // ══════════════════════════════════════════════════════════════════════
