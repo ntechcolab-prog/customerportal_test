@@ -1115,35 +1115,64 @@
       ].join('\n');
     }
 
-    // ── 12d. Replace middle row: AI Insights + Quick Actions → Alerts/Reorder + Spending ──
+    // ── 12d. Replace middle row — keep same grid (1fr | 400px) as Admin ──
     var middleRow = document.querySelector('.middle-row');
     if (middleRow) {
       middleRow.innerHTML = [
-        // LEFT CARD — Alerts & Quick Reorder
-        '<div class="card" style="display:flex;flex-direction:column;gap:0;">',
-        '  <div class="card-header" style="padding-bottom:16px;">',
-        '    <span class="card-title">Activity & Quick Reorder</span>',
-        '  </div>',
+        // ─── LEFT COLUMN: Approval Alert + Spending ───
+        '<div style="display:flex;flex-direction:column;gap:16px;">',
         // Approval alert
-        '  <div class="approval-summary" style="margin:0 0 16px;">',
+        '  <div class="approval-summary">',
         '    <div class="approval-summary-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
         '    <div class="approval-summary-content">',
         '      <div class="approval-summary-title">3 orders awaiting approval</div>',
         '      <div class="approval-summary-desc">Most recent: #2800998-30 is being reviewed by Daniel Costa.</div>',
         '    </div>',
-        '    <a href="orders.html" class="approval-summary-link">View <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>',
+        '    <a href="orders.html" class="approval-summary-link">View Orders <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>',
         '  </div>',
-        // Reorder suggestion
-        '  <div class="approval-summary" style="margin:0 0 16px;border-color:#e8f5e9;">',
-        '    <div class="approval-summary-icon" style="background:#e8f5e9;"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0113.66-5.66M20 12a8 8 0 01-13.66 5.66" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 3v4h-4" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 21v-4h4" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
-        '    <div class="approval-summary-content">',
-        '      <div class="approval-summary-title">Reorder: Steel Beads Micro 0.1mm</div>',
-        '      <div class="approval-summary-desc">Last ordered 17 days ago (5 kg, 1.200,00 €).</div>',
+        // Spending overview
+        '  <div class="spending-card">',
+        '    <div class="spending-header">',
+        '      <span class="spending-title">Spending Overview</span>',
+        '      <span class="spending-period">Apr 2026</span>',
         '    </div>',
-        '    <button id="btnReorderQuick" class="approval-summary-link" style="background:none;border:none;cursor:pointer;font-family:Inter,sans-serif;">Reorder <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>',
+        '    <div class="spending-total">24.279,25 €</div>',
+        '    <div class="spending-label">Total spent this month</div>',
+        '    <div class="spending-bar-wrap"><div class="spending-bar" style="width:61%;"></div></div>',
+        '    <div class="spending-breakdown">',
+        '      <div class="spending-item">',
+        '        <span class="spending-item-label"><span class="spending-item-dot" style="background:#007167;"></span>Spare Parts</span>',
+        '        <span class="spending-item-value">14.700,00 €</span>',
+        '      </div>',
+        '      <div class="spending-item">',
+        '        <span class="spending-item-label"><span class="spending-item-dot" style="background:#0b9c92;"></span>Grinding Media</span>',
+        '        <span class="spending-item-value">8.379,25 €</span>',
+        '      </div>',
+        '      <div class="spending-item">',
+        '        <span class="spending-item-label"><span class="spending-item-dot" style="background:#d7d9db;"></span>Other</span>',
+        '        <span class="spending-item-value">1.200,00 €</span>',
+        '      </div>',
+        '    </div>',
         '  </div>',
-        // Quick actions
-        '  <div class="quick-actions-list" style="padding-top:0;">',
+        '</div>',
+        // ─── RIGHT COLUMN: Quick Actions ───
+        '<div class="card">',
+        '  <div class="card-header">',
+        '    <span class="card-title">Quick Actions</span>',
+        '  </div>',
+        // Reorder suggestion card (highlighted)
+        '  <div style="background:#f0faf9;border:1px solid #d0ebe7;border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">',
+        '    <div style="width:36px;height:36px;border-radius:50%;background:#007167;display:flex;align-items:center;justify-content:center;flex-shrink:0;">',
+        '      <svg viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M3.33 10a6.67 6.67 0 0111.44-4.71M16.67 10a6.67 6.67 0 01-11.44 4.71" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.17 2.5v3.33h-3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83 17.5v-3.33h3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        '    </div>',
+        '    <div style="flex:1;min-width:0;">',
+        '      <div style="font-size:13px;font-weight:600;color:#1f2937;">Steel Beads Micro 0.1mm</div>',
+        '      <div style="font-size:12px;color:#6b7280;">5 kg — ordered 17 days ago</div>',
+        '    </div>',
+        '    <button id="btnReorderQuick" style="background:#007167;color:#fff;border:none;border-radius:999px;padding:7px 16px;font-family:Inter,sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">Reorder</button>',
+        '  </div>',
+        // Action buttons
+        '  <div class="quick-actions-list">',
         '    <button class="btn-quick-action" onclick="window.location.href=\'shop.html\'">Browse Shop</button>',
         '    <button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Orders</button>',
         '    <button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Request Quote</button>',
@@ -1151,33 +1180,9 @@
         '    <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
         '  </div>',
         '</div>',
-        // RIGHT CARD — Spending Overview
-        '<div class="spending-card">',
-        '  <div class="spending-header">',
-        '    <span class="spending-title">Spending Overview</span>',
-        '    <span class="spending-period">Apr 2026</span>',
-        '  </div>',
-        '  <div class="spending-total">24.279,25 €</div>',
-        '  <div class="spending-label">Total spent this month</div>',
-        '  <div class="spending-bar-wrap"><div class="spending-bar" style="width:61%;"></div></div>',
-        '  <div class="spending-breakdown">',
-        '    <div class="spending-item">',
-        '      <span class="spending-item-label"><span class="spending-item-dot" style="background:#007167;"></span>Spare Parts</span>',
-        '      <span class="spending-item-value">14.700,00 €</span>',
-        '    </div>',
-        '    <div class="spending-item">',
-        '      <span class="spending-item-label"><span class="spending-item-dot" style="background:#0b9c92;"></span>Grinding Media</span>',
-        '      <span class="spending-item-value">8.379,25 €</span>',
-        '    </div>',
-        '    <div class="spending-item">',
-        '      <span class="spending-item-label"><span class="spending-item-dot" style="background:#d7d9db;"></span>Other</span>',
-        '      <span class="spending-item-value">1.200,00 €</span>',
-        '    </div>',
-        '  </div>',
-        '</div>',
       ].join('\n');
 
-      // Wire Reorder quick button
+      // Wire Reorder button
       var reorderQuickBtn = document.getElementById('btnReorderQuick');
       if (reorderQuickBtn) {
         reorderQuickBtn.addEventListener('click', function () {
@@ -1190,7 +1195,8 @@
           }
           cart.items = cartItems;
           localStorage.setItem('netzsch_cart', JSON.stringify(cart));
-          reorderQuickBtn.innerHTML = 'Added! <svg viewBox="0 0 16 16" fill="none"><path d="M4 8.5l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          reorderQuickBtn.textContent = 'Added!';
+          reorderQuickBtn.style.background = '#2e7d32';
           var badge = document.getElementById('cart-badge');
           if (badge) {
             var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
