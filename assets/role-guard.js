@@ -22,6 +22,7 @@
       'checkout.html', 'checkout-cart.html', 'checkout-review.html',
       'checkout-confirmation.html', 'checkout-order-details.html', 'checkout-quote.html',
       'quotes.html', 'quote-detail.html', 'contracts.html',
+      'budget.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html'
     ],
@@ -30,6 +31,9 @@
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html'
     ],
+    administrator: [
+      'budget.html'
+    ],
     approver: [
       'shop.html', 'shop-product-detail.html', 'shop-product-glassbeads.html',
       'shop-product-steelbeads-micro.html', 'shop-product-steelbeads-q.html',
@@ -37,6 +41,7 @@
       'shop-product-zs-beads.html',
       'checkout.html', 'checkout-cart.html', 'checkout-review.html',
       'checkout-confirmation.html', 'checkout-order-details.html', 'checkout-quote.html',
+      'budget.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html'
     ]
