@@ -1073,7 +1073,7 @@
       '.approval-summary-link:hover{text-decoration:underline;}',
       '.approval-summary-link svg{width:14px;height:14px;}',
       /* Middle row override — 3 columns */
-      '.middle-row{grid-template-columns:1fr 280px 280px !important;}',
+      '.middle-row{grid-template-columns:1fr 290px 290px !important;}',
       /* Reorder card inside insights */
       '.insight-reorder-card{background:#f0faf9;border:1px solid #d0ebe7;border-radius:10px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}',
       '.insight-reorder-icon{width:34px;height:34px;border-radius:50%;background:#007167;display:flex;align-items:center;justify-content:center;flex-shrink:0;}',
@@ -1152,7 +1152,18 @@
         '  </div>',
         '  <button class="insight-reorder-btn" id="btnInsightReorder">Reorder</button>',
         '</div>',
-        // 2. Approval alert
+        // 2. Reorder card 2
+        '<div class="insight-reorder-card">',
+        '  <div class="insight-reorder-icon">',
+        '    <svg viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M3.33 10a6.67 6.67 0 0111.44-4.71M16.67 10a6.67 6.67 0 01-11.44 4.71" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.17 2.5v3.33h-3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83 17.5v-3.33h3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        '  </div>',
+        '  <div class="insight-reorder-body">',
+        '    <div class="insight-reorder-title">CERABEADS 0.4mm</div>',
+        '    <div class="insight-reorder-desc">3 pcs — last ordered 25 days ago (usual cycle: 30 days)</div>',
+        '  </div>',
+        '  <button class="insight-reorder-btn" id="btnInsightReorder2">Reorder</button>',
+        '</div>',
+        // 3. Approval alert
         '<div class="insight-item">',
         '  <div class="insight-dot yellow"></div>',
         '  <div class="insight-body">',
@@ -1187,6 +1198,31 @@
           localStorage.setItem('netzsch_cart', JSON.stringify(cart));
           insightReorder.textContent = 'Added!';
           insightReorder.style.background = '#2e7d32';
+          var badge = document.getElementById('cart-badge');
+          if (badge) {
+            var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
+            badge.textContent = total;
+            badge.classList.add('is-visible');
+          }
+          setTimeout(function () { window.location.href = 'checkout-cart.html'; }, 800);
+        });
+      }
+
+      // Wire 2nd Reorder button
+      var insightReorder2 = document.getElementById('btnInsightReorder2');
+      if (insightReorder2) {
+        insightReorder2.addEventListener('click', function () {
+          var cart;
+          try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
+          var cartItems = cart.items || [];
+          var existing = cartItems.find(function (c) { return c.ref === 'CB-04'; });
+          if (existing) { existing.qty += 3; } else {
+            cartItems.push({ name: 'CERABEADS 0.4mm', ref: 'CB-04', qty: 3, unitPrice: 39.75, img: '' });
+          }
+          cart.items = cartItems;
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+          insightReorder2.textContent = 'Added!';
+          insightReorder2.style.background = '#2e7d32';
           var badge = document.getElementById('cart-badge');
           if (badge) {
             var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
