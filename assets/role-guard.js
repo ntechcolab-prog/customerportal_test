@@ -1074,6 +1074,14 @@
       '.approval-summary-link svg{width:14px;height:14px;}',
       /* Middle row override — 3 columns */
       '.middle-row{grid-template-columns:1fr 280px 280px !important;}',
+      /* Reorder card inside insights */
+      '.insight-reorder-card{background:#f0faf9;border:1px solid #d0ebe7;border-radius:10px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}',
+      '.insight-reorder-icon{width:34px;height:34px;border-radius:50%;background:#007167;display:flex;align-items:center;justify-content:center;flex-shrink:0;}',
+      '.insight-reorder-body{flex:1;min-width:0;}',
+      '.insight-reorder-title{font-size:13px;font-weight:600;color:#1f2937;}',
+      '.insight-reorder-desc{font-size:11px;color:#6b7280;line-height:16px;}',
+      '.insight-reorder-btn{background:#007167;color:#fff;border:none;border-radius:999px;padding:6px 14px;font-family:Inter,sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.15s;}',
+      '.insight-reorder-btn:hover{background:#005f57;}',
       /* Spending card */
       '.spending-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px;}',
       '.spending-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}',
@@ -1133,7 +1141,18 @@
     var insightList = document.querySelector('.insight-list');
     if (insightList) {
       insightList.innerHTML = [
-        // 1. Approval alert
+        // 1. Reorder card (highlighted)
+        '<div class="insight-reorder-card">',
+        '  <div class="insight-reorder-icon">',
+        '    <svg viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M3.33 10a6.67 6.67 0 0111.44-4.71M16.67 10a6.67 6.67 0 01-11.44 4.71" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.17 2.5v3.33h-3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83 17.5v-3.33h3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        '  </div>',
+        '  <div class="insight-reorder-body">',
+        '    <div class="insight-reorder-title">Steel Beads Micro 0.1mm</div>',
+        '    <div class="insight-reorder-desc">5 kg — last ordered 17 days ago (usual cycle: 20 days)</div>',
+        '  </div>',
+        '  <button class="insight-reorder-btn" id="btnInsightReorder">Reorder</button>',
+        '</div>',
+        // 2. Approval alert
         '<div class="insight-item">',
         '  <div class="insight-dot yellow"></div>',
         '  <div class="insight-body">',
@@ -1142,27 +1161,18 @@
         '  </div>',
         '  <button class="btn-insight" onclick="window.location.href=\'orders.html\'">View Orders <img src="../assets/icon-arrow-right.svg" alt=""></button>',
         '</div>',
-        // 2. Reorder suggestion
-        '<div class="insight-item">',
-        '  <div class="insight-dot yellow"></div>',
-        '  <div class="insight-body">',
-        '    <div class="insight-label"><span class="insight-label-text">Reorder Suggestion</span></div>',
-        '    <div class="insight-text">You usually reorder Steel Beads Micro 0.1mm every 20 days. Last purchase was 17 days ago (5 kg, 1.200,00 €).</div>',
-        '  </div>',
-        '  <button class="btn-insight" id="btnInsightReorder">Reorder Now <img src="../assets/icon-arrow-right.svg" alt=""></button>',
-        '</div>',
         // 3. Budget alert — link to budget page
         '<div class="insight-item">',
         '  <div class="insight-dot red"></div>',
         '  <div class="insight-body">',
         '    <div class="insight-label"><span class="insight-label-text">Monthly Budget</span></div>',
-        '    <div class="insight-text">61% of your monthly budget used (24.279,25 € of 40.000,00 €). Spare Parts account for 60% of spending.</div>',
+        '    <div class="insight-text">61% of budget used (24.279,25 € of 40.000,00 €). Spare Parts: 60%.</div>',
         '  </div>',
         '  <button class="btn-insight" onclick="window.location.href=\'budget.html\'">View Budget <img src="../assets/icon-arrow-right.svg" alt=""></button>',
         '</div>',
       ].join('\n');
 
-      // Wire "Reorder Now" insight button
+      // Wire Reorder button in insight card
       var insightReorder = document.getElementById('btnInsightReorder');
       if (insightReorder) {
         insightReorder.addEventListener('click', function () {
@@ -1175,7 +1185,15 @@
           }
           cart.items = cartItems;
           localStorage.setItem('netzsch_cart', JSON.stringify(cart));
-          window.location.href = 'checkout-cart.html';
+          insightReorder.textContent = 'Added!';
+          insightReorder.style.background = '#2e7d32';
+          var badge = document.getElementById('cart-badge');
+          if (badge) {
+            var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
+            badge.textContent = total;
+            badge.classList.add('is-visible');
+          }
+          setTimeout(function () { window.location.href = 'checkout-cart.html'; }, 800);
         });
       }
     }
@@ -1285,51 +1303,15 @@
         '<div class="card-header">',
         '  <span class="card-title">Quick Actions</span>',
         '</div>',
-        // Reorder card (highlighted)
-        '<div style="background:#f0faf9;border:1px solid #d0ebe7;border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">',
-        '  <div style="width:36px;height:36px;border-radius:50%;background:#007167;display:flex;align-items:center;justify-content:center;flex-shrink:0;">',
-        '    <svg viewBox="0 0 20 20" width="18" height="18" fill="none"><path d="M3.33 10a6.67 6.67 0 0111.44-4.71M16.67 10a6.67 6.67 0 01-11.44 4.71" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.17 2.5v3.33h-3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83 17.5v-3.33h3.34" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-        '  </div>',
-        '  <div style="flex:1;min-width:0;">',
-        '    <div style="font-size:13px;font-weight:600;color:#1f2937;">Steel Beads Micro 0.1mm</div>',
-        '    <div style="font-size:12px;color:#6b7280;">5 kg — ordered 17 days ago</div>',
-        '  </div>',
-        '  <button id="btnReorderQuick" style="background:#007167;color:#fff;border:none;border-radius:999px;padding:7px 16px;font-family:Inter,sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">Reorder</button>',
-        '</div>',
-        // Action buttons
         '<div class="quick-actions-list">',
         '  <button class="btn-quick-action" onclick="window.location.href=\'shop.html\'">Browse Shop</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Orders</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Request Quote</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'wishlist.html\'">My Wishlist</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'budget.html\'">View Budget</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
         '</div>',
       ].join('\n');
-
-      // Wire Reorder button
-      var reorderQuickBtn = document.getElementById('btnReorderQuick');
-      if (reorderQuickBtn) {
-        reorderQuickBtn.addEventListener('click', function () {
-          var cart;
-          try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(ex) { cart = {}; }
-          var cartItems = cart.items || [];
-          var existing = cartItems.find(function (c) { return c.ref === 'SB-010M'; });
-          if (existing) { existing.qty += 5; } else {
-            cartItems.push({ name: 'Steel Beads Micro 0.1mm', ref: 'SB-010M', qty: 5, unitPrice: 240, img: '' });
-          }
-          cart.items = cartItems;
-          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
-          reorderQuickBtn.textContent = 'Added!';
-          reorderQuickBtn.style.background = '#2e7d32';
-          var badge = document.getElementById('cart-badge');
-          if (badge) {
-            var total = cartItems.reduce(function (s, i) { return s + i.qty; }, 0);
-            badge.textContent = total;
-            badge.classList.add('is-visible');
-          }
-          setTimeout(function () { window.location.href = 'checkout-cart.html'; }, 800);
-        });
-      }
     }
   }
 
