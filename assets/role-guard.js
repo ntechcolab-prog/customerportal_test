@@ -1073,7 +1073,7 @@
       '.approval-summary-link:hover{text-decoration:underline;}',
       '.approval-summary-link svg{width:14px;height:14px;}',
       /* Middle row override — 3 columns */
-      '.middle-row{grid-template-columns:1fr 290px 290px !important;}',
+      '.middle-row{grid-template-columns:1fr 300px 300px !important;}',
       /* Reorder card inside insights */
       '.insight-reorder-card{background:#f0faf9;border:1px solid #d0ebe7;border-radius:10px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}',
       '.insight-reorder-icon{width:34px;height:34px;border-radius:50%;background:#007167;display:flex;align-items:center;justify-content:center;flex-shrink:0;}',
