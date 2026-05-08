@@ -1072,23 +1072,24 @@
       '.approval-summary-link{font-size:13px;font-weight:600;color:#007167;text-decoration:none;flex-shrink:0;display:flex;align-items:center;gap:4px;}',
       '.approval-summary-link:hover{text-decoration:underline;}',
       '.approval-summary-link svg{width:14px;height:14px;}',
+      /* Middle row override — 3 columns */
+      '.middle-row{grid-template-columns:1fr 280px 280px !important;}',
       /* Spending card */
-      '.spending-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:24px;}',
-      '.spending-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}',
-      '.spending-title{font-size:15px;font-weight:700;color:#1f2937;}',
-      '.spending-period{font-size:12px;color:#9ca0a5;font-weight:500;}',
-      '.spending-total{font-size:28px;font-weight:700;color:#1f2937;margin-bottom:4px;letter-spacing:-0.5px;}',
-      '.spending-label{font-size:12px;color:#6b7280;margin-bottom:20px;}',
-      '.spending-bar-wrap{height:8px;background:#f3f4f6;border-radius:999px;overflow:hidden;margin-bottom:16px;}',
+      '.spending-card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px;}',
+      '.spending-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}',
+      '.spending-title{font-size:14px;font-weight:700;color:#1f2937;}',
+      '.spending-period{font-size:11px;color:#9ca0a5;font-weight:500;}',
+      '.spending-total{font-size:24px;font-weight:700;color:#1f2937;margin-bottom:2px;letter-spacing:-0.5px;}',
+      '.spending-label{font-size:11px;color:#6b7280;margin-bottom:14px;}',
+      '.spending-bar-wrap{height:8px;background:#f3f4f6;border-radius:999px;overflow:hidden;margin-bottom:14px;}',
       '.spending-bar{height:100%;background:#007167;border-radius:999px;transition:width 0.6s cubic-bezier(0.32,0.72,0,1);}',
-      '.spending-breakdown{display:flex;gap:24px;}',
-      '.spending-item{display:flex;flex-direction:column;gap:2px;}',
+      '.spending-breakdown{display:flex;flex-direction:column;gap:10px;}',
+      '.spending-item{display:flex;align-items:center;justify-content:space-between;}',
       '.spending-item-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;}',
       '.spending-item-label{font-size:12px;color:#6b7280;display:flex;align-items:center;}',
-      '.spending-item-value{font-size:14px;font-weight:600;color:#1f2937;}',
-      '.spending-view-all{display:inline-flex;align-items:center;gap:4px;margin-top:20px;font-size:13px;font-weight:600;color:#007167;text-decoration:none;}',
+      '.spending-item-value{font-size:13px;font-weight:600;color:#1f2937;}',
+      '.spending-view-all{display:inline-flex;align-items:center;gap:4px;margin-top:14px;font-size:12px;font-weight:600;color:#007167;text-decoration:none;}',
       '.spending-view-all:hover{text-decoration:underline;}',
-      '.spending-card{margin-bottom:0;}',
     ].join('\n');
     document.head.appendChild(buyerDashStyle);
 
@@ -1179,12 +1180,12 @@
       }
     }
 
-    // ── 12e. Inject Spending Card between middle-row and orders ──
+    // ── 12e. Inject Spending Card inside middle-row (2nd column) ──
     (function injectSpendingCard() {
-      var ordersCard = document.querySelector('.orders-header');
-      if (!ordersCard) return;
-      var ordersCardParent = ordersCard.closest('.card');
-      if (!ordersCardParent) return;
+      var middleRow = document.querySelector('.middle-row');
+      if (!middleRow) return;
+      var quickActionsCard = middleRow.querySelector('.card:last-child');
+      if (!quickActionsCard) return;
 
       var spendCard = document.createElement('div');
       spendCard.className = 'spending-card';
@@ -1196,7 +1197,7 @@
         '  <span class="spending-period">May 2026</span>',
         '</div>',
         '<div class="spending-total">24.279,25 €</div>',
-        '<div class="spending-label">of 40.000,00 € monthly budget (61%)</div>',
+        '<div class="spending-label">of 40.000,00 € budget (61%)</div>',
         '<div class="spending-bar-wrap" role="progressbar" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100" aria-label="Budget usage 61%">',
         '  <div class="spending-bar" style="width:0%;"></div>',
         '</div>',
@@ -1214,10 +1215,11 @@
         '    <span class="spending-item-value">2.400,00 €</span>',
         '  </div>',
         '</div>',
-        '<a href="budget.html" class="spending-view-all">View Full Budget <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>',
+        '<a href="budget.html" class="spending-view-all">View Budget <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>',
       ].join('\n');
 
-      ordersCardParent.parentNode.insertBefore(spendCard, ordersCardParent);
+      // Insert as 2nd child of middle-row (between Insights and Quick Actions)
+      middleRow.insertBefore(spendCard, quickActionsCard);
 
       // Animate bar after paint
       requestAnimationFrame(function () {
