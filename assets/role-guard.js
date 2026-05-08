@@ -1081,6 +1081,9 @@
       '.spending-item-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;}',
       '.spending-item-label{font-size:12px;color:#6b7280;display:flex;align-items:center;}',
       '.spending-item-value{font-size:14px;font-weight:600;color:#1f2937;}',
+      '.spending-view-all{display:inline-flex;align-items:center;gap:4px;margin-top:20px;font-size:13px;font-weight:600;color:#007167;text-decoration:none;}',
+      '.spending-view-all:hover{text-decoration:underline;}',
+      '.spending-card{margin-bottom:0;}',
     ].join('\n');
     document.head.appendChild(buyerDashStyle);
 
@@ -1142,14 +1145,14 @@
         '  </div>',
         '  <button class="btn-insight" id="btnInsightReorder">Reorder Now <img src="../assets/icon-arrow-right.svg" alt=""></button>',
         '</div>',
-        // 3. Spending alert
+        // 3. Budget alert — link to budget page
         '<div class="insight-item">',
         '  <div class="insight-dot red"></div>',
         '  <div class="insight-body">',
-        '    <div class="insight-label"><span class="insight-label-text">Monthly Spending</span></div>',
-        '    <div class="insight-text">You have spent 24.279,25 € this month (61% of budget). Spare Parts account for 60% of total.</div>',
+        '    <div class="insight-label"><span class="insight-label-text">Monthly Budget</span></div>',
+        '    <div class="insight-text">61% of your monthly budget used (24.279,25 € of 40.000,00 €). Spare Parts account for 60% of spending.</div>',
         '  </div>',
-        '  <button class="btn-insight" onclick="window.location.href=\'orders.html\'">View Orders <img src="../assets/icon-arrow-right.svg" alt=""></button>',
+        '  <button class="btn-insight" onclick="window.location.href=\'budget.html\'">View Budget <img src="../assets/icon-arrow-right.svg" alt=""></button>',
         '</div>',
       ].join('\n');
 
@@ -1171,7 +1174,57 @@
       }
     }
 
-    // ── 12e. Replace Recent Orders table with approval-centric data ──
+    // ── 12e. Inject Spending Card between middle-row and orders ──
+    (function injectSpendingCard() {
+      var ordersCard = document.querySelector('.orders-header');
+      if (!ordersCard) return;
+      var ordersCardParent = ordersCard.closest('.card');
+      if (!ordersCardParent) return;
+
+      var spendCard = document.createElement('div');
+      spendCard.className = 'spending-card';
+      spendCard.setAttribute('role', 'region');
+      spendCard.setAttribute('aria-label', 'Monthly spending overview');
+      spendCard.innerHTML = [
+        '<div class="spending-header">',
+        '  <span class="spending-title">Monthly Spending</span>',
+        '  <span class="spending-period">May 2026</span>',
+        '</div>',
+        '<div class="spending-total">24.279,25 €</div>',
+        '<div class="spending-label">of 40.000,00 € monthly budget (61%)</div>',
+        '<div class="spending-bar-wrap" role="progressbar" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100" aria-label="Budget usage 61%">',
+        '  <div class="spending-bar" style="width:0%;"></div>',
+        '</div>',
+        '<div class="spending-breakdown">',
+        '  <div class="spending-item">',
+        '    <span class="spending-item-label"><span class="spending-item-dot" style="background:#007167;"></span>Spare Parts</span>',
+        '    <span class="spending-item-value">14.567,55 €</span>',
+        '  </div>',
+        '  <div class="spending-item">',
+        '    <span class="spending-item-label"><span class="spending-item-dot" style="background:#0b9c92;"></span>Grinding Media</span>',
+        '    <span class="spending-item-value">7.311,70 €</span>',
+        '  </div>',
+        '  <div class="spending-item">',
+        '    <span class="spending-item-label"><span class="spending-item-dot" style="background:#8b8e91;"></span>Services</span>',
+        '    <span class="spending-item-value">2.400,00 €</span>',
+        '  </div>',
+        '</div>',
+        '<a href="budget.html" class="spending-view-all">View Full Budget <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>',
+      ].join('\n');
+
+      ordersCardParent.parentNode.insertBefore(spendCard, ordersCardParent);
+
+      // Animate bar after paint
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          var bar = spendCard.querySelector('.spending-bar');
+          if (bar) bar.style.width = '61%';
+        });
+      });
+    })();
+
+    // ── 12f. Replace Recent Orders table with approval-centric data ──
+    // (was 12e before spending card insertion)
     var ordersHeader = document.querySelector('.orders-header');
     if (ordersHeader) {
       ordersHeader.querySelector('.card-title').textContent = 'Recent Orders';
@@ -1218,7 +1271,7 @@
       }
     }
 
-    // ── 12f. Quick Actions — reorder card + buyer actions ──
+    // ── 12g. Quick Actions — reorder card + buyer actions ──
     var quickActionsCard = document.querySelector('.middle-row .card:last-child');
     if (quickActionsCard) {
       quickActionsCard.innerHTML = [
