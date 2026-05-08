@@ -1444,6 +1444,48 @@
     });
   }
 
-  // 16. Expose role for other scripts
+  // ══════════════════════════════════════════════════════════════════════
+  // 16. BUYER — Budget alert on checkout-review page
+  // ══════════════════════════════════════════════════════════════════════
+  if (role === 'buyer' && currentPage === 'checkout-review.html') {
+    (function injectBudgetAlert() {
+      // Inject alert styles
+      var alertStyle = document.createElement('style');
+      alertStyle.textContent = [
+        '.budget-alert{background:#fffbeb;border:1px solid #f5d572;border-radius:10px;padding:14px 20px;display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;}',
+        '.budget-alert-icon{width:20px;height:20px;flex-shrink:0;margin-top:1px;color:#b8860b;}',
+        '.budget-alert-body{flex:1;min-width:0;}',
+        '.budget-alert-title{font-size:13px;font-weight:600;color:#92400e;margin-bottom:2px;}',
+        '.budget-alert-desc{font-size:12px;color:#78716c;line-height:18px;}',
+        '.budget-alert-link{font-size:12px;font-weight:600;color:#007167;text-decoration:none;margin-left:4px;}',
+        '.budget-alert-link:hover{text-decoration:underline;}',
+      ].join('\n');
+      document.head.appendChild(alertStyle);
+
+      // Find the payment summary section to insert before the Place Order button
+      var termsRow = document.querySelector('.terms-row');
+      if (!termsRow) return;
+
+      var alert = document.createElement('div');
+      alert.className = 'budget-alert';
+      alert.setAttribute('role', 'alert');
+      alert.innerHTML = [
+        '<svg class="budget-alert-icon" viewBox="0 0 20 20" fill="none">',
+        '  <path d="M10 6v4m0 3h.01M2.93 15.5h14.14c1.13 0 1.85-1.22 1.3-2.2L11.3 2.8a1.5 1.5 0 00-2.6 0L1.63 13.3c-.55.98.17 2.2 1.3 2.2z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>',
+        '</svg>',
+        '<div class="budget-alert-body">',
+        '  <div class="budget-alert-title">Approaching monthly budget limit</div>',
+        '  <div class="budget-alert-desc">',
+        '    You have spent 24.279,25 € of your 40.000,00 € monthly budget (61%). This order may require approver review.',
+        '    <a href="budget.html" class="budget-alert-link">View Budget</a>',
+        '  </div>',
+        '</div>',
+      ].join('\n');
+
+      termsRow.parentNode.insertBefore(alert, termsRow);
+    })();
+  }
+
+  // 17. Expose role for other scripts
   window.netzschUserRole = role;
 })();
