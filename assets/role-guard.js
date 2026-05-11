@@ -1507,7 +1507,434 @@
   }
 
   // ══════════════════════════════════════════════════════════════════════
-  // 17. APPROVER — Personalized Dashboard
+  // 17. APPROVER — Transform Orders page into Approval Queue
+  // ══════════════════════════════════════════════════════════════════════
+  if (role === 'approver' && currentPage === 'orders.html') {
+
+    // ── 17a. Title + breadcrumb ──
+    var h1 = document.querySelector('.title-bar h1');
+    if (h1) h1.textContent = 'Order Approvals';
+    document.querySelectorAll('.breadcrumb-current').forEach(function (el) {
+      if (el.textContent.trim() === 'Orders') el.textContent = 'Order Approvals';
+    });
+    document.title = 'Order Approvals — NETZSCH Customer Portal';
+
+    var drawerTitle = document.querySelector('.drawer-title');
+    if (drawerTitle) drawerTitle.textContent = 'Approval Details';
+
+    // ── 17b. Inject approver styles ──
+    var approverStyle = document.createElement('style');
+    approverStyle.textContent = [
+      '.status-pending-approval{background:#fff8e1;color:#b8860b;}',
+      '.status-approved{background:#e8f5e9;color:#2e7d32;}',
+      '.status-rejected{background:#fce8e6;color:#c73e20;}',
+      /* Drawer approve/reject styles */
+      '.drawer-approval-status{display:flex;align-items:center;gap:8px;margin-bottom:20px;}',
+      '.drawer-approval-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;}',
+      '.drawer-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}',
+      '.drawer-info-item{display:flex;flex-direction:column;gap:2px;}',
+      '.drawer-info-label{font-size:11px;font-weight:700;color:#9ca0a5;text-transform:uppercase;letter-spacing:0.5px;}',
+      '.drawer-info-value{font-size:14px;color:#2d2e33;font-weight:500;}',
+      '.drawer-divider{border:none;border-top:1px solid #e5e7eb;margin:0 0 20px 0;}',
+      '.drawer-items-title{font-size:13px;font-weight:700;color:#1f2937;margin-bottom:12px;}',
+      '.drawer-item-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f3f4f6;}',
+      '.drawer-item-row:last-child{border-bottom:none;}',
+      '.drawer-item-info{flex:1;}',
+      '.drawer-item-name{font-size:13px;font-weight:600;color:#1f2937;}',
+      '.drawer-item-meta{font-size:12px;color:#6b7280;}',
+      '.drawer-item-qty{font-size:13px;color:#374151;font-weight:500;text-align:right;}',
+      '.drawer-note-section{background:#f8f9fa;border-radius:10px;padding:16px;margin-bottom:16px;}',
+      '.drawer-note-label{font-size:12px;font-weight:700;color:#9ca0a5;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}',
+      '.drawer-note-text{font-size:13px;color:#374151;line-height:20px;}',
+      /* Action buttons */
+      '.approver-actions{display:flex;gap:10px;margin-top:20px;}',
+      '.btn-approve{flex:1;height:44px;border-radius:999px;border:none;background:#2e7d32;color:#fff;font-family:"Inter",sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.15s;}',
+      '.btn-approve:hover{background:#1b5e20;}',
+      '.btn-reject{flex:1;height:44px;border-radius:999px;border:2px solid #c73e20;background:#fff;color:#c73e20;font-family:"Inter",sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.15s;}',
+      '.btn-reject:hover{background:#fef7f6;}',
+      '.btn-approve svg,.btn-reject svg{width:16px;height:16px;}',
+      /* Rejection modal */
+      '.reject-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:600;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}',
+      '.reject-modal-overlay.show{opacity:1;pointer-events:auto;}',
+      '.reject-modal{background:#fff;border-radius:14px;width:480px;max-width:90vw;box-shadow:0 25px 50px rgba(0,0,0,0.25);transform:scale(0.95);transition:transform 0.2s ease;}',
+      '.reject-modal-overlay.show .reject-modal{transform:scale(1);}',
+      '.reject-modal-header{padding:20px 24px 0;display:flex;align-items:center;gap:12px;}',
+      '.reject-modal-icon{width:40px;height:40px;border-radius:50%;background:#fce8e6;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#c73e20;}',
+      '.reject-modal-icon svg{width:20px;height:20px;}',
+      '.reject-modal-title{font-size:17px;font-weight:700;color:#1f2937;}',
+      '.reject-modal-body{padding:16px 24px;}',
+      '.reject-modal-label{font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;}',
+      '.reject-modal-textarea{width:100%;height:100px;border:1px solid #d1d5db;border-radius:10px;padding:12px;font-family:"Inter",sans-serif;font-size:13px;color:#2d2e33;resize:vertical;outline:none;transition:border-color 0.15s;}',
+      '.reject-modal-textarea:focus{border-color:#007167;box-shadow:0 0 0 3px rgba(0,113,103,0.1);}',
+      '.reject-modal-textarea::placeholder{color:#9ca0a5;}',
+      '.reject-modal-footer{padding:0 24px 20px;display:flex;gap:10px;justify-content:flex-end;}',
+      '.reject-modal-cancel{height:40px;padding:0 20px;border-radius:999px;border:1px solid #d1d5db;background:#fff;color:#374151;font-family:"Inter",sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:background 0.15s;}',
+      '.reject-modal-cancel:hover{background:#f9fafb;}',
+      '.reject-modal-confirm{height:40px;padding:0 20px;border-radius:999px;border:none;background:#c73e20;color:#fff;font-family:"Inter",sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background 0.15s;}',
+      '.reject-modal-confirm:hover{background:#a83219;}',
+      '.reject-modal-confirm:disabled{opacity:0.5;cursor:not-allowed;}',
+      /* Toast */
+      '.approver-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1f2937;color:#fff;padding:12px 24px;border-radius:10px;font-size:13px;font-weight:500;z-index:700;opacity:0;transition:transform 0.3s cubic-bezier(0.32,0.72,0,1),opacity 0.3s ease;pointer-events:none;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.2);}',
+      '.approver-toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}',
+      '.approver-toast svg{width:16px;height:16px;flex-shrink:0;}',
+      /* Rejection badge in drawer */
+      '.drawer-rejection{background:#fef7f6;border:1px solid #fce8e6;border-radius:10px;padding:16px;margin-top:16px;}',
+      '.drawer-rejection-title{font-size:12px;font-weight:700;color:#c73e20;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}',
+      '.drawer-rejection-title svg{width:14px;height:14px;}',
+      '.drawer-rejection-text{font-size:13px;color:#374151;line-height:20px;}',
+    ].join('\n');
+    document.head.appendChild(approverStyle);
+
+    // ── 17c. Replace stat cards ──
+    var statCards = document.querySelector('.stat-cards');
+    if (statCards) {
+      statCards.innerHTML = [
+        '<div class="stat-card">',
+        '  <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#b8860b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div class="stat-info"><span class="stat-number">5</span><span class="stat-label">Pending Reviews</span></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon" style="background:#e8f5e9;"><svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div class="stat-info"><span class="stat-number">18</span><span class="stat-label">Approved (May)</span></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon" style="background:#fce8e6;"><svg viewBox="0 0 24 24" fill="none"><path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#c73e20" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div class="stat-info"><span class="stat-number">3</span><span class="stat-label">Rejected (May)</span></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon" style="background:#e5f5f4;"><svg viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="#007167" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div class="stat-info"><span class="stat-number">26</span><span class="stat-label">Total Processed</span></div>',
+        '</div>'
+      ].join('\n');
+    }
+
+    // ── 17d. Replace table with approver data ──
+    var sortSvg = '<svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var table = document.querySelector('.orders-table');
+    if (table) {
+      var thead = table.querySelector('thead tr');
+      if (thead) {
+        thead.innerHTML =
+          '<th>Order ' + sortSvg + '</th>' +
+          '<th>Requester ' + sortSvg + '</th>' +
+          '<th>Product ' + sortSvg + '</th>' +
+          '<th>Total ' + sortSvg + '</th>' +
+          '<th>Submitted ' + sortSvg + '</th>' +
+          '<th>Status ' + sortSvg + '</th>' +
+          '<th>Actions</th>';
+      }
+
+      var approverOrders = [
+        { id:'2800998-30', requester:'Sarah Mitchell', product:'LMZ60 spares', total:'4.000,00 €', date:'Apr 28, 2026', status:'pending' },
+        { id:'2800998-29', requester:'Sarah Mitchell', product:'CERABEADS 0.4 (x3)', total:'119,25 €', date:'Apr 25, 2026', status:'pending' },
+        { id:'2800998-28', requester:'James Cooper', product:'ZetaBeads Plus 0.3mm', total:'850,00 €', date:'Apr 22, 2026', status:'pending' },
+        { id:'REQ-2026-4781', requester:'Carlos Andrade', product:'CERABEADS 0.4', total:'—', date:'Apr 15, 2026', status:'pending', type:'technician' },
+        { id:'REQ-2026-4619', requester:'Carlos Andrade', product:'Steel Beads Micro 0.1mm', total:'—', date:'Apr 5, 2026', status:'pending', type:'technician' },
+        { id:'2800998-27', requester:'Sarah Mitchell', product:'Steel Beads Micro 0.1mm', total:'1.200,00 €', date:'Apr 20, 2026', status:'approved', decidedDate:'Apr 21, 2026' },
+        { id:'2800998-26', requester:'Sarah Mitchell', product:'O-Ring Set (517225)', total:'340,00 €', date:'Apr 18, 2026', status:'approved', decidedDate:'Apr 18, 2026' },
+        { id:'2800998-25', requester:'Sarah Mitchell', product:'Mastermix 45 spares', total:'12.000,00 €', date:'Apr 15, 2026', status:'rejected', decidedDate:'Apr 16, 2026', reason:'Budget limit exceeded for Q2. Please split into two orders under €8.000 or request budget extension from finance.' },
+        { id:'2800998-24', requester:'James Cooper', product:'Inlet Flange Set', total:'2.700,00 €', date:'Apr 12, 2026', status:'approved', decidedDate:'Apr 13, 2026' },
+        { id:'2800998-23', requester:'Sarah Mitchell', product:'Glass Beads 0.8mm (x5)', total:'475,00 €', date:'Apr 10, 2026', status:'approved', decidedDate:'Apr 11, 2026' },
+      ];
+
+      var approvalBadges = {
+        pending: '<span class="status-badge status-pending-approval">Pending Review</span>',
+        approved: '<span class="status-badge status-approved">Approved</span>',
+        rejected: '<span class="status-badge status-rejected">Rejected</span>'
+      };
+
+      var tbody = table.querySelector('tbody');
+      if (tbody) {
+        tbody.innerHTML = approverOrders.map(function (o) {
+          return '<tr>' +
+            '<td><a class="order-link" href="#">' + o.id + '</a></td>' +
+            '<td>' + o.requester + '</td>' +
+            '<td>' + o.product + '</td>' +
+            '<td>' + o.total + '</td>' +
+            '<td>' + o.date + '</td>' +
+            '<td>' + (approvalBadges[o.status] || o.status) + '</td>' +
+            '<td><div class="actions-cell"><button class="action-btn" title="View details"><img src="../assets/icon-order-eye.svg" alt="View"></button></div></td>' +
+            '</tr>';
+        }).join('');
+      }
+
+      // Update pagination
+      var pagInfo = document.querySelector('.pagination-info');
+      if (pagInfo) pagInfo.textContent = 'Showing 1–10 of 10 orders';
+    }
+
+    // ── 17e. Inject rejection modal + toast ──
+    var rejectModal = document.createElement('div');
+    rejectModal.className = 'reject-modal-overlay';
+    rejectModal.id = 'rejectModalOverlay';
+    rejectModal.innerHTML = [
+      '<div class="reject-modal">',
+      '  <div class="reject-modal-header">',
+      '    <div class="reject-modal-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+      '    <span class="reject-modal-title">Reject Order</span>',
+      '  </div>',
+      '  <div class="reject-modal-body">',
+      '    <div class="reject-modal-label">Reason for rejection <span style="color:#c73e20;">*</span></div>',
+      '    <textarea class="reject-modal-textarea" id="rejectReason" placeholder="Explain why this order is being rejected..."></textarea>',
+      '  </div>',
+      '  <div class="reject-modal-footer">',
+      '    <button class="reject-modal-cancel" id="rejectCancel">Cancel</button>',
+      '    <button class="reject-modal-confirm" id="rejectConfirm" disabled>Reject Order</button>',
+      '  </div>',
+      '</div>',
+    ].join('\n');
+    document.body.appendChild(rejectModal);
+
+    var toast = document.createElement('div');
+    toast.className = 'approver-toast';
+    toast.id = 'approverToast';
+    document.body.appendChild(toast);
+
+    // ── 17f. Drawer with details + approve/reject ──
+    var drawerBody = document.querySelector('.drawer-body');
+    var drawerEl = document.getElementById('trackingDrawer');
+    var overlayEl = document.getElementById('drawerOverlay');
+
+    if (drawerBody && drawerEl && overlayEl) {
+      var approverOrdersData = [
+        { id:'2800998-30', requester:'Sarah Mitchell', requesterRole:'Procurement Specialist', product:'LMZ60 spares', items:[{name:'LMZ60 Grinding Chamber Set',ref:'GC-LMZ60',qty:'1 pc'}], total:'4.000,00 €', date:'Apr 28, 2026', status:'pending', note:'Replacement parts for LMZ60 — scheduled maintenance next week. Priority: normal.' },
+        { id:'2800998-29', requester:'Sarah Mitchell', requesterRole:'Procurement Specialist', product:'CERABEADS 0.4 (x3)', items:[{name:'NETZSCH CERABEADS 0.4',ref:'443385',qty:'3 kg'}], total:'119,25 €', date:'Apr 25, 2026', status:'pending', note:'Routine restock for Zeta 60 milling line.' },
+        { id:'2800998-28', requester:'James Cooper', requesterRole:'Procurement Specialist', product:'ZetaBeads Plus 0.3mm', items:[{name:'ZetaBeads Plus 0.3mm',ref:'ZB-030P',qty:'2 kg'}], total:'850,00 €', date:'Apr 22, 2026', status:'pending', note:'New batch for nano milling project starting May 5.' },
+        { id:'REQ-2026-4781', requester:'Carlos Andrade', requesterRole:'Field Technician', product:'CERABEADS 0.4', items:[{name:'NETZSCH CERABEADS 0.4',ref:'443385',qty:'1 kg'}], total:'—', date:'Apr 15, 2026', status:'pending', note:'Scheduled maintenance — current grinding beads showing signs of wear after 2,400 operating hours.', type:'technician', machine:'Alpha Zeta 10' },
+        { id:'REQ-2026-4619', requester:'Carlos Andrade', requesterRole:'Field Technician', product:'Steel Beads Micro 0.1mm', items:[{name:'Steel Beads Micro 0.1mm',ref:'SB-010M',qty:'5 kg'}], total:'—', date:'Apr 5, 2026', status:'pending', note:'Current stock running low. Estimated depletion within 2 weeks.', type:'technician', machine:'Zeta 60' },
+        { id:'2800998-27', requester:'Sarah Mitchell', requesterRole:'Procurement Specialist', product:'Steel Beads Micro 0.1mm', items:[{name:'Steel Beads Micro 0.1mm',ref:'SB-010M',qty:'5 kg'}], total:'1.200,00 €', date:'Apr 20, 2026', status:'approved', decidedDate:'Apr 21, 2026' },
+        { id:'2800998-26', requester:'Sarah Mitchell', requesterRole:'Procurement Specialist', product:'O-Ring Set (517225)', items:[{name:'O-Ring (517225)',ref:'517225',qty:'2 pcs'}], total:'340,00 €', date:'Apr 18, 2026', status:'approved', decidedDate:'Apr 18, 2026' },
+        { id:'2800998-25', requester:'Sarah Mitchell', requesterRole:'Procurement Specialist', product:'Mastermix 45 spares', items:[{name:'Mastermix 45 Full Spare Kit',ref:'MX45-KIT',qty:'1 set'}], total:'12.000,00 €', date:'Apr 15, 2026', status:'rejected', decidedDate:'Apr 16, 2026', reason:'Budget limit exceeded for Q2. Please split into two orders under €8.000 or request budget extension from finance.' },
+        { id:'2800998-24', requester:'James Cooper', requesterRole:'Procurement Specialist', product:'Inlet Flange Set', items:[{name:'Inlet Flange Set',ref:'FL-2200',qty:'1 pc'}], total:'2.700,00 €', date:'Apr 12, 2026', status:'approved', decidedDate:'Apr 13, 2026' },
+        { id:'2800998-23', requester:'Sarah Mitchell', requesterRole:'Procurement Specialist', product:'Glass Beads 0.8mm (x5)', items:[{name:'Glass Beads 0.8mm',ref:'GB-080',qty:'5 kg'}], total:'475,00 €', date:'Apr 10, 2026', status:'approved', decidedDate:'Apr 11, 2026' },
+      ];
+
+      var currentDrawerIndex = -1;
+
+      var badgeMap = {
+        pending:  '<span class="drawer-approval-badge status-pending-approval"><svg viewBox="0 0 16 16" fill="none"><path d="M8 4v4l2.5 2.5M14 8a6 6 0 11-12 0 6 6 0 0112 0z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Pending Review</span>',
+        approved: '<span class="drawer-approval-badge status-approved"><svg viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 4.5-4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Approved</span>',
+        rejected: '<span class="drawer-approval-badge status-rejected"><svg viewBox="0 0 16 16" fill="none"><path d="M5.5 5.5l5 5m0-5l-5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Rejected</span>'
+      };
+
+      function openApproverDrawer(index) {
+        var o = approverOrdersData[index];
+        if (!o) return;
+        currentDrawerIndex = index;
+
+        var html = '';
+        html += '<div class="drawer-order-id" style="margin-bottom:4px;">' + o.id + '</div>';
+        html += '<div style="font-size:13px;color:#6b6e73;margin-bottom:16px;">Submitted on ' + o.date + '</div>';
+        html += '<div class="drawer-approval-status">' + (badgeMap[o.status] || '') + '</div>';
+
+        // Info grid
+        html += '<div class="drawer-info-grid">';
+        html += '  <div class="drawer-info-item"><span class="drawer-info-label">Requester</span><span class="drawer-info-value">' + o.requester + '</span></div>';
+        html += '  <div class="drawer-info-item"><span class="drawer-info-label">Role</span><span class="drawer-info-value">' + o.requesterRole + '</span></div>';
+        html += '  <div class="drawer-info-item"><span class="drawer-info-label">Total</span><span class="drawer-info-value">' + o.total + '</span></div>';
+        if (o.machine) {
+          html += '  <div class="drawer-info-item"><span class="drawer-info-label">Machine</span><span class="drawer-info-value">' + o.machine + '</span></div>';
+        } else {
+          html += '  <div class="drawer-info-item"><span class="drawer-info-label">Type</span><span class="drawer-info-value">' + (o.type === 'technician' ? 'Technician Request' : 'Purchase Order') + '</span></div>';
+        }
+        html += '</div>';
+
+        // Requester note
+        if (o.note) {
+          html += '<div class="drawer-note-section">';
+          html += '  <div class="drawer-note-label">Requester Note</div>';
+          html += '  <div class="drawer-note-text">' + o.note + '</div>';
+          html += '</div>';
+        }
+
+        html += '<hr class="drawer-divider">';
+
+        // Items
+        html += '<div class="drawer-items-title">Items</div>';
+        o.items.forEach(function (item) {
+          html += '<div class="drawer-item-row">';
+          html += '  <div class="drawer-item-info"><div class="drawer-item-name">' + item.name + '</div><div class="drawer-item-meta">Ref: ' + item.ref + '</div></div>';
+          html += '  <div class="drawer-item-qty">' + item.qty + '</div>';
+          html += '</div>';
+        });
+
+        // Rejection reason (for already rejected)
+        if (o.status === 'rejected' && o.reason) {
+          html += '<div class="drawer-rejection" style="margin-top:16px;">';
+          html += '  <div class="drawer-rejection-title"><svg viewBox="0 0 16 16" fill="none"><path d="M8 5v3m0 3h.01M14 8a6 6 0 11-12 0 6 6 0 0112 0z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reason for Rejection</div>';
+          html += '  <div class="drawer-rejection-text">' + o.reason + '</div>';
+          html += '</div>';
+        }
+
+        // Decided date for approved/rejected
+        if (o.decidedDate && o.status !== 'pending') {
+          html += '<div style="font-size:12px;color:#9ca0a5;margin-top:12px;">Decision made on ' + o.decidedDate + '</div>';
+        }
+
+        // Approve/Reject buttons (only for pending)
+        if (o.status === 'pending') {
+          html += '<div class="approver-actions">';
+          html += '  <button class="btn-approve" id="btnDrawerApprove"><svg viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 4.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Approve</button>';
+          html += '  <button class="btn-reject" id="btnDrawerReject"><svg viewBox="0 0 16 16" fill="none"><path d="M5.5 5.5l5 5m0-5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Reject</button>';
+          html += '</div>';
+        }
+
+        drawerBody.innerHTML = html;
+        overlayEl.classList.add('show');
+        drawerEl.classList.add('show');
+
+        // Wire approve button
+        var approveBtn = document.getElementById('btnDrawerApprove');
+        if (approveBtn) {
+          approveBtn.addEventListener('click', function () {
+            approverOrdersData[currentDrawerIndex].status = 'approved';
+            approverOrdersData[currentDrawerIndex].decidedDate = 'May 11, 2026';
+            refreshApproverTable();
+            closeApproverDrawer();
+            showToast('approved', approverOrdersData[currentDrawerIndex].id);
+          });
+        }
+
+        // Wire reject button → open modal
+        var rejectBtn = document.getElementById('btnDrawerReject');
+        if (rejectBtn) {
+          rejectBtn.addEventListener('click', function () {
+            var modalOverlay = document.getElementById('rejectModalOverlay');
+            var textarea = document.getElementById('rejectReason');
+            var confirmBtn = document.getElementById('rejectConfirm');
+            textarea.value = '';
+            confirmBtn.disabled = true;
+            modalOverlay.classList.add('show');
+            setTimeout(function () { textarea.focus(); }, 200);
+          });
+        }
+      }
+
+      function closeApproverDrawer() {
+        overlayEl.classList.remove('show');
+        drawerEl.classList.remove('show');
+      }
+
+      function refreshApproverTable() {
+        var tbody = document.querySelector('.orders-table tbody');
+        if (!tbody) return;
+        var approvalBadges = {
+          pending: '<span class="status-badge status-pending-approval">Pending Review</span>',
+          approved: '<span class="status-badge status-approved">Approved</span>',
+          rejected: '<span class="status-badge status-rejected">Rejected</span>'
+        };
+        tbody.innerHTML = approverOrdersData.map(function (o) {
+          return '<tr>' +
+            '<td><a class="order-link" href="#">' + o.id + '</a></td>' +
+            '<td>' + o.requester + '</td>' +
+            '<td>' + o.product + '</td>' +
+            '<td>' + o.total + '</td>' +
+            '<td>' + o.date + '</td>' +
+            '<td>' + (approvalBadges[o.status] || o.status) + '</td>' +
+            '<td><div class="actions-cell"><button class="action-btn" title="View details"><img src="../assets/icon-order-eye.svg" alt="View"></button></div></td>' +
+            '</tr>';
+        }).join('');
+        wireTableButtons();
+
+        // Update stat card for pending count
+        var pendingCount = approverOrdersData.filter(function (o) { return o.status === 'pending'; }).length;
+        var approvedCount = approverOrdersData.filter(function (o) { return o.status === 'approved'; }).length;
+        var rejectedCount = approverOrdersData.filter(function (o) { return o.status === 'rejected'; }).length;
+        var statNums = document.querySelectorAll('.stat-number');
+        if (statNums[0]) statNums[0].textContent = pendingCount;
+        if (statNums[1]) statNums[1].textContent = approvedCount;
+        if (statNums[2]) statNums[2].textContent = rejectedCount;
+        if (statNums[3]) statNums[3].textContent = approvedCount + rejectedCount;
+      }
+
+      function showToast(action, orderId) {
+        var toastEl = document.getElementById('approverToast');
+        if (!toastEl) return;
+        if (action === 'approved') {
+          toastEl.innerHTML = '<svg viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 4.5-4.5" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Order ' + orderId + ' approved successfully';
+        } else {
+          toastEl.innerHTML = '<svg viewBox="0 0 16 16" fill="none"><path d="M5.5 5.5l5 5m0-5l-5 5" stroke="#f87171" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Order ' + orderId + ' rejected';
+        }
+        toastEl.classList.add('show');
+        setTimeout(function () { toastEl.classList.remove('show'); }, 3000);
+      }
+
+      function wireTableButtons() {
+        document.querySelectorAll('.action-btn[title="View details"]').forEach(function (btn, i) {
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            openApproverDrawer(i);
+          });
+        });
+        document.querySelectorAll('.order-link').forEach(function (link, i) {
+          link.href = '#';
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            openApproverDrawer(i);
+          });
+        });
+      }
+
+      // Initial wiring
+      wireTableButtons();
+
+      // Close handlers
+      var closeBtn = document.querySelector('.drawer-close');
+      if (closeBtn) closeBtn.addEventListener('click', closeApproverDrawer);
+      overlayEl.addEventListener('click', closeApproverDrawer);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          var modalOverlay = document.getElementById('rejectModalOverlay');
+          if (modalOverlay && modalOverlay.classList.contains('show')) {
+            modalOverlay.classList.remove('show');
+          } else if (drawerEl.classList.contains('show')) {
+            closeApproverDrawer();
+          }
+        }
+      });
+
+      // ── Rejection modal handlers ──
+      var rejectTextarea = document.getElementById('rejectReason');
+      var rejectConfirmBtn = document.getElementById('rejectConfirm');
+      var rejectCancelBtn = document.getElementById('rejectCancel');
+      var rejectModalOverlay = document.getElementById('rejectModalOverlay');
+
+      if (rejectTextarea && rejectConfirmBtn) {
+        rejectTextarea.addEventListener('input', function () {
+          rejectConfirmBtn.disabled = rejectTextarea.value.trim().length === 0;
+        });
+      }
+
+      if (rejectCancelBtn) {
+        rejectCancelBtn.addEventListener('click', function () {
+          rejectModalOverlay.classList.remove('show');
+        });
+      }
+
+      if (rejectConfirmBtn) {
+        rejectConfirmBtn.addEventListener('click', function () {
+          var reason = rejectTextarea.value.trim();
+          if (!reason) return;
+          approverOrdersData[currentDrawerIndex].status = 'rejected';
+          approverOrdersData[currentDrawerIndex].decidedDate = 'May 11, 2026';
+          approverOrdersData[currentDrawerIndex].reason = reason;
+          rejectModalOverlay.classList.remove('show');
+          refreshApproverTable();
+          closeApproverDrawer();
+          showToast('rejected', approverOrdersData[currentDrawerIndex].id);
+        });
+      }
+
+      if (rejectModalOverlay) {
+        rejectModalOverlay.addEventListener('click', function (e) {
+          if (e.target === rejectModalOverlay) rejectModalOverlay.classList.remove('show');
+        });
+      }
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // 18. APPROVER — Personalized Dashboard
   // ══════════════════════════════════════════════════════════════════════
   if (role === 'approver' && currentPage === 'dashboard.html') {
 
@@ -1664,6 +2091,6 @@
     }
   }
 
-  // 18. Expose role for other scripts
+  // 19. Expose role for other scripts
   window.netzschUserRole = role;
 })();
