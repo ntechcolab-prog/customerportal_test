@@ -2173,6 +2173,262 @@
     if (notifViewAll) notifViewAll.setAttribute('href', 'notifications.html');
   }
 
-  // 20. Expose role for other scripts
+  // ══════════════════════════════════════════════════════════════════════
+  // 20. TECHNICIAN — Personalized Dashboard
+  // ══════════════════════════════════════════════════════════════════════
+  if (role === 'technician' && currentPage === 'dashboard.html') {
+
+    // ── 20a. Inject technician dashboard styles ──
+    var techDashStyle = document.createElement('style');
+    techDashStyle.textContent = [
+      '.status-pending-approval{background:#fff8e1;color:#b8860b;}',
+      '.status-in-progress-dash{background:#e0f2ee;color:#007167;}',
+      /* Machine alert card */
+      '.machine-alert-card{border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:14px;transition:background 0.15s;}',
+      '.machine-alert-card:hover{background:#f8f9fa;}',
+      '.machine-alert-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}',
+      '.machine-alert-icon.warning{background:#fff8e1;}',
+      '.machine-alert-icon.warning svg{color:#b8860b;}',
+      '.machine-alert-icon.critical{background:#fce8e6;}',
+      '.machine-alert-icon.critical svg{color:#c73e20;}',
+      '.machine-alert-icon.info{background:#e0f2ee;}',
+      '.machine-alert-icon.info svg{color:#007167;}',
+      '.machine-alert-body{flex:1;min-width:0;}',
+      '.machine-alert-title{font-size:13px;font-weight:600;color:#1f2937;}',
+      '.machine-alert-desc{font-size:12px;color:#6b7280;line-height:18px;}',
+      '.machine-alert-meta{font-size:11px;color:#9ca0a5;margin-top:2px;}',
+      /* Middle row — 2 columns for Technician */
+      '.middle-row{grid-template-columns:1fr 340px !important;}',
+    ].join('\n');
+    document.head.appendChild(techDashStyle);
+
+    // ── 20b. Welcome banner — change name ──
+    var welcomeTitle = document.querySelector('.welcome-title');
+    if (welcomeTitle) {
+      var hour = new Date().getHours();
+      var greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+      welcomeTitle.textContent = greeting + ', Carlos';
+    }
+
+    // ── 20c. Replace stat cards with technician metrics ──
+    var statCards = document.querySelector('.stat-cards');
+    if (statCards) {
+      statCards.innerHTML = [
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap" style="background:#fff8e1;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#b8860b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">2</div><div class="stat-label">Pending Requests</div></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">5</div><div class="stat-label">Assigned Machines</div></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap" style="background:#e0f2ee;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="#007167" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">2</div><div class="stat-label">Active Services</div></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap" style="background:#e8f5e9;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">3</div><div class="stat-label">Approved Requests</div></div>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // ── 20d. Replace AI Insights with Machine Alerts ──
+    var insightCardTitle = document.querySelector('.middle-row .card-header .card-title');
+    if (insightCardTitle) insightCardTitle.textContent = 'Machine Alerts';
+    var insightIcon = document.querySelector('.middle-row .card-header img');
+    if (insightIcon) {
+      insightIcon.outerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+    }
+
+    var insightList = document.querySelector('.insight-list');
+    if (insightList) {
+      insightList.innerHTML = [
+        // 1. Critical alert
+        '<div class="machine-alert-card">',
+        '  <div class="machine-alert-icon critical"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="1.5"/></svg></div>',
+        '  <div class="machine-alert-body">',
+        '    <div class="machine-alert-title">Discus 30 — Seal failure detected</div>',
+        '    <div class="machine-alert-desc">O-Ring needs urgent replacement. Machine offline.</div>',
+        '    <div class="machine-alert-meta">Detected during routine inspection · 2 hours ago</div>',
+        '  </div>',
+        '  <button class="btn-insight" onclick="window.location.href=\'services.html\'">View <img src="../assets/icon-arrow-right.svg" alt=""></button>',
+        '</div>',
+        // 2. Maintenance due
+        '<div class="machine-alert-card">',
+        '  <div class="machine-alert-icon warning"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div class="machine-alert-body">',
+        '    <div class="machine-alert-title">Alpha Zeta 10 — Maintenance due</div>',
+        '    <div class="machine-alert-desc">Grinding beads at 2,400 hrs. Replacement recommended before next cycle.</div>',
+        '    <div class="machine-alert-meta">Scheduled maintenance · Due in 3 days</div>',
+        '  </div>',
+        '  <button class="btn-insight" onclick="window.location.href=\'machines.html\'">View <img src="../assets/icon-arrow-right.svg" alt=""></button>',
+        '</div>',
+        // 3. Request approved
+        '<div class="machine-alert-card">',
+        '  <div class="machine-alert-icon info"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div class="machine-alert-body">',
+        '    <div class="machine-alert-title">REQ-2026-4756 approved</div>',
+        '    <div class="machine-alert-desc">O-Ring (517225) for Discus 30 — approved by Daniel Costa.</div>',
+        '    <div class="machine-alert-meta">Approved · Apr 14, 2026</div>',
+        '  </div>',
+        '  <button class="btn-insight" onclick="window.location.href=\'orders.html\'">View <img src="../assets/icon-arrow-right.svg" alt=""></button>',
+        '</div>',
+        // 4. Bead wear warning
+        '<div class="machine-alert-card">',
+        '  <div class="machine-alert-icon warning"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="1.5"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="1.5"/></svg></div>',
+        '  <div class="machine-alert-body">',
+        '    <div class="machine-alert-title">Zeta 60 — Bead stock running low</div>',
+        '    <div class="machine-alert-desc">Steel Beads Micro 0.1mm — estimated depletion in 2 weeks.</div>',
+        '    <div class="machine-alert-meta">Inventory alert · Apr 5, 2026</div>',
+        '  </div>',
+        '  <button class="btn-insight" onclick="window.location.href=\'orders.html\'">View <img src="../assets/icon-arrow-right.svg" alt=""></button>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // ── 20e. Quick Actions — Technician-specific ──
+    var quickActionsCard = document.querySelector('.middle-row .card:last-child');
+    if (quickActionsCard) {
+      quickActionsCard.innerHTML = [
+        '<div class="card-header">',
+        '  <span class="card-title">Quick Actions</span>',
+        '</div>',
+        '<div class="quick-actions-list">',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'machines.html\'">My Machines</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'services.html\'">Service Requests</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Requests</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // ── 20f. Recent Orders → Recent Requests ──
+    var ordersHeader = document.querySelector('.orders-header');
+    if (ordersHeader) {
+      ordersHeader.querySelector('.card-title').textContent = 'Recent Requests';
+      var viewAllBtn = ordersHeader.querySelector('.btn-view-all');
+      if (viewAllBtn) {
+        viewAllBtn.textContent = 'View All';
+        viewAllBtn.onclick = function () { window.location.href = 'orders.html'; };
+      }
+    }
+
+    var ordersTable = document.querySelector('.orders-table');
+    if (ordersTable) {
+      var thead = ordersTable.querySelector('thead tr');
+      if (thead) {
+        thead.innerHTML = '<th>Request #</th><th>Product</th><th>Machine</th><th>Priority</th><th>Status</th><th>Submitted</th>';
+      }
+
+      var tbody = ordersTable.querySelector('tbody');
+      if (tbody) {
+        var techRequests = [
+          { id:'REQ-2026-4781', product:'CERABEADS 0.4', machine:'Alpha Zeta 10', priority:'High', status:'pending', date:'Apr 15, 2026' },
+          { id:'REQ-2026-4756', product:'O-Ring (517225)', machine:'Discus 30', priority:'Urgent', status:'approved', date:'Apr 14, 2026' },
+          { id:'REQ-2026-4730', product:'Ring - AISI 304', machine:'Zeta 60', priority:'Medium', status:'approved', date:'Apr 12, 2026' },
+          { id:'REQ-2026-4698', product:'Inlet Flange Set', machine:'Alpha Zeta 10', priority:'Low', status:'rejected', date:'Apr 10, 2026' },
+          { id:'REQ-2026-4619', product:'Steel Beads Micro', machine:'Zeta 60', priority:'High', status:'pending', date:'Apr 5, 2026' },
+        ];
+
+        var statusBadges = {
+          pending: '<span class="status-badge status-pending-approval">Pending Approval</span>',
+          approved: '<span class="status-badge" style="background:#e8f5e9;color:#2e7d32;">Approved</span>',
+          rejected: '<span class="status-badge" style="background:#fce8e6;color:#c73e20;">Rejected</span>'
+        };
+
+        tbody.innerHTML = techRequests.map(function (r) {
+          return '<tr>' +
+            '<td><a class="order-link" href="orders.html">' + r.id + '</a></td>' +
+            '<td>' + r.product + '</td>' +
+            '<td>' + r.machine + '</td>' +
+            '<td>' + r.priority + '</td>' +
+            '<td>' + (statusBadges[r.status] || r.status) + '</td>' +
+            '<td>' + r.date + '</td>' +
+            '</tr>';
+        }).join('');
+      }
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════════════
+  // 21. TECHNICIAN — Notification dropdown customization (all pages)
+  // ══════════════════════════════════════════════════════════════════════
+  if (role === 'technician') {
+    var notifList = document.querySelector('.notif-list');
+    var notifBadge = document.querySelector('.notif-badge');
+    var notifCountBadge = document.querySelector('.notif-count-badge');
+    var notifViewAll = document.querySelector('.notif-view-all');
+
+    if (notifList) {
+      var techNotifStyle = document.createElement('style');
+      techNotifStyle.textContent = '.notif-item-icon.machine{background:#fce8e6;} .notif-item-icon.request-status{background:#e8f5e9;}';
+      document.head.appendChild(techNotifStyle);
+
+      notifList.innerHTML = [
+        // 1. Machine alert (UNREAD)
+        '<div class="notif-item unread">',
+        '  <div class="notif-item-icon machine"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <div class="notif-item-title-row">',
+        '      <span class="notif-item-title">Discus 30 — Seal failure detected</span>',
+        '      <span class="notif-unread-dot"></span>',
+        '    </div>',
+        '    <div class="notif-item-desc">O-Ring needs urgent replacement. Machine offline.</div>',
+        '    <div class="notif-item-time">2 hours ago</div>',
+        '    <a href="services.html" class="notif-item-action">Open Service</a>',
+        '  </div>',
+        '</div>',
+        // 2. Request approved (UNREAD)
+        '<div class="notif-item unread">',
+        '  <div class="notif-item-icon request-status"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <div class="notif-item-title-row">',
+        '      <span class="notif-item-title">REQ-2026-4756 approved by Daniel Costa</span>',
+        '      <span class="notif-unread-dot"></span>',
+        '    </div>',
+        '    <div class="notif-item-desc">O-Ring (517225) for Discus 30 — order being processed.</div>',
+        '    <div class="notif-item-time">1 day ago</div>',
+        '  </div>',
+        '</div>',
+        // 3. Maintenance reminder (read)
+        '<div class="notif-item">',
+        '  <div class="notif-item-icon service"><img src="../assets/icon-notif-service.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <span class="notif-item-title">Maintenance due: Alpha Zeta 10</span>',
+        '    <div class="notif-item-desc">Grinding beads at 2,400 hrs — replacement recommended.</div>',
+        '    <div class="notif-item-time">2 days ago</div>',
+        '  </div>',
+        '</div>',
+        // 4. Request rejected (read)
+        '<div class="notif-item">',
+        '  <div class="notif-item-icon machine"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <span class="notif-item-title">REQ-2026-4698 rejected</span>',
+        '    <div class="notif-item-desc">Inlet Flange Set — current flange within acceptable tolerance.</div>',
+        '    <div class="notif-item-time">4 days ago</div>',
+        '  </div>',
+        '</div>',
+        // 5. Service completed (read)
+        '<div class="notif-item">',
+        '  <div class="notif-item-icon service"><img src="../assets/icon-notif-service.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <span class="notif-item-title">Service #15345680 completed</span>',
+        '    <div class="notif-item-desc">Preventive maintenance on Zeta 300 — all wear parts replaced.</div>',
+        '    <div class="notif-item-time">1 week ago</div>',
+        '  </div>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // Update badge count (2 unread)
+    if (notifBadge) notifBadge.textContent = '2';
+    if (notifCountBadge) notifCountBadge.textContent = '2';
+
+    // Link to notifications page
+    if (notifViewAll) notifViewAll.setAttribute('href', 'notifications.html');
+  }
+
+  // 22. Expose role for other scripts
   window.netzschUserRole = role;
 })();
