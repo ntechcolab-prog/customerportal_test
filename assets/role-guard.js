@@ -12,7 +12,7 @@
   var hiddenMenus = {
     administrator: [],
     buyer: ['Lab Tests'],
-    approver: ['Shop'],
+    approver: ['Shop', 'Lab Tests'],
     technician: ['Quotes']
   };
 
@@ -42,6 +42,7 @@
       'checkout.html', 'checkout-cart.html', 'checkout-review.html',
       'checkout-confirmation.html', 'checkout-order-details.html', 'checkout-quote.html',
       'budget.html',
+      'lab-tests.html', 'contracts.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html'
     ]
@@ -77,7 +78,7 @@
       }
     });
   }
-  if (role === 'technician' || role === 'buyer') {
+  if (role === 'technician' || role === 'buyer' || role === 'approver') {
     document.querySelectorAll('.profile-dropdown-item').forEach(function (item) {
       if (item.textContent.trim() === 'Contracts') {
         item.closest('li').style.display = 'none';
@@ -2038,7 +2039,6 @@
         '  <button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Review Quotes</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'machines.html\'">View Machines</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'services.html\'">View Services</button>',
-        '  <button class="btn-quick-action" onclick="window.location.href=\'contracts.html\'">Contracts</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
         '</div>',
       ].join('\n');
