@@ -85,8 +85,8 @@
     });
   }
 
-  // 4. Hide cart icon for technician (no shop access)
-  if (role === 'technician') {
+  // 4. Hide cart icon for technician and approver (no shop access)
+  if (role === 'technician' || role === 'approver') {
     var cartBtn = document.getElementById('btn-cart');
     if (cartBtn) cartBtn.style.display = 'none';
     var cartDropdown = document.getElementById('cart-dropdown');
