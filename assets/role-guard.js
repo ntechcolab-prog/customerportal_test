@@ -1506,6 +1506,164 @@
     })();
   }
 
-  // 17. Expose role for other scripts
+  // ══════════════════════════════════════════════════════════════════════
+  // 17. APPROVER — Personalized Dashboard
+  // ══════════════════════════════════════════════════════════════════════
+  if (role === 'approver' && currentPage === 'dashboard.html') {
+
+    // ── 17a. Inject approver dashboard styles ──
+    var approverDashStyle = document.createElement('style');
+    approverDashStyle.textContent = [
+      '.status-pending-approval{background:#fff8e1;color:#b8860b;}',
+      '.status-approved{background:#e8f5e9;color:#2e7d32;}',
+      '.status-rejected{background:#fce8e6;color:#c73e20;}',
+      /* Approval queue card */
+      '.approval-queue-item{border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:14px;transition:background 0.15s;}',
+      '.approval-queue-item:hover{background:#f8f9fa;}',
+      '.approval-queue-icon{width:36px;height:36px;border-radius:50%;background:#fff8e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;}',
+      '.approval-queue-icon svg{width:18px;height:18px;color:#b8860b;}',
+      '.approval-queue-body{flex:1;min-width:0;}',
+      '.approval-queue-title{font-size:13px;font-weight:600;color:#1f2937;}',
+      '.approval-queue-desc{font-size:12px;color:#6b7280;line-height:18px;}',
+      '.approval-queue-meta{font-size:11px;color:#9ca0a5;margin-top:2px;}',
+      '.btn-review{background:#007167;color:#fff;border:none;border-radius:999px;padding:6px 14px;font-family:Inter,sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background 0.15s;text-decoration:none;display:inline-flex;align-items:center;gap:4px;}',
+      '.btn-review:hover{background:#005f57;}',
+      /* Middle row — 2 columns for Approver */
+      '.middle-row{grid-template-columns:1fr 340px !important;}',
+    ].join('\n');
+    document.head.appendChild(approverDashStyle);
+
+    // ── 17b. Welcome banner — change name ──
+    var welcomeTitle = document.querySelector('.welcome-title');
+    if (welcomeTitle) {
+      var hour = new Date().getHours();
+      var greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+      welcomeTitle.textContent = greeting + ', Daniel';
+    }
+
+    // ── 17c. Replace stat cards with approver-centric metrics ──
+    var statCards = document.querySelector('.stat-cards');
+    if (statCards) {
+      statCards.innerHTML = [
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap" style="background:#fff8e1;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#b8860b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">5</div><div class="stat-label">Pending Reviews</div></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap" style="background:#e8f5e9;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">18</div><div class="stat-label">Approved (May)</div></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap" style="background:#fce8e6;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#c73e20" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">3</div><div class="stat-label">Rejected (May)</div></div>',
+        '</div>',
+        '<div class="stat-card">',
+        '  <div class="stat-icon-wrap"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>',
+        '  <div><div class="stat-number">26</div><div class="stat-label">Total Processed</div></div>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // ── 17d. Replace AI Insights with Approval Queue ──
+    var insightCardTitle = document.querySelector('.middle-row .card-header .card-title');
+    if (insightCardTitle) insightCardTitle.textContent = 'Approval Queue';
+    var insightIcon = document.querySelector('.middle-row .card-header img');
+    if (insightIcon) {
+      insightIcon.outerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/><path d="M9 14l2 2 4-4"/></svg>';
+    }
+
+    var insightList = document.querySelector('.insight-list');
+    if (insightList) {
+      var queueItems = [
+        { id:'2800998-30', requester:'Sarah Mitchell', product:'LMZ60 spares', total:'4.000,00 €', date:'Apr 28, 2026', urgency:'normal' },
+        { id:'2800998-29', requester:'Sarah Mitchell', product:'CERABEADS 0.4 (x3)', total:'119,25 €', date:'Apr 25, 2026', urgency:'normal' },
+        { id:'2800998-28', requester:'James Cooper', product:'ZetaBeads Plus 0.3mm', total:'850,00 €', date:'Apr 22, 2026', urgency:'normal' },
+        { id:'REQ-2026-4781', requester:'Carlos Andrade', product:'CERABEADS 0.4', total:'—', date:'Apr 15, 2026', urgency:'high', type:'technician' },
+        { id:'REQ-2026-4619', requester:'Carlos Andrade', product:'Steel Beads Micro 0.1mm', total:'—', date:'Apr 5, 2026', urgency:'high', type:'technician' },
+      ];
+
+      insightList.innerHTML = queueItems.map(function (q) {
+        var urgencyBadge = q.urgency === 'high'
+          ? ' <span style="display:inline-block;background:#fce8e6;color:#c73e20;font-size:10px;font-weight:600;padding:1px 6px;border-radius:999px;margin-left:4px;">Urgent</span>'
+          : '';
+        var typeLabel = q.type === 'technician' ? 'Technician Request' : 'Purchase Order';
+        return '<div class="approval-queue-item">' +
+          '<div class="approval-queue-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+          '<div class="approval-queue-body">' +
+            '<div class="approval-queue-title">' + q.id + urgencyBadge + '</div>' +
+            '<div class="approval-queue-desc">' + q.product + ' — ' + q.total + '</div>' +
+            '<div class="approval-queue-meta">' + typeLabel + ' by ' + q.requester + ' · ' + q.date + '</div>' +
+          '</div>' +
+          '<a href="orders.html" class="btn-review">Review</a>' +
+        '</div>';
+      }).join('');
+    }
+
+    // ── 17e. Quick Actions — Approver-specific ──
+    var quickActionsCard = document.querySelector('.middle-row .card:last-child');
+    if (quickActionsCard) {
+      quickActionsCard.innerHTML = [
+        '<div class="card-header">',
+        '  <span class="card-title">Quick Actions</span>',
+        '</div>',
+        '<div class="quick-actions-list">',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">Review Pending Orders</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Review Quotes</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'machines.html\'">View Machines</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'services.html\'">View Services</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'contracts.html\'">Contracts</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // ── 17f. Recent Orders table → Recent Approvals ──
+    var ordersHeader = document.querySelector('.orders-header');
+    if (ordersHeader) {
+      ordersHeader.querySelector('.card-title').textContent = 'Recent Approvals';
+      var viewAllBtn = ordersHeader.querySelector('.btn-view-all');
+      if (viewAllBtn) {
+        viewAllBtn.textContent = 'View All';
+        viewAllBtn.onclick = function () { window.location.href = 'orders.html'; };
+      }
+    }
+
+    var ordersTable = document.querySelector('.orders-table');
+    if (ordersTable) {
+      var thead = ordersTable.querySelector('thead tr');
+      if (thead) {
+        thead.innerHTML = '<th>Order #</th><th>Requester</th><th>Product</th><th>Total</th><th>Decision</th><th>Date</th>';
+      }
+
+      var tbody = ordersTable.querySelector('tbody');
+      if (tbody) {
+        var recentApprovals = [
+          { id:'2800998-27', requester:'Sarah Mitchell', product:'Steel Beads Micro', total:'1.200,00 €', decision:'approved', date:'Apr 21, 2026' },
+          { id:'2800998-26', requester:'Sarah Mitchell', product:'O-Ring Set (517225)', total:'340,00 €', decision:'approved', date:'Apr 18, 2026' },
+          { id:'2800998-25', requester:'Sarah Mitchell', product:'Mastermix 45 spares', total:'12.000,00 €', decision:'rejected', date:'Apr 16, 2026' },
+          { id:'2800998-24', requester:'James Cooper', product:'Inlet Flange Set', total:'2.700,00 €', decision:'approved', date:'Apr 13, 2026' },
+          { id:'2800998-23', requester:'Sarah Mitchell', product:'Glass Beads 0.8mm', total:'475,00 €', decision:'approved', date:'Apr 11, 2026' },
+        ];
+
+        var decisionBadges = {
+          approved: '<span class="status-badge status-approved">Approved</span>',
+          rejected: '<span class="status-badge status-rejected">Rejected</span>'
+        };
+
+        tbody.innerHTML = recentApprovals.map(function (a) {
+          return '<tr>' +
+            '<td><a class="order-link" href="orders.html">' + a.id + '</a></td>' +
+            '<td>' + a.requester + '</td>' +
+            '<td>' + a.product + '</td>' +
+            '<td>' + a.total + '</td>' +
+            '<td>' + (decisionBadges[a.decision] || a.decision) + '</td>' +
+            '<td>' + a.date + '</td>' +
+            '</tr>';
+        }).join('');
+      }
+    }
+  }
+
+  // 18. Expose role for other scripts
   window.netzschUserRole = role;
 })();
