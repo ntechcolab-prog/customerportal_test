@@ -2091,6 +2091,88 @@
     }
   }
 
-  // 19. Expose role for other scripts
+  // ══════════════════════════════════════════════════════════════════════
+  // 19. APPROVER — Notification dropdown customization (all pages)
+  // ══════════════════════════════════════════════════════════════════════
+  if (role === 'approver') {
+    var notifList = document.querySelector('.notif-list');
+    var notifBadge = document.querySelector('.notif-badge');
+    var notifCountBadge = document.querySelector('.notif-count-badge');
+    var notifViewAll = document.querySelector('.notif-view-all');
+
+    if (notifList) {
+      var approverNotifStyle = document.createElement('style');
+      approverNotifStyle.textContent = '.notif-item-icon.approval-pending{background:#fff8e1;} .notif-item-icon.approval-done{background:#e8f5e9;}';
+      document.head.appendChild(approverNotifStyle);
+
+      notifList.innerHTML = [
+        // 1. New order pending (UNREAD)
+        '<div class="notif-item unread">',
+        '  <div class="notif-item-icon approval-pending"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <div class="notif-item-title-row">',
+        '      <span class="notif-item-title">New order #2800998-30 awaiting your approval</span>',
+        '      <span class="notif-unread-dot"></span>',
+        '    </div>',
+        '    <div class="notif-item-desc">Sarah Mitchell — LMZ60 spares (4.000,00 €)</div>',
+        '    <div class="notif-item-time">30 min ago</div>',
+        '    <a href="orders.html" class="notif-item-action">Review Now</a>',
+        '  </div>',
+        '</div>',
+        // 2. Technician request (UNREAD)
+        '<div class="notif-item unread">',
+        '  <div class="notif-item-icon approval-pending"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <div class="notif-item-title-row">',
+        '      <span class="notif-item-title">Technician request REQ-2026-4781 needs review</span>',
+        '      <span class="notif-unread-dot"></span>',
+        '    </div>',
+        '    <div class="notif-item-desc">Carlos Andrade — CERABEADS 0.4 for Alpha Zeta 10</div>',
+        '    <div class="notif-item-time">2 hours ago</div>',
+        '    <a href="orders.html" class="notif-item-action">Review Now</a>',
+        '  </div>',
+        '</div>',
+        // 3. Reminder (UNREAD)
+        '<div class="notif-item unread">',
+        '  <div class="notif-item-icon approval-pending"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <div class="notif-item-title-row">',
+        '      <span class="notif-item-title">Reminder: 5 orders pending your review</span>',
+        '      <span class="notif-unread-dot"></span>',
+        '    </div>',
+        '    <div class="notif-item-desc">Oldest request is 36 days old — please review promptly.</div>',
+        '    <div class="notif-item-time">1 day ago</div>',
+        '  </div>',
+        '</div>',
+        // 4. Approved confirmation (read)
+        '<div class="notif-item">',
+        '  <div class="notif-item-icon approval-done"><img src="../assets/icon-notif-order.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <span class="notif-item-title">You approved order #2800998-27</span>',
+        '    <div class="notif-item-desc">Steel Beads Micro 0.1mm — 1.200,00 €</div>',
+        '    <div class="notif-item-time">3 days ago</div>',
+        '  </div>',
+        '</div>',
+        // 5. Quote for review (read)
+        '<div class="notif-item">',
+        '  <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>',
+        '  <div class="notif-item-content">',
+        '    <span class="notif-item-title">Quote #QT-2026-0042 ready for your review</span>',
+        '    <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — 12.450,00 €</div>',
+        '    <div class="notif-item-time">4 days ago</div>',
+        '  </div>',
+        '</div>',
+      ].join('\n');
+    }
+
+    // Update badge count (3 unread)
+    if (notifBadge) notifBadge.textContent = '3';
+    if (notifCountBadge) notifCountBadge.textContent = '3';
+
+    // Link to notifications page
+    if (notifViewAll) notifViewAll.setAttribute('href', 'notifications.html');
+  }
+
+  // 20. Expose role for other scripts
   window.netzschUserRole = role;
 })();
