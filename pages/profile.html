@@ -2323,6 +2323,15 @@ function sendFromSmallChat() {
   var scrollContainer = document.querySelector('.profile-scrollable');
   if (!scrollContainer) return;
 
+  function getOffsetInContainer(el) {
+    var top = 0;
+    while (el && el !== scrollContainer) {
+      top += el.offsetTop;
+      el = el.offsetParent;
+    }
+    return top;
+  }
+
   var navItems = document.querySelectorAll('.account-nav-item[data-section]');
   navItems.forEach(function(item) {
     item.addEventListener('click', function(e) {
@@ -2331,7 +2340,7 @@ function sendFromSmallChat() {
       var section = document.getElementById(sectionId);
       if (!section) return;
       scrollContainer.scrollTo({
-        top: section.offsetTop - scrollContainer.offsetTop,
+        top: getOffsetInContainer(section),
         behavior: 'smooth'
       });
       navItems.forEach(function(n) { n.classList.remove('active'); });
@@ -2340,21 +2349,16 @@ function sendFromSmallChat() {
   });
 
   // Update active state on scroll
-  var sections = [];
-  navItems.forEach(function(item) {
-    var id = item.getAttribute('data-section');
-    var el = document.getElementById(id);
-    if (el) sections.push({ id: id, el: el, nav: item });
-  });
   scrollContainer.addEventListener('scroll', function() {
     var scrollTop = scrollContainer.scrollTop + 40;
-    var current = sections[0];
-    for (var i = 0; i < sections.length; i++) {
-      var elTop = sections[i].el.offsetTop - scrollContainer.offsetTop;
-      if (elTop <= scrollTop) current = sections[i];
-    }
+    var current = null;
+    navItems.forEach(function(item) {
+      var id = item.getAttribute('data-section');
+      var el = document.getElementById(id);
+      if (el && getOffsetInContainer(el) <= scrollTop) current = item;
+    });
     navItems.forEach(function(n) { n.classList.remove('active'); });
-    if (current) current.nav.classList.add('active');
+    if (current) current.classList.add('active');
   });
 })();
 </script>
