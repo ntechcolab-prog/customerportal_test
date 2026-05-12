@@ -1251,19 +1251,15 @@
         '  <span class="spending-title">Monthly Spending</span>',
         '  <span class="spending-period">May 2026</span>',
         '</div>',
-        '<div class="spending-total">24.279,25 €</div>',
-        '<div class="spending-label">of 40.000,00 € budget (61%)</div>',
-        '<div class="spending-bar-wrap" role="progressbar" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100" aria-label="Budget usage 61%">',
+        '<div class="spending-total">16.967,55 €</div>',
+        '<div class="spending-label">of 40.000,00 € budget (42%)</div>',
+        '<div class="spending-bar-wrap" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100" aria-label="Budget usage 42%">',
         '  <div class="spending-bar" style="width:0%;"></div>',
         '</div>',
         '<div class="spending-breakdown">',
         '  <div class="spending-item">',
         '    <span class="spending-item-label"><span class="spending-item-dot" style="background:#007167;"></span>Spare Parts</span>',
         '    <span class="spending-item-value">14.567,55 €</span>',
-        '  </div>',
-        '  <div class="spending-item">',
-        '    <span class="spending-item-label"><span class="spending-item-dot" style="background:#0b9c92;"></span>Grinding Media</span>',
-        '    <span class="spending-item-value">7.311,70 €</span>',
         '  </div>',
         '  <div class="spending-item">',
         '    <span class="spending-item-label"><span class="spending-item-dot" style="background:#8b8e91;"></span>Services</span>',
@@ -1280,7 +1276,7 @@
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           var bar = spendCard.querySelector('.spending-bar');
-          if (bar) bar.style.width = '61%';
+          if (bar) bar.style.width = '42%';
         });
       });
     })();

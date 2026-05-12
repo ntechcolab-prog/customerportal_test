@@ -806,21 +806,21 @@
       <div class="budget-current-header">
         <div class="budget-current-left">
           <div class="budget-current-period">May 2026 — Spent</div>
-          <div class="budget-current-amount">24.279,25 € <span>of 40.000,00 €</span></div>
+          <div class="budget-current-amount">16.967,55 € <span>of 40.000,00 €</span></div>
         </div>
         <div class="budget-current-right">
           <div class="budget-remaining-label">Remaining</div>
-          <div class="budget-remaining-value">15.720,75 €</div>
+          <div class="budget-remaining-value">23.032,45 €</div>
         </div>
       </div>
 
       <!-- Progress bar -->
       <div class="budget-progress">
         <div class="budget-bar-labels">
-          <span class="budget-bar-pct">61% used</span>
+          <span class="budget-bar-pct">42% used</span>
           <span class="budget-bar-limit">Limit: 40.000,00 €</span>
         </div>
-        <div class="budget-bar-track" role="progressbar" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100" aria-label="Budget usage 61%">
+        <div class="budget-bar-track" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100" aria-label="Budget usage 42%">
           <div class="budget-bar-fill green" id="budgetBarFill" style="width: 0%;"></div>
         </div>
         <div class="budget-bar-thresholds">
@@ -837,15 +837,7 @@
             Spare Parts
           </div>
           <div class="budget-breakdown-value">14.567,55 €</div>
-          <div class="budget-breakdown-pct">60% of spending</div>
-        </div>
-        <div class="budget-breakdown-item">
-          <div class="budget-breakdown-label">
-            <span class="budget-breakdown-dot" style="background: #0b9c92;"></span>
-            Grinding Media
-          </div>
-          <div class="budget-breakdown-value">7.311,70 €</div>
-          <div class="budget-breakdown-pct">30% of spending</div>
+          <div class="budget-breakdown-pct">86% of spending</div>
         </div>
         <div class="budget-breakdown-item">
           <div class="budget-breakdown-label">
@@ -853,7 +845,7 @@
             Services
           </div>
           <div class="budget-breakdown-value">2.400,00 €</div>
-          <div class="budget-breakdown-pct">10% of spending</div>
+          <div class="budget-breakdown-pct">14% of spending</div>
         </div>
       </div>
     </div>
@@ -865,10 +857,10 @@
       <div class="history-row">
         <span class="history-month">May 2026</span>
         <div class="history-bar-wrap">
-          <div class="history-bar green" data-width="61" style="width: 0%;"></div>
+          <div class="history-bar green" data-width="42" style="width: 0%;"></div>
         </div>
-        <span class="history-value">24.279,25 €</span>
-        <span class="history-pct">61%</span>
+        <span class="history-value">16.967,55 €</span>
+        <span class="history-pct">42%</span>
       </div>
       <div class="history-row">
         <span class="history-month">Apr 2026</span>
@@ -932,12 +924,6 @@
             <td>14.567,55 €</td>
           </tr>
           <tr>
-            <td><span class="cat-label"><span class="cat-dot" style="background: #0b9c92;"></span>Grinding Media</span></td>
-            <td><span class="order-count">3 orders</span></td>
-            <td>2.437,23 €</td>
-            <td>7.311,70 €</td>
-          </tr>
-          <tr>
             <td><span class="cat-label"><span class="cat-dot" style="background: #8b8e91;"></span>Services</span></td>
             <td><span class="order-count">1 order</span></td>
             <td>2.400,00 €</td>
@@ -947,9 +933,9 @@
         <tfoot>
           <tr>
             <td>Total</td>
-            <td>9 orders</td>
+            <td>6 orders</td>
             <td>—</td>
-            <td>24.279,25 €</td>
+            <td>16.967,55 €</td>
           </tr>
         </tfoot>
       </table>
@@ -962,7 +948,7 @@
 requestAnimationFrame(function() {
   requestAnimationFrame(function() {
     var mainBar = document.getElementById('budgetBarFill');
-    if (mainBar) mainBar.style.width = '61%';
+    if (mainBar) mainBar.style.width = '42%';
     document.querySelectorAll('.history-bar[data-width]').forEach(function(bar) {
       bar.style.width = bar.dataset.width + '%';
     });
