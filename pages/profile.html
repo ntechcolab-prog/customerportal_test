@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    html { scroll-behavior: smooth; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -1459,30 +1460,27 @@
         <div class="account-sidebar-card">
           <div class="account-sidebar-title">Account Settings</div>
           <nav class="account-nav">
-            <a href="profile.html" class="account-nav-item active" aria-current="page">
+            <a href="#section-personal" class="account-nav-item active" data-section="section-personal">
               <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM3 14c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               Personal Information
-              <svg class="chevron" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
             </a>
-            <a href="#" class="account-nav-item">
+            <a href="#section-company" class="account-nav-item" data-section="section-company">
               <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
                 <path d="M5 7h6M5 10h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
               </svg>
               Company Details
             </a>
-            <a href="#" class="account-nav-item">
+            <a href="#section-security" class="account-nav-item" data-section="section-security">
               <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
                 <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
               </svg>
               Security &amp; Password
             </a>
-            <a href="#" class="account-nav-item">
+            <a href="#section-preferences" class="account-nav-item" data-section="section-preferences">
               <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M8 2a4 4 0 00-4 4v2.5L3 10v1h10v-1l-1-1.5V6a4 4 0 00-4-4zM6.5 12a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -1510,7 +1508,7 @@
       <div class="content-area">
 
         <!-- PERSONAL INFORMATION -->
-        <div class="info-card">
+        <div class="info-card" id="section-personal">
           <div class="info-card-header">
             <div>
               <div class="info-card-title">Personal Information</div>
@@ -2297,6 +2295,40 @@ function sendFromSmallChat() {
   (function(d) {
     var s = d.createElement("script");s.async = true;s.src = "https://static.userback.io/widget/v1.js";(d.head || d.body).appendChild(s);
   })(document);
+</script>
+<!-- Sidebar navigation: scroll + active state -->
+<script>
+(function() {
+  var navItems = document.querySelectorAll('.account-nav-item[data-section]');
+  navItems.forEach(function(item) {
+    item.addEventListener('click', function(e) {
+      e.preventDefault();
+      var sectionId = item.getAttribute('data-section');
+      var section = document.getElementById(sectionId);
+      if (!section) return;
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      navItems.forEach(function(n) { n.classList.remove('active'); });
+      item.classList.add('active');
+    });
+  });
+
+  // Update active state on scroll
+  var sections = [];
+  navItems.forEach(function(item) {
+    var id = item.getAttribute('data-section');
+    var el = document.getElementById(id);
+    if (el) sections.push({ id: id, el: el, nav: item });
+  });
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY + 160;
+    var current = sections[0];
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].el.offsetTop <= scrollTop) current = sections[i];
+    }
+    navItems.forEach(function(n) { n.classList.remove('active'); });
+    if (current) current.nav.classList.add('active');
+  });
+})();
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
