@@ -296,10 +296,27 @@
     /* ── MAIN ─── */
     .main {
       flex: 1;
-      padding: 24px 32px 48px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      overflow: hidden;
+    }
+
+    /* Fixed top section (banner + stats) */
+    .profile-fixed-top {
+      flex-shrink: 0;
+      padding: 24px 32px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: #f8f9fa;
+      z-index: 10;
+    }
+
+    /* Scrollable bottom section */
+    .profile-scrollable {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px 48px;
     }
 
     /* ── PROFILE BANNER ─── */
@@ -458,7 +475,7 @@
       width: 240px;
       flex-shrink: 0;
       position: sticky;
-      top: 24px;
+      top: 0;
       align-self: flex-start;
     }
     .account-sidebar-card {
@@ -1354,6 +1371,7 @@
   <!-- MAIN CONTENT -->
   <div class="main">
 
+    <div class="profile-fixed-top">
     <!-- PROFILE BANNER -->
     <div class="profile-banner">
       <div class="profile-banner-top">
@@ -1451,7 +1469,9 @@
         </div>
       </div>
     </div>
+    </div><!-- /profile-fixed-top -->
 
+    <div class="profile-scrollable">
     <!-- CONTENT: SIDEBAR + MAIN -->
     <div class="content-layout">
 
@@ -1936,6 +1956,7 @@
 
       </div>
     </div>
+    </div><!-- /profile-scrollable -->
 
   </div>
 
@@ -2299,6 +2320,9 @@ function sendFromSmallChat() {
 <!-- Sidebar navigation: scroll + active state -->
 <script>
 (function() {
+  var scrollContainer = document.querySelector('.profile-scrollable');
+  if (!scrollContainer) return;
+
   var navItems = document.querySelectorAll('.account-nav-item[data-section]');
   navItems.forEach(function(item) {
     item.addEventListener('click', function(e) {
@@ -2306,7 +2330,10 @@ function sendFromSmallChat() {
       var sectionId = item.getAttribute('data-section');
       var section = document.getElementById(sectionId);
       if (!section) return;
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollContainer.scrollTo({
+        top: section.offsetTop - scrollContainer.offsetTop,
+        behavior: 'smooth'
+      });
       navItems.forEach(function(n) { n.classList.remove('active'); });
       item.classList.add('active');
     });
@@ -2319,11 +2346,12 @@ function sendFromSmallChat() {
     var el = document.getElementById(id);
     if (el) sections.push({ id: id, el: el, nav: item });
   });
-  window.addEventListener('scroll', function() {
-    var scrollTop = window.scrollY + 160;
+  scrollContainer.addEventListener('scroll', function() {
+    var scrollTop = scrollContainer.scrollTop + 40;
     var current = sections[0];
     for (var i = 0; i < sections.length; i++) {
-      if (sections[i].el.offsetTop <= scrollTop) current = sections[i];
+      var elTop = sections[i].el.offsetTop - scrollContainer.offsetTop;
+      if (elTop <= scrollTop) current = sections[i];
     }
     navItems.forEach(function(n) { n.classList.remove('active'); });
     if (current) current.nav.classList.add('active');
