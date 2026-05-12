@@ -943,17 +943,138 @@
 
   </main>
 
-<!-- Animate bars on load -->
+<!-- Animate bars on load + month filter logic -->
 <script>
-requestAnimationFrame(function() {
+(function() {
+  // ── Data per month (only Spare Parts + Services) ──
+  var budgetData = {
+    'May 2026': {
+      spent: '16.967,55 €', remaining: '23.032,45 €', pct: 42, barClass: 'green',
+      period: 'May 2026 — Spent',
+      categories: [
+        { name: 'Spare Parts', color: '#007167', value: '14.567,55 €', pctLabel: '86% of spending', orders: '5 orders', avg: '2.913,51 €', total: '14.567,55 €' },
+        { name: 'Services', color: '#8b8e91', value: '2.400,00 €', pctLabel: '14% of spending', orders: '1 order', avg: '2.400,00 €', total: '2.400,00 €' }
+      ],
+      totalOrders: '6 orders', totalAmount: '16.967,55 €'
+    },
+    'April 2026': {
+      spent: '31.200,00 €', remaining: '8.800,00 €', pct: 78, barClass: 'yellow',
+      period: 'April 2026 — Spent',
+      categories: [
+        { name: 'Spare Parts', color: '#007167', value: '24.960,00 €', pctLabel: '80% of spending', orders: '8 orders', avg: '3.120,00 €', total: '24.960,00 €' },
+        { name: 'Services', color: '#8b8e91', value: '6.240,00 €', pctLabel: '20% of spending', orders: '2 orders', avg: '3.120,00 €', total: '6.240,00 €' }
+      ],
+      totalOrders: '10 orders', totalAmount: '31.200,00 €'
+    },
+    'March 2026': {
+      spent: '36.800,00 €', remaining: '3.200,00 €', pct: 92, barClass: 'red',
+      period: 'March 2026 — Spent',
+      categories: [
+        { name: 'Spare Parts', color: '#007167', value: '29.440,00 €', pctLabel: '80% of spending', orders: '9 orders', avg: '3.271,11 €', total: '29.440,00 €' },
+        { name: 'Services', color: '#8b8e91', value: '7.360,00 €', pctLabel: '20% of spending', orders: '3 orders', avg: '2.453,33 €', total: '7.360,00 €' }
+      ],
+      totalOrders: '12 orders', totalAmount: '36.800,00 €'
+    },
+    'February 2026': {
+      spent: '22.000,00 €', remaining: '18.000,00 €', pct: 55, barClass: 'green',
+      period: 'February 2026 — Spent',
+      categories: [
+        { name: 'Spare Parts', color: '#007167', value: '17.600,00 €', pctLabel: '80% of spending', orders: '6 orders', avg: '2.933,33 €', total: '17.600,00 €' },
+        { name: 'Services', color: '#8b8e91', value: '4.400,00 €', pctLabel: '20% of spending', orders: '2 orders', avg: '2.200,00 €', total: '4.400,00 €' }
+      ],
+      totalOrders: '8 orders', totalAmount: '22.000,00 €'
+    },
+    'January 2026': {
+      spent: '27.200,00 €', remaining: '12.800,00 €', pct: 68, barClass: 'green',
+      period: 'January 2026 — Spent',
+      categories: [
+        { name: 'Spare Parts', color: '#007167', value: '21.760,00 €', pctLabel: '80% of spending', orders: '7 orders', avg: '3.108,57 €', total: '21.760,00 €' },
+        { name: 'Services', color: '#8b8e91', value: '5.440,00 €', pctLabel: '20% of spending', orders: '2 orders', avg: '2.720,00 €', total: '5.440,00 €' }
+      ],
+      totalOrders: '9 orders', totalAmount: '27.200,00 €'
+    },
+    'December 2025': {
+      spent: '34.000,00 €', remaining: '6.000,00 €', pct: 85, barClass: 'yellow',
+      period: 'December 2025 — Spent',
+      categories: [
+        { name: 'Spare Parts', color: '#007167', value: '27.200,00 €', pctLabel: '80% of spending', orders: '8 orders', avg: '3.400,00 €', total: '27.200,00 €' },
+        { name: 'Services', color: '#8b8e91', value: '6.800,00 €', pctLabel: '20% of spending', orders: '3 orders', avg: '2.266,67 €', total: '6.800,00 €' }
+      ],
+      totalOrders: '11 orders', totalAmount: '34.000,00 €'
+    }
+  };
+
+  function updateBudget(month) {
+    var d = budgetData[month];
+    if (!d) return;
+
+    // Current month card
+    document.querySelector('.budget-current-period').textContent = d.period;
+    document.querySelector('.budget-current-amount').innerHTML = d.spent + ' <span>of 40.000,00 €</span>';
+    document.querySelector('.budget-remaining-value').textContent = d.remaining;
+
+    // Progress bar
+    document.querySelector('.budget-bar-pct').textContent = d.pct + '% used';
+    var track = document.querySelector('.budget-bar-track');
+    track.setAttribute('aria-valuenow', d.pct);
+    track.setAttribute('aria-label', 'Budget usage ' + d.pct + '%');
+    var fill = document.getElementById('budgetBarFill');
+    fill.className = 'budget-bar-fill ' + d.barClass;
+    fill.style.width = d.pct + '%';
+
+    // Breakdown cards
+    var breakdown = document.querySelector('.budget-breakdown');
+    var html = '';
+    d.categories.forEach(function(cat) {
+      html += '<div class="budget-breakdown-item">' +
+        '<div class="budget-breakdown-label"><span class="budget-breakdown-dot" style="background: ' + cat.color + ';"></span>' + cat.name + '</div>' +
+        '<div class="budget-breakdown-value">' + cat.value + '</div>' +
+        '<div class="budget-breakdown-pct">' + cat.pctLabel + '</div></div>';
+    });
+    breakdown.innerHTML = html;
+
+    // History — highlight selected month
+    document.querySelectorAll('.history-row').forEach(function(row) {
+      var m = row.querySelector('.history-month').textContent;
+      row.style.background = (m === month) ? '#f0faf8' : '';
+    });
+
+    // Table title + body
+    var shortMonth = month.replace('uary', '').replace('ruary', '').replace('ember', '').replace('ober', '');
+    document.querySelector('.budget-table-title').textContent = 'Spending by Category — ' + month;
+    var tbody = document.querySelector('.budget-table tbody');
+    var tbodyHtml = '';
+    d.categories.forEach(function(cat) {
+      tbodyHtml += '<tr>' +
+        '<td><span class="cat-label"><span class="cat-dot" style="background: ' + cat.color + ';"></span>' + cat.name + '</span></td>' +
+        '<td><span class="order-count">' + cat.orders + '</span></td>' +
+        '<td>' + cat.avg + '</td>' +
+        '<td>' + cat.total + '</td></tr>';
+    });
+    tbody.innerHTML = tbodyHtml;
+
+    // Table footer
+    var tfoot = document.querySelector('.budget-table tfoot');
+    tfoot.innerHTML = '<tr><td>Total</td><td>' + d.totalOrders + '</td><td>—</td><td>' + d.totalAmount + '</td></tr>';
+  }
+
+  // Listen to select change
+  var select = document.querySelector('.budget-period-select');
+  select.addEventListener('change', function() {
+    updateBudget(this.value);
+  });
+
+  // Animate bars on load
   requestAnimationFrame(function() {
-    var mainBar = document.getElementById('budgetBarFill');
-    if (mainBar) mainBar.style.width = '42%';
-    document.querySelectorAll('.history-bar[data-width]').forEach(function(bar) {
-      bar.style.width = bar.dataset.width + '%';
+    requestAnimationFrame(function() {
+      var mainBar = document.getElementById('budgetBarFill');
+      if (mainBar) mainBar.style.width = '42%';
+      document.querySelectorAll('.history-bar[data-width]').forEach(function(bar) {
+        bar.style.width = bar.dataset.width + '%';
+      });
     });
   });
-});
+})();
 </script>
 
 <script>
