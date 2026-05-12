@@ -157,11 +157,47 @@
     var profileName = document.querySelector('.profile-name');
     if (profileName) profileName.textContent = persona.name;
 
-    // Info fields on profile page (Full Name, Email)
-    document.querySelectorAll('.info-field-value').forEach(function (field) {
-      if (field.textContent.trim() === 'John Doe') field.textContent = persona.name;
-      if (field.textContent.trim() === 'john.doe@acme-corp.com') field.textContent = persona.email;
+    // Role labels (used in multiple places below)
+    var badgeLabels = {
+      administrator: 'Administrator',
+      buyer:         'Buyer',
+      technician:    'Technician',
+      approver:      'Approver'
+    };
+
+    // Info fields on profile page (Full Name, Email, Role, Job Title, Department)
+    var jobTitles = {
+      administrator: 'Operations Manager',
+      buyer:         'Procurement Specialist',
+      technician:    'Field Technician',
+      approver:      'Procurement Manager'
+    };
+    var departments = {
+      administrator: 'Operations',
+      buyer:         'Procurement',
+      technician:    'Engineering',
+      approver:      'Procurement'
+    };
+    document.querySelectorAll('.info-field').forEach(function (field) {
+      var label = field.querySelector('.info-field-label');
+      var value = field.querySelector('.info-field-value');
+      if (!label || !value) return;
+      var labelText = label.textContent.trim();
+      if (labelText === 'Full Name' && value.textContent.trim() === 'John Doe') value.textContent = persona.name;
+      if (labelText === 'Email Address' && value.textContent.trim() === 'john.doe@acme-corp.com') value.textContent = persona.email;
+      if (labelText === 'Role') value.textContent = badgeLabels[role] || value.textContent;
+      if (labelText === 'Job Title') value.textContent = jobTitles[role] || value.textContent;
+      if (labelText === 'Department') value.textContent = departments[role] || value.textContent;
     });
+
+    // Hide Admin Panel sidebar link for non-admin roles
+    if (role !== 'administrator') {
+      document.querySelectorAll('.account-nav-item').forEach(function (item) {
+        if (item.textContent.trim().indexOf('Admin Panel') !== -1) {
+          item.style.display = 'none';
+        }
+      });
+    }
 
     // Profile role subtitle
     var roles = {
@@ -186,12 +222,6 @@
     });
 
     // Role badge on profile page
-    var badgeLabels = {
-      administrator: 'Administrator',
-      buyer:         'Buyer',
-      technician:    'Technician',
-      approver:      'Approver'
-    };
     var badgeAdmin = document.querySelector('.badge-admin');
     if (badgeAdmin) {
       // Replace text only, keep the SVG icon
