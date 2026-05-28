@@ -498,10 +498,30 @@
       font-weight: 600;
       white-space: nowrap;
     }
-    .status-placed { background: #e8f5f3; color: #007167; }
-    .status-process { background: #fef3cd; color: #856404; }
-    .status-shipped { background: #d1ecf1; color: #0c5460; }
-    .status-delivered { background: #d4edda; color: #155724; }
+    .status-active { background: #e8f5f3; color: #007167; }
+    .status-expiring { background: #fef3e2; color: #d97706; }
+    .status-expired { background: #fce8e6; color: #c73e20; }
+
+    /* ── STAT CARDS ─── */
+    .stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .stat-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; display: flex; align-items: center; gap: 16px; }
+    .stat-icon { width: 48px; height: 48px; border-radius: 50%; background: #e8f5f3; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .stat-icon svg { width: 24px; height: 24px; color: #007167; }
+    .stat-icon.warning { background: #fef3e2; }
+    .stat-icon.warning svg { color: #d97706; }
+    .stat-info { display: flex; flex-direction: column; }
+    .stat-value { font-size: 24px; font-weight: 700; color: #1f2937; }
+    .stat-label { font-size: 13px; color: #6b7280; font-weight: 500; }
+
+    /* ── CONTRACT TABS ─── */
+    .contract-tabs { display: flex; gap: 4px; }
+    .contract-tab {
+      padding: 8px 20px; border-radius: 999px; border: 1px solid #d1d5db;
+      background: #fff; font-family: 'Inter', sans-serif; font-size: 14px;
+      font-weight: 500; color: #374151; cursor: pointer; transition: all 0.15s;
+    }
+    .contract-tab:hover { background: #f9fafb; }
+    .contract-tab.active { background: #007167; color: #fff; border-color: #007167; }
 
     /* Actions */
     .actions-cell {
@@ -1434,6 +1454,37 @@
   <!-- MAIN -->
   <div class="main">
 
+    <!-- STAT CARDS -->
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">5</span>
+          <span class="stat-label">Total Contracts</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">3</span>
+          <span class="stat-label">Active</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">1</span>
+          <span class="stat-label">Expiring Soon</span>
+        </div>
+      </div>
+    </div>
+
     <!-- TITLE BAR + FILTERS -->
     <div class="title-bar">
       <div class="title-bar-top">
@@ -1444,6 +1495,10 @@
           </svg>
           Filters
         </button>
+      </div>
+      <div class="contract-tabs">
+        <button class="contract-tab active" data-tab="parts">Parts Contracts</button>
+        <button class="contract-tab" data-tab="service">Service Contracts</button>
       </div>
       <div class="filter-bar" id="filterBar">
         <div class="filter-input">
@@ -1458,137 +1513,153 @@
           <option value="active">Active</option>
           <option value="expiring-soon">Expiring Soon</option>
           <option value="expired">Expired</option>
-          <option value="pending-renewal">Pending Renewal</option>
         </select>
         <select class="filter-select" id="filterType">
           <option value="">Type</option>
-          <option value="service-agreement">Service Agreement</option>
-          <option value="extended-warranty">Extended Warranty</option>
-          <option value="spare-parts-supply">Spare Parts Supply</option>
-          <option value="maintenance-plan">Maintenance Plan</option>
+          <option value="parts">Parts Contract</option>
+          <option value="service">Service Contract</option>
         </select>
         <button class="btn-clear-filters" id="btnClearFilters">Clear filters</button>
       </div>
     </div>
 
-    <!-- CONTRACTS TABLE -->
-    <div class="orders-table-wrap" id="tableView">
-      <table class="orders-table">
-        <thead>
-          <tr>
-            <th>Contract ID <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Type <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Machine / Scope <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Start Date <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>End Date <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Status <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr data-contract-id="CTR-2026-001" data-type="Service Agreement" data-scope="Zeta 60" data-start="Jan 15, 2025" data-end="Jan 15, 2027" data-status="Active" data-value="€12,500.00" data-terms="Comprehensive service agreement covering quarterly on-site inspections, priority technical support with 4-hour response time, and preventive maintenance for the Zeta 60 grinding system. Includes annual calibration and wear part assessment.">
-            <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-2026-001</a></td>
-            <td>Service Agreement</td>
-            <td>Zeta 60</td>
-            <td>Jan 15, 2025</td>
-            <td>Jan 15, 2027</td>
-            <td><span class="status-badge status-delivered">Active</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr data-contract-id="CTR-2026-002" data-type="Extended Warranty" data-scope="Discus 30" data-start="Aug 20, 2024" data-end="Aug 20, 2026" data-status="Expiring Soon" data-value="€3,200.00" data-terms="Extended warranty covering all mechanical and electrical components of the Discus 30 dispersing system beyond the standard 12-month manufacturer warranty. Includes free replacement of defective parts and on-site repair labor.">
-            <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-2026-002</a></td>
-            <td>Extended Warranty</td>
-            <td>Discus 30</td>
-            <td>Aug 20, 2024</td>
-            <td>Aug 20, 2026</td>
-            <td><span class="status-badge" style="background:#fef3e2;color:#d97706">Expiring Soon</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr data-contract-id="CTR-2026-003" data-type="Spare Parts Supply" data-scope="All Machines" data-start="Mar 1, 2025" data-end="Mar 1, 2026" data-status="Expired" data-value="€8,750.00" data-terms="Annual spare parts supply agreement guaranteeing availability and fixed pricing for critical wear parts across the entire machine fleet. Includes 15% discount on catalog prices and guaranteed 48-hour dispatch for stocked items.">
-            <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-2026-003</a></td>
-            <td>Spare Parts Supply</td>
-            <td>All Machines</td>
-            <td>Mar 1, 2025</td>
-            <td>Mar 1, 2026</td>
-            <td><span class="status-badge" style="background:#fce8e6;color:#c73e20">Expired</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr data-contract-id="CTR-2026-004" data-type="Maintenance Plan" data-scope="MasterMix 45" data-start="Jun 10, 2025" data-end="Jun 10, 2027" data-status="Active" data-value="€6,800.00" data-terms="Scheduled maintenance plan for the MasterMix 45 including bi-annual preventive service visits, lubrication and alignment checks, seal and gasket replacement, and performance verification testing. Emergency callout available within 24 hours.">
-            <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-2026-004</a></td>
-            <td>Maintenance Plan</td>
-            <td>MasterMix 45</td>
-            <td>Jun 10, 2025</td>
-            <td>Jun 10, 2027</td>
-            <td><span class="status-badge status-delivered">Active</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr data-contract-id="CTR-2026-005" data-type="Service Agreement" data-scope="Alpha Zeta 10" data-start="Sep 1, 2025" data-end="Sep 1, 2027" data-status="Active" data-value="€9,400.00" data-terms="Full-service agreement for the Alpha Zeta 10 nano-milling system. Covers semi-annual performance audits, remote monitoring support, software updates, and priority access to NETZSCH application engineering for process optimization consultations.">
-            <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-2026-005</a></td>
-            <td>Service Agreement</td>
-            <td>Alpha Zeta 10</td>
-            <td>Sep 1, 2025</td>
-            <td>Sep 1, 2027</td>
-            <td><span class="status-badge status-delivered">Active</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr data-contract-id="CTR-2026-006" data-type="Extended Warranty" data-scope="Zeta 60" data-start="Apr 1, 2024" data-end="Apr 1, 2026" data-status="Pending Renewal" data-value="€4,100.00" data-terms="Extended warranty for the Zeta 60 wet grinding system, providing coverage for mechanical seals, grinding chamber, and drive components. Warranty claim processing within 5 business days. Renewal offer includes upgraded coverage for control electronics.">
-            <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-2026-006</a></td>
-            <td>Extended Warranty</td>
-            <td>Zeta 60</td>
-            <td>Apr 1, 2024</td>
-            <td>Apr 1, 2026</td>
-            <td><span class="status-badge status-placed">Pending Renewal</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- PAGINATION -->
-      <div class="pagination">
-        <span class="pagination-info">Showing 1–6 of 6 contracts</span>
-        <div class="pagination-controls">
-          <button class="page-btn disabled" aria-label="Previous page">
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="page-btn active" aria-label="Page 1" aria-current="page">1</button>
-          <button class="page-btn disabled" aria-label="Next page">
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+    <!-- PARTS CONTRACTS TABLE -->
+    <div id="partsTable">
+      <div class="orders-table-wrap">
+        <table class="orders-table" aria-label="Parts Contracts">
+          <thead>
+            <tr>
+              <th>Contract ID <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Equipment Scope <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Items <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Validity <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Payment Terms <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Status <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-contract-id="CTR-P-2026-001" data-type="Parts" data-scope="NEOS 10, Instrumentação, Esferas" data-items="68" data-start="Apr 1, 2026" data-end="Mar 30, 2027" data-status="Active" data-payment="ZB34 = 28 DDL" data-freight="FOB" data-min-value="R$ 500,00" data-discount="8%">
+              <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-P-2026-001</a></td>
+              <td>NEOS 10 + Instrumentação</td>
+              <td>68 items</td>
+              <td>Apr 1, 2026 → Mar 30, 2027</td>
+              <td>28 DDL</td>
+              <td><span class="status-badge status-active">Active</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr data-contract-id="CTR-P-2026-002" data-type="Parts" data-scope="NEOS 20, Epsilon, PMD, LMZ-25" data-items="24" data-start="Apr 1, 2026" data-end="Mar 30, 2027" data-status="Active" data-payment="ZB34 = 28 DDL" data-freight="CIF" data-min-value="R$ 500,00" data-discount="8%">
+              <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-P-2026-002</a></td>
+              <td>NEOS 20 + Epsilon + PMD</td>
+              <td>24 items</td>
+              <td>Apr 1, 2026 → Mar 30, 2027</td>
+              <td>28 DDL</td>
+              <td><span class="status-badge status-active">Active</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr data-contract-id="CTR-P-2025-003" data-type="Parts" data-scope="Selo Mecânico GRD070" data-items="12" data-start="Jan 1, 2025" data-end="Dec 31, 2025" data-status="Expired" data-payment="ZB34 = 28 DDL" data-freight="FOB" data-min-value="R$ 500,00" data-discount="5%">
+              <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-P-2025-003</a></td>
+              <td>Selo Mecânico GRD070</td>
+              <td>12 items</td>
+              <td>Jan 1, 2025 → Dec 31, 2025</td>
+              <td>28 DDL</td>
+              <td><span class="status-badge status-expired">Expired</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <span class="pagination-info">Showing 1–3 of 3 parts contracts</span>
+          <div class="pagination-controls">
+            <button class="page-btn disabled" aria-label="Previous page">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="page-btn active" aria-label="Page 1" aria-current="page">1</button>
+            <button class="page-btn disabled" aria-label="Next page">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE CONTRACTS TABLE -->
+    <div id="serviceTable" style="display:none">
+      <div class="orders-table-wrap">
+        <table class="orders-table" aria-label="Service Contracts">
+          <thead>
+            <tr>
+              <th>Contract ID <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Type <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Equipment <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Next Visit <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Duration <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Status <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-contract-id="CTR-S-2026-001" data-type="Service" data-service-type="Preventive Maintenance" data-scope="NEOS 10 — 3 units" data-next-visit="Jul 15, 2026" data-duration="12 months" data-renewal="Auto-renewal" data-status="Active" data-visits-year="2" data-technicians="1" data-visit-days="3" data-visit-price="R$ XX.XXX,XX" data-discount-hours="10%" data-discount-parts="5%">
+              <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-S-2026-001</a></td>
+              <td>Preventive Maintenance</td>
+              <td>NEOS 10 (3 units)</td>
+              <td>Jul 15, 2026</td>
+              <td>12 months (auto-renewal)</td>
+              <td><span class="status-badge status-active">Active</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr data-contract-id="CTR-S-2025-002" data-type="Service" data-service-type="Preventive Maintenance" data-scope="Epsilon, PMD — 5 units" data-next-visit="—" data-duration="12 months" data-renewal="Auto-renewal" data-status="Expiring Soon" data-visits-year="2" data-technicians="1" data-visit-days="5" data-visit-price="R$ XX.XXX,XX" data-discount-hours="10%" data-discount-parts="5%">
+              <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-S-2025-002</a></td>
+              <td>Preventive Maintenance</td>
+              <td>Epsilon + PMD (5 units)</td>
+              <td>—</td>
+              <td>12 months</td>
+              <td><span class="status-badge status-expiring">Expiring Soon</span></td>
+              <td>
+                <div class="actions-cell">
+                  <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <span class="pagination-info">Showing 1–2 of 2 service contracts</span>
+          <div class="pagination-controls">
+            <button class="page-btn disabled" aria-label="Previous page">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="page-btn active" aria-label="Page 1" aria-current="page">1</button>
+            <button class="page-btn disabled" aria-label="Next page">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1650,54 +1721,104 @@ document.addEventListener('click', function(e) {
   var drawerClose = document.getElementById('drawerClose');
   var drawerBody = document.getElementById('drawerBody');
 
+  function getStatusBadgeClass(status) {
+    if (status === 'Active') return 'status-active';
+    if (status === 'Expiring Soon') return 'status-expiring';
+    if (status === 'Expired') return 'status-expired';
+    return 'status-active';
+  }
+
   function openContractDrawer(row) {
     var contractId = row.dataset.contractId;
     var type = row.dataset.type;
-    var scope = row.dataset.scope;
-    var start = row.dataset.start;
-    var end = row.dataset.end;
     var status = row.dataset.status;
-    var value = row.dataset.value;
-    var terms = row.dataset.terms;
+    var statusClass = getStatusBadgeClass(status);
+    var showRenewalBtn = (status !== 'Active');
+    var html = '';
 
-    var statusClass = 'status-delivered';
-    var statusStyle = '';
-    var dotStyle = '';
-    if (status === 'Expiring Soon') {
-      statusClass = '';
-      statusStyle = ' style="background:#fef3e2;color:#d97706"';
-      dotStyle = ' style="background:#d97706"';
-    } else if (status === 'Expired') {
-      statusClass = '';
-      statusStyle = ' style="background:#fce8e6;color:#c73e20"';
-      dotStyle = ' style="background:#c73e20"';
-    } else if (status === 'Pending Renewal') {
-      statusClass = 'status-placed';
+    if (type === 'Parts') {
+      var scope = row.dataset.scope;
+      var start = row.dataset.start;
+      var end = row.dataset.end;
+      var items = row.dataset.items;
+      var payment = row.dataset.payment;
+      var freight = row.dataset.freight;
+      var minValue = row.dataset.minValue;
+      var discount = row.dataset.discount;
+
+      html =
+        '<div class="drawer-contract-id">' + contractId + '</div>' +
+        '<div class="drawer-contract-type">Parts Contract</div>' +
+        '<div class="drawer-meta-grid">' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">Equipment Scope</div><div class="drawer-meta-value">' + scope + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '">' + status + '</span></div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">Start Date</div><div class="drawer-meta-value">' + start + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">End Date</div><div class="drawer-meta-value">' + end + '</div></div>' +
+        '</div>' +
+        '<div class="drawer-section">' +
+          '<div class="drawer-section-title">Commercial Terms</div>' +
+          '<div class="drawer-key-terms">' +
+            'Payment: ' + payment + '<br>' +
+            'Freight: ' + freight + '<br>' +
+            'Min. Billing: ' + minValue + '<br>' +
+            'Contractual Discount: ' + discount +
+          '</div>' +
+        '</div>' +
+        '<div class="drawer-section">' +
+          '<div class="drawer-section-title">Price List</div>' +
+          '<div class="drawer-section-text">' + items + ' items with negotiated prices</div>' +
+          '<a href="#" style="color:#007167;font-size:14px;font-weight:500;text-decoration:none;display:inline-block;margin-top:4px;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">View full price list &rarr;</a>' +
+        '</div>' +
+        '<div class="drawer-section">' +
+          '<div class="drawer-section-title">Account Manager</div>' +
+          '<div class="drawer-contact-info">Luana G. R. Borchardt — Coordenação de Contratos<br><a href="mailto:luana.reuters@netzsch.com">luana.reuters@netzsch.com</a></div>' +
+        '</div>';
+
+    } else if (type === 'Service') {
+      var serviceType = row.dataset.serviceType;
+      var scope = row.dataset.scope;
+      var duration = row.dataset.duration;
+      var renewal = row.dataset.renewal;
+      var nextVisit = row.dataset.nextVisit;
+      var visitsYear = row.dataset.visitsYear;
+      var technicians = row.dataset.technicians;
+      var visitDays = row.dataset.visitDays;
+      var visitPrice = row.dataset.visitPrice;
+      var discountHours = row.dataset.discountHours;
+      var discountParts = row.dataset.discountParts;
+
+      html =
+        '<div class="drawer-contract-id">' + contractId + '</div>' +
+        '<div class="drawer-contract-type">Service Contract — ' + serviceType + '</div>' +
+        '<div class="drawer-meta-grid">' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">Equipment</div><div class="drawer-meta-value">' + scope + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '">' + status + '</span></div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">Duration</div><div class="drawer-meta-value">' + duration + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">Renewal</div><div class="drawer-meta-value">' + renewal + '</div></div>' +
+        '</div>' +
+        '<div class="drawer-section">' +
+          '<div class="drawer-section-title">Visit Schedule</div>' +
+          '<div class="drawer-key-terms">' +
+            visitsYear + ' visits/year &nbsp;|&nbsp; ' + technicians + ' technician &nbsp;|&nbsp; ' + visitDays + ' days/visit<br>' +
+            'Next visit: ' + nextVisit + '<br>' +
+            'Price per visit: ' + visitPrice +
+          '</div>' +
+        '</div>' +
+        '<div class="drawer-section">' +
+          '<div class="drawer-section-title">Contract Benefits</div>' +
+          '<div class="drawer-key-terms">' +
+            '&bull; ' + discountHours + ' discount on technical hours<br>' +
+            '&bull; ' + discountParts + ' discount on spare parts<br>' +
+            '&bull; Priority support during business hours' +
+          '</div>' +
+        '</div>' +
+        '<div class="drawer-section">' +
+          '<div class="drawer-section-title">Account Manager</div>' +
+          '<div class="drawer-contact-info">Luana G. R. Borchardt — Coordenação de Contratos<br><a href="mailto:luana.reuters@netzsch.com">luana.reuters@netzsch.com</a></div>' +
+        '</div>';
     }
 
-    var showRenewalBtn = (status === 'Expiring Soon' || status === 'Expired' || status === 'Pending Renewal');
-
-    drawerBody.innerHTML =
-      '<div class="drawer-contract-id">' + contractId + '</div>' +
-      '<div class="drawer-contract-type">' + type + '</div>' +
-      '<div class="drawer-meta-grid">' +
-        '<div class="drawer-meta-item"><div class="drawer-meta-label">Machine / Scope</div><div class="drawer-meta-value">' + scope + '</div></div>' +
-        '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '"' + statusStyle + '>' + status + '</span></div></div>' +
-        '<div class="drawer-meta-item"><div class="drawer-meta-label">Start Date</div><div class="drawer-meta-value">' + start + '</div></div>' +
-        '<div class="drawer-meta-item"><div class="drawer-meta-label">End Date</div><div class="drawer-meta-value">' + end + '</div></div>' +
-      '</div>' +
-      '<div class="drawer-section">' +
-        '<div class="drawer-section-title">Annual Value</div>' +
-        '<div class="drawer-section-text" style="font-size:16px;font-weight:700;color:#1f2937;">' + value + '</div>' +
-      '</div>' +
-      '<div class="drawer-section">' +
-        '<div class="drawer-section-title">Account Manager</div>' +
-        '<div class="drawer-contact-info">Thomas Weber — NETZSCH G&amp;D<br><a href="mailto:thomas.weber@netzsch.com">thomas.weber@netzsch.com</a></div>' +
-      '</div>' +
-      '<div class="drawer-section">' +
-        '<div class="drawer-section-title">Key Terms</div>' +
-        '<div class="drawer-key-terms">' + terms + '</div>' +
-      '</div>' +
+    html +=
       '<button class="btn-download-contract" onclick="alert(\'Downloading contract PDF for ' + contractId + '...\')">' +
         '<svg viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
         'Download Contract PDF' +
@@ -1707,6 +1828,7 @@ document.addEventListener('click', function(e) {
           'Request Renewal' +
         '</button>' : '');
 
+    drawerBody.innerHTML = html;
     overlay.classList.add('show');
     drawer.classList.add('show');
   }
@@ -1720,6 +1842,17 @@ document.addEventListener('click', function(e) {
   overlay.addEventListener('click', closeDrawer);
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeDrawer();
+  });
+
+  // Tab switching
+  document.querySelectorAll('.contract-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.contract-tab').forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      var target = tab.dataset.tab;
+      document.getElementById('partsTable').style.display = target === 'parts' ? '' : 'none';
+      document.getElementById('serviceTable').style.display = target === 'service' ? '' : 'none';
+    });
   });
 </script>
 
