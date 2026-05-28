@@ -595,6 +595,7 @@
     .nc-icon.quote { background: #fff3d6; }
     .nc-icon.service { background: #e8e0f4; }
     .nc-icon.system { background: #f3f4f6; }
+    .nc-icon.contract { background: #e0f2ee; }
 
     .nc-content { flex: 1; min-width: 0; }
     .nc-content-top {
@@ -883,7 +884,7 @@
 
     <!-- Header -->
     <div class="nc-header">
-      <h1 class="nc-title">Notifications <span class="nc-title-count" id="ncUnreadCount">2</span></h1>
+      <h1 class="nc-title">Notifications <span class="nc-title-count" id="ncUnreadCount">3</span></h1>
       <button class="nc-mark-all" id="ncMarkAll">Mark all as read</button>
     </div>
 
@@ -894,6 +895,7 @@
       <button class="nc-filter-tab" data-filter="orders">Orders</button>
       <button class="nc-filter-tab" data-filter="quotes">Quotes</button>
       <button class="nc-filter-tab" data-filter="services">Services</button>
+      <button class="nc-filter-tab" data-filter="contracts">Contracts</button>
     </div>
 
     <!-- Notification list -->
@@ -975,6 +977,39 @@
           </div>
           <div class="nc-desc">Spare parts for Alpha Zeta 10 — 12.450,00 €. Valid until May 31, 2026.</div>
           <a href="quote-detail.html" class="nc-action">Review Quote</a>
+        </div>
+      </div>
+
+      <div class="nc-item unread" data-type="contracts">
+        <div class="nc-icon contract">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="nc-content">
+          <div class="nc-content-top">
+            <span class="nc-item-title">Contract CTR-S-2025-002 expiring soon</span>
+            <div class="nc-right">
+              <span class="nc-time">3 days ago</span>
+              <span class="nc-unread-dot"></span>
+            </div>
+          </div>
+          <div class="nc-desc">Service contract for Epsilon + PMD (5 units) expires on Jul 31, 2026. Review and renew to maintain coverage and discounts.</div>
+          <a href="contracts.html" class="nc-action">View Contract</a>
+        </div>
+      </div>
+
+      <div class="nc-item" data-type="contracts">
+        <div class="nc-icon contract">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="nc-content">
+          <div class="nc-content-top">
+            <span class="nc-item-title">Service visit scheduled — CTR-S-2026-001</span>
+            <div class="nc-right">
+              <span class="nc-time">5 days ago</span>
+            </div>
+          </div>
+          <div class="nc-desc">Preventive maintenance visit confirmed for Jul 15–17, 2026. NEOS 10 (3 units). 1 NETZSCH technician, 3 business days.</div>
+          <a href="contract-service-detail.html" class="nc-action">View Details</a>
         </div>
       </div>
 
