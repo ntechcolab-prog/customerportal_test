@@ -226,6 +226,7 @@
     .notif-item-icon.quote { background: #fff3d6; }
     .notif-item-icon.order { background: #e0f2ee; }
     .notif-item-icon.service { background: #e8e0f4; }
+    .notif-item-icon.contract { background: #e0f2ee; }
     .notif-item-content { flex: 1; min-width: 0; }
     .notif-item-title-row {
       display: flex;
@@ -1293,13 +1294,13 @@
       <div class="notif-wrapper">
         <button class="header-icon-btn" onclick="toggleNotifDropdown(event)">
           <img src="../assets/icon-bell.svg" alt="Notifications">
-          <span class="notif-badge">1</span>
+          <span class="notif-badge">2</span>
         </button>
         <div class="notif-dropdown" id="notifDropdown">
           <div class="notif-dropdown-header">
             <div class="notif-dropdown-title">
               <span>Notifications</span>
-              <span class="notif-count-badge">1</span>
+              <span class="notif-count-badge">2</span>
             </div>
             <button class="notif-mark-read">Mark all as read</button>
           </div>
@@ -1338,6 +1339,30 @@
                 <span class="notif-item-title">Service Request #SR-1192 updated</span>
                 <div class="notif-item-desc">Technician assigned — scheduled for Mar 20, 2026.</div>
                 <div class="notif-item-time">2 days ago</div>
+              </div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-item-icon contract">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="notif-item-content">
+                <div class="notif-item-title-row">
+                  <span class="notif-item-title">Contract CTR-S-2025-002 expiring soon</span>
+                  <span class="notif-unread-dot"></span>
+                </div>
+                <div class="notif-item-desc">Service contract for Epsilon + PMD expires on Jul 31, 2026. Review and renew.</div>
+                <div class="notif-item-time">3 days ago</div>
+                <a href="contracts.html" class="notif-item-action">View Contract</a>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon contract">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Service visit scheduled — CTR-S-2026-001</span>
+                <div class="notif-item-desc">Preventive maintenance visit confirmed for Jul 15–17, 2026. NEOS 10 (3 units).</div>
+                <div class="notif-item-time">5 days ago</div>
               </div>
             </div>
           </div>
