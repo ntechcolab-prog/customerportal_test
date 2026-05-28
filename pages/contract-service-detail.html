@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contracts — NETZSCH Customer Portal</title>
+  <title>CTR-S-2026-001 — NETZSCH Customer Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -326,439 +326,53 @@
       gap: 16px;
     }
 
+    /* ── BACK LINK ─── */
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: #007167; text-decoration: none; font-size: 14px; font-weight: 500; }
+    .back-link:hover { text-decoration: underline; }
+    .back-link svg { width: 16px; height: 16px; }
+
     /* ── TITLE BAR ─── */
-    .title-bar {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .title-bar-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .title-bar h1 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1f2937;
-    }
-    .btn-filters {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 36px;
-      padding: 0 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 999px;
-      background: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      cursor: pointer;
-    }
-    .btn-filters:hover { background: #f9fafb; }
-    .btn-filters.active {
-      background: #007167;
-      border-color: #007167;
-      color: #fff;
-    }
-    .btn-filters svg { width: 16px; height: 16px; }
+    .title-bar { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .title-bar h1 { font-size: 20px; font-weight: 700; color: #1f2937; }
+    .title-bar-actions { display: flex; gap: 8px; }
 
-    /* ── FILTER BAR ─── */
-    .filter-bar {
-      display: none;
-      gap: 12px;
-      align-items: center;
-    }
-    .filter-bar.visible { display: flex; }
-    .filter-input {
-      position: relative;
-      flex: 1;
-      max-width: 320px;
-    }
-    .filter-input input {
-      width: 100%;
-      height: 40px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 0 12px 0 36px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #1f2937;
-      background: #fff;
-    }
-    .filter-input input::placeholder { color: #9ca3af; }
-    .filter-input input:focus { outline: none; border-color: #007167; }
-    .filter-input svg {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      color: #9ca3af;
-      pointer-events: none;
-    }
-    .filter-select {
-      height: 40px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 0 32px 0 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #374151;
-      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
-      appearance: none;
-      cursor: pointer;
-      min-width: 130px;
-    }
-    .filter-select:focus { outline: none; border-color: #007167; }
-    .btn-clear-filters {
-      height: 40px;
-      padding: 0 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      background: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #6b7280;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .btn-clear-filters:hover { background: #f9fafb; color: #374151; }
+    /* ── CARD ─── */
+    .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 24px; }
+    .card-title { font-size: 16px; font-weight: 600; color: #1f2937; margin-bottom: 16px; }
 
-    /* ── CONTRACTS TABLE ─── */
-    .orders-table-wrap {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-    }
-    .orders-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .orders-table thead tr { background: #007167; }
-    .orders-table thead th {
-      padding: 14px 20px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
-      text-align: left;
-      white-space: nowrap;
-      cursor: pointer;
-      user-select: none;
-    }
-    .orders-table thead th .sort-icon {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      margin-left: 4px;
-      vertical-align: middle;
-      opacity: 0.6;
-    }
-    .orders-table thead th:hover .sort-icon { opacity: 1; }
-    .orders-table thead th:last-child { cursor: default; }
-    .orders-table tbody tr {
-      border-bottom: 1px solid #f3f4f6;
-      transition: background 0.1s;
-    }
-    .orders-table tbody tr:last-child { border-bottom: none; }
-    .orders-table tbody tr:hover { background: #fafbfc; }
-    .orders-table tbody td {
-      padding: 12px 20px;
-      font-size: 14px;
-      color: #374151;
-      white-space: nowrap;
-      vertical-align: middle;
-    }
+    /* ── TWO COLUMN LAYOUT ─── */
+    .two-col { display: grid; grid-template-columns: 1fr 360px; gap: 16px; }
+    .left-col { display: flex; flex-direction: column; gap: 16px; }
 
-    /* Order link */
-    .order-link {
-      color: #007167;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .order-link:hover { text-decoration: underline; }
+    /* ── DETAIL ACTION BUTTONS ─── */
+    .btn-download { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 16px; border: 1px solid #d1d5db; border-radius: 999px; background: #fff; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer; }
+    .btn-download:hover { background: #f9fafb; }
+    .btn-download svg { width: 16px; height: 16px; }
 
-    /* Status badges */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
+    /* ── CONTRACT INFO GRID ─── */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .info-item {}
+    .info-label { font-size: 11px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .info-value { font-size: 14px; color: #1f2937; font-weight: 500; }
+
+    /* ── STATUS BADGES ─── */
+    .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
     .status-active { background: #e8f5f3; color: #007167; }
     .status-expiring { background: #fef3e2; color: #d97706; }
     .status-expired { background: #fce8e6; color: #c73e20; }
 
-    /* ── STAT CARDS ─── */
-    .stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .stat-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; display: flex; align-items: center; gap: 16px; }
-    .stat-icon { width: 48px; height: 48px; border-radius: 50%; background: #e8f5f3; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .stat-icon svg { width: 24px; height: 24px; color: #007167; }
-    .stat-icon.warning { background: #fef3e2; }
-    .stat-icon.warning svg { color: #d97706; }
-    .stat-info { display: flex; flex-direction: column; }
-    .stat-value { font-size: 24px; font-weight: 700; color: #1f2937; }
-    .stat-label { font-size: 13px; color: #6b7280; font-weight: 500; }
+    /* ── SIDEBAR SECTIONS ─── */
+    .sidebar-section { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #e5e7eb; }
+    .sidebar-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .sidebar-label { font-size: 11px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .sidebar-value { font-size: 14px; color: #1f2937; line-height: 1.6; }
+    .sidebar-value a { color: #007167; text-decoration: none; }
+    .sidebar-value a:hover { text-decoration: underline; }
 
-    /* ── CONTRACT TABS ─── */
-
-    /* Actions */
-    .actions-cell {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .action-btn {
-      width: 28px;
-      height: 28px;
-      min-width: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: background 0.1s;
-    }
-    .action-btn:hover { background: #f0faf9; }
-    .action-btn img {
-      width: 16px;
-      height: 16px;
-      object-fit: contain;
-    }
-    .action-btn svg {
-      width: 16px;
-      height: 16px;
-      color: #6b7280;
-    }
-    .action-btn:hover svg { color: #007167; }
-
-    /* ── PAGINATION ─── */
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      border-top: 1px solid #f3f4f6;
-    }
-    .pagination-info {
-      font-size: 12px;
-      color: #9ca3af;
-    }
-    .pagination-controls {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .page-btn {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: 10px;
-      background: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      color: #6b7280;
-      cursor: pointer;
-      letter-spacing: -0.08px;
-    }
-    .page-btn:hover { background: #f3f4f6; }
-    .page-btn.active {
-      background: #007167;
-      color: #fff;
-      font-weight: 600;
-    }
-    .page-btn.active:hover { background: #005f57; }
-    .page-btn.disabled {
-      opacity: 0.3;
-      cursor: default;
-      pointer-events: none;
-    }
-    .page-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    /* ── CONTRACT DETAILS DRAWER ─── */
-    .drawer-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.3);
-      z-index: 299;
-      display: none;
-    }
-    .drawer-overlay.show { display: block; }
-    .tracking-drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 420px;
-      height: 100vh;
-      background: #fff;
-      z-index: 300;
-      box-shadow: -4px 0 24px rgba(0,0,0,0.12);
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
-    .tracking-drawer.show { transform: translateX(0); }
-    .drawer-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 24px;
-      border-bottom: 1px solid #e5e7eb;
-      flex-shrink: 0;
-    }
-    .drawer-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #1f2937;
-    }
-    .drawer-close {
-      width: 32px; height: 32px;
-      display: flex; align-items: center; justify-content: center;
-      background: none; border: none; cursor: pointer;
-      font-size: 20px; color: #6b7280; border-radius: 6px;
-    }
-    .drawer-close:hover { background: #f3f4f6; }
-    .drawer-body {
-      padding: 24px;
-      flex: 1;
-    }
-
-    /* Drawer sections */
-    .drawer-section {
-      border-top: 1px solid #e5e7eb;
-      padding-top: 20px;
-      margin-top: 20px;
-    }
-    .drawer-section:first-child {
-      border-top: none;
-      padding-top: 0;
-      margin-top: 0;
-    }
-    .drawer-section-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-    }
-    .drawer-section-text {
-      font-size: 14px;
-      color: #1f2937;
-      line-height: 1.6;
-    }
-    .drawer-section-text strong {
-      font-weight: 600;
-      color: #1f2937;
-    }
-    .drawer-contract-id {
-      font-size: 16px;
-      font-weight: 700;
-      color: #007167;
-      margin-bottom: 4px;
-    }
-    .drawer-contract-type {
-      font-size: 15px;
-      font-weight: 600;
-      color: #1f2937;
-      margin-bottom: 16px;
-    }
-    .drawer-meta-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 0;
-    }
-    .drawer-meta-item {}
-    .drawer-meta-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-    .drawer-meta-value {
-      font-size: 14px;
-      color: #1f2937;
-      font-weight: 500;
-    }
-    .drawer-contact-info {
-      font-size: 14px;
-      color: #1f2937;
-      line-height: 1.6;
-    }
-    .drawer-contact-info a {
-      color: #007167;
-      text-decoration: none;
-    }
-    .drawer-contact-info a:hover { text-decoration: underline; }
-    .drawer-key-terms {
-      font-size: 14px;
-      color: #374151;
-      line-height: 1.6;
-    }
-    .btn-download-contract {
-      width: 100%;
-      height: 44px;
-      border-radius: 999px;
-      border: 1px solid #007167;
-      background: #fff;
-      color: #007167;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      margin-top: 24px;
-    }
-    .btn-download-contract:hover { background: #f0faf9; }
-    .btn-download-contract svg { width: 16px; height: 16px; }
-    .btn-request-renewal {
-      width: 100%;
-      height: 44px;
-      border-radius: 999px;
-      border: none;
-      background: #007167;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      margin-top: 12px;
-    }
-    .btn-request-renewal:hover { background: #005f57; }
+    .discount-highlight { background: #f0faf9; border: 1px solid #d1e8e5; border-radius: 10px; padding: 14px 16px; margin-top: 8px; }
+    .discount-highlight-row { display: flex; justify-content: space-between; align-items: center; }
+    .discount-highlight-label { font-size: 13px; color: #374151; }
+    .discount-highlight-value { font-size: 14px; font-weight: 700; color: #007167; }
 
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -1256,6 +870,48 @@
     .milla-backdrop.open { opacity: 1; pointer-events: auto; }
     #btn-milla-search { transition: opacity 0.15s ease, width 0.15s ease, padding 0.15s ease; }
     #btn-milla-search.hidden { opacity: 0; pointer-events: none; width: 0; overflow: hidden; padding: 0; }
+
+    /* ── Visit timeline ─── */
+    .visit-timeline { display: flex; flex-direction: column; gap: 0; }
+    .visit-item { display: flex; gap: 16px; position: relative; }
+    .visit-marker { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 24px; }
+    .visit-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #007167; background: #fff; flex-shrink: 0; z-index: 1; }
+    .visit-dot.completed { background: #007167; }
+    .visit-dot.upcoming { border-color: #d97706; background: #fef3e2; }
+    .visit-line { width: 2px; flex: 1; background: #e5e7eb; min-height: 24px; }
+    .visit-item:last-child .visit-line { display: none; }
+    .visit-content { padding-bottom: 24px; flex: 1; }
+    .visit-item:last-child .visit-content { padding-bottom: 0; }
+    .visit-title { font-size: 14px; font-weight: 600; color: #1f2937; }
+    .visit-subtitle { font-size: 13px; color: #6b7280; margin-top: 2px; }
+    .visit-date { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+    .visit-report-link { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: #007167; font-weight: 500; text-decoration: none; margin-top: 6px; }
+    .visit-report-link:hover { text-decoration: underline; }
+
+    /* ── Scope checklist ─── */
+    .scope-list { list-style: none; padding: 0; margin: 0; }
+    .scope-list li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f3f4f6; font-size: 13px; color: #374151; line-height: 1.5; }
+    .scope-list li:last-child { border-bottom: none; }
+    .scope-check { width: 16px; height: 16px; flex-shrink: 0; color: #007167; margin-top: 1px; }
+
+    /* ── Rate table ─── */
+    .rate-table { width: 100%; border-collapse: collapse; }
+    .rate-table thead th { padding: 10px 12px; font-size: 12px; font-weight: 600; color: #6b7280; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    .rate-table tbody td { padding: 10px 12px; font-size: 13px; color: #374151; border-bottom: 1px solid #f3f4f6; }
+    .rate-table tbody tr:last-child td { border-bottom: none; }
+
+    /* ── Includes/excludes ─── */
+    .includes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .includes-col h4 { font-size: 13px; font-weight: 600; color: #1f2937; margin-bottom: 10px; }
+    .includes-list { list-style: none; padding: 0; margin: 0; }
+    .includes-list li { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; font-size: 13px; color: #374151; line-height: 1.5; }
+    .includes-list .icon-yes { color: #007167; flex-shrink: 0; width: 14px; height: 14px; margin-top: 2px; }
+    .includes-list .icon-no { color: #c73e20; flex-shrink: 0; width: 14px; height: 14px; margin-top: 2px; }
+
+    /* ── Responsibility cards ─── */
+    .responsibility-list { display: flex; flex-direction: column; gap: 8px; }
+    .responsibility-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; background: #f8f9fa; border-radius: 8px; font-size: 13px; color: #374151; line-height: 1.5; }
+    .responsibility-icon { width: 16px; height: 16px; flex-shrink: 0; color: #6b7280; margin-top: 1px; }
   </style>
 </head>
 <body>
@@ -1440,194 +1096,331 @@
   <div class="breadcrumb">
     <a href="dashboard.html">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Contracts</span>
+    <a href="contracts.html">Contracts</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current">CTR-S-2026-001</span>
   </div>
 
   <!-- MAIN -->
-  <div class="main">
+  <main class="main">
 
-    <!-- STAT CARDS -->
-    <div class="stat-cards">
-      <div class="stat-card">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-        </div>
-        <div class="stat-info">
-          <span class="stat-value">5</span>
-          <span class="stat-label">Total Contracts</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
-        <div class="stat-info">
-          <span class="stat-value">3</span>
-          <span class="stat-label">Active</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon warning">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="stat-info">
-          <span class="stat-value">1</span>
-          <span class="stat-label">Expiring Soon</span>
-        </div>
-      </div>
-    </div>
+    <!-- BACK LINK -->
+    <a href="contracts.html" class="back-link">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Contracts
+    </a>
 
-    <!-- TITLE BAR + FILTERS -->
+    <!-- TITLE BAR -->
     <div class="title-bar">
-      <div class="title-bar-top">
-        <h1>Contracts</h1>
-        <button class="btn-filters" id="btnFilters">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          Filters
+      <div>
+        <h1>CTR-S-2026-001</h1>
+        <span style="font-size:14px;color:#6b7280;font-weight:400;">Service Contract — Preventive Maintenance</span>
+      </div>
+      <div class="title-bar-actions">
+        <button class="btn-download">
+          <svg viewBox="0 0 18 18" fill="none"><path d="M9 2v9m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13v2h12v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download PDF
         </button>
       </div>
-      <div class="filter-bar" id="filterBar">
-        <div class="filter-input">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <input type="text" placeholder="Search contract, machine...">
+    </div>
+
+    <!-- TWO COLUMN LAYOUT -->
+    <div class="two-col">
+
+      <!-- LEFT COLUMN -->
+      <div class="left-col">
+
+        <!-- CONTRACT OVERVIEW -->
+        <div class="card">
+          <div class="card-title">Contract Overview</div>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">Status</div>
+              <div class="info-value"><span class="status-badge status-active">Active</span></div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Service Type</div>
+              <div class="info-value">Preventive Maintenance</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Start Date</div>
+              <div class="info-value">Jun 1, 2026</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">End Date</div>
+              <div class="info-value">May 31, 2027</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Duration</div>
+              <div class="info-value">12 months (auto-renewal)</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Equipment</div>
+              <div class="info-value">NEOS 10 — 3 units</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Visits per Year</div>
+              <div class="info-value">2 visits</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">Adjustment Policy</div>
+              <div class="info-value">Annual (CPI index)</div>
+            </div>
+          </div>
         </div>
-        <select class="filter-select" id="filterStatus">
-          <option value="">Status</option>
-          <option value="active">Active</option>
-          <option value="expiring-soon">Expiring Soon</option>
-          <option value="expired">Expired</option>
-        </select>
-        <select class="filter-select" id="filterType">
-          <option value="">Type</option>
-          <option value="parts">Parts Contract</option>
-          <option value="service">Service Contract</option>
-        </select>
-        <button class="btn-clear-filters" id="btnClearFilters">Clear filters</button>
-      </div>
-    </div>
 
-    <!-- CONTRACTS TABLE -->
-    <div class="orders-table-wrap">
-      <table class="orders-table" id="contractsTable" aria-label="Contracts">
-        <thead>
-          <tr>
-            <th>Contract ID <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Type <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Equipment / Scope <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Validity <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Status <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Parts Contracts -->
-          <tr data-contract-id="CTR-P-2026-001" data-type="Parts" data-scope="NEOS 10, Instrumentation, Grinding Beads" data-items="68" data-start="Apr 1, 2026" data-end="Mar 30, 2027" data-status="Active" data-payment="ZB34 = 28 DDL" data-freight="FOB" data-min-value="€90.00" data-discount="8%">
-            <td><a class="order-link" href="contract-parts-detail.html">CTR-P-2026-001</a></td>
-            <td>Parts Contract</td>
-            <td>NEOS 10 + Instrumentation</td>
-            <td>Apr 1, 2026 → Mar 30, 2027</td>
-            <td><span class="status-badge status-active">Active</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
+        <!-- VISIT TIMELINE -->
+        <div class="card">
+          <div class="card-title">Visit Schedule</div>
+          <div class="visit-timeline">
+            <div class="visit-item">
+              <div class="visit-marker">
+                <div class="visit-dot completed"></div>
+                <div class="visit-line"></div>
               </div>
-            </td>
-          </tr>
-          <tr data-contract-id="CTR-P-2026-002" data-type="Parts" data-scope="NEOS 20, Epsilon, PMD, LMZ-25" data-items="24" data-start="Apr 1, 2026" data-end="Mar 30, 2027" data-status="Active" data-payment="ZB34 = 28 DDL" data-freight="CIF" data-min-value="€90.00" data-discount="8%">
-            <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-P-2026-002</a></td>
-            <td>Parts Contract</td>
-            <td>NEOS 20 + Epsilon + PMD</td>
-            <td>Apr 1, 2026 → Mar 30, 2027</td>
-            <td><span class="status-badge status-active">Active</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
+              <div class="visit-content">
+                <div class="visit-title">Technical Assessment — General Inspection</div>
+                <div class="visit-subtitle">1 NETZSCH technician · 3 business days</div>
+                <div class="visit-date">Completed: Feb 10–12, 2026</div>
+                <a href="#" class="visit-report-link">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M14 2H6a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2z" stroke="currentColor" stroke-width="1.5"/><path d="M6 6h4M6 9h4M6 12h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  View Inspection Report
+                </a>
               </div>
-            </td>
-          </tr>
-          <tr data-contract-id="CTR-P-2025-003" data-type="Parts" data-scope="Mechanical Seal GRD070" data-items="12" data-start="Jan 1, 2025" data-end="Dec 31, 2025" data-status="Expired" data-payment="ZB34 = 28 DDL" data-freight="FOB" data-min-value="€90.00" data-discount="5%">
-            <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-P-2025-003</a></td>
-            <td>Parts Contract</td>
-            <td>Mechanical Seal GRD070</td>
-            <td>Jan 1, 2025 → Dec 31, 2025</td>
-            <td><span class="status-badge status-expired">Expired</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
+            </div>
+            <div class="visit-item">
+              <div class="visit-marker">
+                <div class="visit-dot upcoming"></div>
+                <div class="visit-line"></div>
               </div>
-            </td>
-          </tr>
-          <!-- Service Contracts -->
-          <tr data-contract-id="CTR-S-2026-001" data-type="Service" data-service-type="Preventive Maintenance" data-scope="NEOS 10 — 3 units" data-next-visit="Jul 15, 2026" data-duration="12 months" data-renewal="Auto-renewal" data-start="Jun 1, 2026" data-end="May 31, 2027" data-status="Active" data-visits-year="2" data-technicians="1" data-visit-days="3" data-visit-price="€X,XXX.XX" data-discount-hours="10%" data-discount-parts="5%">
-            <td><a class="order-link" href="contract-service-detail.html">CTR-S-2026-001</a></td>
-            <td>Service Contract</td>
-            <td>NEOS 10 (3 units)</td>
-            <td>Jun 1, 2026 → May 31, 2027</td>
-            <td><span class="status-badge status-active">Active</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
+              <div class="visit-content">
+                <div class="visit-title">Intervention Visit — General Maintenance</div>
+                <div class="visit-subtitle">1 NETZSCH technician · 3 business days</div>
+                <div class="visit-date">Scheduled: Jul 15–17, 2026</div>
               </div>
-            </td>
-          </tr>
-          <tr data-contract-id="CTR-S-2025-002" data-type="Service" data-service-type="Preventive Maintenance" data-scope="Epsilon, PMD — 5 units" data-next-visit="—" data-duration="12 months" data-renewal="Auto-renewal" data-start="Aug 1, 2025" data-end="Jul 31, 2026" data-status="Expiring Soon" data-visits-year="2" data-technicians="1" data-visit-days="5" data-visit-price="€X,XXX.XX" data-discount-hours="10%" data-discount-parts="5%">
-            <td><a class="order-link" href="#" onclick="openContractDrawer(this.closest('tr')); return false;">CTR-S-2025-002</a></td>
-            <td>Service Contract</td>
-            <td>Epsilon + PMD (5 units)</td>
-            <td>Aug 1, 2025 → Jul 31, 2026</td>
-            <td><span class="status-badge status-expiring">Expiring Soon</span></td>
-            <td>
-              <div class="actions-cell">
-                <button class="action-btn" title="View details" onclick="openContractDrawer(this.closest('tr'))">
-                  <svg viewBox="0 0 16 16" fill="none"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-                </button>
+            </div>
+            <div class="visit-item">
+              <div class="visit-marker">
+                <div class="visit-dot"></div>
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="pagination">
-        <span class="pagination-info" id="paginationInfo">Showing 1–5 of 5 contracts</span>
-        <div class="pagination-controls">
-          <button class="page-btn disabled" aria-label="Previous page">
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="page-btn active" aria-label="Page 1" aria-current="page">1</button>
-          <button class="page-btn disabled" aria-label="Next page">
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+              <div class="visit-content">
+                <div class="visit-title">Next Cycle — Assessment Visit</div>
+                <div class="visit-subtitle">To be scheduled with 15 days advance notice</div>
+                <div class="visit-date">Expected: Q1 2027</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INSPECTION SCOPE -->
+        <div class="card">
+          <div class="card-title">Preventive Maintenance Scope</div>
+          <p style="font-size:13px;color:#6b7280;margin-bottom:14px;">During preventive maintenance, the following activities are performed across 45+ inspection points:</p>
+          <ul class="scope-list">
+            <li>
+              <svg class="scope-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Thorough inspection of instrumentation and locking interstices
+            </li>
+            <li>
+              <svg class="scope-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Sealing liquid verification and cleaning (if applicable)
+            </li>
+            <li>
+              <svg class="scope-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Mechanical seal condition assessment
+            </li>
+            <li>
+              <svg class="scope-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Vibration analysis (empty and with product)
+            </li>
+            <li>
+              <svg class="scope-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Shaft runout measurement
+            </li>
+            <li>
+              <svg class="scope-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Drive system inspection including belt and pulley tension
+            </li>
+            <li>
+              <svg class="scope-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Wear part inspection and measurement (pins, discs, vessel, rotor, screen)
+            </li>
+            <li>
+              <svg class="scope-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Process pump condition assessment (if applicable)
+            </li>
+            <li>
+              <svg class="scope-check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Replacement identification and stock recommendations
+            </li>
+          </ul>
+        </div>
+
+        <!-- WHAT'S INCLUDED / NOT INCLUDED -->
+        <div class="card">
+          <div class="card-title">Coverage</div>
+          <div class="includes-grid">
+            <div class="includes-col">
+              <h4>Included</h4>
+              <ul class="includes-list">
+                <li>
+                  <svg class="icon-yes" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  All labor hours (up to 10h/day)
+                </li>
+                <li>
+                  <svg class="icon-yes" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Travel and commute hours
+                </li>
+                <li>
+                  <svg class="icon-yes" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Per diem with meals
+                </li>
+                <li>
+                  <svg class="icon-yes" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Vehicle mileage and tolls
+                </li>
+                <li>
+                  <svg class="icon-yes" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Accommodation
+                </li>
+                <li>
+                  <svg class="icon-yes" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Final inspection report
+                </li>
+              </ul>
+            </div>
+            <div class="includes-col">
+              <h4>Not Included</h4>
+              <ul class="includes-list">
+                <li>
+                  <svg class="icon-no" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  Replacement spare parts
+                </li>
+                <li>
+                  <svg class="icon-no" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  Additional hours from causes beyond NETZSCH control
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLIENT RESPONSIBILITIES -->
+        <div class="card">
+          <div class="card-title">Client Responsibilities</div>
+          <div class="responsibility-list">
+            <div class="responsibility-item">
+              <svg class="responsibility-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Electrical disconnection, lockout/tagout of equipment for technician safety (NR10 and NR12 compliance)
+            </div>
+            <div class="responsibility-item">
+              <svg class="responsibility-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Disconnection of cooling, heating, and compressed air systems when necessary
+            </div>
+            <div class="responsibility-item">
+              <svg class="responsibility-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Equipment cleaning and decontamination (including bead removal when applicable)
+            </div>
+            <div class="responsibility-item">
+              <svg class="responsibility-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Provide 1 assistant for assembly/disassembly of equipment and peripherals
+            </div>
+            <div class="responsibility-item">
+              <svg class="responsibility-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Lifting resources for parts above 25kg (NR17 compliance)
+            </div>
+            <div class="responsibility-item">
+              <svg class="responsibility-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Confined space support: watchman, supervisor, 4-gas meter, fans per NR33
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR -->
+      <div class="card" style="align-self:start;">
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Price per Visit</div>
+          <div style="font-size:20px;font-weight:700;color:#1f2937;margin-top:4px;">&euro;X,XXX.XX</div>
+          <div style="font-size:12px;color:#6b7280;margin-top:4px;">1 technician · 3 business days<br>All expenses included (taxes incl.)</div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Contract Discounts</div>
+          <div class="discount-highlight" style="margin-top:8px;">
+            <div class="discount-highlight-row">
+              <span class="discount-highlight-label">Technical hours</span>
+              <span class="discount-highlight-value">10% off</span>
+            </div>
+          </div>
+          <div class="discount-highlight" style="margin-top:8px;">
+            <div class="discount-highlight-row">
+              <span class="discount-highlight-label">Spare parts</span>
+              <span class="discount-highlight-value">5% off</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Unplanned Corrective Rates</div>
+          <table class="rate-table" style="margin-top:8px;">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Rate/hour</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Standard hours</td>
+                <td>&euro;27.00</td>
+              </tr>
+              <tr>
+                <td>After hours (+50%)</td>
+                <td>&euro;40.50</td>
+              </tr>
+              <tr>
+                <td>Weekends/holidays (+100%)</td>
+                <td>&euro;54.00</td>
+              </tr>
+              <tr>
+                <td>Travel hours</td>
+                <td>&euro;18.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Renewal & Cancellation</div>
+          <div class="sidebar-value" style="font-size:13px;color:#6b7280;line-height:1.7;">
+            Auto-renewal for 1 year after expiration. Cancellation requires 3 months formal notice.
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Remote Support</div>
+          <div class="sidebar-value" style="font-size:13px;color:#6b7280;line-height:1.7;">
+            Available during business hours (7:30 AM – 5:00 PM). On-site technician dispatched in the shortest possible time from Pomerode/SC or S&atilde;o Paulo.
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Account Manager</div>
+          <div class="sidebar-value">
+            Luana G. R. Borchardt<br>
+            Contract Coordination<br>
+            <a href="mailto:luana.reuters@netzsch.com">luana.reuters@netzsch.com</a><br>
+            +55 47 3387-7037
+          </div>
         </div>
       </div>
+
     </div>
 
-  </div>
-
-  <!-- DRAWER OVERLAY -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-
-  <!-- CONTRACT DETAILS DRAWER -->
-  <div class="tracking-drawer" id="contractDrawer" role="dialog" aria-label="Contract Details">
-    <div class="drawer-header">
-      <span class="drawer-title">Contract Details</span>
-      <button class="drawer-close" id="drawerClose">&#x2715;</button>
-    </div>
-    <div class="drawer-body" id="drawerBody">
-      <!-- Populated by JS -->
-    </div>
-  </div>
+  </main>
 
 <script>
 function toggleProfileDropdown(e) {
@@ -1646,182 +1439,6 @@ document.addEventListener('click', function(e) {
   if (dd && !dd.contains(e.target)) dd.classList.remove('open');
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
-</script>
-
-<script>
-  // Toggle filters
-  var btnFilters = document.getElementById('btnFilters');
-  var filterBar = document.getElementById('filterBar');
-  btnFilters.addEventListener('click', function() {
-    var visible = filterBar.classList.toggle('visible');
-    btnFilters.classList.toggle('active', visible);
-  });
-
-  // Clear filters
-  document.getElementById('btnClearFilters').addEventListener('click', function() {
-    filterBar.querySelector('input').value = '';
-    document.getElementById('filterStatus').value = '';
-    document.getElementById('filterType').value = '';
-    applyFilters();
-  });
-
-  // Contract Details Drawer
-  var overlay = document.getElementById('drawerOverlay');
-  var drawer = document.getElementById('contractDrawer');
-  var drawerClose = document.getElementById('drawerClose');
-  var drawerBody = document.getElementById('drawerBody');
-
-  function getStatusBadgeClass(status) {
-    if (status === 'Active') return 'status-active';
-    if (status === 'Expiring Soon') return 'status-expiring';
-    if (status === 'Expired') return 'status-expired';
-    return 'status-active';
-  }
-
-  function openContractDrawer(row) {
-    var contractId = row.dataset.contractId;
-    var type = row.dataset.type;
-    var status = row.dataset.status;
-    var statusClass = getStatusBadgeClass(status);
-    var showRenewalBtn = (status !== 'Active');
-    var html = '';
-
-    if (type === 'Parts') {
-      var scope = row.dataset.scope;
-      var start = row.dataset.start;
-      var end = row.dataset.end;
-      var items = row.dataset.items;
-      var payment = row.dataset.payment;
-      var freight = row.dataset.freight;
-      var minValue = row.dataset.minValue;
-      var discount = row.dataset.discount;
-
-      html =
-        '<div class="drawer-contract-id">' + contractId + '</div>' +
-        '<div class="drawer-contract-type">Parts Contract</div>' +
-        '<div class="drawer-meta-grid">' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Equipment Scope</div><div class="drawer-meta-value">' + scope + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '">' + status + '</span></div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Start Date</div><div class="drawer-meta-value">' + start + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">End Date</div><div class="drawer-meta-value">' + end + '</div></div>' +
-        '</div>' +
-        '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Commercial Terms</div>' +
-          '<div class="drawer-key-terms">' +
-            'Payment: ' + payment + '<br>' +
-            'Freight: ' + freight + '<br>' +
-            'Min. Billing: ' + minValue + '<br>' +
-            'Contractual Discount: ' + discount +
-          '</div>' +
-        '</div>' +
-        '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Price List</div>' +
-          '<div class="drawer-section-text">' + items + ' items with negotiated prices</div>' +
-          '<a href="#" style="color:#007167;font-size:14px;font-weight:500;text-decoration:none;display:inline-block;margin-top:4px;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">View full price list &rarr;</a>' +
-        '</div>' +
-        '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Account Manager</div>' +
-          '<div class="drawer-contact-info">Luana G. R. Borchardt — Contract Coordination<br><a href="mailto:luana.reuters@netzsch.com">luana.reuters@netzsch.com</a></div>' +
-        '</div>';
-
-    } else if (type === 'Service') {
-      var serviceType = row.dataset.serviceType;
-      var scope = row.dataset.scope;
-      var duration = row.dataset.duration;
-      var renewal = row.dataset.renewal;
-      var nextVisit = row.dataset.nextVisit;
-      var visitsYear = row.dataset.visitsYear;
-      var technicians = row.dataset.technicians;
-      var visitDays = row.dataset.visitDays;
-      var visitPrice = row.dataset.visitPrice;
-      var discountHours = row.dataset.discountHours;
-      var discountParts = row.dataset.discountParts;
-
-      html =
-        '<div class="drawer-contract-id">' + contractId + '</div>' +
-        '<div class="drawer-contract-type">Service Contract — ' + serviceType + '</div>' +
-        '<div class="drawer-meta-grid">' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Equipment</div><div class="drawer-meta-value">' + scope + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '">' + status + '</span></div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Duration</div><div class="drawer-meta-value">' + duration + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Renewal</div><div class="drawer-meta-value">' + renewal + '</div></div>' +
-        '</div>' +
-        '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Visit Schedule</div>' +
-          '<div class="drawer-key-terms">' +
-            visitsYear + ' visits/year &nbsp;|&nbsp; ' + technicians + ' technician &nbsp;|&nbsp; ' + visitDays + ' days/visit<br>' +
-            'Next visit: ' + nextVisit + '<br>' +
-            'Price per visit: ' + visitPrice +
-          '</div>' +
-        '</div>' +
-        '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Contract Benefits</div>' +
-          '<div class="drawer-key-terms">' +
-            '&bull; ' + discountHours + ' discount on technical hours<br>' +
-            '&bull; ' + discountParts + ' discount on spare parts<br>' +
-            '&bull; Priority support during business hours' +
-          '</div>' +
-        '</div>' +
-        '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Account Manager</div>' +
-          '<div class="drawer-contact-info">Luana G. R. Borchardt — Contract Coordination<br><a href="mailto:luana.reuters@netzsch.com">luana.reuters@netzsch.com</a></div>' +
-        '</div>';
-    }
-
-    html +=
-      '<button class="btn-download-contract" onclick="alert(\'Downloading contract PDF for ' + contractId + '...\')">' +
-        '<svg viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-        'Download Contract PDF' +
-      '</button>' +
-      (showRenewalBtn ?
-        '<button class="btn-request-renewal" onclick="alert(\'Renewal request submitted for ' + contractId + '.\')">' +
-          'Request Renewal' +
-        '</button>' : '');
-
-    drawerBody.innerHTML = html;
-    overlay.classList.add('show');
-    drawer.classList.add('show');
-  }
-
-  function closeDrawer() {
-    overlay.classList.remove('show');
-    drawer.classList.remove('show');
-  }
-
-  drawerClose.addEventListener('click', closeDrawer);
-  overlay.addEventListener('click', closeDrawer);
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeDrawer();
-  });
-
-  // Filter logic
-  var filterType = document.getElementById('filterType');
-  var filterStatus = document.getElementById('filterStatus');
-  var filterSearch = filterBar.querySelector('input');
-
-  function applyFilters() {
-    var typeVal = filterType.value.toLowerCase();
-    var statusVal = filterStatus.value.toLowerCase();
-    var searchVal = filterSearch.value.toLowerCase().trim();
-    var rows = document.querySelectorAll('#contractsTable tbody tr');
-    var visible = 0;
-    rows.forEach(function(row) {
-      var rowType = (row.dataset.type || '').toLowerCase();
-      var rowStatus = (row.dataset.status || '').toLowerCase().replace(' ', '-');
-      var rowText = row.textContent.toLowerCase();
-      var show = true;
-      if (typeVal && rowType !== typeVal) show = false;
-      if (statusVal && rowStatus !== statusVal) show = false;
-      if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
-      row.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
-    document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1–' + visible : '0') + ' of ' + visible + ' contracts';
-  }
-
-  filterType.addEventListener('change', applyFilters);
-  filterStatus.addEventListener('change', applyFilters);
-  filterSearch.addEventListener('input', applyFilters);
 </script>
 
 <script>
