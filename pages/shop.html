@@ -1322,18 +1322,18 @@
           </svg>
           <input type="text" placeholder="Search product, reference...">
         </div>
-        <select class="filter-select">
+        <select class="filter-select" id="filterSort">
           <option value="" disabled selected>Sort by</option>
           <option>Name A-Z</option>
           <option>Name Z-A</option>
           <option>Price Low-High</option>
           <option>Price High-Low</option>
         </select>
-        <select class="filter-select">
+        <select class="filter-select" id="filterCategory">
           <option value="" disabled selected>Category</option>
-          <option>Ceramic</option>
-          <option>Steel</option>
-          <option>Glass</option>
+          <option value="ceramic">Ceramic</option>
+          <option value="steel">Steel</option>
+          <option value="glass">Glass</option>
         </select>
       </div>
     </div>
@@ -1361,7 +1361,7 @@
     <div class="product-grid" id="gridView">
 
       <!-- Cerabeads -->
-      <a class="product-card" href="shop-product-detail.html">
+      <a class="product-card" href="shop-product-detail.html" data-category="ceramic">
         <div class="product-card-img">
           <img src="../assets/shop-cerabeads.png" alt="Cerabeads">
         </div>
@@ -1379,7 +1379,7 @@
       </a>
 
       <!-- Zetabeads Nano -->
-      <a class="product-card" href="shop-product-zetabeads-nano.html">
+      <a class="product-card" href="shop-product-zetabeads-nano.html" data-category="ceramic">
         <div class="product-card-img">
           <img src="../assets/shop-zetabeads-nano.png" alt="Zetabeads Nano">
         </div>
@@ -1397,7 +1397,7 @@
       </a>
 
       <!-- Steelbeads Micro -->
-      <a class="product-card" href="shop-product-steelbeads-micro.html">
+      <a class="product-card" href="shop-product-steelbeads-micro.html" data-category="steel">
         <div class="product-card-img">
           <img src="../assets/shop-steelbeads-micro.png" alt="Steelbeads Micro">
         </div>
@@ -1415,7 +1415,7 @@
       </a>
 
       <!-- ZS Beads -->
-      <a class="product-card" href="shop-product-zs-beads.html">
+      <a class="product-card" href="shop-product-zs-beads.html" data-category="steel">
         <div class="product-card-img">
           <img src="../assets/shop-zs-beads.png" alt="ZS Beads">
         </div>
@@ -1433,7 +1433,7 @@
       </a>
 
       <!-- Steelbeads Q -->
-      <a class="product-card" href="shop-product-steelbeads-q.html">
+      <a class="product-card" href="shop-product-steelbeads-q.html" data-category="steel">
         <div class="product-card-img">
           <img src="../assets/shop-steelbeads-q.png" alt="Steelbeads Q">
         </div>
@@ -1451,7 +1451,7 @@
       </a>
 
       <!-- ZetaBeads Plus -->
-      <a class="product-card" href="shop-product-zetabeads-plus.html">
+      <a class="product-card" href="shop-product-zetabeads-plus.html" data-category="ceramic">
         <div class="product-card-img">
           <img src="../assets/shop-zetabeads-plus.png" alt="ZetaBeads Plus">
         </div>
@@ -1469,7 +1469,7 @@
       </a>
 
       <!-- Glassbeads -->
-      <a class="product-card" href="shop-product-glassbeads.html">
+      <a class="product-card" href="shop-product-glassbeads.html" data-category="glass">
         <div class="product-card-img">
           <img src="../assets/shop-glassbeads.png" alt="Glassbeads">
         </div>
@@ -1486,6 +1486,7 @@
         </div>
       </a>
 
+      <p class="empty-state" id="emptyStateGrid" hidden style="grid-column:1/-1;padding:48px 24px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No products match your filters.</p>
     </div>
 
     <!-- PRODUCT TABLE (Table View) -->
@@ -1560,6 +1561,7 @@
           </tr>
         </tbody>
       </table>
+      <p class="empty-state" id="emptyStateTable" hidden style="padding:48px 24px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No products match your filters.</p>
     </div>
 
   </div>
@@ -1610,6 +1612,47 @@ document.addEventListener('click', function(e) {
       tableView.classList.remove('hidden');
       gridView.classList.add('hidden');
     });
+
+    // Filter logic
+    const filterSearch = filterBar.querySelector('input');
+    const filterCategory = document.getElementById('filterCategory');
+
+    function applyFilters() {
+      var catVal = filterCategory.value.toLowerCase();
+      var searchVal = filterSearch.value.toLowerCase().trim();
+
+      // Filter grid cards
+      var cards = document.querySelectorAll('#gridView .product-card');
+      var visibleGrid = 0;
+      cards.forEach(function(card) {
+        var cardCat = (card.dataset.category || '').toLowerCase();
+        var cardText = card.textContent.toLowerCase();
+        var show = true;
+        if (catVal && cardCat !== catVal) show = false;
+        if (searchVal && cardText.indexOf(searchVal) === -1) show = false;
+        card.style.display = show ? '' : 'none';
+        if (show) visibleGrid++;
+      });
+      document.getElementById('emptyStateGrid').hidden = visibleGrid > 0;
+
+      // Filter table rows
+      var rows = document.querySelectorAll('.product-table tbody tr');
+      var visibleTable = 0;
+      rows.forEach(function(row) {
+        var rowCat = row.querySelector('.table-category');
+        var rowCatText = rowCat ? rowCat.textContent.toLowerCase().trim() : '';
+        var rowText = row.textContent.toLowerCase();
+        var show = true;
+        if (catVal && rowCatText !== catVal) show = false;
+        if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
+        row.style.display = show ? '' : 'none';
+        if (show) visibleTable++;
+      });
+      document.getElementById('emptyStateTable').hidden = visibleTable > 0;
+    }
+
+    filterCategory.addEventListener('change', applyFilters);
+    filterSearch.addEventListener('input', applyFilters);
   </script>
 
 <script>

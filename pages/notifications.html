@@ -1096,6 +1096,7 @@
         </div>
       </div>
 
+      <p class="nc-empty-state" id="ncEmptyState" hidden style="padding:48px 24px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No notifications in this category.</p>
     </div>
   </main>
 
@@ -1106,6 +1107,7 @@
   var list = document.getElementById('ncList');
   var markAllBtn = document.getElementById('ncMarkAll');
   var countBadge = document.getElementById('ncUnreadCount');
+  var emptyState = document.getElementById('ncEmptyState');
 
   // Filter tabs
   filters.addEventListener('click', function(e) {
@@ -1117,13 +1119,16 @@
     var filter = tab.dataset.filter;
     var items = list.querySelectorAll('.nc-item');
     var dividers = list.querySelectorAll('.nc-date-divider');
+    var visibleCount = 0;
 
     if (filter === 'all') {
-      items.forEach(function(it) { it.style.display = ''; });
+      items.forEach(function(it) { it.style.display = ''; visibleCount++; });
       dividers.forEach(function(d) { d.style.display = ''; });
     } else {
       items.forEach(function(it) {
-        it.style.display = it.dataset.type === filter ? '' : 'none';
+        var show = it.dataset.type === filter;
+        it.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
       });
       // Hide date dividers that have no visible items after them
       dividers.forEach(function(d) {
@@ -1136,6 +1141,7 @@
         d.style.display = hasVisible ? '' : 'none';
       });
     }
+    emptyState.hidden = visibleCount > 0;
   });
 
   // Mark all as read

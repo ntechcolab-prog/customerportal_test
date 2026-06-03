@@ -1477,13 +1477,21 @@
 
       <!-- TITLE BAR -->
       <div class="title-bar">
-        <h1>Requests</h1>
-        <button class="btn-filters" id="btnFilters">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          Filters
-        </button>
+        <div class="title-bar-top" style="display:flex;align-items:center;justify-content:space-between;">
+          <h1>Requests</h1>
+          <button class="btn-filters" id="btnFilters">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+            Filters
+          </button>
+        </div>
+        <div class="filter-bar" id="filterBar" style="display:none;gap:12px;align-items:center;margin-top:12px;">
+          <div class="filter-input" style="position:relative;flex:1;max-width:280px;">
+            <svg viewBox="0 0 16 16" fill="none" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#9ca3af;"><circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <input type="text" placeholder="Search request, user..." style="width:100%;height:40px;border:1px solid #d1d5db;border-radius:8px;padding:0 12px 0 36px;font-family:'Inter',sans-serif;font-size:14px;color:#1f2937;background:#fff;" aria-label="Search requests">
+          </div>
+        </div>
       </div>
 
       <!-- STAT CARDS -->
@@ -1832,10 +1840,11 @@
             </tr>
           </tbody>
         </table>
+        <p class="empty-state" id="emptyState" hidden style="padding:48px 24px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No requests match your search.</p>
 
         <!-- PAGINATION -->
-        <div class="pagination">
-          <span class="pagination-info">Showing 1–8 of 12 requests</span>
+        <div class="pagination" id="paginationWrap">
+          <span class="pagination-info" id="paginationInfo">Showing 1–8 of 12 requests</span>
           <div class="pagination-controls">
             <button class="page-btn disabled" aria-label="Previous page">
               <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1869,6 +1878,32 @@ document.addEventListener('click', function(e) {
   if (dd && !dd.contains(e.target)) dd.classList.remove('open');
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
+
+// Filters toggle + search
+(function() {
+  var btnFilters = document.getElementById('btnFilters');
+  var filterBar = document.getElementById('filterBar');
+  btnFilters.addEventListener('click', function() {
+    this.classList.toggle('active');
+    filterBar.style.display = this.classList.contains('active') ? 'flex' : 'none';
+  });
+
+  var filterSearch = filterBar.querySelector('input');
+  filterSearch.addEventListener('input', function() {
+    var searchVal = this.value.toLowerCase().trim();
+    var rows = document.querySelectorAll('.requests-table tbody tr');
+    var visible = 0;
+    rows.forEach(function(row) {
+      var rowText = row.textContent.toLowerCase();
+      var show = !searchVal || rowText.indexOf(searchVal) !== -1;
+      row.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('emptyState').hidden = visible > 0;
+    document.getElementById('paginationWrap').style.display = visible > 0 ? '' : 'none';
+    document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1\u2013' + visible : '0') + ' of ' + visible + ' requests';
+  });
+})();
 </script>
 <script>
 (function() {

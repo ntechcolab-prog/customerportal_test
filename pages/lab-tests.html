@@ -1601,9 +1601,10 @@
           </tr>
         </tbody>
       </table>
+      <p class="empty-state" id="emptyState" hidden style="padding:48px 24px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No tests match your filters.</p>
       <!-- PAGINATION -->
-      <div class="pagination">
-        <span class="pagination-info">Showing 1–8 of 8 tests</span>
+      <div class="pagination" id="paginationWrap">
+        <span class="pagination-info" id="paginationInfo">Showing 1–8 of 8 tests</span>
         <div class="pagination-controls">
           <button class="page-btn disabled" aria-label="Previous page">
             <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1660,11 +1661,43 @@ document.addEventListener('click', function(e) {
     btnFilters.classList.toggle('active', visible);
   });
 
+  // Filter logic
+  var filterSearch = filterBar.querySelector('input');
+  var filterStatus = document.getElementById('filterStatus');
+  var filterMachine = document.getElementById('filterMachine');
+
+  function applyFilters() {
+    var statusVal = filterStatus.value.toLowerCase();
+    var machineVal = filterMachine.value.toLowerCase();
+    var searchVal = filterSearch.value.toLowerCase().trim();
+    var rows = document.querySelectorAll('.orders-table tbody tr');
+    var visible = 0;
+    rows.forEach(function(row) {
+      var rowStatus = (row.dataset.status || '').toLowerCase().replace(/\s+/g, '-');
+      var rowMachine = (row.dataset.machine || '').toLowerCase().replace(/\s+/g, '-');
+      var rowText = row.textContent.toLowerCase();
+      var show = true;
+      if (statusVal && rowStatus !== statusVal) show = false;
+      if (machineVal && rowMachine !== machineVal) show = false;
+      if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
+      row.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1\u2013' + visible : '0') + ' of ' + visible + ' tests';
+    document.getElementById('emptyState').hidden = visible > 0;
+    document.getElementById('paginationWrap').style.display = visible > 0 ? '' : 'none';
+  }
+
+  filterStatus.addEventListener('change', applyFilters);
+  filterMachine.addEventListener('change', applyFilters);
+  filterSearch.addEventListener('input', applyFilters);
+
   // Clear filters
   document.getElementById('btnClearFilters').addEventListener('click', function() {
     filterBar.querySelector('input').value = '';
     document.getElementById('filterStatus').value = '';
     document.getElementById('filterMachine').value = '';
+    applyFilters();
   });
 
   // Test Details Drawer
