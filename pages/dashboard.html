@@ -1324,7 +1324,8 @@
             <img src="../assets/icon-section-h2.svg" alt="">
           </button>
         </div>
-        <div style="display:flex;flex-direction:column;gap:12px;">
+        <div id="contractsCardContent" style="display:flex;flex-direction:column;gap:12px;">
+          <p id="contractsEmptyState" hidden style="padding:32px 16px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No contracts expiring in the next 30 days.</p>
           <a href="contracts.html" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid #fef3e2;border-radius:10px;background:#fffbf5;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='#fef8ee'" onmouseout="this.style.background='#fffbf5'">
             <div style="display:flex;align-items:center;gap:12px;">
               <div style="width:36px;height:36px;border-radius:50%;background:#fef3e2;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -1460,6 +1461,7 @@
               </tr>
             </tbody>
           </table>
+          <p id="ordersEmptyState" hidden style="padding:32px 16px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No recent orders to display.</p>
         </div>
       </div>
 
