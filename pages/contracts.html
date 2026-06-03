@@ -1624,7 +1624,8 @@
           </tr>
         </tbody>
       </table>
-      <div class="pagination">
+      <p class="empty-state" id="emptyState" hidden style="padding:48px 24px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No contracts match your filters.</p>
+      <div class="pagination" id="paginationWrap">
         <span class="pagination-info" id="paginationInfo">Showing 1–5 of 5 contracts</span>
         <div class="pagination-controls">
           <button class="page-btn disabled" aria-label="Previous page">
@@ -1842,6 +1843,8 @@ document.addEventListener('click', function(e) {
       if (show) visible++;
     });
     document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1–' + visible : '0') + ' of ' + visible + ' contracts';
+    document.getElementById('emptyState').hidden = visible > 0;
+    document.getElementById('paginationWrap').style.display = visible > 0 ? '' : 'none';
   }
 
   filterType.addEventListener('change', applyFilters);

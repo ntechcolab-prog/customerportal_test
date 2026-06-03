@@ -1448,24 +1448,24 @@
           </svg>
           <input type="text" placeholder="Search service, machine..." aria-label="Search services">
         </div>
-        <select class="filter-select" aria-label="Sort by">
+        <select class="filter-select" id="filterSort" aria-label="Sort by">
           <option value="" disabled selected>Sort by</option>
           <option>Date Newest</option>
           <option>Date Oldest</option>
         </select>
-        <select class="filter-select" aria-label="Status">
+        <select class="filter-select" id="filterStatus" aria-label="Status">
           <option value="" disabled selected>Status</option>
-          <option>Submitted</option>
-          <option>In Progress</option>
-          <option>Completed</option>
-          <option>Cancelled</option>
+          <option value="submitted">Submitted</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
         </select>
-        <select class="filter-select" aria-label="Type">
+        <select class="filter-select" id="filterType" aria-label="Type">
           <option value="" disabled selected>Type</option>
-          <option>Repair</option>
-          <option>Spare Parts</option>
-          <option>Maintenance</option>
-          <option>Consultation</option>
+          <option value="repair">Repair</option>
+          <option value="spare parts">Spare Parts</option>
+          <option value="maintenance">Maintenance</option>
+          <option value="consultation">Consultation</option>
         </select>
       </div>
     </div>
@@ -1778,8 +1778,9 @@
           </tr>
         </tbody>
       </table>
+      <p class="empty-state" id="emptyState" hidden style="padding:48px 24px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No services match your filters.</p>
       <!-- PAGINATION -->
-      <div class="pagination">
+      <div class="pagination" id="paginationWrap">
         <span class="pagination-info" id="paginationInfo">Showing 1–5 of 8 services</span>
         <div class="pagination-controls">
           <button class="page-btn disabled" id="btnPrev" aria-label="Previous page">
@@ -1839,6 +1840,40 @@ document.addEventListener('click', function(e) {
       btnGrid.classList.add('active');
       btnList.classList.remove('active');
     });
+
+    // Filter logic
+    const filterSearch = filterBar.querySelector('input');
+    const filterStatus = document.getElementById('filterStatus');
+    const filterType = document.getElementById('filterType');
+
+    function applyFilters() {
+      var statusVal = filterStatus.value.toLowerCase();
+      var typeVal = filterType.value.toLowerCase();
+      var searchVal = filterSearch.value.toLowerCase().trim();
+      var rows = document.querySelectorAll('.services-table tbody tr');
+      var visible = 0;
+      rows.forEach(function(row) {
+        var badge = row.querySelector('.status-badge');
+        var rowStatus = badge ? badge.className.replace('status-badge', '').replace('status-', '').trim() : '';
+        var cells = row.querySelectorAll('td');
+        var rowType = cells[2] ? cells[2].textContent.toLowerCase().trim() : '';
+        var rowText = row.textContent.toLowerCase();
+        var show = true;
+        if (statusVal && rowStatus !== statusVal) show = false;
+        if (typeVal && rowType !== typeVal) show = false;
+        if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
+        row.style.display = show ? '' : 'none';
+        row.dataset.filtered = show ? '' : 'hidden';
+        if (show) visible++;
+      });
+      document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1\u2013' + visible : '0') + ' of ' + visible + ' services';
+      document.getElementById('emptyState').hidden = visible > 0;
+      document.getElementById('paginationWrap').style.display = visible > 0 ? '' : 'none';
+    }
+
+    filterStatus.addEventListener('change', applyFilters);
+    filterType.addEventListener('change', applyFilters);
+    filterSearch.addEventListener('input', applyFilters);
   </script>
 
 <script>
@@ -2182,10 +2217,8 @@ function sendFromSmallChat() {
 </script>
 <script>
 (function() {
-  var rows = document.querySelectorAll('.services-table tbody tr');
+  var allRows = document.querySelectorAll('.services-table tbody tr');
   var perPage = 5;
-  var totalRows = rows.length;
-  var totalPages = Math.ceil(totalRows / perPage);
   var currentPage = 1;
 
   var info = document.getElementById('paginationInfo');
@@ -2194,35 +2227,66 @@ function sendFromSmallChat() {
   var btnPage1 = document.getElementById('btnPage1');
   var btnPage2 = document.getElementById('btnPage2');
 
+  function getVisibleRows() {
+    return Array.from(allRows).filter(function(r) { return r.dataset.filtered !== 'hidden'; });
+  }
+
   function render() {
+    var visibleRows = getVisibleRows();
+    var totalRows = visibleRows.length;
+    var totalPages = Math.ceil(totalRows / perPage) || 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+
     var start = (currentPage - 1) * perPage;
     var end = Math.min(start + perPage, totalRows);
 
-    rows.forEach(function(row, i) {
+    allRows.forEach(function(row) {
+      if (row.dataset.filtered === 'hidden') { row.style.display = 'none'; return; }
+    });
+    visibleRows.forEach(function(row, i) {
       row.style.display = (i >= start && i < end) ? '' : 'none';
     });
 
-    info.textContent = 'Showing ' + (start + 1) + '\u2013' + end + ' of ' + totalRows + ' services';
+    info.textContent = totalRows > 0
+      ? 'Showing ' + (start + 1) + '\u2013' + end + ' of ' + totalRows + ' services'
+      : 'Showing 0 of 0 services';
 
-    btnPage1.classList.toggle('active', currentPage === 1);
-    btnPage1.setAttribute('aria-current', currentPage === 1 ? 'page' : 'false');
-    btnPage2.classList.toggle('active', currentPage === 2);
-    btnPage2.setAttribute('aria-current', currentPage === 2 ? 'page' : 'false');
+    if (btnPage1) {
+      btnPage1.classList.toggle('active', currentPage === 1);
+      btnPage1.setAttribute('aria-current', currentPage === 1 ? 'page' : 'false');
+    }
+    if (btnPage2) {
+      btnPage2.classList.toggle('active', currentPage === 2);
+      btnPage2.setAttribute('aria-current', currentPage === 2 ? 'page' : 'false');
+      btnPage2.style.display = totalPages >= 2 ? '' : 'none';
+    }
+    if (btnPrev) btnPrev.classList.toggle('disabled', currentPage === 1);
+    if (btnNext) btnNext.classList.toggle('disabled', currentPage >= totalPages);
 
-    btnPrev.classList.toggle('disabled', currentPage === 1);
-    btnNext.classList.toggle('disabled', currentPage === totalPages);
+    document.getElementById('emptyState').hidden = totalRows > 0;
+    document.getElementById('paginationWrap').style.display = totalRows > 0 ? '' : 'none';
   }
 
   function goTo(page) {
+    var totalPages = Math.ceil(getVisibleRows().length / perPage) || 1;
     if (page < 1 || page > totalPages) return;
     currentPage = page;
     render();
   }
 
-  btnPage1.addEventListener('click', function() { goTo(1); });
-  btnPage2.addEventListener('click', function() { goTo(2); });
-  btnPrev.addEventListener('click', function() { goTo(currentPage - 1); });
-  btnNext.addEventListener('click', function() { goTo(currentPage + 1); });
+  if (btnPage1) btnPage1.addEventListener('click', function() { goTo(1); });
+  if (btnPage2) btnPage2.addEventListener('click', function() { goTo(2); });
+  if (btnPrev) btnPrev.addEventListener('click', function() { goTo(currentPage - 1); });
+  if (btnNext) btnNext.addEventListener('click', function() { goTo(currentPage + 1); });
+
+  // Re-render when filters change
+  var filterStatus = document.getElementById('filterStatus');
+  var filterType = document.getElementById('filterType');
+  var filterSearch = document.getElementById('filterBar').querySelector('input');
+  [filterStatus, filterType].forEach(function(el) {
+    el.addEventListener('change', function() { currentPage = 1; render(); });
+  });
+  filterSearch.addEventListener('input', function() { currentPage = 1; render(); });
 
   render();
 })();

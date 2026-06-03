@@ -1369,17 +1369,17 @@
           </svg>
           <input type="text" placeholder="Search quote, reference...">
         </div>
-        <select class="filter-select">
+        <select class="filter-select" id="filterSort">
           <option value="" disabled selected>Sort by</option>
           <option>Date Newest</option>
           <option>Date Oldest</option>
         </select>
-        <select class="filter-select">
+        <select class="filter-select" id="filterStatus">
           <option value="" disabled selected>Status</option>
-          <option>Pending for Approval</option>
-          <option>Quote Placed</option>
-          <option>In Progress</option>
-          <option>Expired</option>
+          <option value="pending">Pending for Approval</option>
+          <option value="placed">Quote Placed</option>
+          <option value="progress">In Progress</option>
+          <option value="expired">Expired</option>
         </select>
       </div>
     </div>
@@ -1544,9 +1544,10 @@
           </tr>
         </tbody>
       </table>
+      <p class="empty-state" id="emptyState" hidden style="padding:48px 24px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No quotes match your filters.</p>
       <!-- PAGINATION -->
-      <div class="pagination">
-        <span class="pagination-info">Showing 1–4 of 4 quotes</span>
+      <div class="pagination" id="paginationWrap">
+        <span class="pagination-info" id="paginationInfo">Showing 1–4 of 4 quotes</span>
         <div class="pagination-controls">
           <button class="page-btn disabled" aria-label="Previous page">
             <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1603,6 +1604,33 @@ document.addEventListener('click', function(e) {
       btnGrid.classList.add('active');
       btnList.classList.remove('active');
     });
+
+    // Filter logic
+    const filterSearch = filterBar.querySelector('input');
+    const filterStatus = document.getElementById('filterStatus');
+
+    function applyFilters() {
+      var statusVal = filterStatus.value.toLowerCase();
+      var searchVal = filterSearch.value.toLowerCase().trim();
+      var rows = document.querySelectorAll('.quotes-table tbody tr');
+      var visible = 0;
+      rows.forEach(function(row) {
+        var badge = row.querySelector('.status-badge');
+        var rowStatus = badge ? badge.className.replace('status-badge', '').replace('status-', '').trim() : '';
+        var rowText = row.textContent.toLowerCase();
+        var show = true;
+        if (statusVal && rowStatus !== statusVal) show = false;
+        if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1\u2013' + visible : '0') + ' of ' + visible + ' quotes';
+      document.getElementById('emptyState').hidden = visible > 0;
+      document.getElementById('paginationWrap').style.display = visible > 0 ? '' : 'none';
+    }
+
+    filterStatus.addEventListener('change', applyFilters);
+    filterSearch.addEventListener('input', applyFilters);
   </script>
 
 <script>
