@@ -1373,6 +1373,44 @@
     .milla-chat-small .milla-msg-user,
     .milla-chat-small .milla-msg-bot-bubble { font-size: 13px; line-height: 20px; max-width: 85%; }
 
+    /* ── EMPTY STATE ─── */
+    .empty-state {
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .empty-state[hidden] { display: none; }
+    .empty-state-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
+    .empty-state-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #374151;
+      margin: 0 0 4px;
+    }
+    .empty-state-desc {
+      font-size: 13px;
+      color: #9ca3af;
+      margin: 0;
+    }
+    .empty-state-link {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #007167;
+      text-decoration: none;
+    }
+    .empty-state-link:hover { text-decoration: underline; }
+
     /* ── MILLA FAB (minimized) ─── */
     .milla-fab {
       position: fixed;
@@ -2466,9 +2504,9 @@ document.addEventListener('click', function(e) {
       // If no items, show empty state
       if (total === 0) {
         var tbody = document.querySelector('.wishlist-table tbody');
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:48px 20px;color:#6b7280;font-size:14px;">Your wishlist is empty.<br><a href="shop.html" style="color:#007167;font-weight:600;text-decoration:none;margin-top:8px;display:inline-block;">Browse Shop</a></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p class="empty-state-title">Your wishlist is empty</p><p class="empty-state-desc">Save products you\'re interested in for easy access later.</p><a href="shop.html" class="empty-state-link">Browse Shop</a></div></td></tr>';
         var grid = document.querySelector('.grid-view .product-grid');
-        if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:#6b7280;font-size:14px;">Your wishlist is empty.<br><a href="shop.html" style="color:#007167;font-weight:600;text-decoration:none;margin-top:8px;display:inline-block;">Browse Shop</a></div>';
+        if (grid) grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p class="empty-state-title">Your wishlist is empty</p><p class="empty-state-desc">Save products you\'re interested in for easy access later.</p><a href="shop.html" class="empty-state-link">Browse Shop</a></div>';
       }
     }
 
