@@ -681,6 +681,35 @@
     }
     .actions-btn:hover { background: #f3f4f6; color: #374151; }
 
+    /* ── EMPTY STATE ─── */
+    .empty-state {
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .empty-state[hidden] { display: none; }
+    .empty-state-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
+    .empty-state-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #374151;
+      margin: 0 0 4px;
+    }
+    .empty-state-desc {
+      font-size: 13px;
+      color: #9ca3af;
+      margin: 0;
+    }
+
     /* ── PAGINATION ─── */
     .pagination {
       display: flex;
@@ -1838,7 +1867,13 @@
             </tr>
           </tbody>
         </table>
-        <p class="empty-state" id="emptyState" hidden style="padding:48px 24px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No requests match your search.</p>
+        <div class="empty-state" id="emptyState" hidden>
+          <div class="empty-state-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p class="empty-state-title">No requests found</p>
+          <p class="empty-state-desc">Try adjusting your search or filter criteria.</p>
+        </div>
 
         <!-- PAGINATION -->
         <div class="pagination" id="paginationWrap">
