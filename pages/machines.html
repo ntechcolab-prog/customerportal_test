@@ -630,14 +630,35 @@
       transform: translateX(2px);
     }
 
+    /* ── EMPTY STATE ─── */
     .empty-state {
       grid-column: 1 / -1;
       padding: 48px 24px;
       text-align: center;
-      color: #9ca3af;
-      font-size: 14px;
     }
     .empty-state[hidden] { display: none; }
+    .empty-state-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
+    .empty-state-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #374151;
+      margin: 0 0 4px;
+    }
+    .empty-state-desc {
+      font-size: 13px;
+      color: #9ca3af;
+      margin: 0;
+    }
 
     .btn-primary {
       height: 40px;
@@ -1865,7 +1886,13 @@
         </div>
       </a>
 
-      <p class="empty-state" id="empty-state" hidden>No machines match your filters.</p>
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="empty-state-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-8.038 0l-2.387.477a2 2 0 00-1.022.547M8 11V7a4 4 0 118 0v4m-9 8h10a2 2 0 002-2v-3a2 2 0 00-2-2H7a2 2 0 00-2 2v3a2 2 0 002 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="empty-state-title">No machines found</p>
+        <p class="empty-state-desc">Try adjusting your filters or search terms.</p>
+      </div>
     </div>
 
     <!-- Table view (absolute positioning, mirror Figma 182:12533) -->
@@ -1960,7 +1987,13 @@
           </div>
         </div>
       </div>
-      <p class="empty-state" id="empty-state-table" hidden style="padding:32px 24px;">No machines match your filters.</p>
+      <div class="empty-state" id="empty-state-table" hidden>
+        <div class="empty-state-icon">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-8.038 0l-2.387.477a2 2 0 00-1.022.547M8 11V7a4 4 0 118 0v4m-9 8h10a2 2 0 002-2v-3a2 2 0 00-2-2H7a2 2 0 00-2 2v3a2 2 0 002 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="empty-state-title">No machines found</p>
+        <p class="empty-state-desc">Try adjusting your filters or search terms.</p>
+      </div>
     </div>
   </div>
 
