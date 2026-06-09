@@ -1287,6 +1287,30 @@
     #btn-milla-search { transition: opacity 0.15s ease, width 0.15s ease, padding 0.15s ease; }
     #btn-milla-search.hidden { opacity: 0; pointer-events: none; width: 0; overflow: hidden; padding: 0; }
 
+
+    /* ── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .topbar { padding: 0 16px; }
+      .app-header { padding: 0 16px; height: 56px; }
+      .breadcrumb { padding: 0 16px; }
+      .main { padding: 16px; }
+      .stat-cards { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar { flex-wrap: wrap; }
+      .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
+      .orders-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .orders-table { min-width: 700px; }
+    }
+    @media (max-width: 480px) {
+      .topbar { padding: 0 12px; }
+      .app-header { padding: 0 12px; }
+      .breadcrumb { padding: 0 12px; white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .main { padding: 12px; }
+      .stat-cards { grid-template-columns: 1fr; }
+      .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
+      .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
+      .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
+    }
+
     /* ── HAMBURGER MENU ─── */
     .hamburger-btn { display: none; }
 
