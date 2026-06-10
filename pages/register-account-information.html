@@ -474,16 +474,33 @@
     </div>
   </div>
 
+  <script src="../assets/form-validation.js"></script>
   <script>
-    const inputs = ['cnpj', 'first-name', 'last-name'].map(id => document.getElementById(id));
-    const btnNext = document.getElementById('btn-next');
+    var btnNext = document.getElementById('btn-next');
 
-    function checkComplete() {
-      const allFilled = inputs.every(i => i.value.trim().length > 0);
-      btnNext.classList.toggle('enabled', allFilled);
-    }
+    var fv = FormValidator.init({
+      fields: [
+        { id: 'cnpj',       rules: ['required', { minLength: 2 }] },
+        { id: 'first-name', rules: ['required', { minLength: 2 }] },
+        { id: 'last-name',  rules: ['required', { minLength: 2 }] }
+      ]
+    });
 
-    inputs.forEach(i => i.addEventListener('input', checkComplete));
+    // Keep .enabled class pattern for btn-next
+    ['cnpj', 'first-name', 'last-name'].forEach(function (id) {
+      document.getElementById(id).addEventListener('input', function () {
+        btnNext.classList.toggle('enabled', fv.isAllValid());
+      });
+      document.getElementById(id).addEventListener('blur', function () {
+        btnNext.classList.toggle('enabled', fv.isAllValid());
+      });
+    });
+
+    // Block navigation if invalid
+    btnNext.addEventListener('click', function (e) {
+      if (!btnNext.classList.contains('enabled')) { e.preventDefault(); return; }
+      if (!fv.validateAll()) { e.preventDefault(); btnNext.classList.remove('enabled'); return; }
+    });
   </script>
 
 <script>

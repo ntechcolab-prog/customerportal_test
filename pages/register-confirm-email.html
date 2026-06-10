@@ -303,7 +303,8 @@
       transition: opacity 0.15s;
     }
 
-    .btn-send:hover { opacity: 0.9; }
+    .btn-send:hover:not(:disabled) { opacity: 0.9; }
+    .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
 
     /* Footer "Already have an account?" */
     .form-footer {
@@ -402,7 +403,7 @@
         </div>
 
         <!-- Send button -->
-        <button class="btn-send" type="button" id="btn-send">Send verification code</button>
+        <button class="btn-send" type="button" id="btn-send" disabled>Send verification code</button>
 
         <!-- Footer -->
         <p class="form-footer">
@@ -413,12 +414,18 @@
     </div>
   </div>
 
+  <script src="../assets/form-validation.js"></script>
   <script>
-    // Carry the typed email forward to the verification screen
-    document.getElementById('btn-send').addEventListener('click', () => {
-      const email = document.getElementById('email').value.trim();
-      const url = 'register-email-verification.html' + (email ? '?email=' + encodeURIComponent(email) : '');
-      window.location.href = url;
+    FormValidator.init({
+      fields: [
+        { id: 'email', rules: ['required', 'email'] }
+      ],
+      submitBtn: 'btn-send',
+      onSubmit: function () {
+        var email = document.getElementById('email').value.trim();
+        var url = 'register-email-verification.html' + (email ? '?email=' + encodeURIComponent(email) : '');
+        window.location.href = url;
+      }
     });
   </script>
 

@@ -568,7 +568,17 @@
     </div>
   </div>
 
+  <script src="../assets/form-validation.js"></script>
   <script>
+    // ── Form validation for text inputs ─────────────────────
+    var fv = FormValidator.init({
+      fields: [
+        { id: 'company-name', rules: ['required', { minLength: 2 }] },
+        { id: 'street',       rules: ['required', { minLength: 3 }] },
+        { id: 'zip',          rules: ['required'] }
+      ]
+    });
+
     // ── Next gating: habilita quando todos obrigatorios estiverem preenchidos
     const btnNext = document.getElementById('btn-next');
     const companyNameInput = document.getElementById('company-name');
@@ -579,11 +589,12 @@
     let citySelected = false;
 
     function refreshNext() {
-      const inputsOk = requiredInputs.every(i => i.value.trim().length > 0);
+      const inputsOk = fv.isAllValid();
       btnNext.classList.toggle('enabled', inputsOk && stateSelected && citySelected);
     }
 
     requiredInputs.forEach(i => i.addEventListener('input', refreshNext));
+    requiredInputs.forEach(i => i.addEventListener('blur', refreshNext));
 
     // Cidades por estado (Brasil — amostra editorial)
     const CITIES_BY_STATE = {
@@ -702,6 +713,12 @@
     // Esc também fecha
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeAll();
+    });
+
+    // Block navigation if text inputs invalid
+    btnNext.addEventListener('click', function (e) {
+      if (!btnNext.classList.contains('enabled')) { e.preventDefault(); e.stopImmediatePropagation(); return; }
+      if (!fv.validateAll()) { e.preventDefault(); e.stopImmediatePropagation(); btnNext.classList.remove('enabled'); return; }
     });
   </script>
 

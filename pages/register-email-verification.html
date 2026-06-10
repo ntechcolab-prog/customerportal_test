@@ -450,6 +450,7 @@
     </div>
   </div>
 
+  <script src="../assets/form-validation.js"></script>
   <script>
     // Pre-fill email from query string
     const params = new URLSearchParams(window.location.search);
@@ -458,12 +459,20 @@
       document.getElementById('email').value = emailFromQuery;
     }
 
+    // Email field validation (inline errors on blur)
+    var fv = FormValidator.init({
+      fields: [
+        { id: 'email', rules: ['required', 'email'] }
+      ]
+    });
+
     const otpInputs = document.querySelectorAll('.otp-input');
     const btnContinue = document.getElementById('btn-continue');
 
     // Carry email forward when continuing
     btnContinue.addEventListener('click', () => {
       if (!btnContinue.classList.contains('enabled')) return;
+      if (!fv.validateAll()) return;
       const email = document.getElementById('email').value.trim();
       const url = 'register-localization-empty.html' + (email ? '?email=' + encodeURIComponent(email) : '');
       window.location.href = url;
@@ -471,7 +480,8 @@
 
     function checkComplete() {
       const allFilled = Array.from(otpInputs).every(i => i.value.length === 1);
-      btnContinue.classList.toggle('enabled', allFilled);
+      const emailValid = fv.isAllValid();
+      btnContinue.classList.toggle('enabled', allFilled && emailValid);
     }
 
     otpInputs.forEach((input, index) => {
