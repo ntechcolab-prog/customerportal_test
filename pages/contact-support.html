@@ -343,6 +343,14 @@
       line-height: 1.5;
     }
 
+    /* ── TWO-COLUMN LAYOUT ─── */
+    .support-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      align-items: start;
+    }
+
     /* ── CARDS ─── */
     .card {
       background: #fff;
@@ -351,22 +359,16 @@
       padding: 24px;
     }
 
-    /* ── FORM CARD ─── */
-    .form-card {
-      max-width: 720px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
     .section-title {
       font-size: 14px;
       font-weight: 700;
       color: #1f2937;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
+    /* ── FIELD GROUPS ─── */
     .field-group {
       margin-bottom: 20px;
     }
@@ -389,10 +391,17 @@
       font-size: 12px;
     }
 
+    /* Two-column row for subject + reference */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
     /* ── FORM INPUTS ─── */
     .form-input {
       width: 100%;
-      height: 40px;
+      height: 44px;
       border: 1px solid #b1b4b7;
       border-radius: 10px;
       padding: 0 14px;
@@ -406,7 +415,7 @@
 
     .form-textarea {
       width: 100%;
-      min-height: 140px;
+      min-height: 160px;
       border: 1px solid #b1b4b7;
       border-radius: 10px;
       padding: 12px 14px;
@@ -419,10 +428,10 @@
     .form-textarea::placeholder { color: #9ca3af; }
     .form-textarea:focus { outline: none; border-color: #007167; }
 
-    /* ── SELECT (same as machine-select) ─── */
+    /* ── SELECT ─── */
     .subject-select {
       width: 100%;
-      height: 40px;
+      height: 44px;
       border: 1px solid #b1b4b7;
       border-radius: 10px;
       padding: 0 36px 0 14px;
@@ -442,13 +451,13 @@
     .dropzone {
       border: 2px dashed #d1d5db;
       border-radius: 10px;
-      min-height: 100px;
+      min-height: 88px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 24px;
+      gap: 6px;
+      padding: 20px;
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
     }
@@ -457,12 +466,12 @@
       background: #f0faf9;
     }
     .dropzone-icon {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       color: #9ca3af;
     }
     .dropzone-text {
-      font-size: 14px;
+      font-size: 13px;
       color: #374151;
       text-align: center;
     }
@@ -471,7 +480,7 @@
       color: #9ca3af;
     }
 
-    /* ── SEND BUTTON ─── */
+    /* ── SUBMIT BUTTON ─── */
     .form-actions {
       display: flex;
       justify-content: flex-end;
@@ -508,17 +517,114 @@
       flex-shrink: 0;
     }
 
-    /* ── SUCCESS STATE ─── */
-    .success-card {
-      max-width: 720px;
-      margin: 0 auto;
-      width: 100%;
-      display: none;
-      text-align: center;
-      padding: 48px 24px;
+    /* ── SIDEBAR ─── */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
-    .success-card.visible {
-      display: block;
+    .sidebar-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .sidebar-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1f2937;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+    .sidebar-info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+    }
+    .sidebar-info-row + .sidebar-info-row {
+      border-top: 1px solid #f3f4f6;
+    }
+    .sidebar-info-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #f0faf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sidebar-info-icon svg {
+      width: 18px;
+      height: 18px;
+      color: #007167;
+    }
+    .sidebar-info-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .sidebar-info-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+      line-height: 1.4;
+    }
+    .sidebar-info-value {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+    .sidebar-info-value a {
+      color: #007167;
+      text-decoration: none;
+    }
+    .sidebar-info-value a:hover { text-decoration: underline; }
+
+    /* Sidebar FAQ links */
+    .sidebar-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .sidebar-links li a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .sidebar-links li:last-child a {
+      border-bottom: none;
+    }
+    .sidebar-links li a:hover { text-decoration: underline; }
+    .sidebar-links li a svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      color: #007167;
+    }
+
+    /* ── SUCCESS STATE ─── */
+    .success-layout {
+      display: none;
+    }
+    .success-layout.visible {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      align-items: start;
+    }
+    .success-card {
+      text-align: center;
+      padding: 48px 32px;
     }
     .success-icon {
       width: 64px;
@@ -568,7 +674,7 @@
       background: #f3f4f6;
       border-color: #d1d5db;
     }
-    .btn-primary {
+    .btn-primary-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -585,7 +691,7 @@
       text-decoration: none;
       transition: background 0.15s;
     }
-    .btn-primary:hover {
+    .btn-primary-btn:hover {
       background: #005f57;
     }
 
@@ -1101,6 +1207,9 @@
       .app-header { padding: 0 16px; height: 56px; }
       .breadcrumb { padding: 0 16px; }
       .main { padding: 16px; }
+      .support-layout { grid-template-columns: 1fr; }
+      .success-layout.visible { grid-template-columns: 1fr; }
+      .field-row { grid-template-columns: 1fr; }
       .success-actions { flex-direction: column; }
     }
     @media (max-width: 480px) {
@@ -1376,82 +1485,179 @@
       <p>Submit a support ticket and our team will get back to you within 1-2 business days.</p>
     </div>
 
-    <!-- FORM CARD -->
-    <div class="card form-card" id="formCard">
-      <h2 class="section-title">Ticket Details</h2>
+    <!-- FORM LAYOUT -->
+    <div class="support-layout" id="formLayout">
 
-      <!-- Subject -->
-      <div class="field-group">
-        <label class="field-label" for="ticketSubject">Subject <span class="required" aria-label="required">*</span></label>
-        <select class="subject-select" id="ticketSubject">
-          <option value="" disabled selected>Select a subject</option>
-          <option value="orders-deliveries">Orders &amp; Deliveries</option>
-          <option value="quotes-pricing">Quotes &amp; Pricing</option>
-          <option value="machines-equipment">Machines &amp; Equipment</option>
-          <option value="spare-parts">Spare Parts</option>
-          <option value="contracts-agreements">Contracts &amp; Agreements</option>
-          <option value="billing-payments">Billing &amp; Payments</option>
-          <option value="technical-support">Technical Support</option>
-          <option value="account-access">Account &amp; Access</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
+      <!-- LEFT: FORM -->
+      <div class="card" id="formCard">
+        <h2 class="section-title">Ticket Details</h2>
 
-      <!-- Related Reference -->
-      <div class="field-group">
-        <label class="field-label" for="ticketReference">Related Reference <span class="optional">(optional)</span></label>
-        <input type="text" class="form-input" id="ticketReference" placeholder="e.g. Order #ORD-78234, Machine Discus 30">
-      </div>
+        <!-- Subject + Reference (side by side) -->
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label" for="ticketSubject">Subject <span class="required" aria-label="required">*</span></label>
+            <select class="subject-select" id="ticketSubject">
+              <option value="" disabled selected>Select a subject</option>
+              <option value="orders-deliveries">Orders &amp; Deliveries</option>
+              <option value="quotes-pricing">Quotes &amp; Pricing</option>
+              <option value="machines-equipment">Machines &amp; Equipment</option>
+              <option value="spare-parts">Spare Parts</option>
+              <option value="contracts-agreements">Contracts &amp; Agreements</option>
+              <option value="billing-payments">Billing &amp; Payments</option>
+              <option value="technical-support">Technical Support</option>
+              <option value="account-access">Account &amp; Access</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="ticketReference">Related Reference <span class="optional">(optional)</span></label>
+            <input type="text" class="form-input" id="ticketReference" placeholder="e.g. Order #ORD-78234">
+          </div>
+        </div>
 
-      <!-- Title -->
-      <div class="field-group">
-        <label class="field-label" for="ticketTitle">Title <span class="required" aria-label="required">*</span></label>
-        <input type="text" class="form-input" id="ticketTitle" placeholder="Brief summary of your request">
-      </div>
+        <!-- Title -->
+        <div class="field-group">
+          <label class="field-label" for="ticketTitle">Title <span class="required" aria-label="required">*</span></label>
+          <input type="text" class="form-input" id="ticketTitle" placeholder="Brief summary of your request">
+        </div>
 
-      <!-- Message -->
-      <div class="field-group">
-        <label class="field-label" for="ticketMessage">Message <span class="required" aria-label="required">*</span></label>
-        <textarea class="form-textarea" id="ticketMessage" placeholder="Describe your issue or question in detail..."></textarea>
-      </div>
+        <!-- Message -->
+        <div class="field-group">
+          <label class="field-label" for="ticketMessage">Message <span class="required" aria-label="required">*</span></label>
+          <textarea class="form-textarea" id="ticketMessage" placeholder="Describe your issue or question in detail..."></textarea>
+        </div>
 
-      <!-- Attachments -->
-      <div class="field-group">
-        <span class="field-label">Attachments <span class="optional">(optional)</span></span>
-        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload attachments, drop files here or click to upload">
-          <svg class="dropzone-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span class="dropzone-text">Drop files here or click to upload</span>
-          <span class="dropzone-hint">Supports: PDF, JPG, PNG</span>
-          <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
+        <!-- Attachments -->
+        <div class="field-group">
+          <span class="field-label">Attachments <span class="optional">(optional)</span></span>
+          <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload attachments, drop files here or click to upload">
+            <svg class="dropzone-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="dropzone-text">Drop files here or click to upload</span>
+            <span class="dropzone-hint">Supports: PDF, JPG, PNG</span>
+            <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="form-actions">
+          <button class="btn-send" id="btnSubmit" disabled aria-label="Submit Ticket">
+            Submit Ticket
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
       </div>
 
-      <!-- Submit -->
-      <div class="form-actions">
-        <button class="btn-send" id="btnSubmit" disabled aria-label="Submit Ticket">
-          Submit Ticket
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+      <!-- RIGHT: SIDEBAR -->
+      <div class="sidebar">
+        <!-- Support Info -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-card-title">Support Info</h3>
+          <div class="sidebar-info-row">
+            <div class="sidebar-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="sidebar-info-text">
+              <div class="sidebar-info-label">Response Time</div>
+              <div class="sidebar-info-value">1-2 business days</div>
+            </div>
+          </div>
+          <div class="sidebar-info-row">
+            <div class="sidebar-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="sidebar-info-text">
+              <div class="sidebar-info-label">Support Hours</div>
+              <div class="sidebar-info-value">Monday – Friday, 8:00 – 18:00 CET</div>
+            </div>
+          </div>
+          <div class="sidebar-info-row">
+            <div class="sidebar-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="sidebar-info-text">
+              <div class="sidebar-info-label">Urgent Issues</div>
+              <div class="sidebar-info-value"><a href="mailto:support@netzsch.com">support@netzsch.com</a></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-card-title">Quick Links</h3>
+          <ul class="sidebar-links">
+            <li><a href="help.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              FAQ &amp; Help Center
+            </a></li>
+            <li><a href="services.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+              Service Requests
+            </a></li>
+            <li><a href="orders.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              Track Orders
+            </a></li>
+            <li><a href="contracts.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              Contracts
+            </a></li>
+          </ul>
+        </div>
       </div>
+
     </div>
 
-    <!-- SUCCESS CARD -->
-    <div class="card form-card success-card" id="successCard">
-      <svg class="success-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="32" cy="32" r="30" fill="#e6f7f5" stroke="#007167" stroke-width="2"/>
-        <path d="M20 33l8 8 16-16" stroke="#007167" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <h2>Ticket Submitted Successfully</h2>
-      <p>Your support ticket <strong>#TK-2026-0187</strong> has been created. Our team will review your request and respond within 1-2 business days.</p>
-      <p class="success-email">You'll receive a confirmation email at john.doe@acme-corp.com</p>
-      <div class="success-actions">
-        <button class="btn-secondary" id="btnNewTicket">Submit Another Ticket</button>
-        <a href="help.html" class="btn-primary">Back to Help</a>
+    <!-- SUCCESS LAYOUT -->
+    <div class="success-layout" id="successLayout">
+      <div class="card success-card" id="successCard">
+        <svg class="success-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="#e6f7f5" stroke="#007167" stroke-width="2"/>
+          <path d="M20 33l8 8 16-16" stroke="#007167" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h2>Ticket Submitted Successfully</h2>
+        <p>Your support ticket <strong>#TK-2026-0187</strong> has been created. Our team will review your request and respond within 1-2 business days.</p>
+        <p class="success-email">You'll receive a confirmation email at john.doe@acme-corp.com</p>
+        <div class="success-actions">
+          <button class="btn-secondary" id="btnNewTicket">Submit Another Ticket</button>
+          <a href="help.html" class="btn-primary-btn">Back to Help</a>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="sidebar-card">
+          <h3 class="sidebar-card-title">What happens next?</h3>
+          <div class="sidebar-info-row">
+            <div class="sidebar-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="sidebar-info-text">
+              <div class="sidebar-info-label">Ticket Created</div>
+              <div class="sidebar-info-value">Your request is in our system</div>
+            </div>
+          </div>
+          <div class="sidebar-info-row">
+            <div class="sidebar-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="sidebar-info-text">
+              <div class="sidebar-info-label">Confirmation Email</div>
+              <div class="sidebar-info-value">Sent to your email address</div>
+            </div>
+          </div>
+          <div class="sidebar-info-row">
+            <div class="sidebar-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div class="sidebar-info-text">
+              <div class="sidebar-info-label">Team Assignment</div>
+              <div class="sidebar-info-value">A specialist will be assigned within 24h</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1482,8 +1688,8 @@ document.addEventListener('click', function(e) {
     var ticketTitle = document.getElementById('ticketTitle');
     var ticketMessage = document.getElementById('ticketMessage');
     var btnSubmit = document.getElementById('btnSubmit');
-    var formCard = document.getElementById('formCard');
-    var successCard = document.getElementById('successCard');
+    var formLayout = document.getElementById('formLayout');
+    var successLayout = document.getElementById('successLayout');
     var btnNewTicket = document.getElementById('btnNewTicket');
     var dropzone = document.getElementById('dropzone');
     var fileInput = document.getElementById('fileInput');
@@ -1525,14 +1731,15 @@ document.addEventListener('click', function(e) {
         btnSubmit.disabled = true;
         return;
       }
-      formCard.style.display = 'none';
-      successCard.classList.add('visible');
+      formLayout.style.display = 'none';
+      successLayout.classList.add('visible');
     });
 
     // ── Submit Another Ticket ──
     btnNewTicket.addEventListener('click', function() {
-      successCard.classList.remove('visible');
-      formCard.style.display = '';
+      successLayout.classList.remove('visible');
+      formLayout.style.display = '';
+      var formCard = document.getElementById('formCard');
       // Reset form
       ticketSubject.selectedIndex = 0;
       document.getElementById('ticketReference').value = '';
