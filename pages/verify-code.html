@@ -297,8 +297,13 @@
       transition: opacity 0.15s;
     }
 
-    .btn-verify:hover {
+    .btn-verify:hover:not(:disabled) {
       opacity: 0.9;
+    }
+
+    .btn-verify:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     /* Back link */
@@ -398,7 +403,7 @@
         </div>
 
         <!-- Verify button -->
-        <button class="btn-verify" type="button" onclick="window.location.href='reset-password.html'">Verify code</button>
+        <button class="btn-verify" type="button" id="btn-verify" disabled>Verify code</button>
 
         <!-- Back to login -->
         <a href="login.html" class="back-link">Back to Login</a>
@@ -435,6 +440,21 @@
         const nextIndex = Math.min(index + pasted.length, otpInputs.length - 1);
         otpInputs[nextIndex].focus();
       });
+    });
+
+    // Enable verify button when all 6 digits are filled
+    var verifyBtn = document.getElementById('btn-verify');
+    function checkOtp() {
+      var allFilled = Array.prototype.every.call(otpInputs, function (inp) {
+        return inp.value.trim() !== '';
+      });
+      verifyBtn.disabled = !allFilled;
+    }
+    otpInputs.forEach(function (input) {
+      input.addEventListener('input', checkOtp);
+    });
+    verifyBtn.addEventListener('click', function () {
+      if (!verifyBtn.disabled) window.location.href = 'reset-password.html';
     });
 
     // Countdown timer

@@ -750,6 +750,7 @@
     </div>
   </div>
 
+  <script src="../assets/form-validation.js"></script>
   <script>
     // Toggle password visibility
     document.getElementById('toggle-password').addEventListener('click', function () {
@@ -757,17 +758,14 @@
       input.type = input.type === 'password' ? 'text' : 'password';
     });
 
-    // Enable Log In button when email + password are filled
-    var emailField = document.getElementById('email');
-    var passField = document.getElementById('password');
-    var loginBtn = document.getElementById('btn-login');
-
-    function checkForm() {
-      var valid = emailField.value.trim() !== '' && passField.value.trim() !== '';
-      loginBtn.disabled = !valid;
-    }
-    emailField.addEventListener('input', checkForm);
-    passField.addEventListener('input', checkForm);
+    // Form validation
+    FormValidator.init({
+      fields: [
+        { id: 'email',    rules: ['required', 'email'] },
+        { id: 'password', rules: ['required'] }
+      ],
+      submitBtn: 'btn-login'
+    });
 
     // ── Profile Modal logic (temporary – remove before go-live) ──
     var modal = document.getElementById('profile-modal');

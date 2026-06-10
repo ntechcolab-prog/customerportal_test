@@ -157,12 +157,16 @@
       transition: opacity 0.15s;
     }
 
-    .btn-continue.active {
+    .btn-continue:not(:disabled) {
       opacity: 1;
     }
 
-    .btn-continue.active:hover {
+    .btn-continue:not(:disabled):hover {
       opacity: 0.9;
+    }
+
+    .btn-continue:disabled {
+      cursor: not-allowed;
     }
 
     .back-link {
@@ -203,22 +207,22 @@
         </div>
       </div>
 
-      <button class="btn-continue" id="btn-continue" type="button" onclick="if(this.classList.contains('active')) window.location.href='login-sso-corporate.html'">Continue</button>
+      <button class="btn-continue" id="btn-continue" type="button" disabled>Continue</button>
 
       <a href="login.html" class="back-link">Back to Login</a>
 
     </div>
   </div>
 
+  <script src="../assets/form-validation.js"></script>
   <script>
-    const input = document.getElementById('sso-domain');
-    const btn = document.getElementById('btn-continue');
-
-    input.addEventListener('input', () => {
-      if (input.value.trim()) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
+    FormValidator.init({
+      fields: [
+        { id: 'sso-domain', rules: ['required', 'domain'] }
+      ],
+      submitBtn: 'btn-continue',
+      onSubmit: function () {
+        window.location.href = 'login-sso-corporate.html';
       }
     });
   </script>

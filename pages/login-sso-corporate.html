@@ -165,12 +165,16 @@
       transition: opacity 0.15s;
     }
 
-    .btn-continue.active {
+    .btn-continue:not(:disabled) {
       opacity: 1;
     }
 
-    .btn-continue.active:hover {
+    .btn-continue:not(:disabled):hover {
       opacity: 0.9;
+    }
+
+    .btn-continue:disabled {
+      cursor: not-allowed;
     }
 
     .back-link {
@@ -223,13 +227,14 @@
         </div>
       </div>
 
-      <button class="btn-continue" id="btn-continue" type="button" onclick="if(this.classList.contains('active')) window.location.href='machines.html'">Continue</button>
+      <button class="btn-continue" id="btn-continue" type="button" disabled>Continue</button>
 
       <a href="login.html" class="back-link">Back to Login</a>
 
     </div>
   </div>
 
+  <script src="../assets/form-validation.js"></script>
   <script>
     // Toggle password visibility
     document.getElementById('toggle-password').addEventListener('click', () => {
@@ -237,21 +242,17 @@
       input.type = input.type === 'password' ? 'text' : 'password';
     });
 
-    // Enable button when both fields have values
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
-    const btn = document.getElementById('btn-continue');
-
-    function checkFields() {
-      if (emailInput.value.trim() && passwordInput.value.trim()) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
+    // Form validation
+    FormValidator.init({
+      fields: [
+        { id: 'email',    rules: ['required', 'email'] },
+        { id: 'password', rules: ['required'] }
+      ],
+      submitBtn: 'btn-continue',
+      onSubmit: function () {
+        window.location.href = 'machines.html';
       }
-    }
-
-    emailInput.addEventListener('input', checkFields);
-    passwordInput.addEventListener('input', checkFields);
+    });
   </script>
 
 <script>
