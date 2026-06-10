@@ -1619,6 +1619,7 @@ document.addEventListener('click', function(e) {
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
 </script>
+  <script src="../assets/form-validation.js"></script>
   <script>
     // ── Machine data ──
     const machineData = {
@@ -1706,6 +1707,14 @@ document.addEventListener('click', function(e) {
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
 
+    // ── Inline validation on blur ──
+    var fv = FormValidator.init({
+      fields: [
+        { id: 'requestTitle', rules: ['required', { minLength: 3 }, { maxLength: 100 }] },
+        { id: 'requestDesc',  rules: ['required', { minLength: 10 }] }
+      ]
+    });
+
     // ── Machine selection ──
     machineSelect.addEventListener('change', function() {
       const data = machineData[this.value];
@@ -1768,14 +1777,18 @@ document.addEventListener('click', function(e) {
     function validateForm() {
       const hasMachine = machineSelect.value !== '';
       const hasType = document.querySelector('input[name="requestType"]:checked') !== null;
-      const hasTitle = requestTitle.value.trim() !== '';
-      const hasDesc = requestDesc.value.trim() !== '';
+      const fieldsValid = fv.isAllValid();
 
-      btnSend.disabled = !(hasMachine && hasType && hasTitle && hasDesc);
+      btnSend.disabled = !(hasMachine && hasType && fieldsValid);
     }
 
     requestTitle.addEventListener('input', validateForm);
     requestDesc.addEventListener('input', validateForm);
+
+    // Guard send — validate inline errors before submission
+    btnSend.addEventListener('click', function (e) {
+      if (!fv.validateAll()) { e.preventDefault(); btnSend.disabled = true; }
+    });
   </script>
 
 <script>

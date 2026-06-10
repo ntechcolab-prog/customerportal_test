@@ -1440,6 +1440,7 @@ document.addEventListener('click', function(e) {
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
 </script>
+  <script src="../assets/form-validation.js"></script>
   <script>
     // ── localStorage cart utilities ──
     function getCart() {
@@ -1484,6 +1485,13 @@ document.addEventListener('click', function(e) {
       var totalQty = items.reduce(function(s, i) { return s + i.qty; }, 0);
       cartBadge.textContent = totalQty;
     }
+
+    // PO number validation
+    var fv = FormValidator.init({
+      fields: [
+        { id: 'poNumber', rules: ['required'] }
+      ]
+    });
 
     // Restore PO and special request from localStorage
     var poInput = document.getElementById('poNumber');
