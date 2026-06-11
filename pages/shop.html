@@ -1228,6 +1228,7 @@
       .hamburger-line { transition: none; }
     }
   </style>
+  <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
 <body>
 <script src="../assets/gate.js"></script>
@@ -1435,6 +1436,25 @@
   <!-- MAIN -->
   <div class="main">
 
+    <!-- SKELETON LOADING STATE -->
+    <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading shop">
+      <div class="skeleton skel-page-title"></div>
+      <div class="skel-filter-bar">
+        <div class="skeleton skel-filter-input"></div>
+        <div class="skeleton skel-filter-select"></div>
+        <div class="skeleton skel-filter-select"></div>
+      </div>
+      <div class="skel-grid cols-4" style="margin-top:8px">
+        <div class="skeleton-card skel-product-card"><div class="skeleton skel-product-img"></div><div class="skel-product-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text" style="width:30%;margin-top:8px"></div></div></div>
+        <div class="skeleton-card skel-product-card"><div class="skeleton skel-product-img"></div><div class="skel-product-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text" style="width:30%;margin-top:8px"></div></div></div>
+        <div class="skeleton-card skel-product-card"><div class="skeleton skel-product-img"></div><div class="skel-product-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text" style="width:30%;margin-top:8px"></div></div></div>
+        <div class="skeleton-card skel-product-card"><div class="skeleton skel-product-img"></div><div class="skel-product-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text" style="width:30%;margin-top:8px"></div></div></div>
+        <div class="skeleton-card skel-product-card"><div class="skeleton skel-product-img"></div><div class="skel-product-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text" style="width:30%;margin-top:8px"></div></div></div>
+        <div class="skeleton-card skel-product-card"><div class="skeleton skel-product-img"></div><div class="skel-product-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text" style="width:30%;margin-top:8px"></div></div></div>
+      </div>
+    </div>
+
+    <div class="page-content">
     <!-- TITLE BAR + FILTERS -->
     <div class="title-bar">
       <div class="title-bar-top">
@@ -1490,7 +1510,7 @@
     </div>
 
     <!-- PRODUCT GRID (Card View) -->
-    <div class="product-grid" id="gridView">
+    <div class="product-grid" id="gridView" data-skeleton-stagger>
 
       <!-- Cerabeads -->
       <a class="product-card" href="shop-product-detail.html" data-category="ceramic">
@@ -1708,6 +1728,7 @@
       </div>
     </div>
 
+    </div><!-- /page-content -->
   </div>
 
 <script>
@@ -2156,5 +2177,6 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

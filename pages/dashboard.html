@@ -1083,6 +1083,7 @@
       .hamburger-line { transition: none; }
     }
   </style>
+  <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
 <body>
 <script src="../assets/gate.js"></script>
@@ -1289,8 +1290,46 @@
     <!-- MAIN -->
     <div class="main">
 
+      <!-- SKELETON LOADING STATE -->
+      <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading dashboard">
+        <!-- Banner -->
+        <div class="skeleton skel-banner"></div>
+        <!-- Stat cards -->
+        <div class="skel-stat-cards">
+          <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+          <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+          <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+          <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+        </div>
+        <!-- Middle row -->
+        <div class="skel-middle-row">
+          <div class="skeleton-card skel-insights-card">
+            <div class="skel-card-header"><div class="skeleton skeleton-circle" style="width:24px;height:24px"></div><div class="skeleton skeleton-title" style="width:120px"></div></div>
+            <div class="skel-insight-item"><div class="skeleton skel-insight-dot"></div><div class="skel-insight-body"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text long"></div></div></div>
+            <div class="skel-insight-item"><div class="skeleton skel-insight-dot"></div><div class="skel-insight-body"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text long"></div></div></div>
+            <div class="skel-insight-item"><div class="skeleton skel-insight-dot"></div><div class="skel-insight-body"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text long"></div></div></div>
+          </div>
+          <div class="skeleton-card skel-actions-card">
+            <div class="skel-card-header"><div class="skeleton skeleton-title" style="width:120px"></div></div>
+            <div class="skeleton skel-action-btn"></div>
+            <div class="skeleton skel-action-btn"></div>
+            <div class="skeleton skel-action-btn"></div>
+            <div class="skeleton skel-action-btn"></div>
+          </div>
+        </div>
+        <!-- Bottom cards -->
+        <div class="skeleton-card skel-bottom-card">
+          <div class="skel-card-header"><div class="skeleton skeleton-title" style="width:200px"></div></div>
+          <div class="skeleton skeleton-text long" style="margin-bottom:12px"></div>
+          <div class="skeleton skeleton-text medium"></div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content">
+
       <!-- WELCOME BANNER -->
-      <div class="welcome-banner">
+      <div class="welcome-banner" data-skeleton-stagger>
         <img class="welcome-banner-bg" src="../assets/welcome-banner-bg.svg" alt="">
         <h1 class="welcome-title">Good afternoon, Marcus</h1>
         <button class="btn-ask-milla">
@@ -1300,7 +1339,7 @@
       </div>
 
       <!-- STAT CARDS -->
-      <div class="stat-cards">
+      <div class="stat-cards" data-skeleton-stagger>
         <div class="stat-card">
           <div class="stat-icon-wrap">
             <img src="../assets/icon-clipboard-orders.svg" alt="">
@@ -1340,7 +1379,7 @@
       </div>
 
       <!-- MIDDLE ROW -->
-      <div class="middle-row">
+      <div class="middle-row" data-skeleton-stagger>
 
         <!-- AI INSIGHTS -->
         <div class="card">
@@ -1556,6 +1595,8 @@
           <p id="ordersEmptyState" hidden style="padding:32px 16px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No recent orders to display.</p>
         </div>
       </div>
+
+      </div><!-- /page-content -->
 
     </div>
   </div>
@@ -1934,5 +1975,6 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

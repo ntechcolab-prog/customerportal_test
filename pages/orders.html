@@ -1416,6 +1416,7 @@
       .hamburger-line { transition: none; }
     }
   </style>
+  <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
 <body>
 <script src="../assets/gate.js"></script>
@@ -1623,8 +1624,36 @@
   <!-- MAIN -->
   <div class="main">
 
+    <!-- SKELETON LOADING STATE -->
+    <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading orders">
+      <div class="skeleton skel-page-title"></div>
+      <div class="skel-filter-bar">
+        <div class="skeleton skel-filter-input"></div>
+        <div class="skeleton skel-filter-select"></div>
+        <div class="skeleton skel-filter-select"></div>
+      </div>
+      <div class="skel-stat-cards">
+        <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+        <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+        <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+        <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+      </div>
+      <div class="skeleton skel-table">
+        <div class="skel-table-header cols-6"><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+
     <!-- TITLE BAR + FILTERS -->
-    <div class="title-bar">
+    <div class="title-bar" data-skeleton-stagger>
       <div class="title-bar-top">
         <h1>Orders</h1>
         <button class="btn-filters" id="btnFilters">
@@ -1660,7 +1689,7 @@
     </div>
 
     <!-- STAT CARDS -->
-    <div class="stat-cards">
+    <div class="stat-cards" data-skeleton-stagger>
       <div class="stat-card">
         <div class="stat-icon">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1727,7 +1756,7 @@
     </div>
 
     <!-- ORDERS TABLE -->
-    <div class="orders-table-wrap" id="tableView">
+    <div class="orders-table-wrap" id="tableView" data-skeleton-stagger>
       <table class="orders-table">
         <thead>
           <tr>
@@ -1918,6 +1947,8 @@
         </div>
       </div>
     </div>
+
+    </div><!-- /page-content -->
 
   </div>
 
@@ -2466,5 +2497,6 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

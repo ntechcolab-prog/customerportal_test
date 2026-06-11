@@ -1363,6 +1363,7 @@
       .hamburger-line { transition: none; }
     }
   </style>
+  <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
 <body>
 <script src="../assets/gate.js"></script>
@@ -1594,6 +1595,26 @@
   <!-- MAIN -->
   <div class="main">
 
+    <!-- SKELETON LOADING STATE -->
+    <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading contracts">
+      <div class="skeleton skel-page-title"></div>
+      <div class="skel-filter-bar">
+        <div class="skeleton skel-filter-input"></div>
+        <div class="skeleton skel-filter-select"></div>
+        <div class="skeleton skel-filter-select"></div>
+      </div>
+      <div class="skeleton skel-table">
+        <div class="skel-table-header cols-5"><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-5"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-5"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-5"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-5"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-5"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+      </div>
+    </div>
+
+    <div class="page-content">
+
     <!-- STAT CARDS -->
     <div class="stat-cards">
       <div class="stat-card">
@@ -1660,7 +1681,7 @@
     </div>
 
     <!-- CONTRACTS TABLE -->
-    <div class="orders-table-wrap">
+    <div class="orders-table-wrap" data-skeleton-stagger>
       <table class="orders-table" id="contractsTable" aria-label="Contracts">
         <thead>
           <tr>
@@ -1767,6 +1788,8 @@
         </div>
       </div>
     </div>
+
+    </div><!-- /page-content -->
 
   </div>
 
@@ -2336,5 +2359,6 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

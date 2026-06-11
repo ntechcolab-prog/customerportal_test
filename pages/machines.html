@@ -1475,6 +1475,7 @@
       .hamburger-line { transition: none; }
     }
   </style>
+  <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
 <body>
 <script src="../assets/gate.js"></script>
@@ -1681,6 +1682,23 @@
   <!-- PAGE -->
   <div class="page">
 
+    <!-- SKELETON LOADING STATE -->
+    <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading machines">
+      <div class="skeleton skel-page-title"></div>
+      <div class="skel-filter-bar">
+        <div class="skeleton skel-filter-input"></div>
+        <div class="skeleton skel-filter-select"></div>
+        <div class="skeleton skel-filter-select"></div>
+      </div>
+      <div class="skel-grid cols-3" style="margin-top:8px">
+        <div class="skeleton-card skel-machine-card"><div class="skeleton skel-machine-img"></div><div class="skel-machine-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div></div></div>
+        <div class="skeleton-card skel-machine-card"><div class="skeleton skel-machine-img"></div><div class="skel-machine-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div></div></div>
+        <div class="skeleton-card skel-machine-card"><div class="skeleton skel-machine-img"></div><div class="skel-machine-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div></div></div>
+        <div class="skeleton-card skel-machine-card"><div class="skeleton skel-machine-img"></div><div class="skel-machine-body"><div class="skeleton skeleton-title wide"></div><div class="skeleton skeleton-text short"></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div><div class="skel-machine-row"><div class="skeleton skeleton-text medium"></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="page-content">
     <!-- Summary card: title + actions -->
     <div class="summary">
       <div class="page-header">
@@ -1782,7 +1800,7 @@
     </div>
 
     <!-- Machine grid -->
-    <div class="machine-grid">
+    <div class="machine-grid" data-skeleton-stagger>
 
       <!-- Discus 30 -->
       <a href="machine-discus30.html" class="machine-card" data-machine
@@ -2084,6 +2102,7 @@
         <p class="empty-state-desc">Try adjusting your filters or search terms.</p>
       </div>
     </div>
+    </div><!-- /page-content -->
   </div>
 
 <script>
@@ -2610,5 +2629,6 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>
