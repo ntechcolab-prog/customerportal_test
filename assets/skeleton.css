@@ -4,8 +4,15 @@
    ══════════════════════════════════════════════ */
 
 /* ── BASE ─── */
+.page-content {
+  display: flex;
+  flex-direction: column;
+  gap: inherit;
+  flex: 1;
+}
+
 .skeleton-wrapper {
-  padding: 24px 32px;
+  padding: 0;
 }
 
 .skeleton-wrapper[aria-hidden="true"] {
