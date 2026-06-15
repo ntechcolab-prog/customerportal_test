@@ -1670,7 +1670,7 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Orders</span>
+    <span class="breadcrumb-current" data-i18n="orders.title">Orders</span>
   </div>
 
   <!-- MAIN -->
@@ -1707,12 +1707,12 @@
     <!-- TITLE BAR + FILTERS -->
     <div class="title-bar" data-skeleton-stagger>
       <div class="title-bar-top">
-        <h1>Orders</h1>
+        <h1 data-i18n="orders.title">Orders</h1>
         <button class="btn-filters" id="btnFilters">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
           </svg>
-          Filters
+          <span data-i18n="common.filters">Filters</span>
         </button>
       </div>
       <div class="filter-bar" id="filterBar">
@@ -1721,7 +1721,7 @@
             <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
             <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-          <input type="text" placeholder="Search order, reference...">
+          <input type="text" placeholder="Search order, reference..." data-i18n-placeholder="orders.searchPlaceholder">
         </div>
         <select class="filter-select" id="filterSort">
           <option value="" disabled selected>Sort by</option>
@@ -1750,7 +1750,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-number">9</span>
-          <span class="stat-label">Total Orders</span>
+          <span class="stat-label" data-i18n="orders.totalOrders">Total Orders</span>
         </div>
       </div>
       <div class="stat-card">
@@ -1761,7 +1761,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-number">3</span>
-          <span class="stat-label">In Process</span>
+          <span class="stat-label" data-i18n="orders.processing">In Process</span>
         </div>
       </div>
       <div class="stat-card">
@@ -1772,7 +1772,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-number">3</span>
-          <span class="stat-label">Shipped</span>
+          <span class="stat-label" data-i18n="orders.placed">Shipped</span>
         </div>
       </div>
       <div class="stat-card">
@@ -1783,7 +1783,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-number">2</span>
-          <span class="stat-label">Delivered</span>
+          <span class="stat-label" data-i18n="orders.completed">Delivered</span>
         </div>
       </div>
     </div>
@@ -1812,13 +1812,13 @@
       <table class="orders-table">
         <thead>
           <tr>
-            <th>Order <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="orders.orderNum">Order</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th>Cust. Ref <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Placed On <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="orders.date">Placed On</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th>Valid Until <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Status <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Total <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Description <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="orders.status">Status</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="orders.total">Total</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="orders.items">Description</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th>Actions</th>
           </tr>
         </thead>

@@ -948,7 +948,7 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Budget</span>
+    <span class="breadcrumb-current" data-i18n="budget.title">Budget</span>
   </div>
 
   <!-- SKELETON LOADING -->
@@ -989,7 +989,7 @@
 
     <!-- Header -->
     <div class="budget-page-header" data-skeleton-stagger>
-      <h1 class="budget-page-title">Monthly Budget</h1>
+      <h1 class="budget-page-title" data-i18n="budget.title">Monthly Budget</h1>
       <select class="budget-period-select" aria-label="Select period">
         <option selected>May 2026</option>
         <option>April 2026</option>
@@ -1004,11 +1004,11 @@
     <div class="budget-current" role="region" aria-label="Current month spending overview" data-skeleton-stagger>
       <div class="budget-current-header">
         <div class="budget-current-left">
-          <div class="budget-current-period">May 2026 — Spent</div>
+          <div class="budget-current-period" data-i18n="budget.spent">May 2026 — Spent</div>
           <div class="budget-current-amount">16.967,55 € <span>of 40.000,00 €</span></div>
         </div>
         <div class="budget-current-right">
-          <div class="budget-remaining-label">Remaining</div>
+          <div class="budget-remaining-label" data-i18n="budget.remaining">Remaining</div>
           <div class="budget-remaining-value">23.032,45 €</div>
         </div>
       </div>
@@ -1033,7 +1033,7 @@
         <div class="budget-breakdown-item">
           <div class="budget-breakdown-label">
             <span class="budget-breakdown-dot" style="background: #007167;"></span>
-            Spare Parts
+            <span data-i18n="budget.spareParts">Spare Parts</span>
           </div>
           <div class="budget-breakdown-value">14.567,55 €</div>
           <div class="budget-breakdown-pct">86% of spending</div>
@@ -1051,7 +1051,7 @@
 
     <!-- Monthly history -->
     <div class="budget-history" role="region" aria-label="Monthly spending history" data-skeleton-stagger>
-      <h2 class="budget-history-title">Spending History</h2>
+      <h2 class="budget-history-title" data-i18n="budget.spendingHistory">Spending History</h2>
 
       <div class="history-row">
         <span class="history-month">May 2026</span>
@@ -1105,19 +1105,19 @@
 
     <!-- Spending by category table -->
     <div class="budget-table-card" role="region" aria-label="Spending breakdown by category" data-skeleton-stagger>
-      <h2 class="budget-table-title">Spending by Category — May 2026</h2>
+      <h2 class="budget-table-title" data-i18n="budget.spendingByCategory">Spending by Category — May 2026</h2>
       <table class="budget-table">
         <thead>
           <tr>
-            <th>Category</th>
-            <th>Orders</th>
-            <th>Avg. Order</th>
-            <th>Total</th>
+            <th data-i18n="common.category">Category</th>
+            <th data-i18n="budget.orders">Orders</th>
+            <th data-i18n="budget.avgOrder">Avg. Order</th>
+            <th data-i18n="common.total">Total</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><span class="cat-label"><span class="cat-dot" style="background: #007167;"></span>Spare Parts</span></td>
+            <td><span class="cat-label"><span class="cat-dot" style="background: #007167;"></span><span data-i18n="budget.spareParts">Spare Parts</span></span></td>
             <td><span class="order-count">5 orders</span></td>
             <td>2.913,51 €</td>
             <td>14.567,55 €</td>

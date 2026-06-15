@@ -1471,7 +1471,7 @@
 
       <!-- TITLE BAR -->
       <div class="title-bar" data-skeleton-stagger>
-        <h1>Company Settings</h1>
+        <h1 data-i18n="admin.company.title">Company Settings</h1>
       </div>
 
       <!-- STAT CARDS -->
@@ -1571,7 +1571,7 @@
         var chevronSvg = '<svg class="section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
 
         var sections = [
-          { title: 'Company Information', desc: 'General company details and registration',
+          { title: 'Company Information', i18nKey: 'admin.company.companyInfo', desc: 'General company details and registration',
             icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="15" y2="14"/></svg>',
             content: '<div class="se-edit"><button class="se-edit-btn">' + pencilSvg + ' Edit</button></div>' +
               '<div class="se-grid">' +
@@ -1587,7 +1587,7 @@
               '<div><div class="se-field-label">NETZSCH Customer Number</div><div class="se-field-value">NTZSCH-C-004821</div></div>' +
               '</div>'
           },
-          { title: 'Billing Address', desc: 'Primary billing and invoicing address',
+          { title: 'Billing Address', i18nKey: 'admin.company.billingAddress', desc: 'Primary billing and invoicing address',
             icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
             content: '<div class="se-address-card">' +
               '<div class="se-address-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Headquarters <span class="se-address-default">Default</span></div>' +
@@ -1595,7 +1595,7 @@
               '</div>' +
               '<div class="se-warning"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Changes to the billing address will apply to all future invoices. Contact your NETZSCH account manager if you need to update historical records.</div>'
           },
-          { title: 'Shipping Addresses', desc: 'Manage delivery locations for orders',
+          { title: 'Shipping Addresses', i18nKey: 'admin.company.shippingAddresses', desc: 'Manage delivery locations for orders',
             icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
             content: '<div class="se-address-grid">' +
               '<div class="se-address-card"><div class="se-address-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Main Warehouse <span class="se-address-default">Default</span></div><div class="se-address-text">ACME Corporation — Warehouse<br>Logistikweg 15<br>80939 Munich, Bavaria<br>Germany</div></div>' +
@@ -1605,7 +1605,7 @@
               '<div class="se-add-card" style="margin-top:16px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Add Shipping Address</div>' +
               '<div class="se-info"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> The default shipping address will be pre-selected during checkout. You can always choose a different address when placing an order.</div>'
           },
-          { title: 'Tax Information', desc: 'VAT, tax IDs and exemption details',
+          { title: 'Tax Information', i18nKey: 'admin.company.taxInfo', desc: 'VAT, tax IDs and exemption details',
             icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
             content: '<div class="se-edit"><button class="se-edit-btn">' + pencilSvg + ' Edit</button></div>' +
               '<div class="se-grid">' +
@@ -1616,7 +1616,7 @@
               '</div>' +
               '<div class="se-tax-status"><div><div class="se-option-name">Tax Exempt Status</div><div class="se-option-desc">Standard tax rates apply to all orders.</div></div><span class="se-option-badge">Standard Taxation</span></div>'
           },
-          { title: 'Credit & Payment Terms', desc: 'Credit limit, payment conditions and account standing',
+          { title: 'Credit & Payment Terms', i18nKey: 'admin.company.creditPayment', desc: 'Credit limit, payment conditions and account standing',
             icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>',
             content: '<div class="se-sub-title">Credit Overview</div>' +
               '<div class="se-stat-cards">' +
@@ -1663,7 +1663,7 @@
         sections.forEach(function(s, i) {
           html += '<div class="section-row" data-idx="' + i + '" role="button" aria-expanded="false">' +
             '<div class="section-icon">' + s.icon + '</div>' +
-            '<div class="section-text"><div class="section-title">' + s.title + '</div><div class="section-desc">' + s.desc + '</div></div>' +
+            '<div class="section-text"><div class="section-title"' + (s.i18nKey ? ' data-i18n="' + s.i18nKey + '"' : '') + '>' + s.title + '</div><div class="section-desc">' + s.desc + '</div></div>' +
             chevronSvg + '</div>' +
             '<div class="section-expand" data-expand="' + i + '"><div class="section-expand-inner">' + s.content + '</div></div>';
         });

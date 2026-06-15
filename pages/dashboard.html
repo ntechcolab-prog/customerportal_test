@@ -1382,8 +1382,8 @@
       <!-- WELCOME BANNER -->
       <div class="welcome-banner" data-skeleton-stagger>
         <img class="welcome-banner-bg" src="../assets/welcome-banner-bg.svg" alt="">
-        <h1 class="welcome-title">Good afternoon, Marcus</h1>
-        <button class="btn-ask-milla">
+        <h1 class="welcome-title" data-i18n="dash.welcome">Good afternoon, Marcus</h1>
+        <button class="btn-ask-milla" data-i18n="dash.askMilla">
           <img src="../assets/icon-mic.svg" alt="">
           Ask Milla
         </button>
@@ -1397,7 +1397,7 @@
           </div>
           <div>
             <div class="stat-number">5</div>
-            <div class="stat-label">Active Orders</div>
+            <div class="stat-label" data-i18n="dash.activeOrders">Active Orders</div>
           </div>
         </div>
         <div class="stat-card">
@@ -1406,7 +1406,7 @@
           </div>
           <div>
             <div class="stat-number">3</div>
-            <div class="stat-label">Pending Invoices</div>
+            <div class="stat-label" data-i18n="dash.pendingInvoices">Pending Invoices</div>
           </div>
         </div>
         <div class="stat-card">
@@ -1415,7 +1415,7 @@
           </div>
           <div>
             <div class="stat-number">2</div>
-            <div class="stat-label">In Transit</div>
+            <div class="stat-label" data-i18n="dash.inTransit">In Transit</div>
           </div>
         </div>
         <div class="stat-card">
@@ -1424,7 +1424,7 @@
           </div>
           <div>
             <div class="stat-number">4</div>
-            <div class="stat-label">Recent Quotes</div>
+            <div class="stat-label" data-i18n="dash.recentQuotes">Recent Quotes</div>
           </div>
         </div>
       </div>
@@ -1436,18 +1436,18 @@
         <div class="card">
           <div class="card-header">
             <img src="../assets/icon-sparkle-ai.svg" alt="">
-            <span class="card-title">AI Insights</span>
+            <span class="card-title" data-i18n="dash.aiInsights">AI Insights</span>
           </div>
           <div class="insight-list">
             <div class="insight-item">
               <div class="insight-dot yellow"></div>
               <div class="insight-body">
                 <div class="insight-label">
-                  <span class="insight-label-text">Reorder Suggestion</span>
+                  <span class="insight-label-text" data-i18n="dash.reorderSuggestion">Reorder Suggestion</span>
                 </div>
-                <div class="insight-text">You usually reorder Grinding Beads ZY 20mm every 25 days. Last purchase was 22 days ago.</div>
+                <div class="insight-text" data-i18n="dash.reorderText">You usually reorder Grinding Beads ZY 20mm every 25 days. Last purchase was 22 days ago.</div>
               </div>
-              <button class="btn-insight">
+              <button class="btn-insight" data-i18n="dash.reorderNow">
                 Reorder Now
                 <img src="../assets/icon-arrow-right.svg" alt="">
               </button>
@@ -1456,11 +1456,11 @@
               <div class="insight-dot red"></div>
               <div class="insight-body">
                 <div class="insight-label">
-                  <span class="insight-label-text">Invoices Due</span>
+                  <span class="insight-label-text" data-i18n="dash.invoicesDue">Invoices Due</span>
                 </div>
-                <div class="insight-text">You have 3 invoices due this week totaling 18.500,00 EUR.</div>
+                <div class="insight-text" data-i18n="dash.invoicesText">You have 3 invoices due this week totaling 18.500,00 EUR.</div>
               </div>
-              <button class="btn-insight">
+              <button class="btn-insight" data-i18n="dash.viewInvoices">
                 View Invoices
                 <img src="../assets/icon-arrow-right.svg" alt="">
               </button>
@@ -1469,11 +1469,11 @@
               <div class="insight-dot red"></div>
               <div class="insight-body">
                 <div class="insight-label">
-                  <span class="insight-label-text">Possible Delay</span>
+                  <span class="insight-label-text" data-i18n="dash.possibleDelay">Possible Delay</span>
                 </div>
-                <div class="insight-text">Order #2800998-06 may experience a delivery delay. Updated ETA: Mar 12, 2026.</div>
+                <div class="insight-text" data-i18n="dash.delayText">Order #2800998-06 may experience a delivery delay. Updated ETA: Mar 12, 2026.</div>
               </div>
-              <button class="btn-insight">
+              <button class="btn-insight" data-i18n="dash.trackOrder">
                 Track Order
                 <img src="../assets/icon-arrow-right.svg" alt="">
               </button>
@@ -1484,14 +1484,14 @@
         <!-- QUICK ACTIONS -->
         <div class="card">
           <div class="card-header">
-            <span class="card-title">Quick Actions</span>
+            <span class="card-title" data-i18n="dash.quickActions">Quick Actions</span>
           </div>
           <div class="quick-actions-list">
-            <button class="btn-quick-action">New Order</button>
-            <button class="btn-quick-action">Search Products</button>
-            <button class="btn-quick-action">Repeat Order</button>
-            <button class="btn-quick-action">Request Quote</button>
-            <button class="btn-quick-action" onclick="window.location.href='contact-support.html'">Contact Support</button>
+            <button class="btn-quick-action" data-i18n="dash.newOrder">New Order</button>
+            <button class="btn-quick-action" data-i18n="dash.searchProducts">Search Products</button>
+            <button class="btn-quick-action" data-i18n="dash.repeatOrder">Repeat Order</button>
+            <button class="btn-quick-action" data-i18n="common.requestQuote">Request Quote</button>
+            <button class="btn-quick-action" data-i18n="common.contactSupport" onclick="window.location.href='contact-support.html'">Contact Support</button>
           </div>
         </div>
 
@@ -1500,14 +1500,14 @@
       <!-- CONTRACTS EXPIRING -->
       <div class="card">
         <div class="orders-header">
-          <span class="card-title">Contracts Expiring Soon</span>
-          <button class="btn-view-all" onclick="window.location.href='contracts.html'">
+          <span class="card-title" data-i18n="dash.contractsExpiring">Contracts Expiring Soon</span>
+          <button class="btn-view-all" data-i18n="dash.viewAllContracts" onclick="window.location.href='contracts.html'">
             View All Contracts
             <img src="../assets/icon-section-h2.svg" alt="">
           </button>
         </div>
         <div id="contractsCardContent" style="display:flex;flex-direction:column;gap:12px;">
-          <p id="contractsEmptyState" hidden style="padding:32px 16px;text-align:center;color:#9ca3af;font-size:14px;margin:0;">No contracts expiring in the next 30 days.</p>
+          <p id="contractsEmptyState" hidden style="padding:32px 16px;text-align:center;color:#9ca3af;font-size:14px;margin:0;" data-i18n="dash.noContracts">No contracts expiring in the next 30 days.</p>
           <a href="contracts.html" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid #fef3e2;border-radius:10px;background:#fffbf5;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='#fef8ee'" onmouseout="this.style.background='#fffbf5'">
             <div style="display:flex;align-items:center;gap:12px;">
               <div style="width:36px;height:36px;border-radius:50%;background:#fef3e2;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -1518,17 +1518,17 @@
                 <div style="font-size:12px;color:#d97706;">Service Contract · Epsilon + PMD (5 units) · Expires Jul 31, 2026</div>
               </div>
             </div>
-            <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:#fef3e2;color:#d97706;">Expiring Soon</span>
+            <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:#fef3e2;color:#d97706;" data-i18n="dash.expiringLabel">Expiring Soon</span>
           </a>
-          <div style="font-size:12px;color:#9ca3af;text-align:center;padding:4px 0;">Showing contracts expiring within the next 30 days</div>
+          <div style="font-size:12px;color:#9ca3af;text-align:center;padding:4px 0;" data-i18n="dash.contractsFooter">Showing contracts expiring within the next 30 days</div>
         </div>
       </div>
 
       <!-- RECENT ORDERS -->
       <div class="card">
         <div class="orders-header">
-          <span class="card-title">Recent Orders</span>
-          <button class="btn-view-all">
+          <span class="card-title" data-i18n="dash.recentOrders">Recent Orders</span>
+          <button class="btn-view-all" data-i18n="dash.viewAllOrders">
             View All Orders
             <img src="../assets/icon-section-h2.svg" alt="">
           </button>
@@ -1537,11 +1537,11 @@
           <table class="orders-table">
             <thead>
               <tr>
-                <th>Order #</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Total</th>
-                <th>Description</th>
+                <th data-i18n="dash.orderNum">Order #</th>
+                <th data-i18n="common.date">Date</th>
+                <th data-i18n="common.status">Status</th>
+                <th data-i18n="common.total">Total</th>
+                <th data-i18n="common.description">Description</th>
                 <th></th>
               </tr>
             </thead>
@@ -1554,7 +1554,7 @@
                     Feb 28, 2026
                   </span>
                 </td>
-                <td><span class="status-badge status-placed">Order Placed</span></td>
+                <td><span class="status-badge status-placed" data-i18n="dash.orderPlaced">Order Placed</span></td>
                 <td>4.000,00 EUR</td>
                 <td>LMZ60 spares</td>
                 <td>
@@ -1573,7 +1573,7 @@
                     Feb 24, 2026
                   </span>
                 </td>
-                <td><span class="status-badge status-process">In Process</span></td>
+                <td><span class="status-badge status-process" data-i18n="dash.inProcess">In Process</span></td>
                 <td>12.000,00 EUR</td>
                 <td>Mastermix spares</td>
                 <td>
@@ -1592,7 +1592,7 @@
                     Feb 15, 2026
                   </span>
                 </td>
-                <td><span class="status-badge status-shipped">Shipped</span></td>
+                <td><span class="status-badge status-shipped" data-i18n="dash.shipped">Shipped</span></td>
                 <td>10.000,00 EUR</td>
                 <td>Prophi spares</td>
                 <td>
@@ -1611,7 +1611,7 @@
                     Feb 10, 2026
                   </span>
                 </td>
-                <td><span class="status-badge status-delivered">Delivered</span></td>
+                <td><span class="status-badge status-delivered" data-i18n="dash.delivered">Delivered</span></td>
                 <td>1.000,00 EUR</td>
                 <td>LMZ60 spares</td>
                 <td>
@@ -1630,7 +1630,7 @@
                     Jan 28, 2026
                   </span>
                 </td>
-                <td><span class="status-badge status-delivered">Delivered</span></td>
+                <td><span class="status-badge status-delivered" data-i18n="dash.delivered">Delivered</span></td>
                 <td>900,00 EUR</td>
                 <td>Grinding Beads ZY 20mm</td>
                 <td>

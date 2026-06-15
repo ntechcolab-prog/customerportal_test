@@ -1464,7 +1464,7 @@
 
       <!-- TITLE BAR -->
       <div class="title-bar" data-skeleton-stagger>
-        <h1>Notifications</h1>
+        <h1 data-i18n="admin.notif.title">Notifications</h1>
         <button class="btn-save">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.75 9.75l3 3 7.5-7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1525,9 +1525,9 @@
       <script>
       (function() {
         var data = [
-          { title:'Notification Preferences', desc:'Email digest frequency, timezone, quiet hours and weekend delivery', badge:'',
+          { title:'Notification Preferences', i18nKey:'admin.notif.preferences', desc:'Email digest frequency, timezone, quiet hours and weekend delivery', badge:'',
             iconClass:'preferences', type:'prefs' },
-          { title:'Orders', desc:'Purchase orders, approvals and delivery updates', badge:'7/7 active',
+          { title:'Orders', i18nKey:'admin.notif.orders', desc:'Purchase orders, approvals and delivery updates', badge:'7/7 active',
             iconClass:'orders', type:'channels',
             items:[
               {name:'Order Approval Needed', desc:'When an order requires your approval before processing', critical:true, email:true, portal:true, mobile:true},
@@ -1538,7 +1538,7 @@
               {name:'Order Delivered', desc:'When a shipment has been delivered to the destination', critical:false, email:true, portal:true, mobile:false},
               {name:'Order Blocked', desc:'When an order is blocked due to credit limit or compliance', critical:true, email:true, portal:true, mobile:true},
             ]},
-          { title:'Quotes', desc:'Quotation requests, approvals and expiration alerts', badge:'4/4 active',
+          { title:'Quotes', i18nKey:'admin.notif.quotes', desc:'Quotation requests, approvals and expiration alerts', badge:'4/4 active',
             iconClass:'quotes', type:'channels',
             items:[
               {name:'Quote Requested', desc:'When a new quote has been submitted for review', critical:false, email:true, portal:true, mobile:false},
@@ -1546,7 +1546,7 @@
               {name:'Quote Expiring', desc:'Reminder before a quote expires', critical:false, email:true, portal:true, mobile:false},
               {name:'Quote Approved', desc:'When a quote has been approved and converted to order', critical:false, email:true, portal:true, mobile:true},
             ]},
-          { title:'Services', desc:'Service requests, case updates and maintenance reminders', badge:'5/5 active',
+          { title:'Services', i18nKey:'admin.notif.services', desc:'Service requests, case updates and maintenance reminders', badge:'5/5 active',
             iconClass:'services', type:'channels',
             items:[
               {name:'Service Request Created', desc:'Confirmation when a new service request is submitted', critical:false, email:true, portal:true, mobile:false},
@@ -1555,7 +1555,7 @@
               {name:'Maintenance Reminders', desc:'Scheduled maintenance alerts for your registered machines', critical:false, email:true, portal:true, mobile:true},
               {name:'Case Escalated', desc:'When a service case has been escalated to a higher priority', critical:true, email:true, portal:true, mobile:true},
             ]},
-          { title:'Contracts', desc:'Contract renewals, expiration alerts and service visit scheduling', badge:'5/5 active',
+          { title:'Contracts', i18nKey:'admin.notif.contracts', desc:'Contract renewals, expiration alerts and service visit scheduling', badge:'5/5 active',
             iconClass:'contracts', type:'channels',
             items:[
               {name:'Contract Expiring', desc:'Reminder when a parts or service contract is approaching its end date', critical:false, email:true, portal:true, mobile:true},
@@ -1564,14 +1564,14 @@
               {name:'Service Visit Scheduled', desc:'When a preventive maintenance visit date has been confirmed', critical:false, email:true, portal:true, mobile:true},
               {name:'Inspection Report Available', desc:'When a post-visit inspection report is ready for download', critical:false, email:true, portal:true, mobile:false},
             ]},
-          { title:'Lab Tests', desc:'Test completions, report availability and result updates', badge:'3/3 active',
+          { title:'Lab Tests', i18nKey:'admin.notif.labTests', desc:'Test completions, report availability and result updates', badge:'3/3 active',
             iconClass:'labtests', type:'channels',
             items:[
               {name:'Test Completed', desc:'When a lab test has been completed and results are available', critical:false, email:true, portal:true, mobile:false},
               {name:'Report Available', desc:'When a downloadable PDF report is ready for a completed test', critical:false, email:true, portal:true, mobile:true},
               {name:'Test Results Updated', desc:'When previously published test results have been revised', critical:false, email:true, portal:true, mobile:false},
             ]},
-          { title:'Users & Access', desc:'User registrations, access requests and role changes', badge:'4/4 active',
+          { title:'Users & Access', i18nKey:'admin.notif.usersAccess', desc:'User registrations, access requests and role changes', badge:'4/4 active',
             iconClass:'users', type:'channels',
             items:[
               {name:'New User Registration', desc:'When a new user registers for portal access', critical:false, email:true, portal:true, mobile:false},
@@ -1579,7 +1579,7 @@
               {name:'Role Changed', desc:'When a user role or permissions have been modified', critical:false, email:true, portal:true, mobile:false},
               {name:'User Deactivated', desc:'When a user account has been deactivated or removed', critical:false, email:true, portal:true, mobile:true},
             ]},
-          { title:'System', desc:'Platform maintenance, security alerts and announcements', badge:'3/3 active',
+          { title:'System', i18nKey:'admin.notif.system', desc:'Platform maintenance, security alerts and announcements', badge:'3/3 active',
             iconClass:'system', type:'channels',
             items:[
               {name:'Scheduled Maintenance', desc:'Advance notice of planned portal downtime or updates', critical:false, email:true, portal:true, mobile:false},
@@ -1596,7 +1596,7 @@
           // Section header row
           html += '<div class="notif-section"><div class="notif-section-row" data-idx="' + i + '" role="button" tabindex="0">';
           html += '<div class="notif-section-icon ' + s.iconClass + '"></div>';
-          html += '<div class="notif-section-content"><div class="notif-section-title">' + s.title + '</div><div class="notif-section-desc">' + s.desc + '</div></div>';
+          html += '<div class="notif-section-content"><div class="notif-section-title"' + (s.i18nKey ? ' data-i18n="' + s.i18nKey + '"' : '') + '>' + s.title + '</div><div class="notif-section-desc">' + s.desc + '</div></div>';
           html += '<div class="notif-section-right">';
           if (s.badge) html += '<span class="active-badge">' + s.badge + '</span>';
           html += chevron + '</div></div>';

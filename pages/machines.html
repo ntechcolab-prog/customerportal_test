@@ -1727,7 +1727,7 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <span>Machines</span>
+    <span data-i18n="machines.title">Machines</span>
   </div>
 
   <!-- PAGE -->
@@ -1753,11 +1753,11 @@
     <!-- Summary card: title + actions -->
     <div class="summary">
       <div class="page-header">
-        <h1 class="page-title">Machines</h1>
+        <h1 class="page-title" data-i18n="machines.title">Machines</h1>
         <div class="page-actions">
           <button class="btn-secondary" type="button" id="btn-filters" aria-pressed="false" aria-controls="filter-row">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-            Filters
+            <span data-i18n="common.filters">Filters</span>
           </button>
           <button class="btn-primary" type="button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -1770,7 +1770,7 @@
       <div class="filter-row" id="filter-row" hidden>
         <div class="filter-input">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="search" id="filter-search" placeholder="Search machine, reference...">
+          <input type="search" id="filter-search" placeholder="Search machine, reference..." data-i18n-placeholder="machines.searchPlaceholder">
         </div>
         <div class="filter-input is-select">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13"/><path d="M3 12h9"/><path d="M3 18h5"/><path d="M17 9l4-4 4 4" transform="translate(-7 0)"/></svg>
@@ -1806,7 +1806,7 @@
         </div>
         <div class="stat-body">
           <div class="stat-number">5</div>
-          <div class="stat-label">Total Machines</div>
+          <div class="stat-label" data-i18n="machines.totalMachines">Total Machines</div>
         </div>
       </div>
       <div class="stat-card">
@@ -1815,7 +1815,7 @@
         </div>
         <div class="stat-body">
           <div class="stat-number">3</div>
-          <div class="stat-label">Applications</div>
+          <div class="stat-label" data-i18n="machines.operational">Applications</div>
         </div>
       </div>
       <div class="stat-card">
@@ -1824,7 +1824,7 @@
         </div>
         <div class="stat-body">
           <div class="stat-number">4</div>
-          <div class="stat-label">Product Groups</div>
+          <div class="stat-label" data-i18n="machines.maintenance">Product Groups</div>
         </div>
       </div>
       <div class="stat-card">
@@ -1833,7 +1833,7 @@
         </div>
         <div class="stat-body">
           <div class="stat-number">8.609 h</div>
-          <div class="stat-label">Avg. Operating Hours</div>
+          <div class="stat-label" data-i18n="machines.offline">Avg. Operating Hours</div>
         </div>
       </div>
     </div>

@@ -1596,7 +1596,7 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Lab Tests</span>
+    <span class="breadcrumb-current" data-i18n="labTests.title">Lab Tests</span>
   </div>
 
   <!-- MAIN -->
@@ -1625,12 +1625,12 @@
     <!-- TITLE BAR + FILTERS -->
     <div class="title-bar" data-skeleton-stagger>
       <div class="title-bar-top">
-        <h1>Lab Tests</h1>
+        <h1 data-i18n="labTests.title">Lab Tests</h1>
         <button class="btn-filters" id="btnFilters">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
           </svg>
-          Filters
+          <span data-i18n="common.filters">Filters</span>
         </button>
       </div>
       <div class="filter-bar" id="filterBar">
@@ -1639,7 +1639,7 @@
             <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
             <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-          <input type="text" placeholder="Search test, material, machine...">
+          <input type="text" placeholder="Search test, material, machine..." data-i18n-placeholder="labTests.searchPlaceholder">
         </div>
         <select class="filter-select" id="filterStatus">
           <option value="">Status</option>
@@ -1654,7 +1654,7 @@
           <option value="mastermix-45">MasterMix 45</option>
           <option value="alpha-zeta-10">Alpha Zeta 10</option>
         </select>
-        <button class="btn-clear-filters" id="btnClearFilters">Clear filters</button>
+        <button class="btn-clear-filters" id="btnClearFilters" data-i18n="common.clearFilters">Clear filters</button>
       </div>
     </div>
 
@@ -1663,13 +1663,13 @@
       <table class="orders-table">
         <thead>
           <tr>
-            <th>Test ID <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Test Name <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Machine <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Material <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Date <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Status <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Actions</th>
+            <th><span data-i18n="labTests.testId">Test ID</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="labTests.testName">Test Name</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="labTests.machine">Machine</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="labTests.material">Material</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="labTests.date">Date</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="labTests.status">Status</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="common.actions">Actions</span></th>
           </tr>
         </thead>
         <tbody>
@@ -1679,7 +1679,7 @@
             <td>Zeta 60</td>
             <td>Calcium Carbonate</td>
             <td>Apr 14, 2026</td>
-            <td><span class="status-badge status-delivered">Completed</span></td>
+            <td><span class="status-badge status-delivered" data-i18n="labTests.completed">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1694,7 +1694,7 @@
             <td>MasterMix 45</td>
             <td>Titanium Dioxide</td>
             <td>Apr 12, 2026</td>
-            <td><span class="status-badge status-delivered">Completed</span></td>
+            <td><span class="status-badge status-delivered" data-i18n="labTests.completed">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1709,7 +1709,7 @@
             <td>Discus 30</td>
             <td>Carbon Black</td>
             <td>Apr 10, 2026</td>
-            <td><span class="status-badge status-process">In Progress</span></td>
+            <td><span class="status-badge status-process" data-i18n="labTests.inProgress">In Progress</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1724,7 +1724,7 @@
             <td>Zeta 60</td>
             <td>Silicon Carbide</td>
             <td>Apr 8, 2026</td>
-            <td><span class="status-badge status-delivered">Completed</span></td>
+            <td><span class="status-badge status-delivered" data-i18n="labTests.completed">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1739,7 +1739,7 @@
             <td>Alpha Zeta 10</td>
             <td>Lithium Iron Phosphate</td>
             <td>Apr 5, 2026</td>
-            <td><span class="status-badge status-placed">Pending Review</span></td>
+            <td><span class="status-badge status-placed" data-i18n="labTests.pendingReview">Pending Review</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1754,7 +1754,7 @@
             <td>Discus 30</td>
             <td>Kaolin Clay</td>
             <td>Apr 2, 2026</td>
-            <td><span class="status-badge status-delivered">Completed</span></td>
+            <td><span class="status-badge status-delivered" data-i18n="labTests.completed">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1769,7 +1769,7 @@
             <td>Zeta 60</td>
             <td>Barium Titanate</td>
             <td>Mar 28, 2026</td>
-            <td><span class="status-badge status-delivered">Completed</span></td>
+            <td><span class="status-badge status-delivered" data-i18n="labTests.completed">Completed</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">
@@ -1784,7 +1784,7 @@
             <td>MasterMix 45</td>
             <td>Alumina Powder</td>
             <td>Mar 25, 2026</td>
-            <td><span class="status-badge status-placed">Pending Review</span></td>
+            <td><span class="status-badge status-placed" data-i18n="labTests.pendingReview">Pending Review</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" title="View details" onclick="openTestDrawer(this.closest('tr'))">

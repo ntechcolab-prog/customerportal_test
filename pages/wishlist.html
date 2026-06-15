@@ -1798,7 +1798,7 @@
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep" aria-hidden="true">/</span>
-    <span class="breadcrumb-current" aria-current="page">My Wishlist</span>
+    <span class="breadcrumb-current" aria-current="page" data-i18n="wishlist.title">My Wishlist</span>
   </nav>
 
   <!-- MAIN -->
@@ -1835,12 +1835,12 @@
     <!-- TITLE BAR + FILTERS -->
     <div class="title-bar" data-skeleton-stagger>
       <div class="title-bar-top">
-        <h1>My Wishlist</h1>
+        <h1 data-i18n="wishlist.title">My Wishlist</h1>
         <button class="btn-filters" id="btnFilters" aria-expanded="false" aria-controls="filterBar">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
           </svg>
-          Filters
+          <span data-i18n="common.filters">Filters</span>
         </button>
       </div>
       <div class="filter-bar" id="filterBar">
@@ -1849,7 +1849,7 @@
             <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
             <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-          <input type="text" placeholder="Search product, reference..." aria-label="Search wishlist">
+          <input type="text" placeholder="Search product, reference..." aria-label="Search wishlist" data-i18n-placeholder="wishlist.searchPlaceholder">
         </div>
         <select class="filter-select" aria-label="Sort by">
           <option value="" disabled selected>Sort by</option>
@@ -1882,7 +1882,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-number">11</span>
-          <span class="stat-label">Total Items</span>
+          <span class="stat-label" data-i18n="wishlist.totalItems">Total Items</span>
         </div>
       </div>
       <div class="stat-card">
@@ -1894,7 +1894,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-number">7</span>
-          <span class="stat-label">In Stock</span>
+          <span class="stat-label" data-i18n="wishlist.inStock">In Stock</span>
         </div>
       </div>
       <div class="stat-card">
@@ -1905,7 +1905,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-number">1</span>
-          <span class="stat-label">Low Stock</span>
+          <span class="stat-label" data-i18n="wishlist.lowStock">Low Stock</span>
         </div>
       </div>
       <div class="stat-card">
@@ -1916,7 +1916,7 @@
         </div>
         <div class="stat-info">
           <span class="stat-number">2</span>
-          <span class="stat-label">Quotation Only</span>
+          <span class="stat-label" data-i18n="wishlist.quotationOnly">Quotation Only</span>
         </div>
       </div>
     </div>
@@ -1947,13 +1947,13 @@
           <thead>
             <tr>
               <th class="no-sort">Image</th>
-              <th>Product <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th>Ref <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th>Category <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th>Price <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th>Added On <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th>Availability <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th class="no-sort">Actions</th>
+              <th><span data-i18n="wishlist.product">Product</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="wishlist.ref">Ref</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="common.category">Category</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="common.price">Price</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="wishlist.addedOn">Added On</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="common.availability">Availability</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th class="no-sort"><span data-i18n="common.actions">Actions</span></th>
             </tr>
           </thead>
           <tbody>

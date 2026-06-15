@@ -1755,7 +1755,7 @@
 
       <!-- TITLE BAR -->
       <div class="title-bar" data-skeleton-stagger style="flex-wrap:wrap;">
-        <h1>Users</h1>
+        <h1 data-i18n="admin.users.title">Users</h1>
         <div class="title-bar-actions">
           <button class="btn-filters" id="btnFilters" aria-label="Toggle filters">
             <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1773,7 +1773,7 @@
         <div class="filter-bar" id="filterBar" style="display:none;gap:12px;align-items:center;width:100%;margin-top:12px;">
           <div class="filter-input" style="position:relative;flex:1;max-width:280px;">
             <svg viewBox="0 0 16 16" fill="none" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#9ca3af;"><circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <input type="text" placeholder="Search user, email, role..." style="width:100%;height:40px;border:1px solid #d1d5db;border-radius:8px;padding:0 12px 0 36px;font-family:'Inter',sans-serif;font-size:14px;color:#1f2937;background:#fff;" aria-label="Search users">
+            <input type="text" placeholder="Search user, email, role..." style="width:100%;height:40px;border:1px solid #d1d5db;border-radius:8px;padding:0 12px 0 36px;font-family:'Inter',sans-serif;font-size:14px;color:#1f2937;background:#fff;" aria-label="Search users" data-i18n-placeholder="admin.users.searchPlaceholder">
           </div>
         </div>
       </div>
@@ -1833,12 +1833,12 @@
           <thead>
             <tr>
               <th style="width:44px"><input type="checkbox" class="row-checkbox" id="selectAll" aria-label="Select all users"></th>
-              <th><span class="th-sortable">User <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th><span class="th-sortable">Email <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th><span class="th-sortable">Role <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th><span class="th-sortable">Status <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th><span class="th-sortable">Last Active <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th style="width:48px" aria-label="Actions"></th>
+              <th><span class="th-sortable"><span data-i18n="admin.users.user">User</span> <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th><span class="th-sortable"><span data-i18n="admin.users.email">Email</span> <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th><span class="th-sortable"><span data-i18n="admin.users.role">Role</span> <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th><span class="th-sortable"><span data-i18n="admin.users.status">Status</span> <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th><span class="th-sortable"><span data-i18n="admin.users.lastActive">Last Active</span> <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th style="width:48px" aria-label="Actions" data-i18n-aria-label="common.actions"></th>
             </tr>
           </thead>
           <tbody>

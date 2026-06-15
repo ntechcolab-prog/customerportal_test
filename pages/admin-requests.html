@@ -1674,7 +1674,7 @@
 
       <!-- TITLE BAR -->
       <div class="title-bar" data-skeleton-stagger style="flex-wrap:wrap;">
-        <h1>Requests</h1>
+        <h1 data-i18n="admin.requests.title">Requests</h1>
         <button class="btn-filters" id="btnFilters">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
@@ -1684,7 +1684,7 @@
         <div class="filter-bar" id="filterBar" style="display:none;gap:12px;align-items:center;width:100%;margin-top:12px;">
           <div class="filter-input" style="position:relative;flex:1;max-width:280px;">
             <svg viewBox="0 0 16 16" fill="none" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#9ca3af;"><circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <input type="text" placeholder="Search request, user..." style="width:100%;height:40px;border:1px solid #d1d5db;border-radius:8px;padding:0 12px 0 36px;font-family:'Inter',sans-serif;font-size:14px;color:#1f2937;background:#fff;" aria-label="Search requests">
+            <input type="text" placeholder="Search request, user..." style="width:100%;height:40px;border:1px solid #d1d5db;border-radius:8px;padding:0 12px 0 36px;font-family:'Inter',sans-serif;font-size:14px;color:#1f2937;background:#fff;" aria-label="Search requests" data-i18n-placeholder="admin.requests.searchPlaceholder">
           </div>
         </div>
       </div>
@@ -1746,26 +1746,26 @@
           <thead>
             <tr>
               <th>
-                Request
+                <span data-i18n="admin.requests.request">Request</span>
                 <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
               <th>
-                Requested By
+                <span data-i18n="admin.requests.requestedBy">Requested By</span>
                 <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
               <th>
-                Date
+                <span data-i18n="admin.requests.date">Date</span>
                 <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
               <th>
-                Priority
+                <span data-i18n="admin.requests.priority">Priority</span>
                 <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
               <th>
-                Status
+                <span data-i18n="admin.requests.status">Status</span>
                 <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
-              <th class="no-sort" style="text-align:right;">Amount</th>
+              <th class="no-sort" style="text-align:right;" data-i18n="admin.requests.amount">Amount</th>
             </tr>
           </thead>
           <tbody>
