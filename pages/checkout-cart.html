@@ -558,6 +558,7 @@
       transition: background 0.15s;
     }
     .btn-checkout:hover { background: #005f57; }
+    .btn-checkout.is-disabled { background: #d7d9db; color: #8b8e91; pointer-events: none; cursor: not-allowed; }
     .btn-checkout svg { width: 20px; height: 20px; }
 
     /* ── CART DROPDOWN ─── */
@@ -1461,14 +1462,22 @@ document.addEventListener('click', function(e) {
     var payOrderTotal = document.getElementById('payOrderTotal');
     var cartBadge = document.querySelector('.cart-badge');
 
+    var deliveryRow = document.querySelector('.delivery-row');
+    var btnCheckout = document.querySelector('.btn-checkout');
+
     if (items.length === 0) {
       container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#6b7280;font-size:14px;">Your cart is empty.<br><a href="shop.html" style="color:#007167;font-weight:600;text-decoration:none;margin-top:8px;display:inline-block;">Browse Shop</a></div>';
       paySubtotal.textContent = '--';
       payTotalBefore.textContent = '--';
       payOrderTotal.textContent = '--';
       if (cartBadge) { cartBadge.textContent = '0'; cartBadge.classList.remove('is-visible'); }
+      if (deliveryRow) deliveryRow.style.display = 'none';
+      if (btnCheckout) { btnCheckout.classList.add('is-disabled'); btnCheckout.removeAttribute('href'); }
       return;
     }
+
+    if (deliveryRow) deliveryRow.style.display = '';
+    if (btnCheckout) { btnCheckout.classList.remove('is-disabled'); btnCheckout.setAttribute('href', 'checkout.html'); }
 
     var html = '';
     var subtotal = 0;
