@@ -86,8 +86,9 @@
       padding: 0 3px;
       letter-spacing: 0.12px; line-height: 10px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1);
-      display: flex; align-items: center; justify-content: center;
+      display: none; align-items: center; justify-content: center;
     }
+    .cart-badge.is-visible { display: flex; }
     .user-avatar {
       width: 44px; height: 44px; border-radius: 50%;
       object-fit: cover; cursor: pointer;
@@ -1520,7 +1521,7 @@ document.addEventListener('click', function(e) {
 
   // Clear cart badge
   var cartBadge = document.querySelector('.cart-badge');
-  if (cartBadge) cartBadge.textContent = '0';
+  if (cartBadge) { cartBadge.textContent = '0'; cartBadge.classList.remove('is-visible'); }
 
   // Clear cart from localStorage
   localStorage.removeItem('netzsch_cart');
