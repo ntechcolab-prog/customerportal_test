@@ -1230,7 +1230,7 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <a href="contracts.html">Contracts</a>
+    <a href="contracts.html" data-i18n="contracts.title">Contracts</a>
     <span class="breadcrumb-sep">/</span>
     <span class="breadcrumb-current">CTR-P-2026-001</span>
   </div>
@@ -1253,7 +1253,7 @@
       <div class="title-bar-actions">
         <button class="btn-download">
           <svg viewBox="0 0 18 18" fill="none"><path d="M9 2v9m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13v2h12v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Download PDF
+          <span data-i18n="contractDetail.download">Download PDF</span>
         </button>
       </div>
     </div>
@@ -1270,7 +1270,7 @@
           <div class="info-grid">
             <div class="info-item">
               <div class="info-label">Status</div>
-              <div class="info-value"><span class="status-badge status-active">Active</span></div>
+              <div class="info-value"><span class="status-badge status-active" data-i18n="contractDetail.statusActive">Active</span></div>
             </div>
             <div class="info-item">
               <div class="info-label">Contract Number</div>
@@ -1309,7 +1309,7 @@
 
           <!-- Equipment filter chips -->
           <div class="equipment-filters">
-            <button class="equip-chip active" data-equip="all">All</button>
+            <button class="equip-chip active" data-equip="all" data-i18n="contractParts.filterAll">All</button>
             <button class="equip-chip" data-equip="neos10">NEOS 10</button>
             <button class="equip-chip" data-equip="instrumentation">Instrumentation</button>
             <button class="equip-chip" data-equip="beads">Grinding Beads</button>
@@ -1318,18 +1318,18 @@
           <!-- Search -->
           <div class="price-search">
             <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <input type="text" placeholder="Search by part name or code..." id="priceSearch">
+            <input type="text" placeholder="Search by part name or code..." id="priceSearch" data-i18n-placeholder="contractParts.searchPlaceholder">
           </div>
 
           <div class="price-table-wrap">
             <table class="price-table" id="priceTable">
               <thead>
                 <tr>
-                  <th>Code</th>
-                  <th>Description</th>
-                  <th>Equipment</th>
-                  <th>Unit Price</th>
-                  <th>Lead Time</th>
+                  <th data-i18n="contractParts.code">Code</th>
+                  <th data-i18n="common.description">Description</th>
+                  <th data-i18n="contractParts.equipment">Equipment</th>
+                  <th data-i18n="table.unitPrice">Unit Price</th>
+                  <th data-i18n="contractParts.leadTime">Lead Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -1338,105 +1338,105 @@
                   <td>Bearing Shaft SAE1045</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;1,176.10</span><span class="price-contract">&euro;1,082.02</span></td>
-                  <td><span class="delivery-tag">65 days</span></td>
+                  <td><span class="delivery-tag">65 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="neos10">
                   <td>812495</td>
                   <td>Spacer Tube Carbon Steel</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;365.53</span><span class="price-contract">&euro;336.28</span></td>
-                  <td><span class="delivery-tag">40 days</span></td>
+                  <td><span class="delivery-tag">40 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="neos10">
                   <td>812496</td>
                   <td>Distributor Ring</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;79.07</span><span class="price-contract">&euro;72.74</span></td>
-                  <td><span class="delivery-tag">40 days</span></td>
+                  <td><span class="delivery-tag">40 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="neos10">
                   <td>1456730</td>
                   <td>Intermediate Ring AISI304</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;529.84</span><span class="price-contract">&euro;487.45</span></td>
-                  <td><span class="delivery-tag">50 days</span></td>
+                  <td><span class="delivery-tag">50 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="neos10">
                   <td>4416194</td>
                   <td>Mechanical Seal GRD070</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;5,721.56</span><span class="price-contract">&euro;5,263.83</span></td>
-                  <td><span class="delivery-tag">25 days</span></td>
+                  <td><span class="delivery-tag">25 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="neos10">
                   <td>4425039</td>
                   <td>Internal Vessel Ceramic</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;5,085.00</span><span class="price-contract">&euro;4,678.20</span></td>
-                  <td><span class="delivery-tag">20 days</span></td>
+                  <td><span class="delivery-tag">20 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="neos10">
                   <td>140035651</td>
                   <td>Agitator Shaft Complete</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;7,668.53</span><span class="price-contract">&euro;7,055.05</span></td>
-                  <td><span class="delivery-tag">45 days</span></td>
+                  <td><span class="delivery-tag">45 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="neos10">
                   <td>831589</td>
                   <td>Agitator Pin</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;142.42</span><span class="price-contract">&euro;131.03</span></td>
-                  <td><span class="delivery-tag">15 days</span></td>
+                  <td><span class="delivery-tag">15 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="neos10">
                   <td>140041503</td>
                   <td>Tubular Screen 0.3 Complete</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;460.36</span><span class="price-contract">&euro;423.53</span></td>
-                  <td><span class="delivery-tag">15 days</span></td>
+                  <td><span class="delivery-tag">15 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="neos10">
                   <td>406455</td>
                   <td>V-Belt SPA Antistatic</td>
                   <td>NEOS 10</td>
                   <td><span class="price-original">&euro;32.47</span><span class="price-contract">&euro;29.87</span></td>
-                  <td><span class="delivery-tag">35 days</span></td>
+                  <td><span class="delivery-tag">35 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="instrumentation">
                   <td>140000901</td>
                   <td>Magnetic Float Level Switch</td>
                   <td>Instrumentation</td>
                   <td><span class="price-original">&euro;360.00</span><span class="price-contract">&euro;331.20</span></td>
-                  <td><span class="delivery-tag">15 days</span></td>
+                  <td><span class="delivery-tag">15 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="instrumentation">
                   <td>426991</td>
                   <td>Pressure Switch PEV 1/4 B</td>
                   <td>Instrumentation</td>
                   <td><span class="price-original">&euro;131.95</span><span class="price-contract">&euro;121.39</span></td>
-                  <td><span class="delivery-tag">15 days</span></td>
+                  <td><span class="delivery-tag">15 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="instrumentation">
                   <td>4032813</td>
                   <td>Pressure Transmitter</td>
                   <td>Instrumentation</td>
                   <td><span class="price-original">&euro;881.07</span><span class="price-contract">&euro;810.59</span></td>
-                  <td><span class="delivery-tag">40 days</span></td>
+                  <td><span class="delivery-tag">40 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="instrumentation">
                   <td>319020</td>
                   <td>Thermostat 65&deg;C</td>
                   <td>Instrumentation</td>
                   <td><span class="price-original">&euro;129.69</span><span class="price-contract">&euro;119.31</span></td>
-                  <td><span class="delivery-tag">15 days</span></td>
+                  <td><span class="delivery-tag">15 <span data-i18n="contractParts.days">days</span></span></td>
                 </tr>
                 <tr data-equip="beads">
                   <td>443082</td>
                   <td>NETZSCH ZetaBeads Plus 0.7mm</td>
                   <td>Grinding Beads</td>
                   <td><span class="price-contract">&euro;80.63</span></td>
-                  <td><span class="delivery-tag">On request</span></td>
+                  <td><span class="delivery-tag" data-i18n="contractParts.onRequest">On request</span></td>
                 </tr>
               </tbody>
             </table>
@@ -1656,10 +1656,10 @@ function filterPriceTable() {
       </div>
     </div>
     <div class="milla-chat-tabs">
-      <button class="milla-chat-tab">Spare parts</button>
-      <button class="milla-chat-tab">Order status</button>
-      <button class="milla-chat-tab">Documents</button>
-      <button class="milla-chat-tab">Recommendations</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.spareParts">Spare parts</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.orderStatus">Order status</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.documents">Documents</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.recommendations">Recommendations</button>
     </div>
     <div class="milla-chat-body" id="millaChatBody">
       <!-- Messages injected by JS -->
@@ -1700,10 +1700,10 @@ function filterPriceTable() {
     </div>
   </div>
   <div class="milla-chat-tabs">
-    <button class="milla-chat-tab">Spare parts</button>
-    <button class="milla-chat-tab">Order status</button>
-    <button class="milla-chat-tab">Documents</button>
-    <button class="milla-chat-tab">Recommendations</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.spareParts">Spare parts</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.orderStatus">Order status</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.documents">Documents</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.recommendations">Recommendations</button>
   </div>
   <div class="milla-chat-body" id="millaChatSmallBody"></div>
   <div class="milla-chat-footer">

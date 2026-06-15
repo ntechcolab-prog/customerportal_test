@@ -1747,7 +1747,7 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <a href="shop.html">Shop</a>
+    <a href="shop.html" data-i18n="shop.title">Shop</a>
     <span class="breadcrumb-sep">/</span>
     <span class="breadcrumb-current">NETZSCH CERABEADS 0.4</span>
   </div>
@@ -1781,9 +1781,9 @@
 
       <!-- Tabs -->
       <div class="product-tabs">
-        <button class="product-tab active" data-tab="description">Product Description</button>
-        <button class="product-tab" data-tab="documents">Documents</button>
-        <button class="product-tab" data-tab="specs">Mechanical Specs</button>
+        <button class="product-tab active" data-tab="description" data-i18n="shopDetail.productDescription">Product Description</button>
+        <button class="product-tab" data-tab="documents" data-i18n="shopDetail.documents">Documents</button>
+        <button class="product-tab" data-tab="specs" data-i18n="shopDetail.specifications">Mechanical Specs</button>
       </div>
 
       <!-- Tab: Description -->
@@ -1831,7 +1831,7 @@
 
       <!-- Select Size -->
       <div class="form-group">
-        <label class="form-label">Select a size <span>*</span></label>
+        <label class="form-label" data-i18n="shopDetail.selectSize">Select a size <span>*</span></label>
         <select class="form-select">
           <option value="" disabled selected>Select a size</option>
           <option value="0.40-0.60">0,40 - 0,60 mm</option>
@@ -1847,7 +1847,7 @@
       <!-- Quantity + Unity -->
       <div class="qty-row">
         <div class="form-group qty-group">
-          <label class="form-label">Quantity</label>
+          <label class="form-label" data-i18n="shopDetail.quantity">Quantity</label>
           <div class="qty-control">
             <button class="qty-btn" id="qtyMinus">−</button>
             <span class="qty-value" id="qtyValue">1</span>
@@ -1862,23 +1862,23 @@
 
       <!-- Delivery Time (hidden until size selected) -->
       <div class="delivery-info" id="deliveryInfo" style="display:none;">
-        <span class="delivery-label">Est. delivery time</span>
+        <span class="delivery-label" data-i18n="shopDetail.deliveryTime">Est. delivery time</span>
         <span class="delivery-value">15 - 20 days</span>
       </div>
 
       <!-- Total Price -->
       <div class="price-row">
-        <span class="price-label">Total price</span>
+        <span class="price-label" data-i18n="shopDetail.totalPrice">Total price</span>
         <span class="price-value">39.75 €</span>
       </div>
 
       <!-- Action Buttons -->
       <div class="action-btns">
-        <button class="btn-wishlist">
+        <button class="btn-wishlist" data-i18n="shopDetail.addToWishlist">
           <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg>
           Add to Wishlist
         </button>
-        <button class="btn-add-cart">
+        <button class="btn-add-cart" data-i18n="shopDetail.addToCart">
           <svg viewBox="0 0 16 16" fill="none"><path d="M1 1h2l1.5 8h8L15 3H4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/></svg>
           Add to Cart
         </button>
@@ -2187,10 +2187,10 @@ document.addEventListener('click', function(e) {
       </div>
     </div>
     <div class="milla-chat-tabs">
-      <button class="milla-chat-tab">Spare parts</button>
-      <button class="milla-chat-tab">Order status</button>
-      <button class="milla-chat-tab">Documents</button>
-      <button class="milla-chat-tab">Recommendations</button>
+      <button class="milla-chat-tab" data-i18n="milla.spareParts">Spare parts</button>
+      <button class="milla-chat-tab" data-i18n="milla.orderStatus">Order status</button>
+      <button class="milla-chat-tab" data-i18n="milla.documents">Documents</button>
+      <button class="milla-chat-tab" data-i18n="milla.recommendations">Recommendations</button>
     </div>
     <div class="milla-chat-body" id="millaChatBody">
       <!-- Messages injected by JS -->

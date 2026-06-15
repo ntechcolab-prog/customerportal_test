@@ -1240,7 +1240,7 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <a href="contracts.html">Contracts</a>
+    <a href="contracts.html" data-i18n="contracts.title">Contracts</a>
     <span class="breadcrumb-sep">/</span>
     <span class="breadcrumb-current">CTR-S-2026-001</span>
   </div>
@@ -1263,7 +1263,7 @@
       <div class="title-bar-actions">
         <button class="btn-download">
           <svg viewBox="0 0 18 18" fill="none"><path d="M9 2v9m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13v2h12v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Download PDF
+          <span data-i18n="contractDetail.download">Download PDF</span>
         </button>
       </div>
     </div>
@@ -1280,7 +1280,7 @@
           <div class="info-grid">
             <div class="info-item">
               <div class="info-label">Status</div>
-              <div class="info-value"><span class="status-badge status-active">Active</span></div>
+              <div class="info-value"><span class="status-badge status-active" data-i18n="contractDetail.statusActive">Active</span></div>
             </div>
             <div class="info-item">
               <div class="info-label">Service Type</div>
@@ -1405,7 +1405,7 @@
           <div class="card-title">Coverage</div>
           <div class="includes-grid">
             <div class="includes-col">
-              <h4>Included</h4>
+              <h4 data-i18n="contractService.included">Included</h4>
               <ul class="includes-list">
                 <li>
                   <svg class="icon-yes" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1434,7 +1434,7 @@
               </ul>
             </div>
             <div class="includes-col">
-              <h4>Not Included</h4>
+              <h4 data-i18n="contractService.notIncluded">Not Included</h4>
               <ul class="includes-list">
                 <li>
                   <svg class="icon-no" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -1512,25 +1512,25 @@
           <table class="rate-table" style="margin-top:8px;">
             <thead>
               <tr>
-                <th>Type</th>
-                <th>Rate/hour</th>
+                <th data-i18n="contractService.type">Type</th>
+                <th data-i18n="contractService.ratePerHour">Rate/hour</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Standard hours</td>
+                <td data-i18n="contractService.standardHours">Standard hours</td>
                 <td>&euro;27.00</td>
               </tr>
               <tr>
-                <td>After hours (+50%)</td>
+                <td data-i18n="contractService.afterHours">After hours (+50%)</td>
                 <td>&euro;40.50</td>
               </tr>
               <tr>
-                <td>Weekends/holidays (+100%)</td>
+                <td data-i18n="contractService.weekendHolidays">Weekends/holidays (+100%)</td>
                 <td>&euro;54.00</td>
               </tr>
               <tr>
-                <td>Travel hours</td>
+                <td data-i18n="contractService.travelHours">Travel hours</td>
                 <td>&euro;18.00</td>
               </tr>
             </tbody>
@@ -1689,10 +1689,10 @@ document.addEventListener('click', function(e) {
       </div>
     </div>
     <div class="milla-chat-tabs">
-      <button class="milla-chat-tab">Spare parts</button>
-      <button class="milla-chat-tab">Order status</button>
-      <button class="milla-chat-tab">Documents</button>
-      <button class="milla-chat-tab">Recommendations</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.spareParts">Spare parts</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.orderStatus">Order status</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.documents">Documents</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.recommendations">Recommendations</button>
     </div>
     <div class="milla-chat-body" id="millaChatBody">
       <!-- Messages injected by JS -->
@@ -1733,10 +1733,10 @@ document.addEventListener('click', function(e) {
     </div>
   </div>
   <div class="milla-chat-tabs">
-    <button class="milla-chat-tab">Spare parts</button>
-    <button class="milla-chat-tab">Order status</button>
-    <button class="milla-chat-tab">Documents</button>
-    <button class="milla-chat-tab">Recommendations</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.spareParts">Spare parts</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.orderStatus">Order status</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.documents">Documents</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.recommendations">Recommendations</button>
   </div>
   <div class="milla-chat-body" id="millaChatSmallBody"></div>
   <div class="milla-chat-footer">

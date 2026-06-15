@@ -1391,7 +1391,7 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <a href="quotes.html">Quotes</a>
+    <a href="quotes.html" data-i18n="quotes.title">Quotes</a>
     <span class="breadcrumb-sep">/</span>
     <span class="breadcrumb-current">Quotation #15098765</span>
   </div>
@@ -1411,7 +1411,7 @@
     <div class="title-bar">
       <div class="title-bar-top">
         <h1>Quotation #15098765</h1>
-        <button class="btn-download" aria-label="Download PDF">
+        <button class="btn-download" aria-label="Download PDF" data-i18n="quoteDetail.download">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M9 2v9m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M3 13v2h12v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1423,13 +1423,13 @@
         This quotation requires your approval to proceed. Please review the details and approve within <strong>30 days</strong>. After this period, the quotation will expire automatically.
       </p>
       <div class="title-bar-actions">
-        <button class="btn-approve" aria-label="Approve Quotation">
+        <button class="btn-approve" aria-label="Approve Quotation" data-i18n="quoteDetail.approve">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M4 9.5l3.5 3.5L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Approve Quotation
         </button>
-        <button class="btn-decline" aria-label="Decline Quotation">
+        <button class="btn-decline" aria-label="Decline Quotation" data-i18n="quoteDetail.decline">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M5 5l8 8M13 5l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -1461,10 +1461,10 @@
           <table class="order-table">
             <thead>
               <tr>
-                <th>Product</th>
-                <th>Unit price</th>
-                <th>Quantity</th>
-                <th>Total</th>
+                <th data-i18n="table.product">Product</th>
+                <th data-i18n="table.unitPrice">Unit price</th>
+                <th data-i18n="table.quantity">Quantity</th>
+                <th data-i18n="table.total">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -1624,19 +1624,19 @@ document.addEventListener('click', function(e) {
       </div>
     </div>
     <div class="milla-chat-tabs">
-      <button class="milla-chat-tab">Spare parts</button>
-      <button class="milla-chat-tab">Order status</button>
-      <button class="milla-chat-tab">Documents</button>
-      <button class="milla-chat-tab">Recommendations</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.spareParts">Spare parts</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.orderStatus">Order status</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.documents">Documents</button>
+      <button class="milla-chat-tab" data-i18n="millaFlow.recommendations">Recommendations</button>
     </div>
     <div class="milla-chat-body" id="millaChatBody">
       <!-- Messages injected by JS -->
     </div>
     <div class="milla-chat-footer">
       <div class="milla-chat-input-wrap">
-        <input type="text" placeholder="Ask Milla anything..." id="millaChatInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromBigChat();}">
+        <input type="text" placeholder="Ask Milla anything..." id="millaChatInput" data-i18n-placeholder="millaFlow.openAssistant" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromBigChat();}">
       </div>
-      <button class="milla-chat-send active" id="millaChatSend" onclick="sendFromBigChat()">
+      <button class="milla-chat-send active" id="millaChatSend" onclick="sendFromBigChat()" data-i18n="millaFlow.send">
         <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
       </button>
     </div>
@@ -1668,24 +1668,24 @@ document.addEventListener('click', function(e) {
     </div>
   </div>
   <div class="milla-chat-tabs">
-    <button class="milla-chat-tab">Spare parts</button>
-    <button class="milla-chat-tab">Order status</button>
-    <button class="milla-chat-tab">Documents</button>
-    <button class="milla-chat-tab">Recommendations</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.spareParts">Spare parts</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.orderStatus">Order status</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.documents">Documents</button>
+    <button class="milla-chat-tab" data-i18n="millaFlow.recommendations">Recommendations</button>
   </div>
   <div class="milla-chat-body" id="millaChatSmallBody"></div>
   <div class="milla-chat-footer">
     <div class="milla-chat-input-wrap">
-      <input type="text" placeholder="Ask Milla anything..." id="millaChatSmallInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromSmallChat();}">
+      <input type="text" placeholder="Ask Milla anything..." id="millaChatSmallInput" data-i18n-placeholder="millaFlow.openAssistant" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromSmallChat();}">
     </div>
-    <button class="milla-chat-send active" id="millaChatSmallSend" onclick="sendFromSmallChat()">
+    <button class="milla-chat-send active" id="millaChatSmallSend" onclick="sendFromSmallChat()" data-i18n="millaFlow.send">
       <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
     </button>
   </div>
 </div>
 
 <!-- ── MILLA FAB ─── -->
-<button class="milla-fab" id="millaFab" onclick="openMillaChatSmall()" aria-label="Open Milla AI Assistant">
+<button class="milla-fab" id="millaFab" onclick="openMillaChatSmall()" aria-label="Open Milla AI Assistant" data-i18n-aria-label="millaFlow.openAssistant">
   <img src="../assets/milla-fab.svg" alt="">
 </button>
 
