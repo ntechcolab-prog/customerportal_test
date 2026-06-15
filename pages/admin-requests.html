@@ -295,13 +295,47 @@
     .notif-view-all:hover { text-decoration: underline; }
 
 
-    .lang-btn {
-      display: flex; align-items: center; gap: 4px;
-      font-size: 14px; font-weight: 500; color: #007167;
-      cursor: pointer; padding: 0 4px;
-      background: none; border: none;
+    .lang-switcher {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      user-select: none;
+      background: none;
+      border: none;
+      padding: 0 4px;
     }
-    .lang-btn img { width: 16px; height: 16px; object-fit: contain; }
+    .lang-switcher .lang-globe { width: 16px; height: 16px; flex-shrink: 0; }
+    .lang-switcher .lang-chevron { width: 10px; height: 10px; transition: transform 0.2s; }
+    .lang-switcher.open .lang-chevron { transform: rotate(180deg); }
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: #fff;
+      border: 1px solid #d7d9db;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      min-width: 80px;
+      overflow: hidden;
+      z-index: 300;
+    }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-option {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #3d4246;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .lang-option:hover { background: #f0faf9; }
+    .lang-option.active { color: #007167; background: #e6f4f3; }
 
     /* ── BREADCRUMB ─── */
     .breadcrumb {
@@ -1489,11 +1523,22 @@
           </div>
         </div>
       </div>
-      <button class="lang-btn">
-        <img src="../assets/icon-globe.svg" alt="">
-        EN
-        <img src="../assets/icon-chevron-down.svg" alt="">
-      </button>
+      <div class="lang-switcher" aria-label="Language selector">
+        <svg class="lang-globe" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.2"/>
+          <ellipse cx="8" cy="8" rx="2.6" ry="6.5" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="1.5" y1="6" x2="14.5" y2="6" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="1.5" y1="10" x2="14.5" y2="10" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        <span class="lang-label">EN</span>
+        <svg class="lang-chevron" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="lang-dropdown">
+          <div class="lang-option" data-lang="EN">EN</div>
+          <div class="lang-option" data-lang="DE">DE</div>
+        </div>
+      </div>
     
     <!-- MILLA SEARCH (inline, expande do ícone) -->
     <div class="milla-search-wrapper" id="millaWrapper">
