@@ -1,0 +1,62 @@
+{
+  "topbar.portal": "Grinding & Dispersing Customer Portal",
+
+  "nav.home": "Home",
+  "nav.machines": "Machines",
+  "nav.shop": "Shop",
+  "nav.orders": "Orders",
+  "nav.quotes": "Quotes",
+  "nav.services": "Services",
+  "nav.labTests": "Lab Tests",
+  "nav.help": "Help",
+
+  "notif.title": "Notifications",
+  "notif.markRead": "Mark all as read",
+  "notif.viewAll": "View all notifications",
+
+  "cart.title": "Shopping Cart",
+  "cart.subtotal": "Subtotal",
+  "cart.viewCart": "View Cart",
+  "cart.empty": "Your cart is empty",
+
+  "profile.profile": "Profile",
+  "profile.admin": "Admin",
+  "profile.wishlist": "My Wishlist",
+  "profile.contracts": "Contracts",
+  "profile.logout": "Log out",
+
+  "admin.sidebar.title": "Administration",
+  "admin.sidebar.users": "User Management",
+  "admin.sidebar.roles": "Access & Roles",
+  "admin.sidebar.requests": "Requests",
+  "admin.sidebar.company": "Company Settings",
+  "admin.sidebar.notifications": "Notifications",
+  "admin.sidebar.helpTitle": "Need help?",
+  "admin.sidebar.helpText": "Contact your NETZSCH account manager for assistance with admin settings.",
+  "admin.sidebar.helpBtn": "Contact Support",
+
+  "milla.placeholder": "Ask Milla AI...",
+
+  "breadcrumb.home": "Home",
+
+  "common.filters": "Filters",
+  "common.sortBy": "Sort by",
+  "common.status": "Status",
+  "common.search": "Search",
+  "common.clearFilters": "Clear filters",
+  "common.save": "Save",
+  "common.cancel": "Cancel",
+  "common.close": "Close",
+  "common.delete": "Delete",
+  "common.edit": "Edit",
+  "common.back": "Back",
+  "common.next": "Next",
+  "common.submit": "Submit",
+  "common.loading": "Loading...",
+  "common.noResults": "No results found",
+  "common.showing": "Showing",
+  "common.of": "of",
+  "common.items": "items",
+  "common.viewDetails": "View details",
+  "common.actions": "Actions"
+}

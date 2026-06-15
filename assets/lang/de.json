@@ -1,0 +1,62 @@
+{
+  "topbar.portal": "Mahlen & Dispergieren Kundenportal",
+
+  "nav.home": "Startseite",
+  "nav.machines": "Maschinen",
+  "nav.shop": "Shop",
+  "nav.orders": "Bestellungen",
+  "nav.quotes": "Angebote",
+  "nav.services": "Service",
+  "nav.labTests": "Labortests",
+  "nav.help": "Hilfe",
+
+  "notif.title": "Benachrichtigungen",
+  "notif.markRead": "Alle als gelesen markieren",
+  "notif.viewAll": "Alle Benachrichtigungen anzeigen",
+
+  "cart.title": "Warenkorb",
+  "cart.subtotal": "Zwischensumme",
+  "cart.viewCart": "Warenkorb anzeigen",
+  "cart.empty": "Ihr Warenkorb ist leer",
+
+  "profile.profile": "Profil",
+  "profile.admin": "Verwaltung",
+  "profile.wishlist": "Meine Wunschliste",
+  "profile.contracts": "Verträge",
+  "profile.logout": "Abmelden",
+
+  "admin.sidebar.title": "Verwaltung",
+  "admin.sidebar.users": "Benutzerverwaltung",
+  "admin.sidebar.roles": "Zugriff & Rollen",
+  "admin.sidebar.requests": "Anfragen",
+  "admin.sidebar.company": "Firmeneinstellungen",
+  "admin.sidebar.notifications": "Benachrichtigungen",
+  "admin.sidebar.helpTitle": "Brauchen Sie Hilfe?",
+  "admin.sidebar.helpText": "Wenden Sie sich an Ihren NETZSCH-Ansprechpartner für Unterstützung bei den Verwaltungseinstellungen.",
+  "admin.sidebar.helpBtn": "Support kontaktieren",
+
+  "milla.placeholder": "Fragen Sie Milla AI...",
+
+  "breadcrumb.home": "Startseite",
+
+  "common.filters": "Filter",
+  "common.sortBy": "Sortieren",
+  "common.status": "Status",
+  "common.search": "Suche",
+  "common.clearFilters": "Filter zurücksetzen",
+  "common.save": "Speichern",
+  "common.cancel": "Abbrechen",
+  "common.close": "Schließen",
+  "common.delete": "Löschen",
+  "common.edit": "Bearbeiten",
+  "common.back": "Zurück",
+  "common.next": "Weiter",
+  "common.submit": "Absenden",
+  "common.loading": "Wird geladen...",
+  "common.noResults": "Keine Ergebnisse gefunden",
+  "common.showing": "Anzeige",
+  "common.of": "von",
+  "common.items": "Einträge",
+  "common.viewDetails": "Details anzeigen",
+  "common.actions": "Aktionen"
+}
