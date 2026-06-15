@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1752,8 +1753,36 @@
   <!-- MAIN -->
   <main class="main">
 
+    <!-- SKELETON LOADING STATE -->
+    <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading wishlist">
+      <div class="skeleton skel-page-title"></div>
+      <div class="skel-filter-bar">
+        <div class="skeleton skel-filter-input"></div>
+        <div class="skeleton skel-filter-select"></div>
+        <div class="skeleton skel-filter-select"></div>
+        <div class="skeleton skel-filter-select"></div>
+      </div>
+      <div class="skel-stat-cards">
+        <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+        <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+        <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+        <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+      </div>
+      <div class="skeleton skel-table">
+        <div class="skel-table-header cols-6"><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+      </div>
+    </div>
+
+    <div class="page-content">
+
     <!-- TITLE BAR + FILTERS -->
-    <div class="title-bar">
+    <div class="title-bar" data-skeleton-stagger>
       <div class="title-bar-top">
         <h1>My Wishlist</h1>
         <button class="btn-filters" id="btnFilters" aria-expanded="false" aria-controls="filterBar">
@@ -1793,7 +1822,7 @@
     </div>
 
     <!-- STAT CARDS -->
-    <div class="stat-cards">
+    <div class="stat-cards" data-skeleton-stagger>
       <div class="stat-card">
         <div class="stat-icon teal">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1842,7 +1871,7 @@
     </div>
 
     <!-- TOOLBAR -->
-    <div class="toolbar">
+    <div class="toolbar" data-skeleton-stagger>
       <div class="view-toggle" role="group" aria-label="View mode">
         <button class="view-toggle-btn active" id="btnListView" aria-label="List view" aria-pressed="true">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1861,7 +1890,7 @@
     </div>
 
     <!-- LIST VIEW (default) -->
-    <div class="list-view" id="listView">
+    <div class="list-view" id="listView" data-skeleton-stagger>
       <div class="wishlist-table-wrap">
         <table class="wishlist-table">
           <thead>
@@ -2101,7 +2130,7 @@
     </div>
 
     <!-- GRID VIEW -->
-    <div class="grid-view" id="gridView">
+    <div class="grid-view" id="gridView" data-skeleton-stagger>
       <div class="product-grid">
         <!-- Card 1: Cerabeads -->
         <div class="product-card" data-product-name="Cerabeads" data-product-url="shop-product-detail.html">
@@ -2315,6 +2344,8 @@
         </div>
       </div>
     </div>
+
+    </div><!-- /.page-content -->
 
   </main>
 
@@ -2977,6 +3008,7 @@ function sendFromSmallChat() {
   if(overlay)overlay.addEventListener('click',toggle);
 })();
 </script>
+<script src="../assets/skeleton-loader.js"></script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
 </body>

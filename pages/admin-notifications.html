@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1394,8 +1395,24 @@
     <!-- MAIN CONTENT -->
     <main class="admin-main">
 
+      <!-- SKELETON LOADING STATE -->
+      <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading notification settings">
+        <div class="skeleton skel-page-title"></div>
+        <div class="skeleton-card skel-notif-section"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:200px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-notif-section"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:100px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-notif-section"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:100px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-notif-section"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:110px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-notif-section"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:120px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-notif-section"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:100px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-notif-section"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:140px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-notif-section"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:90px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content">
+
       <!-- TITLE BAR -->
-      <div class="title-bar">
+      <div class="title-bar" data-skeleton-stagger>
         <h1>Notifications</h1>
         <button class="btn-save">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1406,7 +1423,7 @@
       </div>
 
       <!-- INFO BANNER -->
-      <div class="info-banner">
+      <div class="info-banner" data-skeleton-stagger>
         <div class="info-banner-header">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/>
@@ -1452,7 +1469,7 @@
         .ne-toggle-desc { font-size:12px; color:#9ca3af; }
         .ne-toggle-switch { width:18px; height:18px; accent-color:#007167; cursor:pointer; }
       </style>
-      <div class="notif-sections" id="notifSections"></div>
+      <div class="notif-sections" id="notifSections" data-skeleton-stagger></div>
 
       <script>
       (function() {
@@ -1594,6 +1611,9 @@
         });
       })();
       </script>
+
+      </div><!-- /page-content -->
+
     </main>
   </div>
 
@@ -1963,6 +1983,7 @@ function sendFromSmallChat() {
   if(overlay)overlay.addEventListener('click',toggle);
 })();
 </script>
+<script src="../assets/skeleton-loader.js"></script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
 </body>

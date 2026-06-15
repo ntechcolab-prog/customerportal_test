@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1398,13 +1399,32 @@
     <!-- MAIN CONTENT -->
     <main class="main-content">
 
+      <!-- SKELETON LOADING -->
+      <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading company profile">
+        <div class="skeleton skel-page-title"></div>
+        <div class="skel-stat-cards">
+          <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+          <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+          <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+          <div class="skeleton-card skel-stat-card"><div class="skeleton skel-stat-icon"></div><div class="skel-stat-info"><div class="skeleton skeleton-title" style="width:30%"></div><div class="skeleton skeleton-text short"></div></div></div>
+        </div>
+        <div class="skeleton-card skel-section-block"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:200px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-section-block"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:160px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-section-block"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:180px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-section-block"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:150px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+        <div class="skeleton-card skel-section-block"><div class="skel-section-header"><div class="skeleton skeleton-title" style="width:210px"></div><div class="skeleton skeleton-text" style="width:24px;height:24px;border-radius:4px"></div></div></div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content">
+
       <!-- TITLE BAR -->
-      <div class="title-bar">
+      <div class="title-bar" data-skeleton-stagger>
         <h1>Company Settings</h1>
       </div>
 
       <!-- STAT CARDS -->
-      <div class="stat-cards">
+      <div class="stat-cards" data-skeleton-stagger>
         <!-- Company -->
         <div class="stat-card">
           <div class="stat-icon">
@@ -1490,7 +1510,7 @@
         .se-option-badge { font-size: 12px; font-weight: 600; color: #007167; }
         .se-tax-status { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eaeaea; }
       </style>
-      <div class="sections-list" id="sectionsList">
+      <div class="sections-list" id="sectionsList" data-skeleton-stagger>
         <!-- Sections built by JS -->
       </div>
 
@@ -1648,6 +1668,8 @@
         });
       })();
       </script>
+
+      </div><!-- /.page-content -->
 
     </main>
   </div>
@@ -2020,5 +2042,6 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

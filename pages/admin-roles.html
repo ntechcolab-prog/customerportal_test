@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1474,8 +1475,30 @@
     <!-- MAIN CONTENT -->
     <main class="main-content">
 
+      <!-- SKELETON LOADING STATE -->
+      <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading roles">
+        <div class="skeleton skel-page-title"></div>
+        <div class="skel-role-cards">
+          <div class="skeleton-card skel-role-card"><div class="skeleton skel-role-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:8px"></div><div class="skeleton skeleton-text short" style="margin-bottom:8px"></div><div class="skeleton skeleton-text long"></div></div>
+          <div class="skeleton-card skel-role-card"><div class="skeleton skel-role-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:8px"></div><div class="skeleton skeleton-text short" style="margin-bottom:8px"></div><div class="skeleton skeleton-text long"></div></div>
+          <div class="skeleton-card skel-role-card"><div class="skeleton skel-role-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:8px"></div><div class="skeleton skeleton-text short" style="margin-bottom:8px"></div><div class="skeleton skeleton-text long"></div></div>
+          <div class="skeleton-card skel-role-card"><div class="skeleton skel-role-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:8px"></div><div class="skeleton skeleton-text short" style="margin-bottom:8px"></div><div class="skeleton skeleton-text long"></div></div>
+        </div>
+        <div class="skeleton skel-table">
+          <div class="skel-table-header cols-6"><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div></div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content">
+
       <!-- TITLE BAR -->
-      <div class="title-bar">
+      <div class="title-bar" data-skeleton-stagger>
         <h1>Access &amp; Roles</h1>
         <button class="btn-save" type="button">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -1486,7 +1509,7 @@
       </div>
 
       <!-- ROLE CARDS -->
-      <div class="role-cards">
+      <div class="role-cards" data-skeleton-stagger>
         <!-- Administrator -->
         <div class="role-card">
           <div class="role-card-header">
@@ -1593,7 +1616,7 @@
       </div>
 
       <!-- INFO BANNER -->
-      <div class="info-banner" role="note">
+      <div class="info-banner" role="note" data-skeleton-stagger>
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <circle cx="10" cy="10" r="8"/>
           <path d="M10 9v5"/>
@@ -1603,7 +1626,7 @@
       </div>
 
       <!-- PERMISSIONS TABLE -->
-      <div class="permissions-card" id="permissionsCard"></div>
+      <div class="permissions-card" id="permissionsCard" data-skeleton-stagger></div>
 
       <script>
       (function() {
@@ -1725,6 +1748,8 @@
         });
       })();
       </script>
+
+      </div><!-- /page-content -->
 
     </main>
   </div>
@@ -2095,6 +2120,7 @@ function sendFromSmallChat() {
   if(overlay)overlay.addEventListener('click',toggle);
 })();
 </script>
+<script src="../assets/skeleton-loader.js"></script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
 </body>

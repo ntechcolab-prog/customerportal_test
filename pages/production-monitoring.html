@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -969,11 +970,45 @@
     <span>Production Monitoring</span>
   </div>
 
+  <!-- SKELETON LOADING -->
+  <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading production monitoring">
+    <!-- Hero -->
+    <div class="skeleton skel-hero"></div>
+    <!-- Section title -->
+    <div class="skeleton skeleton-title wide" style="margin-bottom:16px"></div>
+    <!-- Features grid -->
+    <div class="skel-features-grid">
+      <div class="skeleton-card skel-feature-card"><div class="skeleton skel-feature-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:10px"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium" style="margin-top:6px"></div></div>
+      <div class="skeleton-card skel-feature-card"><div class="skeleton skel-feature-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:10px"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium" style="margin-top:6px"></div></div>
+      <div class="skeleton-card skel-feature-card"><div class="skeleton skel-feature-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:10px"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium" style="margin-top:6px"></div></div>
+      <div class="skeleton-card skel-feature-card"><div class="skeleton skel-feature-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:10px"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium" style="margin-top:6px"></div></div>
+      <div class="skeleton-card skel-feature-card"><div class="skeleton skel-feature-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:10px"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium" style="margin-top:6px"></div></div>
+      <div class="skeleton-card skel-feature-card"><div class="skeleton skel-feature-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:10px"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium" style="margin-top:6px"></div></div>
+    </div>
+    <!-- Benefits -->
+    <div class="skeleton skeleton-title wide" style="margin-bottom:16px"></div>
+    <div class="skel-benefits-row">
+      <div class="skeleton-card skel-benefit-item"><div class="skeleton skeleton-title" style="width:60px;height:32px;margin:0 auto 12px"></div><div class="skeleton skeleton-text medium" style="margin:0 auto"></div></div>
+      <div class="skeleton-card skel-benefit-item"><div class="skeleton skeleton-title" style="width:60px;height:32px;margin:0 auto 12px"></div><div class="skeleton skeleton-text medium" style="margin:0 auto"></div></div>
+      <div class="skeleton-card skel-benefit-item"><div class="skeleton skeleton-title" style="width:60px;height:32px;margin:0 auto 12px"></div><div class="skeleton skeleton-text medium" style="margin:0 auto"></div></div>
+      <div class="skeleton-card skel-benefit-item"><div class="skeleton skeleton-title" style="width:60px;height:32px;margin:0 auto 12px"></div><div class="skeleton skeleton-text medium" style="margin:0 auto"></div></div>
+    </div>
+    <!-- Quote form -->
+    <div class="skeleton-card skel-quote-card">
+      <div class="skeleton skeleton-title wide" style="margin-bottom:8px"></div>
+      <div class="skeleton skeleton-text long" style="margin-bottom:24px"></div>
+      <div class="skel-form-group"><div class="skeleton skel-form-label"></div><div class="skeleton skel-form-input"></div></div>
+      <div class="skel-form-group"><div class="skeleton skel-form-label"></div><div class="skeleton skel-form-input"></div></div>
+      <div class="skel-form-group"><div class="skeleton skel-form-label"></div><div class="skeleton skel-form-input"></div></div>
+      <div class="skeleton skeleton-text" style="width:140px;height:44px;border-radius:8px"></div>
+    </div>
+  </div>
+
   <!-- PAGE CONTENT -->
   <div class="page-content">
 
     <!-- SECTION 1: HERO BANNER -->
-    <section class="hero-banner" aria-label="Production Monitoring overview">
+    <section class="hero-banner" aria-label="Production Monitoring overview" data-skeleton-stagger>
       <div class="hero-banner-bg"></div>
       <div class="hero-icon">
         <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
@@ -987,7 +1022,7 @@
     </section>
 
     <!-- SECTION 2: KEY FEATURES -->
-    <section aria-label="Key features">
+    <section aria-label="Key features" data-skeleton-stagger>
       <h2 class="section-title">Key Features</h2>
       <div class="features-grid">
 
@@ -1043,7 +1078,7 @@
     </section>
 
     <!-- SECTION 3: BENEFITS -->
-    <section aria-label="Benefits">
+    <section aria-label="Benefits" data-skeleton-stagger>
       <h2 class="section-title">Benefits</h2>
       <div class="benefits-row">
         <div class="benefit-item">
@@ -1066,7 +1101,7 @@
     </section>
 
     <!-- SECTION 4: REQUEST QUOTE FORM -->
-    <section id="quote-form" aria-label="Request a quote">
+    <section id="quote-form" aria-label="Request a quote" data-skeleton-stagger>
       <div class="quote-card">
         <div id="quote-form-content">
           <h2 class="quote-title">Request a Quote</h2>
@@ -1254,5 +1289,6 @@ document.getElementById('btn-submit-quote').addEventListener('click', function()
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

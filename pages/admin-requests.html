@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1598,8 +1599,30 @@
     <!-- MAIN CONTENT -->
     <main class="admin-main">
 
+      <!-- SKELETON LOADING -->
+      <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading requests">
+        <div class="skeleton skel-page-title"></div>
+        <div class="skel-filter-bar">
+          <div class="skeleton skel-filter-input"></div>
+          <div class="skeleton skel-filter-select"></div>
+          <div class="skeleton skel-filter-select"></div>
+        </div>
+        <div class="skeleton skel-table">
+          <div class="skel-table-header cols-6"><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-6"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        </div>
+      </div>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content">
+
       <!-- TITLE BAR -->
-      <div class="title-bar" style="flex-wrap:wrap;">
+      <div class="title-bar" data-skeleton-stagger style="flex-wrap:wrap;">
         <h1>Requests</h1>
         <button class="btn-filters" id="btnFilters">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1616,7 +1639,7 @@
       </div>
 
       <!-- STAT CARDS -->
-      <div class="stat-cards">
+      <div class="stat-cards" data-skeleton-stagger>
         <div class="stat-card">
           <div class="stat-icon teal">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1667,7 +1690,7 @@
       </div>
 
       <!-- REQUESTS TABLE -->
-      <div class="requests-table-wrap">
+      <div class="requests-table-wrap" data-skeleton-stagger>
         <table class="requests-table">
           <thead>
             <tr>
@@ -1984,6 +2007,8 @@
           </div>
         </div>
       </div>
+
+      </div><!-- /.page-content -->
 
     </main>
   </div>
@@ -2382,5 +2407,6 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

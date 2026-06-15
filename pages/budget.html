@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -902,11 +903,44 @@
     <span class="breadcrumb-current">Budget</span>
   </div>
 
+  <!-- SKELETON LOADING -->
+  <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading budget">
+    <div class="skeleton skel-page-title"></div>
+    <!-- Current month card -->
+    <div class="skeleton-card skel-budget-card">
+      <div class="skel-budget-header">
+        <div style="flex:1"><div class="skeleton skeleton-text short" style="margin-bottom:8px"></div><div class="skeleton skeleton-title wide"></div></div>
+        <div style="text-align:right"><div class="skeleton skeleton-text short" style="margin-bottom:8px"></div><div class="skeleton skeleton-title" style="width:120px"></div></div>
+      </div>
+      <div class="skeleton skel-budget-bar"></div>
+      <div class="skel-budget-breakdown">
+        <div class="skel-budget-breakdown-item"><div class="skeleton skeleton-circle" style="width:10px;height:10px"></div><div class="skeleton skeleton-text" style="width:100px"></div><div class="skeleton skeleton-text" style="width:80px"></div></div>
+        <div class="skel-budget-breakdown-item"><div class="skeleton skeleton-circle" style="width:10px;height:10px"></div><div class="skeleton skeleton-text" style="width:80px"></div><div class="skeleton skeleton-text" style="width:80px"></div></div>
+      </div>
+    </div>
+    <!-- Spending history -->
+    <div class="skeleton-card skel-budget-card">
+      <div class="skeleton skeleton-title" style="margin-bottom:16px"></div>
+      <div class="skel-history-row"><div class="skeleton skeleton-text" style="width:80px"></div><div class="skeleton skeleton-text" style="flex:1;height:12px"></div><div class="skeleton skeleton-text" style="width:100px"></div></div>
+      <div class="skel-history-row"><div class="skeleton skeleton-text" style="width:80px"></div><div class="skeleton skeleton-text" style="flex:1;height:12px"></div><div class="skeleton skeleton-text" style="width:100px"></div></div>
+      <div class="skel-history-row"><div class="skeleton skeleton-text" style="width:80px"></div><div class="skeleton skeleton-text" style="flex:1;height:12px"></div><div class="skeleton skeleton-text" style="width:100px"></div></div>
+      <div class="skel-history-row"><div class="skeleton skeleton-text" style="width:80px"></div><div class="skeleton skeleton-text" style="flex:1;height:12px"></div><div class="skeleton skeleton-text" style="width:100px"></div></div>
+      <div class="skel-history-row"><div class="skeleton skeleton-text" style="width:80px"></div><div class="skeleton skeleton-text" style="flex:1;height:12px"></div><div class="skeleton skeleton-text" style="width:100px"></div></div>
+      <div class="skel-history-row"><div class="skeleton skeleton-text" style="width:80px"></div><div class="skeleton skeleton-text" style="flex:1;height:12px"></div><div class="skeleton skeleton-text" style="width:100px"></div></div>
+    </div>
+    <!-- Category table -->
+    <div class="skeleton skel-table">
+      <div class="skel-table-header cols-5"><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div></div>
+      <div class="skel-table-row cols-5"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+      <div class="skel-table-row cols-5"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+    </div>
+  </div>
+
   <!-- BUDGET PAGE -->
-  <main class="budget-layout">
+  <main class="budget-layout page-content">
 
     <!-- Header -->
-    <div class="budget-page-header">
+    <div class="budget-page-header" data-skeleton-stagger>
       <h1 class="budget-page-title">Monthly Budget</h1>
       <select class="budget-period-select" aria-label="Select period">
         <option selected>May 2026</option>
@@ -919,7 +953,7 @@
     </div>
 
     <!-- Current month card -->
-    <div class="budget-current" role="region" aria-label="Current month spending overview">
+    <div class="budget-current" role="region" aria-label="Current month spending overview" data-skeleton-stagger>
       <div class="budget-current-header">
         <div class="budget-current-left">
           <div class="budget-current-period">May 2026 — Spent</div>
@@ -968,7 +1002,7 @@
     </div>
 
     <!-- Monthly history -->
-    <div class="budget-history" role="region" aria-label="Monthly spending history">
+    <div class="budget-history" role="region" aria-label="Monthly spending history" data-skeleton-stagger>
       <h2 class="budget-history-title">Spending History</h2>
 
       <div class="history-row">
@@ -1022,7 +1056,7 @@
     </div>
 
     <!-- Spending by category table -->
-    <div class="budget-table-card" role="region" aria-label="Spending breakdown by category">
+    <div class="budget-table-card" role="region" aria-label="Spending breakdown by category" data-skeleton-stagger>
       <h2 class="budget-table-title">Spending by Category — May 2026</h2>
       <table class="budget-table">
         <thead>
@@ -1565,5 +1599,6 @@ function sendFromSmallChat() {
 })();
 </script>
 <script src="../assets/role-guard.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

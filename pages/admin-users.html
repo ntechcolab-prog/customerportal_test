@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1681,8 +1682,27 @@
     <!-- MAIN CONTENT -->
     <main class="admin-main">
 
+      <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading users">
+        <div class="skeleton skel-page-title"></div>
+        <div class="skel-filter-bar">
+          <div class="skeleton skel-filter-input"></div>
+          <div class="skeleton skel-filter-select"></div>
+        </div>
+        <div class="skeleton skel-table">
+          <div class="skel-table-header cols-7"><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-7"><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-7"><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-7"><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-7"><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-7"><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+          <div class="skel-table-row cols-7"><div class="skeleton skeleton-text" style="width:20px;height:20px;border-radius:4px"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text short"></div></div>
+        </div>
+      </div>
+
+      <div class="page-content">
+
       <!-- TITLE BAR -->
-      <div class="title-bar" style="flex-wrap:wrap;">
+      <div class="title-bar" data-skeleton-stagger style="flex-wrap:wrap;">
         <h1>Users</h1>
         <div class="title-bar-actions">
           <button class="btn-filters" id="btnFilters" aria-label="Toggle filters">
@@ -1707,7 +1727,7 @@
       </div>
 
       <!-- STAT CARDS -->
-      <div class="stat-cards">
+      <div class="stat-cards" data-skeleton-stagger>
         <div class="stat-card">
           <div class="stat-icon total">
             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1756,7 +1776,7 @@
       </div>
 
       <!-- USERS TABLE -->
-      <div class="table-card">
+      <div class="table-card" data-skeleton-stagger>
         <table class="users-table" aria-label="Users list">
           <thead>
             <tr>
@@ -1939,6 +1959,8 @@
           </div>
         </div>
       </div>
+
+      </div><!-- .page-content -->
 
     </main>
   </div>
@@ -2427,5 +2449,6 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>
