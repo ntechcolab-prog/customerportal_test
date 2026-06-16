@@ -457,7 +457,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+      min-width: 120px;
     }
     .col-label {
       font-size: 11px;
@@ -465,6 +466,7 @@
       color: #6b7280;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
     .quantity-controls {
       display: flex;
@@ -500,8 +502,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      min-width: 64px;
+      gap: 6px;
+      min-width: 80px;
     }
     .unity-value {
       font-size: 14px;
@@ -1570,7 +1572,7 @@ document.addEventListener('click', function(e) {
         '</div>' +
         '<div class="unity-col">' +
           '<span class="col-label">' + NetzschI18n.t("table.unit","Unity") + '</span>' +
-          '<span class="unity-value">kg</span>' +
+          '<span class="unity-value">' + NetzschI18n.t("checkout.kg","kg") + '</span>' +
         '</div>' +
         '<div class="total-col">' +
           '<span class="col-label">' + NetzschI18n.t("common.total","Total") + '</span>' +
