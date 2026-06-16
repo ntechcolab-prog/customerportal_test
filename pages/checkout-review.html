@@ -669,6 +669,62 @@
     .btn-primary + .btn-primary { margin-top: 10px; }
     .btn-primary svg { width: 18px; height: 18px; flex-shrink: 0; }
     .btn-primary.disabled-btn { opacity: 0.5; pointer-events: none; cursor: not-allowed; }
+    .btn-primary.is-processing {
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .btn-primary.is-processing span { display: none; }
+    .btn-primary.is-processing svg:first-child { display: none; }
+    .btn-primary .spinner { display: none; }
+    .btn-primary.is-processing .spinner { display: flex; align-items: center; gap: 8px; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-icon {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .spinner-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    /* ── ORDER TOAST ─── */
+    .order-toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid #d1e9e7;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      z-index: 9999;
+      transform: translateY(120%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    }
+    .order-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .order-toast-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #e8f5f3;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .order-toast-icon svg { width: 20px; height: 20px; color: #007167; }
+    .order-toast-body { display: flex; flex-direction: column; gap: 2px; }
+    .order-toast-title { font-size: 14px; font-weight: 600; color: #1f2937; }
+    .order-toast-desc { font-size: 12px; color: #6b7280; line-height: 1.4; }
 
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -1610,12 +1666,14 @@
               <path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
             </svg>
             <span data-i18n="checkout.placeOrder">Place Order</span>
+            <div class="spinner"><div class="spinner-icon"></div><span class="spinner-text" data-i18n="checkout.processing">Processing...</span></div>
           </a>
           <a href="checkout-quote.html" class="btn-primary" id="btnRequestQuote">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4.5 9.5l3 3 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span data-i18n="checkout.requestQuotation">Request Quotation for Approval</span>
+            <div class="spinner"><div class="spinner-icon"></div><span class="spinner-text" data-i18n="checkout.processing">Processing...</span></div>
           </a>
         </div>
       </div>
@@ -2086,6 +2144,46 @@ function sendFromSmallChat() {
   if(overlay)overlay.addEventListener('click',toggle);
 })();
 </script>
+<!-- ORDER TOAST -->
+<div class="order-toast" id="orderToast">
+  <div class="order-toast-icon">
+    <svg viewBox="0 0 20 20" fill="none"><path d="M5 10l3.5 3.5L15 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+  <div class="order-toast-body">
+    <div class="order-toast-title" data-i18n="checkout.orderPlaced">Order placed successfully!</div>
+    <div class="order-toast-desc" data-i18n="checkout.orderPlacedDesc">Redirecting to order confirmation...</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var placeBtn = document.getElementById('btnPlaceOrder');
+  var quoteBtn = document.getElementById('btnRequestQuote');
+  var toast = document.getElementById('orderToast');
+
+  function handleOrderClick(btn, targetUrl) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (btn.classList.contains('disabled-btn') || btn.classList.contains('is-processing')) return;
+
+      btn.classList.add('is-processing');
+
+      setTimeout(function() {
+        btn.classList.remove('is-processing');
+        toast.classList.add('show');
+
+        setTimeout(function() {
+          window.location.href = targetUrl;
+        }, 1500);
+      }, 2000);
+    });
+  }
+
+  if (placeBtn) handleOrderClick(placeBtn, 'checkout-confirmation.html');
+  if (quoteBtn) handleOrderClick(quoteBtn, 'checkout-quote.html');
+})();
+</script>
+
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
 </body>

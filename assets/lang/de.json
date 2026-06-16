@@ -644,5 +644,9 @@
   "milla.tabOrderStatus": "Bestellstatus",
   "milla.tabDocuments": "Dokumente",
   "milla.tabRecommendations": "Empfehlungen",
-  "milla.chatPlaceholder": "Fragen Sie Milla..."
+  "milla.chatPlaceholder": "Fragen Sie Milla...",
+
+  "checkout.processing": "Wird verarbeitet...",
+  "checkout.orderPlaced": "Bestellung erfolgreich aufgegeben!",
+  "checkout.orderPlacedDesc": "Weiterleitung zur Bestellbestätigung..."
 }

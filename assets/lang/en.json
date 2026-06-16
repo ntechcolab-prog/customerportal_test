@@ -644,5 +644,9 @@
   "milla.tabOrderStatus": "Order status",
   "milla.tabDocuments": "Documents",
   "milla.tabRecommendations": "Recommendations",
-  "milla.chatPlaceholder": "Ask Milla anything..."
+  "milla.chatPlaceholder": "Ask Milla anything...",
+
+  "checkout.processing": "Processing...",
+  "checkout.orderPlaced": "Order placed successfully!",
+  "checkout.orderPlacedDesc": "Redirecting to order confirmation..."
 }
