@@ -1402,9 +1402,9 @@
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep" aria-hidden="true">/</span>
-    <a href="services.html">Services</a>
+    <a href="services.html" data-i18n="breadcrumb.services">Services</a>
     <span class="breadcrumb-sep" aria-hidden="true">/</span>
-    <span class="breadcrumb-current" aria-current="page">Service Request</span>
+    <span class="breadcrumb-current" aria-current="page" data-i18n="services.serviceRequest">Service Request</span>
   </nav>
 
   <!-- MAIN -->
@@ -1415,7 +1415,7 @@
       <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      Back to Services
+      <span data-i18n="serviceReq.backToServices">Back to Services</span>
     </a>
 
     <!-- TITLE BAR -->
@@ -1427,7 +1427,7 @@
           <path d="M5.25 7.5L9 11.25l3.75-3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M9 11.25v-9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Download PDF
+        <span data-i18n="orderDetail.downloadPdf">Download PDF</span>
       </button>
     
     <!-- MILLA SEARCH (inline, expande do ícone) -->
@@ -1474,11 +1474,11 @@
 
     <!-- SERVICE PROGRESS -->
     <div class="card">
-      <h2 class="card-title">Service Progress</h2>
+      <h2 class="card-title" data-i18n="serviceReq.serviceProgress">Service Progress</h2>
       <div class="progress-bar" role="list" aria-label="Service progress steps">
-        <div class="progress-step active" role="listitem" aria-current="step">Submitted</div>
-        <div class="progress-step" role="listitem">In Progress</div>
-        <div class="progress-step" role="listitem">Completed</div>
+        <div class="progress-step active" role="listitem" aria-current="step" data-i18n="serviceReq.stepSubmitted">Submitted</div>
+        <div class="progress-step" role="listitem" data-i18n="serviceReq.stepInProgress">In Progress</div>
+        <div class="progress-step" role="listitem" data-i18n="serviceReq.stepCompleted">Completed</div>
       </div>
     </div>
 
@@ -1492,45 +1492,45 @@
           <div class="machine-header-info">
             <div class="machine-name">Discus 30</div>
             <div class="machine-meta">
-              <span>Serial Number: 232345</span>
-              <span>Country: Brazil</span>
-              <span>Install Date: 2024-08-20</span>
+              <span><span data-i18n="machine.serialNumber">Serial Number</span>: 232345</span>
+              <span><span data-i18n="machine.country">Country</span>: Brazil</span>
+              <span><span data-i18n="machine.installDate">Install Date</span>: 2024-08-20</span>
             </div>
           </div>
         </div>
 
-        <h3 class="machine-section-title">Machine Information</h3>
+        <h3 class="machine-section-title" data-i18n="machine.machineInfo">Machine Information</h3>
         <div class="machine-details">
           <div class="machine-detail-row">
-            <span class="machine-detail-label">Equipment Name</span>
+            <span class="machine-detail-label" data-i18n="machine.equipmentName">Equipment Name</span>
             <span class="machine-detail-value">Discus 30</span>
           </div>
           <div class="machine-detail-row">
-            <span class="machine-detail-label">Commission Number</span>
+            <span class="machine-detail-label" data-i18n="machine.commissionNumber">Commission Number</span>
             <span class="machine-detail-value">232345</span>
           </div>
           <div class="machine-detail-row">
-            <span class="machine-detail-label">Machine Type</span>
+            <span class="machine-detail-label" data-i18n="machine.machineType">Machine Type</span>
             <span class="machine-detail-value">Bead Mill Stirrer</span>
           </div>
           <div class="machine-detail-row">
-            <span class="machine-detail-label">Fig nr.</span>
+            <span class="machine-detail-label" data-i18n="machine.figNumber">Fig nr.</span>
             <span class="machine-detail-value">12633</span>
           </div>
           <div class="machine-detail-row">
-            <span class="machine-detail-label">Service by</span>
+            <span class="machine-detail-label" data-i18n="machine.serviceBy">Service by</span>
             <span class="machine-detail-value">NEM</span>
           </div>
           <div class="machine-detail-row">
-            <span class="machine-detail-label">Purchase Date</span>
+            <span class="machine-detail-label" data-i18n="machine.purchaseDate">Purchase Date</span>
             <span class="machine-detail-value">2024-05-12</span>
           </div>
           <div class="machine-detail-row">
-            <span class="machine-detail-label">Install Date</span>
+            <span class="machine-detail-label" data-i18n="machine.installDate">Install Date</span>
             <span class="machine-detail-value">2024-08-20</span>
           </div>
           <div class="machine-detail-row">
-            <span class="machine-detail-label">Warranty Expiration</span>
+            <span class="machine-detail-label" data-i18n="machine.warrantyExpiration">Warranty Expiration</span>
             <span class="machine-detail-value">2026-06-01</span>
           </div>
         </div>
@@ -1538,54 +1538,54 @@
 
       <!-- RIGHT: Service Details -->
       <div class="card">
-        <h2 class="section-title-upper">Service Details</h2>
+        <h2 class="section-title-upper" data-i18n="serviceReq.detailsTitle">Service Details</h2>
 
         <!-- Request Type -->
         <fieldset class="form-group" style="border: none; padding: 0;">
-          <legend class="form-label">Request Type <span class="required" aria-hidden="true">*</span></legend>
+          <legend class="form-label"><span data-i18n="serviceReq.requestType">Request Type</span> <span class="required" aria-hidden="true">*</span></legend>
           <div class="radio-group" role="radiogroup" aria-label="Request Type">
             <div class="radio-option" role="radio" aria-checked="false" tabindex="-1">
               <span class="radio-circle" aria-hidden="true"></span>
-              <span class="radio-label">Repair</span>
+              <span class="radio-label" data-i18n="serviceReq.repair">Repair</span>
             </div>
             <div class="radio-option" role="radio" aria-checked="false" tabindex="-1">
               <span class="radio-circle" aria-hidden="true"></span>
-              <span class="radio-label">Maintenance</span>
+              <span class="radio-label" data-i18n="serviceReq.maintenance">Maintenance</span>
             </div>
             <div class="radio-option selected" role="radio" aria-checked="true" tabindex="0">
               <span class="radio-circle" aria-hidden="true"></span>
-              <span class="radio-label">Spare Parts Request</span>
+              <span class="radio-label" data-i18n="serviceReq.sparePartsReq">Spare Parts Request</span>
             </div>
             <div class="radio-option" role="radio" aria-checked="false" tabindex="-1">
               <span class="radio-circle" aria-hidden="true"></span>
-              <span class="radio-label">Consultation</span>
+              <span class="radio-label" data-i18n="serviceReq.consultation">Consultation</span>
             </div>
           </div>
         </fieldset>
 
         <!-- Title -->
         <div class="form-group">
-          <label class="form-label" for="service-title">Title <span class="required" aria-hidden="true">*</span></label>
+          <label class="form-label" for="service-title"><span data-i18n="serviceReq.titleLabel">Title</span> <span class="required" aria-hidden="true">*</span></label>
           <input type="text" id="service-title" class="form-input" value="ee" readonly aria-readonly="true">
         </div>
 
         <!-- Problem Description -->
         <div class="form-group">
-          <label class="form-label" for="service-description">Problem Description <span class="required" aria-hidden="true">*</span></label>
+          <label class="form-label" for="service-description"><span data-i18n="serviceReq.problemDesc">Problem Description</span> <span class="required" aria-hidden="true">*</span></label>
           <textarea id="service-description" class="form-textarea" readonly aria-readonly="true">ee</textarea>
         </div>
 
         <!-- Attachments -->
         <div class="form-group">
-          <span class="form-label">Attachments</span>
+          <span class="form-label" data-i18n="serviceReq.attachments">Attachments</span>
           <div class="drop-zone" role="button" tabindex="0" aria-label="Drop files here or click to upload">
             <svg class="drop-zone-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M20 28V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M13 19l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M33 28a6 6 0 0 0-3.2-10.5A9 9 0 1 0 12.1 22 6 6 0 0 0 7 28" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="drop-zone-text">Drop files here or click to upload</span>
-            <span class="drop-zone-hint">Supports: PDF, JPG, PNG</span>
+            <span class="drop-zone-text" data-i18n="serviceReq.dropzone">Drop files here or click to upload</span>
+            <span class="drop-zone-hint" data-i18n="serviceReq.dropzoneHint">Supports: PDF, JPG, PNG</span>
           </div>
         </div>
       </div>

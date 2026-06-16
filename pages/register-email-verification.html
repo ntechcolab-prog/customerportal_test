@@ -369,7 +369,7 @@
     <a href="home.html" class="topbar-link">
       <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
       <div class="topbar-divider"></div>
-      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+      <span class="topbar-label" data-i18n="topbar.portal">Grinding &amp; Dispersing Customer Portal</span>
     </a>
   </div>
 
@@ -383,11 +383,11 @@
       <div class="panel-left-content">
         <div class="portal-badge">
           <img class="portal-badge-icon" src="../assets/gd-logo-white.svg" alt="">
-          <span class="portal-badge-text">G&amp;D Customer Portal</span>
+          <span class="portal-badge-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
         <div class="panel-left-texts">
-          <h1 class="panel-left-title">Create your account</h1>
-          <p class="panel-left-subtitle">Join us to access all your tools and manage your operations efficiently.</p>
+          <h1 class="panel-left-title" data-i18n="auth.createTitle">Create your account</h1>
+          <p class="panel-left-subtitle" data-i18n="auth.createSubtitle">Join us to access all your tools and manage your operations efficiently.</p>
         </div>
       </div>
     </div>
@@ -399,7 +399,7 @@
         <!-- Logo -->
         <div class="form-logo">
           <img class="form-logo-icon" src="../assets/gd-logo-dark.svg" alt="">
-          <span class="form-logo-text">G&amp;D Customer Portal</span>
+          <span class="form-logo-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
 
         <!-- Progress: step 1 of 5 (still in email confirmation phase) -->
@@ -413,19 +413,19 @@
 
         <!-- Heading -->
         <div>
-          <h2 class="form-title">Confirm your company email</h2>
-          <p class="form-subtitle">Verification code has been sent. Please copy it to the input box below.</p>
+          <h2 class="form-title" data-i18n="register.confirmEmail">Confirm your company email</h2>
+          <p class="form-subtitle" data-i18n="register.verificationSent">Verification code has been sent. Please copy it to the input box below.</p>
         </div>
 
         <!-- Email -->
         <div class="field">
-          <label class="field-label" for="email">Email*</label>
+          <label class="field-label" for="email" data-i18n="auth.email">Email*</label>
           <input class="field-input" id="email" type="email" placeholder="john.doe@company.com" autocomplete="email">
         </div>
 
         <!-- Verification code -->
         <div class="otp-field">
-          <label class="field-label">Verification code*</label>
+          <label class="field-label" data-i18n="register.verificationCode">Verification code*</label>
           <div class="otp-boxes">
             <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-0" autocomplete="one-time-code">
             <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp-1">
@@ -439,11 +439,11 @@
         </div>
 
         <!-- Continue button -->
-        <button class="btn-continue" id="btn-continue" type="button">Continue</button>
+        <button class="btn-continue" id="btn-continue" type="button" data-i18n="auth.continueBtn">Continue</button>
 
         <!-- Footer -->
         <p class="form-footer">
-          Already have an account?<a href="login.html">Log In</a>
+          <span data-i18n="auth.haveAccount">Already have an account?</span><a href="login.html" data-i18n="auth.loginLink">Log In</a>
         </p>
 
       </div>

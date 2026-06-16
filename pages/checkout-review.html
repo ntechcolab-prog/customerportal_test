@@ -1453,9 +1453,9 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <a href="shopping-cart.html">Shopping Cart</a>
+    <a href="shopping-cart.html" data-i18n="checkout.title">Shopping Cart</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Checkout</span>
+    <span class="breadcrumb-current" data-i18n="checkout.checkoutLabel">Checkout</span>
   </div>
 
   <!-- MAIN -->
@@ -1466,12 +1466,12 @@
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      Back to Checkout Information
+      <span data-i18n="checkout.backToCheckout">Back to Checkout Information</span>
     </a>
 
     <!-- PAGE TITLE -->
-    <h1 class="page-title">Review</h1>
-    <p class="page-subtitle">Check all order information before placing your order or requesting a quotation.</p>
+    <h1 class="page-title" data-i18n="checkout.reviewTitle">Review</h1>
+    <p class="page-subtitle" data-i18n="checkout.reviewSubtitle">Check all order information before placing your order or requesting a quotation.</p>
 
     <!-- TWO-COLUMN LAYOUT -->
     <div class="checkout-layout">
@@ -1481,15 +1481,15 @@
 
         <!-- CARD 1 — Products -->
         <div class="review-card">
-          <h2 class="review-card-title">Products</h2>
+          <h2 class="review-card-title" data-i18n="checkout.products">Products</h2>
           <div id="reviewProducts"></div>
           <table class="product-detail-table">
             <thead>
               <tr>
-                <th>Unit price</th>
-                <th>Quantity</th>
-                <th>Unity</th>
-                <th>Total</th>
+                <th data-i18n="table.unitPrice">Unit price</th>
+                <th data-i18n="table.quantity">Quantity</th>
+                <th data-i18n="table.unit">Unity</th>
+                <th data-i18n="table.total">Total</th>
               </tr>
             </thead>
             <tbody id="reviewProductsTable"></tbody>
@@ -1498,16 +1498,16 @@
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Change products
+            <span data-i18n="checkout.changeProducts">Change products</span>
           </a>
         </div>
 
         <!-- CARD 2 — Shipping and Delivery -->
         <div class="review-card">
-          <h2 class="review-card-title">Shipping and Delivery</h2>
+          <h2 class="review-card-title" data-i18n="checkout.shippingDelivery">Shipping and Delivery</h2>
           <div class="shipping-section">
             <div class="shipping-block">
-              <div class="shipping-block-label">Address</div>
+              <div class="shipping-block-label" data-i18n="checkout.address">Address</div>
               <strong>Central NY</strong>
               <p>
                 123 Main Street, Apt 4B<br>
@@ -1517,7 +1517,7 @@
               </p>
             </div>
             <div class="shipping-block" id="reviewDeliveryBlock">
-              <div class="shipping-block-label">Delivery</div>
+              <div class="shipping-block-label" data-i18n="checkout.delivery">Delivery</div>
               <strong id="reviewDeliveryMethod">--</strong>
               <p id="reviewDeliveryDetail"></p>
             </div>
@@ -1526,31 +1526,31 @@
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Change address or delivery method
+            <span data-i18n="checkout.changeAddress">Change address or delivery method</span>
           </a>
         </div>
 
         <!-- CARD 3 — Purchase Order Number -->
         <div class="review-card">
-          <h2 class="review-card-title">Purchase Order Number</h2>
+          <h2 class="review-card-title" data-i18n="checkout.poNumber">Purchase Order Number</h2>
           <p class="po-value" id="reviewPoNumber">--</p>
           <a href="checkout-order-details.html" class="change-link">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Change PO Number
+            <span data-i18n="checkout.changePO">Change PO Number</span>
           </a>
         </div>
 
         <!-- CARD 4 — Special Request -->
         <div class="review-card">
-          <h2 class="review-card-title">Special Request</h2>
-          <p class="special-request-text" id="reviewSpecialRequest">No special request made in this order.</p>
+          <h2 class="review-card-title" data-i18n="checkout.specialRequestTitle">Special Request</h2>
+          <p class="special-request-text" id="reviewSpecialRequest" data-i18n="checkout.noSpecialRequest">No special request made in this order.</p>
           <a href="checkout-order-details.html" class="change-link">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.086 1.914a1.25 1.25 0 0 1 1.768 0l.232.232a1.25 1.25 0 0 1 0 1.768L5.25 10.75 2.5 11.5l.75-2.75 6.836-6.836Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Change Special Request
+            <span data-i18n="checkout.changeSpecialRequest">Change Special Request</span>
           </a>
         </div>
 
@@ -1559,37 +1559,37 @@
       <!-- RIGHT SIDEBAR -->
       <div class="sidebar">
         <div class="sidebar-card">
-          <h2 class="card-title">Payment Details</h2>
+          <h2 class="card-title" data-i18n="checkout.paymentDetails">Payment Details</h2>
 
           <div class="payment-row">
-            <span class="label">Subtotal</span>
+            <span class="label" data-i18n="checkout.subtotal">Subtotal</span>
             <span class="value" id="paySubtotal">--</span>
           </div>
           <div class="payment-row">
-            <span class="label">Shipping</span>
+            <span class="label" data-i18n="checkout.shipping">Shipping</span>
             <span class="value" id="payShipping">--</span>
           </div>
           <div class="payment-row">
-            <span class="label">Tax</span>
+            <span class="label" data-i18n="checkout.tax">Tax</span>
             <span class="value" id="payTax">--</span>
           </div>
 
           <hr class="payment-separator">
 
           <div class="payment-row bold">
-            <span class="label">Total before discount</span>
+            <span class="label" data-i18n="checkout.totalBeforeDiscount">Total before discount</span>
             <span class="value" id="payTotalBefore">--</span>
           </div>
 
           <div class="payment-row">
-            <span class="label">Coupon</span>
-            <a href="#" class="coupon-link">+ Add Coupon</a>
+            <span class="label" data-i18n="checkout.coupon">Coupon</span>
+            <a href="#" class="coupon-link" data-i18n="checkout.addCoupon">+ Add Coupon</a>
           </div>
 
           <hr class="payment-separator">
 
           <div class="order-total-row">
-            <span class="order-total-label">Order Total</span>
+            <span class="order-total-label" data-i18n="checkout.orderTotal">Order Total</span>
             <span class="order-total-value" id="payOrderTotal">--</span>
           </div>
 
@@ -1597,8 +1597,8 @@
           <label class="terms-row">
             <input type="checkbox" class="terms-checkbox" id="termsCheck">
             <span class="terms-text">
-              By ticking, you are confirming that you have read, understood and agree with our
-              <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>.
+              <span data-i18n="checkout.termsText">By ticking, you are confirming that you have read, understood and agree with our</span>
+              <a href="#" data-i18n="checkout.termsLink">Terms and Conditions</a> and <a href="#" data-i18n="checkout.privacyLink">Privacy Policy</a>.
             </span>
           </label>
 
@@ -1608,13 +1608,13 @@
               <rect x="4.5" y="8" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
               <path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
             </svg>
-            Place Order
+            <span data-i18n="checkout.placeOrder">Place Order</span>
           </a>
           <a href="checkout-quote.html" class="btn-primary" id="btnRequestQuote">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4.5 9.5l3 3 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Request Quotation for Approval
+            <span data-i18n="checkout.requestQuotation">Request Quotation for Approval</span>
           </a>
         </div>
       </div>

@@ -612,7 +612,7 @@
     <a href="home.html" class="topbar-link">
       <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
       <div class="topbar-divider"></div>
-      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+      <span class="topbar-label" data-i18n="topbar.portal">Grinding &amp; Dispersing Customer Portal</span>
     </a>
   </div>
 
@@ -626,11 +626,11 @@
       <div class="panel-left-content">
         <div class="portal-badge">
           <img class="portal-badge-icon" src="../assets/gd-logo-white.svg" alt="">
-          <span class="portal-badge-text">G&amp;D Customer Portal</span>
+          <span class="portal-badge-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
         <div class="panel-left-texts">
-          <h1 class="panel-left-title">Welcome back!</h1>
-          <p class="panel-left-subtitle">Log in to your account to continue where you left off and access all your tools.</p>
+          <h1 class="panel-left-title" data-i18n="auth.welcomeBack">Welcome back!</h1>
+          <p class="panel-left-subtitle" data-i18n="auth.loginSubtitle">Log in to your account to continue where you left off and access all your tools.</p>
         </div>
       </div>
     </div>
@@ -642,23 +642,23 @@
         <!-- Logo -->
         <div class="form-logo">
           <img class="form-logo-icon" src="../assets/gd-logo-dark.svg" alt="">
-          <span class="form-logo-text">G&amp;D Customer Portal</span>
+          <span class="form-logo-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
 
         <!-- Heading -->
-        <h2 class="form-heading">Log in to Grinding &amp; Dispersing Portal</h2>
+        <h2 class="form-heading" data-i18n="auth.loginTitle">Log in to Grinding &amp; Dispersing Portal</h2>
 
         <!-- Email -->
         <div class="field">
-          <label class="field-label" for="email">Email*</label>
-          <input class="field-input" id="email" type="email" placeholder="Enter your email" autocomplete="email">
+          <label class="field-label" for="email" data-i18n="auth.email">Email*</label>
+          <input class="field-input" id="email" type="email" placeholder="Enter your email" data-i18n-placeholder="auth.emailPlaceholder" autocomplete="email">
         </div>
 
         <!-- Password -->
         <div class="field">
-          <label class="field-label" for="password">Password *</label>
+          <label class="field-label" for="password" data-i18n="auth.password">Password *</label>
           <div class="field-input-wrap">
-            <input class="field-input" id="password" type="password" placeholder="Enter your password" autocomplete="current-password">
+            <input class="field-input" id="password" type="password" placeholder="Enter your password" data-i18n-placeholder="auth.passwordPlaceholder" autocomplete="current-password">
             <img class="field-eye" src="../assets/eye-icon.svg" alt="Show password" id="toggle-password">
           </div>
         </div>
@@ -667,32 +667,32 @@
         <div class="form-row">
           <label class="remember-label">
             <input type="checkbox" id="remember">
-            <span>Remember me</span>
+            <span data-i18n="auth.rememberMe">Remember me</span>
           </label>
-          <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+          <a href="forgot-password.html" class="forgot-link" data-i18n="auth.forgotPassword">Forgot password?</a>
         </div>
 
         <!-- Buttons -->
         <div class="buttons-group">
-          <button class="btn-signin" type="button" id="btn-login" disabled>Log In</button>
+          <button class="btn-signin" type="button" id="btn-login" disabled data-i18n="auth.loginBtn">Log In</button>
           <div class="divider">
             <div class="divider-line"></div>
-            <span class="divider-text">or</span>
+            <span class="divider-text" data-i18n="auth.or">or</span>
             <div class="divider-line"></div>
           </div>
-          <button class="btn-sso" type="button" onclick="window.location.href='login-sso.html'">Log In with SSO</button>
+          <button class="btn-sso" type="button" onclick="window.location.href='login-sso.html'" data-i18n="auth.loginSSO">Log In with SSO</button>
         </div>
 
         <!-- Footer -->
         <div class="form-footer">
           <p class="terms-text">
-            By signing in, you agree to our
-            <a href="#">Terms of Service</a>
+            <span data-i18n="auth.agreeText">By signing in, you agree to our</span>
+            <a href="#" data-i18n="auth.termsOfService">Terms of Service</a>
             &amp;
-            <a href="#">Privacy Policy</a>
+            <a href="#" data-i18n="auth.privacyPolicy">Privacy Policy</a>
           </p>
           <p class="register-text">
-            Don't have an account?&nbsp;<a href="register-confirm-email.html">Create a new account</a>
+            <span data-i18n="auth.noAccount">Don't have an account?</span>&nbsp;<a href="register-confirm-email.html" data-i18n="auth.createAccount">Create a new account</a>
           </p>
         </div>
 

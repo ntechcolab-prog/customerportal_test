@@ -1481,9 +1481,9 @@
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep" aria-hidden="true">/</span>
-    <a href="services.html">Service</a>
+    <a href="services.html" data-i18n="breadcrumb.services">Service</a>
     <span class="breadcrumb-sep" aria-hidden="true">/</span>
-    <span class="breadcrumb-current" aria-current="page">Service Request</span>
+    <span class="breadcrumb-current" aria-current="page" data-i18n="services.serviceRequest">Service Request</span>
   </nav>
 
   <!-- MAIN -->
@@ -1491,8 +1491,8 @@
 
     <!-- PAGE HEADER -->
     <div class="page-header">
-      <h1>Service Request</h1>
-      <p>Submit your service request with detailed information for prompt assistance.</p>
+      <h1 data-i18n="services.serviceRequest">Service Request</h1>
+      <p data-i18n="serviceReq.subtitle">Submit your service request with detailed information for prompt assistance.</p>
     </div>
 
     <!-- TWO-COLUMN FORM -->
@@ -1513,7 +1513,7 @@
 
           <label for="machineSelect" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Select a machine</label>
           <select class="machine-select" id="machineSelect">
-            <option value="" disabled selected>Select the machine</option>
+            <option value="" disabled selected data-i18n="serviceReq.selectMachine">Select the machine</option>
             <option value="discus30">Discus 30</option>
             <option value="zeta60">Zeta 60</option>
             <option value="mastermix45">MasterMix 45</option>
@@ -1522,15 +1522,15 @@
 
           <div class="machine-meta" id="machineMeta">
             <div class="machine-meta-row">
-              <span class="machine-meta-label">Serial Number</span>
+              <span class="machine-meta-label" data-i18n="machine.serialNumber">Serial Number</span>
               <span class="machine-meta-value" id="metaSerial">232345</span>
             </div>
             <div class="machine-meta-row">
-              <span class="machine-meta-label">Country</span>
+              <span class="machine-meta-label" data-i18n="machine.country">Country</span>
               <span class="machine-meta-value" id="metaCountry">Brazil</span>
             </div>
             <div class="machine-meta-row">
-              <span class="machine-meta-label">Install Date</span>
+              <span class="machine-meta-label" data-i18n="machine.installDate">Install Date</span>
               <span class="machine-meta-value" id="metaInstall">01/15/2022</span>
             </div>
           </div>
@@ -1538,38 +1538,38 @@
 
         <!-- Card 2: Machine Information -->
         <div class="card machine-info-card">
-          <h3>Machine Information</h3>
+          <h3 data-i18n="machine.machineInfo">Machine Information</h3>
           <div class="info-grid">
             <div class="info-row">
-              <span class="info-label">Equipment Name</span>
+              <span class="info-label" data-i18n="machine.equipmentName">Equipment Name</span>
               <span class="info-value" id="infoEquipName">--</span>
             </div>
             <div class="info-row">
-              <span class="info-label">Commission Number</span>
+              <span class="info-label" data-i18n="machine.commissionNumber">Commission Number</span>
               <span class="info-value" id="infoCommission">--</span>
             </div>
             <div class="info-row">
-              <span class="info-label">Machine Type</span>
+              <span class="info-label" data-i18n="machine.machineType">Machine Type</span>
               <span class="info-value" id="infoMachineType">--</span>
             </div>
             <div class="info-row">
-              <span class="info-label">Fig nr.</span>
+              <span class="info-label" data-i18n="machine.figNumber">Fig nr.</span>
               <span class="info-value" id="infoFigNr">--</span>
             </div>
             <div class="info-row">
-              <span class="info-label">Service by</span>
+              <span class="info-label" data-i18n="machine.serviceBy">Service by</span>
               <span class="info-value" id="infoServiceBy">--</span>
             </div>
             <div class="info-row">
-              <span class="info-label">Purchase Date</span>
+              <span class="info-label" data-i18n="machine.purchaseDate">Purchase Date</span>
               <span class="info-value" id="infoPurchaseDate">--</span>
             </div>
             <div class="info-row">
-              <span class="info-label">Install Date</span>
+              <span class="info-label" data-i18n="machine.installDate">Install Date</span>
               <span class="info-value" id="infoInstallDate">--</span>
             </div>
             <div class="info-row">
-              <span class="info-label">Warranty Expiration</span>
+              <span class="info-label" data-i18n="machine.warrantyExpiration">Warranty Expiration</span>
               <span class="info-value" id="infoWarranty">--</span>
             </div>
           </div>
@@ -1579,61 +1579,61 @@
 
       <!-- RIGHT COLUMN -->
       <div class="card">
-        <h2 class="section-title">Service Details</h2>
+        <h2 class="section-title" data-i18n="serviceReq.detailsTitle">Service Details</h2>
 
         <!-- Request Type -->
         <div class="field-group">
-          <span class="field-label">Request Type <span class="required" aria-label="required">*</span></span>
+          <span class="field-label"><span data-i18n="serviceReq.requestType">Request Type</span> <span class="required" aria-label="required">*</span></span>
           <div class="radio-cards" role="radiogroup" aria-label="Request Type">
             <label class="radio-card" tabindex="0">
               <input type="radio" name="requestType" value="repair">
               <div class="radio-circle"><div class="radio-circle-inner"></div></div>
-              <div class="radio-card-title">Repair</div>
-              <div class="radio-card-subtitle">Equipment Fix</div>
+              <div class="radio-card-title" data-i18n="serviceReq.repair">Repair</div>
+              <div class="radio-card-subtitle" data-i18n="serviceReq.repairDesc">Equipment Fix</div>
             </label>
             <label class="radio-card" tabindex="0">
               <input type="radio" name="requestType" value="maintenance">
               <div class="radio-circle"><div class="radio-circle-inner"></div></div>
-              <div class="radio-card-title">Maintenance</div>
-              <div class="radio-card-subtitle">Preventive care</div>
+              <div class="radio-card-title" data-i18n="serviceReq.maintenance">Maintenance</div>
+              <div class="radio-card-subtitle" data-i18n="serviceReq.maintenanceDesc">Preventive care</div>
             </label>
             <label class="radio-card" tabindex="0">
               <input type="radio" name="requestType" value="spare-parts">
               <div class="radio-circle"><div class="radio-circle-inner"></div></div>
-              <div class="radio-card-title">Spare Parts Request</div>
-              <div class="radio-card-subtitle">Request Parts</div>
+              <div class="radio-card-title" data-i18n="serviceReq.sparePartsReq">Spare Parts Request</div>
+              <div class="radio-card-subtitle" data-i18n="serviceReq.sparePartsDesc">Request Parts</div>
             </label>
             <label class="radio-card" tabindex="0">
               <input type="radio" name="requestType" value="consultation">
               <div class="radio-circle"><div class="radio-circle-inner"></div></div>
-              <div class="radio-card-title">Consultation</div>
-              <div class="radio-card-subtitle">Expert Advice</div>
+              <div class="radio-card-title" data-i18n="serviceReq.consultation">Consultation</div>
+              <div class="radio-card-subtitle" data-i18n="serviceReq.consultationDesc">Expert Advice</div>
             </label>
           </div>
         </div>
 
         <!-- Title -->
         <div class="field-group">
-          <label class="field-label" for="requestTitle">Title <span class="required" aria-label="required">*</span></label>
-          <input type="text" class="form-input" id="requestTitle" placeholder="Write here the title">
+          <label class="field-label" for="requestTitle"><span data-i18n="serviceReq.titleLabel">Title</span> <span class="required" aria-label="required">*</span></label>
+          <input type="text" class="form-input" id="requestTitle" placeholder="Write here the title" data-i18n-placeholder="serviceReq.titlePlaceholder">
         </div>
 
         <!-- Problem Description -->
         <div class="field-group">
-          <label class="field-label" for="requestDesc">Problem Description <span class="required" aria-label="required">*</span></label>
-          <textarea class="form-textarea" id="requestDesc" placeholder="Describe the issue in detail ..."></textarea>
+          <label class="field-label" for="requestDesc"><span data-i18n="serviceReq.problemDesc">Problem Description</span> <span class="required" aria-label="required">*</span></label>
+          <textarea class="form-textarea" id="requestDesc" placeholder="Describe the issue in detail ..." data-i18n-placeholder="serviceReq.problemPlaceholder"></textarea>
         </div>
 
         <!-- Attachments -->
         <div class="field-group">
-          <span class="field-label">Attachments</span>
+          <span class="field-label" data-i18n="serviceReq.attachments">Attachments</span>
           <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload attachments, drop files here or click to upload">
             <svg class="dropzone-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="dropzone-text">Drop files here or click to upload</span>
-            <span class="dropzone-hint">Supports: PDF, JPG, PNG</span>
+            <span class="dropzone-text" data-i18n="serviceReq.dropzone">Drop files here or click to upload</span>
+            <span class="dropzone-hint" data-i18n="serviceReq.dropzoneHint">Supports: PDF, JPG, PNG</span>
             <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
           </div>
         </div>
@@ -1644,7 +1644,7 @@
             <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Send Request
+            <span data-i18n="serviceReq.sendRequest">Send Request</span>
           </button>
         </div>
       </div>

@@ -26,44 +26,92 @@
 var FormValidator = (function () {
   'use strict';
 
+  /* ─── i18n messages ───────────────────────────────────────── */
+  var messages = {
+    en: {
+      required: 'This field is required.',
+      email: 'Please enter a valid email address.',
+      passwordMin: 'Password must be at least 8 characters.',
+      passwordUpper: 'Include at least one uppercase letter.',
+      passwordLower: 'Include at least one lowercase letter.',
+      passwordNumber: 'Include at least one number.',
+      passwordSpecial: 'Include at least one special character.',
+      numeric: 'Only numbers are allowed.',
+      url: 'Please enter a valid URL.',
+      domain: 'Please enter a valid domain (letters, numbers and hyphens).',
+      minLength: 'Must be at least {n} characters.',
+      maxLength: 'Must be at most {n} characters.',
+      matches: 'Fields do not match.',
+      fileTypes: 'Allowed file types: {types}.',
+      maxFiles: 'Maximum {n} files allowed.',
+      maxFileSize: 'Each file must be under {n} MB.',
+      invalidFormat: 'Invalid format.'
+    },
+    de: {
+      required: 'Dieses Feld ist erforderlich.',
+      email: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+      passwordMin: 'Das Passwort muss mindestens 8 Zeichen lang sein.',
+      passwordUpper: 'Mindestens ein Großbuchstabe erforderlich.',
+      passwordLower: 'Mindestens ein Kleinbuchstabe erforderlich.',
+      passwordNumber: 'Mindestens eine Zahl erforderlich.',
+      passwordSpecial: 'Mindestens ein Sonderzeichen erforderlich.',
+      numeric: 'Nur Zahlen sind erlaubt.',
+      url: 'Bitte geben Sie eine gültige URL ein.',
+      domain: 'Bitte geben Sie eine gültige Domain ein (Buchstaben, Zahlen und Bindestriche).',
+      minLength: 'Muss mindestens {n} Zeichen lang sein.',
+      maxLength: 'Darf höchstens {n} Zeichen lang sein.',
+      matches: 'Felder stimmen nicht überein.',
+      fileTypes: 'Erlaubte Dateitypen: {types}.',
+      maxFiles: 'Maximal {n} Dateien erlaubt.',
+      maxFileSize: 'Jede Datei darf höchstens {n} MB groß sein.',
+      invalidFormat: 'Ungültiges Format.'
+    }
+  };
+
+  function msg(key) {
+    var lang = (window.NetzschI18n && window.NetzschI18n.getLang) ? window.NetzschI18n.getLang() : 'en';
+    var dict = messages[lang] || messages.en;
+    return dict[key] || messages.en[key] || key;
+  }
+
   /* ─── Built-in validators ────────────────────────────────── */
   var validators = {
     required: function (v) {
-      return v.trim() !== '' ? null : 'This field is required.';
+      return v.trim() !== '' ? null : msg('required');
     },
 
     email: function (v) {
       if (v.trim() === '') return null; // let "required" handle empty
       // RFC-5322 simplified — good enough for client-side
       var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-      return re.test(v) ? null : 'Please enter a valid email address.';
+      return re.test(v) ? null : msg('email');
     },
 
     password: function (v) {
       if (v === '') return null;
-      if (v.length < 8)                      return 'Password must be at least 8 characters.';
-      if (!/[A-Z]/.test(v))                  return 'Include at least one uppercase letter.';
-      if (!/[a-z]/.test(v))                  return 'Include at least one lowercase letter.';
-      if (!/[0-9]/.test(v))                  return 'Include at least one number.';
-      if (!/[^A-Za-z0-9]/.test(v))           return 'Include at least one special character.';
+      if (v.length < 8)                      return msg('passwordMin');
+      if (!/[A-Z]/.test(v))                  return msg('passwordUpper');
+      if (!/[a-z]/.test(v))                  return msg('passwordLower');
+      if (!/[0-9]/.test(v))                  return msg('passwordNumber');
+      if (!/[^A-Za-z0-9]/.test(v))           return msg('passwordSpecial');
       return null;
     },
 
     numeric: function (v) {
       if (v.trim() === '') return null;
-      return /^\d+$/.test(v.trim()) ? null : 'Only numbers are allowed.';
+      return /^\d+$/.test(v.trim()) ? null : msg('numeric');
     },
 
     url: function (v) {
       if (v.trim() === '') return null;
       try { new URL(v.trim().indexOf('://') === -1 ? 'https://' + v.trim() : v.trim()); return null; }
-      catch (_) { return 'Please enter a valid URL.'; }
+      catch (_) { return msg('url'); }
     },
 
     domain: function (v) {
       if (v.trim() === '') return null;
       return /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/.test(v.trim())
-        ? null : 'Please enter a valid domain (letters, numbers and hyphens).';
+        ? null : msg('domain');
     }
   };
 
@@ -72,26 +120,26 @@ var FormValidator = (function () {
     minLength: function (n) {
       return function (v) {
         if (v.trim() === '') return null;
-        return v.trim().length >= n ? null : 'Must be at least ' + n + ' characters.';
+        return v.trim().length >= n ? null : msg('minLength').replace('{n}', n);
       };
     },
     maxLength: function (n) {
       return function (v) {
-        return v.trim().length <= n ? null : 'Must be at most ' + n + ' characters.';
+        return v.trim().length <= n ? null : msg('maxLength').replace('{n}', n);
       };
     },
     matches: function (otherId) {
       return function (v) {
         var other = document.getElementById(otherId);
         if (!other || v === '') return null;
-        return v === other.value ? null : 'Fields do not match.';
+        return v === other.value ? null : msg('matches');
       };
     },
     pattern: function (cfg) {
       // cfg = { regex: '...', message: '...' }
       return function (v) {
         if (v.trim() === '') return null;
-        return new RegExp(cfg.regex).test(v) ? null : (cfg.message || 'Invalid format.');
+        return new RegExp(cfg.regex).test(v) ? null : (cfg.message || msg('invalidFormat'));
       };
     },
     fileTypes: function (types) {
@@ -100,7 +148,7 @@ var FormValidator = (function () {
         if (!el || !el.files || el.files.length === 0) return null;
         for (var i = 0; i < el.files.length; i++) {
           var ext = el.files[i].name.split('.').pop().toLowerCase();
-          if (types.indexOf(ext) === -1) return 'Allowed file types: ' + types.join(', ') + '.';
+          if (types.indexOf(ext) === -1) return msg('fileTypes').replace('{types}', types.join(', '));
         }
         return null;
       };
@@ -108,7 +156,7 @@ var FormValidator = (function () {
     maxFiles: function (n) {
       return function (_v, el) {
         if (!el || !el.files) return null;
-        return el.files.length <= n ? null : 'Maximum ' + n + ' files allowed.';
+        return el.files.length <= n ? null : msg('maxFiles').replace('{n}', n);
       };
     },
     maxFileSize: function (mb) {
@@ -116,7 +164,7 @@ var FormValidator = (function () {
         if (!el || !el.files) return null;
         for (var i = 0; i < el.files.length; i++) {
           if (el.files[i].size > mb * 1024 * 1024) {
-            return 'Each file must be under ' + mb + ' MB.';
+            return msg('maxFileSize').replace('{n}', mb);
           }
         }
         return null;

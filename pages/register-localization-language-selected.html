@@ -539,7 +539,7 @@
     <a href="home.html" class="topbar-link">
       <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
       <div class="topbar-divider"></div>
-      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+      <span class="topbar-label" data-i18n="topbar.portal">Grinding &amp; Dispersing Customer Portal</span>
     </a>
   </div>
 
@@ -553,11 +553,11 @@
       <div class="panel-left-content">
         <div class="portal-badge">
           <img class="portal-badge-icon" src="../assets/gd-logo-white.svg" alt="">
-          <span class="portal-badge-text">G&amp;D Customer Portal</span>
+          <span class="portal-badge-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
         <div class="panel-left-texts">
-          <h1 class="panel-left-title">Create your account</h1>
-          <p class="panel-left-subtitle">Join us to access all your tools and manage your operations efficiently.</p>
+          <h1 class="panel-left-title" data-i18n="auth.createTitle">Create your account</h1>
+          <p class="panel-left-subtitle" data-i18n="auth.createSubtitle">Join us to access all your tools and manage your operations efficiently.</p>
         </div>
       </div>
     </div>
@@ -569,7 +569,7 @@
         <!-- Logo -->
         <div class="form-logo">
           <img class="form-logo-icon" src="../assets/gd-logo-dark.svg" alt="">
-          <span class="form-logo-text">G&amp;D Customer Portal</span>
+          <span class="form-logo-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
 
         <!-- Progress: step 1 completed, step 2 active -->
@@ -586,23 +586,23 @@
 
         <!-- Heading -->
         <div>
-          <h2 class="form-title">Localization Settings</h2>
-          <p class="form-subtitle">Set your language and region preferences.</p>
+          <h2 class="form-title" data-i18n="register.localization">Localization Settings</h2>
+          <p class="form-subtitle" data-i18n="register.localizationSubtitle">Set your language and region preferences.</p>
         </div>
 
         <!-- Country (closed) -->
         <div class="field">
-          <label class="field-label">Country*</label>
+          <label class="field-label" data-i18n="register.country">Country*</label>
           <button type="button" class="select-btn" onclick="window.location.href='register-localization-dropdown.html'">
             <span>Brazil</span>
             <img src="../assets/icon-chevron-down-input.svg" alt="">
           </button>
-          <p class="field-helper">Currently available only for Brazil.</p>
+          <p class="field-helper" data-i18n="register.countryHelper">Currently available only for Brazil.</p>
         </div>
 
         <!-- Preferred language (open, English selected) -->
         <div class="field">
-          <label class="field-label">Preferred language*</label>
+          <label class="field-label" data-i18n="register.preferredLang">Preferred language*</label>
           <div class="select-wrapper">
             <button type="button" class="select-btn open" id="lang-btn" onclick="window.location.href='register-localization-empty.html'">
               <span>English</span>
@@ -622,17 +622,17 @@
         <div class="buttons-row">
           <button type="button" class="btn-back" onclick="window.location.href='register-email-verification.html'">
             <img src="../assets/icon-arrow-left.svg" alt="">
-            Back
+            <span data-i18n="common.back">Back</span>
           </button>
           <button type="button" class="btn-next enabled" id="btn-next" onclick="window.location.href='register-account-information.html'">
-            Next
+            <span data-i18n="common.next">Next</span>
             <img src="../assets/icon-arrow-right.svg" alt="">
           </button>
         </div>
 
         <!-- Footer -->
         <p class="form-footer">
-          Already have an account?<a href="login.html">Log In</a>
+          <span data-i18n="auth.haveAccount">Already have an account?</span><a href="login.html" data-i18n="auth.loginLink">Log In</a>
         </p>
 
       </div>

@@ -419,7 +419,7 @@
     <a href="home.html" class="topbar-link">
       <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
       <div class="topbar-divider"></div>
-      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+      <span class="topbar-label" data-i18n="topbar.portal">Grinding &amp; Dispersing Customer Portal</span>
     </a>
   </div>
 
@@ -433,11 +433,11 @@
       <div class="panel-left-content">
         <div class="portal-badge">
           <img class="portal-badge-icon" src="../assets/gd-logo-white.svg" alt="">
-          <span class="portal-badge-text">G&amp;D Customer Portal</span>
+          <span class="portal-badge-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
         <div class="panel-left-texts">
-          <h1 class="panel-left-title">Create your account</h1>
-          <p class="panel-left-subtitle">Join us to access all your tools and manage your operations efficiently.</p>
+          <h1 class="panel-left-title" data-i18n="auth.createTitle">Create your account</h1>
+          <p class="panel-left-subtitle" data-i18n="auth.createSubtitle">Join us to access all your tools and manage your operations efficiently.</p>
         </div>
       </div>
     </div>
@@ -449,7 +449,7 @@
         <!-- Logo -->
         <div class="form-logo">
           <img class="form-logo-icon" src="../assets/gd-logo-dark.svg" alt="">
-          <span class="form-logo-text">G&amp;D Customer Portal</span>
+          <span class="form-logo-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
 
         <!-- Progress: steps 1+2+3 completed, step 4 active -->
@@ -472,19 +472,19 @@
 
         <!-- Heading -->
         <div>
-          <h2 class="form-title">Company Information</h2>
-          <p class="form-subtitle">Fill in the information below to finalize your account.</p>
+          <h2 class="form-title" data-i18n="register.companyInfo">Company Information</h2>
+          <p class="form-subtitle" data-i18n="register.companyInfoSubtitle">Fill in the information below to finalize your account.</p>
         </div>
 
         <!-- Company Name -->
         <div class="field">
-          <label class="field-label" for="company-name">Company Name*</label>
-          <input class="field-input" id="company-name" type="text" placeholder="Enter company name" required>
+          <label class="field-label" for="company-name" data-i18n="register.companyName">Company Name*</label>
+          <input class="field-input" id="company-name" type="text" placeholder="Enter company name" data-i18n-placeholder="register.companyNamePlaceholder" required>
         </div>
 
         <!-- Country (locked Brazil but clickable to view dropdown) -->
         <div class="field">
-          <label class="field-label">Country*</label>
+          <label class="field-label" data-i18n="register.country">Country*</label>
           <button type="button" class="select-btn" onclick="window.location.href='register-company-address-country-open.html'">
             <span>Brazil</span>
             <img src="../assets/icon-chevron-down-input.svg" alt="">
@@ -494,10 +494,10 @@
         <!-- State + City row -->
         <div class="field-row">
           <div class="field">
-            <label class="field-label">State*</label>
+            <label class="field-label" data-i18n="register.state">State*</label>
             <div class="select-wrapper">
               <button type="button" class="select-btn placeholder open" id="state-btn" onclick="window.location.href='register-company-address.html'">
-                <span>Select state</span>
+                <span data-i18n="register.selectState">Select state</span>
                 <img src="../assets/icon-chevron-down-input.svg" alt="">
               </button>
               <div class="select-dropdown" role="listbox">
@@ -512,9 +512,9 @@
             </div>
           </div>
           <div class="field">
-            <label class="field-label">City*</label>
+            <label class="field-label" data-i18n="register.city">City*</label>
             <button type="button" class="select-btn disabled" disabled>
-              <span>Select city</span>
+              <span data-i18n="register.selectCity">Select city</span>
               <img src="../assets/icon-chevron-down-input.svg" alt="">
             </button>
           </div>
@@ -522,31 +522,31 @@
 
         <!-- Street Address -->
         <div class="field">
-          <label class="field-label" for="street">Street Address*</label>
-          <input class="field-input" id="street" type="text" placeholder="Enter street address" autocomplete="street-address" required>
+          <label class="field-label" for="street" data-i18n="register.streetAddress">Street Address*</label>
+          <input class="field-input" id="street" type="text" placeholder="Enter street address" data-i18n-placeholder="register.streetPlaceholder" autocomplete="street-address" required>
         </div>
 
         <!-- Zip Code -->
         <div class="field">
-          <label class="field-label" for="zip">Zip Code*</label>
-          <input class="field-input" id="zip" type="text" placeholder="Enter postal code" autocomplete="postal-code" required>
+          <label class="field-label" for="zip" data-i18n="register.zipCode">Zip Code*</label>
+          <input class="field-input" id="zip" type="text" placeholder="Enter postal code" data-i18n-placeholder="register.zipPlaceholder" autocomplete="postal-code" required>
         </div>
 
         <!-- Buttons row -->
         <div class="buttons-row">
           <button type="button" class="btn-back" onclick="window.location.href='register-account-information.html'">
             <img src="../assets/icon-arrow-left.svg" alt="">
-            Back
+            <span data-i18n="common.back">Back</span>
           </button>
           <button type="button" class="btn-next" id="btn-next" onclick="window.location.href='register-company-details.html'">
-            Next
+            <span data-i18n="common.next">Next</span>
             <img src="../assets/icon-arrow-right.svg" alt="">
           </button>
         </div>
 
         <!-- Footer -->
         <p class="form-footer">
-          Already have an account?<a href="login.html">Log In</a>
+          <span data-i18n="auth.haveAccount">Already have an account?</span><a href="login.html" data-i18n="auth.loginLink">Log In</a>
         </p>
 
       </div>

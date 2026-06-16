@@ -1384,9 +1384,9 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <a href="#">Shopping Cart</a>
+    <a href="#" data-i18n="checkout.title">Shopping Cart</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Quote confirmation</span>
+    <span class="breadcrumb-current" data-i18n="checkout.quoteConfirmation">Quote confirmation</span>
   </div>
 
   <!-- MAIN -->
@@ -1396,28 +1396,28 @@
     <div class="title-bar">
       <div class="title-bar-text">
         <h1 id="quoteTitle">Quotation #--</h1>
-        <p>Our sales team will review your request and send a confirmation by email within 3 business days.</p>
+        <p data-i18n="checkout.quoteSubtitle">Our sales team will review your request and send a confirmation by email within 3 business days.</p>
       </div>
       <div class="title-bar-actions">
         <button class="btn-gray-outline">
           <svg viewBox="0 0 16 16" fill="none"><path d="M8 11V5M8 5l-3 3M8 5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180 8 8)"/><path d="M2 11v2.5a.5.5 0 00.5.5h11a.5.5 0 00.5-.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Download PDF
+          <span data-i18n="orderDetail.downloadPdf">Download PDF</span>
         </button>
         <button class="btn-primary">
           <svg viewBox="0 0 16 16" fill="none"><path d="M8 3C4.5 3 1.7 5.5 1 8c.7 2.5 3.5 5 7 5s6.3-2.5 7-5c-.7-2.5-3.5-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
-          View Quote
+          <span data-i18n="checkout.viewQuote">View Quote</span>
         </button>
       </div>
     </div>
 
     <!-- QUOTATION PROGRESS -->
     <div class="card">
-      <div class="card-title">Quotation Progress</div>
+      <div class="card-title" data-i18n="checkout.quoteProgress">Quotation Progress</div>
       <div class="progress-bar-wrap">
-        <div class="progress-step active">Received</div>
-        <div class="progress-step">Pending Approval</div>
-        <div class="progress-step">Approved</div>
-        <div class="progress-step">Converted to Order</div>
+        <div class="progress-step active" data-i18n="checkout.stepReceived">Received</div>
+        <div class="progress-step" data-i18n="checkout.stepPendingApproval">Pending Approval</div>
+        <div class="progress-step" data-i18n="checkout.stepApproved">Approved</div>
+        <div class="progress-step" data-i18n="checkout.stepConverted">Converted to Order</div>
       </div>
     </div>
 
@@ -1427,15 +1427,15 @@
 
         <!-- ORDER ITEMS -->
         <div class="card">
-          <div class="card-title" id="quoteItemsTitle">Order Items (0)</div>
+          <div class="card-title" id="quoteItemsTitle" data-i18n="checkout.orderItems">Order Items (0)</div>
           <table class="order-table">
             <thead>
               <tr>
                 <th>Product</th>
-                <th>Unit price</th>
-                <th>Quantity</th>
-                <th>Unity</th>
-                <th>Total</th>
+                <th data-i18n="table.unitPrice">Unit price</th>
+                <th data-i18n="table.quantity">Quantity</th>
+                <th data-i18n="table.unit">Unity</th>
+                <th data-i18n="table.total">Total</th>
               </tr>
             </thead>
             <tbody id="quoteItemsBody"></tbody>
@@ -1444,7 +1444,7 @@
 
         <!-- SHIPPING AND DELIVERY -->
         <div class="card">
-          <div class="card-title">Shipping and Delivery</div>
+          <div class="card-title" data-i18n="checkout.shippingDelivery">Shipping and Delivery</div>
           <div class="shipping-method" id="quoteDeliveryMethod">--</div>
           <div class="shipping-detail" id="quoteDeliveryDetail"></div>
           <div class="shipping-price" id="quoteDeliveryPrice"></div>
@@ -1454,37 +1454,37 @@
 
       <!-- PAYMENT DETAILS -->
       <div class="card">
-        <h2 class="card-title">Payment Details</h2>
+        <h2 class="card-title" data-i18n="checkout.paymentDetails">Payment Details</h2>
 
         <div class="payment-row">
-          <span class="label">Subtotal</span>
+          <span class="label" data-i18n="checkout.subtotal">Subtotal</span>
           <span class="value" id="paySubtotal">--</span>
         </div>
         <div class="payment-row">
-          <span class="label">Shipping</span>
+          <span class="label" data-i18n="checkout.shipping">Shipping</span>
           <span class="value" id="payShipping">--</span>
         </div>
         <div class="payment-row">
-          <span class="label">Tax</span>
+          <span class="label" data-i18n="checkout.tax">Tax</span>
           <span class="value" id="payTax">--</span>
         </div>
 
         <hr class="payment-separator">
 
         <div class="payment-row bold">
-          <span class="label">Total before discount</span>
+          <span class="label" data-i18n="checkout.totalBeforeDiscount">Total before discount</span>
           <span class="value" id="payTotalBefore">--</span>
         </div>
 
         <div class="payment-row">
-          <span class="label">Coupon</span>
+          <span class="label" data-i18n="checkout.coupon">Coupon</span>
           <span class="value">--</span>
         </div>
 
         <hr class="payment-separator">
 
         <div class="order-total-row">
-          <span class="order-total-label">Order Total</span>
+          <span class="order-total-label" data-i18n="checkout.orderTotal">Order Total</span>
           <span class="order-total-value" id="payOrderTotal">--</span>
         </div>
       </div>

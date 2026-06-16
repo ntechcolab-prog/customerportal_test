@@ -443,7 +443,7 @@
     <a href="home.html" class="topbar-link">
       <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
       <div class="topbar-divider"></div>
-      <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+      <span class="topbar-label" data-i18n="topbar.portal">Grinding &amp; Dispersing Customer Portal</span>
     </a>
   </div>
 
@@ -457,11 +457,11 @@
       <div class="panel-left-content">
         <div class="portal-badge">
           <img class="portal-badge-icon" src="../assets/gd-logo-white.svg" alt="">
-          <span class="portal-badge-text">G&amp;D Customer Portal</span>
+          <span class="portal-badge-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
         <div class="panel-left-texts">
-          <h1 class="panel-left-title">Create your account</h1>
-          <p class="panel-left-subtitle">Join us to access all your tools and manage your operations efficiently.</p>
+          <h1 class="panel-left-title" data-i18n="auth.createTitle">Create your account</h1>
+          <p class="panel-left-subtitle" data-i18n="auth.createSubtitle">Join us to access all your tools and manage your operations efficiently.</p>
         </div>
       </div>
     </div>
@@ -473,7 +473,7 @@
         <!-- Logo -->
         <div class="form-logo">
           <img class="form-logo-icon" src="../assets/gd-logo-dark.svg" alt="">
-          <span class="form-logo-text">G&amp;D Customer Portal</span>
+          <span class="form-logo-text" data-i18n="auth.portalBadge">G&amp;D Customer Portal</span>
         </div>
 
         <!-- Progress: steps 1+2+3+4 completed, step 5 active -->
@@ -499,16 +499,16 @@
 
         <!-- Heading -->
         <div>
-          <h2 class="form-title">Company Information</h2>
-          <p class="form-subtitle">Fill in the information below to finalize your account.</p>
+          <h2 class="form-title" data-i18n="register.companyInfo">Company Information</h2>
+          <p class="form-subtitle" data-i18n="register.companyInfoSubtitle">Fill in the information below to finalize your account.</p>
         </div>
 
         <!-- Department (open) -->
         <div class="field">
-          <label class="field-label">Department</label>
+          <label class="field-label" data-i18n="register.department">Department</label>
           <div class="select-wrapper">
             <button type="button" class="select-btn placeholder open" onclick="window.location.href='register-company-details.html'">
-              <span>Select department</span>
+              <span data-i18n="register.selectDepartment">Select department</span>
               <img src="../assets/icon-chevron-down-input.svg" alt="">
             </button>
             <div class="select-dropdown" role="listbox">
@@ -525,15 +525,15 @@
 
         <!-- Phone number -->
         <div class="field">
-          <label class="field-label" for="phone">Phone number</label>
-          <input class="field-input" id="phone" type="tel" placeholder="Enter phone number" autocomplete="tel">
+          <label class="field-label" for="phone" data-i18n="register.phone">Phone number</label>
+          <input class="field-input" id="phone" type="tel" placeholder="Enter phone number" data-i18n-placeholder="register.phonePlaceholder" autocomplete="tel">
         </div>
 
         <!-- How many people -->
         <div class="field">
-          <label class="field-label">How many people work at your company?*</label>
+          <label class="field-label" data-i18n="register.companySize">How many people work at your company?*</label>
           <button type="button" class="select-btn placeholder">
-            <span>Select the option that best fits your business size</span>
+            <span data-i18n="register.companySizePlaceholder">Select the option that best fits your business size</span>
             <img src="../assets/icon-chevron-down-input.svg" alt="">
           </button>
         </div>
@@ -542,7 +542,7 @@
         <div class="checkbox-row">
           <input class="checkbox" id="terms" type="checkbox">
           <label class="checkbox-label" for="terms">
-            I agree to the <a href="#" target="_blank" rel="noopener">Terms and Conditions</a>*
+            <span data-i18n="register.agreeText">I agree to the</span> <a href="#" target="_blank" rel="noopener" data-i18n="register.termsLink">Terms and Conditions</a>*
           </label>
         </div>
 
@@ -550,17 +550,17 @@
         <div class="buttons-row">
           <button type="button" class="btn-back" onclick="window.location.href='register-company-address.html'">
             <img src="../assets/icon-arrow-left.svg" alt="">
-            Back
+            <span data-i18n="common.back">Back</span>
           </button>
           <button type="button" class="btn-next" id="btn-next" onclick="window.location.href='register-submitted.html'">
-            Next
+            <span data-i18n="common.next">Next</span>
             <img src="../assets/icon-arrow-right.svg" alt="">
           </button>
         </div>
 
         <!-- Footer -->
         <p class="form-footer">
-          Already have an account?<a href="login.html">Log In</a>
+          <span data-i18n="auth.haveAccount">Already have an account?</span><a href="login.html" data-i18n="auth.loginLink">Log In</a>
         </p>
 
       </div>

@@ -1369,9 +1369,9 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <a href="checkout-cart.html">Shopping Cart</a>
+    <a href="checkout-cart.html" data-i18n="checkout.title">Shopping Cart</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Checkout</span>
+    <span class="breadcrumb-current" data-i18n="checkout.checkoutLabel">Checkout</span>
   </div>
 
   <!-- MAIN -->
@@ -1382,12 +1382,12 @@
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      Back to Shopping Cart
+      <span data-i18n="checkout.backToCart">Back to Shopping Cart</span>
     </a>
 
     <!-- PAGE TITLE -->
-    <h1 class="page-title">Checkout</h1>
-    <p class="page-subtitle">Provide your purchase order number and optionally add notes for this order.</p>
+    <h1 class="page-title" data-i18n="checkout.checkoutLabel">Checkout</h1>
+    <p class="page-subtitle" data-i18n="checkout.orderDetailsSubtitle">Provide your purchase order number and optionally add notes for this order.</p>
 
     <!-- TWO-COLUMN LAYOUT -->
     <div class="checkout-layout">
@@ -1397,13 +1397,14 @@
 
         <!-- Order Details Section -->
         <div class="form-section">
-          <h2 class="form-section-title">Order Details</h2>
-          <label class="form-label" for="poNumber">Purchase Order Number <span class="required" aria-label="required">*</span></label>
+          <h2 class="form-section-title" data-i18n="checkout.orderDetails">Order Details</h2>
+          <label class="form-label" for="poNumber" data-i18n="checkout.poNumber">Purchase Order Number <span class="required" aria-label="required">*</span></label>
           <input
             class="form-input"
             type="text"
             id="poNumber"
             placeholder="Write here your purchase order number"
+            data-i18n-placeholder="checkout.poPlaceholder"
             required
             aria-required="true"
           >
@@ -1411,20 +1412,21 @@
 
         <!-- Special Request / Comments Section -->
         <div class="form-section">
-          <h2 class="form-section-title">Special Request / Comments</h2>
+          <h2 class="form-section-title" data-i18n="checkout.specialRequest">Special Request / Comments</h2>
           <div class="info-banner" role="note">
             <svg class="info-banner-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/>
               <path d="M9 8v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               <circle cx="9" cy="5.5" r="0.75" fill="currentColor"/>
             </svg>
-            <span class="info-banner-text">Adding a special request will change your order to a quote request.</span>
+            <span class="info-banner-text" data-i18n="checkout.specialRequestInfo">Adding a special request will change your order to a quote request.</span>
           </div>
-          <label class="form-label" for="specialRequest">Comments</label>
+          <label class="form-label" for="specialRequest" data-i18n="checkout.comments">Comments</label>
           <textarea
             class="form-textarea"
             id="specialRequest"
             placeholder="Write your special request/comments here"
+            data-i18n-placeholder="checkout.commentsPlaceholder"
           ></textarea>
         </div>
 
@@ -1432,42 +1434,42 @@
 
       <!-- RIGHT SIDEBAR -->
       <div class="sidebar-card">
-        <h2 class="card-title">Payment Details</h2>
+        <h2 class="card-title" data-i18n="checkout.paymentDetails">Payment Details</h2>
 
         <div class="payment-row">
-          <span class="label">Subtotal</span>
+          <span class="label" data-i18n="checkout.subtotal">Subtotal</span>
           <span class="value" id="paySubtotal">--</span>
         </div>
         <div class="payment-row">
-          <span class="label">Shipping</span>
+          <span class="label" data-i18n="checkout.shipping">Shipping</span>
           <span class="value" id="payShipping">--</span>
         </div>
         <div class="payment-row">
-          <span class="label">Tax</span>
+          <span class="label" data-i18n="checkout.tax">Tax</span>
           <span class="value" id="payTax">--</span>
         </div>
 
         <hr class="payment-separator">
 
         <div class="payment-row bold">
-          <span class="label">Total before discount</span>
+          <span class="label" data-i18n="checkout.totalBeforeDiscount">Total before discount</span>
           <span class="value" id="payTotalBefore">--</span>
         </div>
 
         <div class="payment-row">
-          <span class="label">Coupon</span>
-          <a href="#" class="coupon-link">+ Add Coupon</a>
+          <span class="label" data-i18n="checkout.coupon">Coupon</span>
+          <a href="#" class="coupon-link" data-i18n="checkout.addCoupon">+ Add Coupon</a>
         </div>
 
         <hr class="payment-separator">
 
         <div class="order-total-row">
-          <span class="order-total-label">Order Total</span>
+          <span class="order-total-label" data-i18n="checkout.orderTotal">Order Total</span>
           <span class="order-total-value" id="payOrderTotal">--</span>
         </div>
 
         <!-- Review Order Button (disabled by default) -->
-        <span id="reviewBtn" class="btn-review disabled" role="link" aria-disabled="true" tabindex="-1">Review Order</span>
+        <span id="reviewBtn" class="btn-review disabled" role="link" aria-disabled="true" tabindex="-1" data-i18n="checkout.reviewOrder">Review Order</span>
       </div>
 
     </div>

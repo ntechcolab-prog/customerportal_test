@@ -784,6 +784,7 @@
   </style>
 </head>
 <body>
+<script src="../assets/i18n.js"></script>
 <script src="../assets/gate.js"></script>
 
   <!-- NAVBAR -->
@@ -793,7 +794,7 @@
         <img src="../assets/logo-netzsch.svg" alt="NETZSCH">
       </a>
       <div class="navbar-actions">
-        <a href="#" class="navbar-link">Help</a>
+        <a href="#" class="navbar-link" data-i18n="nav.help">Help</a>
         <div class="navbar-lang" id="lang-btn">
           <!-- Globe icon (outline) -->
           <svg class="globe-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -815,8 +816,8 @@
           </div>
         </div>
         <div class="navbar-divider"></div>
-        <a href="login.html" class="btn btn-outline-green">Log in</a>
-        <a href="register-confirm-email.html" class="btn btn-solid-teal">Register</a>
+        <a href="login.html" class="btn btn-outline-green" data-i18n="home.login">Log in</a>
+        <a href="register-confirm-email.html" class="btn btn-solid-teal" data-i18n="home.register">Register</a>
       </div>
     </div>
   </nav>
@@ -827,12 +828,12 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <div class="hero-text">
-        <h1 class="hero-title">Your All-in-One Customer Portal</h1>
-        <p class="hero-subtitle">Simplify how you manage orders, track deliveries, and access key information — everything in one place, designed for speed and accuracy.</p>
+        <h1 class="hero-title" data-i18n="home.heroTitle">Your All-in-One Customer Portal</h1>
+        <p class="hero-subtitle" data-i18n="home.heroSubtitle">Simplify how you manage orders, track deliveries, and access key information — everything in one place, designed for speed and accuracy.</p>
       </div>
       <div class="hero-buttons">
-        <a href="login.html" class="hero-btn-login">Log in</a>
-        <a href="register-confirm-email.html" class="hero-btn-register">Register</a>
+        <a href="login.html" class="hero-btn-login" data-i18n="home.login">Log in</a>
+        <a href="register-confirm-email.html" class="hero-btn-register" data-i18n="home.register">Register</a>
       </div>
     </div>
   </section>
@@ -840,50 +841,50 @@
   <!-- FEATURES -->
   <section class="section features">
     <div class="features-header section-center">
-      <h2 class="section-title">Maximize Performance with the NETZSCH Customer Portal</h2>
-      <p class="section-subtitle">Access everything you need to manage, optimize, and protect your grinding and dispersing assets — all in one secure, intelligent platform.</p>
+      <h2 class="section-title" data-i18n="home.featuresTitle">Maximize Performance with the NETZSCH Customer Portal</h2>
+      <p class="section-subtitle" data-i18n="home.featuresSubtitle">Access everything you need to manage, optimize, and protect your grinding and dispersing assets — all in one secure, intelligent platform.</p>
     </div>
     <div class="features-grid">
       <div class="feature-card">
         <img class="feature-icon" src="../assets/feature-asset-overview.svg" alt="">
         <div class="feature-body">
-          <div class="feature-title">Asset Overview &amp; Equipment Insights</div>
-          <p class="feature-desc">Get a real-time, complete view of your NETZSCH equipment and plant performance — all clear and visible at a glance.</p>
+          <div class="feature-title" data-i18n="home.feature1Title">Asset Overview &amp; Equipment Insights</div>
+          <p class="feature-desc" data-i18n="home.feature1Desc">Get a real-time, complete view of your NETZSCH equipment and plant performance — all clear and visible at a glance.</p>
         </div>
       </div>
       <div class="feature-card">
         <img class="feature-icon" src="../assets/feature-orders.svg" alt="">
         <div class="feature-body">
-          <div class="feature-title">Order Management &amp; Beads Shop</div>
-          <p class="feature-desc">Order your NETZSCH Grinding Beads and track deliveries online — fast, simple, and hassle-free.</p>
+          <div class="feature-title" data-i18n="home.feature2Title">Order Management &amp; Beads Shop</div>
+          <p class="feature-desc" data-i18n="home.feature2Desc">Order your NETZSCH Grinding Beads and track deliveries online — fast, simple, and hassle-free.</p>
         </div>
       </div>
       <div class="feature-card">
         <img class="feature-icon" src="../assets/feature-services.svg" alt="">
         <div class="feature-body">
-          <div class="feature-title">Service Requests &amp; Case Tracking</div>
-          <p class="feature-desc">Submit and track service requests in real time — with full transparency and traceability.</p>
+          <div class="feature-title" data-i18n="home.feature3Title">Service Requests &amp; Case Tracking</div>
+          <p class="feature-desc" data-i18n="home.feature3Desc">Submit and track service requests in real time — with full transparency and traceability.</p>
         </div>
       </div>
       <div class="feature-card">
         <img class="feature-icon" src="../assets/feature-transparency.svg" alt="">
         <div class="feature-body">
-          <div class="feature-title">Real-Time Transparency</div>
-          <p class="feature-desc">Get instant updates and insights — ensuring full visibility and confident decisions.</p>
+          <div class="feature-title" data-i18n="home.feature4Title">Real-Time Transparency</div>
+          <p class="feature-desc" data-i18n="home.feature4Desc">Get instant updates and insights — ensuring full visibility and confident decisions.</p>
         </div>
       </div>
       <div class="feature-card">
         <img class="feature-icon" src="../assets/feature-hub.svg" alt="">
         <div class="feature-body">
-          <div class="feature-title">Centralized Management Hub</div>
-          <p class="feature-desc">Centralize your asset data, service cases, and orders — streamlining workflows and reducing manual work.</p>
+          <div class="feature-title" data-i18n="home.feature5Title">Centralized Management Hub</div>
+          <p class="feature-desc" data-i18n="home.feature5Desc">Centralize your asset data, service cases, and orders — streamlining workflows and reducing manual work.</p>
         </div>
       </div>
       <div class="feature-card">
         <img class="feature-icon" src="../assets/feature-team.svg" alt="">
         <div class="feature-body">
-          <div class="feature-title">Empower Your Team, Elevate Efficiency</div>
-          <p class="feature-desc">Assign roles and permissions to ensure each user accesses exactly what they need — enabling secure, efficient, and accountable operations.</p>
+          <div class="feature-title" data-i18n="home.feature6Title">Empower Your Team, Elevate Efficiency</div>
+          <p class="feature-desc" data-i18n="home.feature6Desc">Assign roles and permissions to ensure each user accesses exactly what they need — enabling secure, efficient, and accountable operations.</p>
         </div>
       </div>
     </div>
@@ -892,37 +893,37 @@
   <!-- HOW IT WORKS -->
   <section class="section how-it-works">
     <div class="how-it-works-header section-center">
-      <h2 class="section-title">How It Works</h2>
-      <p class="section-subtitle">Get started in just 4 simple steps and streamline your business operations with our Customer Portal.</p>
+      <h2 class="section-title" data-i18n="home.howTitle">How It Works</h2>
+      <p class="section-subtitle" data-i18n="home.howSubtitle">Get started in just 4 simple steps and streamline your business operations with our Customer Portal.</p>
     </div>
     <div class="how-it-works-body">
       <div class="steps-list">
         <div class="step-item active" data-step="0">
           <div class="step-number">1</div>
           <div class="step-content">
-            <div class="step-title">Login or Register</div>
-            <div class="step-desc">Sign up for your business account in minutes.</div>
+            <div class="step-title" data-i18n="home.step1Title">Login or Register</div>
+            <div class="step-desc" data-i18n="home.step1Desc">Sign up for your business account in minutes.</div>
           </div>
         </div>
         <div class="step-item" data-step="1">
           <div class="step-number">2</div>
           <div class="step-content">
-            <div class="step-title">Place Orders</div>
-            <div class="step-desc">Browse and order NETZSCH Grinding Beads easily.</div>
+            <div class="step-title" data-i18n="home.step2Title">Place Orders</div>
+            <div class="step-desc" data-i18n="home.step2Desc">Browse and order NETZSCH Grinding Beads easily.</div>
           </div>
         </div>
         <div class="step-item" data-step="2">
           <div class="step-number">3</div>
           <div class="step-content">
-            <div class="step-title">Track Deliveries</div>
-            <div class="step-desc">Monitor your shipments in real-time with complete transparency.</div>
+            <div class="step-title" data-i18n="home.step3Title">Track Deliveries</div>
+            <div class="step-desc" data-i18n="home.step3Desc">Monitor your shipments in real-time with complete transparency.</div>
           </div>
         </div>
         <div class="step-item" data-step="3">
           <div class="step-number">4</div>
           <div class="step-content">
-            <div class="step-title">Earn More</div>
-            <div class="step-desc">Access analytics and insights to optimize operations.</div>
+            <div class="step-title" data-i18n="home.step4Title">Earn More</div>
+            <div class="step-desc" data-i18n="home.step4Desc">Access analytics and insights to optimize operations.</div>
           </div>
         </div>
       </div>
@@ -946,41 +947,41 @@
   <!-- TESTIMONIALS -->
   <section class="section testimonials">
     <div class="testimonials-header section-center">
-      <h2 class="section-title">How the Customer Portal Transforms Daily Operations</h2>
-      <p class="section-subtitle">Discover how companies are improving efficiency, accuracy, and collaboration with our centralized e-commerce platform.</p>
+      <h2 class="section-title" data-i18n="home.testimonialsTitle">How the Customer Portal Transforms Daily Operations</h2>
+      <p class="section-subtitle" data-i18n="home.testimonialsSubtitle">Discover how companies are improving efficiency, accuracy, and collaboration with our centralized e-commerce platform.</p>
     </div>
     <div class="testimonials-viewport">
      <div class="testimonials-track" id="testimonials-track">
       <div class="testimonial-card">
         <div class="testimonial-quote-mark">"</div>
-        <p class="testimonial-text">Since we switched to this portal, our logistics team has full transparency and tracking capabilities. This has dramatically improved our inventory planning.</p>
+        <p class="testimonial-text" data-i18n="home.testimonial1Text">Since we switched to this portal, our logistics team has full transparency and tracking capabilities. This has dramatically improved our inventory planning.</p>
         <div class="testimonial-author">
           <div class="author-avatar">S</div>
           <div>
-            <div class="author-name">Sarah Jenkins</div>
-            <div class="author-role">Logistics Manager, Industrial Co.</div>
+            <div class="author-name" data-i18n="home.testimonial1Name">Sarah Jenkins</div>
+            <div class="author-role" data-i18n="home.testimonial1Role">Logistics Manager, Industrial Co.</div>
           </div>
         </div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-quote-mark">"</div>
-        <p class="testimonial-text">Having instant order tracking is a game-changer for our logistics planning. The real-time tracking is a game-changer for our logistics planning.</p>
+        <p class="testimonial-text" data-i18n="home.testimonial2Text">Having instant order tracking is a game-changer for our logistics planning. The real-time tracking is a game-changer for our logistics planning.</p>
         <div class="testimonial-author">
           <div class="author-avatar">M</div>
           <div>
-            <div class="author-name">Michael Chen</div>
-            <div class="author-role">Operations Director, Tech Manufacturing</div>
+            <div class="author-name" data-i18n="home.testimonial2Name">Michael Chen</div>
+            <div class="author-role" data-i18n="home.testimonial2Role">Operations Director, Tech Manufacturing</div>
           </div>
         </div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-quote-mark">"</div>
-        <p class="testimonial-text">An amazing platform for collaboration. Our procurement team and our factory share access to all order history and documents in one place. Highly recommended!</p>
+        <p class="testimonial-text" data-i18n="home.testimonial3Text">An amazing platform for collaboration. Our procurement team and our factory share access to all order history and documents in one place. Highly recommended!</p>
         <div class="testimonial-author">
           <div class="author-avatar">E</div>
           <div>
-            <div class="author-name">Emily Rodriguez</div>
-            <div class="author-role">Procurement Lead, Global Industries</div>
+            <div class="author-name" data-i18n="home.testimonial3Name">Emily Rodriguez</div>
+            <div class="author-role" data-i18n="home.testimonial3Role">Procurement Lead, Global Industries</div>
           </div>
         </div>
       </div>
@@ -997,8 +998,8 @@
   <section class="faq">
     <div class="faq-inner">
       <div class="faq-left">
-        <h2 class="section-title">Frequently Asked Questions</h2>
-        <p class="faq-left-desc" style="margin-top:16px;">We compiled a list of answers to address your most pressing questions regarding our Services.</p>
+        <h2 class="section-title" data-i18n="home.faqTitle">Frequently Asked Questions</h2>
+        <p class="faq-left-desc" style="margin-top:16px;" data-i18n="home.faqSubtitle">We compiled a list of answers to address your most pressing questions regarding our Services.</p>
       </div>
       <div class="faq-list">
         <div class="faq-item">
@@ -1008,9 +1009,9 @@
                 <path d="M6 3l5 5-5 5" stroke="#4c4d57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <span class="faq-question">How can I contact customer support?</span>
+            <span class="faq-question" data-i18n="home.faq1Q">How can I contact customer support?</span>
           </div>
-          <div class="faq-answer">You can reach our customer support team by email at support@netzsch.com or by using the Contact form available in your portal account. Our team is available Monday–Friday, 8am–6pm CET.</div>
+          <div class="faq-answer" data-i18n="home.faq1A">You can reach our customer support team by email at support@netzsch.com or by using the Contact form available in your portal account. Our team is available Monday–Friday, 8am–6pm CET.</div>
         </div>
         <div class="faq-item">
           <div class="faq-item-header">
@@ -1019,9 +1020,9 @@
                 <path d="M6 3l5 5-5 5" stroke="#4c4d57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <span class="faq-question">What services do you offer?</span>
+            <span class="faq-question" data-i18n="home.faq2Q">What services do you offer?</span>
           </div>
-          <div class="faq-answer">The NETZSCH Customer Portal provides asset management, order management for grinding beads, real-time delivery tracking, service case submission and tracking, and team role management — all in one platform.</div>
+          <div class="faq-answer" data-i18n="home.faq2A">The NETZSCH Customer Portal provides asset management, order management for grinding beads, real-time delivery tracking, service case submission and tracking, and team role management — all in one platform.</div>
         </div>
         <div class="faq-item">
           <div class="faq-item-header">
@@ -1030,9 +1031,9 @@
                 <path d="M6 3l5 5-5 5" stroke="#4c4d57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <span class="faq-question">What types of products are offered?</span>
+            <span class="faq-question" data-i18n="home.faq3Q">What types of products are offered?</span>
           </div>
-          <div class="faq-answer">Through our Online Shop you can order NETZSCH Grinding Beads and related grinding conditions. We offer a full range of bead sizes and materials optimized for your specific grinding and dispersing applications.</div>
+          <div class="faq-answer" data-i18n="home.faq3A">Through our Online Shop you can order NETZSCH Grinding Beads and related grinding conditions. We offer a full range of bead sizes and materials optimized for your specific grinding and dispersing applications.</div>
         </div>
         <div class="faq-item">
           <div class="faq-item-header">
@@ -1041,9 +1042,9 @@
                 <path d="M6 3l5 5-5 5" stroke="#4c4d57" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
-            <span class="faq-question">What types of contents are offered?</span>
+            <span class="faq-question" data-i18n="home.faq4Q">What types of contents are offered?</span>
           </div>
-          <div class="faq-answer">The portal provides technical documentation, order history, delivery status reports, service case updates, and equipment performance insights — giving you full visibility over your NETZSCH assets and operations.</div>
+          <div class="faq-answer" data-i18n="home.faq4A">The portal provides technical documentation, order history, delivery status reports, service case updates, and equipment performance insights — giving you full visibility over your NETZSCH assets and operations.</div>
         </div>
       </div>
     </div>
@@ -1053,31 +1054,31 @@
   <footer class="footer">
     <div class="footer-grid">
       <div class="footer-col">
-        <div class="footer-col-title">NETZSCH Website</div>
+        <div class="footer-col-title" data-i18n="home.footerCol1Title">NETZSCH Website</div>
         <ul class="footer-list">
-          <li><a href="#">Grinding &amp; Dispersing</a></li>
-          <li><a href="#">Process Technology</a></li>
+          <li><a href="#" data-i18n="home.footerGrinding">Grinding &amp; Dispersing</a></li>
+          <li><a href="#" data-i18n="home.footerProcess">Process Technology</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <div class="footer-col-title">Online Shop</div>
+        <div class="footer-col-title" data-i18n="home.footerCol2Title">Online Shop</div>
         <ul class="footer-list">
-          <li><a href="#">Grinding Conditions</a></li>
-          <li><a href="#">Grinding Beads</a></li>
-          <li><a href="#">View all Conditions</a></li>
+          <li><a href="#" data-i18n="home.footerConditions">Grinding Conditions</a></li>
+          <li><a href="#" data-i18n="home.footerBeads">Grinding Beads</a></li>
+          <li><a href="#" data-i18n="home.footerViewAll">View all Conditions</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <div class="footer-col-title">Legal</div>
+        <div class="footer-col-title" data-i18n="home.footerCol3Title">Legal</div>
         <ul class="footer-list">
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Imprint</a></li>
-          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#" data-i18n="home.footerPrivacy">Privacy Policy</a></li>
+          <li><a href="#" data-i18n="home.footerImprint">Imprint</a></li>
+          <li><a href="#" data-i18n="home.footerTerms">Terms of Use</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <div class="footer-col-title">Connect</div>
-        <p class="footer-contact-text">Contact Our Team</p>
+        <div class="footer-col-title" data-i18n="home.footerCol4Title">Connect</div>
+        <p class="footer-contact-text" data-i18n="home.footerContact">Contact Our Team</p>
         <div class="footer-socials">
           <a href="#" class="social-link" aria-label="LinkedIn">
             <img src="../assets/social-linkedin.svg" alt="LinkedIn">
@@ -1088,7 +1089,7 @@
         </div>
       </div>
     </div>
-    <div class="footer-copy">© 2026 NETZSCH. ALL RIGHTS RESERVED.</div>
+    <div class="footer-copy" data-i18n="home.copyright">© 2026 NETZSCH. ALL RIGHTS RESERVED.</div>
   </footer>
 
   <script>

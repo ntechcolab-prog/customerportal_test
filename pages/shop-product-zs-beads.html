@@ -1746,7 +1746,7 @@
   <div class="breadcrumb">
     <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
     <span class="breadcrumb-sep">/</span>
-    <a href="shop.html">Shop</a>
+    <a href="shop.html" data-i18n="breadcrumb.shop">Shop</a>
     <span class="breadcrumb-sep">/</span>
     <span class="breadcrumb-current">NETZSCH ZS BEADS</span>
   </div>
@@ -1780,9 +1780,9 @@
 
       <!-- Tabs -->
       <div class="product-tabs">
-        <button class="product-tab active" data-tab="description">Product Description</button>
-        <button class="product-tab" data-tab="documents">Documents</button>
-        <button class="product-tab" data-tab="specs">Mechanical Specs</button>
+        <button class="product-tab active" data-tab="description" data-i18n="shopDetail.productDescription">Product Description</button>
+        <button class="product-tab" data-tab="documents" data-i18n="shopDetail.documents">Documents</button>
+        <button class="product-tab" data-tab="specs" data-i18n="shopDetail.mechanicalSpecs">Mechanical Specs</button>
       </div>
 
       <!-- Tab: Description -->
@@ -1790,7 +1790,7 @@
         <p class="product-description">
           ZS Beads are cost-effective Zirconium Silicate grinding beads suitable for general-purpose wet grinding and dispersing. With good wear resistance and a favorable price-performance ratio, they are the economical choice for applications in paints, minerals, and agrochemicals. Available in sizes from 0.6 mm to 2.5 mm.
         </p>
-        <h3 class="product-section-title">Applications</h3>
+        <h3 class="product-section-title" data-i18n="shopDetail.applications">Applications</h3>
         <div class="app-tags">
           <span class="app-tag">Wet Grinding</span>
           <span class="app-tag">Mineral Processing</span>
@@ -1805,19 +1805,19 @@
       <div class="tab-content" id="tab-specs">
         <div class="specs-grid">
           <div class="spec-item">
-            <span class="spec-label">Bulk Density</span>
+            <span class="spec-label" data-i18n="shopDetail.bulkDensity">Bulk Density</span>
             <span class="spec-value">2,5 kg/l</span>
           </div>
           <div class="spec-item">
-            <span class="spec-label">Specific weight</span>
+            <span class="spec-label" data-i18n="shopDetail.specificWeight">Specific weight</span>
             <span class="spec-value">3,85 kg/dm3</span>
           </div>
           <div class="spec-item">
-            <span class="spec-label">Hardness</span>
+            <span class="spec-label" data-i18n="shopDetail.hardness">Hardness</span>
             <span class="spec-value">>700 HV</span>
           </div>
           <div class="spec-item">
-            <span class="spec-label">Color</span>
+            <span class="spec-label" data-i18n="shopDetail.color">Color</span>
             <span class="spec-value">White</span>
           </div>
         </div>
@@ -1826,13 +1826,13 @@
 
     <!-- RIGHT: Order Panel -->
     <div class="order-panel">
-      <h2 class="order-panel-title">Order Information</h2>
+      <h2 class="order-panel-title" data-i18n="shopDetail.orderInfo">Order Information</h2>
 
       <!-- Select Size -->
       <div class="form-group">
-        <label class="form-label">Select a size <span>*</span></label>
+        <label class="form-label" data-i18n="shopDetail.selectSize">Select a size <span>*</span></label>
         <select class="form-select">
-          <option value="" disabled selected>Select a size</option>
+          <option value="" disabled selected data-i18n="shopDetail.selectSizePlaceholder">Select a size</option>
           <option value="0.60-0.80">0,60 - 0,80 mm</option>
           <option value="0.80-1.00">0,80 - 1,00 mm</option>
           <option value="1.00-1.40">1,00 - 1,40 mm</option>
@@ -1844,7 +1844,7 @@
       <!-- Quantity + Unity -->
       <div class="qty-row">
         <div class="form-group qty-group">
-          <label class="form-label">Quantity</label>
+          <label class="form-label" data-i18n="shopDetail.quantity">Quantity</label>
           <div class="qty-control">
             <button class="qty-btn" id="qtyMinus">−</button>
             <span class="qty-value" id="qtyValue">1</span>
@@ -1852,20 +1852,20 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Unity</label>
-          <span class="unity-label">Kilogram (kg)</span>
+          <label class="form-label" data-i18n="shopDetail.unity">Unity</label>
+          <span class="unity-label" data-i18n="shopDetail.unitKilogram">Kilogram (kg)</span>
         </div>
       </div>
 
       <!-- Delivery Time (hidden until size selected) -->
       <div class="delivery-info" id="deliveryInfo" style="display:none;">
-        <span class="delivery-label">Est. delivery time</span>
-        <span class="delivery-value">15 - 20 days</span>
+        <span class="delivery-label" data-i18n="shopDetail.deliveryTime">Est. delivery time</span>
+        <span class="delivery-value" data-i18n="shopDetail.deliveryDays">15 - 20 days</span>
       </div>
 
       <!-- Total Price -->
       <div class="price-row">
-        <span class="price-label">Total price</span>
+        <span class="price-label" data-i18n="shopDetail.totalPrice">Total price</span>
         <span class="price-value">12.00 €</span>
       </div>
 
@@ -1873,11 +1873,11 @@
       <div class="action-btns">
         <button class="btn-wishlist">
           <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg>
-          Add to Wishlist
+          <span data-i18n="shopDetail.addToWishlist">Add to Wishlist</span>
         </button>
         <button class="btn-add-cart">
           <svg viewBox="0 0 16 16" fill="none"><path d="M1 1h2l1.5 8h8L15 3H4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/></svg>
-          Add to Cart
+          <span data-i18n="shopDetail.addToCart">Add to Cart</span>
         </button>
       </div>
 
@@ -1885,15 +1885,15 @@
       <div class="bulk-card">
         <div class="bulk-icon">i</div>
         <div class="bulk-body">
-          <div class="bulk-title">Bulk Pricing Available</div>
-          <div class="bulk-text">
+          <div class="bulk-title" data-i18n="shopDetail.bulkTitle">Bulk Pricing Available</div>
+          <div class="bulk-text" data-i18n="shopDetail.bulkText">
             Order 20kg+ for volume discounts. Contact our sales team for custom pricing. Need help? <a href="#">Contact us</a>
           </div>
           <table class="bulk-table">
           <thead>
             <tr>
-              <th>kg</th>
-              <th>Pricing/kg</th>
+              <th data-i18n="shopDetail.bulkKg">kg</th>
+              <th data-i18n="shopDetail.bulkPricingKg">Pricing/kg</th>
             </tr>
           </thead>
           <tbody>
@@ -1913,9 +1913,9 @@
   <div class="toast" id="wishlistToast">
     <svg class="toast-icon" viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" fill="#007167"/></svg>
     <div class="toast-body">
-      <div class="toast-title">Added to Wishlist</div>
+      <div class="toast-title" data-i18n="shopDetail.addedToWishlist">Added to Wishlist</div>
       <div class="toast-subtitle">NETZSCH ZS BEADS</div>
-      <a href="wishlist.html" class="toast-link">View Wishlist</a>
+      <a href="wishlist.html" class="toast-link" data-i18n="shopDetail.viewWishlist">View Wishlist</a>
     </div>
     <button class="toast-close" id="toastClose">&#x2715;</button>
   </div>
