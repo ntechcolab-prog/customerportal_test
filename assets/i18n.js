@@ -186,6 +186,12 @@
     reload: function () {
       var lang = getLang();
       loadTranslations(lang, applyTranslations);
+    },
+    /** Translate a key: NetzschI18n.t('checkout.free', 'Free') */
+    t: function (key, fallback) {
+      var lang = getLang();
+      var dict = cache[lang] || {};
+      return dict[key] !== undefined ? dict[key] : (fallback || key);
     }
   };
 
