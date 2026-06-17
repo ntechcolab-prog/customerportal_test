@@ -648,5 +648,9 @@
 
   "checkout.processing": "Wird verarbeitet...",
   "checkout.orderPlaced": "Bestellung erfolgreich aufgegeben!",
-  "checkout.orderPlacedDesc": "Weiterleitung zur Bestellbestätigung..."
+  "checkout.orderPlacedDesc": "Weiterleitung zur Bestellbestätigung...",
+
+  "nav.requests": "Anfragen",
+  "technician.requests": "Anfragen",
+  "approver.orderApprovals": "Bestellfreigaben"
 }

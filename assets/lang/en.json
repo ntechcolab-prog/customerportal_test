@@ -648,5 +648,9 @@
 
   "checkout.processing": "Processing...",
   "checkout.orderPlaced": "Order placed successfully!",
-  "checkout.orderPlacedDesc": "Redirecting to order confirmation..."
+  "checkout.orderPlacedDesc": "Redirecting to order confirmation...",
+
+  "nav.requests": "Requests",
+  "technician.requests": "Requests",
+  "approver.orderApprovals": "Order Approvals"
 }

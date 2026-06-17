@@ -8,12 +8,12 @@
 (function () {
   var role = localStorage.getItem('netzsch_user_role') || 'administrator';
 
-  // Menu items to hide per role (nav-tab text content → hide if listed)
+  // Menu items to hide per role (data-i18n key → hide if listed)
   var hiddenMenus = {
     administrator: [],
-    buyer: ['Lab Tests'],
-    approver: ['Shop', 'Lab Tests'],
-    technician: ['Quotes']
+    buyer: ['nav.labTests'],
+    approver: ['nav.shop', 'nav.labTests'],
+    technician: ['nav.quotes']
   };
 
   // Pages that should redirect to dashboard if role has no access
@@ -59,28 +59,30 @@
   // 2. Hide or rename menu items
   var hidden = hiddenMenus[role] || [];
   document.querySelectorAll('.nav-tab').forEach(function (tab) {
-    var label = tab.textContent.trim();
-    if (hidden.indexOf(label) !== -1) {
+    var i18nKey = tab.getAttribute('data-i18n') || '';
+    if (hidden.indexOf(i18nKey) !== -1) {
       tab.style.display = 'none';
     }
-    // Rename "Orders" to "Requests" for technician
-    if (role === 'technician' && label === 'Orders') {
+    // Rename "Orders" to "Requests" for technician (change i18n key so translation picks up)
+    if (role === 'technician' && i18nKey === 'nav.orders') {
+      tab.setAttribute('data-i18n', 'nav.requests');
       tab.textContent = 'Requests';
     }
   });
 
-  // 3. Hide specific links in profile dropdown per role
+  // 3. Hide specific links in profile dropdown per role (match by data-i18n key)
   if (role !== 'administrator') {
     document.querySelectorAll('.profile-dropdown-item').forEach(function (item) {
-      var label = item.textContent.trim();
-      if (label === 'Admin') {
+      var i18nKey = item.getAttribute('data-i18n') || '';
+      if (i18nKey === 'profile.admin') {
         item.closest('li').style.display = 'none';
       }
     });
   }
   if (role === 'technician' || role === 'buyer' || role === 'approver') {
     document.querySelectorAll('.profile-dropdown-item').forEach(function (item) {
-      if (item.textContent.trim() === 'Contracts') {
+      var i18nKey = item.getAttribute('data-i18n') || '';
+      if (i18nKey === 'profile.contracts') {
         item.closest('li').style.display = 'none';
       }
     });
@@ -178,22 +180,22 @@
       technician:    'Engineering',
       approver:      'Procurement'
     };
-    document.querySelectorAll('.info-field').forEach(function (field) {
-      var label = field.querySelector('.info-field-label');
+    document.querySelectorAll('.info-field[data-field]').forEach(function (field) {
+      var dataField = field.getAttribute('data-field');
       var value = field.querySelector('.info-field-value');
-      if (!label || !value) return;
-      var labelText = label.textContent.trim();
-      if (labelText === 'Full Name' && value.textContent.trim() === 'John Doe') value.textContent = persona.name;
-      if (labelText === 'Email Address' && value.textContent.trim() === 'john.doe@acme-corp.com') value.textContent = persona.email;
-      if (labelText === 'Role') value.textContent = badgeLabels[role] || value.textContent;
-      if (labelText === 'Job Title') value.textContent = jobTitles[role] || value.textContent;
-      if (labelText === 'Department') value.textContent = departments[role] || value.textContent;
+      if (!value) return;
+      if (dataField === 'fullname' && value.textContent.trim() === 'John Doe') value.textContent = persona.name;
+      if (dataField === 'email' && value.textContent.trim() === 'john.doe@acme-corp.com') value.textContent = persona.email;
+      if (dataField === 'role') value.textContent = badgeLabels[role] || value.textContent;
+      if (dataField === 'jobtitle') value.textContent = jobTitles[role] || value.textContent;
+      if (dataField === 'department') value.textContent = departments[role] || value.textContent;
     });
 
-    // Hide Admin Panel sidebar link for non-admin roles
+    // Hide Admin Panel sidebar link for non-admin roles (match by href)
     if (role !== 'administrator') {
       document.querySelectorAll('.account-nav-item').forEach(function (item) {
-        if (item.textContent.trim().indexOf('Admin Panel') !== -1) {
+        var href = item.getAttribute('href') || '';
+        if (href.indexOf('admin-users') !== -1) {
           item.style.display = 'none';
         }
       });
@@ -255,9 +257,11 @@
     });
 
     // Hide table header columns that say "price" or "total"
+    var priceI18nKeys = ['table.unitPrice', 'common.total', 'common.price', 'orders.total'];
     document.querySelectorAll('th').forEach(function (th) {
+      var i18nKey = th.getAttribute('data-i18n') || '';
       var text = th.textContent.trim().toLowerCase();
-      if (text === 'unit price' || text === 'total' || text === 'price') {
+      if (priceI18nKeys.indexOf(i18nKey) !== -1 || text === 'unit price' || text === 'total' || text === 'price') {
         var idx = th.cellIndex;
         th.textContent = '—';
         th.style.color = '#a0a3a8';
@@ -329,9 +333,16 @@
   if (role === 'technician' && currentPage === 'orders.html') {
     // Rename title and breadcrumb
     var h1 = document.querySelector('.title-bar h1');
-    if (h1) h1.textContent = 'Requests';
+    if (h1) {
+      h1.setAttribute('data-i18n', 'technician.requests');
+      h1.textContent = 'Requests';
+    }
     document.querySelectorAll('.breadcrumb-current').forEach(function (el) {
-      if (el.textContent.trim() === 'Orders') el.textContent = 'Requests';
+      var i18nKey = el.getAttribute('data-i18n') || '';
+      if (i18nKey === 'orders.title' || el.textContent.trim() === 'Orders') {
+        el.setAttribute('data-i18n', 'technician.requests');
+        el.textContent = 'Requests';
+      }
     });
     document.title = 'Requests — NETZSCH Customer Portal';
 
@@ -1540,9 +1551,16 @@
 
     // ── 17a. Title + breadcrumb ──
     var h1 = document.querySelector('.title-bar h1');
-    if (h1) h1.textContent = 'Order Approvals';
+    if (h1) {
+      h1.setAttribute('data-i18n', 'approver.orderApprovals');
+      h1.textContent = 'Order Approvals';
+    }
     document.querySelectorAll('.breadcrumb-current').forEach(function (el) {
-      if (el.textContent.trim() === 'Orders') el.textContent = 'Order Approvals';
+      var i18nKey = el.getAttribute('data-i18n') || '';
+      if (i18nKey === 'orders.title' || el.textContent.trim() === 'Orders') {
+        el.setAttribute('data-i18n', 'approver.orderApprovals');
+        el.textContent = 'Order Approvals';
+      }
     });
     document.title = 'Order Approvals — NETZSCH Customer Portal';
 
