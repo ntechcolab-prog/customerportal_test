@@ -915,7 +915,7 @@
                 </div>
                 <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — €12,450.00</div>
                 <div class="notif-item-time">5 min ago</div>
-                <a href="quote-detail.html" class="notif-item-action">Review &amp; Approve</a>
+                <a href="quote-detail.html" class="notif-item-action" data-i18n="notif.actionReviewApprove">Review &amp; Approve</a>
               </div>
             </div>
             <div class="notif-item">
@@ -1280,14 +1280,14 @@ document.getElementById('btn-submit-quote').addEventListener('click', function()
         ? '<img class="cart-item-img" src="' + item.img + '" alt="' + item.name + '">'
         : svgPlaceholder;
       html += '<div class="cart-item">' + imgHtml +
-        '<div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div><div class="cart-item-mat">Ref: ' + item.ref + '</div></div>' +
-        '<div class="cart-item-price"><div class="cart-item-price-label">TOTAL PRICE</div><div class="cart-item-price-value">' + (hasQuotation ? 'Quotation' : formatPrice(lineTotal)) + '</div></div></div>' +
-        '<div class="cart-quantity"><span class="cart-quantity-label">Quantity</span><div class="cart-quantity-controls">' + leftBtn +
+        '<div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div><div class="cart-item-mat">' + NetzschI18n.t("checkout.ref", "Ref:") + ' ' + item.ref + '</div></div>' +
+        '<div class="cart-item-price"><div class="cart-item-price-label">' + NetzschI18n.t("shopDetail.totalPrice", "Total price") + '</div><div class="cart-item-price-value">' + (hasQuotation ? NetzschI18n.t("checkout.quotation", "Quotation") : formatPrice(lineTotal)) + '</div></div></div>' +
+        '<div class="cart-quantity"><span class="cart-quantity-label">' + NetzschI18n.t("common.quantity", "Quantity") + '</span><div class="cart-quantity-controls">' + leftBtn +
         '<span class="qty-value">' + item.qty + '</span>' +
         '<button class="qty-btn" data-action="plus" data-index="' + i + '">' + svgPlus + '</button></div></div>';
     });
     if (cartItems.length === 0) {
-      html = '<div class="cart-empty">Your cart is empty</div>';
+      html = '<div class="cart-empty">' + NetzschI18n.t("checkout.emptyCart", "Your cart is empty.") + '</div>';
       if (subtotalRow) subtotalRow.style.display = 'none';
     } else {
       if (subtotalRow) subtotalRow.style.display = '';

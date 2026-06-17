@@ -1659,7 +1659,7 @@
                 </div>
                 <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — €12,450.00</div>
                 <div class="notif-item-time">5 min ago</div>
-                <a href="quote-detail.html" class="notif-item-action">Review &amp; Approve</a>
+                <a href="quote-detail.html" class="notif-item-action" data-i18n="notif.actionReviewApprove">Review &amp; Approve</a>
               </div>
             </div>
             <div class="notif-item">
@@ -1764,28 +1764,28 @@
         <div class="milla-suggestions" id="millaSuggestions">
         <div class="milla-suggestions-header">
           <img src="../assets/sparkle-icon-green.svg" alt="" aria-hidden="true">
-          <span>AI Suggestions</span>
+          <span data-i18n="milla.aiSuggestions">AI Suggestions</span>
         </div>
         <div class="milla-suggestions-list">
           <button class="milla-suggestion-item">
             <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
-            <span>Check my order status</span>
+            <span data-i18n="milla.suggestOrderStatus">Check my order status</span>
           </button>
           <button class="milla-suggestion-item">
             <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
-            <span>Recommend products for me</span>
+            <span data-i18n="milla.suggestRecommend">Recommend products for me</span>
           </button>
           <button class="milla-suggestion-item">
             <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
-            <span>Show purchase history</span>
+            <span data-i18n="milla.suggestHistory">Show purchase history</span>
           </button>
           <button class="milla-suggestion-item">
             <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
-            <span>Help me find documents</span>
+            <span data-i18n="milla.suggestDocuments">Help me find documents</span>
           </button>
         </div>
         <div class="milla-suggestions-footer">
-          <a href="#">Find spare parts by photo, description, or product code.</a>
+          <a href="#" data-i18n="milla.suggestSpareParts">Find spare parts by photo, description, or product code.</a>
         </div>
       </div>
     </div>
@@ -2546,15 +2546,15 @@ document.addEventListener('click', function(e) {
         html += '<div class="cart-item">' +
           '<div class="cart-item-info">' +
             '<div class="cart-item-name">' + item.name + '</div>' +
-            '<div class="cart-item-mat">Ref: ' + item.ref + '</div>' +
+            '<div class="cart-item-mat">' + NetzschI18n.t("checkout.ref", "Ref:") + ' ' + item.ref + '</div>' +
           '</div>' +
           '<div class="cart-item-price">' +
-            '<div class="cart-item-price-label">TOTAL PRICE</div>' +
-            '<div class="cart-item-price-value">' + (hasQuotation ? 'Quotation' : formatPrice(lineTotal)) + '</div>' +
+            '<div class="cart-item-price-label">' + NetzschI18n.t("shopDetail.totalPrice", "Total price") + '</div>' +
+            '<div class="cart-item-price-value">' + (hasQuotation ? NetzschI18n.t("checkout.quotation", "Quotation") : formatPrice(lineTotal)) + '</div>' +
           '</div>' +
         '</div>' +
         '<div class="cart-quantity">' +
-          '<span class="cart-quantity-label">Quantity</span>' +
+          '<span class="cart-quantity-label">' + NetzschI18n.t("common.quantity", "Quantity") + '</span>' +
           '<div class="cart-quantity-controls">' +
             leftBtn +
             '<span class="qty-value">' + item.qty + '</span>' +
@@ -2564,7 +2564,7 @@ document.addEventListener('click', function(e) {
       });
 
       if (cartItems.length === 0) {
-        html = '<div class="cart-empty">Your cart is empty</div>';
+        html = '<div class="cart-empty">' + NetzschI18n.t("checkout.emptyCart", "Your cart is empty.") + '</div>';
         if (subtotalRow) subtotalRow.style.display = 'none';
       } else {
         if (subtotalRow) subtotalRow.style.display = '';
@@ -2793,8 +2793,8 @@ document.addEventListener('click', function(e) {
           <img src="../assets/milla-sparkle-white.svg" alt="" aria-hidden="true">
         </div>
         <div class="milla-chat-info">
-          <span class="milla-chat-name">Milla AI Assistant</span>
-          <span class="milla-chat-status">Online — Ready to help</span>
+          <span class="milla-chat-name" data-i18n="milla.assistantName">Milla AI Assistant</span>
+          <span class="milla-chat-status" data-i18n="milla.statusOnline">Online — Ready to help</span>
         </div>
       </div>
       <div class="milla-chat-header-actions">
@@ -2810,17 +2810,17 @@ document.addEventListener('click', function(e) {
       </div>
     </div>
     <div class="milla-chat-tabs">
-      <button class="milla-chat-tab">Spare parts</button>
-      <button class="milla-chat-tab">Order status</button>
-      <button class="milla-chat-tab">Documents</button>
-      <button class="milla-chat-tab">Recommendations</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabSpareParts">Spare parts</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabOrderStatus">Order status</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabDocuments">Documents</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabRecommendations">Recommendations</button>
     </div>
     <div class="milla-chat-body" id="millaChatBody">
       <!-- Messages injected by JS -->
     </div>
     <div class="milla-chat-footer">
       <div class="milla-chat-input-wrap">
-        <input type="text" placeholder="Ask Milla anything..." id="millaChatInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromBigChat();}">
+        <input type="text" placeholder="Ask Milla anything..." data-i18n-placeholder="milla.chatPlaceholder" id="millaChatInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromBigChat();}">
       </div>
       <button class="milla-chat-send active" id="millaChatSend" onclick="sendFromBigChat()">
         <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
@@ -2837,8 +2837,8 @@ document.addEventListener('click', function(e) {
         <img src="../assets/milla-sparkle-white.svg" alt="" aria-hidden="true">
       </div>
       <div class="milla-chat-info">
-        <span class="milla-chat-name">Milla AI Assistant</span>
-        <span class="milla-chat-status">Online — Ready to help</span>
+        <span class="milla-chat-name" data-i18n="milla.assistantName">Milla AI Assistant</span>
+        <span class="milla-chat-status" data-i18n="milla.statusOnline">Online — Ready to help</span>
       </div>
     </div>
     <div class="milla-chat-header-actions">
@@ -2854,10 +2854,10 @@ document.addEventListener('click', function(e) {
     </div>
   </div>
   <div class="milla-chat-tabs">
-    <button class="milla-chat-tab">Spare parts</button>
-    <button class="milla-chat-tab">Order status</button>
-    <button class="milla-chat-tab">Documents</button>
-    <button class="milla-chat-tab">Recommendations</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabSpareParts">Spare parts</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabOrderStatus">Order status</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabDocuments">Documents</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabRecommendations">Recommendations</button>
   </div>
   <div class="milla-chat-body" id="millaChatSmallBody"></div>
   <div class="milla-chat-footer">

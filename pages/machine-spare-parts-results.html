@@ -1835,7 +1835,7 @@
                 </div>
                 <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — €12,450.00</div>
                 <div class="notif-item-time">5 min ago</div>
-                <a href="quote-detail.html" class="notif-item-action">Review &amp; Approve</a>
+                <a href="quote-detail.html" class="notif-item-action" data-i18n="notif.actionReviewApprove">Review &amp; Approve</a>
               </div>
             </div>
             <div class="notif-item">
@@ -2412,7 +2412,7 @@ document.addEventListener('click', function(e) {
       }
 
       if (cart.length === 0) {
-        cartItemsEl.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
+        cartItemsEl.innerHTML = '<div class="cart-empty">' + NetzschI18n.t("checkout.emptyCart", "Your cart is empty.") + '</div>';
         cartSubtotalRow.style.display = 'none';
         return;
       }
@@ -2429,10 +2429,10 @@ document.addEventListener('click', function(e) {
 
         html += '<div class="cart-item">'
           + '<div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div><div class="cart-item-mat">' + item.mat + '</div></div>'
-          + '<div class="cart-item-price"><div class="cart-item-price-label">TOTAL PRICE</div><div class="cart-item-price-value">' + (hasQuotation ? 'Quotation' : fmtPrice(lineTotal)) + '</div></div>'
+          + '<div class="cart-item-price"><div class="cart-item-price-label">' + NetzschI18n.t("shopDetail.totalPrice", "Total price") + '</div><div class="cart-item-price-value">' + (hasQuotation ? NetzschI18n.t("checkout.quotation", "Quotation") : fmtPrice(lineTotal)) + '</div></div>'
           + '</div>'
           + '<div class="cart-quantity">'
-          + '<span class="cart-quantity-label">Quantity</span>'
+          + '<span class="cart-quantity-label">' + NetzschI18n.t("common.quantity", "Quantity") + '</span>'
           + '<div class="cart-quantity-controls">'
           + leftBtn
           + '<span class="qty-value">' + item.qty + '</span>'
