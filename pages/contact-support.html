@@ -1560,23 +1560,23 @@
 
       <!-- LEFT: FORM -->
       <div class="card" id="formCard">
-        <h2 class="section-title">Ticket Details</h2>
+        <h2 class="section-title" data-i18n="contactSupport.ticketDetails">Ticket Details</h2>
 
         <!-- Subject + Reference (side by side) -->
         <div class="field-row">
           <div class="field-group">
             <label class="field-label" for="ticketSubject" data-i18n="contactSupport.subject">Subject <span class="required" aria-label="required">*</span></label>
             <select class="subject-select" id="ticketSubject">
-              <option value="" disabled selected>Select a subject</option>
-              <option value="orders-deliveries">Orders &amp; Deliveries</option>
-              <option value="quotes-pricing">Quotes &amp; Pricing</option>
-              <option value="machines-equipment">Machines &amp; Equipment</option>
-              <option value="spare-parts">Spare Parts</option>
-              <option value="contracts-agreements">Contracts &amp; Agreements</option>
-              <option value="billing-payments">Billing &amp; Payments</option>
-              <option value="technical-support">Technical Support</option>
-              <option value="account-access">Account &amp; Access</option>
-              <option value="other">Other</option>
+              <option value="" disabled selected data-i18n="contactSupport.selectSubject">Select a subject</option>
+              <option value="orders-deliveries" data-i18n="contactSupport.ordersDeliveries">Orders &amp; Deliveries</option>
+              <option value="quotes-pricing" data-i18n="contactSupport.quotesPricing">Quotes &amp; Pricing</option>
+              <option value="machines-equipment" data-i18n="contactSupport.machinesEquipment">Machines &amp; Equipment</option>
+              <option value="spare-parts" data-i18n="contactSupport.spareParts">Spare Parts</option>
+              <option value="contracts-agreements" data-i18n="contactSupport.contractsAgreements">Contracts &amp; Agreements</option>
+              <option value="billing-payments" data-i18n="contactSupport.billingPayments">Billing &amp; Payments</option>
+              <option value="technical-support" data-i18n="contactSupport.technicalSupport">Technical Support</option>
+              <option value="account-access" data-i18n="contactSupport.accountAccess">Account &amp; Access</option>
+              <option value="other" data-i18n="contactSupport.other">Other</option>
             </select>
           </div>
           <div class="field-group">
@@ -1605,8 +1605,8 @@
               <path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="dropzone-text">Drop files here or click to upload</span>
-            <span class="dropzone-hint">Supports: PDF, JPG, PNG</span>
+            <span class="dropzone-text" data-i18n="contactSupport.dropzoneText">Drop files here or click to upload</span>
+            <span class="dropzone-hint" data-i18n="contactSupport.dropzoneHint">Supports: PDF, JPG, PNG</span>
             <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
           </div>
         </div>
@@ -1632,8 +1632,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
             <div class="sidebar-info-text">
-              <div class="sidebar-info-label">Response Time</div>
-              <div class="sidebar-info-value">1-2 business days</div>
+              <div class="sidebar-info-label" data-i18n="contactSupport.responseTime">Response Time</div>
+              <div class="sidebar-info-value" data-i18n="contactSupport.responseValue">1-2 business days</div>
             </div>
           </div>
           <div class="sidebar-info-row">
@@ -1641,8 +1641,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </div>
             <div class="sidebar-info-text">
-              <div class="sidebar-info-label">Support Hours</div>
-              <div class="sidebar-info-value">Monday – Friday, 8:00 – 18:00 CET</div>
+              <div class="sidebar-info-label" data-i18n="contactSupport.supportHours">Support Hours</div>
+              <div class="sidebar-info-value" data-i18n="contactSupport.supportHoursValue">Monday – Friday, 8:00 – 18:00 CET</div>
             </div>
           </div>
           <div class="sidebar-info-row">
@@ -1650,7 +1650,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <div class="sidebar-info-text">
-              <div class="sidebar-info-label">Urgent Issues</div>
+              <div class="sidebar-info-label" data-i18n="contactSupport.urgentIssues">Urgent Issues</div>
               <div class="sidebar-info-value"><a href="mailto:support@netzsch.com">support@netzsch.com</a></div>
             </div>
           </div>
@@ -1662,19 +1662,19 @@
           <ul class="sidebar-links">
             <li><a href="help.html">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              FAQ &amp; Help Center
+              <span data-i18n="contactSupport.faqHelpCenter">FAQ &amp; Help Center</span>
             </a></li>
             <li><a href="services.html">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-              Service Requests
+              <span data-i18n="contactSupport.serviceRequests">Service Requests</span>
             </a></li>
             <li><a href="orders.html">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-              Track Orders
+              <span data-i18n="contactSupport.trackOrders">Track Orders</span>
             </a></li>
             <li><a href="contracts.html">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              Contracts
+              <span data-i18n="contactSupport.contracts">Contracts</span>
             </a></li>
           </ul>
         </div>
@@ -1689,24 +1689,24 @@
           <circle cx="32" cy="32" r="30" fill="#e6f7f5" stroke="#007167" stroke-width="2"/>
           <path d="M20 33l8 8 16-16" stroke="#007167" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <h2>Ticket Submitted Successfully</h2>
-        <p>Your support ticket <strong>#TK-2026-0187</strong> has been created. Our team will review your request and respond within 1-2 business days.</p>
-        <p class="success-email">You'll receive a confirmation email at john.doe@acme-corp.com</p>
+        <h2 data-i18n="contactSupport.successTitle">Ticket Submitted Successfully</h2>
+        <p data-i18n="contactSupport.successMessage">Your support ticket <strong>#TK-2026-0187</strong> has been created. Our team will review your request and respond within 1-2 business days.</p>
+        <p class="success-email" data-i18n="contactSupport.successEmail">You'll receive a confirmation email at john.doe@acme-corp.com</p>
         <div class="success-actions">
-          <button class="btn-secondary" id="btnNewTicket">Submit Another Ticket</button>
-          <a href="help.html" class="btn-primary-btn">Back to Help</a>
+          <button class="btn-secondary" id="btnNewTicket" data-i18n="contactSupport.submitAnother">Submit Another Ticket</button>
+          <a href="help.html" class="btn-primary-btn" data-i18n="contactSupport.backToHelp">Back to Help</a>
         </div>
       </div>
       <div class="sidebar">
         <div class="sidebar-card">
-          <h3 class="sidebar-card-title">What happens next?</h3>
+          <h3 class="sidebar-card-title" data-i18n="contactSupport.whatHappensNext">What happens next?</h3>
           <div class="sidebar-info-row">
             <div class="sidebar-info-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             </div>
             <div class="sidebar-info-text">
-              <div class="sidebar-info-label">Ticket Created</div>
-              <div class="sidebar-info-value">Your request is in our system</div>
+              <div class="sidebar-info-label" data-i18n="contactSupport.ticketCreated">Ticket Created</div>
+              <div class="sidebar-info-value" data-i18n="contactSupport.ticketCreatedValue">Your request is in our system</div>
             </div>
           </div>
           <div class="sidebar-info-row">
@@ -1714,8 +1714,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <div class="sidebar-info-text">
-              <div class="sidebar-info-label">Confirmation Email</div>
-              <div class="sidebar-info-value">Sent to your email address</div>
+              <div class="sidebar-info-label" data-i18n="contactSupport.confirmationEmail">Confirmation Email</div>
+              <div class="sidebar-info-value" data-i18n="contactSupport.confirmationEmailValue">Sent to your email address</div>
             </div>
           </div>
           <div class="sidebar-info-row">
@@ -1723,8 +1723,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
             </div>
             <div class="sidebar-info-text">
-              <div class="sidebar-info-label">Team Assignment</div>
-              <div class="sidebar-info-value">A specialist will be assigned within 24h</div>
+              <div class="sidebar-info-label" data-i18n="contactSupport.teamAssignment">Team Assignment</div>
+              <div class="sidebar-info-value" data-i18n="contactSupport.teamAssignmentValue">A specialist will be assigned within 24h</div>
             </div>
           </div>
         </div>

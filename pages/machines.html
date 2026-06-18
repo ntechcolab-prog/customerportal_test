@@ -1775,25 +1775,25 @@
         <div class="filter-input is-select">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13"/><path d="M3 12h9"/><path d="M3 18h5"/><path d="M17 9l4-4 4 4" transform="translate(-7 0)"/></svg>
           <select id="filter-sort" required>
-            <option value="" disabled selected>Sort by</option>
-            <option value="name">Name (A–Z)</option>
-            <option value="hours-desc">Hours (high → low)</option>
-            <option value="hours-asc">Hours (low → high)</option>
-            <option value="install">Install date</option>
+            <option value="" disabled selected data-i18n="filter.sortBy">Sort by</option>
+            <option value="name" data-i18n="filter.nameAZalt">Name (A–Z)</option>
+            <option value="hours-desc" data-i18n="filter.hoursHighLow">Hours (high → low)</option>
+            <option value="hours-asc" data-i18n="filter.hoursLowHigh">Hours (low → high)</option>
+            <option value="install" data-i18n="filter.installDate">Install date</option>
           </select>
         </div>
         <div class="filter-input is-select">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
           <select id="filter-app" required>
-            <option value="" disabled selected>Application</option>
-            <option value="Wet Grinding">Wet Grinding</option>
-            <option value="Dispersing">Dispersing</option>
-            <option value="Mixer">Mixer</option>
+            <option value="" disabled selected data-i18n="filter.application">Application</option>
+            <option value="Wet Grinding" data-i18n="filter.wetGrinding">Wet Grinding</option>
+            <option value="Dispersing" data-i18n="filter.dispersing">Dispersing</option>
+            <option value="Mixer" data-i18n="filter.mixer">Mixer</option>
           </select>
         </div>
         <button type="button" class="btn-clear" id="btn-clear" hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          Clear filters
+          <span data-i18n="filter.clearFilters">Clear filters</span>
         </button>
       </div>
     </div>
@@ -1868,24 +1868,24 @@
           <div class="machine-line">Line 1</div>
           <div class="machine-rows">
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt="">Install Date</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt=""><span data-i18n="machine.installDate">Install Date</span></span>
               <span class="machine-row-value">2024-08-20</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt="">Hours</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt=""><span data-i18n="machine.hours">Hours</span></span>
               <span class="machine-row-value">10,345 h</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt="">Product Family</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt=""><span data-i18n="machine.productFamily">Product Family</span></span>
               <span class="machine-row-value">Wet Grinding</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt="">Commission Number</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt=""><span data-i18n="machine.commissionNumber">Commission Number</span></span>
               <span class="machine-row-value commission">2801548-10</span>
             </div>
           </div>
           <div class="machine-footer">
-            <span class="machine-footer-label">Last Service</span>
+            <span class="machine-footer-label" data-i18n="machine.lastService">Last Service</span>
             <span class="machine-footer-value">Feb 12, 2026</span>
           </div>
         </div>
@@ -1906,24 +1906,24 @@
           <div class="machine-line">Black Production Only</div>
           <div class="machine-rows">
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt="">Install Date</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt=""><span data-i18n="machine.installDate">Install Date</span></span>
               <span class="machine-row-value">2024-06-15</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt="">Hours</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt=""><span data-i18n="machine.hours">Hours</span></span>
               <span class="machine-row-value">8,720 h</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt="">Product Family</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt=""><span data-i18n="machine.productFamily">Product Family</span></span>
               <span class="machine-row-value">Dispersing</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt="">Commission Number</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt=""><span data-i18n="machine.commissionNumber">Commission Number</span></span>
               <span class="machine-row-value commission">15202462-20</span>
             </div>
           </div>
           <div class="machine-footer">
-            <span class="machine-footer-label">Last Service</span>
+            <span class="machine-footer-label" data-i18n="machine.lastService">Last Service</span>
             <span class="machine-footer-value">Jan 28, 2026</span>
           </div>
         </div>
@@ -1944,24 +1944,24 @@
           <div class="machine-line">Line 3</div>
           <div class="machine-rows">
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt="">Install Date</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt=""><span data-i18n="machine.installDate">Install Date</span></span>
               <span class="machine-row-value">2024-08-20</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt="">Hours</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt=""><span data-i18n="machine.hours">Hours</span></span>
               <span class="machine-row-value">14,210 h</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt="">Product Family</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt=""><span data-i18n="machine.productFamily">Product Family</span></span>
               <span class="machine-row-value">Mixer</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt="">Commission Number</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt=""><span data-i18n="machine.commissionNumber">Commission Number</span></span>
               <span class="machine-row-value commission">15202531-10</span>
             </div>
           </div>
           <div class="machine-footer">
-            <span class="machine-footer-label">Last Service</span>
+            <span class="machine-footer-label" data-i18n="machine.lastService">Last Service</span>
             <span class="machine-footer-value">Dec 05, 2025</span>
           </div>
         </div>
@@ -1983,24 +1983,24 @@
           <div class="machine-line">Line 4</div>
           <div class="machine-rows">
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt="">Install Date</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt=""><span data-i18n="machine.installDate">Install Date</span></span>
               <span class="machine-row-value">2024-08-20</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt="">Hours</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt=""><span data-i18n="machine.hours">Hours</span></span>
               <span class="machine-row-value">6,580 h</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt="">Product Family</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt=""><span data-i18n="machine.productFamily">Product Family</span></span>
               <span class="machine-row-value">Wet Grinding</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt="">Commission Number</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt=""><span data-i18n="machine.commissionNumber">Commission Number</span></span>
               <span class="machine-row-value commission">15202530-10</span>
             </div>
           </div>
           <div class="machine-footer">
-            <span class="machine-footer-label">Last Service</span>
+            <span class="machine-footer-label" data-i18n="machine.lastService">Last Service</span>
             <span class="machine-footer-value">Mar 01, 2026</span>
           </div>
         </div>
@@ -2021,24 +2021,24 @@
           <div class="machine-line">White Production Only</div>
           <div class="machine-rows">
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt="">Install Date</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-calendar.svg" alt=""><span data-i18n="machine.installDate">Install Date</span></span>
               <span class="machine-row-value">2024-09-10</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt="">Hours</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-hours.svg" alt=""><span data-i18n="machine.hours">Hours</span></span>
               <span class="machine-row-value">3,190 h</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt="">Product Family</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-product.svg" alt=""><span data-i18n="machine.productFamily">Product Family</span></span>
               <span class="machine-row-value">Wet Grinding</span>
             </div>
             <div class="machine-row">
-              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt="">Commission Number</span>
+              <span class="machine-row-label"><img src="../assets/icon-card-commission.svg" alt=""><span data-i18n="machine.commissionNumber">Commission Number</span></span>
               <span class="machine-row-value commission">80204882</span>
             </div>
           </div>
           <div class="machine-footer">
-            <span class="machine-footer-label">Last Service</span>
+            <span class="machine-footer-label" data-i18n="machine.lastService">Last Service</span>
             <span class="machine-footer-value">Mar 10, 2026</span>
           </div>
         </div>
@@ -2058,11 +2058,11 @@
       <div class="machine-table">
         <!-- Header -->
         <div class="t-row t-head">
-          <span class="t-h-machine">Machine</span>
-          <span class="t-h-commission">Commission Nr.</span>
-          <span class="t-h-date">Install Date</span>
-          <span class="t-h-hours">Hours</span>
-          <span class="t-h-family">Family</span>
+          <span class="t-h-machine" data-i18n="common.machine">Machine</span>
+          <span class="t-h-commission" data-i18n="machine.tableCommission">Commission Nr.</span>
+          <span class="t-h-date" data-i18n="machine.installDate">Install Date</span>
+          <span class="t-h-hours" data-i18n="machine.hours">Hours</span>
+          <span class="t-h-family" data-i18n="machine.tableFamily">Family</span>
         </div>
 
         <!-- Body -->

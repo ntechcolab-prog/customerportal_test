@@ -35,24 +35,50 @@
   ].join('\n');
   document.head.appendChild(style);
 
+  // ── i18n for gate (loads before main i18n system) ──
+  var gateStrings = {
+    en: {
+      title: 'Customer Portal',
+      subtitle: 'Enter the access password to continue.',
+      passwordLabel: 'Password',
+      passwordPlaceholder: 'Enter password',
+      showPassword: 'Show password',
+      hidePassword: 'Hide password',
+      errorMessage: 'Incorrect password. Please try again.',
+      accessButton: 'Access Portal'
+    },
+    de: {
+      title: 'Kundenportal',
+      subtitle: 'Geben Sie das Zugangspasswort ein, um fortzufahren.',
+      passwordLabel: 'Passwort',
+      passwordPlaceholder: 'Passwort eingeben',
+      showPassword: 'Passwort anzeigen',
+      hidePassword: 'Passwort ausblenden',
+      errorMessage: 'Falsches Passwort. Bitte versuchen Sie es erneut.',
+      accessButton: 'Portal öffnen'
+    }
+  };
+  var gateLang = localStorage.getItem('netzsch_lang') || 'en';
+  var gt = gateStrings[gateLang] || gateStrings.en;
+
   // ── Inject overlay ──
   var overlay = document.createElement('div');
   overlay.className = 'gate-overlay';
   overlay.innerHTML =
     '<div class="gate-card">' +
       '<img class="gate-logo" src="../assets/gd-logo-dark.svg" alt="NETZSCH Grinding & Dispersing">' +
-      '<div class="gate-title">Customer Portal</div>' +
-      '<div class="gate-subtitle">Enter the access password to continue.</div>' +
+      '<div class="gate-title">' + gt.title + '</div>' +
+      '<div class="gate-subtitle">' + gt.subtitle + '</div>' +
       '<div class="gate-field">' +
-        '<label class="gate-label" for="gatePass">Password</label>' +
-        '<input class="gate-input" type="password" id="gatePass" placeholder="Enter password" autocomplete="off">' +
-        '<button class="gate-toggle" id="gateToggle" type="button" aria-label="Show password">' +
+        '<label class="gate-label" for="gatePass">' + gt.passwordLabel + '</label>' +
+        '<input class="gate-input" type="password" id="gatePass" placeholder="' + gt.passwordPlaceholder + '" autocomplete="off">' +
+        '<button class="gate-toggle" id="gateToggle" type="button" aria-label="' + gt.showPassword + '">' +
           '<svg id="gateEyeOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
           '<svg id="gateEyeClosed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>' +
         '</button>' +
-        '<div class="gate-error" id="gateError">Incorrect password. Please try again.</div>' +
+        '<div class="gate-error" id="gateError">' + gt.errorMessage + '</div>' +
       '</div>' +
-      '<button class="gate-btn" id="gateSubmit">Access Portal</button>' +
+      '<button class="gate-btn" id="gateSubmit">' + gt.accessButton + '</button>' +
     '</div>';
   document.body.appendChild(overlay);
 
@@ -96,7 +122,7 @@
     input.type = isPassword ? 'text' : 'password';
     eyeOpen.style.display = isPassword ? 'none' : '';
     eyeClosed.style.display = isPassword ? '' : 'none';
-    toggle.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+    toggle.setAttribute('aria-label', isPassword ? gt.hidePassword : gt.showPassword);
     input.focus();
   });
 

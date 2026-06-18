@@ -1718,17 +1718,17 @@
           <input type="text" placeholder="Search contract, machine..." data-i18n-placeholder="contracts.searchPlaceholder">
         </div>
         <select class="filter-select" id="filterStatus">
-          <option value="">Status</option>
-          <option value="active">Active</option>
-          <option value="expiring-soon">Expiring Soon</option>
-          <option value="expired">Expired</option>
+          <option value="" data-i18n="common.status">Status</option>
+          <option value="active" data-i18n="status.active">Active</option>
+          <option value="expiring-soon" data-i18n="status.expiringSoon">Expiring Soon</option>
+          <option value="expired" data-i18n="status.expired">Expired</option>
         </select>
         <select class="filter-select" id="filterType">
-          <option value="">Type</option>
-          <option value="parts">Parts Contract</option>
-          <option value="service">Service Contract</option>
+          <option value="" data-i18n="common.type">Type</option>
+          <option value="parts" data-i18n="filter.partsContract">Parts Contract</option>
+          <option value="service" data-i18n="filter.serviceContract">Service Contract</option>
         </select>
-        <button class="btn-clear-filters" id="btnClearFilters">Clear filters</button>
+        <button class="btn-clear-filters" id="btnClearFilters" data-i18n="filter.clearFilters">Clear filters</button>
       </div>
     </div>
 
@@ -1851,7 +1851,7 @@
   <!-- CONTRACT DETAILS DRAWER -->
   <div class="tracking-drawer" id="contractDrawer" role="dialog" aria-label="Contract Details">
     <div class="drawer-header">
-      <span class="drawer-title">Contract Details</span>
+      <span class="drawer-title" data-i18n="contractDrawer.contractDetails">Contract Details</span>
       <button class="drawer-close" id="drawerClose">&#x2715;</button>
     </div>
     <div class="drawer-body" id="drawerBody">
@@ -1916,6 +1916,8 @@ document.addEventListener('click', function(e) {
     var showRenewalBtn = (status !== 'Active');
     var html = '';
 
+    var t = window.NetzschI18n ? NetzschI18n.t.bind(NetzschI18n) : function(k, fb) { return fb || k; };
+
     if (type === 'Parts') {
       var scope = row.dataset.scope;
       var start = row.dataset.start;
@@ -1928,30 +1930,30 @@ document.addEventListener('click', function(e) {
 
       html =
         '<div class="drawer-contract-id">' + contractId + '</div>' +
-        '<div class="drawer-contract-type">Parts Contract</div>' +
+        '<div class="drawer-contract-type">' + t('contractDrawer.partsContract', 'Parts Contract') + '</div>' +
         '<div class="drawer-meta-grid">' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Equipment Scope</div><div class="drawer-meta-value">' + scope + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '">' + status + '</span></div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Start Date</div><div class="drawer-meta-value">' + start + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">End Date</div><div class="drawer-meta-value">' + end + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('contractDrawer.equipmentScope', 'Equipment Scope') + '</div><div class="drawer-meta-value">' + scope + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('contractDrawer.status', 'Status') + '</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '">' + status + '</span></div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('contractDrawer.startDate', 'Start Date') + '</div><div class="drawer-meta-value">' + start + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('contractDrawer.endDate', 'End Date') + '</div><div class="drawer-meta-value">' + end + '</div></div>' +
         '</div>' +
         '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Commercial Terms</div>' +
+          '<div class="drawer-section-title">' + t('contractDrawer.commercialTerms', 'Commercial Terms') + '</div>' +
           '<div class="drawer-key-terms">' +
-            'Payment: ' + payment + '<br>' +
-            'Freight: ' + freight + '<br>' +
-            'Min. Billing: ' + minValue + '<br>' +
-            'Contractual Discount: ' + discount +
+            t('contractDrawer.payment', 'Payment:') + ' ' + payment + '<br>' +
+            t('contractDrawer.freight', 'Freight:') + ' ' + freight + '<br>' +
+            t('contractDrawer.minBilling', 'Min. Billing:') + ' ' + minValue + '<br>' +
+            t('contractDrawer.contractualDiscount', 'Contractual Discount:') + ' ' + discount +
           '</div>' +
         '</div>' +
         '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Price List</div>' +
-          '<div class="drawer-section-text">' + items + ' items with negotiated prices</div>' +
-          '<a href="contract-parts-detail.html#price-list" style="color:#007167;font-size:14px;font-weight:500;text-decoration:none;display:inline-block;margin-top:4px;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">View full price list &rarr;</a>' +
+          '<div class="drawer-section-title">' + t('contractDrawer.priceList', 'Price List') + '</div>' +
+          '<div class="drawer-section-text">' + items + ' ' + t('contractDrawer.itemsWithPrices', 'items with negotiated prices') + '</div>' +
+          '<a href="contract-parts-detail.html#price-list" style="color:#007167;font-size:14px;font-weight:500;text-decoration:none;display:inline-block;margin-top:4px;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">' + t('contractDrawer.viewPriceList', 'View full price list →') + '</a>' +
         '</div>' +
         '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Account Manager</div>' +
-          '<div class="drawer-contact-info">Luana G. R. Borchardt — Contract Coordination<br><a href="mailto:luana.reuters@netzsch.com">luana.reuters@netzsch.com</a></div>' +
+          '<div class="drawer-section-title">' + t('contractDrawer.accountManager', 'Account Manager') + '</div>' +
+          '<div class="drawer-contact-info">Luana G. R. Borchardt — ' + t('contractDrawer.contractCoordination', 'Contract Coordination') + '<br><a href="mailto:luana.reuters@netzsch.com">luana.reuters@netzsch.com</a></div>' +
         '</div>';
 
     } else if (type === 'Service') {
@@ -1969,43 +1971,43 @@ document.addEventListener('click', function(e) {
 
       html =
         '<div class="drawer-contract-id">' + contractId + '</div>' +
-        '<div class="drawer-contract-type">Service Contract — ' + serviceType + '</div>' +
+        '<div class="drawer-contract-type">' + t('contractDrawer.serviceContract', 'Service Contract') + ' — ' + serviceType + '</div>' +
         '<div class="drawer-meta-grid">' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Equipment</div><div class="drawer-meta-value">' + scope + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Status</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '">' + status + '</span></div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Duration</div><div class="drawer-meta-value">' + duration + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">Renewal</div><div class="drawer-meta-value">' + renewal + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('contractDrawer.equipment', 'Equipment') + '</div><div class="drawer-meta-value">' + scope + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('contractDrawer.status', 'Status') + '</div><div class="drawer-meta-value"><span class="status-badge ' + statusClass + '">' + status + '</span></div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('contractDrawer.duration', 'Duration') + '</div><div class="drawer-meta-value">' + duration + '</div></div>' +
+          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('contractDrawer.renewal', 'Renewal') + '</div><div class="drawer-meta-value">' + renewal + '</div></div>' +
         '</div>' +
         '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Visit Schedule</div>' +
+          '<div class="drawer-section-title">' + t('contractDrawer.visitSchedule', 'Visit Schedule') + '</div>' +
           '<div class="drawer-key-terms">' +
-            visitsYear + ' visits/year &nbsp;|&nbsp; ' + technicians + ' technician &nbsp;|&nbsp; ' + visitDays + ' days/visit<br>' +
-            'Next visit: ' + nextVisit + '<br>' +
-            'Price per visit: ' + visitPrice +
+            visitsYear + ' ' + t('contractDrawer.visitsYear', 'visits/year') + ' &nbsp;|&nbsp; ' + technicians + ' ' + t('contractDrawer.technician', 'technician') + ' &nbsp;|&nbsp; ' + visitDays + ' ' + t('contractDrawer.daysVisit', 'days/visit') + '<br>' +
+            t('contractDrawer.nextVisit', 'Next visit:') + ' ' + nextVisit + '<br>' +
+            t('contractDrawer.pricePerVisit', 'Price per visit:') + ' ' + visitPrice +
           '</div>' +
         '</div>' +
         '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Contract Benefits</div>' +
+          '<div class="drawer-section-title">' + t('contractDrawer.contractBenefits', 'Contract Benefits') + '</div>' +
           '<div class="drawer-key-terms">' +
-            '&bull; ' + discountHours + ' discount on technical hours<br>' +
-            '&bull; ' + discountParts + ' discount on spare parts<br>' +
-            '&bull; Priority support during business hours' +
+            '&bull; ' + discountHours + ' ' + t('contractDrawer.discountTechnicalHours', 'discount on technical hours') + '<br>' +
+            '&bull; ' + discountParts + ' ' + t('contractDrawer.discountSpareParts', 'discount on spare parts') + '<br>' +
+            '&bull; ' + t('contractDrawer.prioritySupport', 'Priority support during business hours') +
           '</div>' +
         '</div>' +
         '<div class="drawer-section">' +
-          '<div class="drawer-section-title">Account Manager</div>' +
-          '<div class="drawer-contact-info">Luana G. R. Borchardt — Contract Coordination<br><a href="mailto:luana.reuters@netzsch.com">luana.reuters@netzsch.com</a></div>' +
+          '<div class="drawer-section-title">' + t('contractDrawer.accountManager', 'Account Manager') + '</div>' +
+          '<div class="drawer-contact-info">Luana G. R. Borchardt — ' + t('contractDrawer.contractCoordination', 'Contract Coordination') + '<br><a href="mailto:luana.reuters@netzsch.com">luana.reuters@netzsch.com</a></div>' +
         '</div>';
     }
 
     html +=
       '<button class="btn-download-contract" onclick="alert(\'Downloading contract PDF for ' + contractId + '...\')">' +
         '<svg viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-        'Download Contract PDF' +
+        t('contractDrawer.downloadPdf', 'Download Contract PDF') +
       '</button>' +
       (showRenewalBtn ?
         '<button class="btn-request-renewal" onclick="alert(\'Renewal request submitted for ' + contractId + '.\')">' +
-          'Request Renewal' +
+          t('contractDrawer.requestRenewal', 'Request Renewal') +
         '</button>' : '');
 
     drawerBody.innerHTML = html;
