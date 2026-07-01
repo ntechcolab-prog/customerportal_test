@@ -126,6 +126,9 @@
       width: 34px;
       height: 34px;
       flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     /* ── PROFILE DROPDOWN ─── */
     .profile-dropdown {
@@ -153,8 +156,7 @@
     }
     .profile-dropdown-avatar {
       width: 36px; height: 36px; border-radius: 50%;
-      object-fit: cover; border: 1px solid #fff;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+      object-fit: cover;
     }
     .profile-dropdown-info { display: flex; flex-direction: column; }
     .profile-dropdown-name {
@@ -1337,7 +1339,6 @@
         </div>
       </div>
       <div class="user-avatar-wrapper">
-        <img class="user-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
         <span class="user-initials" onclick="toggleProfileDropdown(event)">MW</span>
         <div class="profile-dropdown" id="profileDropdown">
           <div class="profile-dropdown-header">
