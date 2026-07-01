@@ -543,11 +543,16 @@
       cursor: pointer; background: none; border: none;
       font-size: 18px; color: #4c4d57; line-height: 1;
     }
-    .qty-value {
+    .qty-value { -moz-appearance: textfield; appearance: textfield; border: none; outline: none; background: transparent; font-family: 'Inter', sans-serif; width: 48px;
       font-size: 14px;
       color: #8d9094;
       text-align: center;
       min-width: 32px;
+    }
+    .qty-value::-webkit-outer-spin-button,
+    .qty-value::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
     .unity-label {
       font-size: 14px;
@@ -1001,7 +1006,7 @@
     .qty-btn.delete:hover { background: #fdf2f0; }
     .qty-btn.minus { color: #6b7280; }
     .qty-btn svg { width: 16px; height: 16px; }
-    .qty-value { font-size: 14px; font-weight: 400; color: #4c4d57; min-width: 32px; text-align: center; font-variant-numeric: tabular-nums; letter-spacing: -0.15px; line-height: 20px; }
+    .qty-value { -moz-appearance: textfield; appearance: textfield; border: none; outline: none; background: transparent; font-family: 'Inter', sans-serif; width: 48px; font-size: 14px; font-weight: 400; color: #4c4d57; min-width: 32px; text-align: center; font-variant-numeric: tabular-nums; letter-spacing: -0.15px; line-height: 20px; }
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #4c4d57; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #4c4d57; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
@@ -1847,7 +1852,7 @@
           <label class="form-label" data-i18n="shopDetail.quantity">Quantity</label>
           <div class="qty-control">
             <button class="qty-btn" id="qtyMinus">−</button>
-            <span class="qty-value" id="qtyValue">1</span>
+            <input type="number" class="qty-value" id="qtyValue" value="1" min="1" aria-label="Quantity">
             <button class="qty-btn" id="qtyPlus">+</button>
           </div>
         </div>
@@ -1993,7 +1998,7 @@ document.addEventListener('click', function(e) {
     }
 
     function updateCartBadge() {
-      var total = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
+      var total = cartItems.reduce(function(s, i) { return s + 1; }, 0);
       cartBadge.textContent = total;
       cartBadge.classList.toggle('is-visible', total > 0);
     }
@@ -2086,11 +2091,15 @@ document.addEventListener('click', function(e) {
     // Quantity controls
     const qtyValue = document.getElementById('qtyValue');
     document.getElementById('qtyMinus').addEventListener('click', () => {
-      const v = parseInt(qtyValue.textContent);
-      if (v > 1) qtyValue.textContent = v - 1;
+      const v = parseInt(qtyValue.value);
+      if (v > 1) qtyValue.value = v - 1;
     });
     document.getElementById('qtyPlus').addEventListener('click', () => {
-      qtyValue.textContent = parseInt(qtyValue.textContent) + 1;
+      qtyValue.value = parseInt(qtyValue.value) + 1;
+    });
+    qtyValue.addEventListener('change', function() {
+      var v = parseInt(qtyValue.value);
+      if (isNaN(v) || v < 1) qtyValue.value = 1;
     });
 
     // Size select -> show delivery time + activate Add to Cart
@@ -2116,7 +2125,7 @@ document.addEventListener('click', function(e) {
       var ref = document.querySelector('.product-ref').textContent.replace('Ref: ', '').trim();
       var priceText = document.querySelector('.price-value').textContent;
       var unitPrice = parsePrice(priceText);
-      var qty = parseInt(qtyValue.textContent) || 1;
+      var qty = parseInt(qtyValue.value) || 1;
       var imgSrc = document.getElementById('mainImg').src;
 
       // Add qty items (or increment)

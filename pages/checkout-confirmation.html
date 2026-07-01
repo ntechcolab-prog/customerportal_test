@@ -1615,7 +1615,7 @@ document.addEventListener('click', function(e) {
     else { if (subRow) subRow.style.display = ''; }
     cartDdItemsEl.innerHTML = html;
     cartDdSubtotalEl.textContent = hasQ ? '--' : fmtP(sub);
-    var tot = items.reduce(function(s, i) { return s + i.qty; }, 0);
+    var tot = items.reduce(function(s, i) { return s + 1; }, 0);
     cartDdBadge.textContent = tot;
     cartDdBadge.classList.toggle('is-visible', tot > 0);
     cartDdItemsEl.querySelectorAll('.cart-dd-qty-btn').forEach(function(btn) {

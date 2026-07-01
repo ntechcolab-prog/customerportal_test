@@ -1633,7 +1633,7 @@ document.addEventListener('click', function(e) {
     }
     cartDdItems.innerHTML = html;
     cartDdSubtotal.textContent = hasQuotation ? '--' : formatPrice(subtotal);
-    var total = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
+    var total = cartItems.reduce(function(s, i) { return s + 1; }, 0);
     cartBadge.textContent = total;
     cartBadge.classList.toggle('is-visible', total > 0);
     cartDdItems.querySelectorAll('.qty-btn').forEach(function(btn) {
