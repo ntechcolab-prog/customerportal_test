@@ -131,7 +131,7 @@
     .profile-dropdown.open { display: block; }
     .profile-dropdown-header {
       display: flex; align-items: center; gap: 12px;
-      padding: 14px 16px; background: #f8f9fa; border-bottom: 1px solid #e5e7eb;
+      padding: 14px 16px; background: #f5f5f7; border-bottom: 1px solid #e5e7eb;
     }
     .profile-dropdown-avatar {
       width: 36px; height: 36px; border-radius: 50%;
@@ -283,7 +283,8 @@
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #4c4d57; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #4c4d57; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
     .btn-view-cart { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; letter-spacing: -0.31px; transition: background 0.2s; }
-    .btn-view-cart:hover { background: #005f57; }
+    .btn-view-cart:hover { background: #005f57; transform: scale(1.02); }
+    .btn-view-cart:active { transform: scale(0.98); }
     .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-item-placeholder svg { width: 18px; height: 18px; }
     .cart-badge { position: absolute; top: 4px; right: 4px; background: #c73e20; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 999px; display: none; align-items: center; justify-content: center; padding: 0 3px; letter-spacing: 0.12px; line-height: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1); }
@@ -310,7 +311,7 @@
     .milla-suggestions-header span { font-size: 13px; font-weight: 700; color: #007167; text-transform: uppercase; letter-spacing: 0.57px; line-height: 19.5px; }
     .milla-suggestion-item { display: flex; align-items: center; gap: 16px; padding: 16px 24px; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-family: 'Inter', sans-serif; }
     .milla-suggestion-item:not(:first-child) { border-top: 1px solid #f0f1f2; }
-    .milla-suggestion-item:hover { background: #f8f9fa; }
+    .milla-suggestion-item:hover { background: #f5f5f7; }
     .milla-suggestion-item .arrow-wrap { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; opacity: 0.6; flex-shrink: 0; }
     .milla-suggestion-item .arrow-wrap img { width: 16px; height: 16px; }
     .milla-suggestion-item span { font-size: 15px; font-weight: 500; color: #2d2e33; letter-spacing: -0.23px; line-height: 22.5px; }
@@ -336,7 +337,7 @@
     .milla-chat-header-btn img { width: 16px; height: 16px; }
     .milla-chat-tabs { display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-bottom: 1px solid #eaeaea; flex-shrink: 0; overflow-x: auto; }
     .milla-chat-tab { padding: 8px 16px; border-radius: 10px; border: 1px solid #d4d6d8; background: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #2d2e33; letter-spacing: -0.08px; cursor: pointer; white-space: nowrap; transition: background 0.15s ease, border-color 0.15s ease; }
-    .milla-chat-tab:hover { background: #f8f9fa; }
+    .milla-chat-tab:hover { background: #f5f5f7; }
     .milla-chat-tab.active { background: #007167; color: #fff; border-color: #007167; }
     .milla-chat-body { flex: 1; padding: 16px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; min-height: 300px; }
     .milla-msg-user { align-self: flex-end; background: #007167; color: #fff; padding: 14px 20px; border-radius: 16px 16px 6px 16px; font-size: 14px; line-height: 22px; letter-spacing: -0.15px; max-width: 70%; }

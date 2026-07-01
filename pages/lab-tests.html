@@ -13,7 +13,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f8f9fa;
+      background: #f5f5f7;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -141,7 +141,7 @@
       align-items: center;
       gap: 12px;
       padding: 14px 16px;
-      background: #f8f9fa;
+      background: #f5f5f7;
       border-bottom: 1px solid #e5e7eb;
     }
     .profile-dropdown-avatar {
@@ -418,6 +418,7 @@
       font-size: 20px;
       font-weight: 700;
       color: #1f2937;
+      letter-spacing: -0.4px;
     }
     .btn-filters {
       display: flex;
@@ -544,7 +545,7 @@
       transition: background 0.1s;
     }
     .orders-table tbody tr:last-child { border-bottom: none; }
-    .orders-table tbody tr:hover { background: #fafbfc; }
+    .orders-table tbody tr:hover { background: #f5f5f7; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
     .orders-table tbody td {
       padding: 12px 20px;
       font-size: 14px;
@@ -572,10 +573,10 @@
       font-weight: 600;
       white-space: nowrap;
     }
-    .status-placed { background: #e8f5f3; color: #007167; }
-    .status-process { background: #fef3cd; color: #856404; }
-    .status-shipped { background: #d1ecf1; color: #0c5460; }
-    .status-delivered { background: #d4edda; color: #155724; }
+    .status-placed { background: rgba(0, 113, 103, 0.08); color: #007167; }
+    .status-process { background: rgba(245, 158, 11, 0.12); color: #b45309; }
+    .status-shipped { background: rgba(59, 130, 246, 0.1); color: #1d4ed8; }
+    .status-delivered { background: rgba(0, 113, 103, 0.1); color: #007167; }
 
     /* Actions */
     .actions-cell {
@@ -880,7 +881,8 @@
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #4c4d57; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #4c4d57; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
     .btn-view-cart { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; letter-spacing: -0.31px; transition: background 0.2s; }
-    .btn-view-cart:hover { background: #005f57; }
+    .btn-view-cart:hover { background: #005f57; transform: scale(1.02); }
+    .btn-view-cart:active { transform: scale(0.98); }
     .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
     .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-item-placeholder svg { width: 18px; height: 18px; }
@@ -1015,7 +1017,7 @@
       border-top: 1px solid #f0f1f2;
     }
     .milla-suggestion-item:hover {
-      background: #f8f9fa;
+      background: #f5f5f7;
     }
     .milla-suggestion-item .arrow-wrap {
       width: 24px; height: 24px;
@@ -1144,7 +1146,7 @@
       white-space: nowrap;
       transition: background 0.15s ease, border-color 0.15s ease;
     }
-    .milla-chat-tab:hover { background: #f8f9fa; }
+    .milla-chat-tab:hover { background: #f5f5f7; }
     .milla-chat-tab.active { background: #007167; color: #fff; border-color: #007167; }
 
     .milla-chat-body {
