@@ -1578,6 +1578,11 @@
               <strong id="reviewDeliveryMethod">--</strong>
               <p id="reviewDeliveryDetail"></p>
             </div>
+            <div class="shipping-block" id="reviewShipmentBlock" style="display:none;">
+              <div class="shipping-block-label">Shipment</div>
+              <strong id="reviewShipmentType">--</strong>
+              <p id="reviewShipmentDetail"></p>
+            </div>
           </div>
           <a href="checkout.html" class="change-link" style="margin-top: 12px;">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1747,6 +1752,25 @@ document.addEventListener('click', function(e) {
   var detailText = deliveryDetails[deliveryMethod] || '';
   var priceText = delivery.price === 0 ? '<span class="delivery-free">' + NetzschI18n.t("checkout.free","Free") + '</span>' : (delivery.price ? formatPrice(delivery.price) : '');
   document.getElementById('reviewDeliveryDetail').innerHTML = detailText + (priceText ? '<br>' + priceText : '');
+
+  // Shipment info (partial shipment)
+  var shipment = cart.shipment;
+  if (shipment) {
+    var shipmentBlock = document.getElementById('reviewShipmentBlock');
+    shipmentBlock.style.display = '';
+    var shipmentTypeEl = document.getElementById('reviewShipmentType');
+    var shipmentDetailEl = document.getElementById('reviewShipmentDetail');
+    if (shipment.type === 'split') {
+      shipmentTypeEl.textContent = NetzschI18n.t('checkout.splitShipment', 'Split Shipment') + ' (2 deliveries)';
+      shipmentDetailEl.innerHTML =
+        shipment.inStock + ' ' + shipment.unit + ' \u2192 ' + shipment.stockDate + '<br>' +
+        shipment.inProduction + ' ' + shipment.unit + ' \u2192 ' + shipment.prodDate;
+    } else {
+      shipmentTypeEl.textContent = NetzschI18n.t('checkout.singleShipment', 'Single Shipment') + ' (1 delivery)';
+      shipmentDetailEl.innerHTML =
+        shipment.requested + ' ' + shipment.unit + ' \u2192 ' + shipment.prodDate;
+    }
+  }
 
   // PO number and special request
   document.getElementById('reviewPoNumber').textContent = cart.poNumber || '--';

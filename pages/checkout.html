@@ -2015,6 +2015,17 @@ document.addEventListener('click', function(e) {
       // Save delivery to localStorage
       var c = getCart();
       c.delivery = { method: selectedDelivery.method, price: selectedDelivery.price };
+      if (hasPartialShipment && partialData) {
+        c.shipment = {
+          type: selectedShipment,
+          inStock: partialData.p.inStock,
+          inProduction: partialData.p.inProduction,
+          requested: partialData.p.requested,
+          unit: partialData.p.unit,
+          stockDate: partialData.stockDateStr,
+          prodDate: partialData.prodDateStr
+        };
+      }
       saveCart(c);
 
       updateCheckout();

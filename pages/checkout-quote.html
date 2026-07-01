@@ -1449,6 +1449,10 @@
           <div class="shipping-method" id="quoteDeliveryMethod">--</div>
           <div class="shipping-detail" id="quoteDeliveryDetail"></div>
           <div class="shipping-price" id="quoteDeliveryPrice"></div>
+          <div id="quoteShipmentBlock" style="display:none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e7eb;">
+            <div class="shipping-method" id="quoteShipmentType">--</div>
+            <div class="shipping-detail" id="quoteShipmentDetail"></div>
+          </div>
         </div>
 
       </div>
@@ -1547,6 +1551,23 @@ document.addEventListener('click', function(e) {
   document.getElementById('quoteDeliveryMethod').textContent = deliveryNames[delivery.method] || '--';
   document.getElementById('quoteDeliveryDetail').textContent = deliveryDetails[delivery.method] || '';
   document.getElementById('quoteDeliveryPrice').textContent = delivery.price === 0 ? NetzschI18n.t("checkout.free","Free") : '--';
+
+  // Shipment info (partial shipment)
+  var shipment = cart.shipment;
+  if (shipment) {
+    var sb = document.getElementById('quoteShipmentBlock');
+    sb.style.display = '';
+    if (shipment.type === 'split') {
+      document.getElementById('quoteShipmentType').textContent = NetzschI18n.t('checkout.splitShipment', 'Split Shipment') + ' (2 deliveries)';
+      document.getElementById('quoteShipmentDetail').innerHTML =
+        shipment.inStock + ' ' + shipment.unit + ' \u2192 ' + shipment.stockDate + '<br>' +
+        shipment.inProduction + ' ' + shipment.unit + ' \u2192 ' + shipment.prodDate;
+    } else {
+      document.getElementById('quoteShipmentType').textContent = NetzschI18n.t('checkout.singleShipment', 'Single Shipment') + ' (1 delivery)';
+      document.getElementById('quoteShipmentDetail').innerHTML =
+        shipment.requested + ' ' + shipment.unit + ' \u2192 ' + shipment.prodDate;
+    }
+  }
 
   // Clear cart badge
   var cartBadge = document.querySelector('.cart-badge');
