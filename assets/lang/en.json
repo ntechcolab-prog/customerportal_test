@@ -676,6 +676,7 @@
   "checkout.partialRequested": "Requested",
   "checkout.partialInStock": "In stock",
   "checkout.partialInProduction": "In production",
+  "checkout.howReceive": "How would you like to receive your order?",
   "checkout.splitShipment": "Split Shipment",
   "checkout.splitShipmentSub": "(2 deliveries)",
   "checkout.splitShipmentDesc": "Receive available items now and the rest when ready. Shipping is charged per delivery.",

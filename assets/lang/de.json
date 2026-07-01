@@ -676,6 +676,7 @@
   "checkout.partialRequested": "Angefordert",
   "checkout.partialInStock": "Auf Lager",
   "checkout.partialInProduction": "In Produktion",
+  "checkout.howReceive": "Wie möchten Sie Ihre Bestellung erhalten?",
   "checkout.splitShipment": "Teillieferung",
   "checkout.splitShipmentSub": "(2 Lieferungen)",
   "checkout.splitShipmentDesc": "Verfügbare Artikel sofort erhalten, den Rest bei Fertigstellung. Versandkosten pro Lieferung.",

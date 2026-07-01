@@ -635,6 +635,11 @@
     .btn-proceed.active:hover { background: #005f57; }
 
     /* ── PARTIAL SHIPMENT (integrated in delivery) ─── */
+    #partialDeliveryBlock {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
     .partial-alert {
       display: flex;
       align-items: flex-start;
@@ -666,56 +671,81 @@
       line-height: 1.5;
     }
 
-    /* Segmented toggle for split/single */
+    /* Toggle label */
+    .shipment-toggle-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Card-style toggle for split/single */
     .shipment-toggle {
-      display: flex;
-      background: #f3f4f6;
-      border-radius: 10px;
-      padding: 4px;
-      gap: 4px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
     .shipment-toggle-btn {
-      flex: 1;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      padding: 10px 16px;
-      border: none;
-      border-radius: 8px;
-      background: transparent;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      background: #fff;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .shipment-toggle-btn:hover { border-color: #b0c4c2; }
+    .shipment-toggle-btn.active {
+      border-color: #007167;
+      background: #f0faf9;
+    }
+    .shipment-toggle-radio {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: border-color 0.15s;
+    }
+    .shipment-toggle-radio::after {
+      content: '';
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: transparent;
+      transition: background 0.15s;
+    }
+    .shipment-toggle-btn.active .shipment-toggle-radio {
+      border-color: #007167;
+    }
+    .shipment-toggle-btn.active .shipment-toggle-radio::after {
+      background: #007167;
+    }
+    .shipment-toggle-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .shipment-toggle-title {
       font-size: 14px;
       font-weight: 600;
-      color: #6b7280;
-      transition: background 0.15s, color 0.15s, box-shadow 0.15s;
-    }
-    .shipment-toggle-btn:hover { color: #374151; }
-    .shipment-toggle-btn.active {
-      background: #fff;
-      color: #007167;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      color: #1f2937;
     }
     .shipment-toggle-sub {
       font-size: 12px;
       font-weight: 400;
+      color: #6b7280;
+      line-height: 1.4;
     }
 
     /* Arrival info inside delivery options */
-    .delivery-arrival {
-      font-size: 12px;
-      color: #007167;
-      line-height: 1.5;
-      margin-top: 2px;
-    }
-    .delivery-price-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 2px;
-      flex-shrink: 0;
-    }
     .delivery-price-calc {
       font-size: 11px;
       font-weight: 400;
@@ -1601,14 +1631,21 @@
               </div>
             </div>
 
+            <span class="shipment-toggle-label" data-i18n="checkout.howReceive">How would you like to receive your order?</span>
             <div class="shipment-toggle" role="radiogroup" aria-label="Shipment type">
               <button class="shipment-toggle-btn active" data-shipment="split" aria-pressed="true">
-                <span data-i18n="checkout.splitShipment">Split Shipment</span>
-                <span class="shipment-toggle-sub" data-i18n="checkout.splitShipmentSub">(2 deliveries)</span>
+                <div class="shipment-toggle-radio" aria-hidden="true"></div>
+                <div class="shipment-toggle-content">
+                  <span class="shipment-toggle-title" data-i18n="checkout.splitShipment">Split Shipment</span>
+                  <span class="shipment-toggle-sub" data-i18n="checkout.splitShipmentDesc">Receive available items now and the rest when ready. Shipping charged per delivery.</span>
+                </div>
               </button>
               <button class="shipment-toggle-btn" data-shipment="single" aria-pressed="false">
-                <span data-i18n="checkout.singleShipment">Single Shipment</span>
-                <span class="shipment-toggle-sub" data-i18n="checkout.singleShipmentSub">(1 delivery)</span>
+                <div class="shipment-toggle-radio" aria-hidden="true"></div>
+                <div class="shipment-toggle-content">
+                  <span class="shipment-toggle-title" data-i18n="checkout.singleShipment">Single Shipment</span>
+                  <span class="shipment-toggle-sub" data-i18n="checkout.singleShipmentDesc">Wait until all items are ready and receive everything in one delivery.</span>
+                </div>
               </button>
             </div>
           </div>
