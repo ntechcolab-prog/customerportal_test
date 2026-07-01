@@ -796,7 +796,7 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
     }
-    .machine-grid[hidden] { display: none; }
+    .machine-grid[hidden] { display: none !important; }
     .machine-card {
       background: #fff;
       border: 1px solid #e5e7eb;
@@ -822,11 +822,15 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
+      overflow: hidden;
+      position: relative;
     }
     .machine-photo img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
+      position: relative;
+      z-index: 0;
     }
 
     .machine-body {
