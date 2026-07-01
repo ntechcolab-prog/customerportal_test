@@ -2132,9 +2132,7 @@ document.addEventListener('click', function(e) {
     cartItems.forEach(function(item, i) {
       var lineTotal = item.unitPrice * item.qty;
       subtotal += lineTotal;
-      var leftBtn = item.qty === 1
-        ? '<button class="qty-btn delete" data-action="remove" data-index="' + i + '" title="Remove">' + svgTrash + '</button>'
-        : '<button class="qty-btn minus" data-action="minus" data-index="' + i + '">' + svgMinus + '</button>';
+      var leftBtn = '<button class="qty-btn minus" data-action="minus" data-index="' + i + '">' + svgMinus + '</button>';
       var imgHtml = item.img
         ? '<img class="cart-item-img" src="' + item.img + '" alt="' + item.name + '">'
         : svgPlaceholder;

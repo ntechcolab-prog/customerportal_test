@@ -2013,9 +2013,7 @@ document.addEventListener('click', function(e) {
       cartItems.forEach(function(item, i) {
         var lineTotal = item.unitPrice * item.qty;
         subtotal += lineTotal;
-        var leftBtn = item.qty === 1
-          ? '<button class="qty-btn delete" data-action="remove" data-index="' + i + '" title="Remove">' + svgTrash + '</button>'
-          : '<button class="qty-btn minus" data-action="minus" data-index="' + i + '">' + svgMinus + '</button>';
+        var leftBtn = '<button class="qty-btn minus" data-action="minus" data-index="' + i + '">' + svgMinus + '</button>';
 
         var imgHtml = item.img
           ? '<img class="cart-item-img" src="' + item.img + '" alt="' + item.name + '">'
@@ -2038,6 +2036,7 @@ document.addEventListener('click', function(e) {
             leftBtn +
             '<span class="qty-value">' + item.qty + '</span>' +
             '<button class="qty-btn" data-action="plus" data-index="' + i + '">' + svgPlus + '</button>' +
+            '<button class="qty-btn delete" data-action="remove" data-index="' + i + '" title="Remove" aria-label="Remove">' + svgTrash + '</button>' +
           '</div>' +
         '</div>';
       });
@@ -2059,7 +2058,7 @@ document.addEventListener('click', function(e) {
           var idx = parseInt(btn.dataset.index);
           var action = btn.dataset.action;
           if (action === 'plus') { cartItems[idx].qty++; }
-          else if (action === 'minus') { cartItems[idx].qty--; }
+          else if (action === 'minus') { if (cartItems[idx].qty > 1) cartItems[idx].qty--; }
           else if (action === 'remove') { cartItems.splice(idx, 1); }
           saveCart(cartItems);
           renderCartDropdown();

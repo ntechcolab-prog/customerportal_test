@@ -631,7 +631,7 @@
     .cart-dd-quantity-controls { display: flex; align-items: center; gap: 12px; }
     .cart-dd-qty-btn { width: 24px; height: 24px; background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #6b7280; border-radius: 4px; transition: background 0.15s, color 0.15s; }
     .cart-dd-qty-btn:hover { background: #f3f4f6; color: #1f2937; }
-    .cart-dd-qty-btn.delete { color: #c73e20; }
+    .cart-dd-qty-btn.delete { color: #c73e20; margin-left: 4px; }
     .cart-dd-qty-btn.delete:hover { background: #fdf2f0; }
     .cart-dd-qty-btn.minus { color: #6b7280; }
     .cart-dd-qty-btn svg { width: 16px; height: 16px; }
@@ -1577,16 +1577,15 @@ document.addEventListener('click', function(e) {
     var hasQ = items.some(function(it) { return it.quotation; });
     items.forEach(function(item, i) {
       var lt = item.unitPrice * item.qty; sub += lt;
-      var lb = item.qty === 1
-        ? '<button class="cart-dd-qty-btn delete" data-action="remove" data-index="' + i + '">' + tSvg + '</button>'
-        : '<button class="cart-dd-qty-btn minus" data-action="minus" data-index="' + i + '">' + mSvg + '</button>';
+      var lb = '<button class="cart-dd-qty-btn minus" data-action="minus" data-index="' + i + '">' + mSvg + '</button>';
       var img = item.img ? '<img class="cart-dd-item-img" src="' + item.img + '" alt="' + item.name + '">' : phSvg;
       html += '<div class="cart-dd-item">' + img +
         '<div class="cart-dd-item-info"><div class="cart-dd-item-name">' + item.name + '</div><div class="cart-dd-item-mat">' + NetzschI18n.t("checkout.ref","Ref:") + ' ' + item.ref + '</div></div>' +
         '<div class="cart-dd-item-price"><div class="cart-dd-item-price-label">' + NetzschI18n.t("shopDetail.totalPrice","Total price") + '</div><div class="cart-dd-item-price-value">' + (hasQ ? NetzschI18n.t("checkout.quotation","Quotation") : fmtP(lt)) + '</div></div></div>' +
         '<div class="cart-dd-quantity"><span class="cart-dd-quantity-label">' + NetzschI18n.t("common.quantity","Quantity") + '</span><div class="cart-dd-quantity-controls">' + lb +
         '<span class="cart-dd-qty-value">' + item.qty + '</span>' +
-        '<button class="cart-dd-qty-btn" data-action="plus" data-index="' + i + '">' + pSvg + '</button></div></div>';
+        '<button class="cart-dd-qty-btn" data-action="plus" data-index="' + i + '">' + pSvg + '</button>' +
+        '<button class="cart-dd-qty-btn delete" data-action="remove" data-index="' + i + '" aria-label="Remove" title="Remove">' + tSvg + '</button></div></div>';
     });
     if (items.length === 0) { html = '<div class="cart-dd-empty">' + NetzschI18n.t("cart.empty","Your cart is empty") + '</div>'; if (subRow) subRow.style.display = 'none'; }
     else { if (subRow) subRow.style.display = ''; }
@@ -1600,7 +1599,7 @@ document.addEventListener('click', function(e) {
         e.stopPropagation();
         var idx = parseInt(btn.dataset.index), act = btn.dataset.action, its = getCrtItems();
         if (act === 'plus') its[idx].qty++;
-        else if (act === 'minus') { its[idx].qty--; if (its[idx].qty <= 0) its.splice(idx, 1); }
+        else if (act === 'minus') { if (its[idx].qty > 1) its[idx].qty--; }
         else if (act === 'remove') its.splice(idx, 1);
         saveCrt(its); renderDd();
         if (its.length === 0) cartDd.classList.remove('is-open');
