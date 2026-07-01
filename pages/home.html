@@ -260,18 +260,18 @@
     }
 
     .section-title {
-      font-size: 32px;
-      font-weight: 500;
-      color: #007167;
-      line-height: 40px;
-      letter-spacing: 0.4px;
+      font-size: 36px;
+      font-weight: 700;
+      color: #1f2937;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
     }
 
     .section-subtitle {
-      font-size: 14px;
-      font-weight: 500;
-      color: #007167;
-      line-height: 20px;
+      font-size: 16px;
+      font-weight: 400;
+      color: #6b7280;
+      line-height: 26px;
       letter-spacing: -0.15px;
       max-width: 600px;
       margin: 0 auto;
@@ -303,18 +303,34 @@
     .feature-card {
       border: 1px solid rgba(0, 0, 0, 0.06);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-      border-radius: 12px;
-      padding: 28px 32px;
+      border-radius: 16px;
+      padding: 32px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 24px;
+      gap: 20px;
       text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .feature-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(0, 113, 103, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     .feature-icon {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       object-fit: contain;
     }
 
@@ -326,18 +342,18 @@
 
     .feature-title {
       font-size: 16px;
-      font-weight: 500;
-      color: #007167;
+      font-weight: 600;
+      color: #1f2937;
       line-height: 24px;
-      letter-spacing: -0.31px;
+      letter-spacing: -0.2px;
     }
 
     .feature-desc {
       font-size: 14px;
       font-weight: 400;
-      color: #5c5f62;
-      line-height: 20px;
-      letter-spacing: -0.15px;
+      color: #6b7280;
+      line-height: 22px;
+      letter-spacing: -0.1px;
     }
 
     /* ── HOW IT WORKS ────────────────────────────────────────── */
@@ -616,6 +632,7 @@
 
     .faq-left .section-title {
       margin-bottom: 16px;
+      color: #007167;
     }
 
     .faq-left-desc {
@@ -840,42 +857,42 @@
     </div>
     <div class="features-grid">
       <div class="feature-card">
-        <img class="feature-icon" src="../assets/feature-asset-overview.svg" alt="">
+        <div class="feature-icon-wrap"><img class="feature-icon" src="../assets/feature-asset-overview.svg" alt=""></div>
         <div class="feature-body">
           <div class="feature-title" data-i18n="home.feature1Title">Asset Overview &amp; Equipment Insights</div>
           <p class="feature-desc" data-i18n="home.feature1Desc">Get a real-time, complete view of your NETZSCH equipment and plant performance — all clear and visible at a glance.</p>
         </div>
       </div>
       <div class="feature-card">
-        <img class="feature-icon" src="../assets/feature-orders.svg" alt="">
+        <div class="feature-icon-wrap"><img class="feature-icon" src="../assets/feature-orders.svg" alt=""></div>
         <div class="feature-body">
           <div class="feature-title" data-i18n="home.feature2Title">Order Management &amp; Beads Shop</div>
           <p class="feature-desc" data-i18n="home.feature2Desc">Order your NETZSCH Grinding Beads and track deliveries online — fast, simple, and hassle-free.</p>
         </div>
       </div>
       <div class="feature-card">
-        <img class="feature-icon" src="../assets/feature-services.svg" alt="">
+        <div class="feature-icon-wrap"><img class="feature-icon" src="../assets/feature-services.svg" alt=""></div>
         <div class="feature-body">
           <div class="feature-title" data-i18n="home.feature3Title">Service Requests &amp; Case Tracking</div>
           <p class="feature-desc" data-i18n="home.feature3Desc">Submit and track service requests in real time — with full transparency and traceability.</p>
         </div>
       </div>
       <div class="feature-card">
-        <img class="feature-icon" src="../assets/feature-transparency.svg" alt="">
+        <div class="feature-icon-wrap"><img class="feature-icon" src="../assets/feature-transparency.svg" alt=""></div>
         <div class="feature-body">
           <div class="feature-title" data-i18n="home.feature4Title">Real-Time Transparency</div>
           <p class="feature-desc" data-i18n="home.feature4Desc">Get instant updates and insights — ensuring full visibility and confident decisions.</p>
         </div>
       </div>
       <div class="feature-card">
-        <img class="feature-icon" src="../assets/feature-hub.svg" alt="">
+        <div class="feature-icon-wrap"><img class="feature-icon" src="../assets/feature-hub.svg" alt=""></div>
         <div class="feature-body">
           <div class="feature-title" data-i18n="home.feature5Title">Centralized Management Hub</div>
           <p class="feature-desc" data-i18n="home.feature5Desc">Centralize your asset data, service cases, and orders — streamlining workflows and reducing manual work.</p>
         </div>
       </div>
       <div class="feature-card">
-        <img class="feature-icon" src="../assets/feature-team.svg" alt="">
+        <div class="feature-icon-wrap"><img class="feature-icon" src="../assets/feature-team.svg" alt=""></div>
         <div class="feature-body">
           <div class="feature-title" data-i18n="home.feature6Title">Empower Your Team, Elevate Efficiency</div>
           <p class="feature-desc" data-i18n="home.feature6Desc">Assign roles and permissions to ensure each user accesses exactly what they need — enabling secure, efficient, and accountable operations.</p>
