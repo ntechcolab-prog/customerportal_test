@@ -680,35 +680,43 @@
       color: #1f2937;
     }
 
-    /* Segmented toggle for split/single */
+    /* Segmented toggle — glassmorphism */
     .shipment-toggle {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      background: #f3f4f6;
-      border-radius: 14px;
-      padding: 4px;
-      gap: 4px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.06) 0%, rgba(0, 113, 103, 0.03) 100%);
+      border: 1px solid rgba(0, 113, 103, 0.1);
+      border-radius: 16px;
+      padding: 5px;
+      gap: 5px;
+      position: relative;
     }
     .shipment-toggle-btn {
       display: flex;
       align-items: center;
       gap: 12px;
       padding: 12px 16px;
-      border: 2px solid transparent;
+      border: 1.5px solid transparent;
       border-radius: 12px;
       background: transparent;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
       text-align: left;
-      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .shipment-toggle-btn:hover {
-      background: rgba(255,255,255,0.6);
+      background: rgba(255, 255, 255, 0.5);
     }
     .shipment-toggle-btn.active {
-      background: #fff;
-      border-color: #007167;
-      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.12);
+      background: rgba(255, 255, 255, 0.85);
+      border-color: rgba(0, 113, 103, 0.2);
+      box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 4px 12px rgba(0, 113, 103, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
     }
     .shipment-toggle-icon {
       width: 36px; height: 36px;
@@ -717,16 +725,17 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      background: #e5e7eb;
-      transition: background 0.2s;
+      background: rgba(0, 0, 0, 0.04);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .shipment-toggle-btn.active .shipment-toggle-icon {
-      background: #007167;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.3);
     }
     .shipment-toggle-icon svg {
       width: 18px; height: 18px;
-      color: #6b7280;
-      transition: color 0.2s;
+      color: #9ca3af;
+      transition: color 0.25s;
     }
     .shipment-toggle-btn.active .shipment-toggle-icon svg {
       color: #fff;
@@ -739,19 +748,20 @@
     .shipment-toggle-title {
       font-size: 14px;
       font-weight: 600;
-      color: #374151;
-      transition: color 0.2s;
+      color: #9ca3af;
+      transition: color 0.25s;
     }
     .shipment-toggle-btn.active .shipment-toggle-title {
-      color: #007167;
+      color: #1f2937;
     }
     .shipment-toggle-sub {
       font-size: 12px;
       font-weight: 400;
-      color: #9ca3af;
+      color: #c4c7cc;
+      transition: color 0.25s;
     }
     .shipment-toggle-btn.active .shipment-toggle-sub {
-      color: #6b7280;
+      color: #007167;
     }
 
     /* Arrival info inside delivery options */
