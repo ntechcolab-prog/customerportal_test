@@ -758,14 +758,6 @@
       color: #6b7280;
       line-height: 1.5;
     }
-    .shipment-leg-price {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1f2937;
-      white-space: nowrap;
-      align-self: center;
-    }
-
     .shipment-tag {
       display: inline-flex;
       align-items: center;
@@ -1919,7 +1911,6 @@ document.addEventListener('click', function(e) {
             '</span>' +
             '<span class="shipment-leg-detail">Will arrive by ' + stockDateStr + '</span>' +
           '</div>' +
-          '<span class="shipment-leg-price" id="splitLeg1Price">--</span>' +
         '</div>' +
         '<div class="shipment-leg">' +
           '<div class="shipment-leg-icon">' + packageSvg + '</div>' +
@@ -1930,7 +1921,6 @@ document.addEventListener('click', function(e) {
             '</span>' +
             '<span class="shipment-leg-detail">Will arrive by ' + prodDateStr + '</span>' +
           '</div>' +
-          '<span class="shipment-leg-price" id="splitLeg2Price">--</span>' +
         '</div>';
 
       // Single legs
@@ -1942,7 +1932,6 @@ document.addEventListener('click', function(e) {
             '<span class="shipment-leg-label">All ' + p.requested + ' ' + p.unit + '</span>' +
             '<span class="shipment-leg-detail">Will arrive by ' + prodDateStr + '</span>' +
           '</div>' +
-          '<span class="shipment-leg-price" id="singleLegPrice">--</span>' +
         '</div>';
 
       // Shipment option selection
@@ -2019,19 +2008,6 @@ document.addEventListener('click', function(e) {
       var c = getCart();
       c.delivery = { method: selectedDelivery.method, price: selectedDelivery.price };
       saveCart(c);
-
-      // Update partial shipment leg prices when delivery method changes
-      if (hasPartialShipment) {
-        var priceStr = selectedDelivery.price === 0
-          ? _t('checkout.free', 'Free')
-          : formatCurrency(selectedDelivery.price);
-        var s1 = document.getElementById('splitLeg1Price');
-        var s2 = document.getElementById('splitLeg2Price');
-        var sg = document.getElementById('singleLegPrice');
-        if (s1) s1.textContent = priceStr;
-        if (s2) s2.textContent = priceStr;
-        if (sg) sg.textContent = priceStr;
-      }
 
       updateCheckout();
     }
