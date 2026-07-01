@@ -540,6 +540,10 @@
       font-weight: 600;
       color: #1f2937;
       white-space: nowrap;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
     }
 
     /* ── PAYMENT DETAILS SIDEBAR ─── */
@@ -630,10 +634,7 @@
     }
     .btn-proceed.active:hover { background: #005f57; }
 
-    /* ── PARTIAL SHIPMENT ─── */
-    .partial-shipment-section { display: none; }
-    .partial-shipment-section.visible { display: flex; }
-
+    /* ── PARTIAL SHIPMENT (integrated in delivery) ─── */
     .partial-alert {
       display: flex;
       align-items: flex-start;
@@ -665,115 +666,61 @@
       line-height: 1.5;
     }
 
-    .shipment-options {
+    /* Segmented toggle for split/single */
+    .shipment-toggle {
+      display: flex;
+      background: #f3f4f6;
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .shipment-toggle-btn {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-    }
-    .shipment-option {
-      border: 2px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 0;
-      cursor: pointer;
-      transition: border-color 0.15s, background 0.15s;
-      background: #fff;
-      overflow: hidden;
-    }
-    .shipment-option:hover { border-color: #b0c4c2; }
-    .shipment-option.selected {
-      border-color: #007167;
-      background: #f0faf9;
-    }
-    .shipment-option .radio-circle { flex-shrink: 0; }
-    .shipment-option.selected .radio-circle { border-color: #007167; }
-    .shipment-option.selected .radio-circle::after { background: #007167; }
-
-    .shipment-option-header {
-      display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-    }
-    .shipment-option-title {
+      gap: 2px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 600;
-      color: #1f2937;
-    }
-    .shipment-option-subtitle {
-      font-size: 13px;
-      font-weight: 400;
       color: #6b7280;
-      margin-left: 4px;
+      transition: background 0.15s, color 0.15s, box-shadow 0.15s;
     }
-    .shipment-option-desc {
-      font-size: 13px;
+    .shipment-toggle-btn:hover { color: #374151; }
+    .shipment-toggle-btn.active {
+      background: #fff;
+      color: #007167;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .shipment-toggle-sub {
+      font-size: 12px;
       font-weight: 400;
-      color: #6b7280;
-      line-height: 1.5;
-      margin-top: 4px;
     }
 
-    .shipment-legs {
+    /* Arrival info inside delivery options */
+    .delivery-arrival {
+      font-size: 12px;
+      color: #007167;
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+    .delivery-price-wrap {
       display: flex;
       flex-direction: column;
-      gap: 0;
-      padding: 0 20px 16px 52px;
-    }
-    .shipment-leg {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 10px 0;
-      position: relative;
-    }
-    .shipment-leg + .shipment-leg {
-      border-top: 1px solid #e5e7eb;
-    }
-    .shipment-leg-icon {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      background: #e6f4f3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: flex-end;
+      gap: 2px;
       flex-shrink: 0;
     }
-    .shipment-leg-icon svg {
-      width: 16px; height: 16px;
-      color: #007167;
-    }
-    .shipment-leg-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      flex: 1;
-    }
-    .shipment-leg-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1f2937;
-    }
-    .shipment-leg-detail {
-      font-size: 12px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-    .shipment-tag {
-      display: inline-flex;
-      align-items: center;
+    .delivery-price-calc {
       font-size: 11px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 999px;
-      margin-left: 6px;
-    }
-    .shipment-tag.in-stock {
-      background: #e6f4f3;
-      color: #007167;
-    }
-    .shipment-tag.in-production {
-      background: #fef3c7;
-      color: #92400e;
+      font-weight: 400;
+      color: #6b7280;
+      white-space: nowrap;
     }
 
     /* ── Reduced motion ─── */
@@ -1298,7 +1245,6 @@
 
     @media (max-width: 768px) {
       .checkout-layout { grid-template-columns: 1fr; }
-      .shipment-legs { padding-left: 20px; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1639,60 +1585,34 @@
           </div>
         </div>
 
-        <!-- PARTIAL SHIPMENT (shown only when item exceeds stock) -->
-        <div class="section-card partial-shipment-section" id="partialShipmentSection">
-          <h2 data-i18n="checkout.partialTitle">Shipping Availability</h2>
-
-          <!-- Alert banner -->
-          <div class="partial-alert" role="status">
-            <svg class="partial-alert-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.168 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
-            </svg>
-            <div class="partial-alert-content">
-              <span class="partial-alert-title" data-i18n="checkout.partialAlertTitle">Partial Availability</span>
-              <span class="partial-alert-detail" id="partialAlertDetail"></span>
-            </div>
-          </div>
-
-          <!-- Shipment options -->
-          <div class="shipment-options">
-
-            <!-- Option 1: Split Shipment -->
-            <div class="shipment-option" data-shipment="split" role="radio" aria-checked="false" tabindex="0">
-              <div class="shipment-option-header">
-                <div class="radio-circle" aria-hidden="true"></div>
-                <div>
-                  <span class="shipment-option-title" data-i18n="checkout.splitShipment">Split Shipment</span>
-                  <span class="shipment-option-subtitle" data-i18n="checkout.splitShipmentSub">(2 deliveries)</span>
-                  <p class="shipment-option-desc" data-i18n="checkout.splitShipmentDesc">Receive available items now and the rest when ready. Shipping is charged per delivery.</p>
-                </div>
-              </div>
-              <div class="shipment-legs" id="splitLegs">
-                <!-- Populated by JS -->
-              </div>
-            </div>
-
-            <!-- Option 2: Single Shipment -->
-            <div class="shipment-option" data-shipment="single" role="radio" aria-checked="false" tabindex="0">
-              <div class="shipment-option-header">
-                <div class="radio-circle" aria-hidden="true"></div>
-                <div>
-                  <span class="shipment-option-title" data-i18n="checkout.singleShipment">Single Shipment</span>
-                  <span class="shipment-option-subtitle" data-i18n="checkout.singleShipmentSub">(1 delivery)</span>
-                  <p class="shipment-option-desc" data-i18n="checkout.singleShipmentDesc">Wait until all items are ready and receive everything in one delivery.</p>
-                </div>
-              </div>
-              <div class="shipment-legs" id="singleLegs">
-                <!-- Populated by JS -->
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- DELIVERY -->
-        <div class="section-card">
+        <!-- DELIVERY (with integrated partial shipment toggle) -->
+        <div class="section-card" id="deliverySection">
           <h2>Delivery</h2>
+
+          <!-- Partial availability alert + toggle (injected by JS when needed) -->
+          <div id="partialDeliveryBlock" style="display:none;">
+            <div class="partial-alert" role="status">
+              <svg class="partial-alert-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.168 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+              </svg>
+              <div class="partial-alert-content">
+                <span class="partial-alert-title" data-i18n="checkout.partialAlertTitle">Partial Availability</span>
+                <span class="partial-alert-detail" id="partialAlertDetail"></span>
+              </div>
+            </div>
+
+            <div class="shipment-toggle" role="radiogroup" aria-label="Shipment type">
+              <button class="shipment-toggle-btn active" data-shipment="split" aria-pressed="true">
+                <span data-i18n="checkout.splitShipment">Split Shipment</span>
+                <span class="shipment-toggle-sub" data-i18n="checkout.splitShipmentSub">(2 deliveries)</span>
+              </button>
+              <button class="shipment-toggle-btn" data-shipment="single" aria-pressed="false">
+                <span data-i18n="checkout.singleShipment">Single Shipment</span>
+                <span class="shipment-toggle-sub" data-i18n="checkout.singleShipmentSub">(1 delivery)</span>
+              </button>
+            </div>
+          </div>
+
           <div class="delivery-list">
 
             <!-- Standard -->
@@ -1700,9 +1620,10 @@
               <div class="radio-circle" aria-hidden="true"></div>
               <div class="delivery-info">
                 <span class="delivery-name">Standard</span>
-                <span class="delivery-detail">3-5 business days</span>
+                <span class="delivery-detail delivery-detail-default">3-5 business days</span>
+                <span class="delivery-detail delivery-detail-partial" style="display:none;"></span>
               </div>
-              <span class="delivery-price">25.00 &euro;</span>
+              <span class="delivery-price" data-base="25.00">25.00 &euro;</span>
             </div>
 
             <!-- Express -->
@@ -1710,9 +1631,10 @@
               <div class="radio-circle" aria-hidden="true"></div>
               <div class="delivery-info">
                 <span class="delivery-name">Express</span>
-                <span class="delivery-detail">5-7 business days</span>
+                <span class="delivery-detail delivery-detail-default">5-7 business days</span>
+                <span class="delivery-detail delivery-detail-partial" style="display:none;"></span>
               </div>
-              <span class="delivery-price">18.00 &euro;</span>
+              <span class="delivery-price" data-base="18.00">18.00 &euro;</span>
             </div>
 
             <!-- Pick-up -->
@@ -1720,9 +1642,10 @@
               <div class="radio-circle" aria-hidden="true"></div>
               <div class="delivery-info">
                 <span class="delivery-name">Pick-up at Company</span>
-                <span class="delivery-detail">Available within 2 business days</span>
+                <span class="delivery-detail delivery-detail-default">Available within 2 business days</span>
+                <span class="delivery-detail delivery-detail-partial" style="display:none;"></span>
               </div>
-              <span class="delivery-price">Free</span>
+              <span class="delivery-price" data-base="0.00">Free</span>
             </div>
 
           </div>
@@ -1871,92 +1794,102 @@ document.addEventListener('click', function(e) {
       if (totalQty > 0) { cartBadge.classList.add('is-visible'); } else { cartBadge.classList.remove('is-visible'); }
     }
 
-    // ── PARTIAL SHIPMENT UI ──
-    // Helper: safe i18n (i18n.js loads later, so fallback to hardcoded)
+    // ── PARTIAL SHIPMENT UI (integrated in delivery) ──
     function _t(key, fallback) {
       if (typeof NetzschI18n !== 'undefined' && NetzschI18n.t) return NetzschI18n.t(key, fallback);
       return fallback;
     }
 
+    // Precompute partial shipment dates
+    var partialData = null;
     if (hasPartialShipment) {
-      var partialSection = document.getElementById('partialShipmentSection');
-      partialSection.classList.add('visible');
-
       var p = partialItems[0];
-
-      // Fill alert detail
-      var alertDetail = document.getElementById('partialAlertDetail');
-      alertDetail.textContent = p.name + ' — Requested: ' + p.requested + ' ' + p.unit + '  ·  In stock: ' + p.inStock + ' ' + p.unit;
-
-      // Calculate estimated dates
       var today = new Date();
       var stockDate = new Date(today); stockDate.setDate(today.getDate() + p.stockDays);
       var prodDate = new Date(today); prodDate.setDate(today.getDate() + p.productionDays);
       var storedLang = localStorage.getItem('netzsch_lang') || 'en';
       var dateLocale = storedLang === 'de' ? 'de-DE' : 'en-US';
-      var stockDateStr = stockDate.toLocaleDateString(dateLocale, { month: 'short', day: 'numeric', year: 'numeric' });
-      var prodDateStr = prodDate.toLocaleDateString(dateLocale, { month: 'short', day: 'numeric', year: 'numeric' });
+      partialData = {
+        p: p,
+        stockDateStr: stockDate.toLocaleDateString(dateLocale, { month: 'short', day: 'numeric', year: 'numeric' }),
+        prodDateStr: prodDate.toLocaleDateString(dateLocale, { month: 'short', day: 'numeric', year: 'numeric' })
+      };
 
-      var packageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>';
+      // Show the partial block and fill the alert
+      var partialBlock = document.getElementById('partialDeliveryBlock');
+      partialBlock.style.display = '';
+      var alertDetail = document.getElementById('partialAlertDetail');
+      alertDetail.textContent = p.name + ' — Requested: ' + p.requested + ' ' + p.unit + '  ·  In stock: ' + p.inStock + ' ' + p.unit;
 
-      // Split legs
-      var splitLegsEl = document.getElementById('splitLegs');
-      splitLegsEl.innerHTML =
-        '<div class="shipment-leg">' +
-          '<div class="shipment-leg-icon">' + packageSvg + '</div>' +
-          '<div class="shipment-leg-info">' +
-            '<span class="shipment-leg-label">' +
-              p.inStock + ' ' + p.unit +
-              '<span class="shipment-tag in-stock">In stock</span>' +
-            '</span>' +
-            '<span class="shipment-leg-detail">Will arrive by ' + stockDateStr + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<div class="shipment-leg">' +
-          '<div class="shipment-leg-icon">' + packageSvg + '</div>' +
-          '<div class="shipment-leg-info">' +
-            '<span class="shipment-leg-label">' +
-              p.inProduction + ' ' + p.unit +
-              '<span class="shipment-tag in-production">In production</span>' +
-            '</span>' +
-            '<span class="shipment-leg-detail">Will arrive by ' + prodDateStr + '</span>' +
-          '</div>' +
-        '</div>';
+      // Default to split
+      selectedShipment = 'split';
 
-      // Single legs
-      var singleLegsEl = document.getElementById('singleLegs');
-      singleLegsEl.innerHTML =
-        '<div class="shipment-leg">' +
-          '<div class="shipment-leg-icon">' + packageSvg + '</div>' +
-          '<div class="shipment-leg-info">' +
-            '<span class="shipment-leg-label">All ' + p.requested + ' ' + p.unit + '</span>' +
-            '<span class="shipment-leg-detail">Will arrive by ' + prodDateStr + '</span>' +
-          '</div>' +
-        '</div>';
-
-      // Shipment option selection
-      var shipmentOptions = document.querySelectorAll('.shipment-option');
-      shipmentOptions.forEach(function(opt) {
-        opt.addEventListener('click', function() { selectShipment(opt); });
-        opt.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            selectShipment(opt);
-          }
+      // Toggle buttons
+      var toggleBtns = document.querySelectorAll('.shipment-toggle-btn');
+      toggleBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          toggleBtns.forEach(function(b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+          selectedShipment = btn.dataset.shipment;
+          updateDeliveryDetails();
+          updateCheckout();
         });
       });
+
+      updateDeliveryDetails();
     }
 
-    function selectShipment(opt) {
-      var shipmentOptions = document.querySelectorAll('.shipment-option');
-      shipmentOptions.forEach(function(o) {
-        o.classList.remove('selected');
-        o.setAttribute('aria-checked', 'false');
+    function updateDeliveryDetails() {
+      if (!partialData) return;
+      var isSplit = selectedShipment === 'split';
+      var pd = partialData;
+
+      deliveryOptions.forEach(function(opt) {
+        var basePrice = parseFloat(opt.dataset.base);
+        var detailDefault = opt.querySelector('.delivery-detail-default');
+        var detailPartial = opt.querySelector('.delivery-detail-partial');
+        var priceEl = opt.querySelector('.delivery-price');
+
+        // Show partial detail, hide default
+        detailDefault.style.display = 'none';
+        detailPartial.style.display = '';
+
+        if (isSplit) {
+          detailPartial.innerHTML =
+            pd.p.inStock + ' ' + pd.p.unit + ' → ' + pd.stockDateStr +
+            '&nbsp;&nbsp;·&nbsp;&nbsp;' +
+            pd.p.inProduction + ' ' + pd.p.unit + ' → ' + pd.prodDateStr;
+          var totalPrice = basePrice * 2;
+          if (basePrice === 0) {
+            priceEl.innerHTML = 'Free';
+          } else {
+            priceEl.innerHTML = formatCurrency(totalPrice) +
+              '<span class="delivery-price-calc">' + formatCurrency(basePrice) + ' × 2</span>';
+          }
+          opt.dataset.price = String(totalPrice);
+        } else {
+          detailPartial.textContent =
+            'All ' + pd.p.requested + ' ' + pd.p.unit + ' → ' + pd.prodDateStr;
+          if (basePrice === 0) {
+            priceEl.innerHTML = 'Free';
+          } else {
+            priceEl.innerHTML = formatCurrency(basePrice);
+          }
+          opt.dataset.price = String(basePrice);
+        }
       });
-      opt.classList.add('selected');
-      opt.setAttribute('aria-checked', 'true');
-      selectedShipment = opt.dataset.shipment;
-      updateCheckout();
+
+      // If a delivery was already selected, re-read its updated price
+      if (selectedDelivery) {
+        var selectedEl = document.querySelector('.delivery-option.selected');
+        if (selectedEl) {
+          selectedDelivery.price = parseFloat(selectedEl.dataset.price);
+        }
+      }
     }
 
     // Address selection
@@ -2019,12 +1952,7 @@ document.addEventListener('click', function(e) {
         payTotalBefore.textContent = '--';
         payOrderTotal.textContent = '--';
       } else if (selectedDelivery) {
-        // Determine shipping cost based on shipment choice
-        var shippingMultiplier = 1;
-        if (hasPartialShipment && selectedShipment === 'split') {
-          shippingMultiplier = 2; // 2 deliveries = 2x shipping
-        }
-        var shipping = selectedDelivery.price * shippingMultiplier;
+        var shipping = selectedDelivery.price;
 
         if (shipping === 0) {
           payShipping.textContent = _t('checkout.free', 'Free');
@@ -2046,9 +1974,6 @@ document.addEventListener('click', function(e) {
 
       // Enable proceed button only when all required selections are made
       var allSelected = selectedAddress && selectedDelivery;
-      if (hasPartialShipment) {
-        allSelected = allSelected && selectedShipment;
-      }
 
       if (allSelected) {
         btnProceed.classList.remove('disabled');
