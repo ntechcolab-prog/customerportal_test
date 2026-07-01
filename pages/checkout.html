@@ -680,32 +680,35 @@
       color: #1f2937;
     }
 
-    /* Two-card toggle for split/single */
+    /* Segmented toggle for split/single */
     .shipment-toggle {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      background: #f3f4f6;
+      border-radius: 14px;
+      padding: 4px;
+      gap: 4px;
     }
     .shipment-toggle-btn {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 16px;
-      border: 2px solid #e5e7eb;
+      padding: 12px 16px;
+      border: 2px solid transparent;
       border-radius: 12px;
-      background: #fff;
+      background: transparent;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
       text-align: left;
-      transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
     }
     .shipment-toggle-btn:hover {
-      border-color: #b0c4c2;
+      background: rgba(255,255,255,0.6);
     }
     .shipment-toggle-btn.active {
+      background: #fff;
       border-color: #007167;
-      background: #f0faf9;
-      box-shadow: 0 0 0 1px #007167;
+      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.12);
     }
     .shipment-toggle-icon {
       width: 36px; height: 36px;
@@ -714,19 +717,19 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      background: #f3f4f6;
-      transition: background 0.15s;
+      background: #e5e7eb;
+      transition: background 0.2s;
     }
     .shipment-toggle-btn.active .shipment-toggle-icon {
-      background: #e6f4f3;
+      background: #007167;
     }
     .shipment-toggle-icon svg {
       width: 18px; height: 18px;
       color: #6b7280;
-      transition: color 0.15s;
+      transition: color 0.2s;
     }
     .shipment-toggle-btn.active .shipment-toggle-icon svg {
-      color: #007167;
+      color: #fff;
     }
     .shipment-toggle-text {
       display: flex;
@@ -736,11 +739,18 @@
     .shipment-toggle-title {
       font-size: 14px;
       font-weight: 600;
-      color: #1f2937;
+      color: #374151;
+      transition: color 0.2s;
+    }
+    .shipment-toggle-btn.active .shipment-toggle-title {
+      color: #007167;
     }
     .shipment-toggle-sub {
       font-size: 12px;
       font-weight: 400;
+      color: #9ca3af;
+    }
+    .shipment-toggle-btn.active .shipment-toggle-sub {
       color: #6b7280;
     }
 
