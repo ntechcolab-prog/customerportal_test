@@ -705,6 +705,13 @@
       color: #6b7280;
       margin-left: 4px;
     }
+    .shipment-option-desc {
+      font-size: 13px;
+      font-weight: 400;
+      color: #6b7280;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
 
     .shipment-legs {
       display: flex;
@@ -1665,6 +1672,7 @@
                 <div>
                   <span class="shipment-option-title" data-i18n="checkout.splitShipment">Split Shipment</span>
                   <span class="shipment-option-subtitle" data-i18n="checkout.splitShipmentSub">(2 deliveries)</span>
+                  <p class="shipment-option-desc" data-i18n="checkout.splitShipmentDesc">Receive available items now and the rest when ready. Shipping is charged per delivery.</p>
                 </div>
               </div>
               <div class="shipment-legs" id="splitLegs">
@@ -1679,6 +1687,7 @@
                 <div>
                   <span class="shipment-option-title" data-i18n="checkout.singleShipment">Single Shipment</span>
                   <span class="shipment-option-subtitle" data-i18n="checkout.singleShipmentSub">(1 delivery)</span>
+                  <p class="shipment-option-desc" data-i18n="checkout.singleShipmentDesc">Wait until all items are ready and receive everything in one delivery.</p>
                 </div>
               </div>
               <div class="shipment-legs" id="singleLegs">
@@ -1871,30 +1880,34 @@ document.addEventListener('click', function(e) {
     }
 
     // ── PARTIAL SHIPMENT UI ──
+    // Helper: safe i18n (i18n.js loads later, so fallback to hardcoded)
+    function _t(key, fallback) {
+      if (typeof NetzschI18n !== 'undefined' && NetzschI18n.t) return NetzschI18n.t(key, fallback);
+      return fallback;
+    }
+
     if (hasPartialShipment) {
       var partialSection = document.getElementById('partialShipmentSection');
       partialSection.classList.add('visible');
 
-      // Fill alert detail
       var p = partialItems[0];
+
+      // Fill alert detail
       var alertDetail = document.getElementById('partialAlertDetail');
-      alertDetail.setAttribute('data-i18n', '');
-      alertDetail.textContent = p.name + ' — ' + NetzschI18n.t('checkout.partialRequested', 'Requested') + ': '
-        + p.requested + ' ' + p.unit + '  ·  '
-        + NetzschI18n.t('checkout.partialInStock', 'In stock') + ': ' + p.inStock + ' ' + p.unit;
+      alertDetail.textContent = p.name + ' — Requested: ' + p.requested + ' ' + p.unit + '  ·  In stock: ' + p.inStock + ' ' + p.unit;
 
       // Calculate estimated dates
       var today = new Date();
       var stockDate = new Date(today); stockDate.setDate(today.getDate() + p.stockDays);
       var prodDate = new Date(today); prodDate.setDate(today.getDate() + p.productionDays);
-      var lang = (typeof NetzschI18n !== 'undefined') ? NetzschI18n.getLang() : 'en';
-      var dateLocale = lang === 'de' ? 'de-DE' : 'en-US';
+      var storedLang = localStorage.getItem('netzsch_lang') || 'en';
+      var dateLocale = storedLang === 'de' ? 'de-DE' : 'en-US';
       var stockDateStr = stockDate.toLocaleDateString(dateLocale, { month: 'short', day: 'numeric', year: 'numeric' });
       var prodDateStr = prodDate.toLocaleDateString(dateLocale, { month: 'short', day: 'numeric', year: 'numeric' });
 
       var packageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>';
 
-      // Split legs — clear messaging about what arrives when
+      // Split legs
       var splitLegsEl = document.getElementById('splitLegs');
       splitLegsEl.innerHTML =
         '<div class="shipment-leg">' +
@@ -1902,11 +1915,9 @@ document.addEventListener('click', function(e) {
           '<div class="shipment-leg-info">' +
             '<span class="shipment-leg-label">' +
               p.inStock + ' ' + p.unit +
-              '<span class="shipment-tag in-stock">' + NetzschI18n.t('checkout.partialInStock', 'In stock') + '</span>' +
+              '<span class="shipment-tag in-stock">In stock</span>' +
             '</span>' +
-            '<span class="shipment-leg-detail">' +
-              NetzschI18n.t('checkout.willArriveBy', 'Will arrive by') + ' ' + stockDateStr +
-            '</span>' +
+            '<span class="shipment-leg-detail">Will arrive by ' + stockDateStr + '</span>' +
           '</div>' +
           '<span class="shipment-leg-price" id="splitLeg1Price">--</span>' +
         '</div>' +
@@ -1915,27 +1926,21 @@ document.addEventListener('click', function(e) {
           '<div class="shipment-leg-info">' +
             '<span class="shipment-leg-label">' +
               p.inProduction + ' ' + p.unit +
-              '<span class="shipment-tag in-production">' + NetzschI18n.t('checkout.partialInProduction', 'In production') + '</span>' +
+              '<span class="shipment-tag in-production">In production</span>' +
             '</span>' +
-            '<span class="shipment-leg-detail">' +
-              NetzschI18n.t('checkout.willArriveBy', 'Will arrive by') + ' ' + prodDateStr +
-            '</span>' +
+            '<span class="shipment-leg-detail">Will arrive by ' + prodDateStr + '</span>' +
           '</div>' +
           '<span class="shipment-leg-price" id="splitLeg2Price">--</span>' +
         '</div>';
 
-      // Single legs — clear messaging
+      // Single legs
       var singleLegsEl = document.getElementById('singleLegs');
       singleLegsEl.innerHTML =
         '<div class="shipment-leg">' +
           '<div class="shipment-leg-icon">' + packageSvg + '</div>' +
           '<div class="shipment-leg-info">' +
-            '<span class="shipment-leg-label">' +
-              NetzschI18n.t('checkout.allItems', 'All') + ' ' + p.requested + ' ' + p.unit +
-            '</span>' +
-            '<span class="shipment-leg-detail">' +
-              NetzschI18n.t('checkout.willArriveBy', 'Will arrive by') + ' ' + prodDateStr +
-            '</span>' +
+            '<span class="shipment-leg-label">All ' + p.requested + ' ' + p.unit + '</span>' +
+            '<span class="shipment-leg-detail">Will arrive by ' + prodDateStr + '</span>' +
           '</div>' +
           '<span class="shipment-leg-price" id="singleLegPrice">--</span>' +
         '</div>';
@@ -2018,7 +2023,7 @@ document.addEventListener('click', function(e) {
       // Update partial shipment leg prices when delivery method changes
       if (hasPartialShipment) {
         var priceStr = selectedDelivery.price === 0
-          ? NetzschI18n.t('checkout.free', 'Free')
+          ? _t('checkout.free', 'Free')
           : formatCurrency(selectedDelivery.price);
         var s1 = document.getElementById('splitLeg1Price');
         var s2 = document.getElementById('splitLeg2Price');
@@ -2046,7 +2051,7 @@ document.addEventListener('click', function(e) {
         var shipping = selectedDelivery.price * shippingMultiplier;
 
         if (shipping === 0) {
-          payShipping.textContent = NetzschI18n.t('checkout.free', 'Free');
+          payShipping.textContent = _t('checkout.free', 'Free');
         } else {
           payShipping.textContent = formatCurrency(shipping);
         }
