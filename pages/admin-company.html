@@ -36,16 +36,19 @@
 
     /* ── APP HEADER ─── */
     .app-header {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
       height: 60px;
-      border-bottom: 1px solid #eaeaea;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 32px;
       flex-shrink: 0;
       z-index: 160;
-      position: relative;
+      position: sticky;
+      top: 40px;
     }
     .app-header-left { display: flex; align-items: center; gap: 0; }
     .netzsch-logo { height: 22px; object-fit: contain; }
