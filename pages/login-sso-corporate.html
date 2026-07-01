@@ -69,7 +69,7 @@
     .card {
       width: 100%;
       max-width: 600px;
-      border: 1px solid #b1b4b7;
+      border: 1.5px solid #d1d5db;
       border-radius: 40px;
       padding: 100px 100px;
       display: flex;
@@ -113,8 +113,8 @@
       position: relative;
       display: flex;
       align-items: center;
-      border: 1px solid #b1b4b7;
-      border-radius: 10px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 12px;
       background: #fff;
       height: 40px;
       padding: 0 16px;
@@ -123,6 +123,7 @@
 
     .field-input-wrap:focus-within {
       border-color: #007167;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
     }
 
     .field-input {
@@ -136,7 +137,7 @@
       min-width: 0;
     }
 
-    .field-input::placeholder { color: #8d9094; }
+    .field-input::placeholder { color: #9ca3af; }
 
     .field-eye {
       width: 16px;
@@ -174,7 +175,7 @@
     }
 
     .btn-continue:disabled {
-      cursor: not-allowed;
+      cursor: not-allowed; transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
     }
 
     .back-link {

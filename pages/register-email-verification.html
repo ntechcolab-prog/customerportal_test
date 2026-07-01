@@ -251,7 +251,7 @@
       width: 100%;
       height: 40px;
       border: 0.784px solid #b1b4b7;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 8px 16px;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
@@ -261,7 +261,8 @@
       transition: border-color 0.15s;
     }
     .field-input::placeholder { color: rgba(76,77,87,0.5); }
-    .field-input:focus { border-color: #007167; }
+    .field-input:focus { border-color: #007167;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
     /* OTP boxes */
     .otp-field { display: flex; flex-direction: column; gap: 8px; }
@@ -270,7 +271,7 @@
       width: 56px;
       height: 56px;
       border: 1.567px solid #b1b4b7;
-      border-radius: 10px;
+      border-radius: 12px;
       text-align: center;
       font-family: 'Inter', sans-serif;
       font-size: 20px;
@@ -281,7 +282,8 @@
       transition: border-color 0.15s;
       flex: 1;
     }
-    .otp-input:focus { border-color: #007167; }
+    .otp-input:focus { border-color: #007167;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
     .demo-fill-btn {
       align-self: flex-start;
@@ -327,7 +329,7 @@
       opacity: 1;
       pointer-events: auto;
     }
-    .btn-continue.enabled:hover { opacity: 0.9; }
+    .btn-continue.enabled:hover { transform: scale(1.02); }
 
     /* Footer */
     .form-footer {

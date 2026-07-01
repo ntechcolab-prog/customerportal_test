@@ -235,7 +235,7 @@
       width: 100%;
       height: 40px;
       border: 0.784px solid #b1b4b7;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 8px 16px;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
@@ -244,15 +244,16 @@
       outline: none;
       transition: border-color 0.15s;
     }
-    .field-input::placeholder { color: #8d9094; }
-    .field-input:focus { border-color: #007167; }
+    .field-input::placeholder { color: #9ca3af; }
+    .field-input:focus { border-color: #007167;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
     /* Custom select (button-like) */
     .select-btn {
       width: 100%;
       height: 40px;
       border: 0.784px solid #b1b4b7;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 0 16px;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
@@ -265,16 +266,17 @@
       justify-content: space-between;
       letter-spacing: -0.15px;
     }
-    .select-btn.placeholder { color: #8d9094; }
+    .select-btn.placeholder { color: #9ca3af; }
     .select-btn:focus,
-    .select-btn:hover { border-color: #007167; outline: none; }
+    .select-btn:hover { border-color: #007167;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); outline: none; }
 
     .select-btn:disabled,
     .select-btn.disabled {
       background: #f8fafa;
       border-color: #e5e7e8;
-      color: #8d9094;
-      cursor: not-allowed;
+      color: #9ca3af;
+      cursor: not-allowed; transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
     }
     .select-btn:disabled:hover,
     .select-btn.disabled:hover { border-color: #e5e7e8; }
@@ -298,7 +300,7 @@
       right: 0;
       background: #fff;
       border: 0.784px solid #b1b4b7;
-      border-radius: 10px;
+      border-radius: 12px;
       box-shadow:
         0 10px 15px -3px rgba(0,0,0,0.1),
         0 4px 6px -4px rgba(0,0,0,0.1);
@@ -325,8 +327,8 @@
     .select-dropdown-item.selected { background: #e6f4f3; color: #007167; }
     .select-dropdown-item.disabled {
       opacity: 0.4;
-      color: #8d9094;
-      cursor: not-allowed;
+      color: #9ca3af;
+      cursor: not-allowed; transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
     }
     .select-dropdown-item:not(.disabled):not(.selected):hover { background: #f5f7f8; }
 
@@ -377,7 +379,7 @@
       transition: opacity 0.15s;
     }
     .btn-next.enabled { opacity: 1; pointer-events: auto; }
-    .btn-next.enabled:hover { opacity: 0.9; }
+    .btn-next.enabled:hover { transform: scale(1.02); }
     .btn-next img { width: 15px; height: auto; display: block; }
 
     .form-footer {
