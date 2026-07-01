@@ -570,22 +570,6 @@
       color: #1f2937;
       letter-spacing: -0.23px;
     }
-    .btn-view-options {
-      height: 32px;
-      padding: 0 16px;
-      border-radius: 999px;
-      background: #007167;
-      border: 1px solid #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      color: #fff;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
-    .btn-view-options:hover { background: #005f57; }
-
     /* ── EMPTY STATE ─── */
     .empty-state {
       padding: 48px 24px;
@@ -679,9 +663,18 @@
       align-items: center;
       gap: 12px;
     }
+    .product-table tbody td:last-child,
+    .product-table thead th:last-child {
+      text-align: right;
+      padding-right: 20px;
+    }
     .table-chevron {
-      width: 16px; height: 16px;
-      color: #9ca3af;
+      width: 18px; height: 18px;
+      color: #007167;
+      transition: transform 0.15s;
+    }
+    .product-table tbody tr:hover .table-chevron {
+      transform: translateX(3px);
     }
 
     /* ── CART DROPDOWN ─── */
@@ -1576,7 +1569,6 @@
           <span class="product-card-ref">Ref.: 443142</span>
           <div class="product-card-footer">
             <span class="product-card-price">from 39 €</span>
-            <button class="btn-view-options">View Options</button>
           </div>
         </div>
       </a>
@@ -1594,7 +1586,6 @@
           <span class="product-card-ref">Ref.: 443141</span>
           <div class="product-card-footer">
             <span class="product-card-price">from 1300 €</span>
-            <button class="btn-view-options">View Options</button>
           </div>
         </div>
       </a>
@@ -1612,7 +1603,6 @@
           <span class="product-card-ref">Ref.: 443141</span>
           <div class="product-card-footer">
             <span class="product-card-price">From €53</span>
-            <button class="btn-view-options">View Options</button>
           </div>
         </div>
       </a>
@@ -1630,7 +1620,6 @@
           <span class="product-card-ref">Ref.: 443141</span>
           <div class="product-card-footer">
             <span class="product-card-price">from 12 €</span>
-            <button class="btn-view-options">View Options</button>
           </div>
         </div>
       </a>
@@ -1648,7 +1637,6 @@
           <span class="product-card-ref">Ref.: 443141</span>
           <div class="product-card-footer">
             <span class="product-card-price">from 10 €</span>
-            <button class="btn-view-options">View Options</button>
           </div>
         </div>
       </a>
@@ -1666,7 +1654,6 @@
           <span class="product-card-ref">Ref.: 443141</span>
           <div class="product-card-footer">
             <span class="product-card-price">From €53</span>
-            <button class="btn-view-options">View Options</button>
           </div>
         </div>
       </a>
@@ -1684,7 +1671,6 @@
           <span class="product-card-ref">Ref.: 443141</span>
           <div class="product-card-footer">
             <span class="product-card-price">from 3 €</span>
-            <button class="btn-view-options">View Options</button>
           </div>
         </div>
       </a>
@@ -1707,8 +1693,7 @@
             <th>Reference</th>
             <th data-i18n="shop.categories">Category</th>
             <th>Price</th>
-            <th>Action</th>
-            <th></th>
+            <th style="text-align:right;"></th>
           </tr>
         </thead>
         <tbody>
@@ -1717,7 +1702,6 @@
             <td>443142</td>
             <td><span class="table-category">Ceramic</span></td>
             <td><span class="table-price">39 €</span></td>
-            <td><button class="btn-view-options">View Options</button></td>
             <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           </tr>
           <tr onclick="location.href='shop-product-zetabeads-nano.html'" style="cursor:pointer">
@@ -1725,7 +1709,6 @@
             <td>443141</td>
             <td><span class="table-category">Ceramic</span></td>
             <td><span class="table-price">1300 €</span></td>
-            <td><button class="btn-view-options">View Options</button></td>
             <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           </tr>
           <tr onclick="location.href='shop-product-steelbeads-micro.html'" style="cursor:pointer">
@@ -1733,7 +1716,6 @@
             <td>443141</td>
             <td><span class="table-category">Steel</span></td>
             <td><span class="table-price">€53</span></td>
-            <td><button class="btn-view-options">View Options</button></td>
             <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           </tr>
           <tr onclick="location.href='shop-product-zs-beads.html'" style="cursor:pointer">
@@ -1741,7 +1723,6 @@
             <td>443141</td>
             <td><span class="table-category">Steel</span></td>
             <td><span class="table-price">12 €</span></td>
-            <td><button class="btn-view-options">View Options</button></td>
             <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           </tr>
           <tr onclick="location.href='shop-product-steelbeads-q.html'" style="cursor:pointer">
@@ -1749,7 +1730,6 @@
             <td>443141</td>
             <td><span class="table-category">Steel</span></td>
             <td><span class="table-price">10 €</span></td>
-            <td><button class="btn-view-options">View Options</button></td>
             <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           </tr>
           <tr onclick="location.href='shop-product-zetabeads-plus.html'" style="cursor:pointer">
@@ -1757,7 +1737,6 @@
             <td>443141</td>
             <td><span class="table-category">Ceramic</span></td>
             <td><span class="table-price">€53</span></td>
-            <td><button class="btn-view-options">View Options</button></td>
             <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           </tr>
           <tr onclick="location.href='shop-product-glassbeads.html'" style="cursor:pointer">
@@ -1765,7 +1744,6 @@
             <td>443141</td>
             <td><span class="table-category">Glass</span></td>
             <td><span class="table-price">3 €</span></td>
-            <td><button class="btn-view-options">View Options</button></td>
             <td><svg class="table-chevron" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
           </tr>
         </tbody>
