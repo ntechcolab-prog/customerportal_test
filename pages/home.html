@@ -262,7 +262,10 @@
     .section-title {
       font-size: 28px;
       font-weight: 600;
-      color: #007167;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       line-height: 1.3;
       letter-spacing: -0.3px;
     }
@@ -632,7 +635,8 @@
 
     .faq-left .section-title {
       margin-bottom: 16px;
-      color: #007167;
+      background: none;
+      -webkit-text-fill-color: #007167;
     }
 
     .faq-left-desc {
