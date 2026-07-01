@@ -635,6 +635,28 @@
       height: 18px;
     }
 
+
+    .btn-clear {
+      height: 38px;
+      padding: 0 14px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-clear svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .btn-clear:hover { color: #c73e20; background: #fdf2f0; }
+    .btn-clear[hidden] { display: none; }
+
     /* ── EMPTY STATE ─── */
     .empty-state {
       padding: 48px 24px;
@@ -1738,6 +1760,11 @@
           <option value="shipped" data-i18n="filter.shipped">Shipped</option>
           <option value="delivered" data-i18n="filter.delivered">Delivered</option>
         </select>
+      
+        <button type="button" class="btn-clear" id="btn-clear" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span data-i18n="filter.clearFilters">Clear filters</span>
+        </button>
       </div>
     </div>
 
@@ -2154,6 +2181,22 @@ document.addEventListener('click', function(e) {
 
     filterStatus.addEventListener('change', applyFilters);
     filterSearch.addEventListener('input', applyFilters);
+
+    // Clear filters
+    var btnClear = document.getElementById('btn-clear');
+    function updateClearBtn() {
+      btnClear.hidden = !(document.getElementById('filterSort').selectedIndex > 0 || document.getElementById('filterStatus').selectedIndex > 0 || filterSearch.value.trim());
+    }
+    btnClear.addEventListener('click', function() {
+      document.getElementById('filterSort').selectedIndex = 0;
+      document.getElementById('filterStatus').selectedIndex = 0;
+      filterSearch.value = '';
+      applyFilters();
+      updateClearBtn();
+    });
+    // Update clear button visibility on every filter change
+    var _origApply = applyFilters;
+    applyFilters = function() { _origApply(); updateClearBtn(); };
 
     // Tracking drawer
     const overlay = document.getElementById('drawerOverlay');
