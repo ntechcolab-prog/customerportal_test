@@ -1640,44 +1640,6 @@
           </div>
         </div>
 
-        <!-- DELIVERY -->
-        <div class="section-card">
-          <h2>Delivery</h2>
-          <div class="delivery-list">
-
-            <!-- Standard -->
-            <div class="delivery-option" data-delivery="standard" data-price="25.00" role="radio" aria-checked="false" tabindex="0">
-              <div class="radio-circle" aria-hidden="true"></div>
-              <div class="delivery-info">
-                <span class="delivery-name">Standard</span>
-                <span class="delivery-detail">3-5 business days</span>
-              </div>
-              <span class="delivery-price">25.00 &euro;</span>
-            </div>
-
-            <!-- Express -->
-            <div class="delivery-option" data-delivery="express" data-price="18.00" role="radio" aria-checked="false" tabindex="0">
-              <div class="radio-circle" aria-hidden="true"></div>
-              <div class="delivery-info">
-                <span class="delivery-name">Express</span>
-                <span class="delivery-detail">5-7 business days</span>
-              </div>
-              <span class="delivery-price">18.00 &euro;</span>
-            </div>
-
-            <!-- Pick-up -->
-            <div class="delivery-option" data-delivery="pickup" data-price="0.00" role="radio" aria-checked="false" tabindex="0">
-              <div class="radio-circle" aria-hidden="true"></div>
-              <div class="delivery-info">
-                <span class="delivery-name">Pick-up at Company</span>
-                <span class="delivery-detail">Available within 2 business days</span>
-              </div>
-              <span class="delivery-price">Free</span>
-            </div>
-
-          </div>
-        </div>
-
         <!-- PARTIAL SHIPMENT (shown only when item exceeds stock) -->
         <div class="section-card partial-shipment-section" id="partialShipmentSection">
           <h2 data-i18n="checkout.partialTitle">Shipping Availability</h2>
@@ -1722,6 +1684,44 @@
               <div class="shipment-legs" id="singleLegs">
                 <!-- Populated by JS -->
               </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DELIVERY -->
+        <div class="section-card">
+          <h2>Delivery</h2>
+          <div class="delivery-list">
+
+            <!-- Standard -->
+            <div class="delivery-option" data-delivery="standard" data-price="25.00" role="radio" aria-checked="false" tabindex="0">
+              <div class="radio-circle" aria-hidden="true"></div>
+              <div class="delivery-info">
+                <span class="delivery-name">Standard</span>
+                <span class="delivery-detail">3-5 business days</span>
+              </div>
+              <span class="delivery-price">25.00 &euro;</span>
+            </div>
+
+            <!-- Express -->
+            <div class="delivery-option" data-delivery="express" data-price="18.00" role="radio" aria-checked="false" tabindex="0">
+              <div class="radio-circle" aria-hidden="true"></div>
+              <div class="delivery-info">
+                <span class="delivery-name">Express</span>
+                <span class="delivery-detail">5-7 business days</span>
+              </div>
+              <span class="delivery-price">18.00 &euro;</span>
+            </div>
+
+            <!-- Pick-up -->
+            <div class="delivery-option" data-delivery="pickup" data-price="0.00" role="radio" aria-checked="false" tabindex="0">
+              <div class="radio-circle" aria-hidden="true"></div>
+              <div class="delivery-info">
+                <span class="delivery-name">Pick-up at Company</span>
+                <span class="delivery-detail">Available within 2 business days</span>
+              </div>
+              <span class="delivery-price">Free</span>
             </div>
 
           </div>
@@ -1894,36 +1894,48 @@ document.addEventListener('click', function(e) {
 
       var packageSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>';
 
-      // Split legs
+      // Split legs — clear messaging about what arrives when
       var splitLegsEl = document.getElementById('splitLegs');
       splitLegsEl.innerHTML =
         '<div class="shipment-leg">' +
           '<div class="shipment-leg-icon">' + packageSvg + '</div>' +
           '<div class="shipment-leg-info">' +
-            '<span class="shipment-leg-label">' + NetzschI18n.t('checkout.shipment', 'Shipment') + ' 1 — ' + p.inStock + ' ' + p.unit +
-            '<span class="shipment-tag in-stock">' + NetzschI18n.t('checkout.partialInStock', 'In stock') + '</span></span>' +
-            '<span class="shipment-leg-detail">' + NetzschI18n.t('checkout.estDelivery', 'Est. delivery time') + ': ' + stockDateStr + '</span>' +
+            '<span class="shipment-leg-label">' +
+              p.inStock + ' ' + p.unit +
+              '<span class="shipment-tag in-stock">' + NetzschI18n.t('checkout.partialInStock', 'In stock') + '</span>' +
+            '</span>' +
+            '<span class="shipment-leg-detail">' +
+              NetzschI18n.t('checkout.willArriveBy', 'Will arrive by') + ' ' + stockDateStr +
+            '</span>' +
           '</div>' +
           '<span class="shipment-leg-price" id="splitLeg1Price">--</span>' +
         '</div>' +
         '<div class="shipment-leg">' +
           '<div class="shipment-leg-icon">' + packageSvg + '</div>' +
           '<div class="shipment-leg-info">' +
-            '<span class="shipment-leg-label">' + NetzschI18n.t('checkout.shipment', 'Shipment') + ' 2 — ' + p.inProduction + ' ' + p.unit +
-            '<span class="shipment-tag in-production">' + NetzschI18n.t('checkout.partialInProduction', 'In production') + '</span></span>' +
-            '<span class="shipment-leg-detail">' + NetzschI18n.t('checkout.estDelivery', 'Est. delivery time') + ': ' + prodDateStr + '</span>' +
+            '<span class="shipment-leg-label">' +
+              p.inProduction + ' ' + p.unit +
+              '<span class="shipment-tag in-production">' + NetzschI18n.t('checkout.partialInProduction', 'In production') + '</span>' +
+            '</span>' +
+            '<span class="shipment-leg-detail">' +
+              NetzschI18n.t('checkout.willArriveBy', 'Will arrive by') + ' ' + prodDateStr +
+            '</span>' +
           '</div>' +
           '<span class="shipment-leg-price" id="splitLeg2Price">--</span>' +
         '</div>';
 
-      // Single legs
+      // Single legs — clear messaging
       var singleLegsEl = document.getElementById('singleLegs');
       singleLegsEl.innerHTML =
         '<div class="shipment-leg">' +
           '<div class="shipment-leg-icon">' + packageSvg + '</div>' +
           '<div class="shipment-leg-info">' +
-            '<span class="shipment-leg-label">' + NetzschI18n.t('checkout.allTogether', 'All') + ' ' + p.requested + ' ' + p.unit + ' ' + NetzschI18n.t('checkout.together', 'together') + '</span>' +
-            '<span class="shipment-leg-detail">' + NetzschI18n.t('checkout.estDelivery', 'Est. delivery time') + ': ' + prodDateStr + '</span>' +
+            '<span class="shipment-leg-label">' +
+              NetzschI18n.t('checkout.allItems', 'All') + ' ' + p.requested + ' ' + p.unit +
+            '</span>' +
+            '<span class="shipment-leg-detail">' +
+              NetzschI18n.t('checkout.willArriveBy', 'Will arrive by') + ' ' + prodDateStr +
+            '</span>' +
           '</div>' +
           '<span class="shipment-leg-price" id="singleLegPrice">--</span>' +
         '</div>';

@@ -681,8 +681,8 @@
   "checkout.singleShipment": "Einzellieferung",
   "checkout.singleShipmentSub": "(1 Lieferung)",
   "checkout.shipment": "Lieferung",
-  "checkout.allTogether": "Alle",
-  "checkout.together": "zusammen",
+  "checkout.willArriveBy": "Ankunft bis",
+  "checkout.allItems": "Alle",
 
   "milla.aiSuggestions": "KI-Vorschläge",
   "milla.suggestOrderStatus": "Bestellstatus prüfen",
