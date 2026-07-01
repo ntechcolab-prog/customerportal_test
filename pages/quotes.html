@@ -545,7 +545,6 @@
 
     /* ── QUOTES TABLE ─── */
     .quotes-table-wrap {
-      min-height: 500px;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       overflow: hidden;
@@ -554,6 +553,7 @@
     .quotes-table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
     }
     .quotes-table thead tr { background: #007167; }
     .quotes-table thead th {
@@ -1638,11 +1638,11 @@
         <thead>
           <tr>
             <th><span data-i18n="quotes.quoteNum">Quote</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="quotes.date">Date</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="quotes.status">Status</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th style="width:10%;"><span data-i18n="quotes.date">Date</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th style="width:14%;"><span data-i18n="quotes.status">Status</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th><span data-i18n="quotes.total">Description</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th><span data-i18n="quotes.validUntil">Items</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Top Item</th>
+            <th style="width:22%;">Top Item</th>
             <th style="text-align:right;"></th>
           </tr>
         </thead>

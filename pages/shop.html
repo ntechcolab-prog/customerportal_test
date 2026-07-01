@@ -601,7 +601,6 @@
 
     /* ── PRODUCT TABLE (Table View) ─── */
     .product-table-wrap {
-      min-height: 500px;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       overflow: hidden;
@@ -611,6 +610,7 @@
     .product-table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
     }
     .product-table thead tr { background: #007167; }
     .product-table thead th {
@@ -1690,10 +1690,10 @@
       <table class="product-table">
         <thead>
           <tr>
-            <th data-i18n="shop.totalProducts">Product</th>
-            <th>Reference</th>
-            <th data-i18n="shop.categories">Category</th>
-            <th>Price</th>
+            <th style="width:35%;" data-i18n="shop.totalProducts">Product</th>
+            <th style="width:15%;">Reference</th>
+            <th style="width:15%;" data-i18n="shop.categories">Category</th>
+            <th style="width:20%;">Price</th>
             <th style="text-align:right;"></th>
           </tr>
         </thead>

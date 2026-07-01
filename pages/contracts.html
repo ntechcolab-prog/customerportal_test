@@ -474,7 +474,6 @@
 
     /* ── CONTRACTS TABLE ─── */
     .orders-table-wrap {
-      min-height: 500px;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
       overflow: hidden;
@@ -483,6 +482,7 @@
     .orders-table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
     }
     .orders-table thead tr { background: #007167; }
     .orders-table thead th {
@@ -1740,10 +1740,10 @@
         <thead>
           <tr>
             <th><span data-i18n="contracts.contractNum">Contract ID</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="contracts.type">Type</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th style="width:14%;"><span data-i18n="contracts.type">Type</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th><span data-i18n="contracts.startDate">Equipment / Scope</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th><span data-i18n="contracts.endDate">Validity</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="contracts.status">Status</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th style="width:12%;"><span data-i18n="contracts.status">Status</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th>Actions</th>
           </tr>
         </thead>
