@@ -540,10 +540,7 @@
       font-weight: 600;
       color: #1f2937;
       white-space: nowrap;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 2px;
+      text-align: right;
     }
 
     /* ── PAYMENT DETAILS SIDEBAR ─── */
@@ -681,44 +678,43 @@
     /* Segmented toggle for split/single */
     .shipment-toggle {
       display: flex;
-      background: #e6f4f3;
-      border-radius: 12px;
-      padding: 4px;
-      gap: 4px;
+      background: #e5e7eb;
+      border-radius: 10px;
+      padding: 3px;
+      gap: 0;
     }
     .shipment-toggle-btn {
       flex: 1;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 2px;
-      padding: 12px 16px;
-      border: 2px solid transparent;
-      border-radius: 10px;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
       background: transparent;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 600;
-      color: #007167;
-      transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+      color: #6b7280;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
     }
     .shipment-toggle-btn:hover {
-      background: rgba(255,255,255,0.5);
+      color: #374151;
     }
     .shipment-toggle-btn.active {
-      background: #fff;
-      color: #007167;
-      border-color: #007167;
-      box-shadow: 0 1px 4px rgba(0, 113, 103, 0.15);
+      background: #007167;
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 113, 103, 0.25);
     }
     .shipment-toggle-sub {
-      font-size: 12px;
       font-weight: 400;
     }
 
     /* Arrival info inside delivery options */
     .delivery-price-calc {
+      display: block;
       font-size: 11px;
       font-weight: 400;
       color: #6b7280;
