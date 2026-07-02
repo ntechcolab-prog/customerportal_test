@@ -765,6 +765,92 @@
     .btn-send:hover { background: #005f57; }
     .btn-send svg { width: 16px; height: 16px; }
 
+    /* ── TABLE CARD ─── */
+    .table-card {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+      transition: box-shadow 0.3s ease;
+    }
+    .table-card:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
+    }
+
+    /* ── COLUMN WIDTHS ─── */
+    .users-table .col-check { width: 44px; }
+    .users-table .col-user { width: 22%; }
+    .users-table .col-email { width: 22%; }
+    .users-table .col-role { width: 14%; }
+    .users-table .col-status { width: 12%; }
+    .users-table .col-active { width: 12%; }
+    .users-table .col-actions { width: 48px; text-align: right; cursor: default; }
+    .users-table .col-actions:hover { color: #6b7280; background: transparent; }
+
+    /* ── TH SORTABLE ─── */
+    .th-sortable {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    /* ── USER CELL (name + dept) ─── */
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d1d1f;
+      line-height: 1.3;
+    }
+    .user-dept {
+      font-size: 11px;
+      color: #86868b;
+      line-height: 1.3;
+    }
+
+    /* ── ROLE BADGE ─── */
+    .role-special {
+      display: inline-flex;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(0, 113, 103, 0.06);
+      color: #007167;
+    }
+
+    /* ── LAST ACTIVE ─── */
+    .last-active {
+      font-size: 12px;
+      color: #86868b;
+    }
+
+    /* ── ACTIONS BUTTON (three-dot menu) ─── */
+    .actions-btn {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 8px;
+      color: #007167;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+    .actions-btn:hover {
+      background: rgba(0, 113, 103, 0.08);
+      color: #005f57;
+      transform: scale(1.1);
+    }
+    .actions-btn:active { transform: scale(0.95); }
+    .actions-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
     /* ── REDUCED MOTION ─── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -1711,13 +1797,13 @@
         <table class="users-table" aria-label="Users list">
           <thead>
             <tr>
-              <th><input type="checkbox" class="row-checkbox" id="selectAll" aria-label="Select all users"></th>
-              <th><span class="th-sortable"><span data-i18n="admin.users.user">User</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th><span class="th-sortable"><span data-i18n="admin.users.email">Email</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th><span class="th-sortable"><span data-i18n="admin.users.role">Role</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th><span class="th-sortable"><span data-i18n="admin.users.status">Status</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th><span class="th-sortable"><span data-i18n="admin.users.lastActive">Last Active</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th aria-label="Actions" data-i18n-aria-label="common.actions"></th>
+              <th class="col-check"><input type="checkbox" class="row-checkbox" id="selectAll" aria-label="Select all users"></th>
+              <th class="col-user"><span class="th-sortable"><span data-i18n="admin.users.user">User</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th class="col-email"><span class="th-sortable"><span data-i18n="admin.users.email">Email</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th class="col-role"><span class="th-sortable"><span data-i18n="admin.users.role">Role</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th class="col-status"><span class="th-sortable"><span data-i18n="admin.users.status">Status</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th class="col-active"><span class="th-sortable"><span data-i18n="admin.users.lastActive">Last Active</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+              <th class="col-actions" aria-label="Actions" data-i18n-aria-label="common.actions"></th>
             </tr>
           </thead>
           <tbody>

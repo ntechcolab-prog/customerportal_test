@@ -1170,6 +1170,66 @@
     #btn-milla-search { transition: opacity 0.15s ease, width 0.15s ease, padding 0.15s ease; }
     #btn-milla-search.hidden { opacity: 0; pointer-events: none; width: 0; overflow: hidden; padding: 0; }
 
+    /* ── PERMISSIONS CARD ─── */
+    .permissions-card {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+      transition: box-shadow 0.3s ease;
+    }
+    .permissions-card:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
+    }
+
+    /* ── PERMISSIONS TABLE ─── */
+    .permissions-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .permissions-table thead tr {
+      background: #fafbfc;
+      border-bottom: 1px solid #e8e8ed;
+    }
+    .permissions-table thead th {
+      padding: 14px 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b7280;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      white-space: nowrap;
+    }
+    .permissions-table tbody tr {
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.2s ease;
+    }
+    .permissions-table tbody tr:last-child { border-bottom: none; }
+    .permissions-table tbody tr:hover { background: #f5f5f7; }
+    .permissions-table tbody td {
+      padding: 12px 20px;
+      font-size: 13px;
+      color: #1d1d1f;
+      vertical-align: middle;
+    }
+
+    /* ── CATEGORY & SUB ROWS ─── */
+    .perm-cat-row {
+      cursor: pointer;
+      user-select: none;
+    }
+    .perm-cat-row td {
+      font-weight: 600;
+      background: #fafbfc;
+    }
+    .perm-cat-row:hover td {
+      background: #f0f0f0;
+    }
+    .perm-sub-row td {
+      padding-left: 44px;
+    }
 
     /* ── RESPONSIVE ─── */
     @media (max-width: 768px) {

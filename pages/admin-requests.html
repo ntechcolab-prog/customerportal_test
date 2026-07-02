@@ -692,6 +692,20 @@
       margin: 0;
     }
 
+    /* ── COLUMN WIDTHS ─── */
+    .requests-table .col-request { width: 28%; }
+    .requests-table .col-type { width: 12%; }
+    .requests-table .col-requester { width: 15%; }
+    .requests-table .col-date { width: 11%; }
+    .requests-table .col-priority { width: 10%; }
+    .requests-table .col-status { width: 12%; }
+    .requests-table .col-actions { width: 80px; text-align: right; cursor: default; }
+    .requests-table .col-actions:hover { color: #6b7280; background: transparent; }
+
+    /* ── NO-SORT (non-sortable columns) ─── */
+    .no-sort { cursor: default !important; }
+    .no-sort:hover { color: #6b7280 !important; background: transparent !important; }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         transition: none !important;
@@ -1638,27 +1652,27 @@
         <table class="requests-table">
           <thead>
             <tr>
-              <th>
+              <th class="col-request">
                 <span data-i18n="admin.requests.request">Request</span>
                 <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
-              <th>
+              <th class="col-requester">
                 <span data-i18n="admin.requests.requestedBy">Requested By</span>
                 <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
-              <th>
+              <th class="col-date">
                 <span data-i18n="admin.requests.date">Date</span>
                 <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
-              <th>
+              <th class="col-priority">
                 <span data-i18n="admin.requests.priority">Priority</span>
                 <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
-              <th>
+              <th class="col-status">
                 <span data-i18n="admin.requests.status">Status</span>
                 <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </th>
-              <th class="no-sort" style="text-align:right;" data-i18n="admin.requests.amount">Amount</th>
+              <th class="col-actions no-sort" data-i18n="admin.requests.amount">Amount</th>
             </tr>
           </thead>
           <tbody>
