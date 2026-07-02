@@ -400,136 +400,151 @@
       gap: 16px;
     }
 
-    /* ── TITLE BAR ─── */
-    .title-bar {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .title-bar-top {
+    /* ── PAGE HEADER ─── */
+    .page-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 8px;
     }
-    .title-bar h1 {
-      font-size: 20px;
+    .page-header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .page-title {
+      font-size: 26px;
       font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.4px;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
     }
-    .btn-filters {
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #86868b;
+    }
+
+    /* ── FILTER BAR (integrated toolbar) ─── */
+    .filter-bar {
       display: flex;
       align-items: center;
-      gap: 8px;
-      height: 36px;
-      padding: 0 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 999px;
+      gap: 10px;
+      padding: 10px 20px;
       background: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+      margin-bottom: 12px;
     }
-    .btn-filters:hover { background: #f9fafb; }
-    .btn-filters.active {
-      background: #007167;
-      border-color: #007167;
-      color: #fff;
-    }
-    .btn-filters svg { width: 16px; height: 16px; }
-
-    /* ── FILTER BAR ─── */
-    .filter-bar {
-      display: none;
-      gap: 12px;
-      align-items: center;
-    }
-    .filter-bar.visible { display: flex; }
-    .filter-input {
+    .filter-search {
       position: relative;
-      flex: 1;
-      max-width: 280px;
+      width: 220px;
+      flex-shrink: 0;
     }
-    .filter-input input {
+    .filter-search input {
       width: 100%;
-      height: 40px;
-      border: 1px solid #d1d5db;
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 8px;
-      padding: 0 12px 0 36px;
+      padding: 0 12px 0 32px;
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #1f2937;
-      background: #fff;
+      font-size: 12px;
+      color: #1d1d1f;
+      background: #fafbfc;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     }
-    .filter-input input::placeholder { color: #9ca3af; }
-    .filter-input input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
-    .filter-input svg {
+    .filter-search input::placeholder { color: #86868b; }
+    .filter-search input:focus {
+      outline: none;
+      border-color: #007167;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
+    }
+    .filter-search svg {
       position: absolute;
       left: 10px;
       top: 50%;
       transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      color: #9ca3af;
+      width: 13px;
+      height: 13px;
+      color: #86868b;
       pointer-events: none;
     }
-    .filter-select {
-      height: 40px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 0 32px 0 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #374151;
-      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
-      appearance: none;
-      cursor: pointer;
-      min-width: 130px;
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
     }
-    .filter-select:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
-    .filter-icon-prefix {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* ── TOOLBAR ─── */
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-
-    /* ── VIEW TOGGLE ─── */
-    .view-toggle {
+    .filter-pills {
       display: flex;
       align-items: center;
       gap: 4px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 30px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .filter-pill:hover {
+      color: #007167;
+      background: rgba(0, 113, 103, 0.05);
+    }
+    .filter-pill.active {
+      background: rgba(0, 113, 103, 0.1);
+      color: #007167;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
+    }
+    .filter-pill .pill-count {
+      font-weight: 600;
+      opacity: 0.5;
+      font-size: 11px;
+    }
+    .filter-pill.active .pill-count {
+      opacity: 0.7;
+    }
+    .view-toggle {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      margin-left: auto;
+      flex-shrink: 0;
     }
     .view-toggle-btn {
       width: 32px;
-      height: 32px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid #d1d5db;
+      border: 1px solid rgba(0, 0, 0, 0.06);
       border-radius: 6px;
-      background: #fff;
+      background: #fafbfc;
       cursor: pointer;
-      color: #9ca3af;
+      color: #86868b;
+      transition: all 0.15s;
     }
+    .view-toggle-btn:hover { color: #007167; border-color: rgba(0, 113, 103, 0.2); }
     .view-toggle-btn.active {
       border-color: #007167;
       color: #007167;
-      background: #f0faf9;
+      background: rgba(0, 113, 103, 0.06);
     }
-    .view-toggle-btn svg { width: 16px; height: 16px; }
+    .view-toggle-btn svg { width: 14px; height: 14px; }
 
     /* ── PRODUCT GRID (Card View) ─── */
     .product-grid {
@@ -606,27 +621,6 @@
       color: #1f2937;
       letter-spacing: -0.23px;
     }
-
-    .btn-clear {
-      height: 38px;
-      padding: 0 14px;
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #6b7280;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.15s, background 0.15s;
-      white-space: nowrap;
-    }
-    .btn-clear svg { width: 14px; height: 14px; flex-shrink: 0; }
-    .btn-clear:hover { color: #c73e20; background: #fdf2f0; }
-    .btn-clear[hidden] { display: none; }
 
     /* ── EMPTY STATE ─── */
     .empty-state {
@@ -1217,10 +1211,12 @@
       .app-header { padding: 0 16px; height: 56px; }
       .breadcrumb { padding: 0 16px; }
       .main { padding: 16px; }
-      .filter-bar { flex-wrap: wrap; }
-      .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
-      .toolbar { flex-wrap: wrap; gap: 8px; }
-      .title-bar h1, .page-title { font-size: 20px; }
+      .filter-bar { flex-wrap: wrap; padding: 10px 14px; }
+      .filter-search { width: 100%; }
+      .filter-divider { display: none; }
+      .filter-pills { gap: 4px; width: 100%; }
+      .page-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {
       .topbar { padding: 0 12px; }
@@ -1231,7 +1227,7 @@
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
       .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
     
-      .title-bar h1, .page-title { font-size: 18px; }
+      .page-title { font-size: 18px; }
     }
 
     @media (max-width: 1024px) {
@@ -1531,48 +1527,31 @@
     </div>
 
     <div class="page-content">
-    <!-- TITLE BAR + FILTERS -->
-    <div class="title-bar">
-      <div class="title-bar-top">
-        <h1 data-i18n="shop.title">Shop</h1>
-        <button class="btn-filters" id="btnFilters">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          <span data-i18n="common.filters">Filters</span>
-        </button>
-      </div>
-      <div class="filter-bar" id="filterBar">
-        <div class="filter-input">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <input type="text" placeholder="Search product, reference..." data-i18n-placeholder="shop.searchPlaceholder">
-        </div>
-        <select class="filter-select" id="filterSort">
-          <option value="" disabled selected data-i18n="filter.sortBy">Sort by</option>
-          <option data-i18n="filter.nameAZ">Name A-Z</option>
-          <option data-i18n="filter.nameZA">Name Z-A</option>
-          <option data-i18n="filter.priceLowHigh">Price Low-High</option>
-          <option data-i18n="filter.priceHighLow">Price High-Low</option>
-        </select>
-        <select class="filter-select" id="filterCategory">
-          <option value="" disabled selected data-i18n="filter.category">Category</option>
-          <option value="ceramic" data-i18n="filter.ceramic">Ceramic</option>
-          <option value="steel" data-i18n="filter.steel">Steel</option>
-          <option value="glass" data-i18n="filter.glass">Glass</option>
-        </select>
-      
-        <button type="button" class="btn-clear" id="btn-clear" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          <span data-i18n="filter.clearFilters">Clear filters</span>
-        </button>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title" data-i18n="shop.title">Shop</h1>
+        <span class="page-subtitle">7 products</span>
       </div>
     </div>
 
-    <!-- TOOLBAR -->
-    <div class="toolbar">
+    <!-- FILTER BAR -->
+    <div class="filter-bar" data-skeleton-stagger>
+      <div class="filter-search">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input type="text" id="filterSearch" placeholder="Search product, reference..." data-i18n-placeholder="shop.searchPlaceholder">
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-pills" id="filterPills">
+        <button class="filter-pill active" data-category="">All <span class="pill-count" id="countAll"></span></button>
+        <button class="filter-pill" data-category="ceramic">Ceramic <span class="pill-count" id="countCeramic"></span></button>
+        <button class="filter-pill" data-category="steel">Steel <span class="pill-count" id="countSteel"></span></button>
+        <button class="filter-pill" data-category="glass">Glass <span class="pill-count" id="countGlass"></span></button>
+      </div>
+      <div class="filter-divider"></div>
       <div class="view-toggle">
         <button class="view-toggle-btn" id="btnListView" title="List view">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1816,14 +1795,6 @@ document.addEventListener('click', function(e) {
 });
 </script>
   <script>
-    // Toggle filters
-    const btnFilters = document.getElementById('btnFilters');
-    const filterBar = document.getElementById('filterBar');
-    btnFilters.addEventListener('click', () => {
-      const visible = filterBar.classList.toggle('visible');
-      btnFilters.classList.toggle('active', visible);
-    });
-
     // Toggle view (grid / table)
     const btnGrid = document.getElementById('btnGridView');
     const btnList = document.getElementById('btnListView');
@@ -1844,12 +1815,25 @@ document.addEventListener('click', function(e) {
       gridView.classList.add('hidden');
     });
 
-    // Filter logic
-    const filterSearch = filterBar.querySelector('input');
-    const filterCategory = document.getElementById('filterCategory');
+    // ── Quick filter pills + search ──
+    var filterSearch = document.getElementById('filterSearch');
+    var pills = document.querySelectorAll('.filter-pill');
+    var activeCategory = '';
+
+    function countByCategory() {
+      var cards = document.querySelectorAll('#gridView .product-card');
+      var counts = { all: cards.length, ceramic: 0, steel: 0, glass: 0 };
+      cards.forEach(function(card) {
+        var cat = (card.dataset.category || '').toLowerCase();
+        if (counts[cat] !== undefined) counts[cat]++;
+      });
+      document.getElementById('countAll').textContent = counts.all;
+      document.getElementById('countCeramic').textContent = counts.ceramic;
+      document.getElementById('countSteel').textContent = counts.steel;
+      document.getElementById('countGlass').textContent = counts.glass;
+    }
 
     function applyFilters() {
-      var catVal = filterCategory.value.toLowerCase();
       var searchVal = filterSearch.value.toLowerCase().trim();
 
       // Filter grid cards
@@ -1859,7 +1843,7 @@ document.addEventListener('click', function(e) {
         var cardCat = (card.dataset.category || '').toLowerCase();
         var cardText = card.textContent.toLowerCase();
         var show = true;
-        if (catVal && cardCat !== catVal) show = false;
+        if (activeCategory && cardCat !== activeCategory) show = false;
         if (searchVal && cardText.indexOf(searchVal) === -1) show = false;
         card.style.display = show ? '' : 'none';
         if (show) visibleGrid++;
@@ -1874,7 +1858,7 @@ document.addEventListener('click', function(e) {
         var rowCatText = rowCat ? rowCat.textContent.toLowerCase().trim() : '';
         var rowText = row.textContent.toLowerCase();
         var show = true;
-        if (catVal && rowCatText !== catVal) show = false;
+        if (activeCategory && rowCatText !== activeCategory) show = false;
         if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
         row.style.display = show ? '' : 'none';
         if (show) visibleTable++;
@@ -1882,24 +1866,17 @@ document.addEventListener('click', function(e) {
       document.getElementById('emptyStateTable').hidden = visibleTable > 0;
     }
 
-    filterCategory.addEventListener('change', applyFilters);
-    filterSearch.addEventListener('input', applyFilters);
-
-    // Clear filters
-    var btnClear = document.getElementById('btn-clear');
-    function updateClearBtn() {
-      btnClear.hidden = !(document.getElementById('filterSort').selectedIndex > 0 || document.getElementById('filterCategory').selectedIndex > 0 || filterSearch.value.trim());
-    }
-    btnClear.addEventListener('click', function() {
-      document.getElementById('filterSort').selectedIndex = 0;
-      document.getElementById('filterCategory').selectedIndex = 0;
-      filterSearch.value = '';
-      applyFilters();
-      updateClearBtn();
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pills.forEach(function(p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        activeCategory = pill.dataset.category;
+        applyFilters();
+      });
     });
-    // Update clear button visibility on every filter change
-    var _origApply = applyFilters;
-    applyFilters = function() { _origApply(); updateClearBtn(); };
+
+    filterSearch.addEventListener('input', applyFilters);
+    countByCategory();
   </script>
 
 <script>
