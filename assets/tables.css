@@ -705,13 +705,16 @@ th.sorted .sort-icon {
 .cat-badge {
   display: inline-flex;
   align-items: center;
-  padding: 3px 10px;
+  padding: 4px 10px;
   border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
+.cat-service { background: rgba(0, 113, 103, 0.06); color: #007167; }
+.cat-orders { background: rgba(59, 130, 246, 0.07); color: #1d4ed8; }
+.cat-machine { background: rgba(245, 158, 11, 0.08); color: #b45309; }
+.cat-portal { background: rgba(99, 102, 241, 0.07); color: #4338ca; }
 
 /* ── DELIVERY TAG ─── */
 .delivery-tag {
