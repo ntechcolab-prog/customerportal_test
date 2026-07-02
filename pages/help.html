@@ -445,86 +445,6 @@
     .btn-ask-milla:active { transform: scale(0.97); }
     .btn-ask-milla svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-    /* ── CATEGORIES ─── */
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .category-card {
-      position: relative;
-      background: rgba(255, 255, 255, 0.9);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      backdrop-filter: saturate(180%) blur(20px);
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 10px;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      cursor: pointer;
-      overflow: hidden;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-      transition: box-shadow 0.4s ease, transform 0.25s ease;
-    }
-    .category-card::before {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      border-radius: 11px;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      transition: background 0.4s ease;
-      pointer-events: none;
-    }
-    .category-card:hover::before {
-      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
-    }
-    .category-card:hover {
-      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
-      transform: translateY(-2px);
-    }
-    .category-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: #f0faf9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-    .category-card:hover .category-icon {
-      background: #e0f2f0;
-      transform: scale(1.08);
-    }
-    .category-icon svg {
-      width: 18px;
-      height: 18px;
-      color: #007167;
-    }
-    .category-name {
-      font-size: 13px;
-      font-weight: 700;
-      color: #1d1d1f;
-    }
-    .category-desc {
-      font-size: 12px;
-      color: #86868b;
-      line-height: 1.5;
-    }
-    .category-count {
-      font-size: 12px;
-      font-weight: 600;
-      color: #007167;
-    }
-
     /* ── FILTER BAR (integrated with articles table) ─── */
     .filter-bar {
       display: flex;
@@ -1198,7 +1118,6 @@
       .app-header { padding: 0 16px; height: 56px; }
       .breadcrumb { padding: 0 16px; }
       .main { padding: 16px; }
-      .categories-grid { grid-template-columns: repeat(2, 1fr); }
       .filter-bar { flex-wrap: wrap; padding: 10px 14px; }
       .filter-search { width: 100%; }
       .filter-divider { display: none; }
@@ -1214,7 +1133,6 @@
       .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
       .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
-      .categories-grid { grid-template-columns: 1fr; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1489,58 +1407,13 @@
     <div class="page-header">
       <div class="page-header-left">
         <h1 class="page-title" data-i18n="help.title">Help</h1>
-        <span class="page-subtitle">85 articles across 4 categories</span>
+        <span class="page-subtitle">Knowledge base &amp; support articles</span>
       </div>
       <a href="#" class="btn-ask-milla" onclick="openMillaChat(); return false;">
         <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11 6.5 7.5 3 6l3.5-1.5L8 1z" fill="currentColor"/><path d="M12 10l.75 1.75L14.5 12.5l-1.75.75L12 15l-.75-1.75L9.5 12.5l1.75-.75L12 10z" fill="currentColor" opacity="0.6"/></svg>
         Ask Milla
       </a>
     </div>
-
-    <!-- CATEGORIES -->
-    <div class="categories-grid">
-
-        <!-- Card 1: Machine Documentation -->
-        <div class="category-card" tabindex="0" role="button" aria-label="Machine Documentation, 24 articles">
-          <div class="category-icon">
-            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 3h5.5a2.5 2.5 0 012.5 2.5V17a1.5 1.5 0 00-1.5-1.5H3V3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 3h-5.5A2.5 2.5 0 009 5.5V17a1.5 1.5 0 011.5-1.5H17V3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <span class="category-name">Machine Documentation</span>
-          <span class="category-desc">Manuals, specifications and technical guides for machines.</span>
-          <span class="category-count">24 articles</span>
-        </div>
-
-        <!-- Card 2: Orders & Invoices -->
-        <div class="category-card" tabindex="0" role="button" aria-label="Orders and Invoices, 18 articles">
-          <div class="category-icon">
-            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 2h7l4 4v10a2 2 0 01-2 2H5a2 2 0 01-2-2V4a2 2 0 012-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 2v4h4M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <span class="category-name">Orders &amp; Invoices</span>
-          <span class="category-desc">Information about quotations, orders, invoices and billing.</span>
-          <span class="category-count">18 articles</span>
-        </div>
-
-        <!-- Card 3: Service & Maintenance -->
-        <div class="category-card" tabindex="0" role="button" aria-label="Service and Maintenance, 31 articles">
-          <div class="category-icon">
-            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12.5 3.5a3.5 3.5 0 014 4l-2.5 2.5-4-4L12.5 3.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 6L3.5 12.5a2.12 2.12 0 003 3L13 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <span class="category-name">Service &amp; Maintenance</span>
-          <span class="category-desc">Service reports, troubleshooting and maintenance guides.</span>
-          <span class="category-count">31 articles</span>
-        </div>
-
-        <!-- Card 4: Customer Portal Guides -->
-        <div class="category-card" tabindex="0" role="button" aria-label="Customer Portal Guides, 12 articles">
-          <div class="category-icon">
-            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
-          </div>
-          <span class="category-name">Customer Portal Guides</span>
-          <span class="category-desc">Tutorials explaining how to use the portal features.</span>
-          <span class="category-count">12 articles</span>
-        </div>
-
-      </div>
 
     <!-- FILTER BAR -->
       <div class="filter-bar">
