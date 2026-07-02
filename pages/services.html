@@ -609,8 +609,21 @@
       color: #007167;
       text-decoration: none;
       font-weight: 600;
+      font-size: 13px;
+      transition: color 0.15s;
+      border-bottom: 1px solid transparent;
     }
-    .service-link:hover { text-decoration: underline; }
+    .service-link:hover { color: #005f57; border-bottom-color: #005f57; }
+
+    /* Column widths */
+    .services-table .col-service { width: 11%; }
+    .services-table .col-date { width: 11%; }
+    .services-table .col-type { width: 11%; }
+    .services-table .col-status { width: 13%; }
+    .services-table .col-desc { width: 25%; }
+    .services-table .col-machine { width: 15%; }
+    .services-table .col-actions { width: 110px; text-align: right; cursor: default; }
+    .services-table .col-actions:hover { color: #6b7280; background: transparent; }
 
     /* Type cell */
     .type-cell {
@@ -635,18 +648,19 @@
     .machine-name {
       font-size: 13px;
       font-weight: 600;
-      color: #1f2937;
+      color: #1d1d1f;
     }
     .machine-serial {
-      font-size: 12px;
-      color: #6b7280;
+      font-size: 11px;
+      color: #86868b;
     }
 
     /* Description cell */
     .desc-cell {
-      max-width: 240px;
-      white-space: normal;
-      line-height: 1.4;
+      white-space: nowrap !important;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 0;
     }
 
     .action-chevron {
@@ -1657,13 +1671,13 @@
       <table class="services-table">
         <thead>
           <tr>
-            <th><span data-i18n="services.service">Service</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="common.date">Date</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="common.type">Type</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="common.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="common.description">Description</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="common.machine">Machine</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th></th>
+            <th class="col-service"><span data-i18n="services.service">Service</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-date"><span data-i18n="common.date">Date</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-type"><span data-i18n="common.type">Type</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-status"><span data-i18n="common.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-desc"><span data-i18n="common.description">Description</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-machine"><span data-i18n="common.machine">Machine</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-actions"></th>
           </tr>
         </thead>
         <tbody>
