@@ -521,9 +521,10 @@
       background: rgba(0, 113, 103, 0.05);
     }
     .filter-pill.active {
-      background: rgba(0, 113, 103, 0.08);
+      background: rgba(0, 113, 103, 0.1);
       color: #007167;
       font-weight: 600;
+      box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
     }
     .filter-pill .pill-count {
       font-weight: 600;
@@ -542,7 +543,8 @@
       margin-bottom: 8px;
     }
     .stat-card {
-      background: rgba(255, 255, 255, 0.8);
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       backdrop-filter: saturate(180%) blur(20px);
       border: 1px solid rgba(0, 0, 0, 0.06);
@@ -552,12 +554,29 @@
       align-items: center;
       gap: 14px;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-      transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
+      transition: box-shadow 0.4s ease, transform 0.25s ease, border-color 0.4s ease;
       cursor: default;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 11px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
     }
     .stat-card:hover {
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
       transform: translateY(-2px);
     }
     .stat-icon {
@@ -2074,6 +2093,25 @@ document.addEventListener('click', function(e) {
 
     filterSearch.addEventListener('input', applyFilters);
     countByStatus();
+
+    // Count-up animation for stat numbers
+    (function() {
+      var statNums = document.querySelectorAll('.stat-number');
+      statNums.forEach(function(el) {
+        var target = parseInt(el.textContent, 10);
+        if (isNaN(target) || target === 0) return;
+        el.textContent = '0';
+        var duration = 600;
+        var start = performance.now();
+        function step(now) {
+          var progress = Math.min((now - start) / duration, 1);
+          var ease = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(target * ease);
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    })();
 
     // Tracking drawer
     const overlay = document.getElementById('drawerOverlay');
