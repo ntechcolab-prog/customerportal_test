@@ -426,7 +426,7 @@
       display: flex;
       align-items: baseline;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
     .page-title {
       font-size: 26px;
@@ -538,11 +538,13 @@
     .stat-cards {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 8px;
     }
     .stat-card {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.8);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
       border: 1px solid rgba(0, 0, 0, 0.06);
       border-radius: 10px;
       padding: 16px 18px;
@@ -550,11 +552,13 @@
       align-items: center;
       gap: 14px;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-      transition: box-shadow 0.2s, transform 0.15s;
+      transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
+      cursor: default;
     }
     .stat-card:hover {
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+      transform: translateY(-2px);
     }
     .stat-icon {
       width: 36px;
@@ -565,6 +569,11 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .stat-card:hover .stat-icon {
+      background: #e0f2f0;
+      transform: scale(1.08);
     }
     .stat-icon svg {
       width: 18px;
@@ -582,11 +591,16 @@
       color: #1d1d1f;
       line-height: 1.2;
       letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
     }
     .stat-label {
       font-size: 12px;
       color: #86868b;
       font-weight: 500;
+      transition: color 0.2s;
+    }
+    .stat-card:hover .stat-label {
+      color: #6b7280;
     }
 
 
