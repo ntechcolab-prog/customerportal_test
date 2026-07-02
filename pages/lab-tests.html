@@ -1550,7 +1550,7 @@
         <button class="filter-pill active" data-status="">All <span class="pill-count" id="pillCountAll"></span></button>
         <button class="filter-pill" data-status="delivered">Completed <span class="pill-count" id="pillCountCompleted"></span></button>
         <button class="filter-pill" data-status="process">In Progress <span class="pill-count" id="pillCountInProgress"></span></button>
-        <button class="filter-pill" data-status="placed">Pending Review <span class="pill-count" id="pillCountPending"></span></button>
+        <button class="filter-pill" data-status="pending">Pending Review <span class="pill-count" id="pillCountPending"></span></button>
       </div>
     </div>
 
@@ -1635,7 +1635,7 @@
             <td>Alpha Zeta 10</td>
             <td>Lithium Iron Phosphate</td>
             <td>Apr 5, 2026</td>
-            <td><span class="status-badge status-placed" data-i18n="labTests.pendingReview">Pending Review</span></td>
+            <td><span class="status-badge status-pending" data-i18n="labTests.pendingReview">Pending Review</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" aria-label="View" title="View" onclick="openTestDrawer(this.closest('tr'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
@@ -1680,7 +1680,7 @@
             <td>MasterMix 45</td>
             <td>Alumina Powder</td>
             <td>Mar 25, 2026</td>
-            <td><span class="status-badge status-placed" data-i18n="labTests.pendingReview">Pending Review</span></td>
+            <td><span class="status-badge status-pending" data-i18n="labTests.pendingReview">Pending Review</span></td>
             <td>
               <div class="actions-cell">
                 <button class="action-btn" aria-label="View" title="View" onclick="openTestDrawer(this.closest('tr'))"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
@@ -1771,7 +1771,7 @@ document.addEventListener('click', function(e) {
 
   function countByStatus() {
     var rows = document.querySelectorAll('.orders-table tbody tr');
-    var counts = { all: rows.length, delivered: 0, process: 0, placed: 0 };
+    var counts = { all: rows.length, delivered: 0, process: 0, pending: 0 };
     rows.forEach(function(row) {
       var s = getRowStatus(row);
       if (counts[s] !== undefined) counts[s]++;
@@ -1779,7 +1779,7 @@ document.addEventListener('click', function(e) {
     document.getElementById('pillCountAll').textContent = counts.all;
     document.getElementById('pillCountCompleted').textContent = counts.delivered;
     document.getElementById('pillCountInProgress').textContent = counts.process;
-    document.getElementById('pillCountPending').textContent = counts.placed;
+    document.getElementById('pillCountPending').textContent = counts.pending;
   }
 
   function applyFilters() {
