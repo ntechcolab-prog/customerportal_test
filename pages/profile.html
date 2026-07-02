@@ -373,7 +373,7 @@
       padding: 24px 32px 0;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       background: #f5f5f7;
       z-index: 10;
     }
@@ -385,151 +385,199 @@
       padding: 24px 32px 48px;
     }
 
-    /* ── PROFILE BANNER ─── */
+    /* ── PROFILE HEADER ─── */
     .profile-banner {
-      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
-      border-radius: 14px;
-      padding: 24px 28px;
-      position: relative;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0;
+      background: none;
+      border-radius: 0;
     }
     .profile-banner-top {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 16px;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
     }
     .profile-avatar-wrapper {
       position: relative;
+      flex-shrink: 0;
     }
     .profile-avatar {
-      width: 80px;
-      height: 80px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid rgba(255,255,255,0.3);
+      border: 2px solid rgba(0, 0, 0, 0.06);
     }
     .profile-avatar-edit {
       position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 28px;
-      height: 28px;
-      background: #fff;
+      bottom: -2px;
+      right: -2px;
+      width: 24px;
+      height: 24px;
+      background: #007167;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       cursor: pointer;
-      border: none;
+      border: 2px solid #fff;
+      transition: background 0.15s, transform 0.15s;
     }
+    .profile-avatar-edit:hover { background: #005f57; transform: scale(1.1); }
     .profile-avatar-edit svg {
-      width: 14px;
-      height: 14px;
-      color: #374151;
+      width: 10px;
+      height: 10px;
+      color: #fff;
+    }
+    .profile-info-col {
+      flex: 1;
+      min-width: 0;
+    }
+    .profile-name {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
+      margin-bottom: 2px;
+    }
+    .profile-role {
+      font-size: 13px;
+      color: #86868b;
+      margin-bottom: 8px;
+    }
+    .profile-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: #86868b;
+    }
+    .profile-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .profile-meta-item svg {
+      width: 13px;
+      height: 13px;
+      color: #9ca3af;
     }
     .profile-badges {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      flex-shrink: 0;
     }
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 12px;
-      border-radius: 999px;
+      padding: 4px 10px;
+      border-radius: 6px;
       font-size: 12px;
       font-weight: 500;
     }
     .badge-admin {
-      background: rgba(255,255,255,0.15);
-      color: #fff;
+      background: rgba(0, 113, 103, 0.08);
+      color: #007167;
     }
     .badge-admin svg {
       width: 12px;
       height: 12px;
     }
     .badge-active {
-      background: rgba(16,185,129,0.2);
-      color: #a7f3d0;
+      background: rgba(16, 185, 129, 0.1);
+      color: #059669;
     }
     .badge-active-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #34d399;
-    }
-    .profile-name {
-      font-size: 22px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 2px;
-    }
-    .profile-role {
-      font-size: 14px;
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 12px;
-    }
-    .profile-meta {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.6);
-    }
-    .profile-meta-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .profile-meta-item svg {
-      width: 14px;
-      height: 14px;
-      opacity: 0.6;
+      background: #10b981;
     }
 
     /* ── STAT CARDS ─── */
     .stat-cards {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      gap: 10px;
     }
     .stat-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      padding: 16px 18px;
       display: flex;
       align-items: center;
       gap: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.4s ease, transform 0.25s ease;
+      cursor: default;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 11px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
+    }
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
+      transform: translateY(-2px);
     }
     .stat-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0faf9;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
-    .stat-icon svg { width: 20px; height: 20px; }
-    .stat-icon.orders { background: #e0f2fe; color: #0284c7; }
-    .stat-icon.services { background: #fef3c7; color: #d97706; }
-    .stat-icon.quotes { background: #fee2e2; color: #dc2626; }
-    .stat-icon.member { background: #e8f5f3; color: #007167; }
+    .stat-card:hover .stat-icon {
+      background: #e0f2f0;
+      transform: scale(1.08);
+    }
+    .stat-icon svg {
+      width: 18px;
+      height: 18px;
+      color: #007167;
+    }
     .stat-value {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
-      color: #1f2937;
+      color: #1d1d1f;
       line-height: 1.2;
+      letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
     }
     .stat-label {
-      font-size: 13px;
-      color: #6b7280;
+      font-size: 12px;
+      color: #86868b;
+      font-weight: 500;
+      transition: color 0.2s;
     }
+    .stat-card:hover .stat-label { color: #6b7280; }
 
     /* ── CONTENT LAYOUT ─── */
     .content-layout {
@@ -547,14 +595,15 @@
     }
     .account-sidebar-card {
       background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
       overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
     }
     .account-sidebar-title {
       font-size: 14px;
       font-weight: 600;
-      color: #1f2937;
+      color: #1d1d1f;
       letter-spacing: -0.15px;
       line-height: 21px;
       padding: 16px 20px;
@@ -618,9 +667,10 @@
     }
     .info-card {
       background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
       padding: 24px 28px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
     }
     .info-card-header {
       display: flex;
@@ -631,11 +681,11 @@
     .info-card-title {
       font-size: 18px;
       font-weight: 700;
-      color: #1f2937;
+      color: #1d1d1f;
     }
     .info-card-subtitle {
       font-size: 13px;
-      color: #6b7280;
+      color: #86868b;
       margin-top: 2px;
     }
     .btn-edit {
@@ -1260,6 +1310,8 @@
       .breadcrumb { padding: 0 16px; }
       .main { padding: 16px; }
       .stat-cards { grid-template-columns: repeat(2, 1fr); }
+      .profile-banner-top { flex-wrap: wrap; }
+      .profile-badges { width: 100%; }
     }
     @media (max-width: 480px) {
       .topbar { padding: 0 12px; }
@@ -1317,7 +1369,15 @@
     @media (prefers-reduced-motion: reduce) {
       .mobile-nav-overlay,
       .mobile-nav-drawer,
-      .hamburger-line { transition: none; }
+      .hamburger-line,
+      .stat-card,
+      .stat-card::before,
+      .stat-icon,
+      .stat-label,
+      .profile-avatar-edit { transition: none; }
+      .stat-card:hover { transform: none; }
+      .stat-card:hover .stat-icon { transform: none; }
+      .profile-avatar-edit:hover { transform: none; }
     }
   </style>
 </head>
@@ -1551,6 +1611,31 @@
             </svg>
           </button>
         </div>
+        <div class="profile-info-col">
+          <h1 class="profile-name">John Doe</h1>
+          <p class="profile-role">Operations Manager at ACME Corporation</p>
+          <div class="profile-meta">
+            <div class="profile-meta-item">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2 4l6 4 6-4M2 4h12v8H2V4z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              john.doe@acme-corp.com
+            </div>
+            <div class="profile-meta-item">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M8 2C5.24 2 3 4.24 3 7c0 3.75 5 7 5 7s5-3.25 5-7c0-2.76-2.24-5-5-5zm0 3a2 2 0 110 4 2 2 0 010-4z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Munich, Germany
+            </div>
+            <div class="profile-meta-item">
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/>
+                <path d="M8 5v3.5l2 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              </svg>
+              Last login: Today, 09:15
+            </div>
+          </div>
+        </div>
         <div class="profile-badges">
           <span class="badge badge-admin">
             <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1564,35 +1649,12 @@
           </span>
         </div>
       </div>
-      <h1 class="profile-name">John Doe</h1>
-      <p class="profile-role">Operations Manager at ACME Corporation</p>
-      <div class="profile-meta">
-        <div class="profile-meta-item">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M2 4l6 4 6-4M2 4h12v8H2V4z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          john.doe@acme-corp.com
-        </div>
-        <div class="profile-meta-item">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M8 2C5.24 2 3 4.24 3 7c0 3.75 5 7 5 7s5-3.25 5-7c0-2.76-2.24-5-5-5zm0 3a2 2 0 110 4 2 2 0 010-4z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Munich, Bavaria, Germany
-        </div>
-        <div class="profile-meta-item">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/>
-            <path d="M8 5v3.5l2 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-          </svg>
-          Last login: Today, 09:15
-        </div>
-      </div>
     </div>
 
     <!-- STAT CARDS -->
     <div class="stat-cards">
       <div class="stat-card">
-        <div class="stat-icon orders">
+        <div class="stat-icon">
           <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M2.5 5l2.5-2.5h10L17.5 5M2.5 5v10a2 2 0 002 2h11a2 2 0 002-2V5M2.5 5h15M7.5 8.75a2.5 2.5 0 005 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -1603,7 +1665,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon services">
+        <div class="stat-icon">
           <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M10 6v4l2.5 1.5M10 2.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -1614,7 +1676,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon quotes">
+        <div class="stat-icon">
           <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M4 3h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zM7 7h6M7 10h6M7 13h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -1625,7 +1687,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon member">
+        <div class="stat-icon">
           <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/>
             <path d="M10 5.5v5l3 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
