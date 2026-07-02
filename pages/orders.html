@@ -421,78 +421,94 @@
       color: #1f2937;
       letter-spacing: -0.4px;
     }
-    .btn-filters {
+    /* ── FILTER SECTION ─── */
+    .filter-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .filter-top {
       display: flex;
       align-items: center;
-      gap: 8px;
-      height: 36px;
-      padding: 0 16px;
-      border: 1px solid #d1d5db;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .filter-search {
+      position: relative;
+      width: 280px;
+      flex-shrink: 0;
+    }
+    .filter-search input {
+      width: 100%;
+      height: 38px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 10px;
+      padding: 0 12px 0 36px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: #1d1d1f;
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .filter-search input::placeholder { color: #86868b; }
+    .filter-search input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
+    .filter-search svg {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      color: #86868b;
+      pointer-events: none;
+    }
+
+    /* Quick filter pills */
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 32px;
+      padding: 0 14px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 999px;
       background: #fff;
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 500;
-      color: #374151;
+      color: #6b7280;
       cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      user-select: none;
     }
-    .btn-filters:hover { background: #f9fafb; }
-    .btn-filters.active {
+    .filter-pill:hover {
+      border-color: rgba(0, 113, 103, 0.3);
+      color: #007167;
+      background: rgba(0, 113, 103, 0.03);
+    }
+    .filter-pill.active {
       background: #007167;
       border-color: #007167;
       color: #fff;
     }
-    .btn-filters svg { width: 16px; height: 16px; }
-
-    /* ── FILTER BAR ─── */
-    .filter-bar {
-      display: none;
-      gap: 12px;
-      align-items: center;
+    .filter-pill.active:hover {
+      background: #005f57;
+      border-color: #005f57;
     }
-    .filter-bar.visible { display: flex; }
-    .filter-input {
-      position: relative;
-      flex: 1;
-      max-width: 280px;
+    .filter-pill .pill-count {
+      font-weight: 600;
+      opacity: 0.7;
     }
-    .filter-input input {
-      width: 100%;
-      height: 40px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 0 12px 0 36px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #1f2937;
-      background: #fff;
+    .filter-pill.active .pill-count {
+      opacity: 0.9;
     }
-    .filter-input input::placeholder { color: #9ca3af; }
-    .filter-input input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
-    .filter-input svg {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      color: #9ca3af;
-      pointer-events: none;
-    }
-    .filter-select {
-      height: 40px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 0 32px 0 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #374151;
-      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
-      appearance: none;
-      cursor: pointer;
-      min-width: 130px;
-    }
-    .filter-select:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
     /* ── STAT CARDS ─── */
     .stat-cards {
@@ -541,58 +557,6 @@
       font-weight: 500;
     }
 
-    /* ── TOOLBAR ─── */
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-
-    /* ── VIEW TOGGLE ─── */
-    .view-toggle {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .view-toggle-btn {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      background: #fff;
-      cursor: pointer;
-      color: #9ca3af;
-    }
-    .view-toggle-btn.active {
-      border-color: #007167;
-      color: #007167;
-      background: #f0faf9;
-    }
-    .view-toggle-btn svg { width: 16px; height: 16px; }
-
-    .btn-clear {
-      height: 38px;
-      padding: 0 14px;
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #6b7280;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.15s, background 0.15s;
-      white-space: nowrap;
-    }
-    .btn-clear svg { width: 14px; height: 14px; flex-shrink: 0; }
-    .btn-clear:hover { color: #c73e20; background: #fdf2f0; }
-    .btn-clear[hidden] { display: none; }
 
     /* ── TABLE COLUMN WIDTHS ─── */
     .orders-table .col-order { width: 13%; }
@@ -1307,9 +1271,9 @@
       .breadcrumb { padding: 0 16px; }
       .main { padding: 16px; }
       .stat-cards { grid-template-columns: repeat(2, 1fr); }
-      .filter-bar { flex-wrap: wrap; }
-      .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
-      .toolbar { flex-wrap: wrap; gap: 8px; }
+      .filter-top { flex-direction: column; align-items: stretch; }
+      .filter-search { width: 100%; }
+      .filter-pills { gap: 4px; }
 
       .title-bar h1, .page-title { font-size: 20px; }
     }
@@ -1623,43 +1587,23 @@
     <div class="page-content">
 
     <!-- TITLE BAR + FILTERS -->
-    <div class="title-bar" data-skeleton-stagger>
-      <div class="title-bar-top">
+    <div class="filter-section" data-skeleton-stagger>
+      <div class="filter-top">
         <h1 data-i18n="orders.title">Orders</h1>
-        <button class="btn-filters" id="btnFilters">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          <span data-i18n="common.filters">Filters</span>
-        </button>
-      </div>
-      <div class="filter-bar" id="filterBar">
-        <div class="filter-input">
+        <div class="filter-search">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
             <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-          <input type="text" placeholder="Search order, reference..." data-i18n-placeholder="orders.searchPlaceholder">
+          <input type="text" id="filterSearch" placeholder="Search order, reference..." data-i18n-placeholder="orders.searchPlaceholder">
         </div>
-        <select class="filter-select" id="filterSort">
-          <option value="" disabled selected data-i18n="filter.sortBy">Sort by</option>
-          <option data-i18n="filter.dateNewest">Date Newest</option>
-          <option data-i18n="filter.dateOldest">Date Oldest</option>
-          <option data-i18n="filter.totalHighLow">Total High-Low</option>
-          <option data-i18n="filter.totalLowHigh">Total Low-High</option>
-        </select>
-        <select class="filter-select" id="filterStatus">
-          <option value="" disabled selected data-i18n="common.status">Status</option>
-          <option value="placed" data-i18n="filter.orderPlaced">Order Placed</option>
-          <option value="process" data-i18n="filter.inProcess">In Process</option>
-          <option value="shipped" data-i18n="filter.shipped">Shipped</option>
-          <option value="delivered" data-i18n="filter.delivered">Delivered</option>
-        </select>
-      
-        <button type="button" class="btn-clear" id="btn-clear" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          <span data-i18n="filter.clearFilters">Clear filters</span>
-        </button>
+      </div>
+      <div class="filter-pills" id="filterPills">
+        <button class="filter-pill active" data-status="">All <span class="pill-count" id="countAll"></span></button>
+        <button class="filter-pill" data-status="placed">Order Placed <span class="pill-count" id="countPlaced"></span></button>
+        <button class="filter-pill" data-status="process">In Process <span class="pill-count" id="countProcess"></span></button>
+        <button class="filter-pill" data-status="shipped">Shipped <span class="pill-count" id="countShipped"></span></button>
+        <button class="filter-pill" data-status="delivered">Delivered <span class="pill-count" id="countDelivered"></span></button>
       </div>
     </div>
 
@@ -2017,45 +1961,47 @@ document.addEventListener('click', function(e) {
 });
 </script>
   <script>
-    // Toggle filters
-    const btnFilters = document.getElementById('btnFilters');
-    const filterBar = document.getElementById('filterBar');
-    btnFilters.addEventListener('click', () => {
-      const visible = filterBar.classList.toggle('visible');
-      btnFilters.classList.toggle('active', visible);
-    });
+    // ── Quick filter pills + search ──
+    var filterSearch = document.getElementById('filterSearch');
+    var pills = document.querySelectorAll('.filter-pill');
+    var activeStatus = '';
 
-    // Toggle view (list / grid)
-    const btnList = document.getElementById('btnListView');
-    const btnGrid = document.getElementById('btnGridView');
-    const tableView = document.getElementById('tableView');
+    function getRowStatus(row) {
+      var badge = row.querySelector('.status-badge');
+      if (!badge) return '';
+      var classes = badge.className;
+      var m = classes.match(/status-(\w+)/g);
+      if (!m) return '';
+      for (var i = 0; i < m.length; i++) {
+        var s = m[i].replace('status-', '');
+        if (s !== 'badge') return s;
+      }
+      return '';
+    }
 
-    btnList.addEventListener('click', () => {
-      btnList.classList.add('active');
-      btnGrid.classList.remove('active');
-      tableView.style.display = '';
-    });
-
-    btnGrid.addEventListener('click', () => {
-      btnGrid.classList.add('active');
-      btnList.classList.remove('active');
-    });
-
-    // Filter logic
-    const filterSearch = filterBar.querySelector('input');
-    const filterStatus = document.getElementById('filterStatus');
+    function countByStatus() {
+      var rows = document.querySelectorAll('.orders-table tbody tr');
+      var counts = { all: rows.length, placed: 0, process: 0, shipped: 0, delivered: 0 };
+      rows.forEach(function(row) {
+        var s = getRowStatus(row);
+        if (counts[s] !== undefined) counts[s]++;
+      });
+      document.getElementById('countAll').textContent = counts.all;
+      document.getElementById('countPlaced').textContent = counts.placed;
+      document.getElementById('countProcess').textContent = counts.process;
+      document.getElementById('countShipped').textContent = counts.shipped;
+      document.getElementById('countDelivered').textContent = counts.delivered;
+    }
 
     function applyFilters() {
-      var statusVal = filterStatus.value.toLowerCase();
       var searchVal = filterSearch.value.toLowerCase().trim();
       var rows = document.querySelectorAll('.orders-table tbody tr');
       var visible = 0;
       rows.forEach(function(row) {
-        var badge = row.querySelector('.status-badge');
-        var rowStatus = badge ? badge.className.replace('status-badge', '').replace('status-', '').trim() : '';
+        var rowStatus = getRowStatus(row);
         var rowText = row.textContent.toLowerCase();
         var show = true;
-        if (statusVal && rowStatus !== statusVal) show = false;
+        if (activeStatus && rowStatus !== activeStatus) show = false;
         if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
         row.style.display = show ? '' : 'none';
         if (show) visible++;
@@ -2065,24 +2011,17 @@ document.addEventListener('click', function(e) {
       document.getElementById('paginationWrap').style.display = visible > 0 ? '' : 'none';
     }
 
-    filterStatus.addEventListener('change', applyFilters);
-    filterSearch.addEventListener('input', applyFilters);
-
-    // Clear filters
-    var btnClear = document.getElementById('btn-clear');
-    function updateClearBtn() {
-      btnClear.hidden = !(document.getElementById('filterSort').selectedIndex > 0 || document.getElementById('filterStatus').selectedIndex > 0 || filterSearch.value.trim());
-    }
-    btnClear.addEventListener('click', function() {
-      document.getElementById('filterSort').selectedIndex = 0;
-      document.getElementById('filterStatus').selectedIndex = 0;
-      filterSearch.value = '';
-      applyFilters();
-      updateClearBtn();
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pills.forEach(function(p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        activeStatus = pill.dataset.status;
+        applyFilters();
+      });
     });
-    // Update clear button visibility on every filter change
-    var _origApply = applyFilters;
-    applyFilters = function() { _origApply(); updateClearBtn(); };
+
+    filterSearch.addEventListener('input', applyFilters);
+    countByStatus();
 
     // Tracking drawer
     const overlay = document.getElementById('drawerOverlay');
