@@ -401,156 +401,217 @@
       gap: 16px;
     }
 
-    /* ── TITLE BAR ─── */
-    .title-bar {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px 24px;
+    /* ── PAGE HEADER ─── */
+    .page-header {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .title-bar-top {
-      display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
-    }
-    .title-bar h1 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.4px;
-    }
-    .btn-filters {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 36px;
-      padding: 0 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 999px;
-      background: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      cursor: pointer;
-    }
-    .btn-filters:hover { background: #f9fafb; }
-    .btn-filters.active {
-      background: #007167;
-      border-color: #007167;
-      color: #fff;
-    }
-    .btn-filters svg { width: 16px; height: 16px; }
-
-    /* ── FILTER BAR ─── */
-    .filter-bar {
-      display: none;
       gap: 12px;
-      align-items: center;
+      margin-bottom: 8px;
     }
-    .filter-bar.visible { display: flex; }
-    .filter-input {
-      position: relative;
-      flex: 1;
-      max-width: 280px;
+    .page-header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
     }
-    .filter-input input {
-      width: 100%;
-      height: 40px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 0 12px 0 36px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #1f2937;
-      background: #fff;
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
     }
-    .filter-input input::placeholder { color: #9ca3af; }
-    .filter-input input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
-    .filter-input svg {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      color: #9ca3af;
-      pointer-events: none;
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #86868b;
     }
-    .filter-select {
-      height: 40px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 0 32px 0 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #374151;
-      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
-      appearance: none;
-      cursor: pointer;
-      min-width: 130px;
-    }
-    .filter-select:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
     /* ── STAT CARDS ─── */
     .stat-cards {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 8px;
     }
     .stat-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      padding: 16px 18px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.4s ease, transform 0.25s ease, border-color 0.4s ease;
+      cursor: default;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 11px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
+    }
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
+      transform: translateY(-2px);
     }
     .stat-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0faf9;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .stat-card:hover .stat-icon {
+      background: #e0f2f0;
+      transform: scale(1.08);
     }
     .stat-icon svg {
-      width: 24px;
-      height: 24px;
+      width: 18px;
+      height: 18px;
+      color: #007167;
     }
-    .stat-icon.teal { background: #e8f5f3; }
-    .stat-icon.teal svg { color: #007167; }
-    .stat-icon.green { background: #d4edda; }
-    .stat-icon.green svg { color: #155724; }
-    .stat-icon.orange { background: #fef3cd; }
-    .stat-icon.orange svg { color: #856404; }
     .stat-info {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 1px;
     }
     .stat-number {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 700;
-      color: #1f2937;
+      color: #1d1d1f;
       line-height: 1.2;
+      letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
     }
     .stat-label {
-      font-size: 13px;
-      color: #6b7280;
+      font-size: 12px;
+      color: #86868b;
       font-weight: 500;
+      transition: color 0.2s;
+    }
+    .stat-card:hover .stat-label {
+      color: #6b7280;
     }
 
-    /* ── TOOLBAR ─── */
-    .toolbar {
+    /* ── FILTER BAR (integrated toolbar above table) ─── */
+    .filter-bar {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      gap: 10px;
+      padding: 10px 20px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    }
+    .filter-search {
+      position: relative;
+      width: 220px;
+      flex-shrink: 0;
+    }
+    .filter-search input {
+      width: 100%;
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 0 12px 0 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #1d1d1f;
+      background: #fafbfc;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .filter-search input::placeholder { color: #86868b; }
+    .filter-search input:focus {
+      outline: none;
+      border-color: #007167;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
+    }
+    .filter-search svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 13px;
+      height: 13px;
+      color: #86868b;
+      pointer-events: none;
+    }
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 30px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .filter-pill:hover {
+      color: #007167;
+      background: rgba(0, 113, 103, 0.05);
+    }
+    .filter-pill.active {
+      background: rgba(0, 113, 103, 0.1);
+      color: #007167;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
+    }
+    .filter-pill .pill-count {
+      font-weight: 600;
+      opacity: 0.5;
+      font-size: 11px;
+    }
+    .filter-pill.active .pill-count {
+      opacity: 0.7;
+    }
+
+    /* ── TABLE WRAP (connected to filter-bar) ─── */
+    .wishlist-table-wrap {
+      border-radius: 0 0 10px 10px;
+      border-top: none;
     }
 
     /* ── VIEW TOGGLE ─── */
@@ -1257,27 +1318,6 @@
     .milla-chat-small .milla-msg-bot-bubble { font-size: 13px; line-height: 20px; max-width: 85%; }
 
 
-    .btn-clear {
-      height: 38px;
-      padding: 0 14px;
-      background: transparent;
-      border: 1px solid transparent;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #6b7280;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: color 0.15s, background 0.15s;
-      white-space: nowrap;
-    }
-    .btn-clear svg { width: 14px; height: 14px; flex-shrink: 0; }
-    .btn-clear:hover { color: #c73e20; background: #fdf2f0; }
-    .btn-clear[hidden] { display: none; }
-
     /* ── TABLE ACTIONS COLUMN ─── */
     .wishlist-table .no-sort:last-child { text-align: center; }
     .wishlist-table .actions-cell { justify-content: center; }
@@ -1375,10 +1415,11 @@
       .breadcrumb { padding: 0 16px; }
       .main { padding: 16px; }
       .stat-cards { grid-template-columns: repeat(2, 1fr); }
-      .filter-bar { flex-wrap: wrap; }
-      .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
-      .toolbar { flex-wrap: wrap; gap: 8px; }
-      .title-bar h1, .page-title { font-size: 20px; }
+      .filter-bar { flex-wrap: wrap; padding: 10px 14px; }
+      .filter-search { width: 100%; }
+      .filter-divider { display: none; }
+      .filter-pills { gap: 4px; width: 100%; }
+      .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {
       .topbar { padding: 0 12px; }
@@ -1389,8 +1430,8 @@
       .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
       .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
-    
-      .title-bar h1, .page-title { font-size: 18px; }
+
+      .page-title { font-size: 18px; }
     }
 
     @media (max-width: 1024px) {
@@ -1699,55 +1740,18 @@
 
     <div class="page-content">
 
-    <!-- TITLE BAR + FILTERS -->
-    <div class="title-bar" data-skeleton-stagger>
-      <div class="title-bar-top">
-        <h1 data-i18n="wishlist.title">My Wishlist</h1>
-        <button class="btn-filters" id="btnFilters" aria-expanded="false" aria-controls="filterBar">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          <span data-i18n="common.filters">Filters</span>
-        </button>
-      </div>
-      <div class="filter-bar" id="filterBar">
-        <div class="filter-input">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <input type="text" placeholder="Search product, reference..." aria-label="Search wishlist" data-i18n-placeholder="wishlist.searchPlaceholder">
-        </div>
-        <select class="filter-select" aria-label="Sort by">
-          <option value="" disabled selected>Sort by</option>
-          <option>Date Newest</option>
-          <option>Date Oldest</option>
-          <option>Price High-Low</option>
-          <option>Price Low-High</option>
-        </select>
-        <select class="filter-select" aria-label="Category">
-          <option value="" disabled selected>Category</option>
-          <option>Beads</option>
-          <option>Spare Part</option>
-        </select>
-        <select class="filter-select" aria-label="Availability">
-          <option value="" disabled selected>Availability</option>
-          <option>In Stock</option>
-          <option>Low Stock</option>
-          <option>Quotation Only</option>
-        </select>
-      
-        <button type="button" class="btn-clear" id="btn-clear" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          <span data-i18n="filter.clearFilters">Clear filters</span>
-        </button>
+    <!-- PAGE HEADER -->
+    <div class="page-header" data-skeleton-stagger>
+      <div class="page-header-left">
+        <h1 class="page-title" data-i18n="wishlist.title">My Wishlist</h1>
+        <span class="page-subtitle">11 items saved</span>
       </div>
     </div>
 
     <!-- STAT CARDS -->
     <div class="stat-cards" data-skeleton-stagger>
       <div class="stat-card">
-        <div class="stat-icon teal">
+        <div class="stat-icon">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -1758,7 +1762,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon green">
+        <div class="stat-icon">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M22 4L12 14.01l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1770,18 +1774,7 @@
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon orange">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="stat-info">
-          <span class="stat-number">1</span>
-          <span class="stat-label" data-i18n="wishlist.lowStock">Low Stock</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon teal">
+        <div class="stat-icon">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82zM7 7h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -1793,8 +1786,22 @@
       </div>
     </div>
 
-    <!-- TOOLBAR -->
-    <div class="toolbar" data-skeleton-stagger>
+    <!-- FILTER BAR (search + pills, integrated toolbar) -->
+    <div class="filter-bar" data-skeleton-stagger>
+      <div class="filter-search">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input type="text" id="filterSearch" placeholder="Search product, reference..." aria-label="Search wishlist" data-i18n-placeholder="wishlist.searchPlaceholder">
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-pills" id="filterPills">
+        <button class="filter-pill active" data-avail="">All <span class="pill-count" id="countAll"></span></button>
+        <button class="filter-pill" data-avail="In Stock">In Stock <span class="pill-count" id="countInStock"></span></button>
+        <button class="filter-pill" data-avail="Low Stock">Low Stock <span class="pill-count" id="countLowStock"></span></button>
+        <button class="filter-pill" data-avail="Quotation Only">Quotation Only <span class="pill-count" id="countQuotation"></span></button>
+      </div>
     </div>
 
     <!-- LIST VIEW (default) -->
@@ -2293,38 +2300,81 @@ document.addEventListener('click', function(e) {
 });
 </script>
   <script>
-    // Toggle filters
-    const btnFilters = document.getElementById('btnFilters');
-    const filterBar = document.getElementById('filterBar');
-    btnFilters.addEventListener('click', function() {
-      const isVisible = filterBar.classList.toggle('visible');
-      btnFilters.classList.toggle('active', isVisible);
-      btnFilters.setAttribute('aria-expanded', isVisible);
+    // ── PILL FILTER SYSTEM ───
+    var filterSearch = document.getElementById('filterSearch');
+    var pills = document.querySelectorAll('.filter-pill');
+    var activeAvail = '';
+
+    function getRowAvailability(row) {
+      var badge = row.querySelector('.avail-badge');
+      if (!badge) return '';
+      return badge.textContent.trim();
+    }
+
+    function countByAvailability() {
+      var rows = document.querySelectorAll('.wishlist-table tbody tr');
+      var counts = { all: rows.length, instock: 0, lowstock: 0, quotation: 0 };
+      rows.forEach(function(row) {
+        var avail = getRowAvailability(row);
+        if (avail === 'In Stock') counts.instock++;
+        else if (avail === 'Low Stock') counts.lowstock++;
+        else if (avail === 'Quotation Only') counts.quotation++;
+      });
+      document.getElementById('countAll').textContent = counts.all;
+      document.getElementById('countInStock').textContent = counts.instock;
+      document.getElementById('countLowStock').textContent = counts.lowstock;
+      document.getElementById('countQuotation').textContent = counts.quotation;
+    }
+
+    function applyFilters() {
+      var searchVal = filterSearch.value.toLowerCase().trim();
+      var rows = document.querySelectorAll('.wishlist-table tbody tr');
+      var visible = 0;
+      rows.forEach(function(row) {
+        var rowAvail = getRowAvailability(row);
+        var rowText = row.textContent.toLowerCase();
+        var show = true;
+        if (activeAvail && rowAvail !== activeAvail) show = false;
+        if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      var paginationInfo = document.querySelector('.pagination-info');
+      if (paginationInfo) {
+        paginationInfo.textContent = 'Showing ' + (visible > 0 ? '1\u2013' + visible : '0') + ' of ' + visible + ' items';
+      }
+    }
+
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pills.forEach(function(p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        activeAvail = pill.dataset.avail;
+        applyFilters();
+      });
     });
 
-    // Toggle list/grid view
-    const btnListView = document.getElementById('btnListView');
-    const btnGridView = document.getElementById('btnGridView');
-    const listView = document.getElementById('listView');
-    const gridView = document.getElementById('gridView');
+    filterSearch.addEventListener('input', applyFilters);
+    countByAvailability();
 
-    btnListView.addEventListener('click', function() {
-      btnListView.classList.add('active');
-      btnListView.setAttribute('aria-pressed', 'true');
-      btnGridView.classList.remove('active');
-      btnGridView.setAttribute('aria-pressed', 'false');
-      listView.classList.remove('hidden');
-      gridView.classList.remove('active');
-    });
-
-    btnGridView.addEventListener('click', function() {
-      btnGridView.classList.add('active');
-      btnGridView.setAttribute('aria-pressed', 'true');
-      btnListView.classList.remove('active');
-      btnListView.setAttribute('aria-pressed', 'false');
-      listView.classList.add('hidden');
-      gridView.classList.add('active');
-    });
+    // Count-up animation for stat numbers
+    (function() {
+      var statNums = document.querySelectorAll('.stat-number');
+      statNums.forEach(function(el) {
+        var target = parseInt(el.textContent, 10);
+        if (isNaN(target) || target === 0) return;
+        el.textContent = '0';
+        var duration = 600;
+        var start = performance.now();
+        function step(now) {
+          var progress = Math.min((now - start) / duration, 1);
+          var ease = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(target * ease);
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    })();
 
     // ── CART DROPDOWN ───
     var cartDropdown = document.getElementById('cart-dropdown');
@@ -2527,12 +2577,18 @@ document.addEventListener('click', function(e) {
         else if (badge.classList.contains('avail-quotation')) quotation++;
       });
 
-      // Update stat card numbers
+      // Update stat card numbers (3 cards: total, in stock, quotation)
       var statNumbers = document.querySelectorAll('.stat-number');
       statNumbers[0].textContent = total;
       statNumbers[1].textContent = inStock;
-      statNumbers[2].textContent = lowStock;
-      statNumbers[3].textContent = quotation;
+      statNumbers[2].textContent = quotation;
+
+      // Update page subtitle
+      var subtitle = document.querySelector('.page-subtitle');
+      if (subtitle) subtitle.textContent = total + ' items saved';
+
+      // Update pill counts
+      countByAvailability();
 
       // Update pagination text
       document.querySelectorAll('.pagination-info').forEach(function(el) {
