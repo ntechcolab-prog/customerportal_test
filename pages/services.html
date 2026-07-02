@@ -1956,7 +1956,7 @@ document.addEventListener('click', function(e) {
         var show = true;
         if (activeStatus && rowStatus !== activeStatus) show = false;
         if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
-        row.style.display = show ? '' : 'none';
+        row.dataset.filtered = show ? '' : 'hidden';
         if (show) visible++;
       });
       document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1\u2013' + visible : '0') + ' of ' + visible + ' services';
