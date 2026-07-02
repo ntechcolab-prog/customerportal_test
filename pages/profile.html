@@ -2543,41 +2543,29 @@ function sendFromSmallChat() {
 <!-- Sidebar navigation: scroll + active state -->
 <script>
 (function() {
-  var scrollContainer = document.querySelector('.profile-scrollable');
-  if (!scrollContainer) return;
-
   var navItems = document.querySelectorAll('.account-nav-item[data-section]');
+  var sections = document.querySelectorAll('.info-card[id^="section-"]');
+
+  function showSection(sectionId) {
+    sections.forEach(function(s) {
+      s.style.display = s.id === sectionId ? '' : 'none';
+    });
+    navItems.forEach(function(n) { n.classList.remove('active'); });
+    navItems.forEach(function(n) {
+      if (n.getAttribute('data-section') === sectionId) n.classList.add('active');
+    });
+  }
 
   navItems.forEach(function(item) {
     item.addEventListener('click', function(e) {
       e.preventDefault();
       var sectionId = item.getAttribute('data-section');
-      var section = document.getElementById(sectionId);
-      if (!section) return;
-
-      // Calculate position relative to scroll container using getBoundingClientRect
-      var containerRect = scrollContainer.getBoundingClientRect();
-      var sectionRect = section.getBoundingClientRect();
-      var targetScroll = scrollContainer.scrollTop + (sectionRect.top - containerRect.top);
-
-      scrollContainer.scrollTo({ top: targetScroll, behavior: 'smooth' });
-
-      navItems.forEach(function(n) { n.classList.remove('active'); });
-      item.classList.add('active');
+      showSection(sectionId);
     });
   });
 
-  // Update active state on scroll
-  scrollContainer.addEventListener('scroll', function() {
-    var containerRect = scrollContainer.getBoundingClientRect();
-    var current = null;
-    navItems.forEach(function(item) {
-      var el = document.getElementById(item.getAttribute('data-section'));
-      if (el && el.getBoundingClientRect().top <= containerRect.top + 60) current = item;
-    });
-    navItems.forEach(function(n) { n.classList.remove('active'); });
-    if (current) current.classList.add('active');
-  });
+  // Show only the first section by default
+  showSection('section-personal');
 })();
 </script>
 <script>
