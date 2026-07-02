@@ -498,45 +498,30 @@
       gap: 16px;
     }
 
-    /* ── TITLE BAR ─── */
-    .title-bar {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px 24px;
+    /* ── PAGE HEADER ─── */
+    .page-header {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
     }
-    .title-bar h1 {
-      font-size: 20px;
+    .page-header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .page-title {
+      font-size: 26px;
       font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.4px;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
     }
-    .title-bar-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #86868b;
     }
-    .btn-filters {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 36px;
-      padding: 0 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 999px;
-      background: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      cursor: pointer;
-    }
-    .btn-filters:hover { background: #f9fafb; }
-    .btn-filters.active { background: #007167; border-color: #007167; color: #fff; }
-    .btn-filters svg { width: 16px; height: 16px; }
     .btn-add-user {
       display: flex;
       align-items: center;
@@ -551,42 +536,182 @@
       font-weight: 600;
       color: #fff;
       cursor: pointer;
+      transition: background 0.15s;
     }
     .btn-add-user:hover { background: #005f57; }
     .btn-add-user svg { width: 16px; height: 16px; }
 
-    /* ── STAT CARDS ─── */
+    /* ── FILTER BAR (integrated toolbar above table) ─── */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    }
+    .filter-search {
+      position: relative;
+      width: 220px;
+      flex-shrink: 0;
+    }
+    .filter-search input {
+      width: 100%;
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 0 12px 0 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #1d1d1f;
+      background: #fafbfc;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .filter-search input::placeholder { color: #86868b; }
+    .filter-search input:focus {
+      outline: none;
+      border-color: #007167;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
+    }
+    .filter-search svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 13px;
+      height: 13px;
+      color: #86868b;
+      pointer-events: none;
+    }
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 30px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .filter-pill:hover {
+      color: #007167;
+      background: rgba(0, 113, 103, 0.05);
+    }
+    .filter-pill.active {
+      background: rgba(0, 113, 103, 0.1);
+      color: #007167;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
+    }
+    .filter-pill .pill-count {
+      font-weight: 600;
+      opacity: 0.5;
+      font-size: 11px;
+    }
+    .filter-pill.active .pill-count {
+      opacity: 0.7;
+    }
+
+    /* ── STAT CARDS (glassmorphism) ─── */
     .stat-cards {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+      gap: 10px;
+      margin-bottom: 8px;
     }
     .stat-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 18px 20px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      padding: 16px 18px;
       display: flex;
       align-items: center;
       gap: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.4s ease, transform 0.25s ease, border-color 0.4s ease;
+      cursor: default;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 11px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
+    }
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
+      transform: translateY(-2px);
     }
     .stat-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0faf9;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
-    .stat-icon svg { width: 20px; height: 20px; }
-    .stat-icon.total { background: #e8f5f3; color: #007167; }
-    .stat-icon.active { background: #d4edda; color: #155724; }
-    .stat-icon.inactive { background: #f3f4f6; color: #6b7280; }
-    .stat-icon.pending { background: #fef3cd; color: #856404; }
-    .stat-info { display: flex; flex-direction: column; gap: 2px; }
-    .stat-value { font-size: 22px; font-weight: 700; color: #1f2937; }
-    .stat-label { font-size: 12px; color: #6b7280; font-weight: 500; }
+    .stat-card:hover .stat-icon {
+      background: #e0f2f0;
+      transform: scale(1.08);
+    }
+    .stat-icon svg { width: 18px; height: 18px; color: #007167; }
+    .stat-info { display: flex; flex-direction: column; gap: 1px; }
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1d1d1f;
+      line-height: 1.2;
+      letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #86868b;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .stat-card:hover .stat-label { color: #6b7280; }
 
     /* ── EMPTY STATE ─── */
     .empty-state {
@@ -765,11 +890,12 @@
     .btn-send:hover { background: #005f57; }
     .btn-send svg { width: 16px; height: 16px; }
 
-    /* ── TABLE CARD ─── */
+    /* ── TABLE CARD (connected to filter-bar) ─── */
     .table-card {
       background: #fff;
-      border-radius: 10px;
+      border-radius: 0 0 10px 10px;
       border: 1px solid rgba(0, 0, 0, 0.06);
+      border-top: none;
       overflow: hidden;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
       transition: box-shadow 0.3s ease;
@@ -1363,9 +1489,12 @@
       .breadcrumb { padding: 0 16px; }
       main { padding: 16px; }
       .stat-cards { grid-template-columns: repeat(2, 1fr); }
-      .filter-bar { flex-wrap: wrap; }
-      .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
-    
+      .page-header { flex-wrap: wrap; gap: 8px; }
+      .filter-bar { flex-wrap: wrap; padding: 10px 14px; }
+      .filter-search { width: 100%; }
+      .filter-divider { display: none; }
+      .filter-pills { gap: 4px; width: 100%; }
+
       .title-bar h1, .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {
@@ -1718,35 +1847,24 @@
 
       <div class="page-content">
 
-      <!-- TITLE BAR -->
-      <div class="title-bar" data-skeleton-stagger style="flex-wrap:wrap;">
-        <h1 data-i18n="admin.users.title">Users</h1>
-        <div class="title-bar-actions">
-          <button class="btn-filters" id="btnFilters" aria-label="Toggle filters">
-            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
-            Filters
-          </button>
-          <button class="btn-add-user" id="btnAddUser" aria-label="Add new user">
-            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-            Add User
-          </button>
+      <!-- PAGE HEADER -->
+      <div class="page-header" data-skeleton-stagger>
+        <div class="page-header-left">
+          <h1 class="page-title" data-i18n="admin.users.title">Users</h1>
+          <span class="page-subtitle" id="pageSubtitle">8 users, 4 roles</span>
         </div>
-        <div class="filter-bar" id="filterBar" style="display:none;gap:12px;align-items:center;width:100%;margin-top:12px;">
-          <div class="filter-input" style="position:relative;flex:1;max-width:280px;">
-            <svg viewBox="0 0 16 16" fill="none" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#9ca3af;"><circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <input type="text" placeholder="Search user, email, role..." style="width:100%;height:40px;border:1px solid #d1d5db;border-radius:8px;padding:0 12px 0 36px;font-family:'Inter',sans-serif;font-size:14px;color:#1f2937;background:#fff;" aria-label="Search users" data-i18n-placeholder="admin.users.searchPlaceholder">
-          </div>
-        </div>
+        <button class="btn-add-user" id="btnAddUser" aria-label="Add new user">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Add User
+        </button>
       </div>
 
       <!-- STAT CARDS -->
       <div class="stat-cards" data-skeleton-stagger>
         <div class="stat-card">
-          <div class="stat-icon total">
+          <div class="stat-icon">
             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M10 10a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5zM3.75 17.5c0-3.45 2.8-6.25 6.25-6.25s6.25 2.8 6.25 6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -1757,7 +1875,7 @@
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon active">
+          <div class="stat-icon">
             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M6 10l3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -1768,7 +1886,7 @@
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon inactive">
+          <div class="stat-icon">
             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
@@ -1779,7 +1897,7 @@
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon pending">
+          <div class="stat-icon">
             <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="1.5"/>
               <path d="M10 6.5v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1789,6 +1907,24 @@
             <div class="stat-value">1</div>
             <div class="stat-label">Pending</div>
           </div>
+        </div>
+      </div>
+
+      <!-- FILTER BAR (search + pills, integrated toolbar) -->
+      <div class="filter-bar" data-skeleton-stagger>
+        <div class="filter-search">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input type="text" id="filterSearch" placeholder="Search user, email, role..." aria-label="Search users" data-i18n-placeholder="admin.users.searchPlaceholder">
+        </div>
+        <div class="filter-divider"></div>
+        <div class="filter-pills" id="filterPills">
+          <button class="filter-pill active" data-status="">All <span class="pill-count" id="countAll"></span></button>
+          <button class="filter-pill" data-status="active">Active <span class="pill-count" id="countActive"></span></button>
+          <button class="filter-pill" data-status="inactive">Inactive <span class="pill-count" id="countInactive"></span></button>
+          <button class="filter-pill" data-status="pending">Pending <span class="pill-count" id="countPending"></span></button>
         </div>
       </div>
 
@@ -2077,30 +2213,66 @@ document.addEventListener('click', function(e) {
       if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) closeModal();
     });
 
-    // Filters toggle
-    const btnFilters = document.getElementById('btnFilters');
-    const filterBar = document.getElementById('filterBar');
-    btnFilters.addEventListener('click', function() {
-      this.classList.toggle('active');
-      filterBar.style.display = this.classList.contains('active') ? 'flex' : 'none';
-    });
+    // ── Quick filter pills + search ──
+    var filterSearch = document.getElementById('filterSearch');
+    var pills = document.querySelectorAll('.filter-pill');
+    var activeStatus = '';
 
-    // Search filter
-    const filterSearch = filterBar.querySelector('input');
-    filterSearch.addEventListener('input', function() {
-      var searchVal = this.value.toLowerCase().trim();
+    function getRowStatus(row) {
+      var badge = row.querySelector('.status-badge');
+      if (!badge) return '';
+      var classes = badge.className;
+      var m = classes.match(/status-(\w+)/g);
+      if (!m) return '';
+      for (var i = 0; i < m.length; i++) {
+        var s = m[i].replace('status-', '');
+        if (s !== 'badge') return s;
+      }
+      return '';
+    }
+
+    function countByStatus() {
+      var rows = document.querySelectorAll('.users-table tbody tr');
+      var counts = { all: rows.length, active: 0, inactive: 0, pending: 0 };
+      rows.forEach(function(row) {
+        var s = getRowStatus(row);
+        if (counts[s] !== undefined) counts[s]++;
+      });
+      document.getElementById('countAll').textContent = counts.all;
+      document.getElementById('countActive').textContent = counts.active;
+      document.getElementById('countInactive').textContent = counts.inactive;
+      document.getElementById('countPending').textContent = counts.pending;
+    }
+
+    function applyFilters() {
+      var searchVal = filterSearch.value.toLowerCase().trim();
       var rows = document.querySelectorAll('.users-table tbody tr');
       var visible = 0;
       rows.forEach(function(row) {
+        var rowStatus = getRowStatus(row);
         var rowText = row.textContent.toLowerCase();
-        var show = !searchVal || rowText.indexOf(searchVal) !== -1;
+        var show = true;
+        if (activeStatus && rowStatus !== activeStatus) show = false;
+        if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
         row.style.display = show ? '' : 'none';
         if (show) visible++;
       });
       document.getElementById('emptyState').hidden = visible > 0;
       document.getElementById('paginationWrap').style.display = visible > 0 ? '' : 'none';
       document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1\u2013' + visible : '0') + ' of ' + visible + ' users';
+    }
+
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pills.forEach(function(p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        activeStatus = pill.dataset.status;
+        applyFilters();
+      });
     });
+
+    filterSearch.addEventListener('input', applyFilters);
+    countByStatus();
 
     // Select all checkbox
     const selectAll = document.getElementById('selectAll');
