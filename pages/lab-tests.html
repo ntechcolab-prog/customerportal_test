@@ -514,93 +514,6 @@
       opacity: 0.7;
     }
 
-    /* ── STAT CARDS ─── */
-    .stat-cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .stat-card {
-      position: relative;
-      background: rgba(255, 255, 255, 0.9);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      backdrop-filter: saturate(180%) blur(20px);
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 10px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-      transition: box-shadow 0.4s ease, transform 0.25s ease, border-color 0.4s ease;
-      cursor: default;
-      overflow: hidden;
-    }
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      border-radius: 11px;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      transition: background 0.4s ease;
-      pointer-events: none;
-    }
-    .stat-card:hover::before {
-      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
-    }
-    .stat-card:hover {
-      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
-      transform: translateY(-2px);
-    }
-    .stat-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: #f0faf9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-    .stat-card:hover .stat-icon {
-      background: #e0f2f0;
-      transform: scale(1.08);
-    }
-    .stat-icon svg {
-      width: 18px;
-      height: 18px;
-      color: #007167;
-    }
-    .stat-info {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-    .stat-number {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1d1d1f;
-      line-height: 1.2;
-      letter-spacing: -0.3px;
-      font-variant-numeric: tabular-nums;
-    }
-    .stat-label {
-      font-size: 12px;
-      color: #86868b;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .stat-card:hover .stat-label {
-      color: #6b7280;
-    }
-
     /* ── TABLE WRAP (connected to filter-bar) ─── */
     .orders-table-wrap {
       border-radius: 0 0 10px 10px;
@@ -1311,7 +1224,6 @@
       .app-header { padding: 0 16px; height: 56px; }
       .breadcrumb { padding: 0 16px; }
       .main { padding: 16px; }
-      .stat-cards { grid-template-columns: repeat(2, 1fr); }
       .filter-bar { flex-wrap: wrap; padding: 10px 14px; }
       .filter-search { width: 100%; }
       .filter-divider { display: none; }
@@ -1328,9 +1240,7 @@
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
       .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
     
-      .stat-cards { grid-template-columns: 1fr; }
-
-      .title-bar h1, .page-title { font-size: 18px; }
+      .page-title { font-size: 18px; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1626,55 +1536,6 @@
       <span class="page-subtitle">8 tests, 1 in progress</span>
     </div>
 
-    <!-- STAT CARDS -->
-    <div class="stat-cards" data-skeleton-stagger>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="stat-info">
-          <span class="stat-number" id="countAll">8</span>
-          <span class="stat-label" data-i18n="labTests.totalTests">Total Tests</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="stat-info">
-          <span class="stat-number" id="countCompleted">5</span>
-          <span class="stat-label" data-i18n="labTests.completed">Completed</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 8v4l3 3M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="stat-info">
-          <span class="stat-number" id="countInProgress">1</span>
-          <span class="stat-label" data-i18n="labTests.inProgress">In Progress</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="stat-info">
-          <span class="stat-number" id="countPending">2</span>
-          <span class="stat-label" data-i18n="labTests.pendingReview">Pending Review</span>
-        </div>
-      </div>
-    </div>
-
     <!-- FILTER BAR (search + pills, integrated toolbar) -->
     <div class="filter-bar" data-skeleton-stagger>
       <div class="filter-search">
@@ -1951,25 +1812,6 @@ document.addEventListener('click', function(e) {
 
   filterSearch.addEventListener('input', applyFilters);
   countByStatus();
-
-  // Count-up animation for stat numbers
-  (function() {
-    var statNums = document.querySelectorAll('.stat-number');
-    statNums.forEach(function(el) {
-      var target = parseInt(el.textContent, 10);
-      if (isNaN(target) || target === 0) return;
-      el.textContent = '0';
-      var duration = 600;
-      var start = performance.now();
-      function step(now) {
-        var progress = Math.min((now - start) / duration, 1);
-        var ease = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(target * ease);
-        if (progress < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    });
-  })();
 
   // Test Details Drawer
   var overlay = document.getElementById('drawerOverlay');
