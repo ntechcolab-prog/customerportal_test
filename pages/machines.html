@@ -541,10 +541,15 @@
     /* ── TABLE VIEW (absolute positioning, igual ao Figma 182:12533) ── */
     .machine-table-wrap {
       background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
       overflow-x: auto;
       overflow-y: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+      transition: box-shadow 0.3s ease;
+    }
+    .machine-table-wrap:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
     }
     .machine-table-wrap[hidden] { display: none !important; }
 
@@ -558,23 +563,25 @@
     .t-row {
       position: relative;
       height: 67px;
-      border-bottom: 1px solid #f3f4f6;
+      border-bottom: 1px solid #f0f0f0;
       overflow: hidden;
     }
 
     /* ── HEADER ── */
     .t-head {
       height: 42px;
-      background: #007167;
-      border-bottom: 0;
+      background: #fafbfc;
+      border-bottom: 1px solid #e8e8ed;
     }
     .t-head > span {
       position: absolute;
       top: 12px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       line-height: 18px;
-      color: #fff;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
       white-space: nowrap;
     }
     /* Posições X EXATAS do Figma — header e body usam os mesmos números */
@@ -592,7 +599,7 @@
     }
     .t-tbody .machine-row:nth-child(odd)  { background: #ffffff; }
     .t-tbody .machine-row:nth-child(even) { background: #fafbfc; }
-    .t-tbody .machine-row:hover { background: #f0faf9; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
+    .t-tbody .machine-row:hover { background: #f5f5f7; }
     .t-tbody .machine-row:last-child { border-bottom: 0; }
     .machine-row.is-hidden { display: none; }
 
@@ -604,7 +611,7 @@
       width: 56px;
       height: 42px;
       background: #fafbfc;
-      border-radius: 14px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -630,7 +637,7 @@
       font-size: 13px;
       font-weight: 500;
       line-height: 19.5px;
-      color: #1f2937;
+      color: #1d1d1f;
       letter-spacing: -0.0762px;
       white-space: nowrap;
     }
@@ -638,9 +645,9 @@
       font-size: 11px;
       font-weight: 400;
       line-height: 16.5px;
-      color: #9ca3af;
+      color: #86868b;
       text-transform: uppercase;
-      letter-spacing: 0.0645px;
+      letter-spacing: 0.5px;
       white-space: nowrap;
     }
 
@@ -666,20 +673,20 @@
     .t-date {
       left: 1030px;
       font-weight: 400;
-      color: #374151;
+      color: #1d1d1f;
       white-space: nowrap;
     }
     .t-hours {
       left: 1150px;
       font-weight: 400;
-      color: #374151;
+      color: #1d1d1f;
       white-space: nowrap;
     }
     /* Family — single line */
     .t-family {
       left: 1250px;
       font-weight: 400;
-      color: #374151;
+      color: #1d1d1f;
       white-space: nowrap;
     }
 
