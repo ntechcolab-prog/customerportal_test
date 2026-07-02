@@ -670,6 +670,10 @@ th.sorted .sort-icon {
 .avail-limited .avail-dot { background: #f59e0b; }
 .avail-outofstock { color: #dc2626; }
 .avail-outofstock .avail-dot { background: #ef4444; }
+.avail-lowstock { color: #b45309; }
+.avail-lowstock .avail-dot { background: #f59e0b; }
+.avail-quotation { color: var(--nz-text-secondary); }
+.avail-quotation .avail-dot { background: var(--nz-text-secondary); }
 
 /* ── PRODUCT THUMBNAIL (wishlist, shop) ─── */
 .product-thumb {
