@@ -515,8 +515,9 @@
     .orders-table .col-material { width: 16%; }
     .orders-table .col-date { width: 11%; }
     .orders-table .col-status { width: 12%; }
-    .orders-table .col-actions { width: 110px; text-align: right; cursor: default; }
+    .orders-table .col-actions { width: 110px; text-align: center; cursor: default; }
     .orders-table .col-actions:hover { color: #6b7280; background: transparent; }
+    .orders-table .actions-cell { justify-content: center; }
 
     /* ── EMPTY STATE ─── */
     .empty-state {
@@ -1562,7 +1563,7 @@
             <th class="col-material"><span data-i18n="labTests.material">Material</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th class="col-date"><span data-i18n="labTests.date">Date</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th class="col-status"><span data-i18n="labTests.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th class="col-actions"></th>
+            <th class="col-actions">Actions</th>
           </tr>
         </thead>
         <tbody>
