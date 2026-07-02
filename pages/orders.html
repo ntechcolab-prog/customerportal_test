@@ -574,86 +574,115 @@
 
     /* ── ORDERS TABLE ─── */
     .orders-table-wrap {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
       background: #fff;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      overflow: hidden;
     }
     .orders-table {
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
     }
-    .orders-table thead tr { background: #007167; }
+    .orders-table thead tr {
+      background: transparent;
+      border-bottom: 1px solid #e8e8ed;
+    }
     .orders-table thead th {
-      padding: 14px 20px;
-      font-size: 13px;
+      padding: 10px 20px;
+      font-size: 11px;
       font-weight: 600;
-      color: #fff;
+      color: #86868b;
       text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       white-space: nowrap;
       cursor: pointer;
       user-select: none;
+      transition: color 0.15s;
     }
+    .orders-table thead th:hover { color: #1d1d1f; }
     .orders-table thead th .sort-icon {
       display: inline-block;
-      width: 12px;
-      height: 12px;
-      margin-left: 4px;
+      width: 16px;
+      height: 16px;
+      margin-left: 2px;
       vertical-align: middle;
-      opacity: 0.6;
+      opacity: 0;
+      transition: opacity 0.15s;
     }
-    .orders-table thead th:hover .sort-icon { opacity: 1; }
+    .orders-table thead th:hover .sort-icon { opacity: 0.5; }
+    .orders-table thead th.sorted .sort-icon { opacity: 0.8; }
     .orders-table thead th:last-child { cursor: default; }
+    .orders-table thead th:last-child:hover { color: #86868b; }
     .orders-table tbody tr {
-      border-bottom: 1px solid #f3f4f6;
-      transition: background 0.1s;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.15s;
     }
     .orders-table tbody tr:last-child { border-bottom: none; }
-    .orders-table tbody tr:hover { background: #f5f5f7; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
+    .orders-table tbody tr:hover { background: #f5f5f7; }
     .orders-table tbody td {
-      padding: 12px 20px;
-      font-size: 14px;
-      color: #374151;
+      padding: 14px 20px;
+      font-size: 13px;
+      color: #1d1d1f;
       white-space: nowrap;
       vertical-align: middle;
     }
+    /* Column widths */
+    .orders-table .col-order { width: 12%; }
+    .orders-table .col-status { width: 13%; }
+    .orders-table .col-total { width: 11%; }
+    .orders-table .col-actions { width: 110px; text-align: right; cursor: default; }
+    .orders-table .col-actions:hover { color: #86868b; }
 
     /* Order link */
     .order-link {
       color: #007167;
       text-decoration: none;
       font-weight: 600;
+      font-size: 13px;
     }
-    .order-link:hover { text-decoration: underline; }
+    .order-link:hover { color: #005f57; text-decoration: underline; }
 
     /* Status badges */
     .status-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
+      padding: 3px 10px;
+      border-radius: 6px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       white-space: nowrap;
+      letter-spacing: -0.01em;
     }
-    .status-placed { background: rgba(0, 113, 103, 0.08); color: #007167; }
-    .status-process { background: rgba(245, 158, 11, 0.12); color: #b45309; }
-    .status-shipped { background: rgba(59, 130, 246, 0.1); color: #1d4ed8; }
-    .status-delivered { background: rgba(0, 113, 103, 0.1); color: #007167; }
+    .status-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-placed { background: rgba(0, 113, 103, 0.06); color: #007167; }
+    .status-placed::before { background: #007167; }
+    .status-process { background: rgba(245, 158, 11, 0.08); color: #b45309; }
+    .status-process::before { background: #f59e0b; }
+    .status-shipped { background: rgba(59, 130, 246, 0.07); color: #1d4ed8; }
+    .status-shipped::before { background: #3b82f6; }
+    .status-delivered { background: rgba(0, 113, 103, 0.06); color: #007167; }
+    .status-delivered::before { background: #007167; }
 
     /* Actions */
     .actions-cell {
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: 0;
       justify-content: flex-end;
     }
     .action-btn {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -661,13 +690,13 @@
       background: none;
       cursor: pointer;
       border-radius: 8px;
-      color: #007167;
+      color: #86868b;
       transition: background 0.15s, color 0.15s;
     }
-    .action-btn:hover { background: #f0faf9; color: #005f57; }
+    .action-btn:hover { background: #f5f5f7; color: #1d1d1f; }
     .action-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
     }
 
 
@@ -726,17 +755,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 20px;
-      border-top: 1px solid #f3f4f6;
+      padding: 12px 20px;
+      border-top: 1px solid #f0f0f0;
     }
     .pagination-info {
       font-size: 12px;
-      color: #9ca3af;
+      color: #86868b;
     }
     .pagination-controls {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 2px;
     }
     .page-btn {
       width: 32px;
@@ -745,22 +774,23 @@
       align-items: center;
       justify-content: center;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       background: none;
       font-family: 'Inter', sans-serif;
       font-size: 13px;
       font-weight: 400;
-      color: #6b7280;
+      color: #86868b;
       cursor: pointer;
       letter-spacing: -0.08px;
+      transition: background 0.15s, color 0.15s;
     }
-    .page-btn:hover { background: #f3f4f6; }
+    .page-btn:hover { background: #f5f5f7; color: #1d1d1f; }
     .page-btn.active {
-      background: #007167;
+      background: #1d1d1f;
       color: #fff;
       font-weight: 600;
     }
-    .page-btn.active:hover { background: #005f57; }
+    .page-btn.active:hover { background: #000; }
     .page-btn.disabled {
       opacity: 0.3;
       cursor: default;
@@ -1451,7 +1481,10 @@
       .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
       .toolbar { flex-wrap: wrap; gap: 8px; }
       .orders-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .orders-table { min-width: 700px; }
+      .orders-table { min-width: 680px; }
+      .orders-table thead th { padding: 10px 14px; font-size: 10px; }
+      .orders-table tbody td { padding: 12px 14px; font-size: 12px; }
+      .pagination { padding: 10px 14px; }
     
       .title-bar h1, .page-title { font-size: 20px; }
     }
@@ -1863,14 +1896,14 @@
       <table class="orders-table">
         <thead>
           <tr>
-            <th style="width:11%;"><span data-i18n="orders.orderNum">Order</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Cust. Ref <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="orders.date">Placed On</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Valid Until <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th style="width:12%;"><span data-i18n="orders.status">Status</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th style="width:12%;"><span data-i18n="orders.total">Total</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="orders.items">Description</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th style="text-align:right;"></th>
+            <th class="col-order"><span data-i18n="orders.orderNum">Order</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Cust. Ref <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="orders.date">Placed On</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Valid Until <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-status"><span data-i18n="orders.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-total"><span data-i18n="orders.total">Total</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="orders.items">Description</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-actions"></th>
           </tr>
         </thead>
         <tbody>
