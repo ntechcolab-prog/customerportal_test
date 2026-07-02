@@ -555,7 +555,7 @@
 
     .machine-table {
       position: relative;
-      min-width: 1390px;        /* largura natural do Figma (1376) + buffer */
+      min-width: 900px;
       font-family: 'Inter', sans-serif;
     }
 
@@ -584,12 +584,12 @@
       letter-spacing: 0.6px;
       white-space: nowrap;
     }
-    /* Posições X EXATAS do Figma — header e body usam os mesmos números */
+    /* Posições dos headers — distribuição equilibrada */
     .t-h-machine    { left: 96px; }
-    .t-h-commission { left: 900px; }
-    .t-h-date       { left: 1030px; }
-    .t-h-hours      { left: 1150px; }
-    .t-h-family     { left: 1250px; }
+    .t-h-commission { left: 52%; }
+    .t-h-date       { left: 65%; }
+    .t-h-hours      { left: 77%; }
+    .t-h-family     { left: 87%; }
 
     /* ── BODY ── */
     .t-tbody { background: #fff; }
@@ -665,26 +665,26 @@
       font-feature-settings: 'tnum';
     }
     .t-commission {
-      left: 900px;
+      left: 52%;
       font-weight: 600;
       color: #007167;
       white-space: nowrap;
     }
     .t-date {
-      left: 1030px;
+      left: 65%;
       font-weight: 400;
       color: #1d1d1f;
       white-space: nowrap;
     }
     .t-hours {
-      left: 1150px;
+      left: 77%;
       font-weight: 400;
       color: #1d1d1f;
       white-space: nowrap;
     }
     /* Family — single line */
     .t-family {
-      left: 1250px;
+      left: 87%;
       font-weight: 400;
       color: #1d1d1f;
       white-space: nowrap;
@@ -693,22 +693,26 @@
     /* Chevron na ponta direita */
     .t-arrow {
       position: absolute;
-      right: 16px;
+      right: 28px;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #86868b;
+      transition: color 0.15s, transform 0.15s;
+    }
+    .machine-row:hover .t-arrow {
       color: #007167;
+      transform: translateY(-50%) translateX(2px);
     }
     .t-arrow svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       display: block;
-      transition: transform 0.15s ease;
     }
     .machine-row:hover .t-arrow svg {
-      transform: translateX(3px);
+      transform: none;
     }
 
     /* ── EMPTY STATE ─── */
