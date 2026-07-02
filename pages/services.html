@@ -541,6 +541,88 @@
       opacity: 0.7;
     }
 
+    /* ── TYPE DROPDOWN ─── */
+    .filter-type-wrap {
+      position: relative;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .filter-type-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 30px;
+      padding: 0 12px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 6px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .filter-type-btn:hover { border-color: rgba(0, 113, 103, 0.3); color: #007167; }
+    .filter-type-btn.active {
+      border-color: #007167;
+      color: #007167;
+      background: rgba(0, 113, 103, 0.04);
+    }
+    .filter-type-btn svg {
+      width: 12px;
+      height: 12px;
+      transition: transform 0.2s;
+    }
+    .filter-type-wrap.open .filter-type-btn svg {
+      transform: rotate(180deg);
+    }
+    .filter-type-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      min-width: 170px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
+      padding: 4px;
+      z-index: 50;
+      animation: dropdown-in 0.15s ease;
+    }
+    @keyframes dropdown-in {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .filter-type-wrap.open .filter-type-menu { display: block; }
+    .filter-type-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      background: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .filter-type-option:hover { background: #f5f5f7; }
+    .filter-type-option.active { color: #007167; font-weight: 600; background: rgba(0, 113, 103, 0.06); }
+    .filter-type-option img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
     /* ── STAT CARDS ─── */
     .stat-cards {
       display: grid;
@@ -1649,6 +1731,28 @@
         <button class="filter-pill" data-status="completed">Completed <span class="pill-count" id="countCompleted"></span></button>
         <button class="filter-pill" data-status="cancelled">Cancelled <span class="pill-count" id="countCancelled"></span></button>
       </div>
+      <div class="filter-divider"></div>
+      <div class="filter-type-wrap" id="typeWrap">
+        <button class="filter-type-btn" id="typeBtn">
+          <span id="typeBtnLabel">Type</span>
+          <svg viewBox="0 0 12 12" fill="none"><path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="filter-type-menu" id="typeMenu">
+          <button class="filter-type-option active" data-type="">All Types</button>
+          <button class="filter-type-option" data-type="repair">
+            <img src="../assets/icon-type-repair.svg" alt="">Repair
+          </button>
+          <button class="filter-type-option" data-type="spare parts">
+            <img src="../assets/icon-type-spare-parts.svg" alt="">Spare Parts
+          </button>
+          <button class="filter-type-option" data-type="maintenance">
+            <img src="../assets/icon-type-maintenance.svg" alt="">Maintenance
+          </button>
+          <button class="filter-type-option" data-type="consultation">
+            <img src="../assets/icon-type-consultation.svg" alt="">Consultation
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- SERVICES TABLE -->
@@ -1918,6 +2022,7 @@ document.addEventListener('click', function(e) {
     var filterSearch = document.getElementById('filterSearch');
     var pills = document.querySelectorAll('.filter-pill');
     var activeStatus = '';
+    var activeType = '';
 
     function getRowStatus(row) {
       var badge = row.querySelector('.status-badge');
@@ -1946,15 +2051,22 @@ document.addEventListener('click', function(e) {
       document.getElementById('countCancelled').textContent = counts.cancelled;
     }
 
+    function getRowType(row) {
+      var cells = row.querySelectorAll('td');
+      return cells[2] ? cells[2].textContent.toLowerCase().trim() : '';
+    }
+
     function applyFilters() {
       var searchVal = filterSearch.value.toLowerCase().trim();
       var rows = document.querySelectorAll('.services-table tbody tr');
       var visible = 0;
       rows.forEach(function(row) {
         var rowStatus = getRowStatus(row);
+        var rowType = getRowType(row);
         var rowText = row.textContent.toLowerCase();
         var show = true;
         if (activeStatus && rowStatus !== activeStatus) show = false;
+        if (activeType && rowType !== activeType) show = false;
         if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
         row.dataset.filtered = show ? '' : 'hidden';
         if (show) visible++;
@@ -1975,6 +2087,33 @@ document.addEventListener('click', function(e) {
 
     filterSearch.addEventListener('input', applyFilters);
     countByStatus();
+
+    // ── Type dropdown ──
+    var typeWrap = document.getElementById('typeWrap');
+    var typeBtn = document.getElementById('typeBtn');
+    var typeBtnLabel = document.getElementById('typeBtnLabel');
+    var typeOptions = document.querySelectorAll('.filter-type-option');
+
+    typeBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      typeWrap.classList.toggle('open');
+    });
+
+    typeOptions.forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        typeOptions.forEach(function(o) { o.classList.remove('active'); });
+        opt.classList.add('active');
+        activeType = opt.dataset.type;
+        typeBtnLabel.textContent = activeType ? opt.textContent.trim() : 'Type';
+        typeBtn.classList.toggle('active', !!activeType);
+        typeWrap.classList.remove('open');
+        applyFilters();
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!typeWrap.contains(e.target)) typeWrap.classList.remove('open');
+    });
 
     // Count-up animation for stat numbers
     (function() {
