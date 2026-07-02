@@ -2538,11 +2538,15 @@ function sendFromSmallChat() {
   // Re-render when filters change
   var paginFilterSearch = document.getElementById('filterSearch');
   var paginPills = document.querySelectorAll('.filter-pill');
+  var paginTypeOptions = document.querySelectorAll('.filter-type-option');
   if (paginFilterSearch) {
     paginFilterSearch.addEventListener('input', function() { currentPage = 1; render(); });
   }
   paginPills.forEach(function(pill) {
     pill.addEventListener('click', function() { currentPage = 1; render(); });
+  });
+  paginTypeOptions.forEach(function(opt) {
+    opt.addEventListener('click', function() { currentPage = 1; render(); });
   });
 
   render();
