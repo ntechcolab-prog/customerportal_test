@@ -182,8 +182,8 @@
   "contracts.searchPlaceholder": "Vertrag, Maschine suchen...",
   "contracts.contractNum": "Vertrags-Nr.",
   "contracts.type": "Typ",
-  "contracts.startDate": "Startdatum",
-  "contracts.endDate": "Enddatum",
+  "contracts.startDate": "Ausrüstung / Umfang",
+  "contracts.endDate": "Gültigkeit",
   "contracts.status": "Status",
 
   "machines.title": "Meine Maschinen",

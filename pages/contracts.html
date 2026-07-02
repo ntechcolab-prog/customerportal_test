@@ -521,6 +521,15 @@
 
     /* ── CONTRACT TABS ─── */
 
+    /* ── TABLE COLUMN WIDTHS ─── */
+    .orders-table .col-contract { width: 15%; }
+    .orders-table .col-type { width: 13%; }
+    .orders-table .col-scope { width: 22%; }
+    .orders-table .col-validity { width: 22%; }
+    .orders-table .col-status { width: 13%; }
+    .orders-table .col-actions { width: 60px; text-align: right; cursor: default; }
+    .orders-table .col-actions:hover { color: #6b7280; background: transparent; }
+
     /* ── EMPTY STATE ─── */
     .empty-state {
       padding: 48px 24px;
@@ -1621,12 +1630,12 @@
       <table class="orders-table" id="contractsTable" aria-label="Contracts">
         <thead>
           <tr>
-            <th><span data-i18n="contracts.contractNum">Contract ID</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="contracts.type">Type</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="contracts.startDate">Equipment / Scope</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="contracts.endDate">Validity</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="contracts.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th>Actions</th>
+            <th class="col-contract"><span data-i18n="contracts.contractNum">Contract #</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-type"><span data-i18n="contracts.type">Type</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-scope"><span data-i18n="contracts.startDate">Equipment / Scope</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-validity"><span data-i18n="contracts.endDate">Validity</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-status"><span data-i18n="contracts.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-actions">Actions</th>
           </tr>
         </thead>
         <tbody>
