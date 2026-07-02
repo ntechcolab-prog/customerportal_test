@@ -594,6 +594,13 @@
     .btn-clear:hover { color: #c73e20; background: #fdf2f0; }
     .btn-clear[hidden] { display: none; }
 
+    /* ── TABLE COLUMN WIDTHS ─── */
+    .orders-table .col-order { width: 13%; }
+    .orders-table .col-status { width: 14%; }
+    .orders-table .col-total { width: 12%; }
+    .orders-table .col-actions { width: 110px; text-align: right; cursor: default; }
+    .orders-table .col-actions:hover { color: #6b7280; background: transparent; }
+
     /* ── EMPTY STATE ─── */
     .empty-state {
       padding: 48px 24px;
@@ -1719,7 +1726,7 @@
             <th class="col-status"><span data-i18n="orders.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th class="col-total"><span data-i18n="orders.total">Total</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th><span data-i18n="orders.items">Description</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th class="col-actions"></th>
+            <th class="col-actions">Actions</th>
           </tr>
         </thead>
         <tbody>
