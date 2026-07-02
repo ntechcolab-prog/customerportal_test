@@ -400,152 +400,267 @@
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
     }
 
-    /* ── WELCOME BANNER ─── */
-    .welcome-banner {
-      background: linear-gradient(176deg, #007167 0%, #0b9c92 50%, #13b5a8 100%);
-      border-radius: 14px;
-      height: 96px;
+    /* ── PAGE HEADER ─── */
+    .page-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 32px;
-      position: relative;
-      overflow: hidden;
+      margin-bottom: 4px;
     }
-    .welcome-banner-bg {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; pointer-events: none; opacity: 0.15;
+    .page-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
-    .welcome-title {
-      font-size: 24px; font-weight: 700; color: #fff;
-      letter-spacing: 0.07px; position: relative; z-index: 1;
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
+    }
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #86868b;
     }
     .btn-ask-milla {
-      background: rgba(255,255,255,0.2);
-      border: none; border-radius: 999px;
-      height: 48px; padding: 0 24px;
-      display: flex; align-items: center; gap: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 34px;
+      padding: 0 18px;
+      border: none;
+      border-radius: 999px;
+      background: #007167;
       font-family: 'Inter', sans-serif;
-      font-size: 16px; font-weight: 500; color: #fff;
-      cursor: pointer; position: relative; z-index: 1;
-      transition: background 0.15s;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
-    .btn-ask-milla:hover { background: rgba(255,255,255,0.3); }
-    .btn-ask-milla img { width: 20px; height: 20px; object-fit: contain; }
+    .btn-ask-milla:hover { background: #005f57; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0, 113, 103, 0.2); }
+    .btn-ask-milla:active { transform: scale(0.97); }
+    .btn-ask-milla img { width: 16px; height: 16px; object-fit: contain; filter: brightness(10); }
+
+    /* ── QUICK ACTIONS (pills) ─── */
+    .quick-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-quick-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 14px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-quick-action:hover {
+      border-color: rgba(0, 113, 103, 0.3);
+      color: #007167;
+      background: rgba(0, 113, 103, 0.03);
+    }
+    .btn-quick-action:active { transform: scale(0.97); }
+    .btn-quick-action svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
 
     /* ── STAT CARDS ─── */
     .stat-cards {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
     .stat-card {
-      background: #fff;
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
       border: 1px solid rgba(0, 0, 0, 0.06);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-      border-radius: 14px;
-      padding: 20px;
+      border-radius: 10px;
+      padding: 16px 18px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.4s ease, transform 0.25s ease;
+      cursor: default;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 11px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
+    }
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
+      transform: translateY(-2px);
     }
     .stat-icon-wrap {
-      width: 40px; height: 40px; border-radius: 12px;
-      background: #e5f5f4;
-      display: flex; align-items: center; justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0faf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
-    .stat-icon-wrap img { width: 20px; height: 20px; object-fit: contain; }
-    .stat-number { font-size: 24px; font-weight: 700; color: #6b7280; line-height: 32px; }
-    .stat-label { font-size: 13px; font-weight: 500; color: #8d9094; }
+    .stat-card:hover .stat-icon-wrap {
+      background: #e0f2f0;
+      transform: scale(1.08);
+    }
+    .stat-icon-wrap img { width: 18px; height: 18px; object-fit: contain; }
+    .stat-number {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1d1d1f;
+      line-height: 1.2;
+      letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #86868b;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .stat-card:hover .stat-label { color: #6b7280; }
 
-    /* ── MIDDLE ROW ─── */
-    .middle-row {
+    /* ── BOTTOM LAYOUT (2 columns) ─── */
+    .bottom-layout {
       display: grid;
-      grid-template-columns: 1fr 400px;
-      gap: 24px;
+      grid-template-columns: 1fr 380px;
+      gap: 12px;
+      margin-bottom: 12px;
     }
 
-    /* ── AI INSIGHTS ─── */
+    /* ── CARD (shared) ─── */
     .card {
       background: #fff;
       border: 1px solid rgba(0, 0, 0, 0.06);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-      border-radius: 14px;
-      padding: 24px;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
     }
     .card-header {
-      display: flex; align-items: center; gap: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       margin-bottom: 16px;
     }
     .card-header img { width: 16px; height: 16px; object-fit: contain; }
-    .card-title { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.2px; }
+    .card-title { font-size: 14px; font-weight: 700; color: #1d1d1f; letter-spacing: -0.2px; }
 
-    .insight-list { display: flex; flex-direction: column; gap: 12px; }
+    /* ── AI INSIGHTS ─── */
+    .insight-list { display: flex; flex-direction: column; gap: 8px; }
     .insight-item {
       border: 1px solid rgba(0, 0, 0, 0.06);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 10px;
+      padding: 14px;
       display: flex;
       align-items: flex-start;
-      gap: 16px;
+      gap: 12px;
+      transition: background 0.15s;
     }
+    .insight-item:hover { background: #fafbfc; }
     .insight-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      flex-shrink: 0; margin-top: 5px;
+      width: 6px; height: 6px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 6px;
     }
-    .insight-dot.yellow { background: #dba338; }
-    .insight-dot.red { background: #dc2626; }
+    .insight-dot.yellow { background: #f59e0b; }
+    .insight-dot.red { background: #ef4444; }
     .insight-body { flex: 1; min-width: 0; }
-    .insight-label {
-      display: flex; align-items: center; gap: 8px;
-      margin-bottom: 4px;
-    }
-    .insight-label img { width: 16px; height: 16px; object-fit: contain; }
-    .insight-label-text { font-size: 13px; font-weight: 700; color: #6b7280; }
-    .insight-text { font-size: 13px; color: #6b6e73; line-height: 18px; }
+    .insight-label { margin-bottom: 2px; }
+    .insight-label-text { font-size: 12px; font-weight: 600; color: #1d1d1f; }
+    .insight-text { font-size: 12px; color: #86868b; line-height: 1.5; }
     .btn-insight {
       background: #007167; color: #fff; border: none;
-      border-radius: 999px; height: 32px; padding: 0 16px;
+      border-radius: 999px; height: 28px; padding: 0 12px;
       font-family: 'Inter', sans-serif;
-      font-size: 12px; font-weight: 500;
+      font-size: 11px; font-weight: 500;
       cursor: pointer; white-space: nowrap; flex-shrink: 0;
-      display: flex; align-items: center; gap: 6px;
-      transition: opacity 0.15s;
+      display: flex; align-items: center; gap: 4px;
+      transition: background 0.15s, transform 0.15s;
     }
-    .btn-insight:hover { opacity: 0.9; }
-    .btn-insight img { width: 12px; height: 12px; object-fit: contain; }
+    .btn-insight:hover { background: #005f57; transform: translateY(-1px); }
+    .btn-insight img { width: 10px; height: 10px; object-fit: contain; }
 
-    /* ── QUICK ACTIONS ─── */
-    .quick-actions-list { display: flex; flex-direction: column; gap: 12px; }
-    .btn-quick-action {
-      width: 100%; height: 46px;
-      background: #fff;
-      border: 1px solid #007167;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px; font-weight: 500; color: #007167;
-      cursor: pointer; transition: background 0.15s;
+    /* ── CONTRACTS EXPIRING (sidebar) ─── */
+    .contract-alert {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid #fef3e2;
+      border-radius: 10px;
+      background: #fffbf5;
+      text-decoration: none;
+      transition: background 0.15s;
     }
-    .btn-quick-action:hover { background: #f0faf9; }
+    .contract-alert:hover { background: #fef8ee; }
+    .contract-alert-icon {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #fef3e2; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .contract-alert-icon svg { width: 14px; height: 14px; }
+    .contract-alert-info { flex: 1; min-width: 0; }
+    .contract-alert-id { font-size: 13px; font-weight: 600; color: #1d1d1f; }
+    .contract-alert-desc { font-size: 11px; color: #d97706; margin-top: 2px; }
+    .contract-alert-badge {
+      display: inline-flex; padding: 3px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600; background: #fef3e2; color: #d97706;
+      flex-shrink: 0;
+    }
+    .contract-footer { font-size: 11px; color: #9ca3af; text-align: center; padding: 8px 0 0; }
 
     /* ── RECENT ORDERS ─── */
     .orders-header {
       display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     .btn-view-all {
       display: flex; align-items: center; gap: 6px;
-      font-size: 13px; font-weight: 500; color: #007167;
+      font-size: 12px; font-weight: 500; color: #007167;
       background: none; border: none; cursor: pointer;
+      transition: color 0.15s;
     }
-    .btn-view-all img { width: 14px; height: 14px; object-fit: contain; }
+    .btn-view-all:hover { color: #005f57; }
+    .btn-view-all img { width: 12px; height: 12px; object-fit: contain; }
 
-    .order-date { display: flex; align-items: center; gap: 6px; color: #6b7280; }
+    .order-date { display: flex; align-items: center; gap: 6px; color: #86868b; font-size: 12px; }
     .order-date img { width: 12px; height: 12px; object-fit: contain; }
 
     /* ── TABLE ACTIONS COLUMN ─── */
@@ -1074,7 +1189,9 @@
     }
 
     @media (max-width: 768px) {
-      .middle-row { grid-template-columns: 1fr; }
+      .bottom-layout { grid-template-columns: 1fr; }
+      .quick-actions { flex-wrap: wrap; }
+      .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1382,13 +1499,39 @@
       <!-- PAGE CONTENT -->
       <div class="page-content">
 
-      <!-- WELCOME BANNER -->
-      <div class="welcome-banner" data-skeleton-stagger>
-        <img class="welcome-banner-bg" src="../assets/welcome-banner-bg.svg" alt="">
-        <h1 class="welcome-title" data-i18n="dash.welcome">Good afternoon, Marcus</h1>
+      <!-- PAGE HEADER -->
+      <div class="page-header" data-skeleton-stagger>
+        <div class="page-header-left">
+          <h1 class="page-title" data-i18n="dash.welcome">Good afternoon, Marcus</h1>
+          <span class="page-subtitle">Wednesday, Jul 2, 2026 — 5 active orders</span>
+        </div>
         <button class="btn-ask-milla" data-i18n="dash.askMilla">
           <img src="../assets/icon-mic.svg" alt="">
           Ask Milla
+        </button>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-actions" data-skeleton-stagger>
+        <button class="btn-quick-action" data-i18n="dash.newOrder">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          New Order
+        </button>
+        <button class="btn-quick-action" data-i18n="dash.searchProducts">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.25" stroke="currentColor" stroke-width="1.5"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Search Products
+        </button>
+        <button class="btn-quick-action" data-i18n="dash.repeatOrder">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M1 8a7 7 0 0112.9-3.8M15 8a7 7 0 01-12.9 3.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14 1v3.2h-3.2M2 15v-3.2h3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Repeat Order
+        </button>
+        <button class="btn-quick-action" data-i18n="common.requestQuote">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M9 2H4.5A1.5 1.5 0 003 3.5v9A1.5 1.5 0 004.5 14h7a1.5 1.5 0 001.5-1.5V6L9 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 2v4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Request Quote
+        </button>
+        <button class="btn-quick-action" data-i18n="common.contactSupport" onclick="window.location.href='contact-support.html'">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M14 10.67A1.33 1.33 0 0112.67 12H4.67L2 14V3.33A1.33 1.33 0 013.33 2h9.34A1.33 1.33 0 0114 3.33v7.34z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Contact Support
         </button>
       </div>
 
@@ -1432,9 +1575,8 @@
         </div>
       </div>
 
-      <!-- MIDDLE ROW -->
-      <div class="middle-row" data-skeleton-stagger>
-
+      <!-- BOTTOM LAYOUT: AI Insights + Contracts -->
+      <div class="bottom-layout">
         <!-- AI INSIGHTS -->
         <div class="card">
           <div class="card-header">
@@ -1484,46 +1626,26 @@
           </div>
         </div>
 
-        <!-- QUICK ACTIONS -->
+        <!-- CONTRACTS EXPIRING -->
         <div class="card">
-          <div class="card-header">
-            <span class="card-title" data-i18n="dash.quickActions">Quick Actions</span>
+          <div class="orders-header">
+            <span class="card-title" data-i18n="dash.contractsExpiring">Contracts Expiring Soon</span>
+            <button class="btn-view-all" data-i18n="dash.viewAllContracts" onclick="window.location.href='contracts.html'">
+              View All
+              <img src="../assets/icon-section-h2.svg" alt="">
+            </button>
           </div>
-          <div class="quick-actions-list">
-            <button class="btn-quick-action" data-i18n="dash.newOrder">New Order</button>
-            <button class="btn-quick-action" data-i18n="dash.searchProducts">Search Products</button>
-            <button class="btn-quick-action" data-i18n="dash.repeatOrder">Repeat Order</button>
-            <button class="btn-quick-action" data-i18n="common.requestQuote">Request Quote</button>
-            <button class="btn-quick-action" data-i18n="common.contactSupport" onclick="window.location.href='contact-support.html'">Contact Support</button>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- CONTRACTS EXPIRING -->
-      <div class="card">
-        <div class="orders-header">
-          <span class="card-title" data-i18n="dash.contractsExpiring">Contracts Expiring Soon</span>
-          <button class="btn-view-all" data-i18n="dash.viewAllContracts" onclick="window.location.href='contracts.html'">
-            View All Contracts
-            <img src="../assets/icon-section-h2.svg" alt="">
-          </button>
-        </div>
-        <div id="contractsCardContent" style="display:flex;flex-direction:column;gap:12px;">
-          <p id="contractsEmptyState" hidden style="padding:32px 16px;text-align:center;color:#9ca3af;font-size:14px;margin:0;" data-i18n="dash.noContracts">No contracts expiring in the next 30 days.</p>
-          <a href="contracts.html" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid #fef3e2;border-radius:10px;background:#fffbf5;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='#fef8ee'" onmouseout="this.style.background='#fffbf5'">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <div style="width:36px;height:36px;border-radius:50%;background:#fef3e2;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              </div>
-              <div>
-                <div style="font-size:14px;font-weight:600;color:#1f2937;">CTR-S-2025-002</div>
-                <div style="font-size:12px;color:#d97706;">Service Contract · Epsilon + PMD (5 units) · Expires Jul 31, 2026</div>
-              </div>
+          <a href="contracts.html" class="contract-alert">
+            <div class="contract-alert-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             </div>
-            <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:12px;font-weight:600;background:#fef3e2;color:#d97706;" data-i18n="dash.expiringLabel">Expiring Soon</span>
+            <div class="contract-alert-info">
+              <div class="contract-alert-id">CTR-S-2025-002</div>
+              <div class="contract-alert-desc">Service · Epsilon + PMD · Expires Jul 31, 2026</div>
+            </div>
+            <span class="contract-alert-badge" data-i18n="dash.expiringLabel">Expiring</span>
           </a>
-          <div style="font-size:12px;color:#9ca3af;text-align:center;padding:4px 0;" data-i18n="dash.contractsFooter">Showing contracts expiring within the next 30 days</div>
+          <div class="contract-footer" data-i18n="dash.contractsFooter">Contracts expiring within 30 days</div>
         </div>
       </div>
 
@@ -1531,8 +1653,8 @@
       <div class="card">
         <div class="orders-header">
           <span class="card-title" data-i18n="dash.recentOrders">Recent Orders</span>
-          <button class="btn-view-all" data-i18n="dash.viewAllOrders">
-            View All Orders
+          <button class="btn-view-all" data-i18n="dash.viewAllOrders" onclick="window.location.href='orders.html'">
+            View All
             <img src="../assets/icon-section-h2.svg" alt="">
           </button>
         </div>
