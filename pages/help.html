@@ -1096,6 +1096,78 @@
       margin: 0;
     }
 
+    /* ── PAGINATION ─── */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-top: 1px solid #e5e7eb;
+      background: #fafafa;
+      border-radius: 0 0 14px 14px;
+    }
+    .pagination-info {
+      font-size: 13px;
+      font-weight: 500;
+      color: #6b6e73;
+      letter-spacing: -0.08px;
+    }
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .pagination-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      color: #374151;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 0;
+    }
+    .pagination-btn:hover:not(:disabled) {
+      background: rgba(0, 113, 103, 0.06);
+      border-color: #007167;
+      color: #007167;
+    }
+    .pagination-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .pagination-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+    .pagination-btn.active {
+      background: #007167;
+      border-color: #007167;
+      color: #fff;
+    }
+    .pagination-pages {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .pagination-ellipsis {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #9ca3af;
+      user-select: none;
+    }
+
     .milla-backdrop {
       position: fixed;
       top: 100px;
@@ -1448,6 +1520,7 @@
             </tr>
           </thead>
           <tbody>
+            <!-- Row 1 -->
             <tr>
               <td>
                 <a href="#" class="article-link">
@@ -1460,10 +1533,11 @@
               <td>
                 <span class="date-cell">
                   <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  Feb 28, 2026
+                  Jun 18, 2026
                 </span>
               </td>
             </tr>
+            <!-- Row 2 -->
             <tr>
               <td>
                 <a href="#" class="article-link">
@@ -1476,10 +1550,11 @@
               <td>
                 <span class="date-cell">
                   <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  Feb 25, 2026
+                  Jun 15, 2026
                 </span>
               </td>
             </tr>
+            <!-- Row 3 -->
             <tr>
               <td>
                 <a href="#" class="article-link">
@@ -1492,10 +1567,11 @@
               <td>
                 <span class="date-cell">
                   <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  Feb 20, 2026
+                  Jun 12, 2026
                 </span>
               </td>
             </tr>
+            <!-- Row 4 -->
             <tr>
               <td>
                 <a href="#" class="article-link">
@@ -1508,10 +1584,11 @@
               <td>
                 <span class="date-cell">
                   <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  Feb 15, 2026
+                  Jun 10, 2026
                 </span>
               </td>
             </tr>
+            <!-- Row 5 -->
             <tr>
               <td>
                 <a href="#" class="article-link">
@@ -1524,7 +1601,1622 @@
               <td>
                 <span class="date-cell">
                   <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jun 05, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 6 -->
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to schedule a preventive maintenance visit
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Discus 30</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jun 02, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 7 -->
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Tracking your shipment in real-time
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 30, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 8 -->
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Discus 30 &mdash; Operating manual overview
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Discus 30</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 28, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 9 -->
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Getting started with the customer portal
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 25, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 10 -->
+            <tr>
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Troubleshooting grinding chamber vibration
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Zeta 60</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 22, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 11 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to place a bulk order
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 20, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 12 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Replacing mechanical seals &mdash; step by step
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 18, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 13 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Zeta 60 &mdash; Technical specifications
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Zeta 60</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 15, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 14 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Managing user roles and permissions
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 12, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 15 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Cleaning procedures for wet grinding machines
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Discus 30, Zeta 60</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 10, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 16 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Understanding payment terms
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 08, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 17 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  MasterMix 45 &mdash; Installation guide
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 05, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 18 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Understanding service contract coverage
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 02, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 19 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to use the spare parts finder
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 30, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 20 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to request a credit note
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 28, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 21 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Calibrating the temperature monitoring system
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>ProPhi</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 25, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 22 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  ProPhi &mdash; Production monitoring setup
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>ProPhi</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 22, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 23 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Downloading invoices as PDF
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 20, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 24 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Bead wear analysis &mdash; when to replace grinding media
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Discus 30, Zeta 60</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 18, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 25 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Alpha Zeta 10 &mdash; Spare parts catalog
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Alpha Zeta 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 15, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 26 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Setting up email notifications
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 12, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 27 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Emergency shutdown procedures
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 10, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 28 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Export documentation requirements
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 08, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 29 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Understanding machine serial numbers
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 05, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 30 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Lubrication schedule and recommended oils
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 02, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 31 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Setting up automatic reorders
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 30, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 32 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Recommended grinding parameters by material
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Discus 30, MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 28, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 33 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dashboard customization options
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 25, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 34 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to read the service report
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 22, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 35 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Order modification and cancellation policy
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 20, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 36 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Machine commissioning checklist
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 18, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 37 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Seal inspection intervals and wear indicators
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Zeta 60</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 15, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 38 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Exporting data to CSV
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 12, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 39 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Requesting a quotation for spare parts
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 10, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 40 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Cooling system maintenance for high-speed mills
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>NEOS 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 08, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 41 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  NEOS 10 &mdash; Quick start guide
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>NEOS 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 05, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 42 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to update your company billing address
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 02, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 43 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Interpreting vibration analysis data
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Epsilon</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 28, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 44 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Handling partial shipments and backorders
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 25, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 45 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Epsilon &mdash; Dispersing unit maintenance
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Epsilon</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 22, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 46 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to reset your portal password
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 20, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 47 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Motor overheating &mdash; causes and solutions
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Discus 30</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 18, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 48 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  VAT and tax handling on international orders
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 15, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 49 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Discus 30 &mdash; Grinding chamber disassembly
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Discus 30</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 12, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 50 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Agitator shaft alignment procedures
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   Feb 10, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 51 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Setting up purchase order approval workflows
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 05, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 52 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  ProPhi &mdash; Sensor calibration guide
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>ProPhi</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Feb 02, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 53 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Connecting the portal to your ERP system
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 30, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 54 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Grinding media selection guide by application
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Discus 30, Zeta 60</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 28, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 55 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Minimum order quantities and lead times
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 25, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 56 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Alpha Zeta 10 &mdash; Electrical schematics
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Alpha Zeta 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 22, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 57 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Bearing replacement intervals for agitator mills
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Zeta 60, MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 20, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 58 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Viewing your order history and reordering
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 18, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 59 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Delivery terms and Incoterms explained
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 15, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 60 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Zeta 60 &mdash; Grinding disc replacement
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Zeta 60</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 12, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 61 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Pressure monitoring and safety interlocks
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>NEOS 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 10, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 62 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to submit a warranty claim
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 08, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 63 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  MasterMix 45 &mdash; Rotor-stator gap adjustment
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 05, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 64 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Filter element replacement and cleaning intervals
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Alpha Zeta 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 02, 2026
+                </span>
+              </td>
+            </tr>
+            <!-- Row 65 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Two-factor authentication setup
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 28, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 66 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Returning defective parts &mdash; RMA process
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 25, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 67 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Pump maintenance for recirculation systems
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Epsilon</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 22, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 68 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  NEOS 10 &mdash; Particle size distribution reports
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>NEOS 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 20, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 69 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to add new delivery addresses
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 18, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 70 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Spare parts pricing and discount structure
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 15, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 71 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Torque specifications for flange connections
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 12, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 72 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Epsilon &mdash; Safety data sheet overview
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Epsilon</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 10, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 73 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Gasket material compatibility guide
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Discus 30, MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 05, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 74 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to view and manage saved carts
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Dec 02, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 75 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Currency conversion and multi-currency invoices
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 28, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 76 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  ProPhi &mdash; Data export and reporting
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>ProPhi</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 25, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 77 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Electrical safety checks during routine maintenance
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 22, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 78 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How to request expedited shipping
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 20, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 79 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Alpha Zeta 10 &mdash; PLC programming guide
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Alpha Zeta 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 18, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 80 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Wear part identification using QR codes
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 15, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 81 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Understanding your contract renewal schedule
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 12, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 82 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Zeta 60 &mdash; Cooling jacket specifications
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Zeta 60</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 10, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 83 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Contacting NETZSCH field service engineers
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 05, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 84 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Browsing the machine documentation library
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Nov 02, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 85 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  How freight costs are calculated
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Oct 28, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 86 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Preventive vs. corrective maintenance explained
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Oct 22, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 87 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Discus 30 &mdash; Wear ring replacement
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Discus 30</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Oct 18, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 88 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Understanding the portal notification center
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Oct 15, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 89 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Viscosity measurement best practices
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>ProPhi</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Oct 10, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 90 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Blanket purchase orders and framework agreements
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Sep 28, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 91 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  MasterMix 45 &mdash; Noise level reduction tips
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Sep 20, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 92 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Annual service checklist for grinding mills
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Sep 12, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 93 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Proforma invoice requests and approval
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Aug 28, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 94 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Compressed air requirements for pneumatic valves
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>Epsilon, NEOS 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Aug 15, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 95 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Epsilon &mdash; Inline dispersing configuration
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>Epsilon</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jul 22, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 96 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Inviting colleagues to the portal
+                </a>
+              </td>
+              <td><span class="cat-badge cat-portal">Customer Portal Guides</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jun 30, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 97 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Stator pin inspection and replacement
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>MasterMix 45</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  May 20, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 98 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  NEOS 10 &mdash; Frequency converter settings
+                </a>
+              </td>
+              <td><span class="cat-badge cat-machine">Machine Documentation</span></td>
+              <td>NEOS 10</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Apr 10, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 99 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Consolidating multiple orders into one shipment
+                </a>
+              </td>
+              <td><span class="cat-badge cat-orders">Orders &amp; Invoices</span></td>
+              <td>&mdash;</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Mar 05, 2025
+                </span>
+              </td>
+            </tr>
+            <!-- Row 100 -->
+            <tr style="display:none;">
+              <td>
+                <a href="#" class="article-link">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Water quality requirements for cooling circuits
+                </a>
+              </td>
+              <td><span class="cat-badge cat-service">Service &amp; Maintenance</span></td>
+              <td>All Machines</td>
+              <td>
+                <span class="date-cell">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Jan 15, 2025
                 </span>
               </td>
             </tr>
@@ -1536,6 +3228,19 @@
           </div>
           <p class="empty-state-title">No articles found</p>
           <p class="empty-state-desc">Try searching with different keywords.</p>
+        </div>
+        <!-- Pagination -->
+        <div class="pagination" id="articlesPagination">
+          <span class="pagination-info" id="paginationInfo">Showing 1&ndash;10 of 100 articles</span>
+          <div class="pagination-controls">
+            <button class="pagination-btn pagination-prev" id="paginationPrev" aria-label="Previous page" disabled>
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="pagination-pages" id="paginationPages"></div>
+            <button class="pagination-btn pagination-next" id="paginationNext" aria-label="Next page">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1560,10 +3265,12 @@ document.addEventListener('click', function(e) {
 });
 </script>
 <script>
-    // ── Help article filters ──
+    // ── Help article filters + pagination ──
     var filterSearch = document.getElementById('filterSearch');
     var pills = document.querySelectorAll('.filter-pill');
     var activeCategory = '';
+    var currentPage = 1;
+    var rowsPerPage = 10;
 
     function getRowCategory(row) {
       var badge = row.querySelector('.cat-badge');
@@ -1592,32 +3299,148 @@ document.addEventListener('click', function(e) {
       document.getElementById('countPortal').textContent = counts.portal;
     }
 
-    function applyFilters() {
+    function getFilteredRows() {
       var searchVal = filterSearch.value.toLowerCase().trim();
       var rows = document.querySelectorAll('.articles-table tbody tr');
-      var visible = 0;
+      var filtered = [];
       rows.forEach(function(row) {
         var rowCat = getRowCategory(row);
         var rowText = row.textContent.toLowerCase();
         var show = true;
         if (activeCategory && rowCat !== activeCategory) show = false;
         if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
-        row.style.display = show ? '' : 'none';
-        if (show) visible++;
+        if (show) filtered.push(row);
+      });
+      return filtered;
+    }
+
+    function applyFilters() {
+      var allRows = document.querySelectorAll('.articles-table tbody tr');
+      var filtered = getFilteredRows();
+      var totalFiltered = filtered.length;
+      var totalPages = Math.max(1, Math.ceil(totalFiltered / rowsPerPage));
+
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      var startIdx = (currentPage - 1) * rowsPerPage;
+      var endIdx = startIdx + rowsPerPage;
+
+      // Hide all rows first
+      allRows.forEach(function(row) { row.style.display = 'none'; });
+
+      // Show only rows for current page
+      for (var i = startIdx; i < endIdx && i < filtered.length; i++) {
+        filtered[i].style.display = '';
+      }
+
+      // Show/hide empty state
+      var emptyState = document.getElementById('emptyState');
+      var pagination = document.getElementById('articlesPagination');
+      if (totalFiltered === 0) {
+        emptyState.hidden = false;
+        pagination.style.display = 'none';
+      } else {
+        emptyState.hidden = true;
+        pagination.style.display = '';
+      }
+
+      // Update pagination
+      renderPagination(totalFiltered, totalPages);
+    }
+
+    function renderPagination(total, totalPages) {
+      var startItem = (currentPage - 1) * rowsPerPage + 1;
+      var endItem = Math.min(currentPage * rowsPerPage, total);
+      var infoEl = document.getElementById('paginationInfo');
+      infoEl.textContent = 'Showing ' + startItem + '\u2013' + endItem + ' of ' + total + ' articles';
+
+      // Prev/Next buttons
+      document.getElementById('paginationPrev').disabled = (currentPage <= 1);
+      document.getElementById('paginationNext').disabled = (currentPage >= totalPages);
+
+      // Page buttons
+      var pagesContainer = document.getElementById('paginationPages');
+      pagesContainer.innerHTML = '';
+
+      var pages = [];
+      if (totalPages <= 7) {
+        for (var i = 1; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        if (currentPage > 3) pages.push('...');
+        var start = Math.max(2, currentPage - 1);
+        var end = Math.min(totalPages - 1, currentPage + 1);
+        if (currentPage <= 3) { start = 2; end = 4; }
+        if (currentPage >= totalPages - 2) { start = totalPages - 3; end = totalPages - 1; }
+        for (var j = start; j <= end; j++) pages.push(j);
+        if (currentPage < totalPages - 2) pages.push('...');
+        pages.push(totalPages);
+      }
+
+      pages.forEach(function(p) {
+        if (p === '...') {
+          var ellipsis = document.createElement('span');
+          ellipsis.className = 'pagination-ellipsis';
+          ellipsis.textContent = '...';
+          pagesContainer.appendChild(ellipsis);
+        } else {
+          var btn = document.createElement('button');
+          btn.className = 'pagination-btn' + (p === currentPage ? ' active' : '');
+          btn.textContent = p;
+          btn.setAttribute('aria-label', 'Page ' + p);
+          if (p === currentPage) btn.setAttribute('aria-current', 'page');
+          btn.addEventListener('click', function() {
+            currentPage = p;
+            applyFilters();
+            scrollToTable();
+          });
+          pagesContainer.appendChild(btn);
+        }
       });
     }
+
+    function scrollToTable() {
+      var tableWrap = document.querySelector('.articles-table-wrap');
+      if (tableWrap) {
+        tableWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    document.getElementById('paginationPrev').addEventListener('click', function() {
+      if (currentPage > 1) {
+        currentPage--;
+        applyFilters();
+        scrollToTable();
+      }
+    });
+
+    document.getElementById('paginationNext').addEventListener('click', function() {
+      var totalFiltered = getFilteredRows().length;
+      var totalPages = Math.ceil(totalFiltered / rowsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        applyFilters();
+        scrollToTable();
+      }
+    });
 
     pills.forEach(function(pill) {
       pill.addEventListener('click', function() {
         pills.forEach(function(p) { p.classList.remove('active'); });
         pill.classList.add('active');
         activeCategory = pill.dataset.category;
+        currentPage = 1;
         applyFilters();
       });
     });
 
-    filterSearch.addEventListener('input', applyFilters);
+    filterSearch.addEventListener('input', function() {
+      currentPage = 1;
+      applyFilters();
+    });
+
     countByCategory();
+    applyFilters();
   </script>
 <script>
 (function() {
