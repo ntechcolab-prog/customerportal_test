@@ -402,15 +402,7 @@
       padding: 32px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
-    }
-
-    /* ── SUMMARY CARD (title + actions only) ─── */
-    .summary {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px 24px;
+      gap: 16px;
     }
 
     /* ── PAGE HEADER ─── */
@@ -418,122 +410,143 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .page-header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
     }
     .page-title {
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.4px;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
     }
-    .page-actions { display: flex; align-items: center; gap: 12px; }
-
-    .btn-secondary {
-      height: 40px;
-      padding: 0 16px;
-      background: #fff;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #6b7280;
-      cursor: pointer;
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #86868b;
+    }
+    .btn-add-machine {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      letter-spacing: -0.15px;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .btn-secondary:hover { border-color: #007167; color: #007167; }
-    .btn-secondary.active {
-      border-color: #0b9c92;
-      color: #007167;
-      background: #f0faf9;
-    }
-    .btn-secondary svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-    /* ── FILTER ROW ─── */
-    .filter-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr auto;
-      gap: 12px;
-      margin-top: 16px;
-      align-items: center;
-    }
-    .filter-row[hidden] { display: none; }
-
-    .btn-clear {
-      height: 38px;
-      padding: 0 14px;
-      background: transparent;
-      border: 1px solid transparent;
+      height: 34px;
+      padding: 0 18px;
+      border: none;
       border-radius: 999px;
+      background: #007167;
       font-family: 'Inter', sans-serif;
       font-size: 13px;
       font-weight: 500;
-      color: #6b7280;
+      color: #fff;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      letter-spacing: -0.05px;
-      transition: color 0.15s, background 0.15s, opacity 0.15s;
+      text-decoration: none;
       white-space: nowrap;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
     }
-    .btn-clear svg { width: 14px; height: 14px; flex-shrink: 0; }
-    .btn-clear:hover { color: #c73e20; background: #fdf2f0; }
-    .btn-clear:disabled,
-    .btn-clear[hidden] { display: none; }
+    .btn-add-machine:hover { background: #005f57; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0, 113, 103, 0.2); }
+    .btn-add-machine:active { transform: scale(0.97); }
+    .btn-add-machine svg { width: 14px; height: 14px; }
 
-    .filter-input {
-      position: relative;
+    /* ── FILTER BAR (integrated toolbar above table) ─── */
+    .filter-bar {
       display: flex;
       align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
     }
-    .filter-input svg {
+    .filter-bar.connect-table {
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+    }
+    .filter-search {
+      position: relative;
+      width: 220px;
+      flex-shrink: 0;
+    }
+    .filter-search input {
+      width: 100%;
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 0 12px 0 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #1d1d1f;
+      background: #fafbfc;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .filter-search input::placeholder { color: #86868b; }
+    .filter-search input:focus {
+      outline: none;
+      border-color: #007167;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
+    }
+    .filter-search svg {
       position: absolute;
-      left: 14px;
+      left: 10px;
       top: 50%;
       transform: translateY(-50%);
-      width: 14px;
-      height: 14px;
-      color: #9ca3af;
+      width: 13px;
+      height: 13px;
+      color: #86868b;
       pointer-events: none;
     }
-    .filter-input input,
-    .filter-input select {
-      width: 100%;
-      height: 38px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 0 14px 0 36px;
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 30px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
+      font-weight: 500;
       color: #6b7280;
-      background: #fff;
-      outline: none;
-      transition: border-color 0.15s;
-      letter-spacing: -0.05px;
-      appearance: none;
-      -webkit-appearance: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
     }
-    .filter-input input::placeholder,
-    .filter-input select:invalid { color: #9ca3af; }
-    .filter-input input:focus,
-    .filter-input select:focus { border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
-
-    .filter-input.is-select::after {
-      content: '';
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      width: 8px;
-      height: 8px;
-      border-right: 1.5px solid #9ca3af;
-      border-bottom: 1.5px solid #9ca3af;
-      transform: translateY(-75%) rotate(45deg);
-      pointer-events: none;
+    .filter-pill:hover {
+      color: #007167;
+      background: rgba(0, 113, 103, 0.05);
+    }
+    .filter-pill.active {
+      background: rgba(0, 113, 103, 0.1);
+      color: #007167;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
+    }
+    .filter-pill .pill-count {
+      font-weight: 600;
+      opacity: 0.5;
+      font-size: 11px;
+    }
+    .filter-pill.active .pill-count {
+      opacity: 0.7;
     }
 
     .machine-card.is-hidden { display: none; }
@@ -745,84 +758,103 @@
       margin: 0;
     }
 
-    .btn-primary {
-      height: 40px;
-      padding: 0 18px;
-      background: #007167;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #fff;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      letter-spacing: -0.15px;
-      transition: opacity 0.15s;
-    }
-    .btn-primary:hover { opacity: 0.9; }
-    .btn-primary svg { width: 16px; height: 16px; flex-shrink: 0; }
-
     /* ── STAT CARDS ─── */
-    .stats {
+    .stat-cards {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      gap: 10px;
+      margin-bottom: 8px;
     }
     .stat-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 18px 20px;
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      padding: 16px 18px;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.4s ease, transform 0.25s ease;
+      cursor: default;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 11px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
+    }
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
+      transform: translateY(-2px);
     }
     .stat-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: #e5f1f0;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0faf9;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
     }
-    .stat-icon svg { width: 22px; height: 22px; color: #0b9c92; }
-    .stat-body { display: flex; flex-direction: column; gap: 2px; }
+    .stat-card:hover .stat-icon {
+      background: #e0f2f0;
+      transform: scale(1.08);
+    }
+    .stat-icon svg { width: 18px; height: 18px; color: #007167; }
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
     .stat-number {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
-      color: #1f2937;
-      line-height: 1;
-      letter-spacing: -0.4px;
+      color: #1d1d1f;
+      line-height: 1.2;
+      letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
     }
     .stat-label {
       font-size: 12px;
+      color: #86868b;
       font-weight: 500;
+      transition: color 0.2s;
+    }
+    .stat-card:hover .stat-label {
       color: #6b7280;
-      letter-spacing: -0.05px;
     }
 
-    /* ── TOOLBAR (view toggle) ─── */
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
+    /* ── VIEW TOGGLE (inside filter-bar) ─── */
     .view-toggle {
       display: inline-flex;
       align-items: center;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
+      background: #fafbfc;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 6px;
       overflow: hidden;
+      flex-shrink: 0;
+      margin-left: auto;
     }
     .view-toggle button {
-      width: 36px;
-      height: 32px;
+      width: 32px;
+      height: 28px;
       background: none;
       border: none;
       display: flex;
@@ -830,12 +862,20 @@
       justify-content: center;
       cursor: pointer;
       color: #9ca3af;
+      transition: all 0.15s ease;
     }
+    .view-toggle button:hover { color: #007167; }
     .view-toggle button.active {
-      background: #e5f1f0;
+      background: rgba(0, 113, 103, 0.1);
       color: #007167;
     }
-    .view-toggle button svg { width: 16px; height: 16px; }
+    .view-toggle button svg { width: 14px; height: 14px; }
+
+    /* ── TABLE WRAP (connected to filter-bar when in list mode) ─── */
+    .machine-table-wrap.connect-filter {
+      border-radius: 0 0 10px 10px;
+      border-top: none;
+    }
 
     /* ── MACHINE GRID ─── */
     .machine-grid {
@@ -989,11 +1029,11 @@
     }
     @media (max-width: 960px) {
       .machine-grid { grid-template-columns: repeat(2, 1fr); }
-      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat-cards { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 600px) {
       .machine-grid { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: 1fr; }
+      .stat-cards { grid-template-columns: 1fr; }
     }
 
     /* ── CART DROPDOWN ─── */
@@ -1502,21 +1542,28 @@
       .topbar { padding: 0 16px; }
       .app-header { padding: 0 16px; height: 56px; }
       .breadcrumb { padding: 0 16px; }
-      .toolbar { flex-wrap: wrap; gap: 8px; }
+      .page { padding: 16px; }
+      .stat-cards { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar { flex-wrap: wrap; padding: 10px 14px; }
+      .filter-search { width: 100%; }
+      .filter-divider { display: none; }
+      .filter-pills { gap: 4px; width: 100%; }
+      .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .page-title { font-size: 20px; }
       .machine-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .machine-table { min-width: 600px; }
-    
-      .title-bar h1, .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {
       .topbar { padding: 0 12px; }
       .app-header { padding: 0 12px; }
       .breadcrumb { padding: 0 12px; white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .page { padding: 12px; }
+      .stat-cards { grid-template-columns: 1fr; }
       .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
       .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
-    
-      .title-bar h1, .page-title { font-size: 18px; }
+
+      .page-title { font-size: 18px; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1803,61 +1850,25 @@
     </div>
 
     <div class="page-content">
-    <!-- Summary card: title + actions -->
-    <div class="summary">
-      <div class="page-header">
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="page-header-left">
         <h1 class="page-title" data-i18n="machines.title">Machines</h1>
-        <div class="page-actions">
-          <button class="btn-secondary" type="button" id="btn-filters" aria-pressed="false" aria-controls="filter-row">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-            <span data-i18n="common.filters">Filters</span>
-          </button>
-          <button class="btn-primary" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            Add New Machine
-          </button>
-        </div>
+        <span class="page-subtitle">5 machines, 3 applications</span>
       </div>
-
-      <!-- Filter row (hidden by default) -->
-      <div class="filter-row" id="filter-row" hidden>
-        <div class="filter-input">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="search" id="filter-search" placeholder="Search machine, reference..." data-i18n-placeholder="machines.searchPlaceholder">
-        </div>
-        <div class="filter-input is-select">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h13"/><path d="M3 12h9"/><path d="M3 18h5"/><path d="M17 9l4-4 4 4" transform="translate(-7 0)"/></svg>
-          <select id="filter-sort" required>
-            <option value="" disabled selected data-i18n="filter.sortBy">Sort by</option>
-            <option value="name" data-i18n="filter.nameAZalt">Name (A–Z)</option>
-            <option value="hours-desc" data-i18n="filter.hoursHighLow">Hours (high → low)</option>
-            <option value="hours-asc" data-i18n="filter.hoursLowHigh">Hours (low → high)</option>
-            <option value="install" data-i18n="filter.installDate">Install date</option>
-          </select>
-        </div>
-        <div class="filter-input is-select">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-          <select id="filter-app" required>
-            <option value="" disabled selected data-i18n="filter.application">Application</option>
-            <option value="Wet Grinding" data-i18n="filter.wetGrinding">Wet Grinding</option>
-            <option value="Dispersing" data-i18n="filter.dispersing">Dispersing</option>
-            <option value="Mixer" data-i18n="filter.mixer">Mixer</option>
-          </select>
-        </div>
-        <button type="button" class="btn-clear" id="btn-clear" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          <span data-i18n="filter.clearFilters">Clear filters</span>
-        </button>
-      </div>
+      <button class="btn-add-machine" type="button">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Add New Machine
+      </button>
     </div>
 
-    <!-- Stats -->
-    <div class="stats">
+    <!-- STAT CARDS -->
+    <div class="stat-cards" data-skeleton-stagger>
       <div class="stat-card">
         <div class="stat-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path><circle cx="12" cy="12" r="3"></circle></svg>
         </div>
-        <div class="stat-body">
+        <div class="stat-info">
           <div class="stat-number">5</div>
           <div class="stat-label" data-i18n="machines.totalMachines">Total Machines</div>
         </div>
@@ -1866,7 +1877,7 @@
         <div class="stat-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
         </div>
-        <div class="stat-body">
+        <div class="stat-info">
           <div class="stat-number">3</div>
           <div class="stat-label" data-i18n="machines.operational">Applications</div>
         </div>
@@ -1875,7 +1886,7 @@
         <div class="stat-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 1 10-10"></path><path d="M12 12L18 8"></path></svg>
         </div>
-        <div class="stat-body">
+        <div class="stat-info">
           <div class="stat-number">4</div>
           <div class="stat-label" data-i18n="machines.maintenance">Product Groups</div>
         </div>
@@ -1884,15 +1895,27 @@
         <div class="stat-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         </div>
-        <div class="stat-body">
+        <div class="stat-info">
           <div class="stat-number">8.609 h</div>
           <div class="stat-label" data-i18n="machines.offline">Avg. Operating Hours</div>
         </div>
       </div>
     </div>
 
-    <!-- Toolbar (view toggle) -->
-    <div class="toolbar">
+    <!-- FILTER BAR -->
+    <div class="filter-bar" id="filter-bar" data-skeleton-stagger>
+      <div class="filter-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="filter-search" placeholder="Search machine, reference..." data-i18n-placeholder="machines.searchPlaceholder">
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-pills" id="filterPills">
+        <button class="filter-pill active" data-family="">All <span class="pill-count" id="countAll"></span></button>
+        <button class="filter-pill" data-family="Wet Grinding">Wet Grinding <span class="pill-count" id="countWetGrinding"></span></button>
+        <button class="filter-pill" data-family="Dispersing">Dispersing <span class="pill-count" id="countDispersing"></span></button>
+        <button class="filter-pill" data-family="Mixer">Mixer <span class="pill-count" id="countMixer"></span></button>
+      </div>
+      <div class="filter-divider"></div>
       <div class="view-toggle" id="view-toggle">
         <button type="button" data-view="list" aria-label="List view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
@@ -2228,21 +2251,41 @@ document.addEventListener('click', function(e) {
 });
 </script>
   <script>
-    // ── Toggle filter row ──────────────────────────────────
-    const btnFilters = document.getElementById('btn-filters');
-    const filterRow = document.getElementById('filter-row');
-    btnFilters.addEventListener('click', () => {
-      const open = filterRow.hidden;
-      filterRow.hidden = !open;
-      btnFilters.classList.toggle('active', open);
-      btnFilters.setAttribute('aria-pressed', String(open));
-    });
-
-    // ── View toggle (grid <-> list) ────────────────────────
+    // ── References ──────────────────────────────────
     const grid = document.querySelector('.machine-grid');
     const tableWrap = document.getElementById('machine-table-wrap');
+    const filterBar = document.getElementById('filter-bar');
     const viewToggle = document.getElementById('view-toggle');
+    const tbody = document.getElementById('machine-tbody');
+    const cards = Array.from(document.querySelectorAll('.machine-grid .machine-card'));
+    const rows = Array.from(document.querySelectorAll('#machine-tbody .machine-row'));
+    const items = [...cards, ...rows];
+    const search = document.getElementById('filter-search');
+    const emptyState = document.getElementById('empty-state');
+    const emptyStateTable = document.getElementById('empty-state-table');
+    const pills = document.querySelectorAll('.filter-pill');
+    let currentFamily = '';
 
+    // ── Count machines per family ──────────────────
+    function countByFamily(family) {
+      return cards.filter(c => !family || c.dataset.app === family).length;
+    }
+    document.getElementById('countAll').textContent = countByFamily('');
+    document.getElementById('countWetGrinding').textContent = countByFamily('Wet Grinding');
+    document.getElementById('countDispersing').textContent = countByFamily('Dispersing');
+    document.getElementById('countMixer').textContent = countByFamily('Mixer');
+
+    // ── Pill click handler ─────────────────────────
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        currentFamily = pill.dataset.family;
+        applyFilters();
+      });
+    });
+
+    // ── View toggle (grid <-> list) ────────────────
     viewToggle.querySelectorAll('button').forEach(btn => {
       btn.addEventListener('click', () => {
         viewToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
@@ -2251,33 +2294,20 @@ document.addEventListener('click', function(e) {
         if (view === 'list') {
           grid.hidden = true;
           tableWrap.hidden = false;
+          filterBar.classList.add('connect-table');
+          tableWrap.classList.add('connect-filter');
         } else {
           grid.hidden = false;
           tableWrap.hidden = true;
+          filterBar.classList.remove('connect-table');
+          tableWrap.classList.remove('connect-filter');
         }
       });
     });
 
-    // ── Filter + sort logic ────────────────────────────────
-    const tbody = document.getElementById('machine-tbody');
-    const cards = Array.from(document.querySelectorAll('.machine-grid .machine-card'));
-    const rows = Array.from(document.querySelectorAll('#machine-tbody .machine-row'));
-    const items = [...cards, ...rows]; // todos os "data-machine" pra filtragem
-    const search = document.getElementById('filter-search');
-    const sortBy = document.getElementById('filter-sort');
-    const appFilter = document.getElementById('filter-app');
-    const btnClear = document.getElementById('btn-clear');
-    const emptyState = document.getElementById('empty-state');
-    const emptyStateTable = document.getElementById('empty-state-table');
-
-    function refreshClearVisibility() {
-      const hasAny = search.value.trim() || sortBy.value || appFilter.value;
-      btnClear.hidden = !hasAny;
-    }
-
+    // ── Filter logic (search + pills) ──────────────
     function applyFilters() {
       const q = (search.value || '').trim().toLowerCase();
-      const app = appFilter.value;
 
       let visibleCards = 0, visibleRows = 0;
       items.forEach(el => {
@@ -2287,9 +2317,9 @@ document.addEventListener('click', function(e) {
         const elApp = el.dataset.app || '';
 
         const matchesQ = !q || name.includes(q) || commission.includes(q) || line.includes(q);
-        const matchesApp = !app || elApp === app;
+        const matchesFamily = !currentFamily || elApp === currentFamily;
 
-        const show = matchesQ && matchesApp;
+        const show = matchesQ && matchesFamily;
         el.classList.toggle('is-hidden', !show);
         if (show) {
           if (el.classList.contains('machine-card')) visibleCards++;
@@ -2299,40 +2329,9 @@ document.addEventListener('click', function(e) {
 
       emptyState.hidden = visibleCards > 0;
       emptyStateTable.hidden = visibleRows > 0;
-
-      // Sort: aplica em ambas as views
-      if (sortBy.value) {
-        const cmp = (a, b) => {
-          switch (sortBy.value) {
-            case 'name': return a.dataset.name.localeCompare(b.dataset.name);
-            case 'hours-desc': return Number(b.dataset.hours) - Number(a.dataset.hours);
-            case 'hours-asc': return Number(a.dataset.hours) - Number(b.dataset.hours);
-            case 'install': return b.dataset.install.localeCompare(a.dataset.install);
-            default: return 0;
-          }
-        };
-        [...cards].sort(cmp).forEach(c => grid.appendChild(c));
-        grid.appendChild(emptyState);
-        [...rows].sort(cmp).forEach(r => tbody.appendChild(r));
-      }
     }
 
-    search.addEventListener('input', () => { applyFilters(); refreshClearVisibility(); });
-    sortBy.addEventListener('change', () => { applyFilters(); refreshClearVisibility(); });
-    appFilter.addEventListener('change', () => { applyFilters(); refreshClearVisibility(); });
-
-    btnClear.addEventListener('click', () => {
-      search.value = '';
-      sortBy.value = '';
-      appFilter.value = '';
-      // Restore original order in both views
-      cards.forEach(c => grid.appendChild(c));
-      grid.appendChild(emptyState);
-      rows.forEach(r => tbody.appendChild(r));
-      applyFilters();
-      refreshClearVisibility();
-      search.focus();
-    });
+    search.addEventListener('input', applyFilters);
   </script>
 
 <script>
