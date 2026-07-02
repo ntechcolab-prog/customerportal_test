@@ -403,12 +403,20 @@
       gap: 16px;
     }
 
-    /* ── PAGE HEADER ─── */
+    /* ── WELCOME CARD (header + quick actions) ─── */
+    .welcome-card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      padding: 20px 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+      margin-bottom: 12px;
+    }
     .page-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 4px;
+      margin-bottom: 14px;
     }
     .page-header-left {
       display: flex;
@@ -446,13 +454,14 @@
     .btn-ask-milla:active { transform: scale(0.97); }
     .btn-ask-milla img { width: 16px; height: 16px; object-fit: contain; filter: brightness(10); }
 
-    /* ── QUICK ACTIONS (pills) ─── */
+    /* ── QUICK ACTIONS (inside welcome card) ─── */
     .quick-actions {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 12px;
       flex-wrap: wrap;
+      padding-top: 14px;
+      border-top: 1px solid #f0f0f0;
     }
     .btn-quick-action {
       display: inline-flex;
@@ -1499,20 +1508,19 @@
       <!-- PAGE CONTENT -->
       <div class="page-content">
 
-      <!-- PAGE HEADER -->
-      <div class="page-header" data-skeleton-stagger>
-        <div class="page-header-left">
-          <h1 class="page-title" data-i18n="dash.welcome">Good afternoon, Marcus</h1>
-          <span class="page-subtitle">Wednesday, Jul 2, 2026 — 5 active orders</span>
+      <!-- WELCOME CARD -->
+      <div class="welcome-card" data-skeleton-stagger>
+        <div class="page-header">
+          <div class="page-header-left">
+            <h1 class="page-title" data-i18n="dash.welcome">Good afternoon, Marcus</h1>
+            <span class="page-subtitle">Wednesday, Jul 2, 2026 — 5 active orders</span>
+          </div>
+          <button class="btn-ask-milla" data-i18n="dash.askMilla" onclick="openMillaChat()">
+            <img src="../assets/icon-mic.svg" alt="">
+            Ask Milla
+          </button>
         </div>
-        <button class="btn-ask-milla" data-i18n="dash.askMilla" onclick="openMillaChat()">
-          <img src="../assets/icon-mic.svg" alt="">
-          Ask Milla
-        </button>
-      </div>
-
-      <!-- QUICK ACTIONS -->
-      <div class="quick-actions" data-skeleton-stagger>
+        <div class="quick-actions">
         <button class="btn-quick-action" onclick="window.location.href='shop.html'">
           <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.25" stroke="currentColor" stroke-width="1.5"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           Search Beads
@@ -1529,6 +1537,7 @@
           <svg viewBox="0 0 16 16" fill="none"><path d="M14 10.67A1.33 1.33 0 0112.67 12H4.67L2 14V3.33A1.33 1.33 0 013.33 2h9.34A1.33 1.33 0 0114 3.33v7.34z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Contact Support
         </button>
+        </div>
       </div>
 
       <!-- STAT CARDS -->
