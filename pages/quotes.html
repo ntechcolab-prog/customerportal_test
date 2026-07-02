@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/tables.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -578,53 +579,6 @@
     }
     .view-toggle-btn svg { width: 16px; height: 16px; }
 
-    /* ── QUOTES TABLE ─── */
-    .quotes-table-wrap {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-    }
-    .quotes-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-    .quotes-table thead tr { background: #007167; }
-    .quotes-table thead th {
-      padding: 14px 20px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
-      text-align: left;
-      white-space: nowrap;
-      cursor: pointer;
-      user-select: none;
-    }
-    .quotes-table thead th .sort-icon {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      margin-left: 4px;
-      vertical-align: middle;
-      opacity: 0.6;
-    }
-    .quotes-table thead th:hover .sort-icon { opacity: 1; }
-    .quotes-table thead th:last-child { cursor: default; }
-    .quotes-table tbody tr {
-      border-bottom: 1px solid #f3f4f6;
-      transition: background 0.1s;
-    }
-    .quotes-table tbody tr:last-child { border-bottom: none; }
-    .quotes-table tbody tr:hover { background: #f5f5f7; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
-    .quotes-table tbody td {
-      padding: 12px 20px;
-      font-size: 14px;
-      color: #374151;
-      white-space: nowrap;
-      vertical-align: middle;
-    }
-
     /* Quote link */
     .quote-link {
       color: #007167;
@@ -632,22 +586,6 @@
       font-weight: 600;
     }
     .quote-link:hover { text-decoration: underline; }
-
-    /* Status badges */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .status-pending { background: rgba(245, 158, 11, 0.12); color: #b45309; }
-    .status-placed { background: rgba(0, 113, 103, 0.08); color: #007167; }
-    .status-expired { background: rgba(199, 62, 32, 0.1); color: #c73e20; }
-    .status-progress { background: #e8f5f3; color: #007167; }
 
     /* Top Item cell */
     .top-item-name {
@@ -660,33 +598,6 @@
       font-size: 12px;
       color: #6b7280;
       line-height: 1.3;
-    }
-
-    /* Actions */
-    .actions-cell {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      justify-content: flex-end;
-    }
-    .action-btn {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-radius: 8px;
-      color: #007167;
-      transition: background 0.15s, color 0.15s;
-    }
-    .action-btn:hover { background: #f0faf9; color: #005f57; }
-    .action-btn svg {
-      width: 18px;
-      height: 18px;
     }
 
 
@@ -739,52 +650,6 @@
       color: #9ca3af;
       margin: 0;
     }
-
-    /* ── PAGINATION ─── */
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      border-top: 1px solid #f3f4f6;
-    }
-    .pagination-info {
-      font-size: 12px;
-      color: #9ca3af;
-    }
-    .pagination-controls {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .page-btn {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: 10px;
-      background: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      color: #6b7280;
-      cursor: pointer;
-    }
-    .page-btn:hover { background: #f3f4f6; }
-    .page-btn.active {
-      background: #007167;
-      color: #fff;
-      font-weight: 600;
-    }
-    .page-btn.active:hover { background: #005f57; }
-    .page-btn.disabled {
-      opacity: 0.3;
-      cursor: default;
-      pointer-events: none;
-    }
-    .page-btn svg { width: 16px; height: 16px; }
 
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -1297,9 +1162,6 @@
       .filter-bar { flex-wrap: wrap; }
       .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
       .toolbar { flex-wrap: wrap; gap: 8px; }
-      .quotes-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .quotes-table { min-width: 700px; }
-    
       .title-bar h1, .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {
@@ -1701,13 +1563,13 @@
       <table class="quotes-table">
         <thead>
           <tr>
-            <th><span data-i18n="quotes.quoteNum">Quote</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th style="width:10%;"><span data-i18n="quotes.date">Date</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th style="width:14%;"><span data-i18n="quotes.status">Status</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="quotes.total">Description</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="quotes.validUntil">Items</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th style="width:22%;">Top Item</th>
-            <th style="text-align:right;"></th>
+            <th><span data-i18n="quotes.quoteNum">Quote</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="quotes.date">Date</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="quotes.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="quotes.total">Description</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="quotes.validUntil">Items</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th>Top Item</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/tables.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1510,81 +1511,6 @@
       opacity: 0.35;
       cursor: not-allowed;
       pointer-events: none;
-    }
-
-    /* Results table — usa o mesmo padrão da machine table */
-    .results-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-      font-family: 'Inter', sans-serif;
-    }
-    .results-table thead {
-      background: #007167;
-    }
-    .results-table thead th {
-      padding: 12px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #fff;
-      text-align: left;
-      letter-spacing: -0.05px;
-      white-space: nowrap;
-    }
-    .results-table th.col-check { width: 40px; padding: 0 0 0 16px; }
-    .results-table th.col-itm { width: 60px; }
-    .results-table th.col-mat { width: 130px; }
-    .results-table th.col-price { width: 140px; white-space: nowrap; }
-    .results-table th.col-cart { width: 160px; text-align: right; padding-right: 16px; }
-
-    .results-table tbody tr {
-      border-top: 1px solid #f3f4f6;
-      transition: background 0.15s;
-    }
-    .results-table tbody tr:nth-child(even) { background: #f8fafa; }
-    .results-table tbody tr:hover { background: #f0faf9; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
-
-    .results-table tbody td {
-      padding: 14px 16px;
-      font-size: 13px;
-      color: #374151;
-      vertical-align: middle;
-      font-variant-numeric: tabular-nums;
-    }
-    .results-table td.col-check { padding: 0 0 0 16px; }
-    .results-table td.col-mat { color: #4b5563; font-weight: 500; }
-    .results-table td:nth-child(5) { white-space: nowrap; }
-    .results-table td.col-cart {
-      text-align: right;
-      padding-right: 16px;
-    }
-
-    .row-checkbox {
-      width: 16px;
-      height: 16px;
-      border: 1.5px solid #d1d5db;
-      border-radius: 4px;
-      background: #fff;
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      position: relative;
-    }
-    .row-checkbox:checked {
-      background: #007167;
-      border-color: #007167;
-      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
-    }
-    .row-checkbox:checked::after {
-      content: '';
-      position: absolute;
-      left: 4px;
-      top: 1px;
-      width: 4px;
-      height: 8px;
-      border: solid #fff;
-      border-width: 0 1.5px 1.5px 0;
-      transform: rotate(45deg);
     }
 
     .add-to-cart {

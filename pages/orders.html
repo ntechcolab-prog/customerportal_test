@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/tables.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -572,156 +573,6 @@
     }
     .view-toggle-btn svg { width: 16px; height: 16px; }
 
-    /* ── ORDERS TABLE ─── */
-    .orders-table-wrap {
-      background: #fff;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
-      transition: box-shadow 0.3s ease;
-    }
-    .orders-table-wrap:hover {
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
-    }
-    .orders-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-    .orders-table thead tr {
-      background: #fafbfc;
-      border-bottom: 1px solid #e8e8ed;
-    }
-    .orders-table thead th {
-      padding: 14px 20px;
-      font-size: 11px;
-      font-weight: 600;
-      color: #6b7280;
-      text-align: left;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      white-space: nowrap;
-      cursor: pointer;
-      user-select: none;
-      transition: color 0.2s, background 0.2s;
-    }
-    .orders-table thead th:hover { color: #007167; background: #f0faf9; }
-    .orders-table thead th .sort-icon {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      margin-left: 2px;
-      vertical-align: middle;
-      color: #007167;
-      opacity: 0;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-    .orders-table thead th:hover .sort-icon { opacity: 0.7; }
-    .orders-table thead th.sorted .sort-icon { opacity: 1; transform: rotate(180deg); }
-    .orders-table thead th:last-child { cursor: default; }
-    .orders-table thead th:last-child:hover { color: #6b7280; background: transparent; }
-    .orders-table tbody tr {
-      border-bottom: 1px solid #f0f0f0;
-      transition: background 0.2s ease, transform 0.15s ease;
-    }
-    .orders-table tbody tr:last-child { border-bottom: none; }
-    .orders-table tbody tr:hover {
-      background: #f5f5f7;
-    }
-    .orders-table tbody td {
-      padding: 14px 20px;
-      font-size: 13px;
-      color: #1d1d1f;
-      white-space: nowrap;
-      vertical-align: middle;
-      transition: color 0.15s;
-    }
-    /* Column widths */
-    .orders-table .col-order { width: 12%; }
-    .orders-table .col-status { width: 13%; }
-    .orders-table .col-total { width: 11%; }
-    .orders-table .col-actions { width: 110px; text-align: right; cursor: default; }
-    .orders-table .col-actions:hover { color: #6b7280; background: transparent; }
-
-    /* Order link */
-    .order-link {
-      color: #007167;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 13px;
-      transition: color 0.15s;
-      border-bottom: 1px solid transparent;
-    }
-    .order-link:hover { color: #005f57; border-bottom-color: #005f57; }
-
-    /* Status badges */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 500;
-      white-space: nowrap;
-      letter-spacing: -0.01em;
-      transition: transform 0.15s, box-shadow 0.2s;
-    }
-    .status-badge:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-    }
-    .status-badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      animation: pulse-dot 2.5s ease-in-out infinite;
-    }
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(0.85); }
-    }
-    .status-placed { background: rgba(0, 113, 103, 0.06); color: #007167; }
-    .status-placed::before { background: #007167; }
-    .status-process { background: rgba(245, 158, 11, 0.08); color: #b45309; }
-    .status-process::before { background: #f59e0b; }
-    .status-shipped { background: rgba(59, 130, 246, 0.07); color: #1d4ed8; }
-    .status-shipped::before { background: #3b82f6; }
-    .status-delivered { background: rgba(0, 113, 103, 0.06); color: #007167; }
-    .status-delivered::before { background: #007167; animation: none; }
-
-    /* Actions */
-    .actions-cell {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      justify-content: flex-end;
-    }
-    .action-btn {
-      width: 36px;
-      height: 36px;
-      min-width: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-radius: 8px;
-      color: #007167;
-      transition: background 0.2s, color 0.2s, transform 0.15s;
-    }
-    .action-btn:hover { background: rgba(0, 113, 103, 0.08); color: #005f57; transform: scale(1.1); }
-    .action-btn:active { transform: scale(0.95); }
-    .action-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-
-
     .btn-clear {
       height: 38px;
       padding: 0 14px;
@@ -770,57 +621,6 @@
       font-size: 13px;
       color: #9ca3af;
       margin: 0;
-    }
-
-    /* ── PAGINATION ─── */
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 20px;
-      border-top: 1px solid #f0f0f0;
-    }
-    .pagination-info {
-      font-size: 12px;
-      color: #86868b;
-    }
-    .pagination-controls {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-    .page-btn {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: 8px;
-      background: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      color: #86868b;
-      cursor: pointer;
-      letter-spacing: -0.08px;
-      transition: background 0.15s, color 0.15s;
-    }
-    .page-btn:hover { background: rgba(0, 113, 103, 0.06); color: #007167; }
-    .page-btn.active {
-      background: #007167;
-      color: #fff;
-      font-weight: 600;
-    }
-    .page-btn.active:hover { background: #005f57; }
-    .page-btn.disabled {
-      opacity: 0.3;
-      cursor: default;
-      pointer-events: none;
-    }
-    .page-btn svg {
-      width: 16px;
-      height: 16px;
     }
 
     /* ── TRACKING DRAWER ─── */
@@ -1502,12 +1302,7 @@
       .filter-bar { flex-wrap: wrap; }
       .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
       .toolbar { flex-wrap: wrap; gap: 8px; }
-      .orders-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .orders-table { min-width: 680px; }
-      .orders-table thead th { padding: 10px 14px; font-size: 10px; }
-      .orders-table tbody td { padding: 12px 14px; font-size: 12px; }
-      .pagination { padding: 10px 14px; }
-    
+
       .title-bar h1, .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {

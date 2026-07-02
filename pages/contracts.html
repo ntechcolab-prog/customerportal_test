@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/tables.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -507,76 +508,6 @@
     }
     .btn-clear-filters:hover { background: #f9fafb; color: #374151; }
 
-    /* ── CONTRACTS TABLE ─── */
-    .orders-table-wrap {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-    }
-    .orders-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-    .orders-table thead tr { background: #007167; }
-    .orders-table thead th {
-      padding: 14px 20px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
-      text-align: left;
-      white-space: nowrap;
-      cursor: pointer;
-      user-select: none;
-    }
-    .orders-table thead th .sort-icon {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      margin-left: 4px;
-      vertical-align: middle;
-      opacity: 0.6;
-    }
-    .orders-table thead th:hover .sort-icon { opacity: 1; }
-    .orders-table thead th:last-child { cursor: default; }
-    .orders-table tbody tr {
-      border-bottom: 1px solid #f3f4f6;
-      transition: background 0.1s;
-    }
-    .orders-table tbody tr:last-child { border-bottom: none; }
-    .orders-table tbody tr:hover { background: #f5f5f7; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
-    .orders-table tbody td {
-      padding: 12px 20px;
-      font-size: 14px;
-      color: #374151;
-      white-space: nowrap;
-      vertical-align: middle;
-    }
-
-    /* Order link */
-    .order-link {
-      color: #007167;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .order-link:hover { text-decoration: underline; }
-
-    /* Status badges */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .status-active { background: rgba(0, 113, 103, 0.1); color: #007167; }
-    .status-expiring { background: #fef3e2; color: #d97706; }
-    .status-expired { background: rgba(199, 62, 32, 0.1); color: #c73e20; }
-
     /* ── STAT CARDS ─── */
     .stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .stat-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; display: flex; align-items: center; gap: 16px; }
@@ -589,39 +520,6 @@
     .stat-label { font-size: 13px; color: #6b7280; font-weight: 500; }
 
     /* ── CONTRACT TABS ─── */
-
-    /* Actions */
-    .actions-cell {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .action-btn {
-      width: 28px;
-      height: 28px;
-      min-width: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-radius: 8px;
-      color: #007167;
-      transition: background 0.15s, color 0.15s;
-    }
-    .action-btn:hover { background: #f0faf9; color: #005f57; }
-    .action-btn img {
-      width: 16px;
-      height: 16px;
-      object-fit: contain;
-    }
-    .action-btn svg {
-      width: 16px;
-      height: 16px;
-      color: #6b7280;
-    }
-    .action-btn:hover svg { color: #007167; }
 
     /* ── EMPTY STATE ─── */
     .empty-state {
@@ -650,56 +548,6 @@
       font-size: 13px;
       color: #9ca3af;
       margin: 0;
-    }
-
-    /* ── PAGINATION ─── */
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      border-top: 1px solid #f3f4f6;
-    }
-    .pagination-info {
-      font-size: 12px;
-      color: #9ca3af;
-    }
-    .pagination-controls {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .page-btn {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: 10px;
-      background: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      color: #6b7280;
-      cursor: pointer;
-      letter-spacing: -0.08px;
-    }
-    .page-btn:hover { background: #f3f4f6; }
-    .page-btn.active {
-      background: #007167;
-      color: #fff;
-      font-weight: 600;
-    }
-    .page-btn.active:hover { background: #005f57; }
-    .page-btn.disabled {
-      opacity: 0.3;
-      cursor: default;
-      pointer-events: none;
-    }
-    .page-btn svg {
-      width: 16px;
-      height: 16px;
     }
 
     /* ── CONTRACT DETAILS DRAWER ─── */
@@ -1376,9 +1224,7 @@
       .stat-cards { grid-template-columns: repeat(2, 1fr); }
       .filter-bar { flex-wrap: wrap; }
       .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
-      .orders-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .orders-table { min-width: 700px; }
-    
+
       .title-bar h1, .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {
@@ -1776,11 +1622,11 @@
       <table class="orders-table" id="contractsTable" aria-label="Contracts">
         <thead>
           <tr>
-            <th><span data-i18n="contracts.contractNum">Contract ID</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th style="width:14%;"><span data-i18n="contracts.type">Type</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="contracts.startDate">Equipment / Scope</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th><span data-i18n="contracts.endDate">Validity</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th style="width:12%;"><span data-i18n="contracts.status">Status</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M3 7l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="contracts.contractNum">Contract ID</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="contracts.type">Type</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="contracts.startDate">Equipment / Scope</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="contracts.endDate">Validity</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th><span data-i18n="contracts.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
             <th>Actions</th>
           </tr>
         </thead>

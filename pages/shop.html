@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/tables.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -656,85 +657,6 @@
       margin: 0;
     }
 
-    /* ── PRODUCT TABLE (Table View) ─── */
-    .product-table-wrap {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-    }
-    .product-table-wrap.hidden { display: none; }
-    .product-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-    .product-table thead tr { background: #007167; }
-    .product-table thead th {
-      padding: 14px 20px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
-      text-align: left;
-      white-space: nowrap;
-    }
-    .product-table tbody tr {
-      border-bottom: 1px solid #f3f4f6;
-      transition: background 0.1s;
-    }
-    .product-table tbody tr:last-child { border-bottom: none; }
-    .product-table tbody tr:hover { background: #f5f5f7; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
-    .product-table tbody td {
-      padding: 12px 20px;
-      font-size: 14px;
-      color: #374151;
-      white-space: nowrap;
-      vertical-align: middle;
-    }
-    .table-product-cell {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .table-product-thumb {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: #fafbfc;
-      object-fit: contain;
-      flex-shrink: 0;
-    }
-    .table-product-name {
-      font-weight: 500;
-      color: #1f2937;
-    }
-    .table-category {
-      color: #6b7280;
-      font-size: 13px;
-    }
-    .table-price {
-      font-weight: 700;
-      color: #1f2937;
-    }
-    .table-action-cell {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .product-table tbody td:last-child,
-    .product-table thead th:last-child {
-      text-align: right;
-      padding-right: 20px;
-    }
-    .table-chevron {
-      width: 18px; height: 18px;
-      color: #007167;
-      transition: transform 0.15s;
-    }
-    .product-table tbody tr:hover .table-chevron {
-      transform: translateX(3px);
-    }
-
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
     .cart-dropdown-anchor { position: relative; display: flex; align-items: center; }
@@ -1245,9 +1167,6 @@
       .filter-bar { flex-wrap: wrap; }
       .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
       .toolbar { flex-wrap: wrap; gap: 8px; }
-      .product-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .product-table { min-width: 700px; }
-    
       .title-bar h1, .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {

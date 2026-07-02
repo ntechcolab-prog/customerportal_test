@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/skeleton.css">
+  <link rel="stylesheet" href="../assets/tables.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -577,77 +578,6 @@
     }
     .view-toggle-btn svg { width: 16px; height: 16px; }
 
-    /* ── TABLE VIEW ─── */
-    .wishlist-table-wrap {
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
-    }
-    .wishlist-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-    .wishlist-table thead tr { background: #007167; }
-    .wishlist-table thead th {
-      padding: 14px 20px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
-      text-align: left;
-      white-space: nowrap;
-      cursor: pointer;
-      user-select: none;
-    }
-    .wishlist-table thead th.no-sort { cursor: default; }
-    .wishlist-table thead th .sort-icon {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      margin-left: 4px;
-      vertical-align: middle;
-      opacity: 0.6;
-    }
-    .wishlist-table thead th:hover .sort-icon { opacity: 1; }
-    .wishlist-table tbody tr {
-      border-bottom: 1px solid #f3f4f6;
-      transition: background 0.1s;
-    }
-    .wishlist-table tbody tr:last-child { border-bottom: none; }
-    .wishlist-table tbody tr:hover { background: #f5f5f7; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
-    .wishlist-table tbody td {
-      padding: 12px 20px;
-      font-size: 14px;
-      color: #374151;
-      white-space: nowrap;
-      vertical-align: middle;
-    }
-
-    /* Product thumb */
-    .product-thumb {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      vertical-align: middle;
-    }
-    .product-thumb-placeholder {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #e8f5f3;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      vertical-align: middle;
-    }
-    .product-thumb-placeholder svg {
-      width: 16px;
-      height: 16px;
-      color: #007167;
-    }
-
     /* Product link */
     .product-link {
       color: #007167;
@@ -655,106 +585,6 @@
       font-weight: 600;
     }
     .product-link:hover { text-decoration: underline; }
-
-    /* Availability badges */
-    .avail-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .avail-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .avail-instock { background: #e8f5f3; color: #007167; }
-    .avail-instock .avail-dot { background: #007167; }
-    .avail-lowstock { background: #fef3cd; color: #856404; }
-    .avail-lowstock .avail-dot { background: #856404; }
-    .avail-quotation { background: #fef3cd; color: #856404; }
-    .avail-quotation .avail-dot { background: #856404; }
-
-    /* Actions */
-    .actions-cell {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .action-btn {
-      width: 28px;
-      height: 28px;
-      min-width: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.15s, color 0.15s;
-      color: #007167;
-    }
-    .action-btn:hover { background: #f0faf9; color: #005f57; }
-    .action-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    /* ── PAGINATION ─── */
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px;
-      border-top: 1px solid #f3f4f6;
-    }
-    .pagination-info {
-      font-size: 12px;
-      color: #9ca3af;
-    }
-    .pagination-controls {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .page-btn {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-radius: 10px;
-      background: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      color: #6b7280;
-      cursor: pointer;
-      letter-spacing: -0.08px;
-    }
-    .page-btn:hover { background: #f3f4f6; }
-    .page-btn.active {
-      background: #007167;
-      color: #fff;
-      font-weight: 600;
-    }
-    .page-btn.active:hover { background: #005f57; }
-    .page-btn.disabled {
-      opacity: 0.3;
-      cursor: default;
-      pointer-events: none;
-    }
-    .page-btn svg {
-      width: 16px;
-      height: 16px;
-    }
 
     /* ── GRID VIEW ─── */
     .grid-view {
@@ -1568,9 +1398,6 @@
       .filter-bar { flex-wrap: wrap; }
       .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
       .toolbar { flex-wrap: wrap; gap: 8px; }
-      .wishlist-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .wishlist-table { min-width: 700px; }
-    
       .title-bar h1, .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {
@@ -2012,12 +1839,12 @@
           <thead>
             <tr>
               <th class="no-sort">Image</th>
-              <th><span data-i18n="wishlist.product">Product</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th><span data-i18n="wishlist.ref">Ref</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th><span data-i18n="common.category">Category</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th><span data-i18n="common.price">Price</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th><span data-i18n="wishlist.addedOn">Added On</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-              <th><span data-i18n="common.availability">Availability</span> <svg class="sort-icon" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2v8M3 7l3 3 3-3" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="wishlist.product">Product</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="wishlist.ref">Ref</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="common.category">Category</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="common.price">Price</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="wishlist.addedOn">Added On</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+              <th><span data-i18n="common.availability">Availability</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
               <th class="no-sort"><span data-i18n="common.actions">Actions</span></th>
             </tr>
           </thead>
