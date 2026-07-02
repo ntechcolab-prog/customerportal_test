@@ -505,6 +505,11 @@
       font-weight: 600;
       box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
     }
+    .filter-pill.active[data-status="pending"] {
+      background: rgba(245, 158, 11, 0.12);
+      color: #b45309;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.2), 0 0 4px rgba(245, 158, 11, 0.12);
+    }
     .filter-pill .pill-count {
       font-weight: 600;
       opacity: 0.5;
@@ -1508,7 +1513,7 @@
     <!-- PAGE HEADER -->
     <div class="page-header">
       <h1 class="page-title" data-i18n="quotes.title">Quotes</h1>
-      <span class="page-subtitle">4 quotes, 1 pending approval</span>
+      <span class="page-subtitle">24 quotes, 3 pending approval</span>
     </div>
 
     <!-- STAT CARDS -->
@@ -1520,7 +1525,7 @@
           </svg>
         </div>
         <div class="stat-info">
-          <span class="stat-number">4</span>
+          <span class="stat-number">24</span>
           <span class="stat-label" data-i18n="quotes.totalQuotes">Total Quotes</span>
         </div>
       </div>
@@ -1531,7 +1536,7 @@
           </svg>
         </div>
         <div class="stat-info">
-          <span class="stat-number">1</span>
+          <span class="stat-number">3</span>
           <span class="stat-label" data-i18n="quotes.pending">Pending Approval</span>
         </div>
       </div>
@@ -1542,7 +1547,7 @@
           </svg>
         </div>
         <div class="stat-info">
-          <span class="stat-number">1</span>
+          <span class="stat-number">8</span>
           <span class="stat-label" data-i18n="quotes.accepted">In Progress</span>
         </div>
       </div>
@@ -1553,7 +1558,7 @@
           </svg>
         </div>
         <div class="stat-info">
-          <span class="stat-number">1</span>
+          <span class="stat-number">5</span>
           <span class="stat-label" data-i18n="quotes.expired">Expired</span>
         </div>
       </div>
@@ -1591,6 +1596,7 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Row 1 -->
           <tr>
             <td><a class="quote-link" href="quote-detail.html">#15098765</a></td>
             <td>Mar 12, 2026</td>
@@ -1608,6 +1614,7 @@
               </div>
             </td>
           </tr>
+          <!-- Row 2 -->
           <tr>
             <td><a class="quote-link" href="quote-detail.html">#15345678</a></td>
             <td>Feb 2, 2026</td>
@@ -1626,6 +1633,7 @@
               </div>
             </td>
           </tr>
+          <!-- Row 3 -->
           <tr>
             <td><a class="quote-link" href="quote-detail.html">#15234567</a></td>
             <td>Jan 28, 2026</td>
@@ -1643,6 +1651,7 @@
               </div>
             </td>
           </tr>
+          <!-- Row 4 -->
           <tr>
             <td><a class="quote-link" href="quote-detail.html">#15123456</a></td>
             <td>Jan 15, 2026</td>
@@ -1651,6 +1660,375 @@
               <div class="item-cell">
                 <div class="item-main">Mechanical seal GRD070 <span class="item-ref">Ref: 140045012</span></div>
                 <span class="item-more">+2 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 5 -->
+          <tr>
+            <td><a class="quote-link" href="quote-detail.html">#15098764</a></td>
+            <td>Jan 10, 2026</td>
+            <td><span class="status-badge status-progress" data-i18n="status.inProgress">In Progress</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Stator NM076 <span class="item-ref">Ref: 210034</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 6 -->
+          <tr>
+            <td><a class="quote-link" href="quote-detail.html">#15098763</a></td>
+            <td>Dec 22, 2025</td>
+            <td><span class="status-badge status-placed" data-i18n="status.quotePlaced">Quote Placed</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Rotor NM090 <span class="item-ref">Ref: 310078</span></div>
+                <span class="item-more">+3 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 7 -->
+          <tr>
+            <td><a class="quote-link" href="quote-detail.html">#15098762</a></td>
+            <td>Dec 15, 2025</td>
+            <td><span class="status-badge status-progress" data-i18n="status.inProgress">In Progress</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Coupling rod assembly <span class="item-ref">Ref: 440091</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 8 -->
+          <tr>
+            <td><a class="quote-link" href="quote-detail.html">#15098761</a></td>
+            <td>Dec 3, 2025</td>
+            <td><span class="status-badge status-expired" data-i18n="status.expired">Expired</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Grinding disc set <span class="item-ref">Ref: 550123</span></div>
+                <span class="item-more">+1 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 9 (page 2) -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098760</a></td>
+            <td>Nov 28, 2025</td>
+            <td><span class="status-badge status-pending" data-i18n="status.pendingApproval">Pending for Approval</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Shaft sleeve NM053 <span class="item-ref">Ref: 660234</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 10 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098759</a></td>
+            <td>Nov 15, 2025</td>
+            <td><span class="status-badge status-progress" data-i18n="status.inProgress">In Progress</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Bearing housing <span class="item-ref">Ref: 770345</span></div>
+                <span class="item-more">+2 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 11 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098758</a></td>
+            <td>Nov 2, 2025</td>
+            <td><span class="status-badge status-placed" data-i18n="status.quotePlaced">Quote Placed</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">NETZSCH ZIRCONBEADS 1.2 <span class="item-ref">Ref: 443390</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 12 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098757</a></td>
+            <td>Oct 20, 2025</td>
+            <td><span class="status-badge status-expired" data-i18n="status.expired">Expired</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Pump casing NM125 <span class="item-ref">Ref: 880456</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 13 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098756</a></td>
+            <td>Oct 8, 2025</td>
+            <td><span class="status-badge status-progress" data-i18n="status.inProgress">In Progress</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Agitator shaft <span class="item-ref">Ref: 990567</span></div>
+                <span class="item-more">+1 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 14 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098755</a></td>
+            <td>Sep 25, 2025</td>
+            <td><span class="status-badge status-placed" data-i18n="status.quotePlaced">Quote Placed</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Separator screen 0.3mm <span class="item-ref">Ref: 110678</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 15 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098754</a></td>
+            <td>Sep 12, 2025</td>
+            <td><span class="status-badge status-progress" data-i18n="status.inProgress">In Progress</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Impeller NM200 <span class="item-ref">Ref: 220789</span></div>
+                <span class="item-more">+4 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 16 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098753</a></td>
+            <td>Aug 30, 2025</td>
+            <td><span class="status-badge status-pending" data-i18n="status.pendingApproval">Pending for Approval</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Gasket set complete <span class="item-ref">Ref: 330890</span></div>
+                <span class="item-more">+2 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 17 (page 3) -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098752</a></td>
+            <td>Aug 18, 2025</td>
+            <td><span class="status-badge status-placed" data-i18n="status.quotePlaced">Quote Placed</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Wear plate Alpha 500 <span class="item-ref">Ref: 441001</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 18 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098751</a></td>
+            <td>Aug 5, 2025</td>
+            <td><span class="status-badge status-progress" data-i18n="status.inProgress">In Progress</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Drive motor 15kW <span class="item-ref">Ref: 552112</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 19 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098750</a></td>
+            <td>Jul 22, 2025</td>
+            <td><span class="status-badge status-expired" data-i18n="status.expired">Expired</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Cooling jacket NM076 <span class="item-ref">Ref: 663223</span></div>
+                <span class="item-more">+1 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 20 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098749</a></td>
+            <td>Jul 10, 2025</td>
+            <td><span class="status-badge status-placed" data-i18n="status.quotePlaced">Quote Placed</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">NETZSCH MICROBEADS 0.2 <span class="item-ref">Ref: 443395</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 21 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098748</a></td>
+            <td>Jun 28, 2025</td>
+            <td><span class="status-badge status-progress" data-i18n="status.inProgress">In Progress</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Seal cartridge GRD090 <span class="item-ref">Ref: 774334</span></div>
+                <span class="item-more">+3 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 22 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098747</a></td>
+            <td>Jun 15, 2025</td>
+            <td><span class="status-badge status-placed" data-i18n="status.quotePlaced">Quote Placed</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Suction flange DN100 <span class="item-ref">Ref: 885445</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 23 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098746</a></td>
+            <td>Jun 2, 2025</td>
+            <td><span class="status-badge status-expired" data-i18n="status.expired">Expired</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Filter element 50 micron <span class="item-ref">Ref: 996556</span></div>
+                <span class="item-more">+2 more</span>
+              </div>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 24 -->
+          <tr style="display:none;">
+            <td><a class="quote-link" href="quote-detail.html">#15098745</a></td>
+            <td>May 20, 2025</td>
+            <td><span class="status-badge status-placed" data-i18n="status.quotePlaced">Quote Placed</span></td>
+            <td>
+              <div class="item-cell">
+                <div class="item-main">Discharge valve DN80 <span class="item-ref">Ref: 117667</span></div>
               </div>
             </td>
             <td>
@@ -1672,14 +2050,16 @@
       </div>
       <!-- PAGINATION -->
       <div class="pagination" id="paginationWrap">
-        <span class="pagination-info" id="paginationInfo">Showing 1–4 of 4 quotes</span>
+        <span class="pagination-info" id="paginationInfo">Showing 1–8 of 24 quotes</span>
         <div class="pagination-controls">
-          <button class="page-btn disabled" aria-label="Previous page">
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <button class="page-btn disabled" id="pagePrev" aria-label="Previous">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <button class="page-btn active" aria-label="Page 1" aria-current="page">1</button>
-          <button class="page-btn disabled" aria-label="Next page">
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <button class="page-btn active" data-page="1">1</button>
+          <button class="page-btn" data-page="2">2</button>
+          <button class="page-btn" data-page="3">3</button>
+          <button class="page-btn" id="pageNext" aria-label="Next">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
       </div>
@@ -1769,6 +2149,99 @@ document.addEventListener('click', function(e) {
 
     filterSearch.addEventListener('input', applyFilters);
     countByStatus();
+
+    // ── Pagination ──
+    var ROWS_PER_PAGE = 8;
+    var currentPage = 1;
+
+    function paginateRows() {
+      var rows = [];
+      document.querySelectorAll('.quotes-table tbody tr').forEach(function(row) {
+        if (row.style.display !== 'none' || !activeStatus && !filterSearch.value.trim()) {
+          // Re-check filter visibility
+          var rowStatus = getRowStatus(row);
+          var rowText = row.textContent.toLowerCase();
+          var searchVal = filterSearch.value.toLowerCase().trim();
+          var show = true;
+          if (activeStatus && rowStatus !== activeStatus) show = false;
+          if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
+          if (show) rows.push(row);
+        }
+      });
+      return rows;
+    }
+
+    function renderPage(page) {
+      currentPage = page;
+      var allRows = document.querySelectorAll('.quotes-table tbody tr');
+      var filteredRows = [];
+
+      allRows.forEach(function(row) {
+        var rowStatus = getRowStatus(row);
+        var rowText = row.textContent.toLowerCase();
+        var searchVal = filterSearch.value.toLowerCase().trim();
+        var show = true;
+        if (activeStatus && rowStatus !== activeStatus) show = false;
+        if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
+        row.style.display = 'none';
+        if (show) filteredRows.push(row);
+      });
+
+      var totalPages = Math.ceil(filteredRows.length / ROWS_PER_PAGE);
+      if (page > totalPages) page = totalPages;
+      if (page < 1) page = 1;
+      currentPage = page;
+
+      var start = (page - 1) * ROWS_PER_PAGE;
+      var end = start + ROWS_PER_PAGE;
+      for (var i = start; i < end && i < filteredRows.length; i++) {
+        filteredRows[i].style.display = '';
+      }
+
+      // Update pagination info
+      var showing = filteredRows.length > 0 ? (start + 1) + '–' + Math.min(end, filteredRows.length) : '0';
+      document.getElementById('paginationInfo').textContent = 'Showing ' + showing + ' of ' + filteredRows.length + ' quotes';
+      document.getElementById('emptyState').hidden = filteredRows.length > 0;
+      document.getElementById('paginationWrap').style.display = filteredRows.length > 0 ? '' : 'none';
+
+      // Update page buttons
+      document.querySelectorAll('.page-btn[data-page]').forEach(function(btn) {
+        btn.classList.toggle('active', parseInt(btn.dataset.page) === currentPage);
+      });
+
+      // Update prev/next
+      var prevBtn = document.getElementById('pagePrev');
+      var nextBtn = document.getElementById('pageNext');
+      if (prevBtn) prevBtn.classList.toggle('disabled', currentPage <= 1);
+      if (nextBtn) nextBtn.classList.toggle('disabled', currentPage >= totalPages);
+
+      // Hide/show page buttons based on total pages
+      document.querySelectorAll('.page-btn[data-page]').forEach(function(btn) {
+        btn.style.display = parseInt(btn.dataset.page) <= totalPages ? '' : 'none';
+      });
+    }
+
+    // Override applyFilters to use pagination
+    var _baseApply = applyFilters;
+    applyFilters = function() {
+      renderPage(1);
+    };
+
+    // Page button clicks
+    document.querySelectorAll('.page-btn[data-page]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        renderPage(parseInt(btn.dataset.page));
+      });
+    });
+    document.getElementById('pagePrev').addEventListener('click', function() {
+      if (currentPage > 1) renderPage(currentPage - 1);
+    });
+    document.getElementById('pageNext').addEventListener('click', function() {
+      renderPage(currentPage + 1);
+    });
+
+    // Initial render
+    renderPage(1);
 
     // Count-up animation for stat numbers
     (function() {
