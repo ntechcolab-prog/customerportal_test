@@ -657,6 +657,59 @@
       margin: 0;
     }
 
+    /* ── PRODUCT TABLE (Table View) ─── */
+    .product-table-wrap.hidden { display: none; }
+    .product-table .col-product { width: 35%; }
+    .product-table .col-ref { width: 15%; }
+    .product-table .col-cat { width: 15%; }
+    .product-table .col-price { width: 20%; }
+    .product-table .col-action { width: 48px; text-align: right; cursor: default; }
+    .product-table .col-action:hover { color: #6b7280; background: transparent; }
+    .table-product-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .table-product-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #fafbfc;
+      flex-shrink: 0;
+    }
+    .table-product-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d1d1f;
+    }
+    .table-category {
+      display: inline-flex;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(0, 113, 103, 0.06);
+      color: #007167;
+    }
+    .table-price {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1d1d1f;
+      font-variant-numeric: tabular-nums;
+    }
+    .table-chevron {
+      width: 16px;
+      height: 16px;
+      color: #86868b;
+      float: right;
+      transition: color 0.15s, transform 0.15s;
+    }
+    .product-table tbody tr:hover .table-chevron {
+      color: #007167;
+      transform: translateX(2px);
+    }
+
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
     .cart-dropdown-anchor { position: relative; display: flex; align-items: center; }
@@ -1673,11 +1726,11 @@
       <table class="product-table">
         <thead>
           <tr>
-            <th style="width:35%;" data-i18n="shop.totalProducts">Product</th>
-            <th style="width:15%;">Reference</th>
-            <th style="width:15%;" data-i18n="shop.categories">Category</th>
-            <th style="width:20%;">Price</th>
-            <th style="text-align:right;"></th>
+            <th class="col-product" data-i18n="shop.totalProducts">Product</th>
+            <th class="col-ref">Reference</th>
+            <th class="col-cat" data-i18n="shop.categories">Category</th>
+            <th class="col-price">Price</th>
+            <th class="col-action"></th>
           </tr>
         </thead>
         <tbody>
