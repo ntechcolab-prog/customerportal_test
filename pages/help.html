@@ -397,7 +397,7 @@
       padding: 24px 32px 48px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
     }
 
     /* ── PAGE HEADER ─── */
@@ -446,18 +446,11 @@
     .btn-ask-milla svg { width: 14px; height: 14px; flex-shrink: 0; }
 
     /* ── CATEGORIES ─── */
-    .section-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #1d1d1f;
-      letter-spacing: -0.2px;
-      margin-bottom: 10px;
-    }
     .categories-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
     .category-card {
       position: relative;
@@ -1505,9 +1498,7 @@
     </div>
 
     <!-- CATEGORIES -->
-    <section aria-labelledby="categories-heading">
-      <h2 id="categories-heading" class="section-title">Categories</h2>
-      <div class="categories-grid">
+    <div class="categories-grid">
 
         <!-- Card 1: Machine Documentation -->
         <div class="category-card" tabindex="0" role="button" aria-label="Machine Documentation, 24 articles">
@@ -1550,13 +1541,8 @@
         </div>
 
       </div>
-    </section>
 
-    <!-- LATEST HELP ARTICLES -->
-    <section aria-labelledby="articles-heading">
-      <h2 id="articles-heading" class="section-title">Latest Help Articles</h2>
-
-      <!-- FILTER BAR -->
+    <!-- FILTER BAR -->
       <div class="filter-bar">
         <div class="filter-search">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1676,7 +1662,6 @@
           <p class="empty-state-desc">Try searching with different keywords.</p>
         </div>
       </div>
-    </section>
 
   </main>
 
