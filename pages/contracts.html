@@ -400,124 +400,212 @@
       gap: 16px;
     }
 
-    /* ── TITLE BAR ─── */
-    .title-bar {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px 24px;
+    /* ── PAGE HEADER ─── */
+    .page-header {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .title-bar-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .title-bar h1 {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.4px;
-    }
-    .btn-filters {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 36px;
-      padding: 0 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 999px;
-      background: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      cursor: pointer;
-    }
-    .btn-filters:hover { background: #f9fafb; }
-    .btn-filters.active {
-      background: #007167;
-      border-color: #007167;
-      color: #fff;
-    }
-    .btn-filters svg { width: 16px; height: 16px; }
-
-    /* ── FILTER BAR ─── */
-    .filter-bar {
-      display: none;
+      align-items: baseline;
       gap: 12px;
+      margin-bottom: 8px;
+    }
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
+    }
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #86868b;
+    }
+
+    /* ── FILTER BAR (integrated toolbar above table) ─── */
+    .filter-bar {
+      display: flex;
       align-items: center;
-    }
-    .filter-bar.visible { display: flex; }
-    .filter-input {
-      position: relative;
-      flex: 1;
-      max-width: 320px;
-    }
-    .filter-input input {
-      width: 100%;
-      height: 40px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 0 12px 0 36px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #1f2937;
+      gap: 10px;
+      padding: 10px 20px;
       background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
     }
-    .filter-input input::placeholder { color: #9ca3af; }
-    .filter-input input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
-    .filter-input svg {
+    .filter-search {
+      position: relative;
+      width: 220px;
+      flex-shrink: 0;
+    }
+    .filter-search input {
+      width: 100%;
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 0 12px 0 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #1d1d1f;
+      background: #fafbfc;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .filter-search input::placeholder { color: #86868b; }
+    .filter-search input:focus {
+      outline: none;
+      border-color: #007167;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
+    }
+    .filter-search svg {
       position: absolute;
       left: 10px;
       top: 50%;
       transform: translateY(-50%);
-      width: 16px;
-      height: 16px;
-      color: #9ca3af;
+      width: 13px;
+      height: 13px;
+      color: #86868b;
       pointer-events: none;
     }
-    .filter-select {
-      height: 40px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 0 32px 0 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #374151;
-      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
-      appearance: none;
-      cursor: pointer;
-      min-width: 130px;
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
     }
-    .filter-select:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
-    .btn-clear-filters {
-      height: 40px;
-      padding: 0 16px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      background: #fff;
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 30px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       color: #6b7280;
       cursor: pointer;
+      transition: all 0.15s ease;
       white-space: nowrap;
+      user-select: none;
     }
-    .btn-clear-filters:hover { background: #f9fafb; color: #374151; }
+    .filter-pill:hover {
+      color: #007167;
+      background: rgba(0, 113, 103, 0.05);
+    }
+    .filter-pill.active {
+      background: rgba(0, 113, 103, 0.1);
+      color: #007167;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
+    }
+    .filter-pill .pill-count {
+      font-weight: 600;
+      opacity: 0.5;
+      font-size: 11px;
+    }
+    .filter-pill.active .pill-count {
+      opacity: 0.7;
+    }
 
     /* ── STAT CARDS ─── */
-    .stat-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .stat-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; display: flex; align-items: center; gap: 16px; }
-    .stat-icon { width: 48px; height: 48px; border-radius: 50%; background: #e8f5f3; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .stat-icon svg { width: 24px; height: 24px; color: #007167; }
-    .stat-icon.warning { background: #fef3e2; }
-    .stat-icon.warning svg { color: #d97706; }
-    .stat-info { display: flex; flex-direction: column; }
-    .stat-value { font-size: 24px; font-weight: 700; color: #1f2937; }
-    .stat-label { font-size: 13px; color: #6b7280; font-weight: 500; }
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .stat-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.4s ease, transform 0.25s ease, border-color 0.4s ease;
+      cursor: default;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 11px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
+    }
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
+      transform: translateY(-2px);
+    }
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0faf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .stat-card:hover .stat-icon {
+      background: #e0f2f0;
+      transform: scale(1.08);
+    }
+    .stat-icon svg {
+      width: 18px;
+      height: 18px;
+      color: #007167;
+    }
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .stat-number {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1d1d1f;
+      line-height: 1.2;
+      letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #86868b;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .stat-card:hover .stat-label {
+      color: #6b7280;
+    }
+
+    /* ── TABLE WRAP (connected to filter-bar) ─── */
+    .orders-table-wrap {
+      border-radius: 0 0 10px 10px;
+      border-top: none;
+    }
 
     /* ── CONTRACT TABS ─── */
 
@@ -1231,10 +1319,12 @@
       .breadcrumb { padding: 0 16px; }
       .main { padding: 16px; }
       .stat-cards { grid-template-columns: repeat(2, 1fr); }
-      .filter-bar { flex-wrap: wrap; }
-      .filter-input, .filter-search { max-width: 100%; flex-basis: 100%; }
+      .filter-bar { flex-wrap: wrap; padding: 10px 14px; }
+      .filter-search { width: 100%; }
+      .filter-divider { display: none; }
+      .filter-pills { gap: 4px; width: 100%; }
 
-      .title-bar h1, .page-title { font-size: 20px; }
+      .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {
       .topbar { padding: 0 12px; }
@@ -1245,8 +1335,8 @@
       .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
       .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
-    
-      .title-bar h1, .page-title { font-size: 18px; }
+
+      .page-title { font-size: 18px; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1561,68 +1651,58 @@
 
     <div class="page-content">
 
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <h1 class="page-title" data-i18n="contracts.title">Contracts</h1>
+      <span class="page-subtitle">5 contracts</span>
+    </div>
+
     <!-- STAT CARDS -->
-    <div class="stat-cards">
+    <div class="stat-cards" data-skeleton-stagger>
       <div class="stat-card">
         <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         </div>
         <div class="stat-info">
-          <span class="stat-value">5</span>
+          <span class="stat-number">5</span>
           <span class="stat-label" data-i18n="contracts.totalContracts">Total Contracts</span>
         </div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
         <div class="stat-info">
-          <span class="stat-value">3</span>
+          <span class="stat-number">3</span>
           <span class="stat-label" data-i18n="contracts.active">Active</span>
         </div>
       </div>
       <div class="stat-card">
-        <div class="stat-icon warning">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
         <div class="stat-info">
-          <span class="stat-value">1</span>
+          <span class="stat-number">1</span>
           <span class="stat-label" data-i18n="contracts.expiringSoon">Expiring Soon</span>
         </div>
       </div>
     </div>
 
-    <!-- TITLE BAR + FILTERS -->
-    <div class="title-bar">
-      <div class="title-bar-top">
-        <h1 data-i18n="contracts.title">Contracts</h1>
-        <button class="btn-filters" id="btnFilters">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.33 1.33h13.34L9.33 7.76v4.91l-2.66 1.33V7.76L1.33 1.33z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          <span data-i18n="common.filters">Filters</span>
-        </button>
+    <!-- FILTER BAR (search + pills, integrated toolbar) -->
+    <div class="filter-bar" data-skeleton-stagger>
+      <div class="filter-search">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input type="text" id="filterSearch" placeholder="Search contract, machine..." data-i18n-placeholder="contracts.searchPlaceholder">
       </div>
-      <div class="filter-bar" id="filterBar">
-        <div class="filter-input">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <input type="text" placeholder="Search contract, machine..." data-i18n-placeholder="contracts.searchPlaceholder">
-        </div>
-        <select class="filter-select" id="filterStatus">
-          <option value="" data-i18n="common.status">Status</option>
-          <option value="active" data-i18n="status.active">Active</option>
-          <option value="expiring-soon" data-i18n="status.expiringSoon">Expiring Soon</option>
-          <option value="expired" data-i18n="status.expired">Expired</option>
-        </select>
-        <select class="filter-select" id="filterType">
-          <option value="" data-i18n="common.type">Type</option>
-          <option value="parts" data-i18n="filter.partsContract">Parts Contract</option>
-          <option value="service" data-i18n="filter.serviceContract">Service Contract</option>
-        </select>
-        <button class="btn-clear-filters" id="btnClearFilters" data-i18n="filter.clearFilters">Clear filters</button>
+      <div class="filter-divider"></div>
+      <div class="filter-pills" id="filterPills">
+        <button class="filter-pill active" data-status="">All <span class="pill-count" id="countAll"></span></button>
+        <button class="filter-pill" data-status="active">Active <span class="pill-count" id="countActive"></span></button>
+        <button class="filter-pill" data-status="expiring">Expiring <span class="pill-count" id="countExpiring"></span></button>
+        <button class="filter-pill" data-status="expired">Expired <span class="pill-count" id="countExpired"></span></button>
       </div>
     </div>
 
@@ -1773,22 +1853,6 @@ document.addEventListener('click', function(e) {
 </script>
 
 <script>
-  // Toggle filters
-  var btnFilters = document.getElementById('btnFilters');
-  var filterBar = document.getElementById('filterBar');
-  btnFilters.addEventListener('click', function() {
-    var visible = filterBar.classList.toggle('visible');
-    btnFilters.classList.toggle('active', visible);
-  });
-
-  // Clear filters
-  document.getElementById('btnClearFilters').addEventListener('click', function() {
-    filterBar.querySelector('input').value = '';
-    document.getElementById('filterStatus').value = '';
-    document.getElementById('filterType').value = '';
-    applyFilters();
-  });
-
   // Contract Details Drawer
   var overlay = document.getElementById('drawerOverlay');
   var drawer = document.getElementById('contractDrawer');
@@ -1920,36 +1984,66 @@ document.addEventListener('click', function(e) {
     if (e.key === 'Escape') closeDrawer();
   });
 
-  // Filter logic
-  var filterType = document.getElementById('filterType');
-  var filterStatus = document.getElementById('filterStatus');
-  var filterSearch = filterBar.querySelector('input');
+  // ── Quick filter pills + search ──
+  var filterSearch = document.getElementById('filterSearch');
+  var pills = document.querySelectorAll('.filter-pill');
+  var activeStatus = '';
+
+  function getRowStatus(row) {
+    var badge = row.querySelector('.status-badge');
+    if (!badge) return '';
+    var classes = badge.className;
+    var m = classes.match(/status-(\w+)/g);
+    if (!m) return '';
+    for (var i = 0; i < m.length; i++) {
+      var s = m[i].replace('status-', '');
+      if (s !== 'badge') return s;
+    }
+    return '';
+  }
+
+  function countByStatus() {
+    var rows = document.querySelectorAll('#contractsTable tbody tr');
+    var counts = { all: rows.length, active: 0, expiring: 0, expired: 0 };
+    rows.forEach(function(row) {
+      var s = getRowStatus(row);
+      if (counts[s] !== undefined) counts[s]++;
+    });
+    document.getElementById('countAll').textContent = counts.all;
+    document.getElementById('countActive').textContent = counts.active;
+    document.getElementById('countExpiring').textContent = counts.expiring;
+    document.getElementById('countExpired').textContent = counts.expired;
+  }
 
   function applyFilters() {
-    var typeVal = filterType.value.toLowerCase();
-    var statusVal = filterStatus.value.toLowerCase();
     var searchVal = filterSearch.value.toLowerCase().trim();
     var rows = document.querySelectorAll('#contractsTable tbody tr');
     var visible = 0;
     rows.forEach(function(row) {
-      var rowType = (row.dataset.type || '').toLowerCase();
-      var rowStatus = (row.dataset.status || '').toLowerCase().replace(' ', '-');
+      var rowStatus = getRowStatus(row);
       var rowText = row.textContent.toLowerCase();
       var show = true;
-      if (typeVal && rowType !== typeVal) show = false;
-      if (statusVal && rowStatus !== statusVal) show = false;
+      if (activeStatus && rowStatus !== activeStatus) show = false;
       if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
       row.style.display = show ? '' : 'none';
       if (show) visible++;
     });
-    document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1–' + visible : '0') + ' of ' + visible + ' contracts';
+    document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1\u2013' + visible : '0') + ' of ' + visible + ' contracts';
     document.getElementById('emptyState').hidden = visible > 0;
     document.getElementById('paginationWrap').style.display = visible > 0 ? '' : 'none';
   }
 
-  filterType.addEventListener('change', applyFilters);
-  filterStatus.addEventListener('change', applyFilters);
+  pills.forEach(function(pill) {
+    pill.addEventListener('click', function() {
+      pills.forEach(function(p) { p.classList.remove('active'); });
+      pill.classList.add('active');
+      activeStatus = pill.dataset.status;
+      applyFilters();
+    });
+  });
+
   filterSearch.addEventListener('input', applyFilters);
+  countByStatus();
 </script>
 
 <script>
