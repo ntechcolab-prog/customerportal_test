@@ -495,7 +495,7 @@
     /* ── SPARE PARTS ACTION ROW ─── */
     .spare-actions-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 3fr 2fr;
       gap: 12px;
       padding: 10px 32px 0;
       position: relative;
@@ -537,9 +537,30 @@
     }
     .spare-action-card.milla-trigger .spare-action-icon {
       background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      animation: milla-icon-pulse 3s ease-in-out infinite;
+    }
+    @keyframes milla-icon-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 113, 103, 0); }
+      50% { box-shadow: 0 0 0 6px rgba(0, 113, 103, 0.12); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .spare-action-card.milla-trigger .spare-action-icon { animation: none; }
     }
     .spare-action-card.milla-trigger .spare-action-icon img {
       filter: brightness(0) invert(1);
+    }
+    .spare-action-card.milla-trigger .spare-action-title::after {
+      content: 'AI';
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 5px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #007167;
+      background: rgba(0, 113, 103, 0.08);
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      vertical-align: middle;
     }
     .spare-action-text { flex: 1; min-width: 0; }
     .spare-action-title {
