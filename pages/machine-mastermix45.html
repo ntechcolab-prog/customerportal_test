@@ -515,12 +515,14 @@
     }
     .spare-action-card.milla-trigger {
       cursor: pointer;
-      border-color: rgba(0, 113, 103, 0.15);
+      border-color: rgba(0, 113, 103, 0.25);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(0,113,103,0.04) 100%);
     }
     .spare-action-card.milla-trigger:hover {
-      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.12);
-      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0, 113, 103, 0.15), 0 0 0 1px rgba(0, 113, 103, 0.1);
+      transform: translateY(-2px);
     }
+    .spare-action-card.milla-trigger .spare-action-title { color: #007167; }
     .spare-action-icon {
       width: 36px;
       height: 36px;
@@ -530,6 +532,12 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+    }
+    .spare-action-card.milla-trigger .spare-action-icon {
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+    }
+    .spare-action-card.milla-trigger .spare-action-icon img {
+      filter: brightness(0) invert(1);
     }
     .spare-action-text { flex: 1; min-width: 0; }
     .spare-action-title {
@@ -553,9 +561,39 @@
       border-radius: 8px;
     }
 
-    /* ── MILLA EXPAND AREA ─── */
-    .milla-expand-area {
-      padding: 10px 32px 0;
+    /* ── MILLA MODAL ─── */
+    .milla-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 30, 27, 0.45);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .milla-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .milla-modal {
+      width: 580px;
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+      transform: scale(0.95) translateY(10px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .milla-modal-overlay.open .milla-modal {
+      transform: scale(1) translateY(0);
+    }
+    .milla-modal .milla-banner {
+      border-radius: 0;
+      min-height: 320px;
     }
     .milla-collapsed { display: none; }
 
@@ -1253,14 +1291,12 @@
     @media (max-width: 768px) {
       .identity-bar { margin: 12px 16px 0; padding: 12px 16px; }
       .spare-actions-row { padding: 0 16px 12px; }
-      .milla-expand-area { padding: 0 16px 12px; }
       .machine-data-section { padding: 0 16px 24px; }
     }
     @media (max-width: 480px) {
       .identity-bar { margin: 10px 12px 0; padding: 10px 12px; }
       .identity-left { flex-wrap: wrap; gap: 6px; }
       .spare-actions-row { padding: 0 12px 10px; }
-      .milla-expand-area { padding: 0 12px 10px; }
       .machine-data-section { padding: 0 12px 20px; }
     }
 
@@ -1617,9 +1653,10 @@
       </div>
     </div>
 
-    <!-- MILLA EXPANDED AREA (hidden by default, appears when Ask Milla is clicked) -->
-    <div class="milla-expand-area" id="milla-expand-area" style="display:none;">
-      <div class="milla-banner is-open" id="milla-banner">
+    <!-- MILLA MODAL -->
+    <div class="milla-modal-overlay" id="milla-modal-overlay">
+      <div class="milla-modal">
+        <div class="milla-banner is-open" id="milla-banner">
         <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
 
         <!-- Collapsed: hidden since we use the trigger card -->
@@ -1685,7 +1722,8 @@
           </div>
         </div>
       </div>
-    </div>
+      </div><!-- /milla-modal -->
+    </div><!-- /milla-modal-overlay -->
 
     <!-- MACHINE DATA (compact 2-col grid) -->
     <div class="machine-data-section">
@@ -1746,29 +1784,35 @@ document.addEventListener('click', function(e) {
     const btnSearch = document.getElementById('btn-milla-search');
 
     // Milla trigger card opens the expand area
-    document.getElementById('milla-trigger-card').addEventListener('click', function() {
-      var area = document.getElementById('milla-expand-area');
-      if (area.style.display === 'none') {
-        area.style.display = 'block';
-        banner.classList.add('is-open');
-        banner.classList.remove('is-search');
-        area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-    });
+    var millaOverlay = document.getElementById('milla-modal-overlay');
 
-    // Open expanded methods (kept for compatibility)
-    btnAsk.addEventListener('click', () => {
+    // Open Milla modal
+    document.getElementById('milla-trigger-card').addEventListener('click', function() {
+      millaOverlay.classList.add('open');
       banner.classList.add('is-open');
       banner.classList.remove('is-search');
+      document.body.style.overflow = 'hidden';
     });
 
-    // Close (back to collapsed + hide expand area)
-    btnClose.addEventListener('click', () => {
+    function closeMillaModal() {
+      millaOverlay.classList.remove('open');
       banner.classList.remove('is-open', 'is-search');
-      document.getElementById('milla-expand-area').style.display = 'none';
-      // Reset form
+      document.body.style.overflow = '';
       searchInput.value = '';
       btnSearch.classList.remove('enabled');
+    }
+
+    // Close on X button
+    btnClose.addEventListener('click', closeMillaModal);
+
+    // Close on overlay click
+    millaOverlay.addEventListener('click', function(e) {
+      if (e.target === millaOverlay) closeMillaModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && millaOverlay.classList.contains('open')) closeMillaModal();
     });
 
     // Method: Description → switch to search form
