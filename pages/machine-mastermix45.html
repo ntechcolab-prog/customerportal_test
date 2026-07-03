@@ -735,11 +735,52 @@
       font-weight: 600;
       font-size: 11px;
     }
-    .milla-results-table .td-action { text-align: right; }
-    .btn-add-sm {
-      height: 30px;
-      padding: 0 12px;
+    .milla-results-table .td-action { text-align: right; white-space: nowrap; }
+    .td-action-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .td-qty {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 8px;
+      overflow: hidden;
+    }
+    .td-qty-btn {
+      width: 26px;
+      height: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      font-size: 14px;
+      transition: background 0.1s;
+    }
+    .td-qty-btn:hover { background: rgba(0, 0, 0, 0.04); }
+    .td-qty-val {
+      width: 28px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1d1d1f;
+      border: none;
+      background: none;
+      font-family: 'Inter', sans-serif;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    .td-qty-val::-webkit-outer-spin-button,
+    .td-qty-val::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .btn-add-sm {
+      height: 28px;
+      padding: 0 10px;
+      border-radius: 7px;
       background: #007167;
       color: #fff;
       border: none;
@@ -747,9 +788,32 @@
       font-size: 11px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: background 0.15s, transform 0.1s;
     }
     .btn-add-sm:hover { background: #005f57; }
+    .btn-add-sm:active { transform: scale(0.96); }
+    .btn-add-sm.added {
+      background: #e8f5f3;
+      color: #007167;
+      pointer-events: none;
+    }
+    .btn-wish-sm {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #c3c5c7;
+      transition: all 0.15s;
+    }
+    .btn-wish-sm:hover { color: #c73e20; border-color: rgba(199, 62, 32, 0.2); }
+    .btn-wish-sm.active { color: #c73e20; }
+    .btn-wish-sm.active svg path { fill: #c73e20; }
+    .btn-wish-sm svg { width: 13px; height: 13px; }
 
     /* ── MACHINE DATA SECTION ─── */
     .machine-data-section {
@@ -1905,22 +1969,42 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr data-name="Ring - AISI 304" data-ref="140045213" data-price="75.89">
                 <td>801</td>
                 <td class="mono">140045213</td>
                 <td>Ring - AISI 304</td>
                 <td>&euro;75.89</td>
                 <td class="td-action">
-                  <button type="button" class="btn-add-sm">Add to cart</button>
+                  <span class="td-action-row">
+                    <span class="td-qty">
+                      <button type="button" class="td-qty-btn" data-dir="minus">−</button>
+                      <input type="number" class="td-qty-val" value="1" min="1">
+                      <button type="button" class="td-qty-btn" data-dir="plus">+</button>
+                    </span>
+                    <button type="button" class="btn-add-sm">Add</button>
+                    <button type="button" class="btn-wish-sm" aria-label="Add to wishlist">
+                      <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg>
+                    </button>
+                  </span>
                 </td>
               </tr>
-              <tr>
+              <tr data-name="Ring for inner pipe" data-ref="140023995" data-price="0" data-quotation="true">
                 <td>802</td>
                 <td class="mono">140023995</td>
                 <td>Ring for inner pipe</td>
                 <td class="quotation">Quotation</td>
                 <td class="td-action">
-                  <button type="button" class="btn-add-sm">Add to cart</button>
+                  <span class="td-action-row">
+                    <span class="td-qty">
+                      <button type="button" class="td-qty-btn" data-dir="minus">−</button>
+                      <input type="number" class="td-qty-val" value="1" min="1">
+                      <button type="button" class="td-qty-btn" data-dir="plus">+</button>
+                    </span>
+                    <button type="button" class="btn-add-sm">Add</button>
+                    <button type="button" class="btn-wish-sm" aria-label="Add to wishlist">
+                      <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg>
+                    </button>
+                  </span>
                 </td>
               </tr>
             </tbody>
@@ -1929,6 +2013,70 @@
       </div>
       </div><!-- /milla-modal -->
     </div><!-- /milla-modal-overlay -->
+
+    <script>
+    // Results table: qty controls, add to cart, wishlist
+    (function() {
+      // Qty +/- buttons
+      document.querySelectorAll('.td-qty-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var input = btn.parentElement.querySelector('.td-qty-val');
+          var v = parseInt(input.value) || 1;
+          if (btn.dataset.dir === 'plus') input.value = v + 1;
+          else if (btn.dataset.dir === 'minus' && v > 1) input.value = v - 1;
+        });
+      });
+
+      // Add to cart buttons
+      document.querySelectorAll('.milla-results-table .btn-add-sm').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var row = btn.closest('tr');
+          var name = row.dataset.name;
+          var ref = row.dataset.ref;
+          var price = parseFloat(row.dataset.price) || 0;
+          var isQuotation = row.dataset.quotation === 'true';
+          var qty = parseInt(row.querySelector('.td-qty-val').value) || 1;
+
+          // Add to localStorage cart
+          var cart = {};
+          try { cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) {}
+          var items = cart.items || [];
+          var existing = items.find(function(i) { return i.ref === ref; });
+          if (existing) { existing.qty += qty; }
+          else { items.push({ name: name, ref: ref, unitPrice: price, qty: qty, quotation: isQuotation }); }
+          cart.items = items;
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+
+          // Visual feedback
+          btn.textContent = '✓ Added';
+          btn.classList.add('added');
+          setTimeout(function() { btn.textContent = 'Add'; btn.classList.remove('added'); }, 2000);
+
+          // Update cart badge
+          var badge = document.getElementById('cart-badge');
+          if (badge) {
+            badge.textContent = items.length;
+            badge.classList.toggle('is-visible', items.length > 0);
+          }
+          // Refresh cart dropdown if exists
+          if (typeof renderCartDropdown === 'function') renderCartDropdown();
+        });
+      });
+
+      // Wishlist toggle
+      document.querySelectorAll('.milla-results-table .btn-wish-sm').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          btn.classList.toggle('active');
+          var path = btn.querySelector('svg path');
+          if (btn.classList.contains('active')) {
+            path.setAttribute('fill', '#c73e20');
+          } else {
+            path.setAttribute('fill', 'none');
+          }
+        });
+      });
+    })();
+    </script>
 
     <!-- MACHINE DATA (compact 2-col grid) -->
     <div class="machine-data-section">
