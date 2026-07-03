@@ -557,9 +557,9 @@
     .spare-action-card .subset-select {
       height: 32px;
       font-size: 12px;
-      padding: 0 32px 0 12px;
+      padding: 0 8px 0 12px;
       border-radius: 8px;
-      gap: 8px;
+      gap: 6px;
     }
     .spare-action-card .subset-select svg { flex-shrink: 0; }
 
@@ -1449,38 +1449,38 @@
       border-color: #0b9c92;
       outline: none;
     }
-    .subset-select img {
-      width: 14px;
+    .subset-select img,
+    .subset-select svg {
+      width: 10px;
       height: auto;
       display: block;
       transition: transform 0.3s var(--ease-apple);
+      flex-shrink: 0;
     }
-    .subset-wrapper.is-open .subset-select img {
+    .subset-wrapper.is-open .subset-select img,
+    .subset-wrapper.is-open .subset-select svg {
       transform: rotate(180deg);
     }
 
     .subset-dropdown {
       position: absolute;
       top: calc(100% + 6px);
-      left: 0;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 0;
+      min-width: 220px;
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 10px;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
       padding: 6px 0;
       opacity: 0;
-      transform: translateY(-6px) scale(0.98);
+      transform: translateY(-4px);
       pointer-events: none;
-      transition:
-        opacity 0.25s var(--ease-apple),
-        transform 0.35s var(--ease-spring);
-      z-index: 50;
+      transition: opacity 0.2s ease, transform 0.25s ease;
+      z-index: 510;
     }
     .subset-wrapper.is-open .subset-dropdown {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translateY(0);
       pointer-events: auto;
     }
 
