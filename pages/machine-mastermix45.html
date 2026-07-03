@@ -1463,9 +1463,8 @@
     }
 
     .subset-dropdown {
-      position: absolute;
-      bottom: calc(100% + 6px);
-      right: 0;
+      position: fixed;
+      right: auto;
       min-width: 220px;
       background: #fff;
       border: 1px solid #e5e7eb;
@@ -2218,6 +2217,12 @@ document.addEventListener('click', function(e) {
 
     subsetBtn.addEventListener('click', (e) => {
       e.stopPropagation();
+      var dd = subsetWrapper.querySelector('.subset-dropdown');
+      if (!subsetWrapper.classList.contains('is-open')) {
+        var rect = subsetBtn.getBoundingClientRect();
+        dd.style.top = (rect.bottom + 6) + 'px';
+        dd.style.left = (rect.right - dd.offsetWidth) + 'px';
+      }
       subsetWrapper.classList.toggle('is-open');
     });
     subsetOptions.forEach(opt => {
