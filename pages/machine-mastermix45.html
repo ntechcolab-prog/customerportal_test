@@ -498,6 +498,8 @@
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       padding: 10px 32px 0;
+      position: relative;
+      z-index: 2;
     }
     .spare-action-card {
       display: flex;
@@ -1463,8 +1465,9 @@
     }
 
     .subset-dropdown {
-      position: fixed;
-      right: auto;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
       min-width: 220px;
       background: #fff;
       border: 1px solid #e5e7eb;
@@ -2217,12 +2220,6 @@ document.addEventListener('click', function(e) {
 
     subsetBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      var dd = subsetWrapper.querySelector('.subset-dropdown');
-      if (!subsetWrapper.classList.contains('is-open')) {
-        var rect = subsetBtn.getBoundingClientRect();
-        dd.style.top = (rect.bottom + 6) + 'px';
-        dd.style.left = (rect.right - dd.offsetWidth) + 'px';
-      }
       subsetWrapper.classList.toggle('is-open');
     });
     subsetOptions.forEach(opt => {
