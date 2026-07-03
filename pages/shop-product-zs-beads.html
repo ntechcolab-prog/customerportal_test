@@ -809,9 +809,10 @@
     /* ── DOCUMENT FILTER BAR (modern integrated toolbar) ─── */
     .doc-filter-bar {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 10px;
-      padding: 10px 20px;
+      gap: 0;
+      padding: 12px 20px;
       background: #fff;
       border: 1px solid rgba(0, 0, 0, 0.06);
       border-radius: 10px 10px 0 0;
@@ -819,9 +820,16 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
       margin-bottom: 0;
     }
+    .doc-filter-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
     .doc-filter-search {
       position: relative;
-      width: 200px;
+      width: 220px;
       flex-shrink: 0;
     }
     .doc-filter-search input {
@@ -863,8 +871,8 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      flex: 1;
-      flex-wrap: wrap;
+      width: 100%;
+      flex-wrap: nowrap;
     }
     .doc-filter-pill {
       display: inline-flex;

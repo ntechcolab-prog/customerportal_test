@@ -91,9 +91,13 @@
   // ── Build UI ──
   container.innerHTML = '';
 
-  // Filter bar (integrated toolbar: search + pills + lang)
+  // Filter bar (integrated toolbar: top row search+lang, bottom row pills)
   var filterBar = document.createElement('div');
   filterBar.className = 'doc-filter-bar';
+
+  // Top row: search + lang
+  var topRow = document.createElement('div');
+  topRow.className = 'doc-filter-top';
 
   // Search input
   var searchWrap = document.createElement('div');
@@ -101,14 +105,23 @@
   searchWrap.innerHTML =
     '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
     '<input type="search" id="docFilterSearch" placeholder="Search document...">';
-  filterBar.appendChild(searchWrap);
+  topRow.appendChild(searchWrap);
 
-  // Divider
-  var div1 = document.createElement('div');
-  div1.className = 'doc-filter-divider';
-  filterBar.appendChild(div1);
+  // Language dropdown (right-aligned)
+  var langWrap = document.createElement('div');
+  langWrap.className = 'doc-lang-wrap';
+  langWrap.innerHTML =
+    '<span class="doc-lang-label">Lang</span>' +
+    '<select class="doc-lang-select" id="docLangSelect">' +
+      langs.map(function (l) {
+        return '<option value="' + l.code + '"' + (l.code === activeLang ? ' selected' : '') + '>' + l.label + '</option>';
+      }).join('') +
+    '</select>';
+  topRow.appendChild(langWrap);
 
-  // Filter pills
+  filterBar.appendChild(topRow);
+
+  // Bottom row: filter pills
   var typeChips = document.createElement('div');
   typeChips.className = 'doc-filter-pills';
   filterCategories.forEach(function (cat) {
@@ -124,23 +137,6 @@
     typeChips.appendChild(chip);
   });
   filterBar.appendChild(typeChips);
-
-  // Divider
-  var div2 = document.createElement('div');
-  div2.className = 'doc-filter-divider';
-  filterBar.appendChild(div2);
-
-  // Language dropdown
-  var langWrap = document.createElement('div');
-  langWrap.className = 'doc-lang-wrap';
-  langWrap.innerHTML =
-    '<span class="doc-lang-label">Lang</span>' +
-    '<select class="doc-lang-select" id="docLangSelect">' +
-      langs.map(function (l) {
-        return '<option value="' + l.code + '"' + (l.code === activeLang ? ' selected' : '') + '>' + l.label + '</option>';
-      }).join('') +
-    '</select>';
-  filterBar.appendChild(langWrap);
 
   container.appendChild(filterBar);
 
