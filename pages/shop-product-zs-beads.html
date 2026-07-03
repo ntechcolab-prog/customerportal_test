@@ -701,9 +701,9 @@
       flex: 1;
       height: 48px;
       border-radius: 14px;
-      border: none;
-      background: #007167;
-      color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #e8eaed;
+      color: #9ca3af;
       font-family: 'Inter', sans-serif;
       font-size: 15px;
       font-weight: 600;
@@ -711,13 +711,11 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.25);
+      cursor: not-allowed;
+      transition: all 0.25s ease;
+      box-shadow: none;
       letter-spacing: -0.01em;
     }
-    .btn-add-cart:hover { background: #005f57; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0, 113, 103, 0.3); }
-    .btn-add-cart:active { transform: translateY(0); }
     .btn-add-cart svg { width: 16px; height: 16px; }
 
     /* ── BULK PRICING CARD ─── */
@@ -802,8 +800,12 @@
     .btn-add-cart.active {
       background: #007167;
       color: #fff;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.25);
     }
-    .btn-add-cart.active:hover { background: #005f57; }
+    .btn-add-cart.active:hover { background: #005f57; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0, 113, 103, 0.3); }
+    .btn-add-cart.active:active { transform: translateY(0); }
     .form-select.selected { color: #1f2937; }
 
     /* ── DOCUMENT FILTER BAR (modern integrated toolbar) ─── */
