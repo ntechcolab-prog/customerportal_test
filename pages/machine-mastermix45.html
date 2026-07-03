@@ -406,169 +406,213 @@
     /* ── PAGE ─── */
     .page {
       flex: 1;
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+      padding: 0;
     }
 
-    /* 2-column layout */
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(320px, 1fr) 2fr;
-      gap: 24px;
-    }
-
-    /* ── CARD ─── */
-    .card {
+    /* ── MACHINE HERO ─── */
+    .machine-hero {
+      margin: 16px 32px 0;
       background: rgba(255, 255, 255, 0.92);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       backdrop-filter: saturate(180%) blur(20px);
       border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 16px;
+      border-radius: 20px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-      padding: 24px;
+      overflow: hidden;
     }
-    .card + .card { margin-top: 24px; }
-
-    .card-title {
+    .machine-hero-inner {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 32px 36px;
+    }
+    .machine-hero-image {
+      width: 120px;
+      height: 100px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #fafbfc 0%, #f0f1f3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .machine-hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 8px;
+    }
+    .machine-hero-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .machine-hero-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      background: rgba(0, 113, 103, 0.08);
+      color: #007167;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .machine-hero-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .machine-hero-serial {
+      font-size: 13px;
+      color: #86868b;
+      letter-spacing: -0.01em;
+    }
+    .machine-hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .btn-hero-primary {
+      height: 40px;
+      padding: 0 18px;
+      border-radius: 12px;
+      background: #007167;
+      color: #fff;
+      border: none;
+      font-family: 'Inter', sans-serif;
       font-size: 13px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.25);
+    }
+    .btn-hero-primary:hover { background: #005f57; transform: translateY(-1px); }
+    .btn-hero-primary svg { width: 15px; height: 15px; }
+    .btn-hero-secondary {
+      height: 40px;
+      padding: 0 18px;
+      border-radius: 12px;
+      background: #fff;
+      color: #007167;
+      border: 1px solid #007167;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-hero-secondary:hover { background: #f0faf9; }
+    .btn-hero-secondary svg { width: 15px; height: 15px; }
+    .btn-hero-ghost {
+      height: 40px;
+      padding: 0 18px;
+      border-radius: 12px;
+      background: transparent;
+      color: #6b7280;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-hero-ghost:hover { background: rgba(0, 0, 0, 0.03); color: #374151; }
+    .btn-hero-ghost svg { width: 15px; height: 15px; }
+
+    /* ── MACHINE TABS ─── */
+    .machine-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 32px;
+      margin-top: 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .machine-tab {
+      padding: 12px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
       color: #86868b;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 16px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      letter-spacing: -0.01em;
+    }
+    .machine-tab:hover { color: #374151; }
+    .machine-tab.active {
+      color: #007167;
+      border-bottom-color: #007167;
+      font-weight: 600;
     }
 
-    /* Field rows (label : value) */
-    .fields {
+    /* ── TAB CONTENT ─── */
+    .machine-tab-content {
+      display: none;
+      padding: 20px 32px 32px;
+    }
+    .machine-tab-content.active { display: block; }
+
+    /* ── OVERVIEW GRID (info cards) ─── */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .info-card {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 4px;
+      padding: 16px 18px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      border-radius: 14px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
     }
-    .field-row {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 12px;
-      align-items: baseline;
+    .info-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      transform: translateY(-1px);
     }
-    .field-label {
+    .info-card.highlight {
+      border-color: rgba(0, 113, 103, 0.15);
+      background: rgba(0, 113, 103, 0.03);
+    }
+    .info-card-label {
       font-size: 11px;
       font-weight: 500;
       color: #86868b;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
-    .field-value {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1d1d1f;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* ── LEFT CARD: HEADER WITH PHOTO + NAME ─── */
-    .machine-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    .machine-thumb {
-      width: 64px;
-      height: 56px;
-      background: #fafbfc;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      flex-shrink: 0;
-    }
-    .machine-thumb img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    .machine-title-block {
-      flex: 1;
-      min-width: 0;
-    }
-    .machine-title-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .machine-title {
-      font-size: 22px;
+    .info-card-value {
+      font-size: 15px;
       font-weight: 700;
       color: #1d1d1f;
-      letter-spacing: -0.3px;
-    }
-    .machine-edit-btn {
-      width: 24px;
-      height: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #9ca3af;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.15s;
-    }
-    .machine-edit-btn:hover { color: #007167; }
-    .machine-edit-btn svg { width: 14px; height: 14px; }
-
-    .machine-line {
-      font-size: 11px;
-      font-weight: 500;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 2px;
+      letter-spacing: -0.02em;
     }
 
-    /* Browse documents link */
-    .docs-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #007167;
-      text-decoration: none;
-      margin-top: 16px;
-    }
-    .docs-link:hover { text-decoration: underline; }
-    .docs-link svg { width: 14px; height: 14px; }
-
-    /* Service Request button (outline teal) */
-    .btn-service {
-      width: 100%;
-      height: 44px;
-      margin-top: 16px;
-      background: #fff;
-      border: 1px solid #0b9c92;
-      border-radius: 14px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: #007167;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: background 0.15s;
-    }
-    .btn-service:hover { background: #f0faf9; }
-    .btn-service svg { width: 16px; height: 16px; }
-
-    /* ── RIGHT COLUMN ─── */
-    .right-col {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+    /* ── SPARE PARTS LAYOUT ─── */
+    .spare-parts-layout {
+      max-width: 700px;
     }
 
     /* Ask Milla banner — collapsed e expanded */
@@ -1228,8 +1272,25 @@
       font-weight: 600;
     }
 
+    /* ── RESPONSIVE: Machine Profile ─── */
     @media (max-width: 960px) {
-      .layout { grid-template-columns: 1fr; }
+      .machine-hero-inner { flex-direction: column; text-align: center; gap: 16px; padding: 24px; }
+      .machine-hero-actions { flex-wrap: wrap; justify-content: center; }
+    }
+    @media (max-width: 768px) {
+      .machine-hero { margin: 12px 16px 0; }
+      .machine-tabs { padding: 0 16px; }
+      .machine-tab-content { padding: 16px 16px 24px; }
+      .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .machine-hero { margin: 8px 12px 0; }
+      .machine-hero-inner { padding: 20px 16px; }
+      .machine-tabs { padding: 0 12px; }
+      .machine-tab-content { padding: 12px 12px 20px; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .machine-hero-actions { flex-direction: column; width: 100%; }
+      .btn-hero-primary, .btn-hero-secondary, .btn-hero-ghost { width: 100%; justify-content: center; }
     }
 
     /* ── CART DROPDOWN ─── */
@@ -1527,90 +1588,122 @@
 
   <!-- PAGE -->
   <div class="page">
-    <div class="layout">
 
-      <!-- LEFT COLUMN -->
-      <div class="left-col">
-
-        <!-- Card 1: Machine quick info -->
-        <div class="card">
-          <div class="machine-header">
-            <div class="machine-thumb">
-              <img src="../assets/machine-discus30.png" alt="MasterMix 45">
-            </div>
-            <div class="machine-title-block">
-              <div class="machine-title-row">
-                <h1 class="machine-title">MasterMix 45</h1>
-                <button type="button" class="machine-edit-btn" aria-label="Edit machine" data-i18n="machine.editMachine">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                </button>
-              </div>
-              <div class="machine-line">LINE 3</div>
-            </div>
-          </div>
-
-          <div class="fields">
-            <div class="field-row">
-              <span class="field-label" data-i18n="machine.serialNumber">Serial Number:</span>
-              <span class="field-value">15202462-20</span>
-            </div>
-            <div class="field-row">
-              <span class="field-label" data-i18n="machine.country">Country:</span>
-              <span class="field-value">Brazil</span>
-            </div>
-            <div class="field-row">
-              <span class="field-label" data-i18n="machine.installDate">Install Date:</span>
-              <span class="field-value">2024-08-20</span>
-            </div>
-          </div>
-
-          <a href="#" class="docs-link" data-i18n="machine.browseDocs">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Browse equipment documents and manuals
-          </a>
-
-          <button type="button" class="btn-service" data-i18n="machine.serviceRequest">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <!-- HERO BANNER -->
+    <div class="machine-hero">
+      <div class="machine-hero-inner">
+        <div class="machine-hero-image">
+          <img src="../assets/machine-discus30.png" alt="MasterMix 45">
+        </div>
+        <div class="machine-hero-info">
+          <div class="machine-hero-badge">LINE 3</div>
+          <h1 class="machine-hero-title">MasterMix 45</h1>
+          <p class="machine-hero-serial">SN: 15202462-20 · Brazil · Installed Aug 2024</p>
+        </div>
+        <div class="machine-hero-actions">
+          <button type="button" class="btn-hero-primary" onclick="document.getElementById('tab-spare-parts').click()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Find Spare Parts
+          </button>
+          <button type="button" class="btn-hero-secondary" data-i18n="machine.serviceRequest">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Service Request
           </button>
+          <a href="#" class="btn-hero-ghost" data-i18n="machine.browseDocs">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Documents
+          </a>
         </div>
-
-        <!-- Card 2: Machine Information -->
-        <div class="card">
-          <h2 class="card-title" data-i18n="machine.machineInfo">Machine Information</h2>
-          <div class="fields">
-            <div class="field-row"><span class="field-label" data-i18n="machine.equipmentName">Equipment Name:</span><span class="field-value">MasterMix 45</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.serviceBy">Service by:</span><span class="field-value">NEM</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.commissionNumber">Commission Number:</span><span class="field-value">15202462-20</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.purchaseDate">Purchase Date</span><span class="field-value">2024-05-12</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.machineType">Machine Type:</span><span class="field-value">Bead Mill Stirrer</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.installDate">Install Date:</span><span class="field-value">2024-08-20</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.figNumber">Fig nr.:</span><span class="field-value">12633</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.warrantyExpiration">Warranty Expiration:</span><span class="field-value">2026-06-01</span></div>
-          </div>
-        </div>
-
-        <!-- Card 3: Technical Details -->
-        <div class="card">
-          <h2 class="card-title" data-i18n="machine.technicalDetails">Technical Details</h2>
-          <div class="fields">
-            <div class="field-row"><span class="field-label" data-i18n="machine.grindingSystem">Grinding System:</span><span class="field-value">Dissolver</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.serviceBy">Service by:</span><span class="field-value">Not applicable</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.grindingChamber">Grinding Chamber:</span><span class="field-value">Open batch tank</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.purchaseDate">Purchase Date</span><span class="field-value">Not applicable</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.materialShaft">Material Grinding Shaft:</span><span class="field-value">Stainless steel</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.installDate">Install Date:</span><span class="field-value">Not applicable</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.sealingMaterial">Sealing Material:</span><span class="field-value">Mechanical seal</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.warrantyExpiration">Warranty Expiration:</span><span class="field-value">No integrated pump</span></div>
-          </div>
-        </div>
-
       </div>
+    </div>
 
-      <!-- RIGHT COLUMN -->
-      <div class="right-col">
+    <!-- TABS -->
+    <div class="machine-tabs">
+      <button class="machine-tab active" id="tab-overview" data-tab="overview">Overview</button>
+      <button class="machine-tab" id="tab-technical" data-tab="technical">Technical Details</button>
+      <button class="machine-tab" id="tab-spare-parts" data-tab="spare-parts">Spare Parts</button>
+    </div>
 
-        <!-- Ask Milla banner (collapsed/expanded states) -->
+    <!-- TAB CONTENT: Overview -->
+    <div class="machine-tab-content active" id="content-overview">
+      <div class="overview-grid">
+        <div class="info-card">
+          <span class="info-card-label">Equipment Name</span>
+          <span class="info-card-value">MasterMix 45</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Machine Type</span>
+          <span class="info-card-value">Bead Mill Stirrer</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Serial Number</span>
+          <span class="info-card-value">15202462-20</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Commission Number</span>
+          <span class="info-card-value">15202462-20</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Service by</span>
+          <span class="info-card-value">NEM</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Fig nr.</span>
+          <span class="info-card-value">12633</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Purchase Date</span>
+          <span class="info-card-value">2024-05-12</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Install Date</span>
+          <span class="info-card-value">2024-08-20</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Country</span>
+          <span class="info-card-value">Brazil</span>
+        </div>
+        <div class="info-card highlight">
+          <span class="info-card-label">Warranty Expiration</span>
+          <span class="info-card-value">2026-06-01</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB CONTENT: Technical Details -->
+    <div class="machine-tab-content" id="content-technical">
+      <div class="overview-grid">
+        <div class="info-card">
+          <span class="info-card-label">Grinding System</span>
+          <span class="info-card-value">Dissolver</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Grinding Chamber</span>
+          <span class="info-card-value">Open batch tank</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Material Grinding Shaft</span>
+          <span class="info-card-value">Stainless steel</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Sealing Material</span>
+          <span class="info-card-value">Mechanical seal</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Integrated Pump</span>
+          <span class="info-card-value">No</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card-label">Service by</span>
+          <span class="info-card-value">Not applicable</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB CONTENT: Spare Parts (Milla) -->
+    <div class="machine-tab-content" id="content-spare-parts">
+      <div class="spare-parts-layout">
+        <!-- Milla banner -->
         <div class="milla-banner" id="milla-banner">
           <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
 
@@ -1678,8 +1771,8 @@
           </div>
         </div>
 
-        <!-- "or" + Select subset -->
-        <div class="subset-card">
+        <!-- Subset selector -->
+        <div class="subset-card" style="margin-top: 16px;">
           <div class="or-divider" data-i18n="millaFlow.or">or</div>
           <div class="subset-wrapper" id="subset-wrapper">
             <button type="button" class="subset-select" id="subset-select">
@@ -1694,11 +1787,22 @@
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
+
   </div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.machine-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.machine-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.machine-tab-content').forEach(function(c) { c.classList.remove('active'); });
+    tab.classList.add('active');
+    document.getElementById('content-' + tab.dataset.tab).classList.add('active');
+  });
+});
+</script>
 
 <script>
 function toggleProfileDropdown(e) {
