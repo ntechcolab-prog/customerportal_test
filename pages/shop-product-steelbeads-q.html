@@ -2297,18 +2297,28 @@ document.addEventListener('click', function(e) {
       });
     });
 
-    // Quantity controls
+    // Quantity controls + dynamic price
     const qtyValue = document.getElementById('qtyValue');
+    const priceDisplay = document.querySelector('.price-value');
+    const unitPrice = parsePrice(priceDisplay.textContent);
+
+    function updateTotalPrice() {
+      var qty = parseInt(qtyValue.value) || 1;
+      priceDisplay.textContent = formatPrice(unitPrice * qty);
+    }
+
     document.getElementById('qtyMinus').addEventListener('click', () => {
       const v = parseInt(qtyValue.value);
-      if (v > 1) qtyValue.value = v - 1;
+      if (v > 1) { qtyValue.value = v - 1; updateTotalPrice(); }
     });
     document.getElementById('qtyPlus').addEventListener('click', () => {
       qtyValue.value = parseInt(qtyValue.value) + 1;
+      updateTotalPrice();
     });
     qtyValue.addEventListener('change', function() {
       var v = parseInt(qtyValue.value);
       if (isNaN(v) || v < 1) qtyValue.value = 1;
+      updateTotalPrice();
     });
 
     // Size select -> show delivery time + activate Add to Cart
