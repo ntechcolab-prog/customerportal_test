@@ -386,17 +386,6 @@
     .lang-option:hover { background: #f0faf9; }
     .lang-option.active { color: #007167; background: #e6f4f3; }
 
-    /* ── CHECKOUT STEPPER ─── */
-    .checkout-stepper { display: flex; align-items: center; justify-content: center; gap: 0; padding: 20px 32px 0; }
-    .checkout-step { display: flex; align-items: center; gap: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: #86868b; white-space: nowrap; }
-    .checkout-step.active { color: #007167; font-weight: 600; }
-    .checkout-step.completed { color: #007167; }
-    .checkout-step-number { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #d1d5db; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #86868b; flex-shrink: 0; }
-    .checkout-step.active .checkout-step-number { background: #007167; color: #fff; border-color: #007167; }
-    .checkout-step.completed .checkout-step-number { background: #007167; color: #fff; border-color: #007167; }
-    .checkout-step-line { width: 40px; height: 1px; background: #d1d5db; flex-shrink: 0; }
-    .checkout-step-line.completed { background: #007167; }
-
     /* ── BREADCRUMB ─── */
     .breadcrumb {
       background: #fff;
@@ -1286,7 +1275,7 @@
     @media (max-width: 960px) {
       .checkout-layout { grid-template-columns: 1fr; }
       .sidebar { position: static; }
-      .checkout-stepper { padding: 16px 16px 0; flex-wrap: wrap; }
+
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1556,24 +1545,6 @@
     <span class="breadcrumb-current" data-i18n="checkout.checkoutLabel">Checkout</span>
   </div>
 
-  <!-- CHECKOUT STEPPER -->
-  <div class="checkout-stepper">
-    <div class="checkout-step completed">
-      <span class="checkout-step-number">&#10003;</span> Cart
-    </div>
-    <div class="checkout-step-line completed"></div>
-    <div class="checkout-step completed">
-      <span class="checkout-step-number">&#10003;</span> Details
-    </div>
-    <div class="checkout-step-line completed"></div>
-    <div class="checkout-step active">
-      <span class="checkout-step-number">3</span> Review
-    </div>
-    <div class="checkout-step-line"></div>
-    <div class="checkout-step">
-      <span class="checkout-step-number">4</span> Confirmation
-    </div>
-  </div>
 
   <!-- MAIN -->
   <main class="main">
