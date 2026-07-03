@@ -372,7 +372,7 @@
     .lang-option:hover { background: #f0faf9; }
     .lang-option.active { color: #007167; background: #e6f4f3; }
 
-    /* ── BREADCRUMB (inline in page-header) ─── */
+    /* ── BREADCRUMB ─── */
     .breadcrumb {
       display: flex;
       align-items: center;
@@ -385,29 +385,11 @@
     .breadcrumb-sep { color: #c3c5c7; font-size: 10px; }
     .breadcrumb-current { color: #86868b; }
 
-    /* ── PAGE HEADER ─── */
-    .page-header {
-      padding: 20px 32px 0;
+    /* ── BREADCRUMB BAR ─── */
+    .breadcrumb-bar {
+      padding: 10px 32px;
       display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .page-header-row {
-      display: flex;
-      align-items: baseline;
-      gap: 14px;
-    }
-    .page-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: #1d1d1f;
-      letter-spacing: -0.5px;
-    }
-    .page-ref {
-      font-size: 13px;
-      font-weight: 400;
-      color: #86868b;
-      letter-spacing: 0.02em;
+      align-items: center;
     }
 
     /* ── MAIN LAYOUT ─── */
@@ -432,10 +414,16 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
     }
     .product-title {
-      display: none; /* title moved to page-header */
+      font-size: 24px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.3px;
+      margin-bottom: 2px;
     }
     .product-ref {
-      display: none; /* ref moved to page-header */
+      font-size: 13px;
+      color: #86868b;
+      margin-bottom: 16px;
     }
 
     /* ── GALLERY ─── */
@@ -1665,8 +1653,7 @@
     @media (max-width: 768px) {
       .topbar { padding: 0 16px; }
       .app-header { padding: 0 16px; height: 56px; }
-      .page-header { padding: 16px 16px 0; }
-      .page-title { font-size: 22px; }
+      .breadcrumb-bar { padding: 8px 16px; }
       .main { padding: 12px 16px 24px; gap: 16px; }
       .product-info { padding: 20px; }
       .order-panel { padding: 20px; }
@@ -1683,8 +1670,7 @@
     @media (max-width: 480px) {
       .topbar { padding: 0 12px; }
       .app-header { padding: 0 12px; }
-      .page-header { padding: 12px 12px 0; }
-      .page-title { font-size: 20px; }
+      .breadcrumb-bar { padding: 6px 12px; }
       .main { padding: 8px 12px 20px; }
       .product-gallery-main { height: 200px; }
       .specs-grid { grid-template-columns: 1fr; }
@@ -1952,19 +1938,15 @@
   </div>
   </div>
 
-  <!-- PAGE HEADER -->
-  <div class="page-header">
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
       <span class="breadcrumb-sep" aria-hidden="true">/</span>
       <a href="shop.html" data-i18n="breadcrumb.shop">Shop</a>
       <span class="breadcrumb-sep" aria-hidden="true">/</span>
-      <span class="breadcrumb-current" aria-current="page">NETZSCH CERABEADS 0.4</span>
+      <span class="breadcrumb-current" aria-current="page">CERABEADS 0.4</span>
     </nav>
-    <div class="page-header-row">
-      <h1 class="page-title">NETZSCH CERABEADS 0.4</h1>
-      <span class="page-ref">Ref: 443385</span>
-    </div>
   </div>
 
   <!-- MAIN -->
