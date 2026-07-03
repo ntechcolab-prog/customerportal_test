@@ -656,6 +656,27 @@
       transition: background 0.15s;
     }
     .milla-results-search-bar .search-edit:hover { background: rgba(255, 255, 255, 0.3); }
+    .modal-subset-select {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='rgba(255,255,255,0.7)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0 center;
+      padding-right: 18px;
+    }
+    .modal-subset-select option {
+      color: #1d1d1f;
+      background: #fff;
+    }
 
     /* Close button — outside modal, top-right */
     .milla-modal-close {
@@ -2021,11 +2042,24 @@
         </div>
       </div>
       <!-- Persistent search bar (shown with results) -->
+      <!-- Header: search query (shown when opened via Milla) -->
       <div class="milla-results-search" id="milla-results-search">
         <div class="milla-results-search-bar">
           <img src="../assets/icon-sparkle.svg" alt="" style="filter: brightness(0) invert(1);">
           <span id="milla-search-query-display">ring from the inner chamber</span>
           <button type="button" class="search-edit" id="milla-search-edit">Edit</button>
+        </div>
+      </div>
+      <!-- Header: subset selector (shown when opened via subset) -->
+      <div class="milla-results-search" id="milla-results-subset" style="display:none;">
+        <div class="milla-results-search-bar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <select class="modal-subset-select" id="modal-subset-select">
+            <option value="Sealings FFKM">Sealings FFKM</option>
+            <option value="Complete bearing">Complete bearing</option>
+            <option value="Grinding chamber complete">Grinding chamber complete</option>
+            <option value="Inlet flange complete">Inlet flange complete</option>
+          </select>
         </div>
       </div>
       <!-- Results state (shown after reasoning) -->
@@ -2266,6 +2300,7 @@ document.addEventListener('click', function(e) {
       btnSearch.classList.remove('enabled');
       document.getElementById('milla-banner').style.display = '';
       document.getElementById('milla-results-search').style.display = 'none';
+      document.getElementById('milla-results-subset').style.display = 'none';
       document.getElementById('milla-results').style.display = 'none';
     }
 
@@ -2320,13 +2355,20 @@ document.addEventListener('click', function(e) {
       e.stopPropagation();
       subsetWrapper.classList.toggle('is-open');
     });
-    function showResultsModal(queryText) {
+    function showResultsModal(queryText, isSubset) {
       millaOverlay.classList.add('open');
       document.body.style.overflow = 'hidden';
       document.getElementById('milla-banner').style.display = 'none';
-      document.getElementById('milla-results-search').style.display = 'block';
       document.getElementById('milla-results').style.display = 'block';
-      document.getElementById('milla-search-query-display').textContent = queryText;
+      if (isSubset) {
+        document.getElementById('milla-results-search').style.display = 'none';
+        document.getElementById('milla-results-subset').style.display = 'block';
+        document.getElementById('modal-subset-select').value = queryText;
+      } else {
+        document.getElementById('milla-results-subset').style.display = 'none';
+        document.getElementById('milla-results-search').style.display = 'block';
+        document.getElementById('milla-search-query-display').textContent = queryText;
+      }
     }
 
     subsetOptions.forEach(opt => {
@@ -2337,8 +2379,7 @@ document.addEventListener('click', function(e) {
         subsetOptions.forEach(o => o.classList.remove('is-selected'));
         opt.classList.add('is-selected');
         subsetWrapper.classList.remove('is-open');
-        // Open results modal with subset name as query
-        setTimeout(() => { showResultsModal(value); }, 250);
+        setTimeout(() => { showResultsModal(value, true); }, 250);
       });
     });
     document.addEventListener('click', (e) => {
