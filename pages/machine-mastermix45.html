@@ -586,9 +586,9 @@
     }
     .milla-modal {
       position: relative;
-      width: 640px;
+      width: 720px;
       max-width: 92vw;
-      max-height: 80vh;
+      max-height: 85vh;
       border-radius: 16px;
       overflow: visible;
       display: flex;
@@ -747,6 +747,71 @@
       font-size: 11px;
     }
     .milla-results-table .td-action { text-align: right; white-space: nowrap; }
+
+    /* Drawing thumbnail in results */
+    .milla-results-drawing {
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: zoom-in;
+      background: #fafbfc;
+      max-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .milla-results-drawing img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 12px;
+      transition: transform 0.3s ease;
+    }
+    .milla-results-drawing:hover img { transform: scale(1.03); }
+
+    /* Drawing lightbox */
+    .drawing-lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .drawing-lightbox.open { opacity: 1; pointer-events: auto; }
+    .drawing-lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+    .drawing-lightbox-content img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .drawing-lightbox-close {
+      position: absolute;
+      top: -36px;
+      right: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      transition: background 0.15s;
+    }
+    .drawing-lightbox-close:hover { background: rgba(255, 255, 255, 0.45); }
     .td-action-row {
       display: inline-flex;
       align-items: center;
@@ -1969,14 +2034,21 @@
           <h3 class="milla-results-title">Spare Parts Found</h3>
           <span class="milla-results-count">2 results</span>
         </div>
+
+        <!-- Technical drawing -->
+        <div class="milla-results-drawing">
+          <img src="../assets/drawing-discus30-grinding.png" alt="Grinding chamber technical drawing" id="milla-drawing-img">
+        </div>
+
+        <!-- Results table -->
         <div class="milla-results-table-wrap">
           <table class="milla-results-table">
             <thead>
               <tr>
                 <th>Itm</th>
-                <th>Material Number</th>
+                <th>Material Nr.</th>
                 <th>Description</th>
-                <th>Price per unit</th>
+                <th>Price/unit</th>
                 <th></th>
               </tr>
             </thead>
@@ -2021,6 +2093,16 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Drawing lightbox -->
+      <div class="drawing-lightbox" id="drawing-lightbox">
+        <div class="drawing-lightbox-content">
+          <button type="button" class="drawing-lightbox-close" id="drawing-lightbox-close" aria-label="Close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing — full view">
         </div>
       </div>
       </div><!-- /milla-modal-inner -->
@@ -2088,6 +2170,22 @@
           }
         });
       });
+
+      // Drawing lightbox
+      var drawingImg = document.getElementById('milla-drawing-img');
+      var lightbox = document.getElementById('drawing-lightbox');
+      var lightboxClose = document.getElementById('drawing-lightbox-close');
+      if (drawingImg && lightbox) {
+        drawingImg.parentElement.addEventListener('click', function() {
+          lightbox.classList.add('open');
+        });
+        lightboxClose.addEventListener('click', function() {
+          lightbox.classList.remove('open');
+        });
+        lightbox.addEventListener('click', function(e) {
+          if (e.target === lightbox) lightbox.classList.remove('open');
+        });
+      }
     })();
     </script>
 
