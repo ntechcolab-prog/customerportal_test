@@ -561,7 +561,7 @@
       border-radius: 8px;
       gap: 8px;
     }
-    .spare-action-card .subset-select img { position: absolute; right: 10px; }
+    .spare-action-card .subset-select svg { flex-shrink: 0; }
 
     /* ── MILLA MODAL ─── */
     .milla-modal-overlay {
@@ -1868,7 +1868,7 @@
         <div class="subset-wrapper" id="subset-wrapper">
           <button type="button" class="subset-select" id="subset-select">
             <span id="subset-select-label" data-i18n="machine.selectSubset">Choose...</span>
-            <img src="../assets/icon-chevron-down-input.svg" alt="">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5l3 3 3-3" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <div class="subset-dropdown" role="listbox">
             <button type="button" class="subset-option" data-subset="Sealings FFKM">Sealings FFKM</button>
