@@ -107,11 +107,16 @@
     '<input type="search" id="docFilterSearch" placeholder="Search document...">';
   topRow.appendChild(searchWrap);
 
-  // Language dropdown (right-aligned)
+  // Divider
+  var divTop = document.createElement('div');
+  divTop.className = 'doc-filter-divider';
+  topRow.appendChild(divTop);
+
+  // Language dropdown
   var langWrap = document.createElement('div');
   langWrap.className = 'doc-lang-wrap';
   langWrap.innerHTML =
-    '<span class="doc-lang-label">Lang</span>' +
+    '<span class="doc-lang-label">Lang.</span>' +
     '<select class="doc-lang-select" id="docLangSelect">' +
       langs.map(function (l) {
         return '<option value="' + l.code + '"' + (l.code === activeLang ? ' selected' : '') + '>' + l.label + '</option>';
