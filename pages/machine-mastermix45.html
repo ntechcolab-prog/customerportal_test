@@ -565,14 +565,16 @@
     .milla-modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 30, 27, 0.45);
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
       z-index: 500;
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.25s ease;
     }
     .milla-modal-overlay.open {
       opacity: 1;
@@ -580,14 +582,16 @@
     }
     .milla-modal {
       position: relative;
-      width: 720px;
-      max-width: 90vw;
-      max-height: 85vh;
-      border-radius: 20px;
+      width: 640px;
+      max-width: 92vw;
+      max-height: 80vh;
+      border-radius: 16px;
       overflow: hidden;
-      overflow-y: auto;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-      transform: scale(0.95) translateY(10px);
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
       transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
     }
     .milla-modal-overlay.open .milla-modal {
@@ -595,53 +599,104 @@
     }
     .milla-modal .milla-banner {
       border-radius: 0;
-      min-height: 320px;
+      min-height: 0;
+      flex-shrink: 0;
+      transition: min-height 0.3s ease;
     }
+    .milla-modal .milla-banner:not(.is-reasoning) { min-height: 280px; }
+    .milla-modal .milla-banner.has-results { min-height: 0; padding: 20px 24px; }
+    .milla-modal .milla-banner.has-results .milla-expanded { display: none; }
+    .milla-modal .milla-banner.has-results .milla-collapsed { display: none; }
     .milla-collapsed { display: none; }
 
+    /* Search bar that persists in results state */
+    .milla-results-search {
+      display: none;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      flex-shrink: 0;
+    }
+    .milla-results-search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 0 14px;
+    }
+    .milla-results-search-bar img { width: 16px; height: 16px; opacity: 0.7; }
+    .milla-results-search-bar span {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      flex: 1;
+    }
+    .milla-results-search-bar .search-edit {
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .milla-results-search-bar .search-edit:hover { background: rgba(255, 255, 255, 0.3); }
+
+    /* Close button — floats top-right of modal */
     .milla-modal-close {
       position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 32px;
-      height: 32px;
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.18);
+      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: #fff;
+      color: rgba(255, 255, 255, 0.8);
       z-index: 10;
-      transition: background 0.2s, transform 0.2s;
+      transition: background 0.15s, color 0.15s, transform 0.2s;
     }
-    .milla-modal-close:hover { background: rgba(255,255,255,0.3); transform: scale(1.1); }
+    .milla-modal-close:hover { background: rgba(255, 255, 255, 0.3); color: #fff; transform: scale(1.08); }
+    .milla-modal-close svg { width: 14px; height: 14px; }
 
     /* ── MILLA RESULTS (inside modal) ─── */
     .milla-results {
       background: #fff;
-      padding: 24px;
+      padding: 20px 24px 24px;
+      flex: 1;
+      overflow-y: auto;
     }
     .milla-results-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .milla-results-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: #1d1d1f;
+      letter-spacing: -0.01em;
     }
     .milla-results-count {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       color: #86868b;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 3px 8px;
+      border-radius: 999px;
     }
     .milla-results-table-wrap {
       border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
     }
     .milla-results-table {
@@ -651,7 +706,7 @@
     }
     .milla-results-table thead th {
       text-align: left;
-      padding: 10px 14px;
+      padding: 9px 14px;
       font-size: 10px;
       font-weight: 600;
       color: #86868b;
@@ -661,22 +716,24 @@
       border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     }
     .milla-results-table tbody td {
-      padding: 12px 14px;
-      font-size: 13px;
+      padding: 10px 14px;
+      font-size: 12px;
       color: #1d1d1f;
       border-bottom: 1px solid rgba(0, 0, 0, 0.04);
     }
     .milla-results-table tbody tr:last-child td { border-bottom: none; }
-    .milla-results-table tbody tr:hover { background: rgba(0, 0, 0, 0.02); }
+    .milla-results-table tbody tr { transition: background 0.1s; }
+    .milla-results-table tbody tr:hover { background: rgba(0, 113, 103, 0.03); }
     .milla-results-table .mono {
       font-variant-numeric: tabular-nums;
-      font-size: 12px;
+      font-size: 11px;
       color: #6b7280;
+      letter-spacing: 0.02em;
     }
     .milla-results-table .quotation {
       color: #007167;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 11px;
     }
     .milla-results-table .td-action { text-align: right; }
     .btn-add-sm {
@@ -1822,6 +1879,14 @@
           </div>
         </div>
       </div>
+      <!-- Persistent search bar (shown with results) -->
+      <div class="milla-results-search" id="milla-results-search">
+        <div class="milla-results-search-bar">
+          <img src="../assets/icon-sparkle.svg" alt="" style="filter: brightness(0) invert(1);">
+          <span id="milla-search-query-display">ring from the inner chamber</span>
+          <button type="button" class="search-edit" id="milla-search-edit">Edit</button>
+        </div>
+      </div>
       <!-- Results state (shown after reasoning) -->
       <div class="milla-results" id="milla-results" style="display:none;">
         <div class="milla-results-header">
@@ -1941,12 +2006,19 @@ document.addEventListener('click', function(e) {
       searchInput.value = '';
       btnSearch.classList.remove('enabled');
       document.getElementById('milla-banner').style.display = '';
+      document.getElementById('milla-results-search').style.display = 'none';
       document.getElementById('milla-results').style.display = 'none';
-      var closeBtn = document.getElementById('milla-modal-close-btn');
-      closeBtn.style.background = '';
-      closeBtn.style.borderColor = '';
-      closeBtn.style.color = '';
     }
+
+    // Edit button in results — go back to search
+    document.getElementById('milla-search-edit').addEventListener('click', function() {
+      document.getElementById('milla-results-search').style.display = 'none';
+      document.getElementById('milla-results').style.display = 'none';
+      document.getElementById('milla-banner').style.display = '';
+      banner.classList.add('is-open', 'is-search');
+      banner.classList.remove('is-reasoning');
+      searchInput.focus();
+    });
 
     // Close on X button
     btnClose.addEventListener('click', closeMillaModal);
@@ -2026,14 +2098,11 @@ document.addEventListener('click', function(e) {
       banner.classList.add('is-reasoning');
       // Após 2.4s, navega pra tela de resultados
       setTimeout(() => {
-        // Show results inside modal instead of navigating
+        // Show search bar + results inside modal
         document.getElementById('milla-banner').style.display = 'none';
+        document.getElementById('milla-results-search').style.display = 'block';
         document.getElementById('milla-results').style.display = 'block';
-        // Change close button to dark style (white background)
-        var closeBtn = document.getElementById('milla-modal-close-btn');
-        closeBtn.style.background = 'rgba(0,0,0,0.06)';
-        closeBtn.style.borderColor = 'rgba(0,0,0,0.1)';
-        closeBtn.style.color = '#6b7280';
+        document.getElementById('milla-search-query-display').textContent = query || 'ring from the inner chamber';
       }, 2400);
     });
   </script>
