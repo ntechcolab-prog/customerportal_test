@@ -752,11 +752,11 @@
     .milla-results-drawing {
       margin-bottom: 16px;
       border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
       cursor: zoom-in;
       background: #fafbfc;
-      max-height: 180px;
+      max-height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -2320,18 +2320,25 @@ document.addEventListener('click', function(e) {
       e.stopPropagation();
       subsetWrapper.classList.toggle('is-open');
     });
+    function showResultsModal(queryText) {
+      millaOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('milla-banner').style.display = 'none';
+      document.getElementById('milla-results-search').style.display = 'block';
+      document.getElementById('milla-results').style.display = 'block';
+      document.getElementById('milla-search-query-display').textContent = queryText;
+    }
+
     subsetOptions.forEach(opt => {
       opt.addEventListener('click', () => {
         const value = opt.dataset.subset;
-        const href = opt.dataset.href;
         subsetLabel.textContent = value;
         subsetBtn.classList.add('has-value');
         subsetOptions.forEach(o => o.classList.remove('is-selected'));
         opt.classList.add('is-selected');
         subsetWrapper.classList.remove('is-open');
-        if (href) {
-          setTimeout(() => { window.location.href = href; }, 250);
-        }
+        // Open results modal with subset name as query
+        setTimeout(() => { showResultsModal(value); }, 250);
       });
     });
     document.addEventListener('click', (e) => {
@@ -2357,11 +2364,7 @@ document.addEventListener('click', function(e) {
       banner.classList.add('is-reasoning');
       // Após 2.4s, navega pra tela de resultados
       setTimeout(() => {
-        // Show search bar + results inside modal
-        document.getElementById('milla-banner').style.display = 'none';
-        document.getElementById('milla-results-search').style.display = 'block';
-        document.getElementById('milla-results').style.display = 'block';
-        document.getElementById('milla-search-query-display').textContent = query || 'ring from the inner chamber';
+        showResultsModal(query || 'ring from the inner chamber');
       }, 2400);
     });
   </script>
