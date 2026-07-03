@@ -26,9 +26,9 @@
       align-items: center;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 170;
       position: sticky;
       top: 0;
+      z-index: 161;
     }
     .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
     .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
@@ -401,13 +401,24 @@
     .breadcrumb-sep { color: #c3c5c7; }
     .breadcrumb-current { color: #6b7280; }
 
+    /* ── CHECKOUT STEPPER ─── */
+    .checkout-stepper { display: flex; align-items: center; justify-content: center; gap: 0; padding: 20px 32px 0; }
+    .checkout-step { display: flex; align-items: center; gap: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: #86868b; white-space: nowrap; }
+    .checkout-step.active { color: #007167; font-weight: 600; }
+    .checkout-step.completed { color: #007167; }
+    .checkout-step-number { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #d1d5db; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #86868b; flex-shrink: 0; }
+    .checkout-step.active .checkout-step-number { background: #007167; color: #fff; border-color: #007167; }
+    .checkout-step.completed .checkout-step-number { background: #007167; color: #fff; border-color: #007167; }
+    .checkout-step-line { width: 40px; height: 1px; background: #d1d5db; flex-shrink: 0; }
+    .checkout-step-line.completed { background: #007167; }
+
     /* ── MAIN ─── */
     .main {
       flex: 1;
-      padding: 24px 32px 48px;
+      padding: 16px 32px 32px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
     }
 
     /* ── BACK LINK ─── */
@@ -440,16 +451,20 @@
 
     /* ── CARD ─── */
     .card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
       padding: 24px;
     }
     .card-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.2px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       margin-bottom: 20px;
     }
 
@@ -458,9 +473,12 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      padding-bottom: 20px;
+      padding: 12px;
       border-bottom: 1px solid #f3f4f6;
+      transition: background 0.15s;
+      border-radius: 12px;
     }
+    .product-row:hover { background: rgba(0, 0, 0, 0.02); }
     .product-thumb {
       width: 80px;
       height: 80px;
@@ -507,12 +525,16 @@
       display: flex;
       align-items: center;
       gap: 4px;
+      height: 44px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 12px;
+      padding: 0 4px;
     }
     .qty-btn {
       width: 32px; height: 32px;
       display: flex; align-items: center; justify-content: center;
-      border: 1px solid #e5e7eb;
-      border-radius: 6px;
+      border: none;
+      border-radius: 8px;
       background: #fff;
       cursor: pointer;
       color: #007167;
@@ -520,21 +542,21 @@
     }
     .qty-btn:hover { background: #f0faf9; }
     .qty-btn.delete-btn {
-      border-color: transparent;
       color: #c73e20;
-      margin-left: 8px;
+      margin-left: 4px;
     }
     .qty-btn.delete-btn:hover { background: #fdf2f0; }
     .qty-btn svg { width: 16px; height: 16px; }
     .qty-input {
       width: 48px; height: 32px;
-      border: 1px solid #e5e7eb;
-      border-radius: 6px;
+      border: none;
+      border-radius: 8px;
       text-align: center;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 500;
       color: #1f2937;
+      background: transparent;
     }
     .qty-input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
@@ -629,18 +651,25 @@
       background: #007167;
       color: #fff;
       border: none;
-      border-radius: 999px;
+      border-radius: 14px;
       font-family: 'Inter', sans-serif;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       margin-top: 16px;
-      transition: background 0.15s;
+      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.25);
+      transition: all 0.25s ease;
     }
-    .btn-checkout:hover { background: #005f57; }
+    .btn-checkout:hover { background: #005f57; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0, 113, 103, 0.3); }
     .btn-checkout.is-disabled { background: #d7d9db; color: #8b8e91; pointer-events: none; cursor: not-allowed; }
     .btn-checkout svg { width: 20px; height: 20px; }
+
+    /* ── PAYMENT SIDEBAR STICKY ─── */
+    .card.payment-card {
+      position: sticky;
+      top: 120px;
+    }
 
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -1142,12 +1171,21 @@
 
 
     /* ── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .card.payment-card { position: static; }
+      .checkout-stepper { padding: 16px 16px 0; }
+      .product-row { flex-wrap: wrap; }
+    }
     @media (max-width: 768px) {
       .topbar { padding: 0 16px; }
       .app-header { padding: 0 16px; height: 56px; }
       .breadcrumb { padding: 0 16px; }
       .main { padding: 16px; }
-    
+      .checkout-stepper { padding: 12px 16px 0; gap: 0; }
+      .checkout-step { padding: 6px 8px; font-size: 12px; }
+      .checkout-step-line { width: 24px; }
+
       .title-bar h1, .page-title { font-size: 20px; }
     }
     @media (max-width: 480px) {
@@ -1158,12 +1196,10 @@
       .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
       .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
-    
-      .title-bar h1, .page-title { font-size: 18px; }
-    }
+      .checkout-stepper { flex-wrap: wrap; justify-content: center; }
+      .checkout-step-line { width: 16px; }
 
-    @media (max-width: 768px) {
-      .cart-layout { grid-template-columns: 1fr; }
+      .title-bar h1, .page-title { font-size: 18px; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1431,6 +1467,25 @@
     <span class="breadcrumb-current" data-i18n="checkout.title">Shopping Cart</span>
   </div>
 
+  <!-- CHECKOUT STEPPER -->
+  <div class="checkout-stepper">
+    <div class="checkout-step active">
+      <span class="checkout-step-number">1</span> Cart
+    </div>
+    <div class="checkout-step-line"></div>
+    <div class="checkout-step">
+      <span class="checkout-step-number">2</span> Details
+    </div>
+    <div class="checkout-step-line"></div>
+    <div class="checkout-step">
+      <span class="checkout-step-number">3</span> Review
+    </div>
+    <div class="checkout-step-line"></div>
+    <div class="checkout-step">
+      <span class="checkout-step-number">4</span> Confirmation
+    </div>
+  </div>
+
   <!-- MAIN -->
   <main class="main">
 
@@ -1467,7 +1522,7 @@
       </div>
 
       <!-- RIGHT: PAYMENT DETAILS -->
-      <div class="card">
+      <div class="card payment-card">
         <h2 class="card-title" data-i18n="checkout.paymentDetails">Payment Details</h2>
 
         <div class="payment-row">

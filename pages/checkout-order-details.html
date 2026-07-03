@@ -26,7 +26,7 @@
       align-items: center;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 170;
+      z-index: 161;
       position: sticky;
       top: 0;
     }
@@ -385,6 +385,17 @@
     .lang-option:hover { background: #f0faf9; }
     .lang-option.active { color: #007167; background: #e6f4f3; }
 
+    /* ── CHECKOUT STEPPER ─── */
+    .checkout-stepper { display: flex; align-items: center; justify-content: center; gap: 0; padding: 20px 32px 0; }
+    .checkout-step { display: flex; align-items: center; gap: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: #86868b; white-space: nowrap; }
+    .checkout-step.active { color: #007167; font-weight: 600; }
+    .checkout-step.completed { color: #007167; }
+    .checkout-step-number { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #d1d5db; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #86868b; flex-shrink: 0; }
+    .checkout-step.active .checkout-step-number { background: #007167; color: #fff; border-color: #007167; }
+    .checkout-step.completed .checkout-step-number { background: #007167; color: #fff; border-color: #007167; }
+    .checkout-step-line { width: 40px; height: 1px; background: #d1d5db; flex-shrink: 0; }
+    .checkout-step-line.completed { background: #007167; }
+
     /* ── BREADCRUMB ─── */
     .breadcrumb {
       background: #fff;
@@ -404,10 +415,10 @@
     /* ── MAIN ─── */
     .main {
       flex: 1;
-      padding: 24px 32px 48px;
+      padding: 16px 32px 32px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
     }
 
     /* ── BACK LINK ─── */
@@ -445,10 +456,13 @@
 
     /* ── CARD ─── */
     .card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 28px;
     }
 
     /* ── FORM SECTIONS ─── */
@@ -458,9 +472,11 @@
       border-top: 1px solid #f3f4f6;
     }
     .form-section-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1f2937;
+      font-size: 13px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       margin-bottom: 16px;
     }
     .form-label {
@@ -475,31 +491,35 @@
     }
     .form-input {
       width: 100%;
-      height: 40px;
-      border: 1px solid #b1b4b7;
-      border-radius: 10px;
+      height: 44px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 12px;
       padding: 0 14px;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       color: #1f2937;
       background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     .form-input::placeholder { color: #9ca3af; }
+    .form-input:hover { border-color: rgba(0, 0, 0, 0.2); }
     .form-input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
     .form-textarea {
       width: 100%;
-      min-height: 80px;
-      border: 1px solid #b1b4b7;
-      border-radius: 10px;
-      padding: 10px 14px;
+      min-height: 100px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 12px;
+      padding: 12px 14px;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       color: #1f2937;
       background: #fff;
       resize: vertical;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     .form-textarea::placeholder { color: #9ca3af; }
+    .form-textarea:hover { border-color: rgba(0, 0, 0, 0.2); }
     .form-textarea:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
     /* ── INFO BANNER ─── */
@@ -507,9 +527,10 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      background: #e8f5f3;
-      border-radius: 10px;
-      padding: 12px 14px;
+      background: rgba(0, 113, 103, 0.04);
+      border: 1px solid rgba(0, 113, 103, 0.1);
+      border-radius: 12px;
+      padding: 14px 16px;
       margin-bottom: 12px;
     }
     .info-banner-icon {
@@ -527,18 +548,24 @@
 
     /* ── SIDEBAR — PAYMENT DETAILS ─── */
     .card-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.2px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       margin-bottom: 20px;
     }
     .sidebar-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 28px;
       align-self: flex-start;
+      position: sticky;
+      top: 120px;
     }
     .payment-row {
       display: flex;
@@ -591,27 +618,32 @@
     .btn-review {
       display: block;
       width: 100%;
-      height: 44px;
+      height: 48px;
       margin-top: 20px;
       border: none;
-      border-radius: 999px;
+      border-radius: 14px;
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: background 0.15s, box-shadow 0.15s;
       text-align: center;
       text-decoration: none;
-      line-height: 44px;
+      line-height: 48px;
     }
     .btn-review.disabled {
-      background: #d1d5db;
+      background: #e8eaed;
       color: #9ca3af;
+      cursor: not-allowed;
+      border: 1px solid rgba(0, 0, 0, 0.08);
       pointer-events: none;
     }
     .btn-review.active {
       background: #007167;
       color: #fff;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.25);
+      cursor: pointer;
     }
     .btn-review.active:hover {
       background: #005f57;
@@ -1141,8 +1173,9 @@
       .title-bar h1, .page-title { font-size: 18px; }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 960px) {
       .checkout-layout { grid-template-columns: 1fr; }
+      .sidebar-card { position: static; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1410,6 +1443,25 @@
     <a href="checkout-cart.html" data-i18n="checkout.title">Shopping Cart</a>
     <span class="breadcrumb-sep">/</span>
     <span class="breadcrumb-current" data-i18n="checkout.checkoutLabel">Checkout</span>
+  </div>
+
+  <!-- CHECKOUT STEPPER -->
+  <div class="checkout-stepper">
+    <div class="checkout-step completed">
+      <span class="checkout-step-number">&#10003;</span> Cart
+    </div>
+    <div class="checkout-step-line completed"></div>
+    <div class="checkout-step active">
+      <span class="checkout-step-number">2</span> Details
+    </div>
+    <div class="checkout-step-line"></div>
+    <div class="checkout-step">
+      <span class="checkout-step-number">3</span> Review
+    </div>
+    <div class="checkout-step-line"></div>
+    <div class="checkout-step">
+      <span class="checkout-step-number">4</span> Confirmation
+    </div>
   </div>
 
   <!-- MAIN -->

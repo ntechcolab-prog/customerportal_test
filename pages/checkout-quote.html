@@ -27,7 +27,7 @@
       align-items: center;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 170;
+      z-index: 161;
       position: sticky;
       top: 0;
     }
@@ -405,18 +405,21 @@
     /* ── MAIN ─── */
     .main {
       flex: 1;
-      padding: 24px 32px 48px;
+      padding: 16px 32px 32px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
     }
 
     /* ── TITLE BAR ─── */
     .title-bar {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 28px;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -425,7 +428,8 @@
     .title-bar-text h1 {
       font-size: 24px;
       font-weight: 700;
-      color: #1f2937;
+      color: #1d1d1f;
+      letter-spacing: -0.3px;
       margin-bottom: 8px;
     }
     .title-bar-text p {
@@ -443,34 +447,35 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      height: 40px;
-      padding: 0 20px;
-      border-radius: 999px;
+      height: 44px;
+      padding: 0 22px;
+      border-radius: 12px;
       background: #007167;
       border: none;
       font-family: 'Inter', sans-serif;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       color: #fff;
       cursor: pointer;
       white-space: nowrap;
-      transition: background 0.15s;
+      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.25);
+      transition: background 0.15s, box-shadow 0.15s;
     }
-    .btn-primary:hover { background: #005f57; }
+    .btn-primary:hover { background: #005f57; box-shadow: 0 4px 12px rgba(0, 113, 103, 0.3); }
     .btn-primary svg { width: 16px; height: 16px; }
     .btn-gray-outline {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      height: 40px;
-      padding: 0 20px;
-      border-radius: 999px;
+      height: 44px;
+      padding: 0 22px;
+      border-radius: 12px;
       background: #fff;
-      border: 1px solid #d1d5db;
+      border: 1px solid rgba(0, 0, 0, 0.1);
       font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 500;
-      color: #6b7280;
+      color: #374151;
       cursor: pointer;
       white-space: nowrap;
       transition: background 0.15s;
@@ -480,66 +485,106 @@
 
     /* ── CARD ─── */
     .card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 28px;
     }
     .card-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.2px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       margin-bottom: 20px;
     }
 
-    /* ── PROGRESS BAR ─── */
+    /* ── PROGRESS BAR / STEPPER ─── */
     .progress-bar-wrap {
       display: flex;
-      border-radius: 20px;
-      overflow: hidden;
-      background: #fff;
+      align-items: center;
+      gap: 0;
+      background: transparent;
     }
     .progress-step {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      white-space: nowrap;
+    }
+    .progress-step::before {
+      content: attr(data-step);
+      width: 32px;
       height: 32px;
+      border-radius: 50%;
+      background: #e8eaed;
+      color: #86868b;
+      font-size: 13px;
+      font-weight: 600;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #dee0e0;
-      color: #6b7280;
-      font-size: 14px;
-      font-weight: 400;
-      white-space: nowrap;
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
-      margin-left: -9px;
-      padding: 0 8px 0 16px;
+      position: relative;
+      z-index: 2;
     }
-    .progress-step:first-child {
-      margin-left: 0;
-      padding-left: 20px;
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+    .progress-step::after {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: calc(50% + 20px);
+      right: calc(-50% + 20px);
+      height: 2px;
+      background: #d1d5db;
+      z-index: 1;
     }
-    .progress-step:last-child {
-      padding-right: 20px;
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
+    .progress-step:last-child::after { display: none; }
+    .progress-step .step-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #86868b;
     }
-    .progress-step.active {
-      background: #4e98aa;
+    .progress-step.active::before {
+      background: #007167;
       color: #fff;
-      font-weight: 700;
+    }
+    .progress-step.active .step-label {
+      color: #007167;
+      font-weight: 600;
+    }
+    .progress-step.completed::before {
+      background: #007167;
+      color: #fff;
+      content: '\2713';
+    }
+    .progress-step.completed::after {
+      background: #007167;
+    }
+    .progress-step.completed .step-label {
+      color: #007167;
+      font-weight: 600;
     }
 
     /* ── TWO COLUMN LAYOUT ─── */
     .two-col {
       display: grid;
       grid-template-columns: 7fr 3fr;
-      gap: 16px;
+      gap: 24px;
     }
     .left-col {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
+    }
+    .two-col > .card:last-child {
+      position: sticky;
+      top: 120px;
+      align-self: start;
     }
 
     /* ── SHIPPING CARD ─── */
@@ -577,7 +622,7 @@
     }
     .payment-separator {
       border: none;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
       margin: 10px 0;
     }
     .order-total-row {
@@ -596,6 +641,59 @@
       font-weight: 700;
       color: #1f2937;
     }
+
+    /* ── ORDER TABLE ─── */
+    .order-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .order-table thead th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #86868b;
+      font-weight: 600;
+      padding: 12px 16px;
+      text-align: left;
+      background: rgba(0, 0, 0, 0.02);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .order-table tbody td {
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #1d1d1f;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      vertical-align: top;
+    }
+    .order-table tbody tr:last-child td { border-bottom: none; }
+    .order-table tbody tr:hover { background: rgba(0, 0, 0, 0.02); }
+    .order-table .product-name {
+      display: block;
+      font-weight: 600;
+      color: #1d1d1f;
+      margin-bottom: 2px;
+    }
+    .order-table .product-detail {
+      display: block;
+      font-size: 12px;
+      color: #86868b;
+    }
+
+    /* ── QUOTATION BADGE ─── */
+    .quotation-only {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(0, 113, 103, 0.08);
+      color: #007167;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
 
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -1117,9 +1215,12 @@
       .title-bar h1, .page-title { font-size: 18px; }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 960px) {
       .two-col { grid-template-columns: 1fr; }
-      .two-col { grid-template-columns: 1fr; }
+      .two-col > .card:last-child { position: static; }
+      .title-bar { flex-direction: column; }
+      .title-bar-actions { width: 100%; }
+      .progress-step .step-label { font-size: 10px; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1414,10 +1515,18 @@
     <div class="card">
       <div class="card-title" data-i18n="checkout.quoteProgress">Quotation Progress</div>
       <div class="progress-bar-wrap">
-        <div class="progress-step active" data-i18n="checkout.stepReceived">Received</div>
-        <div class="progress-step" data-i18n="checkout.stepPendingApproval">Pending Approval</div>
-        <div class="progress-step" data-i18n="checkout.stepApproved">Approved</div>
-        <div class="progress-step" data-i18n="checkout.stepConverted">Converted to Order</div>
+        <div class="progress-step active" data-step="1">
+          <span class="step-label" data-i18n="checkout.stepReceived">Received</span>
+        </div>
+        <div class="progress-step" data-step="2">
+          <span class="step-label" data-i18n="checkout.stepPendingApproval">Pending Approval</span>
+        </div>
+        <div class="progress-step" data-step="3">
+          <span class="step-label" data-i18n="checkout.stepApproved">Approved</span>
+        </div>
+        <div class="progress-step" data-step="4">
+          <span class="step-label" data-i18n="checkout.stepConverted">Converted to Order</span>
+        </div>
       </div>
     </div>
 

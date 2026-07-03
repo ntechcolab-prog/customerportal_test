@@ -27,9 +27,9 @@
       align-items: center;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 170;
       position: sticky;
       top: 0;
+      z-index: 161;
     }
     .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
     .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
@@ -386,6 +386,17 @@
     .lang-option:hover { background: #f0faf9; }
     .lang-option.active { color: #007167; background: #e6f4f3; }
 
+    /* ── CHECKOUT STEPPER ─── */
+    .checkout-stepper { display: flex; align-items: center; justify-content: center; gap: 0; padding: 20px 32px 0; }
+    .checkout-step { display: flex; align-items: center; gap: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: #86868b; white-space: nowrap; }
+    .checkout-step.active { color: #007167; font-weight: 600; }
+    .checkout-step.completed { color: #007167; }
+    .checkout-step-number { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #d1d5db; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #86868b; flex-shrink: 0; }
+    .checkout-step.active .checkout-step-number { background: #007167; color: #fff; border-color: #007167; }
+    .checkout-step.completed .checkout-step-number { background: #007167; color: #fff; border-color: #007167; }
+    .checkout-step-line { width: 40px; height: 1px; background: #d1d5db; flex-shrink: 0; }
+    .checkout-step-line.completed { background: #007167; }
+
     /* ── BREADCRUMB ─── */
     .breadcrumb {
       background: #fff;
@@ -405,10 +416,10 @@
     /* ── MAIN ─── */
     .main {
       flex: 1;
-      padding: 24px 32px 48px;
+      padding: 16px 32px 32px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
     }
 
     /* ── BACK LINK ─── */
@@ -447,17 +458,22 @@
 
     /* ── CARDS ─── */
     .review-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 28px;
       margin-bottom: 16px;
     }
     .review-card:last-child { margin-bottom: 0; }
     .review-card-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1f2937;
+      font-size: 13px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       margin-bottom: 16px;
     }
 
@@ -482,13 +498,14 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       color: #007167;
       text-decoration: none;
       padding-top: 4px;
+      transition: opacity 0.15s;
     }
-    .change-link:hover { text-decoration: underline; }
+    .change-link:hover { opacity: 0.7; }
 
     /* ── SHIPPING CARD ─── */
     .shipping-section {
@@ -543,7 +560,7 @@
     /* ── SIDEBAR ─── */
     .sidebar {
       position: sticky;
-      top: 24px;
+      top: 120px;
       align-self: flex-start;
     }
     .card-title {
@@ -554,10 +571,13 @@
       margin-bottom: 20px;
     }
     .sidebar-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 28px;
     }
     .payment-row {
       display: flex;
@@ -642,29 +662,58 @@
       gap: 8px;
       width: 100%;
       height: 48px;
-      border-radius: 999px;
+      border-radius: 14px;
       border: none;
       font-family: 'Inter', sans-serif;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: background 0.15s, box-shadow 0.15s;
       text-decoration: none;
       color: #fff;
       background: #007167;
+      box-shadow: 0 2px 8px rgba(0, 113, 103, 0.25);
     }
     .btn-primary:hover:not(.disabled-btn) { background: #005f57; }
     .btn-primary + .btn-primary { margin-top: 10px; }
     .btn-primary svg { width: 18px; height: 18px; flex-shrink: 0; }
-    .btn-primary.disabled-btn { opacity: 0.5; pointer-events: none; cursor: not-allowed; }
-    .btn-primary.is-processing {
+    .btn-primary.disabled-btn { background: #e8eaed; color: #9ca3af; cursor: not-allowed; pointer-events: none; box-shadow: none; }
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid #007167;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+      text-decoration: none;
+      color: #007167;
+      background: #fff;
+    }
+    .btn-secondary:hover:not(.disabled-btn) { background: rgba(0, 113, 103, 0.04); }
+    .btn-secondary svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .btn-secondary.disabled-btn { background: #e8eaed; color: #9ca3af; cursor: not-allowed; pointer-events: none; border-color: #e8eaed; }
+    .btn-primary.is-processing,
+    .btn-secondary.is-processing {
       pointer-events: none;
       opacity: 0.85;
     }
-    .btn-primary.is-processing span { display: none; }
-    .btn-primary.is-processing svg:first-child { display: none; }
-    .btn-primary .spinner { display: none; }
-    .btn-primary.is-processing .spinner { display: flex; align-items: center; gap: 8px; }
+    .btn-primary.is-processing span,
+    .btn-secondary.is-processing span { display: none; }
+    .btn-primary.is-processing svg:first-child,
+    .btn-secondary.is-processing svg:first-child { display: none; }
+    .btn-primary .spinner,
+    .btn-secondary .spinner { display: none; }
+    .btn-primary.is-processing .spinner,
+    .btn-secondary.is-processing .spinner { display: flex; align-items: center; gap: 8px; }
+    .btn-secondary + .btn-primary,
+    .btn-primary + .btn-secondary { margin-top: 10px; }
 
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner-icon {
@@ -1234,8 +1283,10 @@
       .title-bar h1, .page-title { font-size: 18px; }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 960px) {
       .checkout-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .checkout-stepper { padding: 16px 16px 0; flex-wrap: wrap; }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1505,6 +1556,25 @@
     <span class="breadcrumb-current" data-i18n="checkout.checkoutLabel">Checkout</span>
   </div>
 
+  <!-- CHECKOUT STEPPER -->
+  <div class="checkout-stepper">
+    <div class="checkout-step completed">
+      <span class="checkout-step-number">&#10003;</span> Cart
+    </div>
+    <div class="checkout-step-line completed"></div>
+    <div class="checkout-step completed">
+      <span class="checkout-step-number">&#10003;</span> Details
+    </div>
+    <div class="checkout-step-line completed"></div>
+    <div class="checkout-step active">
+      <span class="checkout-step-number">3</span> Review
+    </div>
+    <div class="checkout-step-line"></div>
+    <div class="checkout-step">
+      <span class="checkout-step-number">4</span> Confirmation
+    </div>
+  </div>
+
   <!-- MAIN -->
   <main class="main">
 
@@ -1663,7 +1733,7 @@
             <span data-i18n="checkout.placeOrder">Place Order</span>
             <div class="spinner"><div class="spinner-icon"></div><span class="spinner-text" data-i18n="checkout.processing">Processing...</span></div>
           </a>
-          <a href="checkout-quote.html" class="btn-primary" id="btnRequestQuote">
+          <a href="checkout-quote.html" class="btn-secondary" id="btnRequestQuote">
             <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4.5 9.5l3 3 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
