@@ -586,7 +586,7 @@
       max-width: 92vw;
       max-height: 80vh;
       border-radius: 16px;
-      overflow: hidden;
+      overflow: visible;
       display: flex;
       flex-direction: column;
       background: #fff;
@@ -596,6 +596,13 @@
     }
     .milla-modal-overlay.open .milla-modal {
       transform: scale(1) translateY(0);
+    }
+    .milla-modal-inner {
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 80vh;
     }
     .milla-modal .milla-banner {
       border-radius: 0;
@@ -646,25 +653,25 @@
     }
     .milla-results-search-bar .search-edit:hover { background: rgba(255, 255, 255, 0.3); }
 
-    /* Close button — floats top-right of modal */
+    /* Close button — outside modal, top-right */
     .milla-modal-close {
       position: absolute;
-      top: 12px;
-      right: 12px;
+      top: -36px;
+      right: 0;
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.25);
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: rgba(255, 255, 255, 0.8);
+      color: #fff;
       z-index: 10;
-      transition: background 0.15s, color 0.15s, transform 0.2s;
+      transition: background 0.15s, transform 0.2s;
     }
-    .milla-modal-close:hover { background: rgba(255, 255, 255, 0.3); color: #fff; transform: scale(1.08); }
+    .milla-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
     .milla-modal-close svg { width: 14px; height: 14px; }
 
     /* ── MILLA RESULTS (inside modal) ─── */
@@ -1875,8 +1882,9 @@
     <div class="milla-modal-overlay" id="milla-modal-overlay">
       <div class="milla-modal">
         <button type="button" class="milla-modal-close" id="milla-modal-close-btn" aria-label="Close">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
+        <div class="milla-modal-inner">
         <div class="milla-banner is-open" id="milla-banner">
         <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
 
@@ -2011,6 +2019,7 @@
           </table>
         </div>
       </div>
+      </div><!-- /milla-modal-inner -->
       </div><!-- /milla-modal -->
     </div><!-- /milla-modal-overlay -->
 
