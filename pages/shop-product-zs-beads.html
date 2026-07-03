@@ -806,74 +806,138 @@
     .btn-add-cart.active:hover { background: #005f57; }
     .form-select.selected { color: #1f2937; }
 
-    /* ── DOCUMENT FILTERS ─── */
-    .doc-top-bar {
+    /* ── DOCUMENT FILTER BAR (modern integrated toolbar) ─── */
+    .doc-filter-bar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
+      gap: 10px;
+      padding: 10px 20px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px 10px 0 0;
+      border-bottom: none;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+      margin-bottom: 0;
     }
+    .doc-filter-search {
+      position: relative;
+      width: 200px;
+      flex-shrink: 0;
+    }
+    .doc-filter-search input {
+      width: 100%;
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 0 12px 0 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #1d1d1f;
+      background: #fafbfc;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .doc-filter-search input::placeholder { color: #86868b; }
+    .doc-filter-search input:focus {
+      outline: none;
+      border-color: #007167;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
+    }
+    .doc-filter-search svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 13px;
+      height: 13px;
+      color: #86868b;
+      pointer-events: none;
+    }
+    .doc-filter-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+    .doc-filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+    .doc-filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 30px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .doc-filter-pill:hover {
+      color: #007167;
+      background: rgba(0, 113, 103, 0.05);
+    }
+    .doc-filter-pill.active {
+      background: rgba(0, 113, 103, 0.1);
+      color: #007167;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
+    }
+    .doc-filter-pill .pill-count {
+      font-weight: 600;
+      opacity: 0.5;
+      font-size: 11px;
+    }
+    .doc-filter-pill.active .pill-count { opacity: 0.7; }
     .doc-lang-wrap {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      margin-left: auto;
+      flex-shrink: 0;
     }
     .doc-lang-label {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 500;
-      color: #6b7280;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
     .doc-lang-select {
       appearance: none;
       -webkit-appearance: none;
-      border: 1px solid #d4d6d8;
-      border-radius: 8px;
-      padding: 7px 36px 7px 12px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 6px;
+      padding: 5px 28px 5px 10px;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
-      color: #2d2e33;
-      background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%236b6e73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+      color: #1d1d1f;
+      background: #fafbfc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%2386868b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 8px center;
       cursor: pointer;
       outline: none;
-      transition: border-color 0.15s;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      height: 30px;
     }
     .doc-lang-select:focus { border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
-    .doc-type-bar {
-      margin-bottom: 20px;
-    }
-    .doc-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .doc-chip {
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1px solid #d4d6d8;
-      background: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #6b7280;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .doc-chip:hover { background: #f3f4f6; }
-    .doc-chip.active {
-      background: #007167;
-      color: #fff;
-      border-color: #007167;
-      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
-    }
-    .doc-chip.active:hover { background: #005f57; }
-
     /* ── DOCUMENT TABLE ─── */
     .doc-table-wrap {
-      border: 1px solid #eef0f2;
-      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 0 0 10px 10px;
       overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
     }
     .doc-table {
       width: 100%;
@@ -883,30 +947,30 @@
     .doc-table thead th {
       text-align: left;
       padding: 10px 16px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
-      color: #6b7280;
+      color: #86868b;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
-      background: #f9fafb;
-      border-bottom: 1px solid #eef0f2;
+      letter-spacing: 0.06em;
+      background: #fafbfc;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     }
     .doc-table thead th:last-child {
       text-align: center;
       width: 56px;
     }
     .doc-table tbody tr {
-      border-bottom: 1px solid #f3f4f6;
-      transition: background 0.1s;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      transition: background 0.15s;
     }
     .doc-table tbody tr:last-child { border-bottom: none; }
-    .doc-table tbody tr:hover { background: #f5f5f7; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); }
+    .doc-table tbody tr:hover { background: #f5f5f7; }
     .doc-table tbody tr.doc-row-empty:hover { background: none; }
     .doc-table tbody tr.doc-row-empty td { border-bottom: none; }
     .doc-table tbody td {
       padding: 12px 16px;
-      font-size: 14px;
-      color: #2d2e33;
+      font-size: 13px;
+      color: #1d1d1f;
       vertical-align: middle;
     }
     .doc-td-name {
@@ -917,13 +981,14 @@
     }
     .doc-file-icon {
       flex-shrink: 0;
-      color: #9ca3af;
+      color: #86868b;
     }
     .doc-td-format {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
-      color: #9ca3af;
+      color: #86868b;
       text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
     .doc-td-action {
       text-align: center;
@@ -934,14 +999,14 @@
       display: inline-block;
       padding: 3px 10px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       white-space: nowrap;
     }
-    .doc-type-product-data { background: #e8f5f3; color: #007167; }
+    .doc-type-product-data { background: rgba(0, 113, 103, 0.08); color: #007167; }
     .doc-type-safety { background: #fef3cd; color: #856404; }
     .doc-type-certificates { background: #d1ecf1; color: #0c5460; }
-    .doc-type-technical { background: #e8eaed; color: #6b7280; }
+    .doc-type-technical { background: rgba(0, 0, 0, 0.05); color: #6b7280; }
     .doc-type-installation { background: #ede9fe; color: #6d28d9; }
     .doc-type-maintenance { background: #fde8e8; color: #c73e20; }
 
@@ -953,20 +1018,20 @@
       height: 32px;
       border-radius: 8px;
       color: #007167;
-      transition: background 0.15s;
+      transition: background 0.15s, transform 0.15s;
     }
-    .doc-download-btn:hover { background: #e8f5f3; }
+    .doc-download-btn:hover { background: rgba(0, 113, 103, 0.08); transform: translateY(-1px); }
 
     .doc-pagination {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 12px 16px;
-      border-top: 1px solid #eef0f2;
+      border-top: 1px solid rgba(0, 0, 0, 0.04);
     }
     .doc-pagination-info {
       font-size: 12px;
-      color: #9ca3af;
+      color: #86868b;
     }
     .doc-pagination-controls {
       display: flex;
@@ -980,21 +1045,22 @@
       align-items: center;
       justify-content: center;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       background: none;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 400;
       color: #6b7280;
       cursor: pointer;
+      transition: all 0.15s;
     }
-    .doc-page-btn:hover { background: #f3f4f6; }
+    .doc-page-btn:hover { background: rgba(0, 0, 0, 0.04); }
     .doc-page-btn.active {
-      background: #007167;
-      color: #fff;
+      background: rgba(0, 113, 103, 0.1);
+      color: #007167;
       font-weight: 600;
     }
-    .doc-page-btn.active:hover { background: #005f57; }
+    .doc-page-btn.active:hover { background: rgba(0, 113, 103, 0.15); }
     .doc-page-btn.disabled {
       opacity: 0.3;
       cursor: default;
@@ -1004,8 +1070,8 @@
     .doc-counter { display: none; }
     .doc-empty {
       padding: 32px 0;
-      font-size: 14px;
-      color: #9ca3af;
+      font-size: 13px;
+      color: #86868b;
       text-align: center;
     }
 
@@ -1597,6 +1663,11 @@
       .order-panel { padding: 20px; }
       .product-gallery-main { height: 240px; }
       .specs-grid { gap: 8px; }
+      .doc-filter-bar { flex-wrap: wrap; padding: 10px 14px; }
+      .doc-filter-search { width: 100%; }
+      .doc-filter-divider { display: none; }
+      .doc-filter-pills { width: 100%; gap: 4px; }
+      .doc-lang-wrap { margin-left: 0; }
       .doc-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .doc-table { min-width: 500px; }
     }

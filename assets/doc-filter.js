@@ -91,29 +91,29 @@
   // ── Build UI ──
   container.innerHTML = '';
 
-  // Top bar: language dropdown
-  var topBar = document.createElement('div');
-  topBar.className = 'doc-top-bar';
-  var langWrap = document.createElement('div');
-  langWrap.className = 'doc-lang-wrap';
-  langWrap.innerHTML =
-    '<label class="doc-lang-label" for="docLangSelect">Language:</label>' +
-    '<select class="doc-lang-select" id="docLangSelect">' +
-      langs.map(function (l) {
-        return '<option value="' + l.code + '"' + (l.code === activeLang ? ' selected' : '') + '>' + l.label + '</option>';
-      }).join('') +
-    '</select>';
-  topBar.appendChild(langWrap);
-  container.appendChild(topBar);
+  // Filter bar (integrated toolbar: search + pills + lang)
+  var filterBar = document.createElement('div');
+  filterBar.className = 'doc-filter-bar';
 
-  // Type chips
-  var typeBar = document.createElement('div');
-  typeBar.className = 'doc-type-bar';
+  // Search input
+  var searchWrap = document.createElement('div');
+  searchWrap.className = 'doc-filter-search';
+  searchWrap.innerHTML =
+    '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+    '<input type="search" id="docFilterSearch" placeholder="Search document...">';
+  filterBar.appendChild(searchWrap);
+
+  // Divider
+  var div1 = document.createElement('div');
+  div1.className = 'doc-filter-divider';
+  filterBar.appendChild(div1);
+
+  // Filter pills
   var typeChips = document.createElement('div');
-  typeChips.className = 'doc-chips';
+  typeChips.className = 'doc-filter-pills';
   filterCategories.forEach(function (cat) {
     var chip = document.createElement('button');
-    chip.className = 'doc-chip' + (cat.key === activeCategory ? ' active' : '');
+    chip.className = 'doc-filter-pill' + (cat.key === activeCategory ? ' active' : '');
     chip.textContent = cat.label;
     chip.setAttribute('data-category', cat.key);
     chip.addEventListener('click', function () {
@@ -123,13 +123,40 @@
     });
     typeChips.appendChild(chip);
   });
-  typeBar.appendChild(typeChips);
-  container.appendChild(typeBar);
+  filterBar.appendChild(typeChips);
+
+  // Divider
+  var div2 = document.createElement('div');
+  div2.className = 'doc-filter-divider';
+  filterBar.appendChild(div2);
+
+  // Language dropdown
+  var langWrap = document.createElement('div');
+  langWrap.className = 'doc-lang-wrap';
+  langWrap.innerHTML =
+    '<span class="doc-lang-label">Lang</span>' +
+    '<select class="doc-lang-select" id="docLangSelect">' +
+      langs.map(function (l) {
+        return '<option value="' + l.code + '"' + (l.code === activeLang ? ' selected' : '') + '>' + l.label + '</option>';
+      }).join('') +
+    '</select>';
+  filterBar.appendChild(langWrap);
+
+  container.appendChild(filterBar);
 
   // Table
   var tableWrap = document.createElement('div');
   tableWrap.className = 'doc-table-wrap';
   container.appendChild(tableWrap);
+
+  // Search input handler
+  var searchInput = document.getElementById('docFilterSearch');
+  var searchTerm = '';
+  searchInput.addEventListener('input', function () {
+    searchTerm = this.value.trim().toLowerCase();
+    currentPage = 1;
+    render();
+  });
 
   // Wire language dropdown
   document.getElementById('docLangSelect').addEventListener('change', function () {
@@ -144,8 +171,8 @@
 
   // ── Render ──
   function render() {
-    // Update type chips
-    typeChips.querySelectorAll('.doc-chip').forEach(function (c) {
+    // Update filter pills
+    typeChips.querySelectorAll('.doc-filter-pill').forEach(function (c) {
       c.classList.toggle('active', c.getAttribute('data-category') === activeCategory);
     });
 
@@ -153,6 +180,7 @@
     var filtered = docs.filter(function (d) {
       if (d.lang !== activeLang) return false;
       if (activeCategory !== 'all' && d.category !== activeCategory) return false;
+      if (searchTerm && d.title.toLowerCase().indexOf(searchTerm) === -1) return false;
       return true;
     });
 
