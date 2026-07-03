@@ -533,41 +533,80 @@
     .btn-hero-ghost:hover { background: rgba(0, 0, 0, 0.03); color: #374151; }
     .btn-hero-ghost svg { width: 15px; height: 15px; }
 
-    /* ── MACHINE TABS ─── */
-    .machine-tabs {
+    /* ── MILLA SECTION (always visible) ─── */
+    .milla-section {
+      margin: 20px 32px 0;
+    }
+    .milla-section-header {
+      margin-bottom: 14px;
+    }
+    .milla-section-title {
+      font-size: 18px;
+      font-weight: 400;
+      color: #6b7280;
+      letter-spacing: -0.2px;
+    }
+    .milla-section-title strong {
+      font-weight: 700;
+      color: #1d1d1f;
+    }
+    .milla-section-content {
       display: flex;
+      flex-direction: column;
       gap: 0;
-      padding: 0 32px;
-      margin-top: 20px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    }
-    .machine-tab {
-      padding: 12px 20px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #86868b;
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
-      letter-spacing: -0.01em;
-    }
-    .machine-tab:hover { color: #374151; }
-    .machine-tab.active {
-      color: #007167;
-      border-bottom-color: #007167;
-      font-weight: 600;
     }
 
-    /* ── TAB CONTENT ─── */
-    .machine-tab-content {
-      display: none;
-      padding: 20px 32px 32px;
+    /* ── DETAILS SECTION (accordions) ─── */
+    .details-section {
+      padding: 12px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    .machine-tab-content.active { display: block; }
+    .accordion {
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      overflow: hidden;
+    }
+    .accordion-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .accordion-header:hover { background: rgba(0, 0, 0, 0.02); }
+    .accordion-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1d1d1f;
+      letter-spacing: -0.01em;
+    }
+    .accordion-chevron {
+      color: #86868b;
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+    .accordion.open .accordion-chevron { transform: rotate(180deg); }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      padding: 0 20px;
+    }
+    .accordion.open .accordion-body {
+      max-height: 600px;
+      padding: 0 20px 20px;
+    }
 
     /* ── OVERVIEW GRID (info cards) ─── */
     .overview-grid {
@@ -612,7 +651,7 @@
 
     /* ── SPARE PARTS LAYOUT ─── */
     .spare-parts-layout {
-      max-width: 700px;
+      /* no max-width — full width within milla-section */
     }
 
     /* Ask Milla banner — collapsed e expanded */
@@ -1279,15 +1318,15 @@
     }
     @media (max-width: 768px) {
       .machine-hero { margin: 12px 16px 0; }
-      .machine-tabs { padding: 0 16px; }
-      .machine-tab-content { padding: 16px 16px 24px; }
+      .milla-section { margin: 16px 16px 0; }
+      .details-section { padding: 12px 16px 24px; }
       .overview-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 480px) {
       .machine-hero { margin: 8px 12px 0; }
       .machine-hero-inner { padding: 20px 16px; }
-      .machine-tabs { padding: 0 12px; }
-      .machine-tab-content { padding: 12px 12px 20px; }
+      .milla-section { margin: 12px 12px 0; }
+      .details-section { padding: 8px 12px 20px; }
       .overview-grid { grid-template-columns: 1fr; }
       .machine-hero-actions { flex-direction: column; width: 100%; }
       .btn-hero-primary, .btn-hero-secondary, .btn-hero-ghost { width: 100%; justify-content: center; }
@@ -1589,7 +1628,7 @@
   <!-- PAGE -->
   <div class="page">
 
-    <!-- HERO BANNER -->
+    <!-- HERO BANNER (compact) -->
     <div class="machine-hero">
       <div class="machine-hero-inner">
         <div class="machine-hero-image">
@@ -1601,109 +1640,24 @@
           <p class="machine-hero-serial">SN: 15202462-20 · Brazil · Installed Aug 2024</p>
         </div>
         <div class="machine-hero-actions">
-          <button type="button" class="btn-hero-primary" onclick="document.getElementById('tab-spare-parts').click()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            Find Spare Parts
-          </button>
           <button type="button" class="btn-hero-secondary" data-i18n="machine.serviceRequest">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Service Request
           </button>
           <a href="#" class="btn-hero-ghost" data-i18n="machine.browseDocs">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             Documents
           </a>
         </div>
       </div>
     </div>
 
-    <!-- TABS -->
-    <div class="machine-tabs">
-      <button class="machine-tab active" id="tab-overview" data-tab="overview">Overview</button>
-      <button class="machine-tab" id="tab-technical" data-tab="technical">Technical Details</button>
-      <button class="machine-tab" id="tab-spare-parts" data-tab="spare-parts">Spare Parts</button>
-    </div>
-
-    <!-- TAB CONTENT: Overview -->
-    <div class="machine-tab-content active" id="content-overview">
-      <div class="overview-grid">
-        <div class="info-card">
-          <span class="info-card-label">Equipment Name</span>
-          <span class="info-card-value">MasterMix 45</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Machine Type</span>
-          <span class="info-card-value">Bead Mill Stirrer</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Serial Number</span>
-          <span class="info-card-value">15202462-20</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Commission Number</span>
-          <span class="info-card-value">15202462-20</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Service by</span>
-          <span class="info-card-value">NEM</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Fig nr.</span>
-          <span class="info-card-value">12633</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Purchase Date</span>
-          <span class="info-card-value">2024-05-12</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Install Date</span>
-          <span class="info-card-value">2024-08-20</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Country</span>
-          <span class="info-card-value">Brazil</span>
-        </div>
-        <div class="info-card highlight">
-          <span class="info-card-label">Warranty Expiration</span>
-          <span class="info-card-value">2026-06-01</span>
-        </div>
+    <!-- MILLA SECTION (always visible, prominent) -->
+    <div class="milla-section">
+      <div class="milla-section-header">
+        <h2 class="milla-section-title">Find spare parts for <strong>MasterMix 45</strong></h2>
       </div>
-    </div>
-
-    <!-- TAB CONTENT: Technical Details -->
-    <div class="machine-tab-content" id="content-technical">
-      <div class="overview-grid">
-        <div class="info-card">
-          <span class="info-card-label">Grinding System</span>
-          <span class="info-card-value">Dissolver</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Grinding Chamber</span>
-          <span class="info-card-value">Open batch tank</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Material Grinding Shaft</span>
-          <span class="info-card-value">Stainless steel</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Sealing Material</span>
-          <span class="info-card-value">Mechanical seal</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Integrated Pump</span>
-          <span class="info-card-value">No</span>
-        </div>
-        <div class="info-card">
-          <span class="info-card-label">Service by</span>
-          <span class="info-card-value">Not applicable</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB CONTENT: Spare Parts (Milla) -->
-    <div class="machine-tab-content" id="content-spare-parts">
-      <div class="spare-parts-layout">
-        <!-- Milla banner -->
+      <div class="milla-section-content">
         <div class="milla-banner" id="milla-banner">
           <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
 
@@ -1772,7 +1726,7 @@
         </div>
 
         <!-- Subset selector -->
-        <div class="subset-card" style="margin-top: 16px;">
+        <div class="subset-card">
           <div class="or-divider" data-i18n="millaFlow.or">or</div>
           <div class="subset-wrapper" id="subset-wrapper">
             <button type="button" class="subset-select" id="subset-select">
@@ -1790,18 +1744,53 @@
       </div>
     </div>
 
+    <!-- MACHINE DETAILS (collapsible accordions) -->
+    <div class="details-section">
+      <div class="accordion" id="acc-overview">
+        <button class="accordion-header" onclick="toggleAccordion('acc-overview')">
+          <span class="accordion-title">Machine Information</span>
+          <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="overview-grid">
+            <div class="info-card"><span class="info-card-label">Equipment Name</span><span class="info-card-value">MasterMix 45</span></div>
+            <div class="info-card"><span class="info-card-label">Machine Type</span><span class="info-card-value">Bead Mill Stirrer</span></div>
+            <div class="info-card"><span class="info-card-label">Serial Number</span><span class="info-card-value">15202462-20</span></div>
+            <div class="info-card"><span class="info-card-label">Commission Number</span><span class="info-card-value">15202462-20</span></div>
+            <div class="info-card"><span class="info-card-label">Service by</span><span class="info-card-value">NEM</span></div>
+            <div class="info-card"><span class="info-card-label">Fig nr.</span><span class="info-card-value">12633</span></div>
+            <div class="info-card"><span class="info-card-label">Purchase Date</span><span class="info-card-value">2024-05-12</span></div>
+            <div class="info-card"><span class="info-card-label">Install Date</span><span class="info-card-value">2024-08-20</span></div>
+            <div class="info-card"><span class="info-card-label">Country</span><span class="info-card-value">Brazil</span></div>
+            <div class="info-card highlight"><span class="info-card-label">Warranty Expiration</span><span class="info-card-value">2026-06-01</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion" id="acc-technical">
+        <button class="accordion-header" onclick="toggleAccordion('acc-technical')">
+          <span class="accordion-title">Technical Details</span>
+          <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="accordion-body">
+          <div class="overview-grid">
+            <div class="info-card"><span class="info-card-label">Grinding System</span><span class="info-card-value">Dissolver</span></div>
+            <div class="info-card"><span class="info-card-label">Grinding Chamber</span><span class="info-card-value">Open batch tank</span></div>
+            <div class="info-card"><span class="info-card-label">Material Grinding Shaft</span><span class="info-card-value">Stainless steel</span></div>
+            <div class="info-card"><span class="info-card-label">Sealing Material</span><span class="info-card-value">Mechanical seal</span></div>
+            <div class="info-card"><span class="info-card-label">Integrated Pump</span><span class="info-card-value">No</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 <script>
-// Tab switching
-document.querySelectorAll('.machine-tab').forEach(function(tab) {
-  tab.addEventListener('click', function() {
-    document.querySelectorAll('.machine-tab').forEach(function(t) { t.classList.remove('active'); });
-    document.querySelectorAll('.machine-tab-content').forEach(function(c) { c.classList.remove('active'); });
-    tab.classList.add('active');
-    document.getElementById('content-' + tab.dataset.tab).classList.add('active');
-  });
-});
+// Accordion toggle
+function toggleAccordion(id) {
+  var el = document.getElementById(id);
+  el.classList.toggle('open');
+}
 </script>
 
 <script>
