@@ -20,7 +20,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f6f6f6;
+      background: #f5f5f7;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -34,9 +34,9 @@
       align-items: center;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 170;
       position: sticky;
       top: 0;
+      z-index: 161;
     }
     .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
     .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
@@ -48,9 +48,11 @@
 
     /* ── APP HEADER ─── */
     .app-header {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
       height: 60px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -382,13 +384,14 @@
     .lang-option.active { color: #007167; background: #e6f4f3; }
 
     /* ── BREADCRUMB ─── */
-    .breadcrumb {
+    .breadcrumb-bar {
       background: #fff;
       border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-      height: 32px;
+      padding: 10px 32px;
+    }
+    .breadcrumb {
       display: flex;
       align-items: center;
-      padding: 0 32px;
       font-size: 12px;
       color: #6b7280;
     }
@@ -417,19 +420,23 @@
 
     /* ── CARD ─── */
     .card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 24px;
     }
     .card + .card { margin-top: 16px; }
 
     .card-title {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 600;
-      color: #1f2937;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       margin-bottom: 16px;
-      letter-spacing: -0.15px;
     }
 
     /* Field rows (label : value) */
@@ -445,16 +452,16 @@
       align-items: baseline;
     }
     .field-label {
-      font-size: 12px;
-      font-weight: 400;
-      color: #9ca3af;
-      letter-spacing: -0.05px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
     .field-value {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
-      color: #374151;
-      letter-spacing: -0.05px;
+      color: #1d1d1f;
       font-variant-numeric: tabular-nums;
     }
 
@@ -491,10 +498,10 @@
       gap: 8px;
     }
     .machine-title {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.2px;
+      color: #1d1d1f;
+      letter-spacing: -0.3px;
     }
     .machine-edit-btn {
       width: 24px;
@@ -537,13 +544,13 @@
     /* Service Request button (outline teal) */
     .btn-service {
       width: 100%;
-      height: 40px;
+      height: 44px;
       margin-top: 16px;
       background: #fff;
       border: 1px solid #0b9c92;
-      border-radius: 999px;
+      border-radius: 14px;
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #007167;
       cursor: pointer;
@@ -1141,11 +1148,34 @@
 
     /* ── RESULTS CARD ── */
     .results-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
       overflow: hidden;
       margin-top: 16px;
+    }
+    .results-card .results-table {
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 0 20px 20px;
+    }
+    .results-card .results-table thead th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #86868b;
+      background: #fafbfc;
+    }
+    .results-card .results-table tbody tr {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      transition: background 0.15s;
+    }
+    .results-card .results-table tbody tr:hover {
+      background: rgba(0, 0, 0, 0.02);
     }
 
     .results-drawing {
@@ -1379,8 +1409,12 @@
       justify-content: flex-end;
       gap: 12px;
       padding: 16px 20px;
-      border-top: 1px solid #f1f3f5;
-      background: #fff;
+      border-top: 1px solid rgba(0, 0, 0, 0.04);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
       animation: bar-up 0.4s var(--ease-out);
     }
     .selection-bar.is-visible { display: flex; }
@@ -1516,20 +1550,23 @@
     .add-to-cart {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
+      height: 36px;
+      padding: 0 16px;
+      border-radius: 10px;
       font-size: 12px;
-      font-weight: 500;
-      color: #007167;
-      text-decoration: none;
-      cursor: pointer;
-      background: none;
+      font-weight: 600;
+      background: #007167;
+      color: #fff;
       border: none;
-      padding: 0;
+      box-shadow: 0 1px 4px rgba(0, 113, 103, 0.2);
+      cursor: pointer;
       font-family: 'Inter', sans-serif;
-      transition: color 0.15s;
+      transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
       white-space: nowrap;
     }
-    .add-to-cart:hover { color: #0b9c92; text-decoration: underline; }
-    .add-to-cart:disabled { opacity: 0.35; cursor: not-allowed; text-decoration: none; }
+    .add-to-cart:hover { background: #005f57; box-shadow: 0 2px 8px rgba(0, 113, 103, 0.3); transform: translateY(-1px); }
+    .add-to-cart:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
 
     .heart-btn {
       width: 24px;
@@ -1571,10 +1608,13 @@
 
     /* "or" divider + select subset card */
     .subset-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -1652,7 +1692,7 @@
       margin: 0;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .layout { grid-template-columns: 1fr; }
     }
 
@@ -1661,12 +1701,13 @@
     @media (max-width: 768px) {
       .topbar { padding: 0 16px; }
       .app-header { padding: 0 16px; height: 56px; }
-      .breadcrumb { padding: 0 16px; }
+      .breadcrumb-bar { padding: 10px 16px; }
     }
     @media (max-width: 480px) {
       .topbar { padding: 0 12px; }
       .app-header { padding: 0 12px; }
-      .breadcrumb { padding: 0 12px; white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .breadcrumb-bar { padding: 10px 12px; }
+      .breadcrumb { white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
       .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
@@ -1892,12 +1933,14 @@
   </div>
 
   <!-- BREADCRUMB -->
-  <div class="breadcrumb">
-    <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
-    <span class="breadcrumb-sep">/</span>
-    <a href="machines.html" data-i18n="machines.title">Machines</a>
-    <span class="breadcrumb-sep">/</span>
-    <span>Discus 30</span>
+  <div class="breadcrumb-bar">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="machines.html" data-i18n="machines.title">Machines</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Discus 30</span>
+    </nav>
   </div>
 
   <!-- PAGE -->

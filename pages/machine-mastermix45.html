@@ -19,7 +19,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f6f6f6;
+      background: #f5f5f7;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -33,9 +33,9 @@
       align-items: center;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 170;
       position: sticky;
       top: 0;
+      z-index: 161;
     }
     .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
     .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
@@ -47,15 +47,19 @@
 
     /* ── APP HEADER ─── */
     .app-header {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
       height: 60px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 90;
+      z-index: 160;
+      position: sticky;
+      top: 40px;
     }
     .app-header-left { display: flex; align-items: center; gap: 0; }
     .netzsch-logo { height: 22px; object-fit: contain; }
@@ -381,13 +385,14 @@
     .lang-option.active { color: #007167; background: #e6f4f3; }
 
     /* ── BREADCRUMB ─── */
-    .breadcrumb {
+    .breadcrumb-bar {
       background: #fff;
       border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-      height: 32px;
+      padding: 10px 32px;
+    }
+    .breadcrumb {
       display: flex;
       align-items: center;
-      padding: 0 32px;
       font-size: 12px;
       color: #6b7280;
     }
@@ -416,19 +421,23 @@
 
     /* ── CARD ─── */
     .card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 24px;
     }
-    .card + .card { margin-top: 16px; }
+    .card + .card { margin-top: 24px; }
 
     .card-title {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 600;
-      color: #1f2937;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       margin-bottom: 16px;
-      letter-spacing: -0.15px;
     }
 
     /* Field rows (label : value) */
@@ -444,16 +453,16 @@
       align-items: baseline;
     }
     .field-label {
-      font-size: 12px;
-      font-weight: 400;
-      color: #9ca3af;
-      letter-spacing: -0.05px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
     .field-value {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
-      color: #374151;
-      letter-spacing: -0.05px;
+      color: #1d1d1f;
       font-variant-numeric: tabular-nums;
     }
 
@@ -490,10 +499,10 @@
       gap: 8px;
     }
     .machine-title {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 700;
-      color: #1f2937;
-      letter-spacing: -0.2px;
+      color: #1d1d1f;
+      letter-spacing: -0.3px;
     }
     .machine-edit-btn {
       width: 24px;
@@ -536,13 +545,13 @@
     /* Service Request button (outline teal) */
     .btn-service {
       width: 100%;
-      height: 40px;
+      height: 44px;
       margin-top: 16px;
       background: #fff;
       border: 1px solid #0b9c92;
-      border-radius: 999px;
+      border-radius: 14px;
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #007167;
       cursor: pointer;
@@ -559,7 +568,7 @@
     .right-col {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
     }
 
     /* Ask Milla banner — collapsed e expanded */
@@ -1103,10 +1112,13 @@
 
     /* "or" divider + select subset card */
     .subset-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      padding: 20px 24px;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -1216,7 +1228,7 @@
       font-weight: 600;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .layout { grid-template-columns: 1fr; }
     }
 
@@ -1273,12 +1285,13 @@
     @media (max-width: 768px) {
       .topbar { padding: 0 16px; }
       .app-header { padding: 0 16px; height: 56px; }
-      .breadcrumb { padding: 0 16px; }
+      .breadcrumb-bar { padding: 10px 16px; }
     }
     @media (max-width: 480px) {
       .topbar { padding: 0 12px; }
       .app-header { padding: 0 12px; }
-      .breadcrumb { padding: 0 12px; white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .breadcrumb-bar { padding: 10px 12px; }
+      .breadcrumb { white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
       .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
@@ -1502,12 +1515,14 @@
   </div>
 
   <!-- BREADCRUMB -->
-  <div class="breadcrumb">
-    <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
-    <span class="breadcrumb-sep">/</span>
-    <a href="machines.html" data-i18n="machines.title">Machines</a>
-    <span class="breadcrumb-sep">/</span>
-    <span>MasterMix 45</span>
+  <div class="breadcrumb-bar">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="machines.html" data-i18n="machines.title">Machines</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>MasterMix 45</span>
+    </nav>
   </div>
 
   <!-- PAGE -->
