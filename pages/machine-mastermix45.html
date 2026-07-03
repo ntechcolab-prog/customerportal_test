@@ -579,11 +579,13 @@
       pointer-events: auto;
     }
     .milla-modal {
-      width: 580px;
+      position: relative;
+      width: 720px;
       max-width: 90vw;
       max-height: 85vh;
       border-radius: 20px;
       overflow: hidden;
+      overflow-y: auto;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
       transform: scale(0.95) translateY(10px);
       transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
@@ -596,6 +598,101 @@
       min-height: 320px;
     }
     .milla-collapsed { display: none; }
+
+    .milla-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      z-index: 10;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .milla-modal-close:hover { background: rgba(255,255,255,0.3); transform: scale(1.1); }
+
+    /* ── MILLA RESULTS (inside modal) ─── */
+    .milla-results {
+      background: #fff;
+      padding: 24px;
+    }
+    .milla-results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .milla-results-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1d1d1f;
+    }
+    .milla-results-count {
+      font-size: 12px;
+      font-weight: 500;
+      color: #86868b;
+    }
+    .milla-results-table-wrap {
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .milla-results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+    }
+    .milla-results-table thead th {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: #fafbfc;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .milla-results-table tbody td {
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #1d1d1f;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    .milla-results-table tbody tr:last-child td { border-bottom: none; }
+    .milla-results-table tbody tr:hover { background: rgba(0, 0, 0, 0.02); }
+    .milla-results-table .mono {
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .milla-results-table .quotation {
+      color: #007167;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .milla-results-table .td-action { text-align: right; }
+    .btn-add-sm {
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 8px;
+      background: #007167;
+      color: #fff;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-add-sm:hover { background: #005f57; }
 
     /* ── MACHINE DATA SECTION ─── */
     .machine-data-section {
@@ -1656,6 +1753,9 @@
     <!-- MILLA MODAL -->
     <div class="milla-modal-overlay" id="milla-modal-overlay">
       <div class="milla-modal">
+        <button type="button" class="milla-modal-close" id="milla-modal-close-btn" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
         <div class="milla-banner is-open" id="milla-banner">
         <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
 
@@ -1720,6 +1820,46 @@
             <h3 class="milla-reason-title">Reasoning with description</h3>
             <p class="milla-reason-quote" id="milla-reason-quote">"I need to replace the ring from the inner chamber of my mill"</p>
           </div>
+        </div>
+      </div>
+      <!-- Results state (shown after reasoning) -->
+      <div class="milla-results" id="milla-results" style="display:none;">
+        <div class="milla-results-header">
+          <h3 class="milla-results-title">Spare Parts Found</h3>
+          <span class="milla-results-count">2 results</span>
+        </div>
+        <div class="milla-results-table-wrap">
+          <table class="milla-results-table">
+            <thead>
+              <tr>
+                <th>Itm</th>
+                <th>Material Number</th>
+                <th>Description</th>
+                <th>Price per unit</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>801</td>
+                <td class="mono">140045213</td>
+                <td>Ring - AISI 304</td>
+                <td>&euro;75.89</td>
+                <td class="td-action">
+                  <button type="button" class="btn-add-sm">Add to cart</button>
+                </td>
+              </tr>
+              <tr>
+                <td>802</td>
+                <td class="mono">140023995</td>
+                <td>Ring for inner pipe</td>
+                <td class="quotation">Quotation</td>
+                <td class="td-action">
+                  <button type="button" class="btn-add-sm">Add to cart</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       </div><!-- /milla-modal -->
@@ -1796,14 +1936,21 @@ document.addEventListener('click', function(e) {
 
     function closeMillaModal() {
       millaOverlay.classList.remove('open');
-      banner.classList.remove('is-open', 'is-search');
+      banner.classList.remove('is-open', 'is-search', 'is-reasoning');
       document.body.style.overflow = '';
       searchInput.value = '';
       btnSearch.classList.remove('enabled');
+      document.getElementById('milla-banner').style.display = '';
+      document.getElementById('milla-results').style.display = 'none';
+      var closeBtn = document.getElementById('milla-modal-close-btn');
+      closeBtn.style.background = '';
+      closeBtn.style.borderColor = '';
+      closeBtn.style.color = '';
     }
 
     // Close on X button
     btnClose.addEventListener('click', closeMillaModal);
+    document.getElementById('milla-modal-close-btn').addEventListener('click', closeMillaModal);
 
     // Close on overlay click
     millaOverlay.addEventListener('click', function(e) {
@@ -1879,7 +2026,14 @@ document.addEventListener('click', function(e) {
       banner.classList.add('is-reasoning');
       // Após 2.4s, navega pra tela de resultados
       setTimeout(() => {
-        window.location.href = 'machine-spare-parts-results.html';
+        // Show results inside modal instead of navigating
+        document.getElementById('milla-banner').style.display = 'none';
+        document.getElementById('milla-results').style.display = 'block';
+        // Change close button to dark style (white background)
+        var closeBtn = document.getElementById('milla-modal-close-btn');
+        closeBtn.style.background = 'rgba(0,0,0,0.06)';
+        closeBtn.style.borderColor = 'rgba(0,0,0,0.1)';
+        closeBtn.style.color = '#6b7280';
       }, 2400);
     });
   </script>
