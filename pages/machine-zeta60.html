@@ -1500,6 +1500,284 @@
     }
     .drawing-lightbox-close:hover { background: rgba(255, 255, 255, 0.45); }
 
+    /* ── SERVICE REQUEST MODAL ─── */
+    .sr-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .sr-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sr-modal {
+      position: relative;
+      width: 600px;
+      max-width: 92vw;
+      max-height: 88vh;
+      border-radius: 16px;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .sr-modal-overlay.open .sr-modal {
+      transform: scale(1) translateY(0);
+    }
+    .sr-modal-close {
+      position: absolute;
+      top: -36px;
+      right: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      z-index: 10;
+      transition: background 0.15s, transform 0.2s;
+    }
+    .sr-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+
+    /* Modal header */
+    .sr-modal-header {
+      padding: 24px 28px 0;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .sr-modal-header-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(0, 113, 103, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sr-modal-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.2px;
+    }
+    .sr-modal-header p {
+      font-size: 13px;
+      color: #86868b;
+      margin-top: 2px;
+    }
+
+    /* Machine context bar */
+    .sr-machine-bar {
+      margin: 20px 28px 0;
+      padding: 12px 16px;
+      background: #f9fafb;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sr-machine-bar img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 4px;
+    }
+    .sr-machine-bar-info {
+      flex: 1;
+    }
+    .sr-machine-bar-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1d1d1f;
+    }
+    .sr-machine-bar-meta {
+      font-size: 12px;
+      color: #86868b;
+    }
+
+    /* Form body */
+    .sr-modal-body {
+      padding: 20px 28px 28px;
+      overflow-y: auto;
+      max-height: calc(88vh - 180px);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sr-field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+    .sr-field-label .required { color: #c73e20; }
+
+    /* Radio cards for request type */
+    .sr-radio-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .sr-radio-card {
+      position: relative;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px 12px;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color 0.15s;
+      text-align: center;
+    }
+    .sr-radio-card:hover { border-color: #b1b4b7; }
+    .sr-radio-card.selected {
+      border-color: #007167;
+      border-width: 2px;
+      padding: 13px 11px;
+    }
+    .sr-radio-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .sr-radio-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+      line-height: 1.3;
+    }
+    .sr-radio-card-sub {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .sr-input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .sr-input::placeholder { color: #9ca3af; }
+    .sr-input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
+
+    .sr-textarea {
+      width: 100%;
+      min-height: 90px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+      resize: vertical;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .sr-textarea::placeholder { color: #9ca3af; }
+    .sr-textarea:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
+
+    .sr-dropzone {
+      border: 2px dashed #d1d5db;
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .sr-dropzone:hover { border-color: #007167; background: #f0faf9; }
+    .sr-dropzone-text { font-size: 13px; color: #374151; }
+    .sr-dropzone-hint { font-size: 11px; color: #9ca3af; }
+
+    .sr-modal-footer {
+      padding: 0 28px 24px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .sr-btn-cancel {
+      height: 40px;
+      padding: 0 20px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .sr-btn-cancel:hover { background: #f9fafb; border-color: #b1b4b7; }
+
+    /* Success state */
+    .sr-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 28px;
+      gap: 16px;
+    }
+    .sr-success.show { display: flex; }
+    .sr-success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(0, 113, 103, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sr-success h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1d1d1f;
+    }
+    .sr-success p {
+      font-size: 14px;
+      color: #86868b;
+      max-width: 340px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .sr-radio-cards { grid-template-columns: 1fr 1fr; }
+    }
+
     /* "or" divider + select subset card */
     .subset-card {
       background: rgba(255, 255, 255, 0.92);
@@ -1950,7 +2228,7 @@
             <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
 
-          <a href="service-request.html?machine=Zeta%2060&serial=15202531-10&line=BLACK%20PRODUCTION&img=machine-discus30.png" class="hero-action-item">
+          <div class="hero-action-item" id="service-request-trigger" style="cursor:pointer;">
             <div class="hero-action-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </div>
@@ -1959,7 +2237,7 @@
               <span class="hero-action-desc">Schedule maintenance or report an issue</span>
             </div>
             <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+          </div>
 
           <a href="#" class="hero-action-item docs-link">
             <div class="hero-action-icon">
@@ -2172,6 +2450,106 @@
     </div><!-- /milla-modal -->
   </div><!-- /milla-modal-overlay -->
 
+  <!-- SERVICE REQUEST MODAL -->
+  <div class="sr-modal-overlay" id="sr-modal-overlay">
+    <div class="sr-modal">
+      <button type="button" class="sr-modal-close" id="sr-modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <!-- Form state -->
+      <div id="sr-form-state">
+        <div class="sr-modal-header">
+          <div class="sr-modal-header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <h2>Service Request</h2>
+            <p>Schedule maintenance or report an issue</p>
+          </div>
+        </div>
+
+        <div class="sr-machine-bar">
+          <img src="../assets/machine-discus30.png" alt="Zeta 60">
+          <div class="sr-machine-bar-info">
+            <div class="sr-machine-bar-name">Zeta 60</div>
+            <div class="sr-machine-bar-meta">SN: 15202531-10 · BLACK PRODUCTION</div>
+          </div>
+        </div>
+
+        <div class="sr-modal-body">
+          <!-- Request Type -->
+          <div>
+            <span class="sr-field-label">Request Type <span class="required">*</span></span>
+            <div class="sr-radio-cards" id="sr-radio-cards">
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="repair">
+                <div class="sr-radio-card-title">Repair</div>
+                <div class="sr-radio-card-sub">Equipment Fix</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="maintenance">
+                <div class="sr-radio-card-title">Maintenance</div>
+                <div class="sr-radio-card-sub">Preventive care</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="spare-parts">
+                <div class="sr-radio-card-title">Spare Parts</div>
+                <div class="sr-radio-card-sub">Request Parts</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="consultation">
+                <div class="sr-radio-card-title">Consultation</div>
+                <div class="sr-radio-card-sub">Expert Advice</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <div>
+            <label class="sr-field-label" for="sr-title">Title <span class="required">*</span></label>
+            <input type="text" class="sr-input" id="sr-title" placeholder="Brief summary of the issue...">
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="sr-field-label" for="sr-desc">Problem Description <span class="required">*</span></label>
+            <textarea class="sr-textarea" id="sr-desc" placeholder="Describe the issue in detail..."></textarea>
+          </div>
+
+          <!-- Attachments -->
+          <div>
+            <span class="sr-field-label">Attachments</span>
+            <div class="sr-dropzone" id="sr-dropzone">
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="sr-dropzone-text">Drop files here or click to upload</span>
+              <span class="sr-dropzone-hint">Supports: PDF, JPG, PNG</span>
+              <input type="file" id="sr-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
+            </div>
+          </div>
+        </div>
+
+        <div class="sr-modal-footer">
+          <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
+          <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Send Request</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div class="sr-success" id="sr-success">
+        <div class="sr-success-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Request Submitted</h3>
+        <p>Your service request for <strong>Zeta 60</strong> has been submitted. Our team will contact you within 24 hours.</p>
+        <button type="button" class="btn btn-primary btn-md" id="sr-btn-done" style="margin-top:8px;">Done</button>
+      </div>
+    </div>
+  </div>
+
 <script>
 function toggleProfileDropdown(e) {
   e.stopPropagation();
@@ -2368,6 +2746,86 @@ document.addEventListener('click', function(e) {
         showResultsModal(query || 'ring from the inner chamber');
       }, 2400);
     });
+  </script>
+
+  <!-- Service Request Modal JS -->
+  <script>
+  (function() {
+    var srOverlay = document.getElementById('sr-modal-overlay');
+    var srFormState = document.getElementById('sr-form-state');
+    var srSuccess = document.getElementById('sr-success');
+    var srBtnSend = document.getElementById('sr-btn-send');
+    var srTitle = document.getElementById('sr-title');
+    var srDesc = document.getElementById('sr-desc');
+
+    // Open modal
+    document.getElementById('service-request-trigger').addEventListener('click', function() {
+      srOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeSrModal() {
+      srOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      // Reset after close animation
+      setTimeout(function() {
+        srFormState.style.display = '';
+        srSuccess.classList.remove('show');
+        srBtnSend.disabled = true;
+        srTitle.value = '';
+        srDesc.value = '';
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        document.querySelectorAll('input[name="srType"]').forEach(function(r) { r.checked = false; });
+      }, 300);
+    }
+
+    // Close handlers
+    document.getElementById('sr-modal-close').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-cancel').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-done').addEventListener('click', closeSrModal);
+    srOverlay.addEventListener('click', function(e) {
+      if (e.target === srOverlay) closeSrModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && srOverlay.classList.contains('open')) closeSrModal();
+    });
+
+    // Radio card selection
+    document.querySelectorAll('.sr-radio-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        card.classList.add('selected');
+        validateSrForm();
+      });
+    });
+
+    // Form validation
+    function validateSrForm() {
+      var hasType = document.querySelector('input[name="srType"]:checked');
+      var hasTitle = srTitle.value.trim().length > 0;
+      var hasDesc = srDesc.value.trim().length > 0;
+      srBtnSend.disabled = !(hasType && hasTitle && hasDesc);
+    }
+    srTitle.addEventListener('input', validateSrForm);
+    srDesc.addEventListener('input', validateSrForm);
+
+    // Dropzone
+    var srDropzone = document.getElementById('sr-dropzone');
+    var srFileInput = document.getElementById('sr-file-input');
+    srDropzone.addEventListener('click', function() { srFileInput.click(); });
+    srFileInput.addEventListener('change', function() {
+      if (srFileInput.files.length > 0) {
+        srDropzone.querySelector('.sr-dropzone-text').textContent = srFileInput.files.length + ' file(s) selected';
+      }
+    });
+
+    // Submit → success
+    srBtnSend.addEventListener('click', function() {
+      if (srBtnSend.disabled) return;
+      srFormState.style.display = 'none';
+      srSuccess.classList.add('show');
+    });
+  })();
   </script>
 
 <script>
