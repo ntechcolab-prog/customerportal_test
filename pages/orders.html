@@ -2074,6 +2074,70 @@ document.addEventListener('click', function(e) {
     filterSearch.addEventListener('input', applyFilters);
     countByStatus();
 
+    // ── Column sorting (Date & Status) ───
+    (function() {
+      var table = document.querySelector('.orders-table');
+      if (!table) return;
+      var thead = table.querySelector('thead');
+      var tbody = table.querySelector('tbody');
+      var ths = thead.querySelectorAll('th');
+      var sortCol = -1;
+      var sortAsc = true;
+
+      // Status priority for sorting
+      var statusOrder = { placed: 0, process: 1, shipped: 2, delivered: 3 };
+
+      function parseDate(str) {
+        var d = new Date(str);
+        return isNaN(d) ? 0 : d.getTime();
+      }
+
+      function getStatusKey(row) {
+        var badge = row.cells[3].querySelector('.status-badge');
+        if (!badge) return 99;
+        var cls = badge.className.match(/status-(\w+)/);
+        if (!cls) return 99;
+        var key = cls[1];
+        return statusOrder[key] !== undefined ? statusOrder[key] : 99;
+      }
+
+      function sortTable(colIndex) {
+        if (sortCol === colIndex) {
+          sortAsc = !sortAsc;
+        } else {
+          sortCol = colIndex;
+          sortAsc = true;
+        }
+
+        // Update th classes
+        ths.forEach(function(th) { th.classList.remove('sorted', 'sort-asc'); });
+        ths[colIndex].classList.add('sorted');
+        if (sortAsc) ths[colIndex].classList.add('sort-asc');
+
+        var rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.sort(function(a, b) {
+          var valA, valB;
+          if (colIndex === 2) { // Date
+            valA = parseDate(a.cells[2].textContent.trim());
+            valB = parseDate(b.cells[2].textContent.trim());
+          } else if (colIndex === 3) { // Status
+            valA = getStatusKey(a);
+            valB = getStatusKey(b);
+          } else {
+            return 0;
+          }
+          return sortAsc ? valA - valB : valB - valA;
+        });
+        rows.forEach(function(row) { tbody.appendChild(row); });
+      }
+
+      // Bind click on Date (col 2) and Status (col 3)
+      [2, 3].forEach(function(i) {
+        ths[i].style.cursor = 'pointer';
+        ths[i].addEventListener('click', function() { sortTable(i); });
+      });
+    })();
+
     // Count-up animation for stat numbers
     (function() {
       var statNums = document.querySelectorAll('.stat-number');
