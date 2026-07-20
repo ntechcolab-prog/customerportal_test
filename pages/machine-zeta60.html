@@ -409,20 +409,213 @@
     /* ── PAGE ─── */
     .page {
       flex: 1;
-      padding: 32px;
+      padding: 0 32px 32px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 0;
     }
 
-    /* 2-column layout */
-    .layout {
+    /* ── HERO LAYOUT (Zara-inspired) ─── */
+    .hero-layout {
       display: grid;
-      grid-template-columns: minmax(320px, 1fr) 2fr;
-      gap: 24px;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 480px;
+      margin-bottom: 24px;
     }
 
-    /* ── CARD ─── */
+    /* Left — machine photo */
+    .hero-photo {
+      background: #f0f0f0;
+      border-radius: 16px 0 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 40px;
+    }
+    .hero-photo img {
+      max-width: 100%;
+      max-height: 380px;
+      object-fit: contain;
+      transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .hero-photo:hover img {
+      transform: scale(1.04);
+    }
+
+    /* Right — info panel */
+    .hero-info {
+      background: #fff;
+      border-radius: 0 16px 16px 0;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-left: none;
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-line-badge {
+      font-size: 10px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .hero-machine-name {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.4px;
+      margin-bottom: 4px;
+    }
+    .hero-serial {
+      font-size: 13px;
+      color: #86868b;
+      margin-bottom: 24px;
+    }
+    .hero-divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.08);
+      margin-bottom: 24px;
+    }
+
+    /* Actions inside hero */
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .hero-action-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+    .hero-action-item:hover {
+      background: rgba(0, 113, 103, 0.03);
+      border-color: rgba(0, 113, 103, 0.15);
+      transform: translateX(2px);
+    }
+    .hero-action-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(0, 113, 103, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-action-icon.milla-icon {
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+    }
+    .hero-action-icon.milla-icon img { filter: brightness(0) invert(1); }
+    .hero-action-text { flex: 1; min-width: 0; }
+    .hero-action-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d1d1f;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-action-item:first-child .hero-action-title { color: #007167; }
+    .hero-action-title .ai-badge {
+      padding: 1px 5px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #007167;
+      background: rgba(0, 113, 103, 0.08);
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+    .hero-action-desc {
+      font-size: 11px;
+      color: #86868b;
+      margin-top: 1px;
+    }
+    .hero-action-arrow {
+      color: #c3c5c7;
+      flex-shrink: 0;
+      transition: color 0.15s, transform 0.15s;
+    }
+    .hero-action-item:hover .hero-action-arrow {
+      color: #007167;
+      transform: translateX(2px);
+    }
+
+    /* Machine details accordion inside hero */
+    .hero-details-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #007167;
+      margin-bottom: 0;
+      transition: color 0.15s;
+    }
+    .hero-details-toggle:hover { color: #005f57; }
+    .hero-details-toggle svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.25s var(--ease-apple);
+    }
+    .hero-info.details-open .hero-details-toggle svg {
+      transform: rotate(180deg);
+    }
+    .hero-details-content {
+      display: none;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .hero-info.details-open .hero-details-content {
+      display: block;
+    }
+
+    /* Data grid inside details */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 24px;
+    }
+    .detail-col-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label { font-size: 11px; color: #86868b; }
+    .detail-value { font-size: 11px; font-weight: 600; color: #1d1d1f; text-align: right; font-variant-numeric: tabular-nums; }
+
+    /* ── CARD (for Milla below) ─── */
     .card {
       background: rgba(255, 255, 255, 0.92);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -432,7 +625,6 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
       padding: 24px;
     }
-    .card + .card { margin-top: 16px; }
 
     .card-title {
       font-size: 13px;
@@ -441,118 +633,6 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
       margin-bottom: 16px;
-    }
-
-    /* Field rows (label : value) */
-    .fields {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .field-row {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 12px;
-      align-items: baseline;
-    }
-    .field-label {
-      font-size: 11px;
-      font-weight: 500;
-      color: #86868b;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .field-value {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1d1d1f;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* ── LEFT CARD: HEADER WITH PHOTO + NAME ─── */
-    .machine-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    .machine-thumb {
-      width: 64px;
-      height: 56px;
-      background: #fafbfc;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      flex-shrink: 0;
-    }
-    .machine-thumb img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    .machine-title-block {
-      flex: 1;
-      min-width: 0;
-    }
-    .machine-title-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .machine-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1d1d1f;
-      letter-spacing: -0.3px;
-    }
-    .machine-edit-btn {
-      width: 24px;
-      height: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #9ca3af;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.15s;
-    }
-    .machine-edit-btn:hover { color: #007167; }
-    .machine-edit-btn svg { width: 14px; height: 14px; }
-
-    .machine-line {
-      font-size: 11px;
-      font-weight: 500;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 2px;
-    }
-
-    /* Browse documents link */
-    .docs-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #007167;
-      text-decoration: none;
-      margin-top: 16px;
-    }
-    .docs-link:hover { text-decoration: underline; }
-    .docs-link svg { width: 14px; height: 14px; }
-
-    /* btn-service — powered by buttons.css */
-    .machine-service-btn { margin-top: 16px; width: 100%; }
-
-    /* ── RIGHT COLUMN ─── */
-    .right-col {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
     }
 
     /* Ask Milla banner — collapsed e expanded */
@@ -1213,7 +1293,10 @@
     }
 
     @media (max-width: 960px) {
-      .layout { grid-template-columns: 1fr; }
+      .hero-layout { grid-template-columns: 1fr; min-height: auto; }
+      .hero-photo { border-radius: 16px 16px 0 0; padding: 32px; max-height: 320px; }
+      .hero-info { border-radius: 0 0 16px 16px; border-left: 1px solid rgba(0,0,0,0.06); border-top: none; }
+      .detail-grid { grid-template-columns: 1fr; gap: 16px 0; }
     }
 
     /* ── CART DROPDOWN ─── */
@@ -1509,88 +1592,93 @@
 
   <!-- PAGE -->
   <div class="page">
-    <div class="layout">
 
-      <!-- LEFT COLUMN -->
-      <div class="left-col">
-
-        <!-- Card 1: Machine quick info -->
-        <div class="card">
-          <div class="machine-header">
-            <div class="machine-thumb">
-              <img src="../assets/machine-discus30.png" alt="Zeta 60">
-            </div>
-            <div class="machine-title-block">
-              <div class="machine-title-row">
-                <h1 class="machine-title">Zeta 60</h1>
-                <button type="button" class="machine-edit-btn" aria-label="Edit machine" data-i18n="machine.editMachine">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                </button>
-              </div>
-              <div class="machine-line">BLACK PRODUCTION ONLY</div>
-            </div>
-          </div>
-
-          <div class="fields">
-            <div class="field-row">
-              <span class="field-label" data-i18n="machine.serialNumber">Serial Number:</span>
-              <span class="field-value">15202531-10</span>
-            </div>
-            <div class="field-row">
-              <span class="field-label" data-i18n="machine.country">Country:</span>
-              <span class="field-value">Brazil</span>
-            </div>
-            <div class="field-row">
-              <span class="field-label" data-i18n="machine.installDate">Install Date:</span>
-              <span class="field-value">2024-06-15</span>
-            </div>
-          </div>
-
-          <a href="#" class="docs-link" data-i18n="machine.browseDocs">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Browse equipment documents and manuals
-          </a>
-
-          <button type="button" class="btn btn-primary btn-md machine-service-btn" data-i18n="machine.serviceRequest">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Service Request
-          </button>
-        </div>
-
-        <!-- Card 2: Machine Information -->
-        <div class="card">
-          <h2 class="card-title" data-i18n="machine.machineInfo">Machine Information</h2>
-          <div class="fields">
-            <div class="field-row"><span class="field-label" data-i18n="machine.equipmentName">Equipment Name:</span><span class="field-value">Zeta 60</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.serviceBy">Service by:</span><span class="field-value">NEM</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.commissionNumber">Commission Number:</span><span class="field-value">15202531-10</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.purchaseDate">Purchase Date</span><span class="field-value">2024-04-10</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.machineType">Machine Type:</span><span class="field-value">Dispersing</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.installDate">Install Date:</span><span class="field-value">2024-06-15</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.figNumber">Fig nr.:</span><span class="field-value">12634</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.warrantyExpiration">Warranty Expiration:</span><span class="field-value">2026-07-01</span></div>
-          </div>
-        </div>
-
-        <!-- Card 3: Technical Details -->
-        <div class="card">
-          <h2 class="card-title" data-i18n="machine.technicalDetails">Technical Details</h2>
-          <div class="fields">
-            <div class="field-row"><span class="field-label" data-i18n="machine.grindingSystem">Grinding System:</span><span class="field-value">Dispersing</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.serviceBy">Service by:</span><span class="field-value">Not applicable</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.grindingChamber">Grinding Chamber:</span><span class="field-value">Closed batch tank</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.purchaseDate">Purchase Date</span><span class="field-value">Not applicable</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.materialShaft">Material Grinding Shaft:</span><span class="field-value">Stainless steel</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.installDate">Install Date:</span><span class="field-value">Not applicable</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.sealingMaterial">Sealing Material:</span><span class="field-value">Mechanical seal</span></div>
-            <div class="field-row"><span class="field-label" data-i18n="machine.warrantyExpiration">Warranty Expiration:</span><span class="field-value">Integrated pump</span></div>
-          </div>
-        </div>
-
+    <!-- HERO: Zara-inspired split layout -->
+    <div class="hero-layout">
+      <!-- Left — Machine photo -->
+      <div class="hero-photo">
+        <img src="../assets/machine-discus30.png" alt="Zeta 60">
       </div>
 
-      <!-- RIGHT COLUMN -->
-      <div class="right-col">
+      <!-- Right — Info + Actions -->
+      <div class="hero-info" id="hero-info">
+        <span class="hero-line-badge">BLACK PRODUCTION ONLY</span>
+        <h1 class="hero-machine-name">Zeta 60</h1>
+        <span class="hero-serial">SN: 15202531-10 · Brazil · Jun 2024</span>
+
+        <div class="hero-divider"></div>
+
+        <!-- Actions -->
+        <div class="hero-actions">
+          <div class="hero-action-item" id="milla-trigger-card" style="cursor:pointer;">
+            <div class="hero-action-icon milla-icon">
+              <img src="../assets/icon-sparkle.svg" alt="" width="18" height="18">
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Ask Milla <span class="ai-badge">AI</span></div>
+              <span class="hero-action-desc">Find spare parts by photo, description or code</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <a href="service-request.html?machine=Zeta%2060&serial=15202531-10&line=BLACK%20PRODUCTION&img=machine-discus30.png" class="hero-action-item">
+            <div class="hero-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Service Request</div>
+              <span class="hero-action-desc">Schedule maintenance or report an issue</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+
+          <a href="#" class="hero-action-item docs-link">
+            <div class="hero-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Documents</div>
+              <span class="hero-action-desc">Equipment manuals and technical docs</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <!-- Machine Details accordion -->
+        <button type="button" class="hero-details-toggle" onclick="document.getElementById('hero-info').classList.toggle('details-open')">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Machine Details
+        </button>
+        <div class="hero-details-content">
+          <div class="detail-grid">
+            <div class="detail-col">
+              <h3 class="detail-col-title">Machine Information</h3>
+              <div class="detail-row"><span class="detail-label">Equipment</span><span class="detail-value">Zeta 60</span></div>
+              <div class="detail-row"><span class="detail-label">Type</span><span class="detail-value">Dispersing</span></div>
+              <div class="detail-row"><span class="detail-label">Serial Number</span><span class="detail-value">15202531-10</span></div>
+              <div class="detail-row"><span class="detail-label">Commission Nr.</span><span class="detail-value">15202531-10</span></div>
+              <div class="detail-row"><span class="detail-label">Service by</span><span class="detail-value">NEM</span></div>
+              <div class="detail-row"><span class="detail-label">Fig nr.</span><span class="detail-value">12634</span></div>
+              <div class="detail-row"><span class="detail-label">Purchase Date</span><span class="detail-value">2024-04-10</span></div>
+              <div class="detail-row"><span class="detail-label">Install Date</span><span class="detail-value">2024-06-15</span></div>
+              <div class="detail-row"><span class="detail-label">Country</span><span class="detail-value">Brazil</span></div>
+              <div class="detail-row"><span class="detail-label">Warranty</span><span class="detail-value">2026-07-01</span></div>
+            </div>
+            <div class="detail-col">
+              <h3 class="detail-col-title">Technical Details</h3>
+              <div class="detail-row"><span class="detail-label">Grinding System</span><span class="detail-value">Dispersing</span></div>
+              <div class="detail-row"><span class="detail-label">Grinding Chamber</span><span class="detail-value">Closed batch tank</span></div>
+              <div class="detail-row"><span class="detail-label">Grinding Shaft</span><span class="detail-value">Stainless steel</span></div>
+              <div class="detail-row"><span class="detail-label">Sealing Material</span><span class="detail-value">Mechanical seal</span></div>
+              <div class="detail-row"><span class="detail-label">Integrated Pump</span><span class="detail-value">No</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MILLA SECTION (below hero) -->
+    <div>
 
         <!-- Ask Milla banner (collapsed/expanded states) -->
         <div class="milla-banner" id="milla-banner">
