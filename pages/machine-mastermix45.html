@@ -412,17 +412,19 @@
 
     /* ── IDENTITY BAR ─── */
     .identity-bar {
-      display: flex;
-      align-items: center;
       margin: 12px 32px 0;
       padding: 14px 20px;
-      gap: 10px;
       background: rgba(255, 255, 255, 0.92);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       backdrop-filter: saturate(180%) blur(20px);
       border: 1px solid rgba(0, 0, 0, 0.06);
       border-radius: 14px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+    .identity-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .identity-image {
       width: 40px;
@@ -917,58 +919,38 @@
     .btn-wish-sm.active svg path { fill: #c73e20; }
     .btn-wish-sm svg { width: 13px; height: 13px; }
 
-    /* ── MACHINE DATA SECTION ─── */
-    .machine-data-section {
-      padding: 10px 32px 32px;
-    }
-    .machine-data-card {
-      background: rgba(255, 255, 255, 0.92);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      backdrop-filter: saturate(180%) blur(20px);
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 14px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-      padding: 0;
-    }
-    .machine-data-toggle {
+    /* ── MACHINE DETAILS (inline accordion inside identity bar) ─── */
+    .machine-details-toggle {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 14px 20px;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 0;
       background: none;
       border: none;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #007167;
+      transition: color 0.15s;
     }
-    .machine-data-toggle-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .machine-data-toggle-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1d1d1f;
-    }
-    .machine-data-toggle-count {
-      font-size: 11px;
-      color: #86868b;
-    }
-    .machine-data-toggle-chevron {
-      width: 16px;
-      height: 16px;
-      color: #9ca3af;
+    .machine-details-toggle:hover { color: #005f57; }
+    .machine-details-toggle svg {
+      width: 14px;
+      height: 14px;
       transition: transform 0.25s var(--ease-apple);
     }
-    .machine-data-card.is-open .machine-data-toggle-chevron {
+    .identity-bar.details-open .machine-details-toggle svg {
       transform: rotate(180deg);
     }
-    .machine-data-content {
+    .machine-details-content {
       display: none;
-      padding: 0 20px 20px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
     }
-    .machine-data-card.is-open .machine-data-content {
+    .identity-bar.details-open .machine-details-content {
       display: block;
     }
     .data-grid {
@@ -1653,12 +1635,10 @@
     @media (max-width: 768px) {
       .identity-bar { margin: 12px 16px 0; padding: 12px 16px; }
       .actions-grid { padding: 10px 16px 0; }
-      .machine-data-section { padding: 10px 16px 24px; }
     }
     @media (max-width: 480px) {
       .identity-bar { margin: 10px 12px 0; padding: 10px 12px; flex-wrap: wrap; gap: 6px; }
       .actions-grid { padding: 10px 12px 0; }
-      .machine-data-section { padding: 10px 12px 20px; }
     }
 
     /* ── CART DROPDOWN ─── */
@@ -1956,13 +1936,44 @@
   <div class="page">
 
     <!-- IDENTITY BAR -->
-    <div class="identity-bar">
-      <div class="identity-image">
-        <img src="../assets/machine-discus30.png" alt="MasterMix 45">
+    <div class="identity-bar" id="identity-bar">
+      <div class="identity-top">
+        <div class="identity-image">
+          <img src="../assets/machine-discus30.png" alt="MasterMix 45">
+        </div>
+        <h1 class="identity-name machine-title">MasterMix 45</h1>
+        <span class="identity-badge">LINE 3</span>
+        <span class="identity-serial">SN: 15202462-20 · Brazil · Aug 2024</span>
       </div>
-      <h1 class="identity-name machine-title">MasterMix 45</h1>
-      <span class="identity-badge">LINE 3</span>
-      <span class="identity-serial">SN: 15202462-20 · Brazil · Aug 2024</span>
+      <button type="button" class="machine-details-toggle" onclick="document.getElementById('identity-bar').classList.toggle('details-open')">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Machine Details
+      </button>
+      <div class="machine-details-content">
+        <div class="data-grid">
+          <div class="data-col">
+            <h3 class="data-col-title">Machine Information</h3>
+            <div class="data-row"><span class="data-label">Equipment</span><span class="data-value">MasterMix 45</span></div>
+            <div class="data-row"><span class="data-label">Type</span><span class="data-value">Bead Mill Stirrer</span></div>
+            <div class="data-row"><span class="data-label">Serial Number</span><span class="data-value">15202462-20</span></div>
+            <div class="data-row"><span class="data-label">Commission Nr.</span><span class="data-value">15202462-20</span></div>
+            <div class="data-row"><span class="data-label">Service by</span><span class="data-value">NEM</span></div>
+            <div class="data-row"><span class="data-label">Fig nr.</span><span class="data-value">12633</span></div>
+            <div class="data-row"><span class="data-label">Purchase Date</span><span class="data-value">2024-05-12</span></div>
+            <div class="data-row"><span class="data-label">Install Date</span><span class="data-value">2024-08-20</span></div>
+            <div class="data-row"><span class="data-label">Country</span><span class="data-value">Brazil</span></div>
+            <div class="data-row highlight"><span class="data-label">Warranty</span><span class="data-value">2026-06-01</span></div>
+          </div>
+          <div class="data-col">
+            <h3 class="data-col-title">Technical Details</h3>
+            <div class="data-row"><span class="data-label">Grinding System</span><span class="data-value">Dissolver</span></div>
+            <div class="data-row"><span class="data-label">Grinding Chamber</span><span class="data-value">Open batch tank</span></div>
+            <div class="data-row"><span class="data-label">Grinding Shaft</span><span class="data-value">Stainless steel</span></div>
+            <div class="data-row"><span class="data-label">Sealing Material</span><span class="data-value">Mechanical seal</span></div>
+            <div class="data-row"><span class="data-label">Integrated Pump</span><span class="data-value">No</span></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ACTIONS GRID (4 actions, Milla spans top row) -->
@@ -2281,45 +2292,6 @@
       }
     })();
     </script>
-
-    <!-- MACHINE DATA (collapsible) -->
-    <div class="machine-data-section">
-      <div class="machine-data-card" id="machine-data-card">
-        <button type="button" class="machine-data-toggle" onclick="document.getElementById('machine-data-card').classList.toggle('is-open')">
-          <div class="machine-data-toggle-left">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            <span class="machine-data-toggle-title">Machine Details</span>
-            <span class="machine-data-toggle-count">15 fields</span>
-          </div>
-          <svg class="machine-data-toggle-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="machine-data-content">
-        <div class="data-grid">
-          <div class="data-col">
-            <h3 class="data-col-title">Machine Information</h3>
-            <div class="data-row"><span class="data-label">Equipment</span><span class="data-value">MasterMix 45</span></div>
-            <div class="data-row"><span class="data-label">Type</span><span class="data-value">Bead Mill Stirrer</span></div>
-            <div class="data-row"><span class="data-label">Serial Number</span><span class="data-value">15202462-20</span></div>
-            <div class="data-row"><span class="data-label">Commission Nr.</span><span class="data-value">15202462-20</span></div>
-            <div class="data-row"><span class="data-label">Service by</span><span class="data-value">NEM</span></div>
-            <div class="data-row"><span class="data-label">Fig nr.</span><span class="data-value">12633</span></div>
-            <div class="data-row"><span class="data-label">Purchase Date</span><span class="data-value">2024-05-12</span></div>
-            <div class="data-row"><span class="data-label">Install Date</span><span class="data-value">2024-08-20</span></div>
-            <div class="data-row"><span class="data-label">Country</span><span class="data-value">Brazil</span></div>
-            <div class="data-row highlight"><span class="data-label">Warranty</span><span class="data-value">2026-06-01</span></div>
-          </div>
-          <div class="data-col">
-            <h3 class="data-col-title">Technical Details</h3>
-            <div class="data-row"><span class="data-label">Grinding System</span><span class="data-value">Dissolver</span></div>
-            <div class="data-row"><span class="data-label">Grinding Chamber</span><span class="data-value">Open batch tank</span></div>
-            <div class="data-row"><span class="data-label">Grinding Shaft</span><span class="data-value">Stainless steel</span></div>
-            <div class="data-row"><span class="data-label">Sealing Material</span><span class="data-value">Mechanical seal</span></div>
-            <div class="data-row"><span class="data-label">Integrated Pump</span><span class="data-value">No</span></div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
 
   </div>
 
