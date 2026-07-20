@@ -473,14 +473,14 @@ th.sorted.sort-asc .sort-icon {
   flex-shrink: 0;
   animation: pulse-dot 2.5s ease-in-out infinite;
 }
-.status-placed { background: rgba(107, 114, 128, 0.08); color: #4b5563; }
-.status-placed::before { background: #6b7280; }
+.status-placed { background: rgba(132, 204, 22, 0.1); color: #4d7c0f; }
+.status-placed::before { background: #84cc16; }
 .status-process { background: rgba(245, 158, 11, 0.08); color: #b45309; }
 .status-process::before { background: #f59e0b; }
 .status-shipped { background: rgba(59, 130, 246, 0.07); color: #1d4ed8; }
 .status-shipped::before { background: #3b82f6; }
-.status-delivered { background: var(--nz-green-bg); color: var(--nz-green); }
-.status-delivered::before { background: var(--nz-green); animation: none; }
+.status-delivered { background: rgba(236, 72, 153, 0.08); color: #be185d; }
+.status-delivered::before { background: #ec4899; animation: none; }
 .status-completed { background: var(--nz-green-bg); color: var(--nz-green); }
 .status-completed::before { background: var(--nz-green); animation: none; }
 .status-active { background: var(--nz-green-bg); color: var(--nz-green); }
