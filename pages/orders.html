@@ -2095,10 +2095,9 @@ document.addEventListener('click', function(e) {
       function getStatusKey(row) {
         var badge = row.cells[3].querySelector('.status-badge');
         if (!badge) return 99;
-        var cls = badge.className.match(/status-(\w+)/);
+        var cls = badge.className.match(/status-(placed|process|shipped|delivered)/);
         if (!cls) return 99;
-        var key = cls[1];
-        return statusOrder[key] !== undefined ? statusOrder[key] : 99;
+        return statusOrder[cls[1]];
       }
 
       function sortTable(colIndex) {
