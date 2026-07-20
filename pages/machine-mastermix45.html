@@ -414,22 +414,15 @@
     .identity-bar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       margin: 12px 32px 0;
       padding: 14px 20px;
-      gap: 12px;
+      gap: 10px;
       background: rgba(255, 255, 255, 0.92);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       backdrop-filter: saturate(180%) blur(20px);
       border: 1px solid rgba(0, 0, 0, 0.06);
       border-radius: 14px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-    }
-    .identity-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
     }
     .identity-image {
       width: 40px;
@@ -465,51 +458,54 @@
       color: #86868b;
       white-space: nowrap;
     }
-    .identity-actions {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-    /* btn-action-sm — powered by buttons.css (.btn .btn-secondary .btn-sm) */
-    .btn-action-sm-ghost { border-color: rgba(0, 113, 103, 0.2); color: #007167; }
-    .btn-action-sm-ghost:hover { background: #f0faf9; }
 
-    /* ── SPARE PARTS ACTION ROW ─── */
-    .spare-actions-row {
+    /* ── ACTIONS GRID ─── */
+    .actions-grid {
       display: grid;
-      grid-template-columns: 3fr 2fr;
-      gap: 12px;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 10px;
       padding: 10px 32px 0;
       position: relative;
       z-index: 2;
     }
-    .spare-action-card {
+    .action-card {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 16px;
+      padding: 16px 18px;
       background: rgba(255, 255, 255, 0.92);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       backdrop-filter: saturate(180%) blur(20px);
       border: 1px solid rgba(0, 0, 0, 0.06);
       border-radius: 14px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-      transition: box-shadow 0.2s, transform 0.15s;
-      cursor: default;
-    }
-    .spare-action-card.milla-trigger {
+      transition: box-shadow 0.25s var(--ease-apple), transform 0.2s var(--ease-apple);
       cursor: pointer;
-      border-color: rgba(0, 113, 103, 0.25);
-      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(0,113,103,0.04) 100%);
+      text-decoration: none;
+      color: inherit;
     }
-    .spare-action-card.milla-trigger:hover {
-      box-shadow: 0 4px 20px rgba(0, 113, 103, 0.15), 0 0 0 1px rgba(0, 113, 103, 0.1);
+    .action-card:hover {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      transform: translateY(-1px);
+    }
+
+    /* Milla — spans full top row, visual priority */
+    .action-card.milla-trigger {
+      grid-column: 1 / -1;
+      border-color: rgba(0, 113, 103, 0.2);
+      background: linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(0,113,103,0.04) 100%);
+      padding: 18px 22px;
+    }
+    .action-card.milla-trigger:hover {
+      box-shadow: 0 4px 20px rgba(0, 113, 103, 0.12), 0 0 0 1px rgba(0, 113, 103, 0.08);
       transform: translateY(-2px);
     }
-    .spare-action-card.milla-trigger .spare-action-title { color: #007167; }
-    .spare-action-icon {
-      width: 36px;
-      height: 36px;
+
+    /* Action icons */
+    .action-card-icon {
+      width: 40px;
+      height: 40px;
       border-radius: 10px;
       background: rgba(0, 113, 103, 0.06);
       display: flex;
@@ -517,7 +513,10 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .spare-action-card.milla-trigger .spare-action-icon {
+    .action-card.milla-trigger .action-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
       animation: milla-icon-pulse 3s ease-in-out infinite;
     }
@@ -526,15 +525,28 @@
       50% { box-shadow: 0 0 0 6px rgba(0, 113, 103, 0.12); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .spare-action-card.milla-trigger .spare-action-icon { animation: none; }
+      .action-card.milla-trigger .action-card-icon { animation: none; }
     }
-    .spare-action-card.milla-trigger .spare-action-icon img {
+    .action-card.milla-trigger .action-card-icon img {
       filter: brightness(0) invert(1);
     }
-    .spare-action-card.milla-trigger .spare-action-title::after {
-      content: 'AI';
-      display: inline-block;
-      margin-left: 6px;
+
+    /* Action text */
+    .action-card-text { flex: 1; min-width: 0; }
+    .action-card-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1d1d1f;
+      margin-bottom: 2px;
+    }
+    .action-card.milla-trigger .action-card-title {
+      font-size: 15px;
+      color: #007167;
+    }
+    .action-card-title .ai-badge {
       padding: 1px 5px;
       font-size: 9px;
       font-weight: 700;
@@ -542,31 +554,35 @@
       background: rgba(0, 113, 103, 0.08);
       border-radius: 4px;
       letter-spacing: 0.04em;
-      vertical-align: middle;
     }
-    .spare-action-text { flex: 1; min-width: 0; }
-    .spare-action-title {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #1d1d1f;
-      margin-bottom: 1px;
-    }
-    .spare-action-desc {
-      display: block;
-      font-size: 11px;
+    .action-card-desc {
+      font-size: 12px;
       color: #86868b;
+      line-height: 1.4;
     }
-    .spare-action-arrow { color: #86868b; flex-shrink: 0; }
-    .spare-action-card .subset-wrapper { flex-shrink: 0; }
-    .spare-action-card .subset-select {
+    .action-card.milla-trigger .action-card-desc { font-size: 12px; }
+
+    /* Arrow / chevron */
+    .action-card-arrow {
+      color: #c3c5c7;
+      flex-shrink: 0;
+      transition: color 0.15s, transform 0.15s;
+    }
+    .action-card:hover .action-card-arrow {
+      color: #007167;
+      transform: translateX(2px);
+    }
+
+    /* Subset select inside card */
+    .action-card .subset-wrapper { flex-shrink: 0; }
+    .action-card .subset-select {
       height: 32px;
       font-size: 12px;
       padding: 0 8px 0 12px;
       border-radius: 8px;
       gap: 6px;
     }
-    .spare-action-card .subset-select svg { flex-shrink: 0; }
+    .action-card .subset-select svg { flex-shrink: 0; }
 
     /* ── MILLA MODAL ─── */
     .milla-modal-overlay {
@@ -912,7 +928,48 @@
       border: 1px solid rgba(0, 0, 0, 0.06);
       border-radius: 14px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-      padding: 20px 24px;
+      padding: 0;
+    }
+    .machine-data-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 14px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .machine-data-toggle-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .machine-data-toggle-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d1d1f;
+    }
+    .machine-data-toggle-count {
+      font-size: 11px;
+      color: #86868b;
+    }
+    .machine-data-toggle-chevron {
+      width: 16px;
+      height: 16px;
+      color: #9ca3af;
+      transition: transform 0.25s var(--ease-apple);
+    }
+    .machine-data-card.is-open .machine-data-toggle-chevron {
+      transform: rotate(180deg);
+    }
+    .machine-data-content {
+      display: none;
+      padding: 0 20px 20px;
+    }
+    .machine-data-card.is-open .machine-data-content {
+      display: block;
     }
     .data-grid {
       display: grid;
@@ -1588,20 +1645,20 @@
 
     /* ── RESPONSIVE: Compact Layout ─── */
     @media (max-width: 960px) {
-      .spare-actions-row { grid-template-columns: 1fr; }
+      .actions-grid { grid-template-columns: 1fr; }
+      .action-card.milla-trigger { grid-column: 1; }
       .data-grid { grid-template-columns: 1fr; gap: 20px 0; }
       .identity-bar { flex-wrap: wrap; }
     }
     @media (max-width: 768px) {
       .identity-bar { margin: 12px 16px 0; padding: 12px 16px; }
-      .spare-actions-row { padding: 0 16px 12px; }
-      .machine-data-section { padding: 0 16px 24px; }
+      .actions-grid { padding: 10px 16px 0; }
+      .machine-data-section { padding: 10px 16px 24px; }
     }
     @media (max-width: 480px) {
-      .identity-bar { margin: 10px 12px 0; padding: 10px 12px; }
-      .identity-left { flex-wrap: wrap; gap: 6px; }
-      .spare-actions-row { padding: 0 12px 10px; }
-      .machine-data-section { padding: 0 12px 20px; }
+      .identity-bar { margin: 10px 12px 0; padding: 10px 12px; flex-wrap: wrap; gap: 6px; }
+      .actions-grid { padding: 10px 12px 0; }
+      .machine-data-section { padding: 10px 12px 20px; }
     }
 
     /* ── CART DROPDOWN ─── */
@@ -1900,45 +1957,36 @@
 
     <!-- IDENTITY BAR -->
     <div class="identity-bar">
-      <div class="identity-left">
-        <div class="identity-image">
-          <img src="../assets/machine-discus30.png" alt="MasterMix 45">
-        </div>
-        <h1 class="identity-name machine-title">MasterMix 45</h1>
-        <span class="identity-badge">LINE 3</span>
-        <span class="identity-serial">SN: 15202462-20 · Brazil · Aug 2024</span>
+      <div class="identity-image">
+        <img src="../assets/machine-discus30.png" alt="MasterMix 45">
       </div>
-      <div class="identity-actions">
-        <a href="service-request.html?machine=MasterMix%2045&serial=15202462-20&line=LINE%203&img=machine-discus30.png" class="btn btn-secondary btn-sm" data-i18n="machine.serviceRequest">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Service Request
-        </a>
-        <a href="#" class="btn btn-secondary btn-sm btn-action-sm-ghost docs-link" data-i18n="machine.browseDocs">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Documents
-        </a>
-      </div>
+      <h1 class="identity-name machine-title">MasterMix 45</h1>
+      <span class="identity-badge">LINE 3</span>
+      <span class="identity-serial">SN: 15202462-20 · Brazil · Aug 2024</span>
     </div>
 
-    <!-- SPARE PARTS ACTIONS (compact row) -->
-    <div class="spare-actions-row">
-      <div class="spare-action-card milla-trigger" id="milla-trigger-card">
-        <div class="spare-action-icon">
-          <img src="../assets/icon-sparkle.svg" alt="" width="20" height="20">
+    <!-- ACTIONS GRID (4 actions, Milla spans top row) -->
+    <div class="actions-grid">
+      <!-- Ask Milla — full width, top row -->
+      <div class="action-card milla-trigger" id="milla-trigger-card">
+        <div class="action-card-icon">
+          <img src="../assets/icon-sparkle.svg" alt="" width="22" height="22">
         </div>
-        <div class="spare-action-text">
-          <span class="spare-action-title">Ask Milla</span>
-          <span class="spare-action-desc">Find spare parts by photo, description or code</span>
+        <div class="action-card-text">
+          <div class="action-card-title">Ask Milla <span class="ai-badge">AI</span></div>
+          <span class="action-card-desc">Find spare parts by photo, description or product code — powered by AI</span>
         </div>
-        <svg class="spare-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="action-card-arrow" width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <div class="spare-action-card">
-        <div class="spare-action-icon">
+
+      <!-- Select Subset -->
+      <div class="action-card" id="subset-action-card" onclick="event.stopPropagation();" style="cursor:default;">
+        <div class="action-card-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         </div>
-        <div class="spare-action-text">
-          <span class="spare-action-title">Select Subset</span>
-          <span class="spare-action-desc">Browse by machine component group</span>
+        <div class="action-card-text">
+          <div class="action-card-title">Select Subset</div>
+          <span class="action-card-desc">Browse by component group</span>
         </div>
         <div class="subset-wrapper" id="subset-wrapper">
           <button type="button" class="subset-select" id="subset-select">
@@ -1953,6 +2001,30 @@
           </div>
         </div>
       </div>
+
+      <!-- Service Request -->
+      <a href="service-request.html?machine=MasterMix%2045&serial=15202462-20&line=LINE%203&img=machine-discus30.png" class="action-card" data-i18n="machine.serviceRequest">
+        <div class="action-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="action-card-text">
+          <div class="action-card-title">Service Request</div>
+          <span class="action-card-desc">Schedule maintenance or report an issue</span>
+        </div>
+        <svg class="action-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <!-- Documents -->
+      <a href="#" class="action-card docs-link" data-i18n="machine.browseDocs">
+        <div class="action-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="action-card-text">
+          <div class="action-card-title">Documents</div>
+          <span class="action-card-desc">Equipment manuals and technical docs</span>
+        </div>
+        <svg class="action-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
 
     <!-- MILLA MODAL -->
@@ -2210,9 +2282,18 @@
     })();
     </script>
 
-    <!-- MACHINE DATA (compact 2-col grid) -->
+    <!-- MACHINE DATA (collapsible) -->
     <div class="machine-data-section">
-      <div class="machine-data-card">
+      <div class="machine-data-card" id="machine-data-card">
+        <button type="button" class="machine-data-toggle" onclick="document.getElementById('machine-data-card').classList.toggle('is-open')">
+          <div class="machine-data-toggle-left">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span class="machine-data-toggle-title">Machine Details</span>
+            <span class="machine-data-toggle-count">15 fields</span>
+          </div>
+          <svg class="machine-data-toggle-chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="machine-data-content">
         <div class="data-grid">
           <div class="data-col">
             <h3 class="data-col-title">Machine Information</h3>
@@ -2235,6 +2316,7 @@
             <div class="data-row"><span class="data-label">Sealing Material</span><span class="data-value">Mechanical seal</span></div>
             <div class="data-row"><span class="data-label">Integrated Pump</span><span class="data-value">No</span></div>
           </div>
+        </div>
         </div>
       </div>
     </div>
