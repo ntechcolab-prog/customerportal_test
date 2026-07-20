@@ -473,8 +473,8 @@ th.sorted.sort-asc .sort-icon {
   flex-shrink: 0;
   animation: pulse-dot 2.5s ease-in-out infinite;
 }
-.status-placed { background: var(--nz-green-bg); color: var(--nz-green); }
-.status-placed::before { background: var(--nz-green); }
+.status-placed { background: rgba(99, 102, 241, 0.07); color: #4338ca; }
+.status-placed::before { background: #6366f1; }
 .status-process { background: rgba(245, 158, 11, 0.08); color: #b45309; }
 .status-process::before { background: #f59e0b; }
 .status-shipped { background: rgba(59, 130, 246, 0.07); color: #1d4ed8; }
