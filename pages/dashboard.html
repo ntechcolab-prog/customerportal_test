@@ -527,7 +527,6 @@
       grid-template-columns: 1fr 380px;
       gap: 12px;
       margin-bottom: 12px;
-      align-items: start;
     }
 
     /* ── CARD (shared) ─── */
@@ -602,11 +601,8 @@
 
     /* ── RECENT ORDERS ─── */
     .orders-header {
-      display: flex; align-items: flex-start; justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 12px;
-    }
-    .orders-header .card-title {
-      padding-top: 6px;
     }
 
 
@@ -1570,13 +1566,9 @@
         </div>
 
         <!-- CONTRACTS EXPIRING -->
-        <div class="card">
-          <div class="orders-header">
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="card-header">
             <span class="card-title" data-i18n="dash.contractsExpiring">Contracts Expiring Soon</span>
-            <button class="btn btn-ghost btn-sm" data-i18n="dash.viewAllContracts" onclick="window.location.href='contracts.html'">
-              View All
-              <img src="../assets/icon-section-h2.svg" alt="">
-            </button>
           </div>
           <a href="contracts.html" class="contract-alert">
             <div class="contract-alert-icon">
@@ -1589,6 +1581,11 @@
             <span class="contract-alert-badge" data-i18n="dash.expiringLabel">Expiring</span>
           </a>
           <div class="contract-footer" data-i18n="dash.contractsFooter">Contracts expiring within 30 days</div>
+          <div style="flex:1;"></div>
+          <button class="btn btn-ghost btn-sm" style="align-self:center;margin-top:12px;" data-i18n="dash.viewAllContracts" onclick="window.location.href='contracts.html'">
+            View All Contracts
+            <img src="../assets/icon-section-h2.svg" alt="">
+          </button>
         </div>
       </div>
 
