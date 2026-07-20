@@ -541,37 +541,35 @@
     .card-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 8px;
-      margin-bottom: 14px;
-      min-height: 32px;
+      margin-bottom: 16px;
     }
     .card-header img { width: 16px; height: 16px; object-fit: contain; }
     .card-title { font-size: 14px; font-weight: 700; color: #1d1d1f; letter-spacing: -0.2px; }
 
     /* ── AI INSIGHTS ─── */
-    .insight-list { display: flex; flex-direction: column; gap: 6px; }
+    .insight-list { display: flex; flex-direction: column; gap: 8px; }
     .insight-item {
       border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 8px;
-      padding: 10px 12px;
+      border-radius: 10px;
+      padding: 14px;
       display: flex;
-      align-items: center;
-      gap: 10px;
+      align-items: flex-start;
+      gap: 12px;
       transition: background 0.15s;
     }
-    .insight-item .btn { min-width: 130px; flex-shrink: 0; }
+    .insight-item .btn { min-width: 140px; flex-shrink: 0; }
     .insight-item:hover { background: #fafbfc; }
     .insight-dot {
       width: 6px; height: 6px; border-radius: 50%;
-      flex-shrink: 0;
+      flex-shrink: 0; margin-top: 6px;
     }
     .insight-dot.yellow { background: #f59e0b; }
     .insight-dot.red { background: #ef4444; }
     .insight-body { flex: 1; min-width: 0; }
-    .insight-label { margin-bottom: 1px; }
+    .insight-label { margin-bottom: 2px; }
     .insight-label-text { font-size: 12px; font-weight: 600; color: #1d1d1f; }
-    .insight-text { font-size: 11px; color: #86868b; line-height: 1.4; }
+    .insight-text { font-size: 12px; color: #86868b; line-height: 1.5; }
 
 
     /* ── CONTRACTS EXPIRING (sidebar) ─── */
@@ -604,8 +602,11 @@
 
     /* ── RECENT ORDERS ─── */
     .orders-header {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex; align-items: flex-start; justify-content: space-between;
       margin-bottom: 12px;
+    }
+    .orders-header .card-title {
+      padding-top: 6px;
     }
 
 
@@ -1570,7 +1571,7 @@
 
         <!-- CONTRACTS EXPIRING -->
         <div class="card">
-          <div class="card-header">
+          <div class="orders-header">
             <span class="card-title" data-i18n="dash.contractsExpiring">Contracts Expiring Soon</span>
             <button class="btn btn-ghost btn-sm" data-i18n="dash.viewAllContracts" onclick="window.location.href='contracts.html'">
               View All
