@@ -503,10 +503,18 @@
       color: inherit;
       transition: background 0.15s, border-color 0.15s, transform 0.15s;
     }
+    .hero-action-item:first-child {
+      background: rgba(0, 113, 103, 0.04);
+      border-color: rgba(0, 113, 103, 0.15);
+    }
     .hero-action-item:hover {
       background: rgba(0, 113, 103, 0.03);
       border-color: rgba(0, 113, 103, 0.15);
       transform: translateX(2px);
+    }
+    .hero-action-item:first-child:hover {
+      background: rgba(0, 113, 103, 0.08);
+      border-color: rgba(0, 113, 103, 0.25);
     }
     .hero-action-icon {
       width: 36px;
