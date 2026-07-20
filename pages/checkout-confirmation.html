@@ -676,6 +676,89 @@
       color: #1d1d1f;
     }
 
+    /* ── TRACKING DRAWER ─── */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 299;
+    }
+    .drawer-overlay.open { display: block; }
+
+    .tracking-drawer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+      z-index: 300;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .tracking-drawer.open { display: flex; }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      flex-shrink: 0;
+    }
+    .drawer-header h2 { font-size: 18px; font-weight: 700; color: #1f2937; }
+    .drawer-close {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: none; cursor: pointer; border-radius: 8px; color: #6b7280;
+    }
+    .drawer-close:hover { background: #f3f4f6; }
+    .drawer-close svg { width: 20px; height: 20px; }
+
+    .drawer-body {
+      padding: 24px; flex: 1;
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .drawer-order-info { display: flex; flex-direction: column; gap: 4px; }
+    .drawer-order-id { font-size: 15px; font-weight: 600; color: #1f2937; }
+    .drawer-tracking-num { font-size: 13px; color: #6b7280; }
+
+    .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .timeline-step { display: flex; gap: 16px; position: relative; padding-bottom: 24px; }
+    .timeline-step:last-child { padding-bottom: 0; }
+    .timeline-marker { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 32px; }
+    .timeline-circle {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: #e5e7eb;
+    }
+    .timeline-circle.active { background: #007167; }
+    .timeline-circle svg { width: 16px; height: 16px; }
+    .timeline-line { width: 2px; flex: 1; background: #e5e7eb; margin-top: 4px; }
+    .timeline-step.active .timeline-line { background: #007167; }
+    .timeline-content { flex: 1; padding-top: 4px; }
+    .timeline-title { font-size: 14px; font-weight: 600; color: #1f2937; margin-bottom: 4px; }
+    .timeline-desc { font-size: 13px; color: #6b7280; line-height: 1.5; }
+    .timeline-date { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+
+    .drawer-section { border-top: 1px solid #f3f4f6; padding-top: 20px; }
+    .drawer-section-title { font-size: 13px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .drawer-section-value { font-size: 14px; color: #1f2937; line-height: 1.6; }
+    .drawer-section-value strong { font-weight: 600; }
+
+    .map-placeholder {
+      background: #e8f5f3; border-radius: 12px; height: 140px;
+      display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+    }
+    .map-marker { display: flex; flex-direction: column; align-items: center; gap: 4px; z-index: 1; }
+    .map-marker-dot { width: 12px; height: 12px; border-radius: 50%; background: #007167; }
+    .map-marker-label { font-size: 11px; font-weight: 600; color: #007167; }
+    .map-route { display: flex; align-items: center; gap: 24px; }
+    .map-dotted-line { width: 80px; border-top: 2px dashed #007167; }
+
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
     .cart-dropdown-anchor { position: relative; display: flex; align-items: center; }
@@ -1489,7 +1572,7 @@
     <div class="title-bar">
       <h1 id="orderTitle">Order #--</h1>
       <div class="title-bar-actions">
-        <button class="btn btn-primary btn-lg">
+        <button class="btn btn-primary btn-lg" id="btnTrackOrder">
           <svg viewBox="0 0 16 16" fill="none"><path d="M1 10.5v2a1.5 1.5 0 001.5 1.5h11a1.5 1.5 0 001.5-1.5v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M5 2.5h8.5a1 1 0 011 1v4a1 1 0 01-1 1H5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="3" cy="5" r="1" fill="currentColor"/><path d="M1.5 3.5h3M1.5 5h3M1.5 6.5h3" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/></svg>
           <span data-i18n="orderDetail.trackOrder">Track Order</span>
         </button>
@@ -1993,6 +2076,125 @@ function sendFromBigChat() {
 function sendFromSmallChat() {
   sendMillaMessage(document.getElementById('millaChatSmallInput'), document.getElementById('millaChatSmallBody'));
 }
+</script>
+
+<!-- TRACKING DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+<aside class="tracking-drawer" id="trackingDrawer" role="dialog" aria-label="Order Tracking" aria-hidden="true">
+  <div class="drawer-header">
+    <h2 data-i18n="orderDetail.orderTracking">Order Tracking</h2>
+    <button class="drawer-close" id="drawerClose" aria-label="Close tracking drawer">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-order-info">
+      <span class="drawer-order-id" id="drawerOrderId">Order #--</span>
+      <span class="drawer-tracking-num"><span data-i18n="orderTracking.trackingNumber">Tracking number:</span> PK367366373</span>
+    </div>
+    <div class="timeline">
+      <div class="timeline-step active">
+        <div class="timeline-marker">
+          <div class="timeline-circle active">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-6" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-title" data-i18n="orderTracking.orderPlaced">Order Placed</div>
+          <div class="timeline-desc" data-i18n="orderTracking.orderConfirmed">Your order has been confirmed.</div>
+          <div class="timeline-date">Just now</div>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-marker">
+          <div class="timeline-circle"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#9ca3af"/></svg></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-title" data-i18n="orderTracking.dispatched">Dispatched</div>
+          <div class="timeline-desc" data-i18n="orderTracking.orderDispatched">Your order has been dispatched.</div>
+          <div class="timeline-date">Pending</div>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-marker">
+          <div class="timeline-circle"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#9ca3af"/></svg></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-title" data-i18n="orderTracking.outForDelivery">Out for Delivery</div>
+          <div class="timeline-desc" data-i18n="orderTracking.orderOutForDelivery">Your order is out for delivery.</div>
+          <div class="timeline-date">Pending</div>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-marker">
+          <div class="timeline-circle"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#9ca3af"/></svg></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-title" data-i18n="orderTracking.delivered">Delivered</div>
+          <div class="timeline-desc" data-i18n="orderTracking.orderDelivered">Your order has been delivered.</div>
+          <div class="timeline-date">Pending</div>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-section-title" data-i18n="orderTracking.estimatedDelivery">Estimated Delivery</div>
+      <div class="drawer-section-value"><strong id="drawerEstDelivery">--</strong></div>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-section-title" data-i18n="orderTracking.deliveryAddress">Delivery Address</div>
+      <div class="drawer-section-value">
+        John Doe<br>123 Main Street, Apt 4B<br>New York, NY 10001<br>United States<br>Phone: +1 (555) 123-4567
+      </div>
+    </div>
+    <div class="drawer-section">
+      <div class="drawer-section-title" data-i18n="orderTracking.carrierInfo">Carrier Information</div>
+      <div class="drawer-section-value"><strong>Fedex Express</strong></div>
+    </div>
+    <div class="map-placeholder">
+      <div class="map-route">
+        <div class="map-marker"><div class="map-marker-dot"></div><span class="map-marker-label" data-i18n="orderTracking.warehouse">Warehouse</span></div>
+        <div class="map-dotted-line"></div>
+        <div class="map-marker"><div class="map-marker-dot" style="background:#0b9c92;"></div><span class="map-marker-label" data-i18n="orderTracking.destination">Destination</span></div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script>
+(function() {
+  var btnTrack = document.getElementById('btnTrackOrder');
+  var drawer = document.getElementById('trackingDrawer');
+  var overlay = document.getElementById('drawerOverlay');
+  var btnClose = document.getElementById('drawerClose');
+  if (!btnTrack || !drawer) return;
+
+  // Sync order number
+  var orderTitle = document.getElementById('orderTitle');
+  var drawerOrderId = document.getElementById('drawerOrderId');
+  if (orderTitle && drawerOrderId) drawerOrderId.textContent = orderTitle.textContent;
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    btnClose.focus();
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    btnTrack.focus();
+  }
+  btnTrack.addEventListener('click', openDrawer);
+  btnClose.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+})();
 </script>
 
 <script>
