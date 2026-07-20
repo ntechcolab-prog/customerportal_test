@@ -418,11 +418,28 @@
     /* ── HERO LAYOUT (Zara-inspired) ─── */
     .hero-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr auto 1fr;
       gap: 0;
       min-height: 480px;
       margin-top: 40px;
       margin-bottom: 24px;
+    }
+    .hero-divider-v {
+      width: 0;
+      background: #fff;
+      position: relative;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .hero-divider-v::after {
+      content: '';
+      position: absolute;
+      top: 48px;
+      bottom: 48px;
+      left: 0;
+      width: 1px;
+      background: rgba(0, 0, 0, 0.08);
+      transform: translateX(-0.5px);
     }
 
     /* Left — machine photo */
@@ -1603,6 +1620,7 @@
 
     @media (max-width: 960px) {
       .hero-layout { grid-template-columns: 1fr; min-height: auto; }
+      .hero-divider-v { display: none; }
       .hero-photo { border-radius: 16px 16px 0 0; padding: 32px; max-height: 320px; }
       .hero-info { border-radius: 0 0 16px 16px; border-left: 1px solid rgba(0,0,0,0.06); border-top: none; }
       .detail-grid { grid-template-columns: 1fr; gap: 16px 0; }
@@ -1908,6 +1926,8 @@
       <div class="hero-photo">
         <img src="../assets/machine-discus30.png" alt="Zeta 60">
       </div>
+
+      <div class="hero-divider-v"></div>
 
       <!-- Right — Info + Actions -->
       <div class="hero-info" id="hero-info">
