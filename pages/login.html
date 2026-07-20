@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -295,50 +296,7 @@
       text-decoration: none;
     }
 
-    /* Buttons */
-    .btn-signin {
-      width: 100%;
-      height: 44px;
-      background: #007167;
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 24px;
-      letter-spacing: -0.31px;
-      cursor: pointer;
-      transition: opacity 0.15s;
-    }
-
-    .btn-signin:hover:not(:disabled) {
-      opacity: 0.9;
-    }
-    .btn-signin:disabled {
-      background: #b1b4b7;
-      cursor: not-allowed; transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
-    }
-
-    .btn-sso {
-      width: 100%;
-      height: 44px;
-      background: #fff;
-      color: #007167;
-      border: 1px solid #007167;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 24px;
-      letter-spacing: -0.31px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-
-    .btn-sso:hover {
-      background: #f0faf9;
-    }
+    /* Buttons — now powered by buttons.css */
 
     /* Divider */
     .divider {
@@ -361,12 +319,7 @@
       letter-spacing: -0.15px;
     }
 
-    /* Buttons group */
-    .buttons-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    /* Buttons group — powered by btn-group-vertical in buttons.css */
 
     /* Footer texts */
     .form-footer {
@@ -556,41 +509,14 @@
       gap: 10px;
       justify-content: flex-end;
     }
+    /* Modal buttons — cancel uses neutral gray styling */
     .btn-modal-cancel {
-      height: 40px;
-      padding: 0 20px;
-      background: #fff;
       color: #6b7280;
-      border: 1.5px solid #d1d5db;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.15s;
+      border-color: #d1d5db;
     }
     .btn-modal-cancel:hover {
       background: #f6f6f6;
-    }
-    .btn-modal-continue {
-      height: 40px;
-      padding: 0 24px;
-      background: #007167;
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity 0.15s;
-    }
-    .btn-modal-continue:hover:not(:disabled) {
-      opacity: 0.9;
-    }
-    .btn-modal-continue:disabled {
-      background: #b1b4b7;
-      cursor: not-allowed; transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+      color: #6b7280;
     }
 
     /* ── RESPONSIVE ─── */
@@ -675,14 +601,14 @@
         </div>
 
         <!-- Buttons -->
-        <div class="buttons-group">
-          <button class="btn-signin" type="button" id="btn-login" disabled data-i18n="auth.loginBtn">Log In</button>
+        <div class="btn-group-vertical">
+          <button class="btn btn-primary btn-lg btn-full" type="button" id="btn-login" disabled data-i18n="auth.loginBtn">Log In</button>
           <div class="divider">
             <div class="divider-line"></div>
             <span class="divider-text" data-i18n="auth.or">or</span>
             <div class="divider-line"></div>
           </div>
-          <button class="btn-sso" type="button" onclick="window.location.href='login-sso.html'" data-i18n="auth.loginSSO">Log In with SSO</button>
+          <button class="btn btn-secondary btn-lg btn-full" type="button" onclick="window.location.href='login-sso.html'" data-i18n="auth.loginSSO">Log In with SSO</button>
         </div>
 
         <!-- Footer -->
@@ -745,8 +671,8 @@
           </div>
         </div>
         <div class="modal-actions">
-          <button class="btn-modal-cancel" id="modal-cancel" type="button">Cancel</button>
-          <button class="btn-modal-continue" id="modal-continue" type="button" disabled>Continue</button>
+          <button class="btn btn-secondary btn-md btn-modal-cancel" id="modal-cancel" type="button">Cancel</button>
+          <button class="btn btn-primary btn-md" id="modal-continue" type="button" disabled>Continue</button>
         </div>
       </div>
     </div>
