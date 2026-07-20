@@ -527,6 +527,7 @@
       grid-template-columns: 1fr 380px;
       gap: 12px;
       margin-bottom: 12px;
+      align-items: start;
     }
 
     /* ── CARD (shared) ─── */
@@ -543,11 +544,7 @@
       justify-content: space-between;
       gap: 8px;
       margin-bottom: 14px;
-    }
-    .card-header-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      min-height: 32px;
     }
     .card-header img { width: 16px; height: 16px; object-fit: contain; }
     .card-title { font-size: 14px; font-weight: 700; color: #1d1d1f; letter-spacing: -0.2px; }
@@ -1525,10 +1522,8 @@
         <!-- AI INSIGHTS -->
         <div class="card">
           <div class="card-header">
-            <div class="card-header-left">
-              <img src="../assets/icon-sparkle-ai.svg" alt="">
-              <span class="card-title" data-i18n="dash.aiInsights">AI Insights</span>
-            </div>
+            <img src="../assets/icon-sparkle-ai.svg" alt="">
+            <span class="card-title" data-i18n="dash.aiInsights">AI Insights</span>
           </div>
           <div class="insight-list">
             <div class="insight-item">
