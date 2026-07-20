@@ -421,6 +421,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 0;
       min-height: 480px;
+      margin-top: 40px;
       margin-bottom: 24px;
     }
 
@@ -1710,36 +1711,58 @@ document.addEventListener('click', function(e) {
     const searchInput = document.getElementById('milla-search-input');
     const btnSearch = document.getElementById('btn-milla-search');
 
-    // Open expanded methods
-    btnAsk.addEventListener('click', () => {
-      banner.classList.add('is-open');
-      banner.classList.remove('is-search');
-    });
+    // Open expanded methods from banner button
+    if (btnAsk) {
+      btnAsk.addEventListener('click', () => {
+        banner.classList.add('is-open');
+        banner.classList.remove('is-search');
+      });
+    }
+
+    // Open Milla from hero action card
+    var millaCard = document.getElementById('milla-trigger-card');
+    if (millaCard) {
+      millaCard.addEventListener('click', () => {
+        if (banner) {
+          banner.classList.add('is-open');
+          banner.classList.remove('is-search');
+          banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          window.location.href = 'machine-spare-parts-results.html';
+        }
+      });
+    }
 
     // Close (back to collapsed)
-    btnClose.addEventListener('click', () => {
-      banner.classList.remove('is-open', 'is-search');
-      // Reset form
-      searchInput.value = '';
-      btnSearch.classList.remove('enabled');
-    });
+    if (btnClose) {
+      btnClose.addEventListener('click', () => {
+        banner.classList.remove('is-open', 'is-search');
+        if (searchInput) { searchInput.value = ''; }
+        if (btnSearch) { btnSearch.classList.remove('enabled'); }
+      });
+    }
 
     // Method: Description → switch to search form
-    btnDescription.addEventListener('click', () => {
-      banner.classList.add('is-search');
-      // Focus input depois da animação
-      setTimeout(() => searchInput.focus(), 350);
-    });
+    if (btnDescription) {
+      btnDescription.addEventListener('click', () => {
+        banner.classList.add('is-search');
+        setTimeout(() => { if (searchInput) searchInput.focus(); }, 350);
+      });
+    }
 
     // Back from search form to methods
-    btnBack.addEventListener('click', () => {
-      banner.classList.remove('is-search');
-    });
+    if (btnBack) {
+      btnBack.addEventListener('click', () => {
+        banner.classList.remove('is-search');
+      });
+    }
 
     // Habilita botão Search quando há texto
-    searchInput.addEventListener('input', () => {
-      btnSearch.classList.toggle('enabled', searchInput.value.trim().length > 0);
-    });
+    if (searchInput && btnSearch) {
+      searchInput.addEventListener('input', () => {
+        btnSearch.classList.toggle('enabled', searchInput.value.trim().length > 0);
+      });
+    }
 
     // ── Subset select dropdown ──
     const subsetWrapper = document.getElementById('subset-wrapper');
@@ -1775,7 +1798,7 @@ document.addEventListener('click', function(e) {
     });
 
     // Click Search → mostra reasoning loader (~2.4s) → próxima tela
-    btnSearch.addEventListener('click', () => {
+    if (btnSearch) btnSearch.addEventListener('click', () => {
       if (!btnSearch.classList.contains('enabled')) return;
       // Pega o texto digitado e injeta no quote do reasoning
       const query = searchInput.value.trim();
