@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/skeleton.css">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -439,9 +440,7 @@
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
-    .btn-view-cart { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; letter-spacing: -0.31px; transition: background 0.2s; }
-    .btn-view-cart:hover { background: #005f57; transform: scale(1.02); }
-    .btn-view-cart:active { transform: scale(0.98); }
+    /* btn-view-cart — powered by buttons.css */
     .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
     .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-item-placeholder svg { width: 18px; height: 18px; }
@@ -514,48 +513,11 @@
       position: relative;
       z-index: 1;
     }
-    .btn-hero-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 44px;
-      padding: 0 28px;
-      background: #fff;
-      color: #007167;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s, box-shadow 0.2s;
-    }
-    .btn-hero-primary:hover {
-      background: #f0f0f0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    .btn-hero-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 44px;
-      padding: 0 28px;
-      background: transparent;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      border: 1.5px solid rgba(255,255,255,0.6);
-      border-radius: 999px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .btn-hero-secondary:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: #fff;
-    }
+    /* Hero buttons — powered by buttons.css, page overrides for dark bg */
+    .hero-btn-primary { background: #fff; color: #007167; }
+    .hero-btn-primary:hover { background: #f0f0f0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .hero-btn-secondary { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.6); }
+    .hero-btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
 
     /* ── KEY FEATURES ─── */
     .section-title {
@@ -722,23 +684,7 @@
       resize: vertical;
       line-height: 20px;
     }
-    .btn-submit {
-      width: 100%;
-      height: 48px;
-      margin-top: 8px;
-      background: #007167;
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn-submit:hover {
-      background: #005f57;
-    }
+    /* btn-submit — powered by buttons.css (.btn .btn-primary .btn-md) */
 
     /* ── SUCCESS STATE ─── */
     .quote-success {
@@ -1005,7 +951,7 @@
             <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
             <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
           </div>
-          <a href="checkout-cart.html" class="btn-view-cart" data-i18n="cart.viewCart">View Cart</a>
+          <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
         </div>
       </div>
       <div class="user-avatar-wrapper">
@@ -1106,8 +1052,8 @@
       <h1 class="hero-title" data-i18n="prodMonitor.title">Production Monitoring for ProPhi</h1>
       <p class="hero-subtitle" data-i18n="prodMonitor.subtitle">Real-time performance tracking, predictive maintenance, and production analytics — all in one integrated platform.</p>
       <div class="hero-actions">
-        <a href="#quote-form" class="btn-hero-primary" id="btn-request-quote" data-i18n="prodMonitor.requestQuote">Request Quote</a>
-        <button type="button" class="btn-hero-secondary" data-i18n="prodMonitor.watchDemo">Watch Demo</button>
+        <a href="#quote-form" class="btn btn-cta btn-lg hero-btn-primary" id="btn-request-quote" data-i18n="prodMonitor.requestQuote">Request Quote</a>
+        <button type="button" class="btn btn-secondary btn-lg hero-btn-secondary" data-i18n="prodMonitor.watchDemo">Watch Demo</button>
       </div>
     </section>
 
@@ -1232,7 +1178,7 @@
             <textarea id="field-notes" class="form-textarea" placeholder="Any specific requirements or questions about Production Monitoring..."></textarea>
           </div>
 
-          <button type="button" class="btn-submit" id="btn-submit-quote">Submit Request</button>
+          <button type="button" class="btn btn-primary btn-md btn-full" style="margin-top: 8px" id="btn-submit-quote">Submit Request</button>
         </div>
 
         <div class="quote-success" id="quote-success">

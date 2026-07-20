@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     html { scroll-behavior: smooth; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -690,23 +691,6 @@
       color: #86868b;
       margin-top: 2px;
     }
-    .btn-edit {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      height: 36px;
-      padding: 0 18px;
-      background: #007167;
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-    }
-    .btn-edit:hover { background: #005f57; }
-    .btn-edit svg { width: 14px; height: 14px; }
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -843,9 +827,6 @@
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
-    .btn-view-cart { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; letter-spacing: -0.31px; transition: background 0.2s; }
-    .btn-view-cart:hover { background: #005f57; transform: scale(1.02); }
-    .btn-view-cart:active { transform: scale(0.98); }
     .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
     .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-item-placeholder svg { width: 18px; height: 18px; }
@@ -1506,7 +1487,7 @@
             <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
             <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
           </div>
-          <a href="checkout-cart.html" class="btn-view-cart" data-i18n="cart.viewCart">View Cart</a>
+          <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
         </div>
       </div>
       <div class="user-avatar-wrapper">
@@ -1766,7 +1747,7 @@
               <div class="info-card-title">Personal Information</div>
               <div class="info-card-subtitle">Manage your personal details and contact information</div>
             </div>
-            <button class="btn-edit">
+            <button class="btn btn-ghost btn-sm">
               <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M3 11v2h2l7-7-2-2-7 7zM12.3 4.7a1 1 0 000-1.4l-.6-.6a1 1 0 00-1.4 0L9 4l2 2 1.3-1.3z" fill="currentColor"/>
               </svg>
@@ -1957,7 +1938,7 @@
               <div class="info-card-title">Security &amp; Password</div>
               <div class="info-card-subtitle">Manage your account security settings</div>
             </div>
-            <button class="btn-edit">
+            <button class="btn btn-ghost btn-sm">
               <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M3 11v2h2l7-7-2-2-7 7zM12.3 4.7a1 1 0 000-1.4l-.6-.6a1 1 0 00-1.4 0L9 4l2 2 1.3-1.3z" fill="currentColor"/>
               </svg>
@@ -2024,7 +2005,7 @@
               <div class="info-card-title">Preferences</div>
               <div class="info-card-subtitle">Customize your portal experience</div>
             </div>
-            <button class="btn-edit">
+            <button class="btn btn-ghost btn-sm">
               <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M3 11v2h2l7-7-2-2-7 7zM12.3 4.7a1 1 0 000-1.4l-.6-.6a1 1 0 00-1.4 0L9 4l2 2 1.3-1.3z" fill="currentColor"/>
               </svg>

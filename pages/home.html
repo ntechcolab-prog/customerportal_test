@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -123,42 +124,6 @@
       height: 24px;
       background: #d7d9db;
     }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 20px;
-      cursor: pointer;
-      text-decoration: none;
-      border: none;
-      background: none;
-    }
-
-    .btn-outline-green {
-      border: 1px solid #007167;
-      color: #007167;
-      border-radius: 999px;
-      padding: 8px 20px;
-      height: 37px;
-      transition: background 0.15s, transform 0.15s;
-    }
-    .btn-outline-green:hover { background: rgba(0, 113, 103, 0.06); transform: scale(1.03); }
-    .btn-outline-green:active { transform: scale(0.98); }
-
-    .btn-solid-teal {
-      background: #007167;
-      color: #fff;
-      border-radius: 999px;
-      padding: 8px 20px;
-      height: 36px;
-      transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
-    }
-    .btn-solid-teal:hover { background: #005f57; transform: scale(1.03); box-shadow: 0 4px 12px rgba(0, 113, 103, 0.25); }
-    .btn-solid-teal:active { transform: scale(0.98); }
 
     /* ── HERO ────────────────────────────────────────────────── */
     .hero {
@@ -982,8 +947,8 @@
           </div>
         </div>
         <div class="navbar-divider"></div>
-        <a href="login.html" class="btn btn-outline-green" data-i18n="home.login">Log in</a>
-        <a href="register-confirm-email.html" class="btn btn-solid-teal" data-i18n="home.register">Register</a>
+        <a href="login.html" class="btn btn-secondary btn-sm" data-i18n="home.login">Log in</a>
+        <a href="register-confirm-email.html" class="btn btn-primary btn-sm" data-i18n="home.register">Register</a>
       </div>
     </div>
   </nav>

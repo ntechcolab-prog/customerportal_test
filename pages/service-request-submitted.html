@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -427,25 +428,7 @@
       font-weight: 700;
       color: #1f2937;
     }
-    .btn-download-pdf {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      height: 40px;
-      padding: 0 20px;
-      border-radius: 999px;
-      background: #007167;
-      border: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #fff;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
-    .btn-download-pdf:hover { background: #005f57; }
-    .btn-download-pdf svg { width: 18px; height: 18px; }
+    /* btn-download-pdf — powered by buttons.css (.btn .btn-secondary .btn-sm) */
 
     /* ── CARD ─── */
     .card {
@@ -733,9 +716,7 @@
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
-    .btn-view-cart { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; letter-spacing: -0.31px; transition: background 0.2s; }
-    .btn-view-cart:hover { background: #005f57; transform: scale(1.02); }
-    .btn-view-cart:active { transform: scale(0.98); }
+    /* btn-view-cart — powered by buttons.css */
     .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
     .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-item-placeholder svg { width: 18px; height: 18px; }
@@ -1392,7 +1373,7 @@
             <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
             <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
           </div>
-          <a href="checkout-cart.html" class="btn-view-cart" data-i18n="cart.viewCart">View Cart</a>
+          <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
         </div>
       </div>
       <div class="user-avatar-wrapper">
@@ -1459,7 +1440,7 @@
     <!-- TITLE BAR -->
     <div class="title-bar">
       <h1>Service #268718</h1>
-      <button class="btn-download-pdf" aria-label="Download PDF">
+      <button class="btn btn-secondary btn-sm" aria-label="Download PDF">
         <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M15.75 11.25v3a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M5.25 7.5L9 11.25l3.75-3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

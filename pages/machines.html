@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/tables.css">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -428,27 +429,7 @@
       font-weight: 400;
       color: #86868b;
     }
-    .btn-add-machine {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      height: 34px;
-      padding: 0 18px;
-      border: none;
-      border-radius: 999px;
-      background: #007167;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #fff;
-      cursor: pointer;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    }
-    .btn-add-machine:hover { background: #005f57; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0, 113, 103, 0.2); }
-    .btn-add-machine:active { transform: scale(0.97); }
-    .btn-add-machine svg { width: 14px; height: 14px; }
+    /* btn-add-machine — powered by buttons.css (.btn .btn-primary .btn-sm) */
 
     /* ── FILTER BAR (integrated toolbar above table) ─── */
     .filter-bar {
@@ -1075,9 +1056,7 @@
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
-    .btn-view-cart { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; letter-spacing: -0.31px; transition: background 0.2s; }
-    .btn-view-cart:hover { background: #005f57; transform: scale(1.02); }
-    .btn-view-cart:active { transform: scale(0.98); }
+    /* btn-view-cart — powered by buttons.css */
     .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
     .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-item-placeholder svg { width: 18px; height: 18px; }
@@ -1739,7 +1718,7 @@
             <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
             <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
           </div>
-          <a href="checkout-cart.html" class="btn-view-cart" data-i18n="cart.viewCart">View Cart</a>
+          <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
         </div>
       </div>
       <div class="user-avatar-wrapper">
@@ -1856,7 +1835,7 @@
         <h1 class="page-title" data-i18n="machines.title">Machines</h1>
         <span class="page-subtitle">5 machines, 3 applications</span>
       </div>
-      <button class="btn-add-machine" type="button">
+      <button class="btn btn-primary btn-sm" type="button">
         <svg viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         Add New Machine
       </button>

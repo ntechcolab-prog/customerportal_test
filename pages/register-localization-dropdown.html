@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -370,60 +371,8 @@
       margin-top: 4px;
     }
 
-    /* Buttons row */
-    .buttons-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .btn-back {
-      height: 40px;
-      padding: 0 24px;
-      background: transparent;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      color: #007167;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      letter-spacing: -0.31px;
-    }
-
-    .btn-back img { width: 15px; height: auto; display: block; }
-    .btn-back:hover { opacity: 0.85; }
-
-    .btn-next {
-      height: 44px;
-      padding: 0 24px;
-      background: #007167;
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      letter-spacing: -0.31px;
-      opacity: 0.5;
-      pointer-events: none;
-      transition: opacity 0.15s;
-    }
-
-    .btn-next.enabled {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .btn-next.enabled:hover { transform: scale(1.02); }
-    .btn-next img { width: 15px; height: auto; display: block; }
+    /* btn-next disabled override */
+    .btn-next.is-disabled { opacity: 0.5; }
 
     /* Footer */
     .form-footer {
@@ -621,12 +570,12 @@
         </div>
 
         <!-- Buttons row -->
-        <div class="buttons-row">
-          <button type="button" class="btn-back" onclick="window.location.href='register-email-verification.html'">
+        <div class="btn-group-spread">
+          <button type="button" class="btn btn-ghost btn-md" onclick="window.location.href='register-email-verification.html'">
             <img src="../assets/icon-arrow-left.svg" alt="">
             <span data-i18n="common.back">Back</span>
           </button>
-          <button type="button" class="btn-next" id="btn-next" onclick="window.location.href='register-account-information.html'">
+          <button type="button" class="btn btn-primary btn-lg btn-next is-disabled" id="btn-next" onclick="window.location.href='register-account-information.html'">
             <span data-i18n="common.next">Next</span>
             <img src="../assets/icon-arrow-right.svg" alt="">
           </button>

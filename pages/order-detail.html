@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/tables.css">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -433,44 +434,7 @@
       align-items: center;
       gap: 12px;
     }
-    .btn-track {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      height: 40px;
-      padding: 0 20px;
-      border-radius: 999px;
-      background: #007167;
-      border: none;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #fff;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
-    .btn-track:hover { background: #005f57; }
-    .btn-track svg { width: 18px; height: 18px; }
-    .btn-download {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      height: 40px;
-      padding: 0 20px;
-      border-radius: 999px;
-      background: #fff;
-      border: 1px solid #007167;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #007167;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
-    .btn-download:hover { background: #f0faf9; }
-    .btn-download svg { width: 18px; height: 18px; }
+    /* btn-track, btn-download — powered by buttons.css */
 
     /* ── ORDER PROGRESS ─── */
     .card {
@@ -858,24 +822,7 @@
       border-top: 2px dashed #007167;
     }
 
-    /* ── CONTACT SUPPORT BUTTON ─── */
-    .btn-contact-support {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 44px;
-      border-radius: 999px;
-      background: #fff;
-      border: 1px solid #007167;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: #007167;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .btn-contact-support:hover { background: #f0faf9; }
+    /* btn-contact-support — powered by buttons.css (.btn .btn-secondary .btn-md) */
 
     /* ── REDUCED MOTION ─── */
     @media (prefers-reduced-motion: reduce) {
@@ -924,9 +871,7 @@
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
-    .btn-view-cart { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; letter-spacing: -0.31px; transition: background 0.2s; }
-    .btn-view-cart:hover { background: #005f57; transform: scale(1.02); }
-    .btn-view-cart:active { transform: scale(0.98); }
+    /* btn-view-cart — powered by buttons.css */
     .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
     .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-item-placeholder svg { width: 18px; height: 18px; }
@@ -1584,7 +1529,7 @@
             <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
             <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
           </div>
-          <a href="checkout-cart.html" class="btn-view-cart" data-i18n="cart.viewCart">View Cart</a>
+          <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
         </div>
       </div>
       <div class="user-avatar-wrapper">
@@ -1693,7 +1638,7 @@
     <div class="title-bar">
       <h1>Order #2800998-06</h1>
       <div class="title-bar-actions">
-        <button class="btn-track" id="btnTrackOrder" aria-label="Track Order" data-i18n="orderDetail.trackOrder">
+        <button class="btn btn-primary btn-sm" id="btnTrackOrder" aria-label="Track Order" data-i18n="orderDetail.trackOrder">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 4.5h10v8H1z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M11 7h3l2.5 3v2.5h-5.5V7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1702,7 +1647,7 @@
           </svg>
           Track Order
         </button>
-        <button class="btn-download" aria-label="Download PDF" data-i18n="orderDetail.downloadPdf">
+        <button class="btn btn-secondary btn-sm" aria-label="Download PDF" data-i18n="orderDetail.downloadPdf">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 2v9m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M3 13v2h12v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1958,7 +1903,7 @@
       </div>
 
       <!-- Contact Support -->
-      <button class="btn-contact-support" onclick="window.location.href='contact-support.html'" data-i18n="orderDetail.contactSupport">Contact Support</button>
+      <button class="btn btn-secondary btn-md" onclick="window.location.href='contact-support.html'" data-i18n="orderDetail.contactSupport">Contact Support</button>
 
     </div>
   </aside>

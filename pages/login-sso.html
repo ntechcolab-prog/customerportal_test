@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -184,67 +185,6 @@
       text-align: center;
     }
 
-    /* SSO Buttons */
-    .sso-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .btn-sso-provider {
-      width: 100%;
-      height: 44px;
-      background: #d7d9db;
-      color: #6b6e73;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 24px;
-      letter-spacing: -0.31px;
-      cursor: not-allowed; transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
-      opacity: 0.5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .btn-sso-provider img {
-      width: 16px;
-      height: 16px;
-      object-fit: contain;
-    }
-
-    .btn-corporate {
-      width: 100%;
-      height: 44px;
-      background: #007167;
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 24px;
-      letter-spacing: -0.31px;
-      cursor: pointer;
-      transition: opacity 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .btn-corporate:hover { transform: scale(1.02); }
-
-    .btn-corporate img {
-      width: 16px;
-      height: 16px;
-      object-fit: contain;
-    }
-
     .sso-note {
       font-size: 14px;
       font-weight: 500;
@@ -324,16 +264,16 @@
         <h2 class="form-title" data-i18n="auth.ssoTitle">Log in with your company account</h2>
 
         <!-- SSO Buttons -->
-        <div class="sso-buttons">
-          <button class="btn-sso-provider" type="button" disabled>
+        <div class="btn-group-vertical">
+          <button class="btn btn-secondary btn-lg btn-full is-disabled" type="button" disabled>
             <img src="../assets/google.png" alt="Google">
             <span data-i18n="auth.loginGoogle">Log In with Google</span>
           </button>
-          <button class="btn-sso-provider" type="button" disabled>
+          <button class="btn btn-secondary btn-lg btn-full is-disabled" type="button" disabled>
             <img src="../assets/microsoft.svg" alt="Microsoft">
             <span data-i18n="auth.loginMicrosoft">Log In with Microsoft</span>
           </button>
-          <button class="btn-corporate" type="button" onclick="window.location.href='login-sso-domain.html'">
+          <button class="btn btn-primary btn-lg btn-full" type="button" onclick="window.location.href='login-sso-domain.html'">
             <img src="../assets/corporate-icon.svg" alt="">
             <span data-i18n="auth.corporateLogin">Corporate Login</span>
           </button>

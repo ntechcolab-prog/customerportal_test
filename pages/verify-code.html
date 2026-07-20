@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -281,32 +282,6 @@
       line-height: 16px;
     }
 
-    /* Button */
-    .btn-verify {
-      width: 100%;
-      height: 44px;
-      background: #007167;
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 500;
-      line-height: 24px;
-      letter-spacing: -0.31px;
-      cursor: pointer;
-      transition: opacity 0.15s;
-    }
-
-    .btn-verify:hover:not(:disabled) {
-      opacity: 0.9;
-    }
-
-    .btn-verify:disabled {
-      opacity: 0.5;
-      cursor: not-allowed; transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
-    }
-
     /* Back link */
     .back-link {
       text-align: center;
@@ -404,7 +379,7 @@
         </div>
 
         <!-- Verify button -->
-        <button class="btn-verify" type="button" id="btn-verify" disabled>Verify code</button>
+        <button class="btn btn-primary btn-lg btn-full" type="button" id="btn-verify" disabled>Verify code</button>
 
         <!-- Back to login -->
         <a href="login.html" class="back-link">Back to Login</a>

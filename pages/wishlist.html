@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/skeleton.css">
   <link rel="stylesheet" href="../assets/tables.css">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -734,25 +735,7 @@
       gap: 8px;
       margin-top: 4px;
     }
-    .btn-add-cart {
-      flex: 1;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: #007167;
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .btn-add-cart:hover { background: #005f57; }
-    .btn-add-cart svg { width: 16px; height: 16px; }
+    .btn-add-cart { flex: 1; }
     .btn-card-eye {
       width: 40px;
       height: 40px;
@@ -816,9 +799,6 @@
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
-    .btn-view-cart { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; letter-spacing: -0.31px; transition: background 0.2s; }
-    .btn-view-cart:hover { background: #005f57; transform: scale(1.02); }
-    .btn-view-cart:active { transform: scale(0.98); }
     .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
     .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-item-placeholder svg { width: 18px; height: 18px; }
@@ -1617,7 +1597,7 @@
               <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
               <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
             </div>
-            <a href="checkout-cart.html" class="btn-view-cart" data-i18n="cart.viewCart">View Cart</a>
+            <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
           </div>
       </div>
       <div class="user-avatar-wrapper">
@@ -2059,7 +2039,7 @@
             <span class="card-name">Cerabeads</span>
             <span class="card-price">39,00 &euro;</span>
             <div class="card-actions">
-              <button class="btn-add-cart">
+              <button class="btn btn-primary btn-sm btn-add-cart">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
                 Add to Cart
               </button>
@@ -2082,7 +2062,7 @@
             <span class="card-name">Zetabeads Nano</span>
             <span class="card-price">1.300,00 &euro;</span>
             <div class="card-actions">
-              <button class="btn-add-cart">
+              <button class="btn btn-primary btn-sm btn-add-cart">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
                 Add to Cart
               </button>
@@ -2105,7 +2085,7 @@
             <span class="card-name">Steelbeads Micro</span>
             <span class="card-price">Quotation Only</span>
             <div class="card-actions">
-              <button class="btn-add-cart">
+              <button class="btn btn-primary btn-sm btn-add-cart">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
                 Add to Cart
               </button>
@@ -2130,7 +2110,7 @@
             <span class="card-name">Sealing Ring - O Ring - FFKM</span>
             <span class="card-price">27,80 &euro;</span>
             <div class="card-actions">
-              <button class="btn-add-cart">
+              <button class="btn btn-primary btn-sm btn-add-cart">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
                 Add to Cart
               </button>
@@ -2155,7 +2135,7 @@
             <span class="card-name">Bare Roller Bearing</span>
             <span class="card-price">27,80 &euro;</span>
             <div class="card-actions">
-              <button class="btn-add-cart">
+              <button class="btn btn-primary btn-sm btn-add-cart">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
                 Add to Cart
               </button>
@@ -2180,7 +2160,7 @@
             <span class="card-name">Double-row Ball Bearing</span>
             <span class="card-price">55,90 &euro;</span>
             <div class="card-actions">
-              <button class="btn-add-cart">
+              <button class="btn btn-primary btn-sm btn-add-cart">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
                 Add to Cart
               </button>
@@ -2205,7 +2185,7 @@
             <span class="card-name">Inner Pipe of Chamber</span>
             <span class="card-price">Quotation Only</span>
             <div class="card-actions">
-              <button class="btn-add-cart">
+              <button class="btn btn-primary btn-sm btn-add-cart">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
                 Add to Cart
               </button>
@@ -2230,7 +2210,7 @@
             <span class="card-name">Ring - AISI 304</span>
             <span class="card-price">75,89 &euro;</span>
             <div class="card-actions">
-              <button class="btn-add-cart">
+              <button class="btn btn-primary btn-sm btn-add-cart">
                 <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1h2.5l1.1 5.5a1.5 1.5 0 001.5 1.2h5.8a1.5 1.5 0 001.5-1.2L14.5 3H4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="12.5" r="1" fill="currentColor"/><circle cx="12" cy="12.5" r="1" fill="currentColor"/></svg>
                 Add to Cart
               </button>

@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/buttons.css">
   <link rel="stylesheet" href="../assets/tables.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -434,26 +435,6 @@
       font-weight: 400;
       color: #86868b;
     }
-    .btn-ask-milla {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      height: 34px;
-      padding: 0 18px;
-      border: none;
-      border-radius: 999px;
-      background: #007167;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    }
-    .btn-ask-milla:hover { background: #005f57; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0, 113, 103, 0.2); }
-    .btn-ask-milla:active { transform: scale(0.97); }
-    .btn-ask-milla img { width: 16px; height: 16px; object-fit: contain; filter: brightness(10); }
-
     /* ── QUICK ACTIONS (inside welcome card) ─── */
     .quick-actions {
       display: flex;
@@ -462,34 +443,6 @@
       flex-wrap: wrap;
       padding-top: 14px;
       border-top: 1px solid #f0f0f0;
-    }
-    .btn-quick-action {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      height: 32px;
-      padding: 0 14px;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 999px;
-      background: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      color: #6b7280;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      white-space: nowrap;
-    }
-    .btn-quick-action:hover {
-      border-color: rgba(0, 113, 103, 0.3);
-      color: #007167;
-      background: rgba(0, 113, 103, 0.03);
-    }
-    .btn-quick-action:active { transform: scale(0.97); }
-    .btn-quick-action svg {
-      width: 14px;
-      height: 14px;
-      flex-shrink: 0;
     }
 
     /* ── STAT CARDS ─── */
@@ -615,17 +568,7 @@
     .insight-label { margin-bottom: 2px; }
     .insight-label-text { font-size: 12px; font-weight: 600; color: #1d1d1f; }
     .insight-text { font-size: 12px; color: #86868b; line-height: 1.5; }
-    .btn-insight {
-      background: #007167; color: #fff; border: none;
-      border-radius: 999px; height: 28px; padding: 0 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px; font-weight: 500;
-      cursor: pointer; white-space: nowrap; flex-shrink: 0;
-      display: flex; align-items: center; gap: 4px;
-      transition: background 0.15s, transform 0.15s;
-    }
-    .btn-insight:hover { background: #005f57; transform: translateY(-1px); }
-    .btn-insight img { width: 10px; height: 10px; object-fit: contain; }
+
 
     /* ── CONTRACTS EXPIRING (sidebar) ─── */
     .contract-alert {
@@ -660,14 +603,7 @@
       display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 12px;
     }
-    .btn-view-all {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; font-weight: 500; color: #007167;
-      background: none; border: none; cursor: pointer;
-      transition: color 0.15s;
-    }
-    .btn-view-all:hover { color: #005f57; }
-    .btn-view-all img { width: 12px; height: 12px; object-fit: contain; }
+
 
     .order-date { display: flex; align-items: center; gap: 6px; color: #86868b; font-size: 12px; }
     .order-date img { width: 12px; height: 12px; object-fit: contain; }
@@ -716,9 +652,6 @@
     .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
     .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
     .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
-    .btn-view-cart { width: 100%; height: 44px; background: #007167; color: #fff; border: none; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; letter-spacing: -0.31px; transition: background 0.2s; }
-    .btn-view-cart:hover { background: #005f57; transform: scale(1.02); }
-    .btn-view-cart:active { transform: scale(0.98); }
     .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
     .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
     .cart-item-placeholder svg { width: 18px; height: 18px; }
@@ -1376,7 +1309,7 @@
             <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
             <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
           </div>
-          <a href="checkout-cart.html" class="btn-view-cart" data-i18n="cart.viewCart">View Cart</a>
+          <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
         </div>
       </div>
       <div class="user-avatar-wrapper">
@@ -1515,25 +1448,25 @@
             <h1 class="page-title" data-i18n="dash.welcome">Good afternoon, Marcus</h1>
             <span class="page-subtitle">Wednesday, Jul 2, 2026 — 5 active orders</span>
           </div>
-          <button class="btn-ask-milla" data-i18n="dash.askMilla" onclick="openMillaChat()">
+          <button class="btn btn-primary btn-sm" data-i18n="dash.askMilla" onclick="openMillaChat()">
             <img src="../assets/icon-mic.svg" alt="">
             Ask Milla
           </button>
         </div>
         <div class="quick-actions">
-        <button class="btn-quick-action" onclick="window.location.href='shop.html'">
+        <button class="btn btn-quick btn-sm" onclick="window.location.href='shop.html'">
           <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.25" stroke="currentColor" stroke-width="1.5"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           Search Beads
         </button>
-        <button class="btn-quick-action" onclick="window.location.href='machines.html'">
+        <button class="btn btn-quick btn-sm" onclick="window.location.href='machines.html'">
           <svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.25" stroke="currentColor" stroke-width="1.5"/><path d="M10 10l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           Search Spare Parts
         </button>
-        <button class="btn-quick-action" data-i18n="dash.repeatOrder" onclick="window.location.href='orders.html'">
+        <button class="btn btn-quick btn-sm" data-i18n="dash.repeatOrder" onclick="window.location.href='orders.html'">
           <svg viewBox="0 0 16 16" fill="none"><path d="M1 8a7 7 0 0112.9-3.8M15 8a7 7 0 01-12.9 3.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14 1v3.2h-3.2M2 15v-3.2h3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Repeat Order
         </button>
-        <button class="btn-quick-action" data-i18n="common.contactSupport" onclick="window.location.href='contact-support.html'">
+        <button class="btn btn-quick btn-sm" data-i18n="common.contactSupport" onclick="window.location.href='contact-support.html'">
           <svg viewBox="0 0 16 16" fill="none"><path d="M14 10.67A1.33 1.33 0 0112.67 12H4.67L2 14V3.33A1.33 1.33 0 013.33 2h9.34A1.33 1.33 0 0114 3.33v7.34z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Contact Support
         </button>
@@ -1597,7 +1530,7 @@
                 </div>
                 <div class="insight-text" data-i18n="dash.reorderText">You usually reorder Grinding Beads ZY 20mm every 25 days. Last purchase was 22 days ago.</div>
               </div>
-              <button class="btn-insight" data-i18n="dash.reorderNow">
+              <button class="btn btn-primary btn-sm" data-i18n="dash.reorderNow">
                 Reorder Now
                 <img src="../assets/icon-arrow-right.svg" alt="">
               </button>
@@ -1610,7 +1543,7 @@
                 </div>
                 <div class="insight-text" data-i18n="dash.invoicesText">You have 3 invoices due this week totaling 18.500,00 EUR.</div>
               </div>
-              <button class="btn-insight" data-i18n="dash.viewInvoices">
+              <button class="btn btn-primary btn-sm" data-i18n="dash.viewInvoices">
                 View Invoices
                 <img src="../assets/icon-arrow-right.svg" alt="">
               </button>
@@ -1623,7 +1556,7 @@
                 </div>
                 <div class="insight-text" data-i18n="dash.delayText">Order #2800998-06 may experience a delivery delay. Updated ETA: Mar 12, 2026.</div>
               </div>
-              <button class="btn-insight" data-i18n="dash.trackOrder">
+              <button class="btn btn-primary btn-sm" data-i18n="dash.trackOrder">
                 Track Order
                 <img src="../assets/icon-arrow-right.svg" alt="">
               </button>
@@ -1635,7 +1568,7 @@
         <div class="card">
           <div class="orders-header">
             <span class="card-title" data-i18n="dash.contractsExpiring">Contracts Expiring Soon</span>
-            <button class="btn-view-all" data-i18n="dash.viewAllContracts" onclick="window.location.href='contracts.html'">
+            <button class="btn btn-ghost btn-sm" data-i18n="dash.viewAllContracts" onclick="window.location.href='contracts.html'">
               View All
               <img src="../assets/icon-section-h2.svg" alt="">
             </button>
@@ -1658,7 +1591,7 @@
       <div class="card">
         <div class="orders-header">
           <span class="card-title" data-i18n="dash.recentOrders">Recent Orders</span>
-          <button class="btn-view-all" data-i18n="dash.viewAllOrders" onclick="window.location.href='orders.html'">
+          <button class="btn btn-ghost btn-sm" data-i18n="dash.viewAllOrders" onclick="window.location.href='orders.html'">
             View All
             <img src="../assets/icon-section-h2.svg" alt="">
           </button>
