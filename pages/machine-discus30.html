@@ -406,7 +406,7 @@
     /* ── PAGE ─── */
     .page {
       flex: 1;
-      padding: 32px;
+      padding: 40px 32px 32px;
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -1091,6 +1091,548 @@
       }
     }
 
+    /* ── MILLA MODAL ─── */
+    .milla-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .milla-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .milla-modal {
+      position: relative;
+      width: 720px;
+      max-width: 92vw;
+      max-height: 85vh;
+      border-radius: 16px;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .milla-modal-overlay.open .milla-modal {
+      transform: scale(1) translateY(0);
+    }
+    .milla-modal-inner {
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 80vh;
+    }
+    .milla-modal .milla-banner {
+      border-radius: 0;
+      min-height: 0;
+      flex-shrink: 0;
+      transition: min-height 0.3s ease;
+    }
+    .milla-modal .milla-banner:not(.is-reasoning) { min-height: 280px; }
+    .milla-collapsed { display: none; }
+
+    .milla-modal-close {
+      position: absolute;
+      top: -36px;
+      right: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      z-index: 10;
+      transition: background 0.15s, transform 0.2s;
+    }
+    .milla-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+    .milla-modal-close svg { width: 14px; height: 14px; }
+
+    /* ── MILLA RESULTS (inside modal) ─── */
+    .milla-results {
+      background: #fff;
+      padding: 20px 24px 24px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .milla-results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .milla-results-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.01em;
+    }
+    .milla-results-count {
+      font-size: 11px;
+      font-weight: 500;
+      color: #86868b;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .milla-results-table-wrap {
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .milla-results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+    }
+    .milla-results-table thead th {
+      text-align: left;
+      padding: 9px 14px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: #fafbfc;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .milla-results-table tbody td {
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #1d1d1f;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    .milla-results-table tbody tr:last-child td { border-bottom: none; }
+    .milla-results-table tbody tr { transition: background 0.1s; }
+    .milla-results-table tbody tr:hover { background: rgba(0, 113, 103, 0.03); }
+    .milla-results-table .mono {
+      font-variant-numeric: tabular-nums;
+      font-size: 11px;
+      color: #6b7280;
+      letter-spacing: 0.02em;
+    }
+    .milla-results-table .quotation {
+      color: #007167;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .milla-results-table .td-action { text-align: right; white-space: nowrap; }
+    .td-action-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .td-qty {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .td-qty-btn {
+      width: 28px;
+      height: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.1s;
+    }
+    .td-qty-btn:hover { background: rgba(0,0,0,0.04); }
+    .td-qty-val {
+      width: 32px;
+      text-align: center;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1d1d1f;
+      -moz-appearance: textfield;
+    }
+    .td-qty-val::-webkit-outer-spin-button,
+    .td-qty-val::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .btn-wish-sm {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .btn-wish-sm:hover { color: #007167; border-color: rgba(0,113,103,0.2); }
+    .btn-wish-sm svg { width: 14px; height: 14px; }
+
+    .milla-results-search {
+      display: none;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      flex-shrink: 0;
+    }
+    .milla-results-search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 0 14px;
+    }
+    .milla-results-search-bar img { width: 16px; height: 16px; opacity: 0.7; }
+    .milla-results-search-bar span {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      flex: 1;
+    }
+    .milla-results-search-bar .search-edit {
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .milla-results-search-bar .search-edit:hover { background: rgba(255, 255, 255, 0.3); }
+
+    .milla-results-drawing {
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: zoom-in;
+      background: #fafbfc;
+      max-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .milla-results-drawing img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 12px;
+      transition: transform 0.3s ease;
+    }
+    .milla-results-drawing:hover img { transform: scale(1.03); }
+
+    .drawing-lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .drawing-lightbox.open { opacity: 1; pointer-events: auto; }
+    .drawing-lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+    .drawing-lightbox-content img {
+      max-width: 100%;
+      max-height: 85vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .drawing-lightbox-close {
+      position: absolute;
+      top: -36px;
+      right: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      transition: background 0.15s;
+    }
+    .drawing-lightbox-close:hover { background: rgba(255, 255, 255, 0.45); }
+
+    /* ── SERVICE REQUEST MODAL ─── */
+    .sr-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .sr-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sr-modal {
+      position: relative;
+      width: 680px;
+      max-width: 92vw;
+      max-height: 88vh;
+      border-radius: 16px;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .sr-modal-overlay.open .sr-modal {
+      transform: scale(1) translateY(0);
+    }
+    .sr-modal-close {
+      position: absolute;
+      top: -36px;
+      right: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      z-index: 10;
+      transition: background 0.15s, transform 0.2s;
+    }
+    .sr-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+
+    .sr-modal-header {
+      padding: 24px 28px 0;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .sr-modal-header-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(0, 113, 103, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sr-modal-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.2px;
+    }
+    .sr-modal-header p {
+      font-size: 13px;
+      color: #86868b;
+      margin-top: 2px;
+    }
+
+    .sr-machine-bar {
+      margin: 20px 28px 0;
+      padding: 12px 16px;
+      background: #f9fafb;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sr-machine-bar img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 4px;
+    }
+    .sr-machine-bar-info { flex: 1; }
+    .sr-machine-bar-name { font-size: 14px; font-weight: 600; color: #1d1d1f; }
+    .sr-machine-bar-meta { font-size: 12px; color: #86868b; }
+
+    .sr-modal-body {
+      padding: 20px 28px 28px;
+      overflow-y: auto;
+      max-height: calc(88vh - 180px);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sr-field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+    .sr-field-label .required { color: #c73e20; }
+
+    .sr-radio-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .sr-radio-card {
+      position: relative;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px 12px;
+      background: #fff;
+      cursor: pointer;
+      transition: border-color 0.15s;
+      text-align: center;
+    }
+    .sr-radio-card:hover { border-color: #b1b4b7; }
+    .sr-radio-card.selected {
+      border-color: #007167;
+      border-width: 2px;
+      padding: 13px 11px;
+    }
+    .sr-radio-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .sr-radio-card-title { font-size: 13px; font-weight: 600; color: #1f2937; line-height: 1.3; }
+    .sr-radio-card-sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+
+    .sr-input {
+      width: 100%;
+      height: 40px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .sr-input::placeholder { color: #9ca3af; }
+    .sr-input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
+
+    .sr-textarea {
+      width: 100%;
+      min-height: 90px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #1f2937;
+      background: #fff;
+      resize: vertical;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .sr-textarea::placeholder { color: #9ca3af; }
+    .sr-textarea:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
+
+    .sr-dropzone {
+      border: 2px dashed #d1d5db;
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .sr-dropzone:hover { border-color: #007167; background: #f0faf9; }
+    .sr-dropzone-text { font-size: 13px; color: #374151; }
+    .sr-dropzone-hint { font-size: 11px; color: #9ca3af; }
+
+    .sr-modal-footer {
+      padding: 0 28px 24px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .sr-btn-cancel {
+      height: 40px;
+      padding: 0 20px;
+      border: 1px solid #d1d5db;
+      border-radius: 999px;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .sr-btn-cancel:hover { background: #f9fafb; border-color: #b1b4b7; }
+    .sr-modal-footer .btn { border-radius: 999px; }
+
+    .sr-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 28px;
+      gap: 16px;
+    }
+    .sr-success.show { display: flex; }
+    .sr-success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(0, 113, 103, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sr-success h3 { font-size: 18px; font-weight: 700; color: #1d1d1f; }
+    .sr-success p { font-size: 14px; color: #86868b; max-width: 340px; line-height: 1.5; }
+
+    @media (max-width: 600px) {
+      .sr-radio-cards { grid-template-columns: 1fr 1fr; }
+    }
+
     /* "or" divider + select subset card */
     .subset-card {
       background: rgba(255, 255, 255, 0.92);
@@ -1547,7 +2089,7 @@
             Browse equipment documents and manuals
           </a>
 
-          <button type="button" class="btn btn-primary btn-md machine-service-btn" data-i18n="machine.serviceRequest">
+          <button type="button" class="btn btn-primary btn-md machine-service-btn" id="service-request-trigger" data-i18n="machine.serviceRequest">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Service Request
           </button>
@@ -1588,71 +2130,17 @@
       <!-- RIGHT COLUMN -->
       <div class="right-col">
 
-        <!-- Ask Milla banner (collapsed/expanded states) -->
-        <div class="milla-banner" id="milla-banner">
-          <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
-
-          <!-- Collapsed: Ask Milla button + subtitle -->
-          <div class="milla-collapsed">
-            <button type="button" class="btn-milla" id="btn-ask-milla" data-i18n="millaFlow.askMilla">
-              <img src="../assets/icon-sparkle.svg" alt="">
-              Ask Milla
-            </button>
-            <p class="milla-subtitle" data-i18n="millaFlow.subtitle">Find documentation, tutorials and get help from Milla AI.</p>
-          </div>
-
-          <!-- Expanded: Milla asking how to search -->
-          <div class="milla-expanded">
-            <button type="button" class="milla-close" id="btn-milla-close" aria-label="Close">
-              <img src="../assets/icon-milla-close.svg" alt="">
-            </button>
-            <div class="milla-expanded-head">
-              <img src="../assets/icon-sparkle.svg" alt="">
-              <span class="milla-expanded-title" data-i18n="millaFlow.howSearch">How would you like to search?</span>
+        <!-- Ask Milla trigger card -->
+        <div class="card milla-trigger-card" id="milla-trigger-card" style="cursor:pointer; background: rgba(0, 113, 103, 0.04); border-color: rgba(0, 113, 103, 0.15);">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg, #007167 0%, #0b9c92 100%); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <img src="../assets/icon-sparkle.svg" alt="" width="22" height="22" style="filter:brightness(0) invert(1);">
             </div>
-            <p class="milla-expanded-subtitle" data-i18n="millaFlow.chooseMethod">Choose a method to find what do you need</p>
-            <div class="milla-methods">
-              <button type="button" class="method-card" data-method="photo" data-i18n="millaFlow.methodPhoto">
-                <img src="../assets/icon-method-photo.svg" alt="">
-                <span>Photo</span>
-              </button>
-              <button type="button" class="method-card" id="btn-method-description" data-i18n="millaFlow.methodDescription">
-                <img src="../assets/icon-method-description.svg" alt="">
-                <span>Description</span>
-              </button>
-              <button type="button" class="method-card" data-method="code" data-i18n="millaFlow.methodProductCode">
-                <img src="../assets/icon-method-code.svg" alt="">
-                <span>Product Code</span>
-              </button>
+            <div style="flex:1;">
+              <div style="font-size:15px; font-weight:600; color:#007167; display:flex; align-items:center; gap:6px;">Ask Milla <span style="padding:1px 5px; font-size:9px; font-weight:700; color:#007167; background:rgba(0,113,103,0.08); border-radius:4px; letter-spacing:0.04em;">AI</span></div>
+              <div style="font-size:12px; color:#86868b; margin-top:2px;">Find spare parts by photo, description or product code</div>
             </div>
-
-            <!-- 3rd state: Search by Description form -->
-            <div class="milla-search-form">
-              <div class="milla-search-head">
-                <button type="button" class="milla-back-btn" id="btn-milla-back" aria-label="Back">
-                  <img src="../assets/icon-milla-back.svg" alt="">
-                </button>
-                <img class="milla-search-head-icon" src="../assets/icon-method-description.svg" alt="">
-                <span class="milla-search-head-title" data-i18n="millaFlow.searchByDescription">Search by Description</span>
-              </div>
-              <textarea class="milla-search-input" id="milla-search-input"
-                placeholder="Describe the spare part you're looking for..." data-i18n-placeholder="millaFlow.searchPlaceholder"></textarea>
-              <div class="milla-search-actions">
-                <button type="button" class="btn-milla-search" id="btn-milla-search" data-i18n="millaFlow.search">Search</button>
-              </div>
-            </div>
-
-            <!-- 4th state: Reasoning loader -->
-            <div class="milla-reasoning">
-              <div class="milla-orb" aria-hidden="true">
-                <img src="../assets/icon-sparkle.svg" alt="">
-              </div>
-              <div class="milla-dots" role="status" aria-label="Loading">
-                <span></span><span></span><span></span>
-              </div>
-              <h3 class="milla-reason-title">Reasoning with description</h3>
-              <p class="milla-reason-quote" id="milla-reason-quote">"I need to replace the ring from the inner chamber of my mill"</p>
-            </div>
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none" style="color:#c3c5c7; flex-shrink:0;"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
         </div>
 
@@ -1678,6 +2166,186 @@
     </div>
   </div>
 
+  <!-- MILLA MODAL -->
+  <div class="milla-modal-overlay" id="milla-modal-overlay">
+    <div class="milla-modal">
+      <button type="button" class="milla-modal-close" id="milla-modal-close-btn" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="milla-modal-inner">
+      <div class="milla-banner is-open" id="milla-banner">
+      <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
+      <div class="milla-collapsed">
+        <button type="button" class="btn-milla" id="btn-ask-milla">
+          <img src="../assets/icon-sparkle.svg" alt="">
+          Ask Milla
+        </button>
+        <p class="milla-subtitle">Find documentation, tutorials and get help from Milla AI.</p>
+      </div>
+      <div class="milla-expanded">
+        <button type="button" class="milla-close" id="btn-milla-close" aria-label="Close">
+          <img src="../assets/icon-milla-close.svg" alt="">
+        </button>
+        <div class="milla-expanded-head">
+          <img src="../assets/icon-sparkle.svg" alt="">
+          <span class="milla-expanded-title" data-i18n="millaFlow.howSearch">How would you like to search?</span>
+        </div>
+        <p class="milla-expanded-subtitle" data-i18n="millaFlow.chooseMethod">Choose a method to find what do you need</p>
+        <div class="milla-methods">
+          <button type="button" class="method-card" data-method="photo" data-i18n="millaFlow.methodPhoto">
+            <img src="../assets/icon-method-photo.svg" alt="">
+            <span>Photo</span>
+          </button>
+          <button type="button" class="method-card" id="btn-method-description" data-i18n="millaFlow.methodDescription">
+            <img src="../assets/icon-method-description.svg" alt="">
+            <span>Description</span>
+          </button>
+          <button type="button" class="method-card" data-method="code" data-i18n="millaFlow.methodProductCode">
+            <img src="../assets/icon-method-code.svg" alt="">
+            <span>Product Code</span>
+          </button>
+        </div>
+        <div class="milla-search-form">
+          <div class="milla-search-head">
+            <button type="button" class="milla-back-btn" id="btn-milla-back" aria-label="Back">
+              <img src="../assets/icon-milla-back.svg" alt="">
+            </button>
+            <img class="milla-search-head-icon" src="../assets/icon-method-description.svg" alt="">
+            <span class="milla-search-head-title" data-i18n="millaFlow.searchByDescription">Search by Description</span>
+          </div>
+          <textarea class="milla-search-input" id="milla-search-input"
+            placeholder="Describe the spare part you're looking for..." data-i18n-placeholder="millaFlow.searchPlaceholder"></textarea>
+          <div class="milla-search-actions">
+            <button type="button" class="btn-milla-search" id="btn-milla-search" data-i18n="millaFlow.search">Search</button>
+          </div>
+        </div>
+        <div class="milla-reasoning">
+          <div class="milla-orb" aria-hidden="true">
+            <img src="../assets/icon-sparkle.svg" alt="">
+          </div>
+          <div class="milla-dots" role="status" aria-label="Loading">
+            <span></span><span></span><span></span>
+          </div>
+          <h3 class="milla-reason-title">Reasoning with description</h3>
+          <p class="milla-reason-quote" id="milla-reason-quote">"I need to replace the ring from the inner chamber of my mill"</p>
+        </div>
+      </div>
+    </div>
+    <div class="milla-results-search" id="milla-results-search">
+      <div class="milla-results-search-bar">
+        <img src="../assets/icon-sparkle.svg" alt="" style="filter: brightness(0) invert(1);">
+        <span id="milla-search-query-display">ring from the inner chamber</span>
+        <button type="button" class="search-edit" id="milla-search-edit">Edit</button>
+      </div>
+    </div>
+    <div class="milla-results" id="milla-results" style="display:none;">
+      <div class="milla-results-header">
+        <h3 class="milla-results-title">Spare Parts Found</h3>
+        <span class="milla-results-count">2 results</span>
+      </div>
+      <div class="milla-results-drawing">
+        <img src="../assets/drawing-discus30-grinding.png" alt="Grinding chamber technical drawing" id="milla-drawing-img">
+      </div>
+      <div class="milla-results-table-wrap">
+        <table class="milla-results-table">
+          <thead>
+            <tr><th>Itm</th><th>Material Nr.</th><th>Description</th><th>Price/unit</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr data-name="Ring - AISI 304" data-ref="140045213" data-price="75.89">
+              <td>801</td><td class="mono">140045213</td><td>Ring - AISI 304</td><td>&euro;75.89</td>
+              <td class="td-action"><span class="td-action-row"><span class="td-qty"><button type="button" class="td-qty-btn" data-dir="minus">−</button><input type="number" class="td-qty-val" value="1" min="1"><button type="button" class="td-qty-btn" data-dir="plus">+</button></span><button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button><button type="button" class="btn-wish-sm" aria-label="Add to wishlist"><svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg></button></span></td>
+            </tr>
+            <tr data-name="Ring for inner pipe" data-ref="140023995" data-price="0" data-quotation="true">
+              <td>802</td><td class="mono">140023995</td><td>Ring for inner pipe</td><td class="quotation">Quotation</td>
+              <td class="td-action"><span class="td-action-row"><span class="td-qty"><button type="button" class="td-qty-btn" data-dir="minus">−</button><input type="number" class="td-qty-val" value="1" min="1"><button type="button" class="td-qty-btn" data-dir="plus">+</button></span><button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button><button type="button" class="btn-wish-sm" aria-label="Add to wishlist"><svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg></button></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="drawing-lightbox" id="drawing-lightbox">
+      <div class="drawing-lightbox-content">
+        <button type="button" class="drawing-lightbox-close" id="drawing-lightbox-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing — full view">
+      </div>
+    </div>
+    </div><!-- /milla-modal-inner -->
+    </div><!-- /milla-modal -->
+  </div><!-- /milla-modal-overlay -->
+
+  <!-- SERVICE REQUEST MODAL -->
+  <div class="sr-modal-overlay" id="sr-modal-overlay">
+    <div class="sr-modal">
+      <button type="button" class="sr-modal-close" id="sr-modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div id="sr-form-state">
+        <div class="sr-modal-header">
+          <div class="sr-modal-header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <h2>Service Request</h2>
+            <p>Schedule maintenance or report an issue</p>
+          </div>
+        </div>
+        <div class="sr-machine-bar">
+          <img src="../assets/machine-discus30.png" alt="Discus 30">
+          <div class="sr-machine-bar-info">
+            <div class="sr-machine-bar-name">Discus 30</div>
+            <div class="sr-machine-bar-meta">SN: 2801548-10 · LINE 1</div>
+          </div>
+        </div>
+        <div class="sr-modal-body">
+          <div>
+            <span class="sr-field-label">Request Type <span class="required">*</span></span>
+            <div class="sr-radio-cards" id="sr-radio-cards">
+              <label class="sr-radio-card"><input type="radio" name="srType" value="repair"><div class="sr-radio-card-title">Repair</div><div class="sr-radio-card-sub">Equipment Fix</div></label>
+              <label class="sr-radio-card"><input type="radio" name="srType" value="maintenance"><div class="sr-radio-card-title">Maintenance</div><div class="sr-radio-card-sub">Preventive care</div></label>
+              <label class="sr-radio-card"><input type="radio" name="srType" value="spare-parts"><div class="sr-radio-card-title">Spare Parts</div><div class="sr-radio-card-sub">Request Parts</div></label>
+              <label class="sr-radio-card"><input type="radio" name="srType" value="consultation"><div class="sr-radio-card-title">Consultation</div><div class="sr-radio-card-sub">Expert Advice</div></label>
+            </div>
+          </div>
+          <div>
+            <label class="sr-field-label" for="sr-title">Title <span class="required">*</span></label>
+            <input type="text" class="sr-input" id="sr-title" placeholder="Brief summary of the issue...">
+          </div>
+          <div>
+            <label class="sr-field-label" for="sr-desc">Problem Description <span class="required">*</span></label>
+            <textarea class="sr-textarea" id="sr-desc" placeholder="Describe the issue in detail..."></textarea>
+          </div>
+          <div>
+            <span class="sr-field-label">Attachments</span>
+            <div class="sr-dropzone" id="sr-dropzone">
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="sr-dropzone-text">Drop files here or click to upload</span>
+              <span class="sr-dropzone-hint">Supports: PDF, JPG, PNG</span>
+              <input type="file" id="sr-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
+            </div>
+          </div>
+        </div>
+        <div class="sr-modal-footer">
+          <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
+          <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Send Request</span>
+          </button>
+        </div>
+      </div>
+      <div class="sr-success" id="sr-success">
+        <div class="sr-success-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Request Submitted</h3>
+        <p>Your service request for <strong>Discus 30</strong> has been submitted. Our team will contact you within 24 hours.</p>
+        <button type="button" class="btn btn-primary btn-md" id="sr-btn-done" style="margin-top:8px;">Done</button>
+      </div>
+    </div>
+  </div>
+
 <script>
 function toggleProfileDropdown(e) {
   e.stopPropagation();
@@ -1697,95 +2365,241 @@ document.addEventListener('click', function(e) {
 });
 </script>
   <script>
+    // Results table: qty controls, add to cart
+    (function() {
+      document.querySelectorAll('.td-qty-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var input = btn.closest('.td-qty').querySelector('.td-qty-val');
+          var val = parseInt(input.value) || 1;
+          if (btn.dataset.dir === 'minus' && val > 1) input.value = val - 1;
+          if (btn.dataset.dir === 'plus') input.value = val + 1;
+        });
+      });
+      document.querySelectorAll('.btn-add-sm').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var tr = btn.closest('tr');
+          if (!tr) return;
+          var name = tr.dataset.name;
+          var ref = tr.dataset.ref;
+          var price = parseFloat(tr.dataset.price) || 0;
+          var isQuotation = tr.dataset.quotation === 'true';
+          var qty = parseInt(tr.querySelector('.td-qty-val').value) || 1;
+          try {
+            var cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}');
+            if (!cart.items) cart.items = [];
+            var existing = cart.items.find(function(i) { return i.ref === ref; });
+            if (existing) { existing.qty += qty; }
+            else { cart.items.push({ name: name, ref: ref, unitPrice: price, qty: qty, quotation: isQuotation }); }
+            localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+            var badge = document.getElementById('cart-badge');
+            if (badge) { badge.textContent = cart.items.reduce(function(s, i) { return s + i.qty; }, 0); badge.style.display = 'flex'; }
+            btn.textContent = 'Added ✓';
+            btn.style.background = '#007167';
+            btn.style.color = '#fff';
+            setTimeout(function() { btn.textContent = 'Add'; btn.style.background = ''; btn.style.color = ''; }, 1200);
+          } catch(e) {}
+        });
+      });
+    })();
+
+    // Drawing lightbox
+    (function() {
+      var drawingImg = document.getElementById('milla-drawing-img');
+      var lightbox = document.getElementById('drawing-lightbox');
+      var closeBtn = document.getElementById('drawing-lightbox-close');
+      if (drawingImg && lightbox) {
+        drawingImg.closest('.milla-results-drawing').addEventListener('click', function() { lightbox.classList.add('open'); });
+        closeBtn.addEventListener('click', function() { lightbox.classList.remove('open'); });
+        lightbox.addEventListener('click', function(e) { if (e.target === lightbox) lightbox.classList.remove('open'); });
+      }
+    })();
+
     const banner = document.getElementById('milla-banner');
-    const btnAsk = document.getElementById('btn-ask-milla');
     const btnClose = document.getElementById('btn-milla-close');
     const btnDescription = document.getElementById('btn-method-description');
     const btnBack = document.getElementById('btn-milla-back');
     const searchInput = document.getElementById('milla-search-input');
     const btnSearch = document.getElementById('btn-milla-search');
 
-    // Open expanded methods
-    btnAsk.addEventListener('click', () => {
+    var millaOverlay = document.getElementById('milla-modal-overlay');
+
+    // Open Milla modal from trigger card
+    document.getElementById('milla-trigger-card').addEventListener('click', function() {
+      millaOverlay.classList.add('open');
       banner.classList.add('is-open');
       banner.classList.remove('is-search');
+      document.body.style.overflow = 'hidden';
     });
 
-    // Close (back to collapsed)
-    btnClose.addEventListener('click', () => {
-      banner.classList.remove('is-open', 'is-search');
-      // Reset form
+    function closeMillaModal() {
+      millaOverlay.classList.remove('open');
+      banner.classList.remove('is-open', 'is-search', 'is-reasoning');
+      document.body.style.overflow = '';
       searchInput.value = '';
       btnSearch.classList.remove('enabled');
+      document.getElementById('milla-banner').style.display = '';
+      document.getElementById('milla-results-search').style.display = 'none';
+      document.getElementById('milla-results').style.display = 'none';
+    }
+
+    document.getElementById('milla-search-edit').addEventListener('click', function() {
+      document.getElementById('milla-results-search').style.display = 'none';
+      document.getElementById('milla-results').style.display = 'none';
+      document.getElementById('milla-banner').style.display = '';
+      banner.classList.add('is-open', 'is-search');
+      banner.classList.remove('is-reasoning');
+      searchInput.focus();
     });
 
-    // Method: Description → switch to search form
+    btnClose.addEventListener('click', closeMillaModal);
+    document.getElementById('milla-modal-close-btn').addEventListener('click', closeMillaModal);
+    millaOverlay.addEventListener('click', function(e) {
+      if (e.target === millaOverlay) closeMillaModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && millaOverlay.classList.contains('open')) closeMillaModal();
+    });
+
     btnDescription.addEventListener('click', () => {
       banner.classList.add('is-search');
-      // Focus input depois da animação
       setTimeout(() => searchInput.focus(), 350);
     });
 
-    // Back from search form to methods
     btnBack.addEventListener('click', () => {
       banner.classList.remove('is-search');
     });
 
-    // Habilita botão Search quando há texto
     searchInput.addEventListener('input', () => {
       btnSearch.classList.toggle('enabled', searchInput.value.trim().length > 0);
     });
 
-    // ── Subset select dropdown ──
+    // Subset select dropdown
     const subsetWrapper = document.getElementById('subset-wrapper');
     const subsetBtn = document.getElementById('subset-select');
     const subsetLabel = document.getElementById('subset-select-label');
-    const subsetOptions = subsetWrapper.querySelectorAll('.subset-option');
+    if (subsetWrapper) {
+      const subsetOptions = subsetWrapper.querySelectorAll('.subset-option');
+      subsetBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        subsetWrapper.classList.toggle('is-open');
+      });
+      function showResultsModal(queryText, isSubset) {
+        millaOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        document.getElementById('milla-banner').style.display = 'none';
+        document.getElementById('milla-results').style.display = 'block';
+        document.getElementById('milla-results-search').style.display = 'block';
+        document.getElementById('milla-search-query-display').textContent = queryText;
+      }
+      subsetOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const value = opt.dataset.subset;
+          const href = opt.dataset.href;
+          subsetLabel.textContent = value;
+          subsetBtn.classList.add('has-value');
+          subsetOptions.forEach(o => o.classList.remove('is-selected'));
+          opt.classList.add('is-selected');
+          subsetWrapper.classList.remove('is-open');
+          if (href) {
+            setTimeout(() => { window.location.href = href; }, 250);
+          } else {
+            setTimeout(() => { showResultsModal(value, true); }, 250);
+          }
+        });
+      });
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#subset-wrapper')) subsetWrapper.classList.remove('is-open');
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') subsetWrapper.classList.remove('is-open');
+      });
 
-    subsetBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      subsetWrapper.classList.toggle('is-open');
+      // Search → reasoning → results
+      btnSearch.addEventListener('click', () => {
+        if (!btnSearch.classList.contains('enabled')) return;
+        const query = searchInput.value.trim();
+        const quoteEl = document.getElementById('milla-reason-quote');
+        if (query && quoteEl) quoteEl.textContent = `"${query}"`;
+        banner.classList.remove('is-search');
+        banner.classList.add('is-reasoning');
+        setTimeout(() => {
+          showResultsModal(query || 'ring from the inner chamber');
+        }, 2400);
+      });
+    }
+  </script>
+
+  <!-- Service Request Modal JS -->
+  <script>
+  (function() {
+    var srOverlay = document.getElementById('sr-modal-overlay');
+    var srFormState = document.getElementById('sr-form-state');
+    var srSuccess = document.getElementById('sr-success');
+    var srBtnSend = document.getElementById('sr-btn-send');
+    var srTitle = document.getElementById('sr-title');
+    var srDesc = document.getElementById('sr-desc');
+
+    document.getElementById('service-request-trigger').addEventListener('click', function() {
+      srOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
     });
-    subsetOptions.forEach(opt => {
-      opt.addEventListener('click', () => {
-        const value = opt.dataset.subset;
-        const href = opt.dataset.href;
-        subsetLabel.textContent = value;
-        subsetBtn.classList.add('has-value');
-        subsetOptions.forEach(o => o.classList.remove('is-selected'));
-        opt.classList.add('is-selected');
-        subsetWrapper.classList.remove('is-open');
-        if (href) {
-          setTimeout(() => { window.location.href = href; }, 250);
-        }
+
+    function closeSrModal() {
+      srOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(function() {
+        srFormState.style.display = '';
+        srSuccess.classList.remove('show');
+        srBtnSend.disabled = true;
+        srTitle.value = '';
+        srDesc.value = '';
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        document.querySelectorAll('input[name="srType"]').forEach(function(r) { r.checked = false; });
+      }, 300);
+    }
+
+    document.getElementById('sr-modal-close').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-cancel').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-done').addEventListener('click', closeSrModal);
+    srOverlay.addEventListener('click', function(e) {
+      if (e.target === srOverlay) closeSrModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && srOverlay.classList.contains('open')) closeSrModal();
+    });
+
+    document.querySelectorAll('.sr-radio-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        card.classList.add('selected');
+        validateSrForm();
       });
     });
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('#subset-wrapper')) {
-        subsetWrapper.classList.remove('is-open');
+
+    function validateSrForm() {
+      var hasType = document.querySelector('input[name="srType"]:checked');
+      var hasTitle = srTitle.value.trim().length > 0;
+      var hasDesc = srDesc.value.trim().length > 0;
+      srBtnSend.disabled = !(hasType && hasTitle && hasDesc);
+    }
+    srTitle.addEventListener('input', validateSrForm);
+    srDesc.addEventListener('input', validateSrForm);
+
+    var srDropzone = document.getElementById('sr-dropzone');
+    var srFileInput = document.getElementById('sr-file-input');
+    srDropzone.addEventListener('click', function() { srFileInput.click(); });
+    srFileInput.addEventListener('change', function() {
+      if (srFileInput.files.length > 0) {
+        srDropzone.querySelector('.sr-dropzone-text').textContent = srFileInput.files.length + ' file(s) selected';
       }
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') subsetWrapper.classList.remove('is-open');
     });
 
-    // Click Search → mostra reasoning loader (~2.4s) → próxima tela
-    btnSearch.addEventListener('click', () => {
-      if (!btnSearch.classList.contains('enabled')) return;
-      // Pega o texto digitado e injeta no quote do reasoning
-      const query = searchInput.value.trim();
-      const quoteEl = document.getElementById('milla-reason-quote');
-      if (query && quoteEl) {
-        quoteEl.textContent = `"${query}"`;
-      }
-      // Transition: search → reasoning
-      banner.classList.remove('is-search');
-      banner.classList.add('is-reasoning');
-      // Após 2.4s, navega pra tela de resultados
-      setTimeout(() => {
-        window.location.href = 'machine-spare-parts-results.html';
-      }, 2400);
+    srBtnSend.addEventListener('click', function() {
+      if (srBtnSend.disabled) return;
+      srFormState.style.display = 'none';
+      srSuccess.classList.add('show');
     });
+  })();
   </script>
 
 <script>
