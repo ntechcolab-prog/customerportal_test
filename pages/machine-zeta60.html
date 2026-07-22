@@ -1626,8 +1626,9 @@
     .sr-modal-body {
       padding: 20px 28px 28px;
       overflow-y: auto;
-      flex: 1;
+      flex: 1 1 auto;
       min-height: 0;
+      max-height: calc(88vh - 160px);
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -1733,6 +1734,7 @@
       display: flex;
       justify-content: flex-end;
       gap: 10px;
+      flex-shrink: 0;
     }
     .sr-btn-cancel {
       height: 40px;
