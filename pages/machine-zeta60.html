@@ -1520,12 +1520,10 @@
       pointer-events: auto;
     }
     .sr-modal {
-      position: relative;
-      width: 680px;
-      max-width: 92vw;
+      width: 100%;
       max-height: 88vh;
       border-radius: 16px;
-      overflow: visible;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       background: #fff;
@@ -1535,6 +1533,12 @@
     }
     .sr-modal-overlay.open .sr-modal {
       transform: scale(1) translateY(0);
+    }
+    .sr-modal-wrapper {
+      position: relative;
+      width: 680px;
+      max-width: 92vw;
+      max-height: 88vh;
     }
     .sr-modal-close {
       position: absolute;
@@ -1549,6 +1553,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      z-index: 10;
       color: #fff;
       z-index: 10;
       transition: background 0.15s, transform 0.2s;
@@ -1621,7 +1626,8 @@
     .sr-modal-body {
       padding: 20px 28px 28px;
       overflow-y: auto;
-      max-height: calc(88vh - 180px);
+      flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -2453,10 +2459,11 @@
 
   <!-- SERVICE REQUEST MODAL -->
   <div class="sr-modal-overlay" id="sr-modal-overlay">
-    <div class="sr-modal">
+    <div class="sr-modal-wrapper">
       <button type="button" class="sr-modal-close" id="sr-modal-close" aria-label="Close">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
+      <div class="sr-modal">
 
       <!-- Form state -->
       <div id="sr-form-state">
@@ -2548,6 +2555,7 @@
         <p>Your service request for <strong>Zeta 60</strong> has been submitted. Our team will contact you within 24 hours.</p>
         <button type="button" class="btn btn-primary btn-md" id="sr-btn-done" style="margin-top:8px;">Done</button>
       </div>
+    </div>
     </div>
   </div>
 
