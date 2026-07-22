@@ -1519,13 +1519,17 @@
       opacity: 1;
       pointer-events: auto;
     }
-    .sr-modal {
+    .sr-modal-wrapper {
       position: relative;
       width: 680px;
       max-width: 92vw;
       max-height: 88vh;
+    }
+    .sr-modal {
+      width: 100%;
+      max-height: 88vh;
       border-radius: 16px;
-      overflow: visible;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       background: #fff;
@@ -1621,7 +1625,9 @@
     .sr-modal-body {
       padding: 20px 28px 28px;
       overflow-y: auto;
-      max-height: calc(88vh - 180px);
+      flex: 1 1 auto;
+      min-height: 0;
+      max-height: calc(88vh - 160px);
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -1723,7 +1729,7 @@
     .sr-dropzone-hint { font-size: 11px; color: #9ca3af; }
 
     .sr-modal-footer {
-      padding: 0 28px 24px;
+      padding: 8px 0 0;
       display: flex;
       justify-content: flex-end;
       gap: 10px;
@@ -2453,10 +2459,11 @@
 
   <!-- SERVICE REQUEST MODAL -->
   <div class="sr-modal-overlay" id="sr-modal-overlay">
-    <div class="sr-modal">
+    <div class="sr-modal-wrapper">
       <button type="button" class="sr-modal-close" id="sr-modal-close" aria-label="Close">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
+      <div class="sr-modal">
 
       <!-- Form state -->
       <div id="sr-form-state">
@@ -2528,14 +2535,14 @@
               <input type="file" id="sr-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
             </div>
           </div>
-        </div>
 
-        <div class="sr-modal-footer">
-          <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
-          <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>Send Request</span>
-          </button>
+          <div class="sr-modal-footer">
+            <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Send Request</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -2548,6 +2555,7 @@
         <p>Your service request for <strong>Discus 30</strong> has been submitted. Our team will contact you within 24 hours.</p>
         <button type="button" class="btn btn-primary btn-md" id="sr-btn-done" style="margin-top:8px;">Done</button>
       </div>
+    </div>
     </div>
   </div>
 
