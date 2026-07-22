@@ -1730,11 +1730,10 @@
     .sr-dropzone-hint { font-size: 11px; color: #9ca3af; }
 
     .sr-modal-footer {
-      padding: 0 28px 24px;
+      padding: 8px 0 0;
       display: flex;
       justify-content: flex-end;
       gap: 10px;
-      flex-shrink: 0;
     }
     .sr-btn-cancel {
       height: 40px;
@@ -2537,14 +2536,14 @@
               <input type="file" id="sr-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
             </div>
           </div>
-        </div>
 
-        <div class="sr-modal-footer">
-          <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
-          <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>Send Request</span>
-          </button>
+          <div class="sr-modal-footer">
+            <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Send Request</span>
+            </button>
+          </div>
         </div>
       </div>
 
