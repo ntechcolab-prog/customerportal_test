@@ -150,6 +150,12 @@
   "dash.shipped": "Versendet",
   "dash.delivered": "Geliefert",
 
+  "orderDrawer.quickView": "Schnellansicht",
+  "orderDrawer.items": "Artikel",
+  "orderDrawer.tracking": "Sendungsverfolgung",
+  "orderDrawer.viewFull": "Vollständige Details anzeigen",
+  "orderDrawer.notShipped": "Noch nicht versandt",
+
   "orders.title": "Bestellungen",
   "orders.totalOrders": "Alle Bestellungen",
   "orders.placed": "Bestellt",

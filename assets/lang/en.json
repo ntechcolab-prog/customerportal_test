@@ -150,6 +150,12 @@
   "dash.shipped": "Shipped",
   "dash.delivered": "Delivered",
 
+  "orderDrawer.quickView": "Quick view",
+  "orderDrawer.items": "Items",
+  "orderDrawer.tracking": "Tracking",
+  "orderDrawer.viewFull": "View full details",
+  "orderDrawer.notShipped": "Not shipped yet",
+
   "orders.title": "Orders",
   "orders.totalOrders": "Total Orders",
   "orders.placed": "Placed",
