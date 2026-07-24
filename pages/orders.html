@@ -638,42 +638,13 @@
     .orders-table .actions-cell { justify-content: center; }
     .orders-table .col-actions:hover { color: #6b7280; background: transparent; }
 
-    /* ── ORDER QUICK-VIEW DRAWER ─── */
-    .qv-overlay {
-      position: fixed; inset: 0; z-index: 400;
-      background: rgba(17, 24, 28, 0.42);
-      opacity: 0; visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    .qv-overlay.is-open { opacity: 1; visibility: visible; }
-    .qv-panel {
-      position: absolute; top: 0; right: 0; height: 100%;
-      width: min(420px, 92vw);
-      background: #fff; border-left: 1px solid #e6e7e8;
-      box-shadow: -24px 0 60px rgba(0, 0, 0, 0.18);
-      display: flex; flex-direction: column; padding: 28px 28px 24px;
-      transform: translateX(100%);
-      transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1);
-      overflow-y: auto;
-    }
-    .qv-overlay.is-open .qv-panel { transform: translateX(0); }
-    .qv-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-    .qv-eyebrow { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #007167; margin-bottom: 6px; }
-    .qv-title { font-size: 22px; font-weight: 600; color: #1f2426; letter-spacing: -0.4px; line-height: 1.2; }
-    .qv-close { flex-shrink: 0; width: 36px; height: 36px; border: 1px solid #e6e7e8; border-radius: 8px; background: #fff; color: #5c5f62; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, color 0.15s, border-color 0.15s; }
-    .qv-close:hover { background: #f4f5f5; color: #1f2426; border-color: #d7d9db; }
-    .qv-close:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
-    .qv-close svg { width: 18px; height: 18px; }
-    .qv-status-row { display: flex; align-items: center; gap: 12px; margin: 22px 0 4px; flex-wrap: wrap; }
-    .qv-date { font-size: 13px; color: #86868b; }
-    .qv-fields { margin: 20px 0 0; border-top: 1px solid #eff0f0; }
-    .qv-fields > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid #eff0f0; }
-    .qv-fields dt { font-size: 13px; color: #86868b; flex-shrink: 0; }
-    .qv-fields dd { font-size: 14px; color: #1f2426; font-weight: 500; text-align: right; }
-    .qv-fields .qv-total dd { font-size: 18px; font-weight: 700; color: #007167; }
+    /* ── ORDER QUICK-VIEW DRAWER (mesma linguagem visual do Track) ─── */
+    .qv-status-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 6px 0 24px; }
+    .qv-date-inline { font-size: 13px; color: #6b7280; }
+    .qv-total-value { font-size: 18px; font-weight: 700; color: #007167; }
     .qv-cta { margin-top: 24px; width: 100%; justify-content: center; }
     @media (prefers-reduced-motion: reduce) {
-      .qv-overlay, .qv-panel { transition: opacity 0.01ms; }
+      .tracking-drawer { transition: none; }
     }
 
     /* ── EMPTY STATE ─── */
@@ -2601,40 +2572,49 @@ function sendFromSmallChat() {
 <script src="../assets/skeleton-loader.js"></script>
 
   <!-- ORDER QUICK-VIEW DRAWER -->
-  <div class="qv-overlay" id="order-drawer" aria-hidden="true">
-    <aside class="qv-panel" role="dialog" aria-modal="true" aria-labelledby="qv-order-num">
-      <div class="qv-head">
-        <div>
-          <span class="qv-eyebrow" data-i18n="orderDrawer.quickView">Quick view</span>
-          <h2 class="qv-title" id="qv-order-num">—</h2>
-        </div>
-        <button class="qv-close" type="button" aria-label="Close" data-i18n-aria-label="common.close" onclick="closeOrderDrawer()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
-        </button>
-      </div>
+  <div class="drawer-overlay" id="qvOverlay"></div>
+  <div class="tracking-drawer" id="order-drawer" role="dialog" aria-modal="true" aria-labelledby="qv-order-num">
+    <div class="drawer-header">
+      <span class="drawer-title" data-i18n="orderDrawer.quickView">Quick view</span>
+      <button class="drawer-close" id="qvClose" type="button" aria-label="Close" data-i18n-aria-label="common.close">&#x2715;</button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-order-id" id="qv-order-num">—</div>
       <div class="qv-status-row">
         <span class="status-badge" id="qv-status">—</span>
-        <span class="qv-date" id="qv-date">—</span>
+        <span class="qv-date-inline" id="qv-date">—</span>
       </div>
-      <dl class="qv-fields">
-        <div><dt data-i18n="common.description">Description</dt><dd id="qv-desc">—</dd></div>
-        <div><dt data-i18n="orderDrawer.items">Items</dt><dd id="qv-items">—</dd></div>
-        <div><dt data-i18n="orderDrawer.tracking">Tracking</dt><dd id="qv-tracking">—</dd></div>
-        <div class="qv-total"><dt data-i18n="common.total">Total</dt><dd id="qv-total">—</dd></div>
-      </dl>
+      <div class="drawer-section">
+        <div class="drawer-section-title" data-i18n="common.description">Description</div>
+        <div class="drawer-section-text" id="qv-desc">—</div>
+      </div>
+      <div class="drawer-section">
+        <div class="drawer-section-title" data-i18n="orderDrawer.items">Items</div>
+        <div class="drawer-section-text" id="qv-items">—</div>
+      </div>
+      <div class="drawer-section">
+        <div class="drawer-section-title" data-i18n="orderDrawer.tracking">Tracking</div>
+        <div class="drawer-section-text" id="qv-tracking">—</div>
+      </div>
+      <div class="drawer-section">
+        <div class="drawer-section-title" data-i18n="common.total">Total</div>
+        <div class="drawer-section-text qv-total-value" id="qv-total">—</div>
+      </div>
       <a class="btn btn-primary qv-cta" id="qv-full-link" href="order-detail.html" data-i18n="orderDrawer.viewFull">View full details</a>
-    </aside>
+    </div>
   </div>
 
   <script>
   (function () {
+    var overlay = document.getElementById('qvOverlay');
     var drawer = document.getElementById('order-drawer');
+    var closeBtn = document.getElementById('qvClose');
     function t(key, fallback) {
       return (window.NetzschI18n && window.NetzschI18n.t) ? window.NetzschI18n.t(key, fallback) : fallback;
     }
     window.openOrderDrawer = function (btn) {
       var d = btn.dataset;
-      document.getElementById('qv-order-num').textContent = d.order;
+      document.getElementById('qv-order-num').textContent = 'Order #' + d.order;
       var badge = document.getElementById('qv-status');
       badge.className = 'status-badge ' + d.status;
       badge.textContent = t(d.statusKey, d.statusLabel);
@@ -2643,21 +2623,20 @@ function sendFromSmallChat() {
       document.getElementById('qv-items').textContent = d.items + ' ' + t('common.items', 'items');
       document.getElementById('qv-tracking').textContent = d.tracking ? d.tracking : t('orderDrawer.notShipped', 'Not shipped yet');
       document.getElementById('qv-total').textContent = d.total;
-      drawer.classList.add('is-open');
-      drawer.setAttribute('aria-hidden', 'false');
+      overlay.classList.add('show');
+      drawer.classList.add('show');
       document.body.style.overflow = 'hidden';
-      document.querySelector('.qv-close').focus();
+      closeBtn.focus();
     };
     window.closeOrderDrawer = function () {
-      drawer.classList.remove('is-open');
-      drawer.setAttribute('aria-hidden', 'true');
+      overlay.classList.remove('show');
+      drawer.classList.remove('show');
       document.body.style.overflow = '';
     };
-    drawer.addEventListener('click', function (e) {
-      if (e.target === drawer) closeOrderDrawer();
-    });
+    closeBtn.addEventListener('click', closeOrderDrawer);
+    overlay.addEventListener('click', closeOrderDrawer);
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeOrderDrawer();
+      if (e.key === 'Escape' && drawer.classList.contains('show')) closeOrderDrawer();
     });
   })();
   </script>
