@@ -640,6 +640,26 @@
     .drawer-section { border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 20px; }
     .drawer-section-title { font-size: 14px; font-weight: 700; color: #1f2937; margin-bottom: 8px; }
     .drawer-section-text { font-size: 13px; color: #374151; line-height: 1.6; }
+    .drawer-section-text strong { font-weight: 600; color: #1f2937; }
+    .drawer-tracking-num { font-size: 13px; color: #6b7280; margin-bottom: 24px; }
+    /* Timeline (Track) */
+    .timeline { display: flex; flex-direction: column; gap: 0; margin-bottom: 28px; }
+    .timeline-item { display: flex; gap: 14px; position: relative; padding-bottom: 24px; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item::before { content: ''; position: absolute; left: 17px; top: 36px; bottom: 0; width: 2px; background: #e5e7eb; }
+    .timeline-item:last-child::before { display: none; }
+    .timeline-item.active::before { background: #0b9c92; }
+    .timeline-icon { width: 36px; height: 36px; border-radius: 50%; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 1; }
+    .timeline-icon svg { width: 16px; height: 16px; color: #9ca3af; }
+    .timeline-item.active .timeline-icon { background: #007167; }
+    .timeline-item.active .timeline-icon svg { color: #fff; }
+    .timeline-content { flex: 1; padding-top: 2px; }
+    .timeline-title { font-size: 14px; font-weight: 600; color: #1f2937; margin-bottom: 2px; }
+    .timeline-item.active .timeline-title { color: #007167; }
+    .timeline-desc { font-size: 12px; color: #6b7280; line-height: 1.4; }
+    .timeline-date { font-size: 12px; color: #007167; font-weight: 500; }
+    .map-image { border-radius: 8px; margin-top: 12px; overflow: hidden; }
+    .map-image img { width: 100%; display: block; object-fit: cover; }
     .qv-status-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 6px 0 24px; }
     .qv-date-inline { font-size: 13px; color: #6b7280; }
     .qv-total-value { font-size: 18px; font-weight: 700; color: #007167; }
@@ -1659,10 +1679,12 @@
                 <td>LMZ60 spares</td>
                 <td>
                   <div class="actions-cell">
+                    <button class="action-btn" title="Track order"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></button>
                     <button class="action-btn qv-trigger" title="Quick view" aria-label="Quick view order 2800998-30" data-i18n-aria-label="orderDrawer.quickView"
                       data-order="2800998-30" data-date="Feb 28, 2026" data-status="status-placed" data-status-key="dash.orderPlaced" data-status-label="Order Placed"
                       data-desc="LMZ60 spares" data-items="3" data-tracking="" data-total="4.000,00 EUR"
                       onclick="openOrderDrawer(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                    <button class="action-btn" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
                   </div>
                 </td>
               </tr>
@@ -1679,10 +1701,12 @@
                 <td>Mastermix spares</td>
                 <td>
                   <div class="actions-cell">
+                    <button class="action-btn" title="Track order"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></button>
                     <button class="action-btn qv-trigger" title="Quick view" aria-label="Quick view order 2800998-06" data-i18n-aria-label="orderDrawer.quickView"
                       data-order="2800998-06" data-date="Feb 24, 2026" data-status="status-process" data-status-key="dash.inProcess" data-status-label="In Process"
                       data-desc="Mastermix spares" data-items="5" data-tracking="" data-total="12.000,00 EUR"
                       onclick="openOrderDrawer(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                    <button class="action-btn" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
                   </div>
                 </td>
               </tr>
@@ -1699,10 +1723,12 @@
                 <td>Prophi spares</td>
                 <td>
                   <div class="actions-cell">
+                    <button class="action-btn" title="Track order"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></button>
                     <button class="action-btn qv-trigger" title="Quick view" aria-label="Quick view order 2800998-02" data-i18n-aria-label="orderDrawer.quickView"
                       data-order="2800998-02" data-date="Feb 15, 2026" data-status="status-shipped" data-status-key="dash.shipped" data-status-label="Shipped"
                       data-desc="Prophi spares" data-items="4" data-tracking="DHL 7712 3390 021" data-total="10.000,00 EUR"
                       onclick="openOrderDrawer(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                    <button class="action-btn" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
                   </div>
                 </td>
               </tr>
@@ -1719,10 +1745,12 @@
                 <td>LMZ60 spares</td>
                 <td>
                   <div class="actions-cell">
+                    <button class="action-btn" title="Track order"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></button>
                     <button class="action-btn qv-trigger" title="Quick view" aria-label="Quick view order 2800998-07" data-i18n-aria-label="orderDrawer.quickView"
                       data-order="2800998-07" data-date="Feb 10, 2026" data-status="status-delivered" data-status-key="dash.delivered" data-status-label="Delivered"
                       data-desc="LMZ60 spares" data-items="2" data-tracking="DHL 7712 3311 884" data-total="1.000,00 EUR"
                       onclick="openOrderDrawer(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                    <button class="action-btn" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
                   </div>
                 </td>
               </tr>
@@ -1739,10 +1767,12 @@
                 <td>Grinding Beads ZY 20mm</td>
                 <td>
                   <div class="actions-cell">
+                    <button class="action-btn" title="Track order"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></button>
                     <button class="action-btn qv-trigger" title="Quick view" aria-label="Quick view order 2800998-05" data-i18n-aria-label="orderDrawer.quickView"
                       data-order="2800998-05" data-date="Jan 28, 2026" data-status="status-delivered" data-status-key="dash.delivered" data-status-label="Delivered"
                       data-desc="Grinding Beads ZY 20mm" data-items="1" data-tracking="DHL 7712 3298 570" data-total="900,00 EUR"
                       onclick="openOrderDrawer(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
+                    <button class="action-btn" title="Download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
                   </div>
                 </td>
               </tr>
@@ -2131,6 +2161,98 @@ function sendFromSmallChat() {
 <script src="../assets/request-approval.js"></script>
 <script src="../assets/i18n.js"></script>
 <script src="../assets/skeleton-loader.js"></script>
+  <!-- TRACKING DRAWER -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="tracking-drawer" id="trackingDrawer" role="dialog" aria-label="Order Tracking">
+    <div class="drawer-header">
+      <span class="drawer-title">Order Tracking</span>
+      <button class="drawer-close" id="drawerClose">&#x2715;</button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-order-id">Order #15345678</div>
+      <div class="drawer-tracking-num">Tracking number: PK367366373</div>
+
+      <!-- Timeline -->
+      <div class="timeline">
+        <div class="timeline-item active">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13z" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 8l2 2 3-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Order Placed</div>
+            <div class="timeline-desc">Your order has been confirmed.</div>
+            <div class="timeline-date">Confirmed: Nov 13, 2025 at 12:30 AM</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5v3.5l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Dispatched</div>
+            <div class="timeline-desc">Your order has been dispatched.</div>
+            <div class="timeline-desc">Pending</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M2 10.5l4-1.5 4 2 4-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 9V5.5L2 7v3.5M10 11V7.5l4-1.5V9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Out for Delivery</div>
+            <div class="timeline-desc">Your order is out for delivery.</div>
+            <div class="timeline-desc">Pending</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-icon">
+            <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 8l2 2 3-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Delivered</div>
+            <div class="timeline-desc">Your order has been delivered.</div>
+            <div class="timeline-desc">Pending Completion</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estimated Delivery -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Estimated Delivery</div>
+        <div class="drawer-section-text">Nov 13, 2025 by 16:00 PM</div>
+      </div>
+
+      <!-- Delivery Address -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Delivery Address</div>
+        <div class="drawer-section-text">
+          <strong>John Doe</strong><br>
+          123 Main Street, Apt 4B<br>
+          New York, NY 10001<br>
+          United States<br>
+          Phone: +1 (555) 123-4567
+        </div>
+      </div>
+
+      <!-- Carrier Information -->
+      <div class="drawer-section">
+        <div class="drawer-section-title">Carrier Information</div>
+        <div class="drawer-section-text">Fedex Express</div>
+      </div>
+
+      <!-- Map -->
+      <div class="map-image">
+        <img src="../assets/tracking-map.png" alt="Delivery tracking map">
+      </div>
+
+      <!-- Contact Support -->
+      <button class="btn btn-secondary btn-lg btn-full" style="margin-top: 24px" onclick="window.location.href='contact-support.html'">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 14.5a6.5 6.5 0 100-13 6.5 6.5 0 000 13z" stroke="currentColor" stroke-width="1.5"/><path d="M6 6.5a2 2 0 013.88.67c0 1.33-2 2-2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11.5" r="0.5" fill="currentColor"/></svg>
+        Contact Support
+      </button>
+    </div>
+  </div>
+
   <!-- ORDER QUICK-VIEW DRAWER -->
   <div class="drawer-overlay" id="qvOverlay"></div>
   <div class="tracking-drawer" id="order-drawer" role="dialog" aria-modal="true" aria-labelledby="qv-order-num">
@@ -2197,6 +2319,24 @@ function sendFromSmallChat() {
     overlay.addEventListener('click', closeOrderDrawer);
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && drawer.classList.contains('show')) closeOrderDrawer();
+    });
+  })();
+  </script>
+
+  <script>
+  (function () {
+    var overlay = document.getElementById('drawerOverlay');
+    var drawer = document.getElementById('trackingDrawer');
+    var drawerClose = document.getElementById('drawerClose');
+    function openDrawer() { overlay.classList.add('show'); drawer.classList.add('show'); document.body.style.overflow = 'hidden'; drawerClose.focus(); }
+    function closeDrawer() { overlay.classList.remove('show'); drawer.classList.remove('show'); document.body.style.overflow = ''; }
+    document.querySelectorAll('.action-btn[title="Track order"]').forEach(function (btn) {
+      btn.addEventListener('click', openDrawer);
+    });
+    drawerClose.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer.classList.contains('show')) closeDrawer();
     });
   })();
   </script>
