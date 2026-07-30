@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════════════════════
+   NETZSCH Customer Portal — Empty State Design System
+   Reusable empty/zero-data state: icon + title + desc + CTA
+   Drop-in compatible with existing .empty-state markup.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── CSS VARIABLES ─── */
+:root {
+  /* Layout */
+  --empty-pad-y: 48px;
+  --empty-pad-x: 24px;
+  --empty-max-width: 360px;
+
+  /* Icon badge */
+  --empty-icon-size: 48px;
+  --empty-icon-glyph: 24px;
+  --empty-icon-bg: #f3f4f6;
+  --empty-icon-color: #9ca3af;
+
+  /* Typography (AAA-oriented neutrals over white) */
+  --empty-title-size: 15px;
+  --empty-title-color: #374151;   /* ~10:1 on #fff */
+  --empty-desc-size: 13px;
+  --empty-desc-color: #4b5563;    /* ~7:1 on #fff (AAA small text) */
+
+  /* Brand accents for CTA link */
+  --empty-link-color: #007167;
+  --empty-link-color-hover: #005f57;
+}
+
+/* ── BASE ─── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--empty-pad-y) var(--empty-pad-x);
+  max-width: var(--empty-max-width);
+  margin-inline: auto;
+}
+
+/* Preserve legacy toggling behaviour */
+.empty-state[hidden] { display: none; }
+
+/* ── ICON BADGE ─── */
+.empty-state-icon {
+  width: var(--empty-icon-size);
+  height: var(--empty-icon-size);
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: var(--empty-icon-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.empty-state-icon svg {
+  width: var(--empty-icon-glyph);
+  height: var(--empty-icon-glyph);
+  color: var(--empty-icon-color);
+}
+
+/* ── TEXT ─── */
+.empty-state-title {
+  font-size: var(--empty-title-size);
+  font-weight: 600;
+  color: var(--empty-title-color);
+  margin: 0 0 4px;
+  line-height: 1.35;
+}
+
+.empty-state-desc {
+  font-size: var(--empty-desc-size);
+  color: var(--empty-desc-color);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 42ch;
+}
+
+/* ── CTA ─── */
+/* Wrapper for one or more actions below the description */
+.empty-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Text-link style CTA (used e.g. "Browse Shop" in wishlist) */
+.empty-state-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--empty-link-color);
+  text-decoration: none;
+  min-height: 44px;          /* AAA touch target */
+  padding-inline: 4px;
+}
+.empty-state-link:hover { color: var(--empty-link-color-hover); text-decoration: underline; }
+.empty-state-link:focus-visible {
+  outline: 2px solid var(--empty-link-color);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+/* When the link sits inside .empty-state-actions its own top margin is redundant */
+.empty-state-actions .empty-state-link { margin-top: 0; }
+
+/* ═══════════════════════════════════════════════════════
+   VARIANTS
+   ═══════════════════════════════════════════════════════ */
+
+/* Compact — for inline table/list slots where vertical space is tight */
+.empty-state--compact {
+  --empty-pad-y: 32px;
+  --empty-icon-size: 40px;
+  --empty-icon-glyph: 20px;
+}
+
+/* Page — full-viewport zero states (404 / 500 / no-access) */
+.empty-state--page {
+  --empty-pad-y: 80px;
+  --empty-max-width: 440px;
+  --empty-icon-size: 72px;
+  --empty-icon-glyph: 36px;
+  --empty-title-size: 22px;
+  --empty-desc-size: 15px;
+  min-height: 60vh;
+  justify-content: center;
+}
+
+/* Accent — brand-tinted icon badge (for positive/first-run empties) */
+.empty-state--accent {
+  --empty-icon-bg: rgba(0, 113, 103, 0.08);
+  --empty-icon-color: #007167;
+}
