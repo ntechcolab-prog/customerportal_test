@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../assets/skeleton.css">
   <link rel="stylesheet" href="../assets/tables.css">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/empty-states.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -533,33 +534,8 @@
     .orders-table .actions-cell { justify-content: center; }
 
     /* ── EMPTY STATE ─── */
-    .empty-state {
-      padding: 48px 24px;
-      text-align: center;
-    }
     .empty-state[hidden] { display: none; }
-    .empty-state-icon {
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 16px;
-      border-radius: 50%;
-      background: #f3f4f6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
     .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
-    .empty-state-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: #374151;
-      margin: 0 0 4px;
-    }
-    .empty-state-desc {
-      font-size: 13px;
-      color: #9ca3af;
-      margin: 0;
-    }
 
     /* ── TEST DETAILS DRAWER ─── */
     .drawer-overlay {
