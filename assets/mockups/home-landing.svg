@@ -1,0 +1,264 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="3320" viewBox="0 0 1440 3320" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">
+  <title>NETZSCH Customer Portal — Home / Landing (pre-login) mockup</title>
+
+  <!-- ============ PAGE BG ============ -->
+  <rect width="1440" height="3320" fill="#ffffff"/>
+
+  <!-- ============ NAVBAR ============ -->
+  <g>
+    <rect x="0" y="0" width="1440" height="72" fill="#ffffff"/>
+    <line x1="0" y1="72" x2="1440" y2="72" stroke="#eaeaea" stroke-width="1"/>
+    <!-- logo wordmark -->
+    <text x="120" y="45" font-size="24" font-weight="700" letter-spacing="1" fill="#007167">NETZSCH</text>
+    <!-- lang -->
+    <text x="1000" y="45" font-size="14" font-weight="500" fill="#5c5f62">EN</text>
+    <path d="M1035 33l5 5 5-5" stroke="#8b8e91" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="1075" y1="24" x2="1075" y2="48" stroke="#d7d9db" stroke-width="1"/>
+    <!-- Log in (outline) -->
+    <rect x="1095" y="18" width="98" height="38" rx="8" fill="#ffffff" stroke="#007167" stroke-width="1.4"/>
+    <text x="1144" y="42" font-size="14" font-weight="600" fill="#007167" text-anchor="middle">Log in</text>
+    <!-- Register (filled) -->
+    <rect x="1205" y="18" width="115" height="38" rx="8" fill="#007167"/>
+    <text x="1262" y="42" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">Register</text>
+  </g>
+
+  <!-- ============ HERO ============ -->
+  <g>
+    <defs>
+      <linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#00564e"/>
+        <stop offset="0.55" stop-color="#007167"/>
+        <stop offset="1" stop-color="#0b9c92"/>
+      </linearGradient>
+    </defs>
+    <rect x="0" y="72" width="1440" height="548" fill="url(#heroGrad)"/>
+    <!-- subtle decorative circles evoking the photo/overlay -->
+    <circle cx="1230" cy="200" r="240" fill="#ffffff" opacity="0.05"/>
+    <circle cx="1120" cy="540" r="160" fill="#ffffff" opacity="0.05"/>
+    <!-- hero copy -->
+    <text x="120" y="270" font-size="52" font-weight="700" fill="#ffffff">Your All-in-One</text>
+    <text x="120" y="330" font-size="52" font-weight="700" fill="#ffffff">Customer Portal</text>
+    <text x="120" y="392" font-size="18" fill="#e6f2f0">Simplify how you manage orders, track deliveries, and access key</text>
+    <text x="120" y="420" font-size="18" fill="#e6f2f0">information — everything in one place, designed for speed and accuracy.</text>
+    <!-- buttons -->
+    <rect x="120" y="470" width="140" height="48" rx="8" fill="#ffffff"/>
+    <text x="190" y="500" font-size="15" font-weight="600" fill="#007167" text-anchor="middle">Log in</text>
+    <rect x="276" y="470" width="150" height="48" rx="8" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="351" y="500" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Register</text>
+  </g>
+
+  <!-- ============ FEATURES ============ -->
+  <g>
+    <rect x="0" y="620" width="1440" height="740" fill="#ffffff"/>
+    <text x="720" y="708" font-size="34" font-weight="700" fill="#3d4246" text-anchor="middle">Maximize Performance with the NETZSCH Customer Portal</text>
+    <text x="720" y="748" font-size="16" fill="#5c5f62" text-anchor="middle">Access everything you need to manage, optimize, and protect your grinding and dispersing</text>
+    <text x="720" y="772" font-size="16" fill="#5c5f62" text-anchor="middle">assets — all in one secure, intelligent platform.</text>
+
+    <!-- feature cards: 3 cols x 2 rows -->
+    <!-- Row 1 -->
+    <g>
+      <!-- card 1 -->
+      <rect x="120" y="820" width="380" height="210" rx="14" fill="#ffffff" stroke="#eaeaea" stroke-width="1"/>
+      <rect x="152" y="852" width="52" height="52" rx="12" fill="#e6f2f0"/>
+      <rect x="168" y="868" width="20" height="20" rx="3" fill="none" stroke="#007167" stroke-width="1.6"/>
+      <text x="152" y="946" font-size="18" font-weight="600" fill="#3d4246">Asset Overview &amp; Insights</text>
+      <text x="152" y="978" font-size="14" fill="#5c5f62">Get a real-time, complete view of your</text>
+      <text x="152" y="998" font-size="14" fill="#5c5f62">NETZSCH equipment and plant performance.</text>
+
+      <!-- card 2 -->
+      <rect x="530" y="820" width="380" height="210" rx="14" fill="#ffffff" stroke="#eaeaea" stroke-width="1"/>
+      <rect x="562" y="852" width="52" height="52" rx="12" fill="#e6f2f0"/>
+      <path d="M578 890h20M578 878h20M585 866h6" stroke="#007167" stroke-width="1.6" stroke-linecap="round"/>
+      <text x="562" y="946" font-size="18" font-weight="600" fill="#3d4246">Order Management &amp; Shop</text>
+      <text x="562" y="978" font-size="14" fill="#5c5f62">Order your NETZSCH Grinding Beads and</text>
+      <text x="562" y="998" font-size="14" fill="#5c5f62">track deliveries online — fast and simple.</text>
+
+      <!-- card 3 -->
+      <rect x="940" y="820" width="380" height="210" rx="14" fill="#ffffff" stroke="#eaeaea" stroke-width="1"/>
+      <rect x="972" y="852" width="52" height="52" rx="12" fill="#e6f2f0"/>
+      <path d="M988 878a10 10 0 1 0 20 0a10 10 0 1 0 -20 0M998 872v6l4 3" stroke="#007167" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <text x="972" y="946" font-size="18" font-weight="600" fill="#3d4246">Service Requests &amp; Tracking</text>
+      <text x="972" y="978" font-size="14" fill="#5c5f62">Submit and track service requests in real</text>
+      <text x="972" y="998" font-size="14" fill="#5c5f62">time — full transparency and traceability.</text>
+    </g>
+    <!-- Row 2 -->
+    <g>
+      <!-- card 4 -->
+      <rect x="120" y="1050" width="380" height="210" rx="14" fill="#ffffff" stroke="#eaeaea" stroke-width="1"/>
+      <rect x="152" y="1082" width="52" height="52" rx="12" fill="#e6f2f0"/>
+      <path d="M168 1108l6 6 12-14" stroke="#007167" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="152" y="1176" font-size="18" font-weight="600" fill="#3d4246">Real-Time Transparency</text>
+      <text x="152" y="1208" font-size="14" fill="#5c5f62">Get instant updates and insights — ensuring</text>
+      <text x="152" y="1228" font-size="14" fill="#5c5f62">full visibility and confident decisions.</text>
+
+      <!-- card 5 -->
+      <rect x="530" y="1050" width="380" height="210" rx="14" fill="#ffffff" stroke="#eaeaea" stroke-width="1"/>
+      <rect x="562" y="1082" width="52" height="52" rx="12" fill="#e6f2f0"/>
+      <rect x="578" y="1098" width="20" height="20" rx="3" fill="none" stroke="#007167" stroke-width="1.6"/>
+      <line x1="588" y1="1098" x2="588" y2="1118" stroke="#007167" stroke-width="1.6"/>
+      <text x="562" y="1176" font-size="18" font-weight="600" fill="#3d4246">Centralized Management Hub</text>
+      <text x="562" y="1208" font-size="14" fill="#5c5f62">Centralize asset data, service cases, and</text>
+      <text x="562" y="1228" font-size="14" fill="#5c5f62">orders — streamlining your workflows.</text>
+
+      <!-- card 6 -->
+      <rect x="940" y="1050" width="380" height="210" rx="14" fill="#ffffff" stroke="#eaeaea" stroke-width="1"/>
+      <rect x="972" y="1082" width="52" height="52" rx="12" fill="#e6f2f0"/>
+      <circle cx="994" cy="1104" r="5" fill="none" stroke="#007167" stroke-width="1.6"/>
+      <circle cx="1006" cy="1104" r="5" fill="none" stroke="#007167" stroke-width="1.6"/>
+      <text x="972" y="1176" font-size="18" font-weight="600" fill="#3d4246">Empower Your Team</text>
+      <text x="972" y="1208" font-size="14" fill="#5c5f62">Assign roles and permissions so each user</text>
+      <text x="972" y="1228" font-size="14" fill="#5c5f62">accesses exactly what they need.</text>
+    </g>
+  </g>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <g>
+    <rect x="0" y="1360" width="1440" height="460" fill="#f5f5f7"/>
+    <text x="720" y="1448" font-size="34" font-weight="700" fill="#3d4246" text-anchor="middle">How It Works</text>
+    <text x="720" y="1486" font-size="16" fill="#5c5f62" text-anchor="middle">Get started in just 4 simple steps and streamline your business operations.</text>
+
+    <!-- steps list (left) -->
+    <g>
+      <!-- step 1 active -->
+      <circle cx="150" cy="1560" r="20" fill="#007167"/>
+      <text x="150" y="1566" font-size="16" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+      <text x="192" y="1556" font-size="18" font-weight="600" fill="#3d4246">Login or Register</text>
+      <text x="192" y="1580" font-size="14" fill="#5c5f62">Sign up for your business account in minutes.</text>
+      <!-- step 2 -->
+      <circle cx="150" cy="1626" r="20" fill="#ffffff" stroke="#d7d9db" stroke-width="1.4"/>
+      <text x="150" y="1632" font-size="16" font-weight="700" fill="#8b8e91" text-anchor="middle">2</text>
+      <text x="192" y="1622" font-size="18" font-weight="600" fill="#3d4246">Place Orders</text>
+      <text x="192" y="1646" font-size="14" fill="#5c5f62">Browse and order NETZSCH Grinding Beads easily.</text>
+      <!-- step 3 -->
+      <circle cx="150" cy="1692" r="20" fill="#ffffff" stroke="#d7d9db" stroke-width="1.4"/>
+      <text x="150" y="1698" font-size="16" font-weight="700" fill="#8b8e91" text-anchor="middle">3</text>
+      <text x="192" y="1688" font-size="18" font-weight="600" fill="#3d4246">Track Deliveries</text>
+      <text x="192" y="1712" font-size="14" fill="#5c5f62">Monitor your shipments in real-time.</text>
+      <!-- step 4 -->
+      <circle cx="150" cy="1758" r="20" fill="#ffffff" stroke="#d7d9db" stroke-width="1.4"/>
+      <text x="150" y="1764" font-size="16" font-weight="700" fill="#8b8e91" text-anchor="middle">4</text>
+      <text x="192" y="1754" font-size="18" font-weight="600" fill="#3d4246">Earn More</text>
+      <text x="192" y="1778" font-size="14" fill="#5c5f62">Access analytics and insights to optimize.</text>
+    </g>
+    <!-- image placeholder (right) -->
+    <rect x="740" y="1524" width="580" height="266" rx="14" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+    <rect x="772" y="1556" width="516" height="34" rx="6" fill="#eef1f2"/>
+    <rect x="772" y="1608" width="360" height="14" rx="4" fill="#e5e7eb"/>
+    <rect x="772" y="1636" width="440" height="14" rx="4" fill="#eef1f2"/>
+    <rect x="772" y="1664" width="300" height="14" rx="4" fill="#eef1f2"/>
+    <rect x="772" y="1718" width="150" height="40" rx="8" fill="#007167"/>
+  </g>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <g>
+    <rect x="0" y="1820" width="1440" height="440" fill="#ffffff"/>
+    <text x="720" y="1908" font-size="34" font-weight="700" fill="#3d4246" text-anchor="middle">How the Customer Portal Transforms Daily Operations</text>
+    <text x="720" y="1948" font-size="16" fill="#5c5f62" text-anchor="middle">Discover how companies improve efficiency, accuracy, and collaboration.</text>
+
+    <!-- 3 testimonial cards -->
+    <g>
+      <!-- card 1 -->
+      <rect x="120" y="2000" width="380" height="200" rx="14" fill="#f5f5f7"/>
+      <text x="152" y="2050" font-size="48" font-weight="700" fill="#0b9c92">&#8220;</text>
+      <text x="152" y="2092" font-size="14" fill="#5c5f62">Since we switched to this portal, our logistics</text>
+      <text x="152" y="2112" font-size="14" fill="#5c5f62">team has full transparency and tracking.</text>
+      <circle cx="168" cy="2158" r="18" fill="#007167"/>
+      <text x="168" y="2164" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">S</text>
+      <text x="196" y="2154" font-size="14" font-weight="600" fill="#3d4246">Sarah Jenkins</text>
+      <text x="196" y="2174" font-size="12" fill="#8b8e91">Logistics Manager, Industrial Co.</text>
+
+      <!-- card 2 -->
+      <rect x="530" y="2000" width="380" height="200" rx="14" fill="#f5f5f7"/>
+      <text x="562" y="2050" font-size="48" font-weight="700" fill="#0b9c92">&#8220;</text>
+      <text x="562" y="2092" font-size="14" fill="#5c5f62">Having instant order tracking is a game-changer</text>
+      <text x="562" y="2112" font-size="14" fill="#5c5f62">for our logistics planning.</text>
+      <circle cx="578" cy="2158" r="18" fill="#007167"/>
+      <text x="578" y="2164" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">M</text>
+      <text x="606" y="2154" font-size="14" font-weight="600" fill="#3d4246">Michael Chen</text>
+      <text x="606" y="2174" font-size="12" fill="#8b8e91">Operations Director, Tech Manufacturing</text>
+
+      <!-- card 3 -->
+      <rect x="940" y="2000" width="380" height="200" rx="14" fill="#f5f5f7"/>
+      <text x="972" y="2050" font-size="48" font-weight="700" fill="#0b9c92">&#8220;</text>
+      <text x="972" y="2092" font-size="14" fill="#5c5f62">An amazing platform for collaboration. Our</text>
+      <text x="972" y="2112" font-size="14" fill="#5c5f62">teams share order history in one place.</text>
+      <circle cx="988" cy="2158" r="18" fill="#007167"/>
+      <text x="988" y="2164" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">E</text>
+      <text x="1016" y="2154" font-size="14" font-weight="600" fill="#3d4246">Emily Rodriguez</text>
+      <text x="1016" y="2174" font-size="12" fill="#8b8e91">Procurement Lead, Global Industries</text>
+    </g>
+    <!-- dots -->
+    <circle cx="700" cy="2232" r="5" fill="#007167"/>
+    <circle cx="720" cy="2232" r="5" fill="#d7d9db"/>
+    <circle cx="740" cy="2232" r="5" fill="#d7d9db"/>
+  </g>
+
+  <!-- ============ FAQ ============ -->
+  <g>
+    <rect x="0" y="2260" width="1440" height="480" fill="#f5f5f7"/>
+    <!-- left -->
+    <text x="120" y="2360" font-size="34" font-weight="700" fill="#3d4246">Frequently Asked</text>
+    <text x="120" y="2402" font-size="34" font-weight="700" fill="#3d4246">Questions</text>
+    <text x="120" y="2444" font-size="15" fill="#5c5f62">We compiled a list of answers to address</text>
+    <text x="120" y="2466" font-size="15" fill="#5c5f62">your most pressing questions.</text>
+    <!-- right accordion -->
+    <g>
+      <rect x="620" y="2330" width="700" height="64" rx="10" fill="#ffffff" stroke="#e5e7eb"/>
+      <path d="M652 2356l5 5-5 5" stroke="#007167" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="684" y="2367" font-size="16" font-weight="600" fill="#3d4246">How can I contact customer support?</text>
+
+      <rect x="620" y="2410" width="700" height="64" rx="10" fill="#ffffff" stroke="#e5e7eb"/>
+      <path d="M652 2436l5 5-5 5" stroke="#4c4d57" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="684" y="2447" font-size="16" font-weight="600" fill="#3d4246">What services do you offer?</text>
+
+      <rect x="620" y="2490" width="700" height="64" rx="10" fill="#ffffff" stroke="#e5e7eb"/>
+      <path d="M652 2516l5 5-5 5" stroke="#4c4d57" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="684" y="2527" font-size="16" font-weight="600" fill="#3d4246">What types of products are offered?</text>
+
+      <rect x="620" y="2570" width="700" height="64" rx="10" fill="#ffffff" stroke="#e5e7eb"/>
+      <path d="M652 2596l5 5-5 5" stroke="#4c4d57" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="684" y="2607" font-size="16" font-weight="600" fill="#3d4246">What types of contents are offered?</text>
+    </g>
+  </g>
+
+  <!-- ============ CTA ============ -->
+  <g>
+    <rect x="0" y="2740" width="1440" height="280" fill="#007167"/>
+    <circle cx="200" cy="2790" r="150" fill="#ffffff" opacity="0.05"/>
+    <circle cx="1260" cy="2960" r="170" fill="#ffffff" opacity="0.05"/>
+    <text x="720" y="2848" font-size="36" font-weight="700" fill="#ffffff" text-anchor="middle">Ready to get started?</text>
+    <text x="720" y="2888" font-size="16" fill="#cfe6e2" text-anchor="middle">Join thousands of companies managing their NETZSCH equipment more efficiently.</text>
+    <rect x="590" y="2924" width="160" height="50" rx="8" fill="#ffffff"/>
+    <text x="670" y="2955" font-size="15" font-weight="600" fill="#007167" text-anchor="middle">Create Account</text>
+    <rect x="766" y="2924" width="120" height="50" rx="8" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="826" y="2955" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Log In</text>
+  </g>
+
+  <!-- ============ FOOTER ============ -->
+  <g>
+    <rect x="0" y="3020" width="1440" height="300" fill="#2b2f33"/>
+    <text x="120" y="3092" font-size="22" font-weight="700" letter-spacing="1" fill="#ffffff">NETZSCH</text>
+
+    <text x="120" y="3160" font-size="14" font-weight="600" fill="#ffffff">NETZSCH Website</text>
+    <text x="120" y="3190" font-size="13" fill="#a9adb0">Grinding &amp; Dispersing</text>
+    <text x="120" y="3214" font-size="13" fill="#a9adb0">Process Technology</text>
+
+    <text x="440" y="3160" font-size="14" font-weight="600" fill="#ffffff">Online Shop</text>
+    <text x="440" y="3190" font-size="13" fill="#a9adb0">Grinding Conditions</text>
+    <text x="440" y="3214" font-size="13" fill="#a9adb0">Grinding Beads</text>
+    <text x="440" y="3238" font-size="13" fill="#a9adb0">View all Conditions</text>
+
+    <text x="760" y="3160" font-size="14" font-weight="600" fill="#ffffff">Legal</text>
+    <text x="760" y="3190" font-size="13" fill="#a9adb0">Privacy Policy</text>
+    <text x="760" y="3214" font-size="13" fill="#a9adb0">Imprint</text>
+    <text x="760" y="3238" font-size="13" fill="#a9adb0">Terms of Use</text>
+
+    <text x="1080" y="3160" font-size="14" font-weight="600" fill="#ffffff">Connect</text>
+    <text x="1080" y="3190" font-size="13" fill="#a9adb0">Contact Our Team</text>
+    <circle cx="1090" cy="3222" r="15" fill="#3c4146"/>
+    <circle cx="1128" cy="3222" r="15" fill="#3c4146"/>
+
+    <line x1="120" y1="3272" x2="1320" y2="3272" stroke="#3c4146" stroke-width="1"/>
+    <text x="120" y="3298" font-size="12" fill="#7f8386">© 2026 NETZSCH Grinding &amp; Dispersing. All rights reserved.</text>
+  </g>
+</svg>
