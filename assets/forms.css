@@ -1,0 +1,172 @@
+/* ═══════════════════════════════════════════════════════
+   NETZSCH Customer Portal — Form Design System
+   Reusable field / label / input / select / textarea + validation.
+   Drop-in compatible: cobre os aliases já usados no projeto
+   (.form-* do admin/modal, .field-* de auth/contact, validação
+   do form-validation.js). Consolida foco, cores e o chevron do select.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── CSS VARIABLES ─── */
+:root {
+  /* Input geometry (canônico = família .form-* do admin/modal) */
+  --input-height: 42px;
+  --input-radius: 10px;
+  --input-pad-x: 14px;
+  --input-border: #d1d5db;
+  --input-bg: #fff;
+  --input-text: #1f2937;
+  --input-placeholder: #9ca3af;
+  --input-font: 14px;
+
+  /* Label */
+  --label-size: 13px;
+  --label-weight: 600;
+  --label-color: #374151;        /* ~8:1 sobre #fff (AAA) */
+
+  /* Focus (idêntico em 123 ocorrências no projeto) */
+  --field-focus-border: #007167;
+  --field-focus-ring: 0 0 0 3px rgba(0, 113, 103, 0.1);
+
+  /* Validation */
+  --field-valid-border: #007167;
+  --field-error-border: #d93025; /* mesmo vermelho do form-validation.js */
+  --field-error-text: #d93025;
+  --field-required: #c73e20;     /* marcador * (NETZSCH danger) */
+
+  /* Select chevron (SVG inline, evita duplicação por página) */
+  --select-chevron: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* ── FIELD WRAPPERS ─── */
+/* Coluna label+input (admin/modal) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+/* Bloco de campo empilhado (contact-support) */
+.field-group {
+  margin-bottom: 16px;
+}
+.field-group:last-child { margin-bottom: 0; }
+
+/* Linha multi-coluna */
+.form-row {          /* admin: flex igual-peso */
+  display: flex;
+  gap: 12px;
+}
+.field-row {         /* contact: grid 2 colunas */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── LABELS ─── */
+.form-label,
+.field-label {
+  display: block;
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  color: var(--label-color);
+}
+/* .field-group empilha label acima do input com respiro próprio */
+.field-group .field-label { margin-bottom: 8px; }
+
+.form-label .required,
+.field-label .required { color: var(--field-required); }
+
+.form-label .optional,
+.field-label .optional {
+  font-weight: 400;
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* ── INPUTS / SELECT / TEXTAREA ─── */
+.form-input,
+.form-select {
+  width: 100%;
+  height: var(--input-height);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-radius);
+  padding: 0 var(--input-pad-x);
+  font-family: 'Inter', sans-serif;
+  font-size: var(--input-font);
+  color: var(--input-text);
+  background: var(--input-bg);
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-radius);
+  padding: 10px var(--input-pad-x);
+  font-family: 'Inter', sans-serif;
+  font-size: var(--input-font);
+  color: var(--input-text);
+  background: var(--input-bg);
+  resize: vertical;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder,
+.form-select::placeholder { color: var(--input-placeholder); }
+
+/* ── SELECT (appearance + chevron consolidado) ─── */
+.form-select,
+.subject-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 36px;
+  cursor: pointer;
+  background-image: var(--select-chevron);
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+/* .subject-select (contact) herda a base .form-input via markup;
+   se usada sozinha, garante a mesma caixa */
+.subject-select {
+  width: 100%;
+  height: var(--input-height);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-radius);
+  padding-left: var(--input-pad-x);
+  font-family: 'Inter', sans-serif;
+  font-size: var(--input-font);
+  color: var(--label-color);
+  background-color: var(--input-bg);
+}
+
+/* ── FOCUS (compartilhado por todas as famílias) ─── */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus,
+.subject-select:focus,
+.field-input:focus {
+  outline: none;
+  border-color: var(--field-focus-border);
+  box-shadow: var(--field-focus-ring);
+}
+
+/* ── VALIDATION STATES ─── */
+/* Torna nativo o que o form-validation.js injetava como fallback */
+.form-input.error,
+.form-textarea.error,
+.form-select.error,
+.subject-select.error,
+.field-input.error { border-color: var(--field-error-border); }
+
+.form-input.valid,
+.form-textarea.valid,
+.field-input.valid { border-color: var(--field-valid-border); }
+
+.field-error {
+  font-size: 12px;
+  color: var(--field-error-text);
+  margin-top: 4px;
+  display: none;
+}
+.field-error.visible { display: block; }
