@@ -19,9 +19,40 @@
   (cada uma: linkar `empty-states.css` + remover o bloco `.empty-state*` inline)
 - **Criar páginas 404 e 500** (não existem) usando a variante `.empty-state--page`, com ação de saída.
 
-### CP-627 — `modals.css` + `forms.css`
-- Não existem. Modais em ~46 páginas, forms em ~10 — fixes de scroll/footer/z-index estão inline.
-- Consolidar tokens/base. (Ajuda a padronizar a CP-626.)
+### CP-627 — `modals.css` + `forms.css`  🚧 EM ANDAMENTO
+- ✅ Criados `assets/modals.css` e `assets/forms.css` (tokenizados, drop-in).
+- ✅ `admin-users.html` migrado como referência (modal + form) — provou os dois componentes.
+- Adição de `<link>` é **não-destrutiva**: o link fica no `<head>` antes do `<style>` inline,
+  então o inline vence até ser removido. Migrar uma página = linkar + apagar o inline redundante.
+
+**Levantamento (o projeto tem várias famílias convivendo — triar por ARQUÉTIPO, não por nome de classe):**
+
+Modais — 4 arquétipos distintos que reusam nomes de classe com valores diferentes:
+1. **Form/detalhe** (`.modal` 480px, header/body/footer) — admin-users, mastermix45. → **coberto** por modals.css.
+2. **Confirmação** (`.modal`/`.modal-box` centralizado, padding 32px, `.modal-actions` center, botões-pílula) —
+   wishlist, login (logout). → NÃO migrar direto: precisa de um modifier `.modal--confirm` (decisão pendente) ou manter override inline.
+3. **Service Request** (`.sr-modal-*`, wrapper 680px, close fora do card, estados form/success) — zeta60, discus30. → família própria, fase 2.
+4. **Drawing/Milla** (`.drawing-lightbox`, `.milla-modal`) — lightbox de imagem / IA. → família própria, fase 2.
+
+Estados de "aberto" cobertos pelo componente: `.visible`, `.is-open`, `.open` (overlay) e `.show`, `.open` (drawer).
+
+Drawer lateral (quick view / tracking) — arquétipo único, **coberto**: orders, dashboard, order-detail, contracts, lab-tests, checkout-confirmation (chrome do drawer; timeline/seções ficam inline por serem específicas).
+
+Forms — 3 convenções:
+- **A) Auth** (`.field`/`.field-input`/`.field-label` 14/500/#6b7280, borda 1.5px, radius 12) — login/register/forgot/reset.
+  Família visual distinta → migrar só se aceitar convergência; hoje o componente NÃO restyla a auth.
+- **B) Admin/modal** (`.form-group`/`.form-label`/`.form-input` 42px, borda 1px #d1d5db, radius 10) → **canônico** em forms.css.
+- **C) Contact** (`.field-group`/`.field-label` bloco + `.form-input`/`.form-textarea`/`.subject-select` 40px, borda #b1b4b7) →
+   migrável; converge p/ 42px + borda #d1d5db (normalização intencional — validar visual na 1ª migração).
+
+**Convergências decididas nos tokens:** input 42px / borda `#d1d5db` / radius 10 · erro `#d93025` (mesmo do form-validation.js) ·
+required `#c73e20` · foco `0 0 0 3px rgba(0,113,103,.1)`. Validação (`.error`/`.field-error.visible`/`.valid`) agora é nativa (o form-validation.js parava de injetar fallback).
+
+**Próximas migrações (ordem sugerida, uma por commit, validando na URL):**
+- Forms admin/modal (match perfeito): páginas com `.form-group`/`.form-input` iguais ao admin.
+- Drawer: orders → dashboard → order-detail → contracts → lab-tests → checkout-confirmation (só o chrome).
+- Contact-support (aceitar convergência 40→42px).
+- Decidir `.modal--confirm` para o arquétipo de confirmação (wishlist/login).
 
 ### CP-626 — Layout novo nas máquinas
 - **AlphaZeta 10** e **ProPhi** ainda no layout antigo (sem accordion/modais, ~1900 linhas).
