@@ -25,6 +25,17 @@
 - ✅ Drawer migrado: `orders`, `dashboard` (1:1), `contracts` + `lab-tests` (override `width:420px`).
 - ⏭️ `order-detail` (drawer centralizado, sem slide, close 44px) e `checkout-confirmation`
   (backdrop blur + sombra -8px + easing spring + close 44px) NÃO migrados: variantes distintas, ficam inline.
+- ✅ Form migrado: `contact-support` e `service-request` (forms.css + override que preserva geometria própria
+  — altura 40px, borda #b1b4b7, chevron #9ca3af, textarea 100px, field-group 20px). Validação agora nativa.
+- 🟠 **Decisão de normalização pendente** — as outras 10 páginas de form NÃO são 1:1 e migrar = mudança visível:
+  - `checkout-order-details`: input 44px, radius 12, borda rgba(0,0,0,.12) + hover, label weight 500.
+  - `production-monitoring`: input 44px, box-shadow duplo, **foco #0b9c92** (verde-2, não #007167), label 500.
+  - `service-request-submitted`: input 44px, radius 12, bg #fafbfc, label 14px/#1f2937.
+  - `shop-product-*` (7 iguais): **NÃO é form** — é painel de config de produto (select 44px/radius 12,
+    asterisco via `.form-label span`, estado `.form-select.selected` do JS). Migrar quebraria asterisco/estado.
+  → Só migrar essas se você decidir **normalizar tudo p/ um visual único** (aceitar as mudanças). Aí converjo em lote.
+- ⏭️ **Passo 2 = Opção B (decidido):** modais de confirmação (`wishlist`, `login`) ficam inline.
+  NÃO criar `.modal--confirm`. Arquétipo de confirmação fora do sistema por ora.
 - Adição de `<link>` é **não-destrutiva**: o link fica no `<head>` antes do `<style>` inline,
   então o inline vence até ser removido. Migrar uma página = linkar + apagar o inline redundante.
 
