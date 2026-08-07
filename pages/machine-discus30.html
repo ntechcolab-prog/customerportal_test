@@ -2810,7 +2810,14 @@ document.addEventListener('click', function(e) {
     .subset-modal-option svg { width: 16px; height: 16px; color: #9ca3af; flex-shrink: 0; }
     .subset-modal-option:hover svg { color: #007167; }
     /* Results state — green header + reuses .milla-results / .milla-results-table for the body */
-    .subset-green-head { background: linear-gradient(135deg, #007167 0%, #0b9c92 100%); padding: 16px 24px; flex-shrink: 0; }
+    .subset-green-head { position: relative; background: linear-gradient(135deg, #007167 0%, #0b9c92 100%); padding: 16px 24px; flex-shrink: 0; }
+    .subset-green-bar .chev { transition: transform 0.25s; }
+    .subset-green-bar.open .chev { transform: rotate(180deg); }
+    .subset-switch-dropdown { position: absolute; top: calc(100% - 6px); left: 24px; right: 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 12px 28px rgba(0,0,0,0.16); padding: 6px; z-index: 30; opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.32,0.72,0,1); }
+    .subset-switch-dropdown.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .subset-switch-option { display: block; width: 100%; text-align: left; padding: 12px 14px; background: none; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .subset-switch-option:hover { background: #f0faf9; color: #007167; }
+    .subset-switch-option.is-current { background: #e6f4f3; color: #007167; font-weight: 600; }
     .subset-green-bar { display: flex; align-items: center; gap: 12px; width: 100%; height: 46px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 0 16px; cursor: pointer; transition: background 0.15s; }
     .subset-green-bar:hover { background: rgba(255,255,255,0.22); }
     .subset-green-bar .doc { width: 18px; height: 18px; color: #fff; flex-shrink: 0; }
@@ -2850,6 +2857,12 @@ document.addEventListener('click', function(e) {
               <span id="subset-results-name">Subset</span>
               <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
+            <div class="subset-switch-dropdown" id="subset-switch-dropdown">
+              <button type="button" class="subset-switch-option" data-subset="Sealings FFKM">Sealings FFKM</button>
+              <button type="button" class="subset-switch-option" data-subset="Complete bearing">Complete bearing</button>
+              <button type="button" class="subset-switch-option" data-subset="Grinding chamber complete">Grinding chamber complete</button>
+              <button type="button" class="subset-switch-option" data-subset="Inlet flange complete">Inlet flange complete</button>
+            </div>
           </div>
           <div class="milla-results">
             <div class="milla-results-header">
@@ -2888,6 +2901,8 @@ document.addEventListener('click', function(e) {
     var resName = document.getElementById('subset-results-name');
     var resCount = document.getElementById('subset-results-count');
     var resBody = document.getElementById('subset-results-tbody');
+    var switchDd = document.getElementById('subset-switch-dropdown');
+    var greenBar = document.getElementById('subset-results-back');
 
     var subsetData = {
       "Sealings FFKM": [
@@ -2932,6 +2947,7 @@ document.addEventListener('click', function(e) {
     function showResults(name) {
       var parts = subsetData[name] || [];
       resName.textContent = name;
+      if (switchDd) { switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.toggle('is-current', o.getAttribute('data-subset') === name); }); }
       resCount.textContent = parts.length + (parts.length === 1 ? ' result' : ' results');
       resBody.innerHTML = parts.map(rowHtml).join('');
       listState.style.display = 'none';
@@ -2940,7 +2956,25 @@ document.addEventListener('click', function(e) {
 
     trigger.addEventListener('click', openModal);
     document.getElementById('subset-modal-close').addEventListener('click', closeModal);
-    document.getElementById('subset-results-back').addEventListener('click', showList);
+    // Green bar = trocar de subset no lugar (dropdown), sem voltar à lista
+    greenBar.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = switchDd.classList.toggle('open');
+      greenBar.classList.toggle('open', isOpen);
+    });
+    switchDd.querySelectorAll('.subset-switch-option').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        showResults(opt.getAttribute('data-subset'));
+        switchDd.classList.remove('open');
+        greenBar.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (switchDd.classList.contains('open') && !e.target.closest('.subset-green-head')) {
+        switchDd.classList.remove('open');
+        greenBar.classList.remove('open');
+      }
+    });
     overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
     overlay.querySelectorAll('.subset-modal-option').forEach(function(opt) {
