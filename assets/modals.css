@@ -92,6 +92,12 @@
 }
 .modal-close:hover { background: #f3f4f6; }
 .modal-close svg { width: 20px; height: 20px; }
+/* Foco visível AAA (teclado) — vale para close de modal e de drawer */
+.modal-close:focus-visible,
+.drawer-close:focus-visible {
+  outline: 2px solid #007167;
+  outline-offset: 2px;
+}
 
 /* ── BODY ─── */
 .modal-body {
