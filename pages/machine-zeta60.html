@@ -2819,6 +2819,9 @@ document.addEventListener('click', function(e) {
     .subset-switch-option { display: block; width: 100%; text-align: left; padding: 12px 14px; background: none; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer; transition: background 0.15s, color 0.15s; }
     .subset-switch-option:hover { background: #f0faf9; color: #007167; }
     .subset-switch-option.is-current { background: #e6f4f3; color: #007167; font-weight: 600; }
+    .subset-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; padding: 56px 24px; min-height: 240px; }
+    .subset-empty svg { width: 40px; height: 40px; color: #d1d5db; }
+    .subset-empty p { font-size: 14px; color: #6b7280; margin: 0; }
     .subset-green-bar { display: flex; align-items: center; gap: 12px; width: 100%; height: 46px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 0 16px; cursor: pointer; transition: background 0.15s; }
     .subset-green-bar:hover { background: rgba(255,255,255,0.22); }
     .subset-green-bar .doc { width: 18px; height: 18px; color: #fff; flex-shrink: 0; }
@@ -2832,30 +2835,11 @@ document.addEventListener('click', function(e) {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
       <div class="subset-modal-box">
-        <!-- State 1: subset list -->
-        <div id="subset-list-state">
-          <div class="subset-modal-head">
-            <div class="subset-modal-head-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-            </div>
-            <div>
-              <h2 data-i18n="machine.selectSubset">Select subset</h2>
-              <p>Choose an assembly to see its spare parts</p>
-            </div>
-          </div>
-          <div class="subset-modal-list">
-            <button type="button" class="subset-modal-option" data-subset="Sealings FFKM"><span>Sealings FFKM</span><svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <button type="button" class="subset-modal-option" data-subset="Complete bearing"><span>Complete bearing</span><svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <button type="button" class="subset-modal-option" data-subset="Grinding chamber complete"><span>Grinding chamber complete</span><svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <button type="button" class="subset-modal-option" data-subset="Inlet flange complete"><span>Inlet flange complete</span><svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          </div>
-        </div>
-        <!-- State 2: parts results (Milla-style, inside the modal) -->
-        <div id="subset-results-state" style="display:none;">
+        <div id="subset-results-state">
           <div class="subset-green-head">
             <button type="button" class="subset-green-bar" id="subset-results-back" aria-label="Change subset">
               <svg class="doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              <span id="subset-results-name">Subset</span>
+              <span id="subset-results-name">Select subset</span>
               <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="subset-switch-dropdown" id="subset-switch-dropdown">
@@ -2865,7 +2849,12 @@ document.addEventListener('click', function(e) {
               <button type="button" class="subset-switch-option" data-subset="Inlet flange complete">Inlet flange complete</button>
             </div>
           </div>
-          <div class="milla-results">
+          <!-- Placeholder: no subset chosen yet -->
+          <div class="subset-empty" id="subset-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <p>Choose an assembly to see its spare parts</p>
+          </div>
+          <div class="milla-results" id="subset-results-body" style="display:none;">
             <div class="milla-results-header">
               <h3 class="milla-results-title">Spare Parts Found</h3>
               <span class="milla-results-count" id="subset-results-count">0 results</span>
@@ -2897,8 +2886,8 @@ document.addEventListener('click', function(e) {
     var overlay = document.getElementById('subset-modal-overlay');
     var trigger = document.getElementById('subset-trigger');
     if (!overlay || !trigger) return;
-    var listState = document.getElementById('subset-list-state');
-    var resultsState = document.getElementById('subset-results-state');
+    var emptyState = document.getElementById('subset-empty');
+    var resultsBody = document.getElementById('subset-results-body');
     var resName = document.getElementById('subset-results-name');
     var resCount = document.getElementById('subset-results-count');
     var resBody = document.getElementById('subset-results-tbody');
@@ -2942,17 +2931,23 @@ document.addEventListener('click', function(e) {
         + '</span></td></tr>';
     }
 
-    function openModal() { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; showList(); }
+    function openModal() { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; resetToEmpty(); }
     function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
-    function showList() { resultsState.style.display = 'none'; listState.style.display = ''; }
+    function resetToEmpty() {
+      resName.textContent = 'Select subset';
+      emptyState.style.display = '';
+      resultsBody.style.display = 'none';
+      switchDd.classList.remove('open'); greenBar.classList.remove('open');
+      switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.remove('is-current'); });
+    }
     function showResults(name) {
       var parts = subsetData[name] || [];
       resName.textContent = name;
-      if (switchDd) { switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.toggle('is-current', o.getAttribute('data-subset') === name); }); }
+      switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.toggle('is-current', o.getAttribute('data-subset') === name); });
       resCount.textContent = parts.length + (parts.length === 1 ? ' result' : ' results');
       resBody.innerHTML = parts.map(rowHtml).join('');
-      listState.style.display = 'none';
-      resultsState.style.display = '';
+      emptyState.style.display = 'none';
+      resultsBody.style.display = '';
     }
 
     trigger.addEventListener('click', openModal);
@@ -2978,10 +2973,6 @@ document.addEventListener('click', function(e) {
     });
     overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
-    overlay.querySelectorAll('.subset-modal-option').forEach(function(opt) {
-      opt.addEventListener('click', function() { showResults(opt.getAttribute('data-subset')); });
-    });
-
     // Drawing zoom — own lightbox (the Milla one is nested in a closed overlay)
     var sDraw = document.getElementById('subset-drawing');
     var sLightbox = document.getElementById('subset-drawing-lightbox');
