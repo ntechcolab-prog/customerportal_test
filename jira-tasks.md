@@ -20,8 +20,11 @@
 - **Criar páginas 404 e 500** (não existem) usando a variante `.empty-state--page`, com ação de saída.
 
 ### CP-627 — `modals.css` + `forms.css`  🚧 EM ANDAMENTO
-- ✅ Criados `assets/modals.css` e `assets/forms.css` (tokenizados, drop-in).
+- ✅ Criados `assets/modals.css` e `assets/forms.css` (tokenizados, drop-in) + focus-visible AAA no close.
 - ✅ `admin-users.html` migrado como referência (modal + form) — provou os dois componentes.
+- ✅ Drawer migrado: `orders`, `dashboard` (1:1), `contracts` + `lab-tests` (override `width:420px`).
+- ⏭️ `order-detail` (drawer centralizado, sem slide, close 44px) e `checkout-confirmation`
+  (backdrop blur + sombra -8px + easing spring + close 44px) NÃO migrados: variantes distintas, ficam inline.
 - Adição de `<link>` é **não-destrutiva**: o link fica no `<head>` antes do `<style>` inline,
   então o inline vence até ser removido. Migrar uma página = linkar + apagar o inline redundante.
 
@@ -49,10 +52,11 @@ Forms — 3 convenções:
 required `#c73e20` · foco `0 0 0 3px rgba(0,113,103,.1)`. Validação (`.error`/`.field-error.visible`/`.valid`) agora é nativa (o form-validation.js parava de injetar fallback).
 
 **Próximas migrações (ordem sugerida, uma por commit, validando na URL):**
-- Forms admin/modal (match perfeito): páginas com `.form-group`/`.form-input` iguais ao admin.
-- Drawer: orders → dashboard → order-detail → contracts → lab-tests → checkout-confirmation (só o chrome).
-- Contact-support (aceitar convergência 40→42px).
+- Forms admin/modal (match perfeito): demais páginas com `.form-group`/`.form-input` iguais ao admin.
+- Modais de formulário/detalhe (`.modal` 480px) em outras páginas que sigam o arquétipo do admin.
+- Contact-support (aceitar convergência 40→42px + borda #b1b4b7→#d1d5db).
 - Decidir `.modal--confirm` para o arquétipo de confirmação (wishlist/login).
+- Fase 2 (famílias próprias): `.sr-modal-*` (Service Request), `.drawing-*`/`.milla-*`.
 
 ### CP-626 — Layout novo nas máquinas
 - **AlphaZeta 10** e **ProPhi** ainda no layout antigo (sem accordion/modais, ~1900 linhas).
