@@ -1,6 +1,21 @@
-# NETZSCH Customer Portal — Sprint do gerente (status verificado no código)
+# NETZSCH Customer Portal — Backlog
 
-> Última atualização: 30/07 — status conferido direto no código.
+> Última atualização: 07/08 — status conferido no código.
+> Duas frentes: **Sprint do gerente** (HTML/CSS) e **Figma** (mocks & fluxos).
+
+## 📋 Resumo do backlog
+
+| ID | Item | Frente | Status | Notas |
+|----|------|--------|--------|-------|
+| CP-582 | Componente empty-state (`empty-states.css`) | HTML | ✅ Feito | referência: `orders` |
+| CP-572 | Empty states + telas 404/500 | HTML | ✅ Feito | resíduo inline trivial em ~12 pgs |
+| CP-627 | `modals.css` + `forms.css` | HTML | 🚧 Em andamento | 2 componentes + 12 pgs migradas |
+| CP-626 | Layout novo nas máquinas | HTML | 🔴 Pendente | AlphaZeta10, ProPhi, MasterMix45 |
+| CP-585 | Skeleton no detalhe de máquina | HTML | 🔴 Pendente | zeta60/discus30/mastermix45 |
+| CP-586 | Skeleton no resto | HTML | 🟡 Extra | mapear o que falta |
+| CP-584 | Contact Support | HTML | ✅ Existe | só revalidar |
+| FIG-01 | Fluxos no Figma (Sections + Prototype) | Figma | 🚧 Em andamento | Login+Registro ✅; faltam 11 + índice |
+| DOC-01 | `flows.md` (mapa de fluxos) | Docs | ✅ Feito | manter em sync c/ código+Figma |
 
 ## ✅ Feito
 
@@ -80,3 +95,19 @@ required `#c73e20` · foco `0 0 0 3px rgba(0,113,103,.1)`. Validação (`.error`
 ## Extras da sprint (se sobrar tempo)
 - **CP-586** — Skeleton no resto (`skeleton.css` já em 16 páginas; mapear o que falta).
 - **CP-584** — Contact Support: `pages/contact-support.html` **já existe**, só revalidar.
+
+## 🎨 Figma — Fluxos & Documentação
+
+### FIG-01 — Fluxos navegáveis no Figma (Sections + Prototype)  🚧 EM ANDAMENTO
+Arquivo de mocks `PwX3Yv0B79GW2Thv9IMDjZ`. Para cada um dos 13 fluxos (numeração `00–12` do `flows.md`):
+- **Section nomeada** no canvas envolvendo as telas do fluxo.
+- **Prototype flow** navegável (ponto de partida + conexões clicáveis). Connectors do FigJam são
+  bloqueados no design → usar Prototype nativo.
+- ✅ **Feitos como prova:** `01 Login` (+ Login SSO) e `02 Registro` — página Auth & Registration.
+- ⏳ **Faltam 11:** 00 Público · 03 Dashboard · 04 Máquinas · 05 Shop · 06 Checkout · 07 Orders ·
+  08 Quotes · 09 Serviços · 10 Budget · 11 Admin · 12 Suporte.
+- **Página "🗺️ Índice de Fluxos"** (capa) listando os 13 com link pra cada Section.
+
+### DOC-01 — `flows.md` (mapa de fluxos)  ✅ FEITO
+- 13 flow cards + matriz `fluxo × role` (fiel ao `assets/role-guard.js`). Versionado no repo.
+- **Regra:** quando um fluxo mudar no código/Figma, atualizar o `flows.md` **no mesmo commit**.
