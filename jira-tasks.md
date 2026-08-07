@@ -16,6 +16,8 @@
 | CP-584 | Contact Support | HTML | ✅ Existe | só revalidar |
 | FIG-01 | Fluxos no Figma (Sections + Prototype) | Figma | 🚧 Em andamento | Login+Registro ✅; faltam 11 + índice |
 | DOC-01 | `flows.md` (mapa de fluxos) | Docs | ✅ Feito | manter em sync c/ código+Figma |
+| UI-01 | Padronizar ícones do botão "Track" | HTML | 🔴 Pendente | conferir se são iguais em todas as telas |
+| UI-02 | Padronizar steps de Orders e Quotes | HTML | 🔴 Pendente | design do stepper difere em vários lugares |
 
 ## ✅ Feito
 
@@ -111,3 +113,15 @@ Arquivo de mocks `PwX3Yv0B79GW2Thv9IMDjZ`. Para cada um dos 13 fluxos (numeraç�
 ### DOC-01 — `flows.md` (mapa de fluxos)  ✅ FEITO
 - 13 flow cards + matriz `fluxo × role` (fiel ao `assets/role-guard.js`). Versionado no repo.
 - **Regra:** quando um fluxo mudar no código/Figma, atualizar o `flows.md` **no mesmo commit**.
+
+## 🎯 Padronização / UI consistency
+
+### UI-01 — Padronizar ícones do botão "Track"  🔴 PENDENTE
+- Conferir se **todos os ícones do botão de Track estão iguais** em todas as telas onde aparece
+  (ex.: `orders`, `order-detail`, `dashboard` — Recent Orders, e onde mais houver Track).
+- Hoje há suspeita de **divergência de ícone** entre telas. Levantar todos, definir o canônico e padronizar.
+
+### UI-02 — Padronizar steps de Orders e Quotes  🔴 PENDENTE
+- O **design dos steps (stepper / progresso)** está **diferente em vários lugares**.
+- Revisar e padronizar o stepper em **Orders** e **Quotes** (e telas relacionadas: `order-detail`, `quote-detail`,
+  fluxo de checkout se aplicável). Definir um padrão único e aplicar.
