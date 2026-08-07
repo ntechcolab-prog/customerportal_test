@@ -2779,7 +2779,7 @@ document.addEventListener('click', function(e) {
       opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
     }
     .subset-modal-overlay.open { opacity: 1; pointer-events: auto; }
-    .subset-modal-wrapper { position: relative; width: 520px; max-width: 92vw; }
+    .subset-modal-wrapper { position: relative; width: 680px; max-width: 92vw; }
     .subset-modal-close {
       position: absolute; top: -36px; right: 0; width: 28px; height: 28px;
       border-radius: 50%; background: rgba(255, 255, 255, 0.25); border: none;
@@ -2810,22 +2810,13 @@ document.addEventListener('click', function(e) {
     .subset-modal-option:hover { border-color: #007167; background: #f0faf9; color: #007167; }
     .subset-modal-option svg { width: 16px; height: 16px; color: #9ca3af; flex-shrink: 0; }
     .subset-modal-option:hover svg { color: #007167; }
-    /* Results state (parts open inside the modal) */
-    .subset-results-head { display: flex; align-items: center; gap: 12px; padding: 20px 24px 12px; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; }
-    .subset-back { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e5e7eb; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #6b7280; flex-shrink: 0; transition: background 0.15s, border-color 0.15s, color 0.15s; }
-    .subset-back:hover { background: #f0faf9; border-color: #007167; color: #007167; }
-    .subset-back svg { width: 16px; height: 16px; }
-    .subset-results-head h2 { font-size: 16px; font-weight: 700; color: #1f2937; margin: 0; letter-spacing: -0.2px; }
-    .subset-results-head p { font-size: 12px; color: #6b7280; margin: 2px 0 0; }
-    .subset-results-table-wrap { overflow-y: auto; padding: 8px 24px 24px; }
-    .subset-results-table { width: 100%; border-collapse: collapse; }
-    .subset-results-table thead th { text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #9ca3af; padding: 10px 8px; border-bottom: 1px solid #eaeaea; }
-    .subset-results-table th.num, .subset-results-table td.num { text-align: right; }
-    .subset-results-table tbody td { font-size: 13px; color: #374151; padding: 12px 8px; border-bottom: 1px solid #f3f4f6; }
-    .subset-results-table tbody tr:last-child td { border-bottom: none; }
-    .subset-results-table tbody tr:hover { background: rgba(0, 113, 103, 0.03); }
-    .subset-results-table .mono { font-family: 'SF Mono', ui-monospace, monospace; font-size: 12px; color: #6b7280; }
-    .subset-results-table .price { font-weight: 600; color: #1f2937; white-space: nowrap; }
+    /* Results state — green header + reuses .milla-results / .milla-results-table for the body */
+    .subset-green-head { background: linear-gradient(135deg, #007167 0%, #0b9c92 100%); padding: 16px 24px; flex-shrink: 0; }
+    .subset-green-bar { display: flex; align-items: center; gap: 12px; width: 100%; height: 46px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 0 16px; cursor: pointer; transition: background 0.15s; }
+    .subset-green-bar:hover { background: rgba(255,255,255,0.22); }
+    .subset-green-bar .doc { width: 18px; height: 18px; color: #fff; flex-shrink: 0; }
+    .subset-green-bar span { flex: 1; text-align: left; font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.2px; }
+    .subset-green-bar .chev { width: 18px; height: 18px; color: rgba(255,255,255,0.9); flex-shrink: 0; }
   </style>
   <div class="subset-modal-overlay" id="subset-modal-overlay">
     <div class="subset-modal-wrapper">
@@ -2851,22 +2842,29 @@ document.addEventListener('click', function(e) {
             <button type="button" class="subset-modal-option" data-subset="Inlet flange complete"><span>Inlet flange complete</span><svg viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           </div>
         </div>
-        <!-- State 2: parts results (open inside the modal) -->
+        <!-- State 2: parts results (Milla-style, inside the modal) -->
         <div id="subset-results-state" style="display:none;">
-          <div class="subset-results-head">
-            <button type="button" class="subset-back" id="subset-back" aria-label="Back">
-              <svg viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="subset-green-head">
+            <button type="button" class="subset-green-bar" id="subset-results-back" aria-label="Change subset">
+              <svg class="doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span id="subset-results-name">Subset</span>
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            <div>
-              <h2 id="subset-results-title">Subset</h2>
-              <p id="subset-results-count"></p>
-            </div>
           </div>
-          <div class="subset-results-table-wrap">
-            <table class="subset-results-table">
-              <thead><tr><th class="num">Itm</th><th>Material Nr.</th><th>Description</th><th class="num">Price/unit</th></tr></thead>
-              <tbody id="subset-results-tbody"></tbody>
-            </table>
+          <div class="milla-results">
+            <div class="milla-results-header">
+              <h3 class="milla-results-title">Spare Parts Found</h3>
+              <span class="milla-results-count" id="subset-results-count">0 results</span>
+            </div>
+            <div class="milla-results-drawing">
+              <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing">
+            </div>
+            <div class="milla-results-table-wrap">
+              <table class="milla-results-table">
+                <thead><tr><th>Itm</th><th>Material Nr.</th><th>Description</th><th>Price/unit</th><th></th></tr></thead>
+                <tbody id="subset-results-tbody"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -2879,55 +2877,99 @@ document.addEventListener('click', function(e) {
     if (!overlay || !trigger) return;
     var listState = document.getElementById('subset-list-state');
     var resultsState = document.getElementById('subset-results-state');
-    var resTitle = document.getElementById('subset-results-title');
+    var resName = document.getElementById('subset-results-name');
     var resCount = document.getElementById('subset-results-count');
     var resBody = document.getElementById('subset-results-tbody');
 
     var subsetData = {
       "Sealings FFKM": [
-        {i:"210", m:"518702", d:"Seal ring FFKM", p:"€42.00"},
-        {i:"211", m:"518703", d:"O-ring FFKM 80×3", p:"€18.50"},
-        {i:"212", m:"518709", d:"Gasket FFKM", p:"€24.00"}
+        {i:"210", m:"518702", d:"Seal ring FFKM", p:42.00},
+        {i:"211", m:"518703", d:"O-ring FFKM 80x3", p:18.50},
+        {i:"212", m:"518709", d:"Gasket FFKM", p:24.00}
       ],
       "Complete bearing": [
-        {i:"305", m:"524110", d:"Angular contact bearing", p:"€186.00"},
-        {i:"306", m:"524111", d:"Bearing sleeve", p:"€64.00"},
-        {i:"307", m:"524115", d:"Locking ring", p:"€12.00"}
+        {i:"801", m:"140045213", d:"Ring - AISI 304", p:75.89},
+        {i:"802", m:"140023995", d:"Ring for inner pipe", q:true}
       ],
       "Grinding chamber complete": [
-        {i:"410", m:"530220", d:"Grinding chamber liner", p:"€420.00"},
-        {i:"411", m:"530221", d:"Rotor disc", p:"€310.00"},
-        {i:"412", m:"530225", d:"Wear sleeve", p:"€95.00"}
+        {i:"410", m:"530220", d:"Grinding chamber liner", p:420.00},
+        {i:"411", m:"530221", d:"Rotor disc", p:310.00},
+        {i:"412", m:"530225", d:"Wear sleeve", p:95.00}
       ],
       "Inlet flange complete": [
-        {i:"900", m:"517225", d:"O-Ring", p:"€30.00"},
-        {i:"901", m:"535214", d:"O-ring - CERTS", p:"€30.00"},
-        {i:"902", m:"535841", d:"O-ring", p:"€30.00"},
-        {i:"903", m:"140045213", d:"Inlet flange", p:"€75.89"}
+        {i:"900", m:"517225", d:"O-Ring", p:30.00},
+        {i:"901", m:"535214", d:"O-ring - CERTS", p:30.00},
+        {i:"902", m:"535841", d:"O-ring", p:30.00},
+        {i:"903", m:"140045213", d:"Inlet flange", p:75.89}
       ]
     };
+
+    function rowHtml(r) {
+      var priceCell = r.q ? '<td class="quotation">Quotation</td>' : '<td>€' + r.p.toFixed(2) + '</td>';
+      return '<tr data-name="' + r.d + '" data-ref="' + r.m + '" data-price="' + (r.q ? '0' : r.p) + '"' + (r.q ? ' data-quotation="true"' : '') + '>'
+        + '<td>' + r.i + '</td>'
+        + '<td class="mono">' + r.m + '</td>'
+        + '<td>' + r.d + '</td>'
+        + priceCell
+        + '<td class="td-action"><span class="td-action-row">'
+        + '<span class="td-qty"><button type="button" class="td-qty-btn" data-dir="minus">−</button><input type="number" class="td-qty-val" value="1" min="1"><button type="button" class="td-qty-btn" data-dir="plus">+</button></span>'
+        + '<button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button>'
+        + '<button type="button" class="btn-wish-sm" aria-label="Add to wishlist"><svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg></button>'
+        + '</span></td></tr>';
+    }
 
     function openModal() { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; showList(); }
     function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
     function showList() { resultsState.style.display = 'none'; listState.style.display = ''; }
     function showResults(name) {
       var parts = subsetData[name] || [];
-      resTitle.textContent = name;
-      resCount.textContent = parts.length + (parts.length === 1 ? ' part' : ' parts');
-      resBody.innerHTML = parts.map(function(r) {
-        return '<tr><td class="num">' + r.i + '</td><td class="mono">' + r.m + '</td><td>' + r.d + '</td><td class="num price">' + r.p + '</td></tr>';
-      }).join('');
+      resName.textContent = name;
+      resCount.textContent = parts.length + (parts.length === 1 ? ' result' : ' results');
+      resBody.innerHTML = parts.map(rowHtml).join('');
       listState.style.display = 'none';
       resultsState.style.display = '';
     }
 
     trigger.addEventListener('click', openModal);
     document.getElementById('subset-modal-close').addEventListener('click', closeModal);
-    document.getElementById('subset-back').addEventListener('click', showList);
+    document.getElementById('subset-results-back').addEventListener('click', showList);
     overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
     overlay.querySelectorAll('.subset-modal-option').forEach(function(opt) {
       opt.addEventListener('click', function() { showResults(opt.getAttribute('data-subset')); });
+    });
+
+    // qty steppers + add-to-cart for dynamically-rendered rows (delegation)
+    resBody.addEventListener('click', function(e) {
+      var qbtn = e.target.closest('.td-qty-btn');
+      if (qbtn) {
+        var input = qbtn.closest('.td-qty').querySelector('.td-qty-val');
+        var val = parseInt(input.value) || 1;
+        if (qbtn.dataset.dir === 'minus' && val > 1) input.value = val - 1;
+        if (qbtn.dataset.dir === 'plus') input.value = val + 1;
+        return;
+      }
+      var addBtn = e.target.closest('.btn-add-sm');
+      if (addBtn) {
+        var tr = addBtn.closest('tr');
+        if (!tr) return;
+        var qty = parseInt(tr.querySelector('.td-qty-val').value) || 1;
+        try {
+          var cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}');
+          if (!cart.items) cart.items = [];
+          var ref = tr.dataset.ref;
+          var existing = cart.items.find(function(i) { return i.ref === ref; });
+          if (existing) { existing.qty += qty; }
+          else { cart.items.push({ name: tr.dataset.name, ref: ref, unitPrice: parseFloat(tr.dataset.price) || 0, qty: qty, quotation: tr.dataset.quotation === 'true' }); }
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+          var badge = document.getElementById('cart-badge');
+          if (badge) { badge.textContent = cart.items.reduce(function(s, i) { return s + i.qty; }, 0); badge.style.display = 'flex'; }
+          addBtn.textContent = 'Added ✓';
+          addBtn.style.background = '#007167'; addBtn.style.color = '#fff';
+          setTimeout(function() { addBtn.textContent = 'Add'; addBtn.style.background = ''; addBtn.style.color = ''; }, 1200);
+        } catch(err) {}
+        return;
+      }
     });
   })();
   </script>
