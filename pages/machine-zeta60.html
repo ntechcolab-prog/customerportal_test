@@ -2856,7 +2856,7 @@ document.addEventListener('click', function(e) {
               <h3 class="milla-results-title">Spare Parts Found</h3>
               <span class="milla-results-count" id="subset-results-count">0 results</span>
             </div>
-            <div class="milla-results-drawing">
+            <div class="milla-results-drawing" id="subset-drawing" style="cursor: zoom-in;">
               <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing">
             </div>
             <div class="milla-results-table-wrap">
@@ -2868,6 +2868,14 @@ document.addEventListener('click', function(e) {
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="drawing-lightbox" id="subset-drawing-lightbox" style="z-index: 700;">
+    <div class="drawing-lightbox-content">
+      <button type="button" class="drawing-lightbox-close" id="subset-drawing-lightbox-close" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing — full view">
     </div>
   </div>
   <script>
@@ -2938,6 +2946,15 @@ document.addEventListener('click', function(e) {
     overlay.querySelectorAll('.subset-modal-option').forEach(function(opt) {
       opt.addEventListener('click', function() { showResults(opt.getAttribute('data-subset')); });
     });
+
+    // Drawing zoom — own lightbox (the Milla one is nested in a closed overlay)
+    var sDraw = document.getElementById('subset-drawing');
+    var sLightbox = document.getElementById('subset-drawing-lightbox');
+    if (sDraw && sLightbox) {
+      sDraw.addEventListener('click', function() { sLightbox.classList.add('open'); });
+      document.getElementById('subset-drawing-lightbox-close').addEventListener('click', function() { sLightbox.classList.remove('open'); });
+      sLightbox.addEventListener('click', function(e) { if (e.target === sLightbox) sLightbox.classList.remove('open'); });
+    }
 
     // qty steppers + add-to-cart for dynamically-rendered rows (delegation)
     resBody.addEventListener('click', function(e) {
