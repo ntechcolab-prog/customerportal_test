@@ -2816,6 +2816,7 @@ document.addEventListener('click', function(e) {
     .subset-green-bar .doc { width: 18px; height: 18px; color: #fff; flex-shrink: 0; }
     .subset-green-bar span { flex: 1; text-align: left; font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.2px; }
     .subset-green-bar .chev { width: 18px; height: 18px; color: rgba(255,255,255,0.9); flex-shrink: 0; }
+    .btn-wish-sm.wished { background: #e8f5f3; border-color: #007167; color: #007167; }
   </style>
   <div class="subset-modal-overlay" id="subset-modal-overlay">
     <div class="subset-modal-wrapper">
@@ -2963,6 +2964,13 @@ document.addEventListener('click', function(e) {
         var val = parseInt(input.value) || 1;
         if (qbtn.dataset.dir === 'minus' && val > 1) input.value = val - 1;
         if (qbtn.dataset.dir === 'plus') input.value = val + 1;
+        return;
+      }
+      var wishBtn = e.target.closest('.btn-wish-sm');
+      if (wishBtn) {
+        var wp = wishBtn.querySelector('svg path');
+        var on = wishBtn.classList.toggle('wished');
+        if (wp) { wp.setAttribute('fill', on ? '#007167' : 'none'); wp.setAttribute('stroke', on ? '#007167' : 'currentColor'); }
         return;
       }
       var addBtn = e.target.closest('.btn-add-sm');
