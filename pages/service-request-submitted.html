@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/forms.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -562,19 +563,10 @@
       letter-spacing: 0.05em;
       margin-bottom: 20px;
     }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .form-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #1f2937;
-      margin-bottom: 8px;
-    }
-    .form-label .required {
-      color: #c73e20;
-    }
+    /* Form → ../assets/forms.css (visual normalizado: label 13px/#374151, input 42px/radius10/branco).
+       Mantém o modelo de espaçamento por margin (não-flex) desta página: */
+    .form-group { display: block; margin-bottom: 20px; }
+    .form-label { margin-bottom: 8px; }
 
     /* Radio group */
     .radio-group {
@@ -615,29 +607,7 @@
     }
 
     /* Input fields */
-    .form-input {
-      width: 100%;
-      height: 44px;
-      padding: 0 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #1f2937;
-      background: #fafbfc;
-    }
-    .form-textarea {
-      width: 100%;
-      min-height: 100px;
-      padding: 12px 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #1f2937;
-      background: #fafbfc;
-      resize: vertical;
-    }
+    /* input e textarea → ../assets/forms.css */
 
     /* Drop zone */
     .drop-zone {
