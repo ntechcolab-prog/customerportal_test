@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="../assets/skeleton.css">
   <link rel="stylesheet" href="../assets/tables.css">
   <link rel="stylesheet" href="../assets/empty-states.css">
+  <link rel="stylesheet" href="../assets/forms.css">
+  <link rel="stylesheet" href="../assets/modals.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -720,98 +722,7 @@
     .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
 
     /* ── MODAL ─── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.3);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .modal-overlay.visible { display: flex; }
-    .modal {
-      background: #fff;
-      border-radius: 14px;
-      width: 480px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    }
-    .modal-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      padding: 24px 24px 0;
-    }
-    .modal-header-text h2 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 4px;
-    }
-    .modal-header-text p {
-      font-size: 13px;
-      color: #6b7280;
-    }
-    .modal-close {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-radius: 8px;
-      color: #6b7280;
-      flex-shrink: 0;
-    }
-    .modal-close:hover { background: #f3f4f6; }
-    .modal-close svg { width: 20px; height: 20px; }
-    .modal-body {
-      padding: 20px 24px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .form-row {
-      display: flex;
-      gap: 12px;
-    }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      flex: 1;
-    }
-    .form-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-    }
-    .form-input,
-    .form-select {
-      height: 42px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      padding: 0 14px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      color: #1f2937;
-      background: #fff;
-      width: 100%;
-    }
-    .form-input::placeholder { color: #9ca3af; }
-    .form-input:focus,
-    .form-select:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
-    .form-select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 36px;
-    }
+    /* Modal + form → ../assets/modals.css + ../assets/forms.css (componentes compartilhados) */
     .info-banner {
       background: #fef3cd;
       border-radius: 10px;
@@ -829,14 +740,7 @@
       flex-shrink: 0;
       margin-top: 1px;
     }
-    .modal-footer {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 12px;
-      padding: 0 24px 24px;
-    }
-    /* btn-cancel modal override */
+    /* btn-cancel modal override (footer → ../assets/modals.css) */
     .btn-modal-cancel { color: #6b7280; border-color: #d1d5db; }
     .btn-modal-cancel:hover { background: #f6f6f6; color: #6b7280; }
 
