@@ -1,0 +1,52 @@
+/* ============================================================
+   machine-modals.css — Modais das telas de máquina  [CP-627b]
+   ------------------------------------------------------------
+   Componentes compartilhados entre machine-zeta60 / discus30 /
+   mastermix45, antes duplicados inline em cada página.
+
+   Escopo: chrome dos modais (não o gatilho, que é específico do
+   layout de cada tela e permanece inline).
+   ============================================================ */
+
+/* ── DRAWING LIGHTBOX (desenho técnico da peça) ─── */
+.drawing-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.drawing-lightbox.open { opacity: 1; pointer-events: auto; }
+.drawing-lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+.drawing-lightbox-content img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.drawing-lightbox-close {
+  position: absolute;
+  top: -36px;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.15s;
+}
+.drawing-lightbox-close:hover { background: rgba(255, 255, 255, 0.45); }
