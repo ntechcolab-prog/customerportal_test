@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/tables.css">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/steppers.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -449,44 +450,7 @@
       color: #1f2937;
       margin-bottom: 16px;
     }
-    .progress-bar {
-      display: flex;
-      align-items: center;
-      background: #fff;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-    .progress-step {
-      flex: 1;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 500;
-      color: #6b7280;
-      background: #dee0e0;
-      position: relative;
-      white-space: nowrap;
-    }
-    .progress-step.active {
-      background: #4e98aa;
-      color: #fff;
-      font-weight: 700;
-    }
-    .progress-step:first-child {
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
-      border-radius: 20px 0 0 20px;
-    }
-    .progress-step:not(:first-child):not(:last-child) {
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
-      margin-left: -9px;
-    }
-    .progress-step:last-child {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
-      margin-left: -9px;
-      border-radius: 0 20px 20px 0;
-    }
+    /* Stepper de progresso → assets/steppers.css (UI-02) */
 
     /* ── TWO COLUMN LAYOUT ─── */
     .two-col {
@@ -1655,11 +1619,11 @@
     <!-- ORDER PROGRESS -->
     <div class="card">
       <div class="card-title">Order Progress</div>
-      <div class="progress-bar">
-        <div class="progress-step active">Received</div>
-        <div class="progress-step">Pending Approval</div>
-        <div class="progress-step">Approved</div>
-        <div class="progress-step">Converted to Order</div>
+      <div class="progress-bar" role="list">
+        <div class="progress-step active" role="listitem">Received</div>
+        <div class="progress-step" role="listitem">Pending Approval</div>
+        <div class="progress-step" role="listitem">Approved</div>
+        <div class="progress-step" role="listitem">Converted to Order</div>
       </div>
     </div>
 

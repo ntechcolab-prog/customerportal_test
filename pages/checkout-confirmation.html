@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/tables.css">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/steppers.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -493,71 +494,7 @@
     }
 
     /* ── PROGRESS BAR / STEPPER ─── */
-    .progress-bar-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      background: transparent;
-    }
-    .progress-step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-      position: relative;
-      font-size: 12px;
-      font-weight: 500;
-      color: #86868b;
-      white-space: nowrap;
-    }
-    .progress-step::before {
-      content: attr(data-step);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #e8eaed;
-      color: #86868b;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-    .progress-step::after {
-      content: '';
-      position: absolute;
-      top: 16px;
-      left: calc(50% + 20px);
-      right: calc(-50% + 20px);
-      height: 2px;
-      background: #d1d5db;
-      border-radius: 1px;
-    }
-    .progress-step:last-child::after {
-      display: none;
-    }
-    .progress-step.active::before {
-      background: #007167;
-      color: #fff;
-    }
-    .progress-step.active {
-      color: #007167;
-      font-weight: 600;
-    }
-    .progress-step.completed::before {
-      background: #007167;
-      color: #fff;
-      content: '\2713';
-    }
-    .progress-step.completed::after {
-      background: #007167;
-    }
-    .progress-step.completed {
-      color: #007167;
-      font-weight: 600;
-    }
+    /* Stepper de progresso → assets/steppers.css (UI-02) */
 
     /* ── TWO COLUMN LAYOUT ─── */
     .two-col {
@@ -1291,9 +1228,6 @@
       .two-col > .card:last-child { position: static; }
       .title-bar { flex-direction: column; align-items: flex-start; gap: 16px; }
       .title-bar-actions { width: 100%; }
-      .progress-step { font-size: 11px; }
-      .progress-step::before { width: 28px; height: 28px; font-size: 12px; }
-      .progress-step::after { top: 14px; left: calc(50% + 18px); right: calc(-50% + 18px); }
     }
 
     /* ── HAMBURGER MENU ─── */
@@ -1596,11 +1530,11 @@
     <!-- ORDER PROGRESS -->
     <div class="card">
       <div class="card-title" data-i18n="checkout.orderProgress">Order Progress</div>
-      <div class="progress-bar-wrap">
-        <div class="progress-step active" data-step="1" data-i18n="checkout.stepPlaced">Order Placed</div>
-        <div class="progress-step" data-step="2" data-i18n="checkout.stepDispatched">Dispatched</div>
-        <div class="progress-step" data-step="3" data-i18n="checkout.stepOutForDelivery">Out for delivery</div>
-        <div class="progress-step" data-step="4" data-i18n="checkout.stepDelivered">Delivered</div>
+      <div class="progress-bar" role="list">
+        <div class="progress-step active" role="listitem" data-step="1" data-i18n="checkout.stepPlaced">Order Placed</div>
+        <div class="progress-step" role="listitem" data-step="2" data-i18n="checkout.stepDispatched">Dispatched</div>
+        <div class="progress-step" role="listitem" data-step="3" data-i18n="checkout.stepOutForDelivery">Out for delivery</div>
+        <div class="progress-step" role="listitem" data-step="4" data-i18n="checkout.stepDelivered">Delivered</div>
       </div>
     </div>
 

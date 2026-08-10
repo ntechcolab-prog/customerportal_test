@@ -1,0 +1,68 @@
+/* ============================================================
+   steppers.css — Stepper de progresso (Orders & Quotes)  [UI-02]
+   ------------------------------------------------------------
+   Design canônico: FITA CHEVRON (segmentos em seta encaixados).
+   Etapa cumprida/atual no verde da marca NETZSCH (#007167).
+
+   Convenção: marcar como .active TODAS as etapas já cumpridas,
+   incluindo a atual (não só a corrente).
+
+   Uso:
+     <div class="progress-bar" role="list">
+       <div class="progress-step active" role="listitem">Confirmado</div>
+       <div class="progress-step"        role="listitem">Enviado</div>
+       <div class="progress-step"        role="listitem">Entregue</div>
+     </div>
+   ============================================================ */
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-step {
+  flex: 1;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  background: #dee0e0;
+  position: relative;
+  white-space: nowrap;
+}
+
+.progress-step.active {
+  background: #007167;
+  color: #fff;
+  font-weight: 700;
+}
+
+.progress-step:first-child {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+  border-radius: 20px 0 0 20px;
+}
+
+.progress-step:not(:first-child):not(:last-child) {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+  margin-left: -9px;
+}
+
+.progress-step:last-child {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
+  margin-left: -9px;
+  border-radius: 0 20px 20px 0;
+}
+
+/* Responsivo: rótulos longos (ex.: "Converted to Order") em telas estreitas */
+@media (max-width: 640px) {
+  .progress-step {
+    height: 36px;
+    font-size: 11px;
+  }
+}
