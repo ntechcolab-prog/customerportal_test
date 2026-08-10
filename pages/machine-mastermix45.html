@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1942,11 +1943,42 @@
     </nav>
   </div>
 
+  <!-- SKELETON LOADING -->
+  <div class="skeleton-wrapper skel-machine" aria-hidden="false" role="status" aria-label="Loading machine details" style="padding-top:12px">
+    <!-- Identity bar -->
+    <div class="skeleton-card" style="padding:18px 24px;display:flex;align-items:center;gap:16px;border-radius:14px;margin-bottom:10px">
+      <div class="skeleton" style="width:72px;height:72px;border-radius:14px;flex-shrink:0"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;flex:1">
+        <div class="skeleton skeleton-title" style="width:220px;height:22px"></div>
+        <div class="skeleton skeleton-text medium"></div>
+      </div>
+    </div>
+    <!-- Actions grid (Milla ocupa a linha de cima) -->
+    <div class="skel-actions-grid">
+      <div class="skeleton-card skel-action-full" style="padding:16px 18px;display:flex;align-items:center;gap:12px;border-radius:14px">
+        <div class="skeleton" style="width:40px;height:40px;border-radius:10px;flex-shrink:0"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;flex:1"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div>
+      </div>
+      <div class="skeleton-card" style="padding:16px 18px;display:flex;align-items:center;gap:12px;border-radius:14px">
+        <div class="skeleton" style="width:40px;height:40px;border-radius:10px;flex-shrink:0"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;flex:1"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div></div>
+      </div>
+      <div class="skeleton-card" style="padding:16px 18px;display:flex;align-items:center;gap:12px;border-radius:14px">
+        <div class="skeleton" style="width:40px;height:40px;border-radius:10px;flex-shrink:0"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;flex:1"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div></div>
+      </div>
+      <div class="skeleton-card" style="padding:16px 18px;display:flex;align-items:center;gap:12px;border-radius:14px">
+        <div class="skeleton" style="width:40px;height:40px;border-radius:10px;flex-shrink:0"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;flex:1"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div></div>
+      </div>
+    </div>
+  </div>
+
   <!-- PAGE -->
-  <div class="page">
+  <div class="page page-content">
 
     <!-- IDENTITY BAR -->
-    <div class="identity-bar" id="identity-bar">
+    <div class="identity-bar" id="identity-bar" data-skeleton-stagger>
       <div class="identity-top">
         <div class="identity-image">
           <img src="../assets/machine-discus30.png" alt="MasterMix 45">
@@ -1991,7 +2023,7 @@
     </div>
 
     <!-- ACTIONS GRID (4 actions, Milla spans top row) -->
-    <div class="actions-grid">
+    <div class="actions-grid" data-skeleton-stagger>
       <!-- Ask Milla — full width, top row -->
       <div class="action-card milla-trigger" id="milla-trigger-card">
         <div class="action-card-icon">
@@ -2560,5 +2592,6 @@ document.addEventListener('click', function(e) {
 <script src="../assets/request-approval.js"></script>
 <script src="../assets/hourmeter.js"></script>
 <script src="../assets/machine-line-edit.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

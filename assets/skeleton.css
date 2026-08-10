@@ -516,8 +516,18 @@
   flex: 1;
 }
 
+/* mastermix45: grid de ações (Milla ocupa a linha de cima inteira) */
+.skel-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.skel-actions-grid .skel-action-full { grid-column: 1 / -1; }
+
 @media (max-width: 768px) {
   .skeleton-wrapper.skel-machine { padding: 0 16px 24px; }
+  .skel-actions-grid { grid-template-columns: 1fr; }
   .skel-machine-detail { grid-template-columns: 1fr; min-height: 0; }
   .skel-machine-divider { display: none; }
   .skel-machine-photo { min-height: 240px; margin-bottom: 24px; }
