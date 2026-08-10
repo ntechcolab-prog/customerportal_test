@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -2203,11 +2204,33 @@
     </nav>
   </div>
 
+  <!-- SKELETON LOADING -->
+  <div class="skeleton-wrapper skel-machine" aria-hidden="false" role="status" aria-label="Loading machine details">
+    <div class="skel-machine-detail">
+      <!-- Left — machine photo -->
+      <div class="skeleton skel-machine-photo"></div>
+      <!-- Middle — divider -->
+      <div class="skel-machine-divider"></div>
+      <!-- Right — machine info -->
+      <div class="skel-machine-info">
+        <div class="skeleton skeleton-text short" style="height:18px"></div>
+        <div class="skeleton skeleton-title wide" style="height:34px;margin:4px 0 2px"></div>
+        <div class="skeleton skeleton-text medium"></div>
+        <div class="skel-machine-actions">
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- PAGE -->
-  <div class="page">
+  <div class="page page-content">
 
     <!-- HERO: Zara-inspired split layout -->
-    <div class="hero-layout">
+    <div class="hero-layout" data-skeleton-stagger>
       <!-- Left — Machine photo -->
       <div class="hero-photo">
         <img src="../assets/machine-discus30.png" alt="Zeta 60">
@@ -3199,5 +3222,6 @@ document.addEventListener('click', function(e) {
 <script src="../assets/docs-modal.js"></script>
 <script src="../assets/hourmeter.js"></script>
 <script src="../assets/machine-line-edit.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>
