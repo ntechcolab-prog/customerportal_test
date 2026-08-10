@@ -16,7 +16,7 @@
 | CP-584 | Contact Support | HTML | ✅ Existe | só revalidar |
 | FIG-01 | Fluxos no Figma (Sections + Prototype) | Figma | 🚧 Em andamento | Login+Registro ✅; faltam 11 + índice |
 | DOC-01 | `flows.md` (mapa de fluxos) | Docs | ✅ Feito | manter em sync c/ código+Figma |
-| UI-01 | Padronizar ícones do botão "Track" | HTML | 🔴 Pendente | conferir se são iguais em todas as telas |
+| UI-01 | Padronizar ícones do botão "Track" | HTML | ✅ Feito | caminhão único em 16 botões/links (commit 87cc34a) |
 | UI-02 | Padronizar steps de Orders e Quotes | HTML | 🔴 Pendente | design do stepper difere em vários lugares |
 
 ## ✅ Feito
@@ -116,10 +116,12 @@ Arquivo de mocks `PwX3Yv0B79GW2Thv9IMDjZ`. Para cada um dos 13 fluxos (numeraç�
 
 ## 🎯 Padronização / UI consistency
 
-### UI-01 — Padronizar ícones do botão "Track"  🔴 PENDENTE
-- Conferir se **todos os ícones do botão de Track estão iguais** em todas as telas onde aparece
-  (ex.: `orders`, `order-detail`, `dashboard` — Recent Orders, e onde mais houver Track).
-- Hoje há suspeita de **divergência de ícone** entre telas. Levantar todos, definir o canônico e padronizar.
+### UI-01 — Padronizar ícones do botão "Track"  ✅ FEITO (10/08)
+- Divergência confirmada: 4 ícones diferentes. Canônico = caminhão de entrega (viewBox 24, stroke 1.8,
+  rodas preenchidas) já usado em `dashboard` e `orders` (13x).
+- Substituídos: `order-detail` (caminhão de proporção diferente), `checkout-confirmation` (ícone de pacote)
+  e `contact-support` (quick-link "Track Orders" que usava sacola). Total: **16 ícones idênticos**.
+- O botão Download PDF do `order-detail` mantém o próprio ícone (correto). Commit `87cc34a`.
 
 ### UI-02 — Padronizar steps de Orders e Quotes  🔴 PENDENTE
 - O **design dos steps (stepper / progresso)** está **diferente em vários lugares**.
