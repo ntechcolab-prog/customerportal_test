@@ -14,7 +14,7 @@
 | CP-585 | Skeleton no detalhe de máquina | HTML | ✅ Feito | zeta60/discus30/mastermix45 (classes .skel-machine-* no skeleton.css) |
 | CP-586 | Skeleton no resto | HTML | 🟡 Extra | mapear o que falta |
 | CP-584 | Contact Support | HTML | ✅ Existe | só revalidar |
-| FIG-01 | Fluxos no Figma (Sections + Prototype) | Figma | 🚧 Em andamento | Login+Registro ✅; faltam 11 + índice |
+| FIG-01 | Fluxos no Figma (Sections + Prototype) | Figma | 🚧 Em andamento | 4/13: Login, Registro, Orders, Quotes ✅; faltam 9 + índice |
 | DOC-01 | `flows.md` (mapa de fluxos) | Docs | ✅ Feito | manter em sync c/ código+Figma |
 | UI-01 | Padronizar ícones do botão "Track" | HTML | ✅ Feito | caminhão único em 16 botões/links (commit 87cc34a) |
 | UI-02 | Padronizar steps de Orders e Quotes | HTML | ✅ Feito | steppers.css (fita chevron verde) em 4 telas; checkout-quote fora por decisão |
@@ -108,9 +108,13 @@ Arquivo de mocks `PwX3Yv0B79GW2Thv9IMDjZ`. Para cada um dos 13 fluxos (numeraç�
 - **Section nomeada** no canvas envolvendo as telas do fluxo.
 - **Prototype flow** navegável (ponto de partida + conexões clicáveis). Connectors do FigJam são
   bloqueados no design → usar Prototype nativo.
-- ✅ **Feitos como prova:** `01 Login` (+ Login SSO) e `02 Registro` — página Auth & Registration.
-- ⏳ **Faltam 11:** 00 Público · 03 Dashboard · 04 Máquinas · 05 Shop · 06 Checkout · 07 Orders ·
-  08 Quotes · 09 Serviços · 10 Budget · 11 Admin · 12 Suporte.
+- ✅ **Feitos:** `01 Login` (+ Login SSO) e `02 Registro` (pág. Auth & Registration) · `07 Orders` e
+  `08 Quotes` (pág. Orders & Quotes — 2 Sections `📦 Fluxo — Orders` / `📄 Fluxo — Quotes`, prototype list↔detail).
+- ⏳ **Faltam 9:** 00 Público · 03 Dashboard · 04 Máquinas · 05 Shop · 06 Checkout ·
+  09 Serviços · 10 Budget · 11 Admin · 12 Suporte.
+- **Padrão consolidado:** Section branca por fluxo, frames em linha (passo 1540px, padding 80 / topo 130),
+  reação `ON_CLICK NAVIGATE` (DISSOLVE 0.3 EASE_OUT) no frame inteiro, `page.flowStartingPoints` por fluxo.
+- **IDs das páginas:** ver [[figma-mocks-do-customer-portal]] (0:1 DS · 7:2 Auth · 7:3 Home · 7:4 Machines · 7:5 Shop · 7:6 Orders&Quotes · 7:7 Services · 7:8 Admin · 7:9 Profile/Help).
 - **Página "🗺️ Índice de Fluxos"** (capa) listando os 13 com link pra cada Section.
 
 ### DOC-01 — `flows.md` (mapa de fluxos)  ✅ FEITO
