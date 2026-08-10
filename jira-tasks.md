@@ -11,7 +11,7 @@
 | CP-572 | Empty states + telas 404/500 | HTML | ✅ Feito | resíduo inline trivial em ~12 pgs |
 | CP-627 | `modals.css` + `forms.css` | HTML | 🚧 Em andamento | 2 componentes + 12 pgs migradas |
 | CP-626 | Layout novo nas máquinas | HTML | 🔴 Pendente | AlphaZeta10, ProPhi, MasterMix45 |
-| CP-585 | Skeleton no detalhe de máquina | HTML | 🔴 Pendente | zeta60/discus30/mastermix45 |
+| CP-585 | Skeleton no detalhe de máquina | HTML | ✅ Feito | zeta60/discus30/mastermix45 (classes .skel-machine-* no skeleton.css) |
 | CP-586 | Skeleton no resto | HTML | 🟡 Extra | mapear o que falta |
 | CP-584 | Contact Support | HTML | ✅ Existe | só revalidar |
 | FIG-01 | Fluxos no Figma (Sections + Prototype) | Figma | 🚧 Em andamento | Login+Registro ✅; faltam 11 + índice |
@@ -90,9 +90,12 @@ required `#c73e20` · foco `0 0 0 3px rgba(0,113,103,.1)`. Validação (`.error`
 - Portar o fix de scroll do Service Request que ficou só na Zeta 60.
 - Referência: `machine-zeta60.html` e `machine-discus30.html`.
 
-### CP-585 — Skeleton nas páginas principais
-- Dashboard ✅ e Orders ✅ já têm.
-- Falta o **detalhe de máquina** (zeta60 / discus30 / mastermix45).
+### CP-585 — Skeleton nas páginas principais  ✅ FEITO (10/08)
+- Dashboard ✅ e Orders ✅ já tinham.
+- Detalhe de máquina ✅: `machine-zeta60`, `machine-discus30` (hero-split) e `machine-mastermix45`
+  (layout próprio: identity-bar + actions-grid). Classes reutilizáveis `.skel-machine-*` +
+  `.skel-actions-grid` no `skeleton.css`; `.page` vira `page-content` + `data-skeleton-stagger`.
+- Commits `efada57` (zeta60 ref) + `5dcb96d` (discus30/mastermix45).
 
 ## Extras da sprint (se sobrar tempo)
 - **CP-586** — Skeleton no resto (`skeleton.css` já em 16 páginas; mapear o que falta).
