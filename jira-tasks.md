@@ -10,7 +10,7 @@
 | CP-582 | Componente empty-state (`empty-states.css`) | HTML | ✅ Feito | referência: `orders` |
 | CP-572 | Empty states + telas 404/500 | HTML | ✅ Feito | resíduo inline trivial em ~12 pgs |
 | CP-627 | `modals.css` + `forms.css` | HTML | ✅ Feito | componentes + páginas aplicáveis; shop-product fora por decisão |
-| CP-627b | Modais fase 2 (Service Request + Drawing/Milla) | HTML | 🟡 Extra | famílias próprias das telas de máquina (`.sr-modal-*`, `.drawing-*`/`.milla-*`) |
+| CP-627b | Modais fase 2 (Service Request + Drawing/Milla) | HTML | 🚧 Parcial | Drawing ✅ + Service Request ✅ em `machine-modals.css`; Milla adiado (entrelaçado/risco de cascata) |
 | CP-626 | Layout novo nas máquinas | HTML | 🔴 Pendente | AlphaZeta10, ProPhi, MasterMix45 |
 | CP-585 | Skeleton no detalhe de máquina | HTML | ✅ Feito | zeta60/discus30/mastermix45 (classes .skel-machine-* no skeleton.css) |
 | CP-586 | Skeleton no resto | HTML | 🟡 Extra | mapear o que falta |
@@ -88,6 +88,16 @@ required `#c73e20` · foco `0 0 0 3px rgba(0,113,103,.1)`. Validação (`.error`
 - Contact-support (aceitar convergência 40→42px + borda #b1b4b7→#d1d5db).
 - Decidir `.modal--confirm` para o arquétipo de confirmação (wishlist/login).
 - Fase 2 (famílias próprias): `.sr-modal-*` (Service Request), `.drawing-*`/`.milla-*`.
+
+### CP-627b — Modais fase 2 (Service Request + Drawing/Milla)  🚧 PARCIAL (10/08)
+- ✅ **Drawing lightbox** e ✅ **Service Request modal** extraídos p/ `assets/machine-modals.css`
+  (componentes autocontidos; ~570 linhas de duplicação removidas de zeta60/discus30/mastermix45).
+- ⏸️ **Milla adiado por decisão de risco:** ~540 linhas do banner "Ask Milla" (estados
+  collapsed/expanded/search/reasoning/orb) + modal + results, entrelaçadas com classes genéricas
+  (`.card`, `.method-card`, `.search-*`). zeta60==discus30 (idênticos), mastermix45 difere.
+  Extrair pra CSS carregado antes do inline pode inverter a cascata → risco de quebrar a feature
+  carro-chefe por ganho só interno. Se for fazer: verificar que nenhuma regra do bloco é
+  redefinida depois no inline, e extrair só p/ zeta60+discus30 (mastermix fica inline).
 
 ### CP-626 — Layout novo nas máquinas
 - **AlphaZeta 10** e **ProPhi** ainda no layout antigo (sem accordion/modais, ~1900 linhas).
