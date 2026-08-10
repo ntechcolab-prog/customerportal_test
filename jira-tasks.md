@@ -1,6 +1,6 @@
 # NETZSCH Customer Portal — Backlog
 
-> Última atualização: 07/08 — status conferido no código.
+> Última atualização: 10/08 — UI-01 e UI-02 concluídas.
 > Duas frentes: **Sprint do gerente** (HTML/CSS) e **Figma** (mocks & fluxos).
 
 ## 📋 Resumo do backlog
