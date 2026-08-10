@@ -1,6 +1,6 @@
 # NETZSCH Customer Portal — Backlog
 
-> Última atualização: 10/08 — UI-01, UI-02 e CP-585 concluídas; FIG-01 em 4/13.
+> Última atualização: 10/08 — UI-01, UI-02, CP-585 e CP-627 concluídas; FIG-01 em 4/13.
 > Duas frentes: **Sprint do gerente** (HTML/CSS) e **Figma** (mocks & fluxos).
 
 ## 📋 Resumo do backlog
@@ -9,7 +9,8 @@
 |----|------|--------|--------|-------|
 | CP-582 | Componente empty-state (`empty-states.css`) | HTML | ✅ Feito | referência: `orders` |
 | CP-572 | Empty states + telas 404/500 | HTML | ✅ Feito | resíduo inline trivial em ~12 pgs |
-| CP-627 | `modals.css` + `forms.css` | HTML | 🚧 Em andamento | 2 componentes + 12 pgs migradas |
+| CP-627 | `modals.css` + `forms.css` | HTML | ✅ Feito | componentes + páginas aplicáveis; shop-product fora por decisão |
+| CP-627b | Modais fase 2 (Service Request + Drawing/Milla) | HTML | 🟡 Extra | famílias próprias das telas de máquina (`.sr-modal-*`, `.drawing-*`/`.milla-*`) |
 | CP-626 | Layout novo nas máquinas | HTML | 🔴 Pendente | AlphaZeta10, ProPhi, MasterMix45 |
 | CP-585 | Skeleton no detalhe de máquina | HTML | ✅ Feito | zeta60/discus30/mastermix45 (classes .skel-machine-* no skeleton.css) |
 | CP-586 | Skeleton no resto | HTML | 🟡 Extra | mapear o que falta |
@@ -36,7 +37,11 @@
   (cada uma: linkar `empty-states.css` + remover o bloco `.empty-state*` inline)
 - **Criar páginas 404 e 500** (não existem) usando a variante `.empty-state--page`, com ação de saída.
 
-### CP-627 — `modals.css` + `forms.css`  🚧 EM ANDAMENTO
+### CP-627 — `modals.css` + `forms.css`  ✅ FEITO (10/08)
+> Core concluído: componentes criados e aplicados em todas as páginas aplicáveis. shop-product-*
+> ficaram fora por decisão da Mariana (não são pendência). A "fase 2" (famílias próprias
+> `.sr-modal-*` e `.drawing-*`/`.milla-*` das telas de máquina) foi separada em **CP-627b**.
+
 - ✅ Criados `assets/modals.css` e `assets/forms.css` (tokenizados, drop-in) + focus-visible AAA no close.
 - ✅ `admin-users.html` migrado como referência (modal + form) — provou os dois componentes.
 - ✅ Drawer migrado: `orders`, `dashboard` (1:1), `contracts` + `lab-tests` (override `width:420px`).
