@@ -17,7 +17,7 @@
 | FIG-01 | Fluxos no Figma (Sections + Prototype) | Figma | 🚧 Em andamento | Login+Registro ✅; faltam 11 + índice |
 | DOC-01 | `flows.md` (mapa de fluxos) | Docs | ✅ Feito | manter em sync c/ código+Figma |
 | UI-01 | Padronizar ícones do botão "Track" | HTML | ✅ Feito | caminhão único em 16 botões/links (commit 87cc34a) |
-| UI-02 | Padronizar steps de Orders e Quotes | HTML | 🔴 Pendente | design do stepper difere em vários lugares |
+| UI-02 | Padronizar steps de Orders e Quotes | HTML | ✅ Feito | steppers.css (fita chevron verde) em 4 telas; checkout-quote fora por decisão |
 
 ## ✅ Feito
 
@@ -123,7 +123,11 @@ Arquivo de mocks `PwX3Yv0B79GW2Thv9IMDjZ`. Para cada um dos 13 fluxos (numeraç�
   e `contact-support` (quick-link "Track Orders" que usava sacola). Total: **16 ícones idênticos**.
 - O botão Download PDF do `order-detail` mantém o próprio ícone (correto). Commit `87cc34a`.
 
-### UI-02 — Padronizar steps de Orders e Quotes  🔴 PENDENTE
-- O **design dos steps (stepper / progresso)** está **diferente em vários lugares**.
-- Revisar e padronizar o stepper em **Orders** e **Quotes** (e telas relacionadas: `order-detail`, `quote-detail`,
-  fluxo de checkout se aplicável). Definir um padrão único e aplicar.
+### UI-02 — Padronizar steps de Orders e Quotes  ✅ FEITO (10/08)
+- Design canônico decidido: **fita chevron**, etapa ativa no verde da marca **#007167**
+  (antes #4e98aa, fora da paleta), altura unificada **40px**, responsivo e acessível (`role=list/listitem`).
+- Componente único em **`assets/steppers.css`**; CSS inline removido das telas.
+- Aplicado em: `order-detail`, `quote-detail`, `checkout-confirmation` (convertido do Design B de
+  círculos numerados) e `service-request-submitted`. Commits `ae6437c` + `1d2caf9`.
+- **Fora do escopo por decisão:** `checkout-quote` (segue no Design B de círculos numerados) e o
+  wizard de cadastro (`register-*`, `.progress`+dots/bar — componente distinto e intencional).
