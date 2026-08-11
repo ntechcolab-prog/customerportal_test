@@ -2019,19 +2019,19 @@ function sendFromSmallChat() {
     .pc-icon{width:56px;height:56px;border-radius:50%;background:rgba(0,113,103,0.08);display:flex;align-items:center;justify-content:center;margin:2px auto 18px;}
     .pc-icon svg{width:26px;height:26px;color:#007167;}
     .pc-title{font-size:21px;font-weight:600;color:#1d1d1f;margin-bottom:8px;letter-spacing:-0.4px;}
-    .pc-subtitle{font-size:14px;color:#6b7280;line-height:1.55;max-width:400px;margin:0 auto 24px;}
+    .pc-subtitle{font-size:14px;color:#6b7280;line-height:1.55;margin:0 0 24px;text-align:left;}
     .pc-list{border:1px solid #ececec;border-radius:14px;overflow:hidden;text-align:left;}
     .pc-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;}
     .pc-item + .pc-item{border-top:1px solid #f0f0f0;}
-    .pc-name{font-size:14px;font-weight:600;color:#007167;letter-spacing:-0.1px;}
+    .pc-name{font-size:14px;font-weight:600;color:#1d1d1f;letter-spacing:-0.1px;}
     .pc-prices{display:flex;gap:28px;}
     .pc-price-block{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
     .pc-price-label{font-size:11px;font-weight:500;color:#9ca3af;}
     .pc-price-old{font-size:14px;color:#b0b3b8;text-decoration:line-through;font-variant-numeric:tabular-nums;}
-    .pc-price-new{font-size:15px;font-weight:700;color:#007167;font-variant-numeric:tabular-nums;}
-    .pc-unavailable{font-size:13px;font-weight:600;color:#007167;}
-    .pc-note{font-size:12.5px;color:#9ca3af;line-height:1.5;text-align:left;margin:14px 2px 0;}
-    .pc-actions{display:flex;justify-content:center;margin-top:24px;}
+    .pc-price-new{font-size:15px;font-weight:700;color:#1d1d1f;font-variant-numeric:tabular-nums;}
+    .pc-unavailable{font-size:13px;font-weight:600;color:#1d1d1f;}
+    .pc-note{font-size:12.5px;color:#9ca3af;line-height:1.5;text-align:left;margin:14px 0 0;}
+    .pc-actions{margin-top:24px;}
     body.modal-open{overflow:hidden;}
   </style>
   <div class="pc-overlay" id="priceChangeModal" role="dialog" aria-modal="true" aria-labelledby="pcTitle">
@@ -2059,7 +2059,7 @@ function sendFromSmallChat() {
       </div>
       <p class="pc-note" data-i18n="pricechange.note">We couldn't confirm the current price for these items, so they'll be removed from your cart. Please contact us if you still need them.</p>
       <div class="pc-actions">
-        <button type="button" class="btn btn-primary btn-lg" id="pcUpdate">
+        <button type="button" class="btn btn-primary btn-lg btn-full" id="pcUpdate">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
           <span data-i18n="pricechange.update">Update cart</span>
         </button>
