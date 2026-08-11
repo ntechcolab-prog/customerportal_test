@@ -1,4 +1,16 @@
 {
+  "avail.title": "Dieses Produkt ist nicht mehr verfügbar",
+  "avail.text": "NETZSCH GLASSBEADS ist nicht mehr verfügbar und kann nicht in den Warenkorb gelegt werden. Bitte kontaktieren Sie uns, falls Sie es weiterhin benötigen.",
+  "avail.contact": "Kontakt aufnehmen",
+  "avail.browse": "Zum Shop",
+  "pricechange.title": "Die Preise in Ihrem Warenkorb haben sich geändert",
+  "pricechange.subtitle": "Einige Preise haben sich geändert, seit Sie diese Artikel hinzugefügt haben. Aktualisieren Sie Ihren Warenkorb, um die aktuellen Preise und Aktionen zu übernehmen.",
+  "pricechange.previous": "Vorheriger Preis",
+  "pricechange.current": "Aktueller Preis",
+  "pricechange.note": "Wir konnten den aktuellen Preis für diese Artikel nicht bestätigen, daher werden sie aus Ihrem Warenkorb entfernt. Bitte kontaktieren Sie uns, falls Sie sie weiterhin benötigen.",
+  "pricechange.unavailable": "Preis nicht verfügbar",
+  "pricechange.update": "WARENKORB AKTUALISIEREN",
+
   "topbar.portal": "Mahlen & Dispergieren Kundenportal",
 
   "nav.home": "Startseite",

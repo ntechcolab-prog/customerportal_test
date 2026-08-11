@@ -1,4 +1,16 @@
 {
+  "avail.title": "This product is no longer available",
+  "avail.text": "NETZSCH GLASSBEADS is no longer available, so it can't be added to your cart. Please contact us if you still need it.",
+  "avail.contact": "Contact us",
+  "avail.browse": "Browse Shop",
+  "pricechange.title": "Prices in your cart have changed",
+  "pricechange.subtitle": "Some prices have changed since you added these items. Update your cart to apply the current prices and promotions.",
+  "pricechange.previous": "Previous price",
+  "pricechange.current": "Current price",
+  "pricechange.note": "We couldn't confirm the current price for these items, so they'll be removed from your cart. Please contact us if you still need them.",
+  "pricechange.unavailable": "Price unavailable",
+  "pricechange.update": "UPDATE CART",
+
   "topbar.portal": "Grinding & Dispersing Customer Portal",
 
   "nav.home": "Home",

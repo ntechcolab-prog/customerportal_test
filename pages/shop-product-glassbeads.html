@@ -2320,27 +2320,8 @@ document.addEventListener('click', function(e) {
     btnCart.addEventListener('click', (e) => {
       e.stopPropagation();
       if (!btnCart.classList.contains('active')) return;
-      var productName = document.querySelector('.product-title').textContent.trim();
-      var sizeOpt = sizeSelect.options[sizeSelect.selectedIndex];
-      var sizeText = sizeOpt ? sizeOpt.text : '';
-      var fullName = productName + (sizeText ? ' - ' + sizeText : '');
-      var ref = document.querySelector('.product-ref').textContent.replace('Ref: ', '').trim();
-      var priceText = document.querySelector('.price-value').textContent;
-      var unitPrice = parsePrice(priceText);
-      var qty = parseInt(qtyValue.value) || 1;
-      var imgSrc = document.getElementById('mainImg').src;
-
-      // Add qty items (or increment)
-      var existing = cartItems.find(function(item) { return item.ref === ref && item.name === fullName; });
-      if (existing) {
-        existing.qty += qty;
-      } else {
-        cartItems.push({ name: fullName, ref: ref, unitPrice: unitPrice, img: imgSrc, qty: qty });
-      }
-      saveCart(cartItems);
-      renderCartDropdown();
-      updateCartBadge();
-      cartDropdown.classList.add('is-open');
+      // NETZSCH GLASSBEADS is no longer available — show the unavailable modal instead of adding to cart.
+      if (typeof window.openUnavailableModal === 'function') window.openUnavailableModal();
     });
 
     document.getElementById('cart-close').addEventListener('click', () => {
@@ -2648,5 +2629,46 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+  <!-- ── PRODUCT NO LONGER AVAILABLE MODAL ─── -->
+  <style>
+    .av-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;}
+    .av-overlay.open{display:flex;}
+    .av-modal{position:relative;width:480px;max-width:100%;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.18);padding:32px 32px 28px;text-align:center;font-family:'Inter',sans-serif;}
+    .av-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border:none;background:none;color:#9ca3af;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;}
+    .av-close:hover{background:#f3f4f6;color:#4b5563;}
+    .av-close svg{width:18px;height:18px;}
+    .av-icon{width:64px;height:64px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;margin:6px auto 20px;}
+    .av-icon svg{width:30px;height:30px;color:#e0a82d;}
+    .av-title{font-size:20px;font-weight:700;color:#1f2937;margin-bottom:10px;letter-spacing:-0.2px;}
+    .av-text{font-size:14px;color:#6b7280;line-height:1.55;max-width:400px;margin:0 auto 24px;}
+    .av-actions{display:flex;gap:12px;justify-content:center;}
+    body.modal-open{overflow:hidden;}
+  </style>
+  <div class="av-overlay" id="unavailableModal" role="dialog" aria-modal="true" aria-labelledby="avTitle">
+    <div class="av-modal">
+      <button class="av-close" id="avClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+      <div class="av-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><line x1="3.27" y1="6.96" x2="12" y2="12.01"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <h2 class="av-title" id="avTitle" data-i18n="avail.title">This product is no longer available</h2>
+      <p class="av-text" data-i18n="avail.text">NETZSCH GLASSBEADS is no longer available, so it can't be added to your cart. Please contact us if you still need it.</p>
+      <div class="av-actions">
+        <a href="contact-support.html" class="btn btn-secondary" data-i18n="avail.contact">Contact us</a>
+        <a href="shop.html" class="btn btn-primary" data-i18n="avail.browse">Browse Shop</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var ov = document.getElementById('unavailableModal');
+      window.openUnavailableModal = function(){ ov.classList.add('open'); document.body.classList.add('modal-open'); };
+      function closeAv(){ ov.classList.remove('open'); document.body.classList.remove('modal-open'); }
+      document.getElementById('avClose').addEventListener('click', closeAv);
+      ov.addEventListener('click', function(e){ if(e.target===ov) closeAv(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape' && ov.classList.contains('open')) closeAv(); });
+    })();
+  </script>
 </body>
 </html>
