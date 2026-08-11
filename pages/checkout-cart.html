@@ -2010,30 +2010,28 @@ function sendFromSmallChat() {
 <script src="../assets/request-approval.js"></script>
   <!-- ── CART PRICE-CHANGE / UNAVAILABLE REVIEW MODAL ─── -->
   <style>
-    .pc-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;}
+    .pc-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.32);display:none;align-items:center;justify-content:center;z-index:1000;padding:24px;-webkit-backdrop-filter:saturate(120%) blur(3px);backdrop-filter:saturate(120%) blur(3px);}
     .pc-overlay.open{display:flex;}
-    .pc-modal{position:relative;width:520px;max-width:100%;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.18);padding:32px;font-family:'Inter',sans-serif;text-align:center;}
-    .pc-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border:none;background:none;color:#9ca3af;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;}
-    .pc-close:hover{background:#f3f4f6;color:#4b5563;}
+    .pc-modal{position:relative;width:500px;max-width:100%;background:#fff;border-radius:20px;box-shadow:0 16px 56px rgba(0,0,0,0.18);padding:36px 36px 32px;font-family:'Inter',sans-serif;text-align:center;}
+    .pc-close{position:absolute;top:18px;right:18px;width:30px;height:30px;border:none;background:none;color:#b0b3b8;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;}
+    .pc-close:hover{background:#f2f3f5;color:#4b5563;}
     .pc-close svg{width:18px;height:18px;}
-    .pc-icon{width:56px;height:56px;border-radius:50%;background:rgba(0,113,103,0.08);display:flex;align-items:center;justify-content:center;margin:2px auto 16px;}
+    .pc-icon{width:56px;height:56px;border-radius:50%;background:rgba(0,113,103,0.08);display:flex;align-items:center;justify-content:center;margin:2px auto 18px;}
     .pc-icon svg{width:26px;height:26px;color:#007167;}
-    .pc-title{font-size:20px;font-weight:700;color:#1f2937;margin-bottom:8px;letter-spacing:-0.2px;}
-    .pc-subtitle{font-size:14px;color:#6b7280;line-height:1.5;max-width:440px;margin:0 auto;}
-    .pc-divider{height:1px;background:#eaeaea;margin:20px 0;}
-    .pc-row{display:flex;align-items:center;justify-content:space-between;gap:16px;text-align:left;}
-    .pc-name{font-size:14px;font-weight:700;color:#007167;}
-    .pc-prices{display:flex;gap:36px;}
-    .pc-price-block{display:flex;flex-direction:column;gap:3px;text-align:left;}
-    .pc-price-label{font-size:12px;color:#6b7280;}
-    .pc-price-old{font-size:15px;color:#9ca3af;text-decoration:line-through;}
-    .pc-price-new{font-size:16px;font-weight:700;color:#007167;}
-    .pc-note{font-size:13px;color:#6b7280;line-height:1.55;text-align:left;}
-    .pc-unavailable{font-size:14px;font-weight:600;color:#007167;}
-    .pc-actions{display:flex;justify-content:center;margin-top:4px;}
-    .pc-update-btn{background:#007167;color:#fff;border:none;border-radius:999px;padding:12px 30px;font-size:14px;font-weight:700;letter-spacing:0.5px;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,transform .15s;}
-    .pc-update-btn:hover{background:#005f57;transform:translateY(-1px);}
-    .pc-update-btn:active{transform:translateY(0);}
+    .pc-title{font-size:21px;font-weight:600;color:#1d1d1f;margin-bottom:8px;letter-spacing:-0.4px;}
+    .pc-subtitle{font-size:14px;color:#6b7280;line-height:1.55;max-width:400px;margin:0 auto 24px;}
+    .pc-list{border:1px solid #ececec;border-radius:14px;overflow:hidden;text-align:left;}
+    .pc-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;}
+    .pc-item + .pc-item{border-top:1px solid #f0f0f0;}
+    .pc-name{font-size:14px;font-weight:600;color:#007167;letter-spacing:-0.1px;}
+    .pc-prices{display:flex;gap:28px;}
+    .pc-price-block{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+    .pc-price-label{font-size:11px;font-weight:500;color:#9ca3af;}
+    .pc-price-old{font-size:14px;color:#b0b3b8;text-decoration:line-through;font-variant-numeric:tabular-nums;}
+    .pc-price-new{font-size:15px;font-weight:700;color:#007167;font-variant-numeric:tabular-nums;}
+    .pc-unavailable{font-size:13px;font-weight:600;color:#007167;}
+    .pc-note{font-size:12.5px;color:#9ca3af;line-height:1.5;text-align:left;margin:14px 2px 0;}
+    .pc-actions{display:flex;justify-content:center;margin-top:24px;}
     body.modal-open{overflow:hidden;}
   </style>
   <div class="pc-overlay" id="priceChangeModal" role="dialog" aria-modal="true" aria-labelledby="pcTitle">
@@ -2046,23 +2044,25 @@ function sendFromSmallChat() {
       </div>
       <h2 class="pc-title" id="pcTitle" data-i18n="pricechange.title">Prices in your cart have changed</h2>
       <p class="pc-subtitle" data-i18n="pricechange.subtitle">Some prices have changed since you added these items. Update your cart to apply the current prices and promotions.</p>
-      <div class="pc-divider"></div>
-      <div class="pc-row">
-        <span class="pc-name">NETZSCH ZETABEADS PLUS</span>
-        <div class="pc-prices">
-          <div class="pc-price-block"><span class="pc-price-label" data-i18n="pricechange.previous">Previous price</span><span class="pc-price-old">48,00 &euro;</span></div>
-          <div class="pc-price-block"><span class="pc-price-label" data-i18n="pricechange.current">Current price</span><span class="pc-price-new">53,00 &euro;</span></div>
+      <div class="pc-list">
+        <div class="pc-item">
+          <span class="pc-name">NETZSCH ZETABEADS PLUS</span>
+          <div class="pc-prices">
+            <div class="pc-price-block"><span class="pc-price-label" data-i18n="pricechange.previous">Previous price</span><span class="pc-price-old">48,00 &euro;</span></div>
+            <div class="pc-price-block"><span class="pc-price-label" data-i18n="pricechange.current">Current price</span><span class="pc-price-new">53,00 &euro;</span></div>
+          </div>
+        </div>
+        <div class="pc-item">
+          <span class="pc-name">NETZSCH GLASSBEADS</span>
+          <span class="pc-unavailable" data-i18n="pricechange.unavailable">Price unavailable</span>
         </div>
       </div>
-      <div class="pc-divider"></div>
       <p class="pc-note" data-i18n="pricechange.note">We couldn't confirm the current price for these items, so they'll be removed from your cart. Please contact us if you still need them.</p>
-      <div class="pc-row" style="margin-top:14px;">
-        <span class="pc-name">NETZSCH GLASSBEADS</span>
-        <span class="pc-unavailable" data-i18n="pricechange.unavailable">Price unavailable</span>
-      </div>
-      <div class="pc-divider"></div>
       <div class="pc-actions">
-        <button class="pc-update-btn" id="pcUpdate" data-i18n="pricechange.update">UPDATE CART</button>
+        <button type="button" class="btn btn-primary btn-lg" id="pcUpdate">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          <span data-i18n="pricechange.update">Update cart</span>
+        </button>
       </div>
     </div>
   </div>
