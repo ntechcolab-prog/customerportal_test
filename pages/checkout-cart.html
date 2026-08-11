@@ -2052,12 +2052,7 @@ function sendFromSmallChat() {
             <div class="pc-price-block"><span class="pc-price-label" data-i18n="pricechange.current">Current price</span><span class="pc-price-new">53,00 &euro;</span></div>
           </div>
         </div>
-        <div class="pc-item">
-          <span class="pc-name">NETZSCH GLASSBEADS</span>
-          <span class="pc-unavailable" data-i18n="pricechange.unavailable">Price unavailable</span>
-        </div>
       </div>
-      <p class="pc-note" data-i18n="pricechange.note">We couldn't confirm the current price for these items, so they'll be removed from your cart. Please contact us if you still need them.</p>
       <div class="pc-actions">
         <button type="button" class="btn btn-primary btn-lg btn-full" id="pcUpdate">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
@@ -2085,12 +2080,8 @@ function sendFromSmallChat() {
       document.getElementById('pcClose').addEventListener('click', closePc);
       ov.addEventListener('click', function(e){ if(e.target===ov) closePc(); });
       document.addEventListener('keydown', function(e){ if(e.key==='Escape' && ov.classList.contains('open')) closePc(); });
-      // UPDATE CART: drop the unavailable Glassbeads item, then continue to checkout.
+      // UPDATE CART: apply the updated prices and continue to checkout.
       document.getElementById('pcUpdate').addEventListener('click', function(){
-        try {
-          var c = JSON.parse(localStorage.getItem('netzsch_cart')||'{}');
-          if (c.items) { c.items = c.items.filter(function(it){ return (it.name||'').toUpperCase().indexOf('GLASSBEADS') === -1; }); localStorage.setItem('netzsch_cart', JSON.stringify(c)); }
-        } catch(e){}
         window.location.href = 'checkout.html';
       });
     })();
