@@ -26,11 +26,16 @@
     '.docs-header-close { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; font-size:18px; color:#6b6e73; transition:background 0.15s; }',
     '.docs-header-close:hover { background:#f3f4f6; }',
 
-    '.docs-search { padding:16px 24px 0; flex-shrink:0; }',
-    '.docs-search-input { width:100%; height:40px; border:1px solid #d4d6d8; border-radius:10px; padding:0 16px 0 40px; font-family:"Inter",sans-serif; font-size:14px; color:#2d2e33; background:#fff url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%239ca0a5\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Ccircle cx=\'11\' cy=\'11\' r=\'8\'/%3E%3Cline x1=\'21\' y1=\'21\' x2=\'16.65\' y2=\'16.65\'/%3E%3C/svg%3E") no-repeat 14px center; outline:none; transition:border-color 0.15s; }',
+    '.docs-search { padding:16px 24px 0; flex-shrink:0; display:flex; align-items:center; gap:12px; }',
+    '.docs-search-input { flex:1; min-width:0; height:40px; border:1px solid #d4d6d8; border-radius:10px; padding:0 16px 0 40px; font-family:"Inter",sans-serif; font-size:14px; color:#2d2e33; background:#fff url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%239ca0a5\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Ccircle cx=\'11\' cy=\'11\' r=\'8\'/%3E%3Cline x1=\'21\' y1=\'21\' x2=\'16.65\' y2=\'16.65\'/%3E%3C/svg%3E") no-repeat 14px center; outline:none; transition:border-color 0.15s; }',
     '.docs-search-input:focus { border-color:#007167; }',
     '.docs-search-input::placeholder { color:#9ca0a5; }',
     '.docs-no-results { padding:32px 0; text-align:center; color:#9ca0a5; font-size:14px; display:none; }',
+
+    '.docs-lang-wrap { display:flex; align-items:center; gap:6px; flex-shrink:0; }',
+    '.docs-lang-label { font-size:11px; font-weight:500; color:#6b6e73; text-transform:uppercase; letter-spacing:0.04em; }',
+    '.docs-lang-select { appearance:none; -webkit-appearance:none; height:40px; border:1px solid #d4d6d8; border-radius:10px; padding:0 34px 0 14px; font-family:"Inter",sans-serif; font-size:13px; font-weight:500; color:#2d2e33; background:#fff url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'8\' fill=\'none\'%3E%3Cpath d=\'M1 1.5l5 5 5-5\' stroke=\'%236b6e73\' stroke-width=\'1.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E") no-repeat right 12px center; cursor:pointer; outline:none; transition:border-color 0.15s, box-shadow 0.15s; }',
+    '.docs-lang-select:focus { border-color:#007167; box-shadow:0 0 0 3px rgba(0,113,103,0.1); }',
 
     '.docs-body { flex:1; overflow-y:auto; padding:24px; }',
 
@@ -57,29 +62,39 @@
   ].join('\n');
   document.head.appendChild(style);
 
+  // ── Languages available in the filter (order per portal: DE, PT, EN, ES) ──
+  var docLangs = [
+    { code: 'all', label: 'All languages' },
+    { code: 'de', label: 'Deutsch' },
+    { code: 'pt', label: 'Português' },
+    { code: 'en', label: 'English' },
+    { code: 'es', label: 'Español' },
+  ];
+
   // ── Documents data (dynamic per machine) ──
+  // `langs` = languages each document is available in (drives the language filter).
   var m = machineTitle;
   var machineDocs = {
     'Operating Manuals': [
-      { name: m + ' — Operating Manual v3.2', type: 'pdf', size: '4.2 MB', date: 'Jan 2026' },
-      { name: m + ' — Quick Start Guide', type: 'pdf', size: '1.1 MB', date: 'Jan 2026' },
+      { name: m + ' — Operating Manual v3.2', type: 'pdf', size: '4.2 MB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
+      { name: m + ' — Quick Start Guide', type: 'pdf', size: '1.1 MB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
     ],
     'Maintenance Guides': [
-      { name: m + ' — Preventive Maintenance Schedule', type: 'pdf', size: '2.8 MB', date: 'Dec 2025' },
-      { name: m + ' — Troubleshooting Guide', type: 'pdf', size: '3.5 MB', date: 'Nov 2025' },
+      { name: m + ' — Preventive Maintenance Schedule', type: 'pdf', size: '2.8 MB', date: 'Dec 2025', langs: ['de', 'pt', 'en'] },
+      { name: m + ' — Troubleshooting Guide', type: 'pdf', size: '3.5 MB', date: 'Nov 2025', langs: ['de', 'en', 'es'] },
     ],
     'Spare Parts Catalog': [
-      { name: m + ' — Spare Parts Catalog 2026', type: 'pdf', size: '8.6 MB', date: 'Feb 2026' },
-      { name: m + ' — Wear Parts Reference', type: 'pdf', size: '1.9 MB', date: 'Oct 2025' },
+      { name: m + ' — Spare Parts Catalog 2026', type: 'pdf', size: '8.6 MB', date: 'Feb 2026', langs: ['de', 'pt', 'en', 'es'] },
+      { name: m + ' — Wear Parts Reference', type: 'pdf', size: '1.9 MB', date: 'Oct 2025', langs: ['de', 'en'] },
     ],
     'Certificates & Compliance': [
-      { name: m + ' — CE Declaration of Conformity', type: 'pdf', size: '420 KB', date: 'Aug 2024' },
-      { name: m + ' — Calibration Certificate', type: 'pdf', size: '380 KB', date: 'Mar 2026' },
-      { name: m + ' — ATEX Compliance Report', type: 'pdf', size: '1.2 MB', date: 'Aug 2024' },
+      { name: m + ' — CE Declaration of Conformity', type: 'pdf', size: '420 KB', date: 'Aug 2024', langs: ['de', 'en'] },
+      { name: m + ' — Calibration Certificate', type: 'pdf', size: '380 KB', date: 'Mar 2026', langs: ['de', 'en', 'es'] },
+      { name: m + ' — ATEX Compliance Report', type: 'pdf', size: '1.2 MB', date: 'Aug 2024', langs: ['de', 'en'] },
     ],
     'Technical Drawings': [
-      { name: m + ' — General Assembly Drawing', type: 'dwg', size: '5.4 MB', date: 'Aug 2024' },
-      { name: m + ' — Inlet Flange Detail', type: 'dwg', size: '2.1 MB', date: 'Aug 2024' },
+      { name: m + ' — General Assembly Drawing', type: 'dwg', size: '5.4 MB', date: 'Aug 2024', langs: ['de', 'pt', 'en', 'es'] },
+      { name: m + ' — Inlet Flange Detail', type: 'dwg', size: '2.1 MB', date: 'Aug 2024', langs: ['de', 'pt', 'en', 'es'] },
     ],
   };
 
@@ -92,7 +107,7 @@
     bodyHtml += '<div class="docs-category-title">' + category + '</div>';
     bodyHtml += '<div class="docs-list">';
     machineDocs[category].forEach(function (doc) {
-      bodyHtml += '<div class="docs-item">';
+      bodyHtml += '<div class="docs-item" data-langs="' + doc.langs.join(',') + '">';
       bodyHtml += '<div class="docs-item-icon ' + doc.type + '">' + doc.type.toUpperCase() + '</div>';
       bodyHtml += '<div class="docs-item-info">';
       bodyHtml += '<span class="docs-item-name">' + doc.name + '</span>';
@@ -115,19 +130,31 @@
     '    </div>' +
     '    <button class="docs-header-close" aria-label="Close">&#x2715;</button>' +
     '  </div>' +
-    '  <div class="docs-search"><input class="docs-search-input" type="text" placeholder="Search documents..." id="docsSearch"></div>' +
+    '  <div class="docs-search">' +
+    '    <input class="docs-search-input" type="text" placeholder="Search documents..." id="docsSearch">' +
+    '    <div class="docs-lang-wrap">' +
+    '      <span class="docs-lang-label">Lang.</span>' +
+    '      <select class="docs-lang-select" id="docsLangSelect" aria-label="Filter documents by language">' +
+    docLangs.map(function (l) {
+      return '<option value="' + l.code + '">' + l.label + '</option>';
+    }).join('') +
+    '      </select>' +
+    '    </div>' +
+    '  </div>' +
     '  <div class="docs-no-results" id="docsNoResults">No documents found.</div>' +
     '  <div class="docs-body" id="docsBody">' + bodyHtml + '</div>' +
     '</div>';
   document.body.appendChild(overlay);
 
-  // ── Search / filter ──
+  // ── Search / filter (text + language, combined) ──
   var searchInput = document.getElementById('docsSearch');
+  var langSelect = document.getElementById('docsLangSelect');
   var noResults = document.getElementById('docsNoResults');
   var docsBody = document.getElementById('docsBody');
 
-  searchInput.addEventListener('input', function () {
-    var q = this.value.trim().toLowerCase();
+  function applyFilter() {
+    var q = searchInput.value.trim().toLowerCase();
+    var lang = langSelect.value;
     var totalVisible = 0;
 
     docsBody.querySelectorAll('.docs-category').forEach(function (cat) {
@@ -135,7 +162,10 @@
       cat.querySelectorAll('.docs-item').forEach(function (item) {
         var name = item.querySelector('.docs-item-name').textContent.toLowerCase();
         var meta = item.querySelector('.docs-item-meta').textContent.toLowerCase();
-        var match = !q || name.indexOf(q) !== -1 || meta.indexOf(q) !== -1;
+        var itemLangs = (item.getAttribute('data-langs') || '').split(',');
+        var textMatch = !q || name.indexOf(q) !== -1 || meta.indexOf(q) !== -1;
+        var langMatch = lang === 'all' || itemLangs.indexOf(lang) !== -1;
+        var match = textMatch && langMatch;
         item.style.display = match ? '' : 'none';
         if (match) catVisible++;
       });
@@ -144,13 +174,17 @@
     });
 
     noResults.style.display = totalVisible === 0 ? '' : 'none';
-  });
+  }
+
+  searchInput.addEventListener('input', applyFilter);
+  langSelect.addEventListener('change', applyFilter);
 
   // ── Events ──
   function openDocs(e) {
     e.preventDefault();
     searchInput.value = '';
-    searchInput.dispatchEvent(new Event('input'));
+    langSelect.value = 'all';
+    applyFilter();
     overlay.classList.add('open');
     setTimeout(function () { searchInput.focus(); }, 300);
   }
