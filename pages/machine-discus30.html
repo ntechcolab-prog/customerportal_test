@@ -432,11 +432,9 @@
       min-height: 400px;
     }
     .hero-divider-v {
-      width: 0;
-      background: #fff;
-      position: relative;
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      width: 1px;
+      background: rgba(0, 0, 0, 0.06);
+      margin: 24px 0;
     }
     .hero-divider-v::after {
       content: '';
@@ -451,7 +449,6 @@
 
     /* Left — machine photo */
     .hero-photo {
-      border-right: 1px solid rgba(0, 0, 0, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -610,8 +607,17 @@
       transform: rotate(180deg);
     }
     .hero-details {
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      position: relative;
       padding: 16px 36px;
+    }
+    .hero-details::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 36px;
+      right: 36px;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.06);
     }
     .hero-details-content {
       display: none;
@@ -2023,7 +2029,7 @@
 
     <!-- Machine Details — full-width, expands below the hero (image + actions) without pushing them -->
     <div class="hero-details" id="hero-details">
-      <button type="button" class="hero-details-toggle" onclick="document.getElementById('hero-details').classList.toggle('details-open')">
+      <button type="button" class="hero-details-toggle" onclick="toggleMachineDetails()">
         <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Machine Details
       </button>
@@ -2054,6 +2060,27 @@
       </div>
     </div>
     </div><!-- /hero-card -->
+    <script>
+      function toggleMachineDetails() {
+        var d = document.getElementById('hero-details');
+        var opened = d.classList.toggle('details-open');
+        if (!opened) return;
+        requestAnimationFrame(function () {
+          var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var content = d.querySelector('.hero-details-content');
+          var rect = content.getBoundingClientRect();
+          var top = window.scrollY;
+          if (rect.bottom > window.innerHeight) {
+            // scroll just enough to reveal the opened content, but keep the
+            // toggle below the sticky header (don't overshoot)
+            top = window.scrollY + rect.bottom - window.innerHeight + 16;
+            var maxTop = window.scrollY + d.getBoundingClientRect().top - 76;
+            top = Math.min(top, maxTop);
+          }
+          window.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
+        });
+      }
+    </script>
 
 
     </div>
