@@ -583,24 +583,28 @@
 
     /* Machine details accordion inside hero */
     .hero-details-toggle {
+      width: 100%;
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 0;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 16px 36px;
       background: none;
       border: none;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
-      color: #007167;
-      margin-bottom: 0;
-      transition: color 0.15s;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d1d1f;
+      text-align: left;
+      transition: background 0.15s;
     }
-    .hero-details-toggle:hover { color: #005f57; }
+    .hero-details-toggle:hover { background: #f9fafb; }
     .hero-details-toggle svg {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
+      color: #86868b;
+      flex-shrink: 0;
       transition: transform 0.25s var(--ease-apple);
     }
     .hero-details.details-open .hero-details-toggle svg {
@@ -608,7 +612,6 @@
     }
     .hero-details {
       position: relative;
-      padding: 16px 36px;
     }
     .hero-details::before {
       content: "";
@@ -621,9 +624,7 @@
     }
     .hero-details-content {
       display: none;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 0 36px 20px;
     }
     .hero-details.details-open .hero-details-content {
       display: block;
@@ -2030,8 +2031,8 @@
     <!-- Machine Details — full-width, expands below the hero (image + actions) without pushing them -->
     <div class="hero-details" id="hero-details">
       <button type="button" class="hero-details-toggle" onclick="toggleMachineDetails()">
+        <span>Machine Details</span>
         <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Machine Details
       </button>
       <div class="hero-details-content">
         <div class="detail-grid">
