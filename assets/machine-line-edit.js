@@ -251,3 +251,123 @@
     setTimeout(function () { t.remove(); }, 3000);
   }
 })();
+
+/**
+ * Hero layout (machine-discus30): editable installation date (.hero-install).
+ * Displays dd/mm/yyyy, edits via a native date picker, persists locally.
+ * Self-contained; no-ops on pages without the element.
+ */
+(function () {
+  var wrap = document.querySelector('.hero-install');
+  if (!wrap || wrap.getAttribute('data-date-editable')) return;
+  var valueEl = wrap.querySelector('.hero-install-value');
+  if (!valueEl) return;
+  wrap.setAttribute('data-date-editable', 'true');
+
+  var titleEl = document.querySelector('.hero-machine-name') || document.querySelector('.machine-title');
+  var machineKey = titleEl ? titleEl.textContent.trim().replace(/\s+/g, '_').toLowerCase() : 'machine';
+  var storageKey = 'netzsch_installdate_' + machineKey;
+
+  function formatDMY(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    return m ? m[3] + '/' + m[2] + '/' + m[1] : (iso || '');
+  }
+
+  // Restore saved value
+  var saved = null;
+  try { saved = localStorage.getItem(storageKey); } catch (e) {}
+  if (saved && /^\d{4}-\d{2}-\d{2}$/.test(saved)) {
+    valueEl.setAttribute('data-date', saved);
+    valueEl.textContent = formatDMY(saved);
+  }
+
+  // ── Inject CSS (once) ──
+  if (!document.getElementById('hero-install-edit-styles')) {
+    var style = document.createElement('style');
+    style.id = 'hero-install-edit-styles';
+    style.textContent = [
+      '.hero-install-edit-btn { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; border-radius:6px; cursor:pointer; color:#9ca3af; padding:0; transition:background 0.15s, color 0.15s; flex-shrink:0; }',
+      '.hero-install-edit-btn:hover { background:#f0f1f2; color:#007167; }',
+      '.hero-install-edit-btn:focus-visible { outline:2px solid #007167; outline-offset:2px; }',
+      '.hero-install-edit-btn svg { width:12px; height:12px; }',
+      '.hero-install-input { height:26px; border:1px solid #007167; border-radius:6px; padding:0 8px; font-family:"Inter",sans-serif; font-size:12px; color:#374151; outline:none; }',
+      '.hero-install-input:focus { box-shadow:0 0 0 3px rgba(0,113,103,0.12); }',
+      '.hero-install-editing { display:inline-flex; align-items:center; gap:6px; }',
+      '.hero-install-save, .hero-install-cancel { width:24px; height:24px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; border:none; cursor:pointer; transition:background 0.15s; flex-shrink:0; }',
+      '.hero-install-save { background:#007167; color:#fff; }',
+      '.hero-install-save:hover { background:#005f57; }',
+      '.hero-install-cancel { background:#f3f4f6; color:#6b6e73; }',
+      '.hero-install-cancel:hover { background:#e5e7eb; }',
+      '.hero-install-save svg, .hero-install-cancel svg { width:11px; height:11px; }'
+    ].join('\n');
+    document.head.appendChild(style);
+  }
+
+  var pencilSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+  var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  var closeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+  var editBtn = document.createElement('button');
+  editBtn.type = 'button';
+  editBtn.className = 'hero-install-edit-btn';
+  editBtn.setAttribute('aria-label', 'Edit installation date');
+  editBtn.title = 'Edit installation date';
+  editBtn.innerHTML = pencilSvg;
+  wrap.appendChild(editBtn);
+  editBtn.addEventListener('click', function (e) { e.preventDefault(); startEdit(); });
+
+  function startEdit() {
+    valueEl.style.display = 'none';
+    editBtn.style.display = 'none';
+
+    var editWrap = document.createElement('span');
+    editWrap.className = 'hero-install-editing';
+    editWrap.innerHTML =
+      '<input class="hero-install-input" type="date" value="' + (valueEl.getAttribute('data-date') || '') + '" aria-label="Installation date">' +
+      '<button type="button" class="hero-install-save" title="Save" aria-label="Save">' + checkSvg + '</button>' +
+      '<button type="button" class="hero-install-cancel" title="Cancel" aria-label="Cancel">' + closeSvg + '</button>';
+    wrap.appendChild(editWrap);
+
+    var input = editWrap.querySelector('.hero-install-input');
+    input.focus();
+
+    function finishSave() {
+      var val = input.value;
+      if (val && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
+        valueEl.setAttribute('data-date', val);
+        valueEl.textContent = formatDMY(val);
+        try { localStorage.setItem(storageKey, val); } catch (e) {}
+        showToast('Installation date updated');
+      }
+      cleanup();
+    }
+    function cleanup() {
+      editWrap.remove();
+      valueEl.style.display = '';
+      editBtn.style.display = '';
+    }
+
+    editWrap.querySelector('.hero-install-save').addEventListener('click', finishSave);
+    editWrap.querySelector('.hero-install-cancel').addEventListener('click', cleanup);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); finishSave(); }
+      else if (e.key === 'Escape') { e.preventDefault(); cleanup(); }
+    });
+  }
+
+  function showToast(msg) {
+    var existing = document.querySelector('.hourmeter-toast');
+    if (existing) {
+      existing.textContent = msg;
+      existing.classList.add('show');
+      setTimeout(function () { existing.classList.remove('show'); }, 2500);
+      return;
+    }
+    var t = document.createElement('div');
+    t.className = 'hourmeter-toast show';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function () { t.classList.remove('show'); }, 2500);
+    setTimeout(function () { t.remove(); }, 3000);
+  }
+})();

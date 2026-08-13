@@ -495,8 +495,18 @@
     .hero-serial {
       font-size: 13px;
       color: #86868b;
+      margin-bottom: 4px;
+    }
+    .hero-install {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #86868b;
       margin-bottom: 24px;
     }
+    .hero-install-label { font-weight: 600; color: #6b6e73; }
+    .hero-install-value { font-variant-numeric: tabular-nums; }
     .hero-divider {
       height: 1px;
       background: rgba(0, 0, 0, 0.08);
@@ -1953,7 +1963,11 @@
       <div class="hero-info" id="hero-info">
         <span class="hero-line-badge">LINE 1</span>
         <h1 class="hero-machine-name">Discus 30</h1>
-        <span class="hero-serial">SN: 2801548-10 · Brazil · Aug 2024</span>
+        <span class="hero-serial">SN: 2801548-10 · Brazil</span>
+        <span class="hero-install">
+          <span class="hero-install-label">Installed:</span>
+          <span class="hero-install-value" data-date="2024-08-20">20/08/2024</span>
+        </span>
 
         <div class="hero-divider"></div>
 
