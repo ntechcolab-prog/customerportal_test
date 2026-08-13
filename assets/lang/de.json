@@ -105,6 +105,7 @@
   "common.submit": "Absenden",
   "common.loading": "Wird geladen...",
   "common.noResults": "Keine Ergebnisse gefunden",
+  "common.noResultsDesc": "Passen Sie Ihre Suche oder Filter an",
   "common.showing": "Anzeige",
   "common.of": "von",
   "common.items": "Einträge",
