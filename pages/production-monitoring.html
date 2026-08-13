@@ -465,7 +465,7 @@
       position: relative;
       background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
       border-radius: 14px;
-      padding: 48px;
+      padding: 32px 36px;
       overflow: hidden;
     }
     .hero-banner-bg {
@@ -514,6 +514,30 @@
       position: relative;
       z-index: 1;
     }
+    .hero-badge {
+      position: absolute; top: 20px; right: 20px; z-index: 1;
+      background: #fff; color: #007167;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      padding: 4px 11px; border-radius: 999px;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      justify-content: start;
+      gap: 40px;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      position: relative; z-index: 1;
+    }
+    .hero-stat { display: flex; flex-direction: column; gap: 3px; }
+    .hero-stat-num { font-size: 26px; font-weight: 700; color: #fff; letter-spacing: -0.5px; line-height: 1; }
+    .hero-stat-lbl { font-size: 12px; color: rgba(255, 255, 255, 0.8); }
+    .pm-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 700px) {
+      .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 20px 24px; }
+      .pm-form-grid { grid-template-columns: 1fr; }
+    }
     /* Hero buttons — powered by buttons.css, page overrides for dark bg */
     .hero-btn-primary { background: #fff; color: #007167; }
     .hero-btn-primary:hover { background: #f0f0f0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
@@ -538,7 +562,7 @@
       border: 1px solid rgba(0, 0, 0, 0.06);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
       border-radius: 14px;
-      padding: 24px;
+      padding: 18px 20px;
     }
     .feature-icon {
       width: 48px;
@@ -969,14 +993,6 @@
       <div class="skeleton-card skel-feature-card"><div class="skeleton skel-feature-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:10px"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium" style="margin-top:6px"></div></div>
       <div class="skeleton-card skel-feature-card"><div class="skeleton skel-feature-icon"></div><div class="skeleton skeleton-title" style="width:60%;margin-bottom:10px"></div><div class="skeleton skeleton-text long"></div><div class="skeleton skeleton-text medium" style="margin-top:6px"></div></div>
     </div>
-    <!-- Benefits -->
-    <div class="skeleton skeleton-title wide" style="margin-bottom:16px"></div>
-    <div class="skel-benefits-row">
-      <div class="skeleton-card skel-benefit-item"><div class="skeleton skeleton-title" style="width:60px;height:32px;margin:0 auto 12px"></div><div class="skeleton skeleton-text medium" style="margin:0 auto"></div></div>
-      <div class="skeleton-card skel-benefit-item"><div class="skeleton skeleton-title" style="width:60px;height:32px;margin:0 auto 12px"></div><div class="skeleton skeleton-text medium" style="margin:0 auto"></div></div>
-      <div class="skeleton-card skel-benefit-item"><div class="skeleton skeleton-title" style="width:60px;height:32px;margin:0 auto 12px"></div><div class="skeleton skeleton-text medium" style="margin:0 auto"></div></div>
-      <div class="skeleton-card skel-benefit-item"><div class="skeleton skeleton-title" style="width:60px;height:32px;margin:0 auto 12px"></div><div class="skeleton skeleton-text medium" style="margin:0 auto"></div></div>
-    </div>
     <!-- Quote form -->
     <div class="skeleton-card skel-quote-card">
       <div class="skeleton skeleton-title wide" style="margin-bottom:8px"></div>
@@ -991,17 +1007,24 @@
   <!-- PAGE CONTENT -->
   <div class="page-content">
 
-    <!-- SECTION 1: HERO BANNER -->
+    <!-- HERO -->
     <section class="hero-banner" aria-label="Production Monitoring overview" data-skeleton-stagger>
       <div class="hero-banner-bg"></div>
+      <span class="hero-badge">NEW</span>
       <div class="hero-icon">
         <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
       </div>
       <h1 class="hero-title" data-i18n="prodMonitor.title">Production Monitoring for ProPhi</h1>
-      <p class="hero-subtitle" data-i18n="prodMonitor.subtitle">Real-time performance tracking, predictive maintenance, and production analytics — all in one integrated platform.</p>
+      <p class="hero-subtitle" data-i18n="prodMonitor.subtitle">Live tracking, predictive maintenance and analytics — in one platform.</p>
       <div class="hero-actions">
-        <a href="#quote-form" class="btn btn-cta btn-lg hero-btn-primary" id="btn-request-quote" data-i18n="prodMonitor.requestQuote">Request Quote</a>
+        <a href="#quote-form" class="btn btn-cta btn-lg hero-btn-primary" id="btn-request-quote">Request a Demo</a>
         <button type="button" class="btn btn-secondary btn-lg hero-btn-secondary" data-i18n="prodMonitor.watchDemo">Watch Demo</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-num">&minus;40%</span><span class="hero-stat-lbl">Unplanned downtime</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">+15%</span><span class="hero-stat-lbl">Production efficiency</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">24/7</span><span class="hero-stat-lbl">Remote access</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">&lt;2min</span><span class="hero-stat-lbl">Alert response</span></div>
       </div>
     </section>
 
@@ -1015,7 +1038,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
           </div>
           <h3 class="feature-title">Real-Time Dashboard</h3>
-          <p class="feature-desc">Monitor production parameters in real-time. Track throughput, energy consumption, and grinding efficiency from any device.</p>
+          <p class="feature-desc">Throughput, energy &amp; grinding efficiency — live.</p>
         </div>
 
         <div class="feature-card">
@@ -1023,7 +1046,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           </div>
           <h3 class="feature-title">Predictive Maintenance</h3>
-          <p class="feature-desc">AI-powered alerts predict component wear before failures occur. Reduce unplanned downtime by up to 40%.</p>
+          <p class="feature-desc">AI spots component wear before it fails.</p>
         </div>
 
         <div class="feature-card">
@@ -1031,7 +1054,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="8" y1="15" x2="8" y2="9"/><line x1="12" y1="15" x2="12" y2="6"/><line x1="16" y1="15" x2="16" y2="12"/></svg>
           </div>
           <h3 class="feature-title">Production Analytics</h3>
-          <p class="feature-desc">Historical data analysis, batch comparison, and trend reports. Export data in CSV or integrate with your ERP.</p>
+          <p class="feature-desc">Trends, batch comparison &amp; CSV/ERP export.</p>
         </div>
 
         <div class="feature-card">
@@ -1039,7 +1062,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
           </div>
           <h3 class="feature-title">Remote Monitoring</h3>
-          <p class="feature-desc">Access your machine data from anywhere. Secure cloud connection with encrypted data transfer.</p>
+          <p class="feature-desc">Secure, encrypted cloud access — anywhere.</p>
         </div>
 
         <div class="feature-card">
@@ -1047,7 +1070,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
           </div>
           <h3 class="feature-title">Alert System</h3>
-          <p class="feature-desc">Configurable thresholds and notifications via email, SMS, or push. Never miss a critical event.</p>
+          <p class="feature-desc">Email, SMS &amp; push — never miss an event.</p>
         </div>
 
         <div class="feature-card">
@@ -1055,32 +1078,9 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M12 18v4"/><circle cx="12" cy="12" r="4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
           </div>
           <h3 class="feature-title">Integration Ready</h3>
-          <p class="feature-desc">Open API for ERP, MES, and SCADA integration. Compatible with OPC-UA and MQTT protocols.</p>
+          <p class="feature-desc">ERP, MES &amp; SCADA via OPC-UA / MQTT.</p>
         </div>
 
-      </div>
-    </section>
-
-    <!-- SECTION 3: BENEFITS -->
-    <section aria-label="Benefits" data-skeleton-stagger>
-      <h2 class="section-title" data-i18n="prodMonitor.benefits">Benefits</h2>
-      <div class="benefits-row">
-        <div class="benefit-item">
-          <div class="benefit-number">40%</div>
-          <div class="benefit-label">Reduction in unplanned downtime</div>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-number">24/7</div>
-          <div class="benefit-label">Remote monitoring access</div>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-number">15%</div>
-          <div class="benefit-label">Increase in production efficiency</div>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-number">&lt; 2 min</div>
-          <div class="benefit-label">Alert response time</div>
-        </div>
       </div>
     </section>
 
@@ -1088,31 +1088,22 @@
     <section id="quote-form" aria-label="Request a quote" data-skeleton-stagger>
       <div class="quote-card">
         <div id="quote-form-content">
-          <h2 class="quote-title" data-i18n="prodMonitor.requestQuoteTitle">Request a Quote</h2>
-          <p class="quote-subtitle" data-i18n="prodMonitor.requestQuoteSubtitle">A NETZSCH specialist will contact you within 2 business days.</p>
+          <h2 class="quote-title">Request a demo</h2>
+          <p class="quote-subtitle">A NETZSCH specialist reaches out within 2 business days · ProPhi (S/N&nbsp;15202530-10)</p>
 
-          <div class="form-group">
-            <label class="form-label" for="field-machine">Machine</label>
-            <input type="text" id="field-machine" class="form-input" value="ProPhi — S/N 15202530-10" readonly>
+          <div class="pm-form-grid">
+            <div class="form-group">
+              <label class="form-label" for="field-name">Name</label>
+              <input type="text" id="field-name" class="form-input" placeholder="Your full name">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="field-email">Email</label>
+              <input type="email" id="field-email" class="form-input" placeholder="you@company.com">
+            </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="field-name">Contact Name</label>
-            <input type="text" id="field-name" class="form-input" placeholder="Enter your full name">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="field-email">Email</label>
-            <input type="email" id="field-email" class="form-input" placeholder="Enter your email address">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="field-phone">Phone<span class="optional">(optional)</span></label>
-            <input type="text" id="field-phone" class="form-input" placeholder="Enter your phone number">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="field-window">Preferred Contact Window</label>
+            <label class="form-label" for="field-window">Preferred contact window</label>
             <select id="field-window" class="form-select">
               <option value="" disabled selected>Select a time window</option>
               <option value="morning">Morning</option>
@@ -1121,12 +1112,7 @@
             </select>
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="field-notes">Additional Notes</label>
-            <textarea id="field-notes" class="form-textarea" placeholder="Any specific requirements or questions about Production Monitoring..."></textarea>
-          </div>
-
-          <button type="button" class="btn btn-primary btn-md btn-full" style="margin-top: 8px" id="btn-submit-quote">Submit Request</button>
+          <button type="button" class="btn btn-cta btn-md btn-full" style="margin-top: 8px" id="btn-submit-quote">Request Demo</button>
         </div>
 
         <div class="quote-success" id="quote-success">
