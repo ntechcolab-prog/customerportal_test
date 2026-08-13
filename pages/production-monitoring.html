@@ -534,6 +534,32 @@
     .hero-stat-num { font-size: 26px; font-weight: 700; color: #fff; letter-spacing: -0.5px; line-height: 1; }
     .hero-stat-lbl { font-size: 12px; color: rgba(255, 255, 255, 0.8); }
     .pm-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* ── REQUEST DEMO MODAL ─── */
+    .pm-modal-overlay {
+      position: fixed; inset: 0; z-index: 600;
+      background: rgba(0, 0, 0, 0.4);
+      -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .pm-modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .pm-modal-wrapper { position: relative; width: 520px; max-width: 92vw; }
+    .pm-modal-wrapper .quote-card {
+      max-width: none; margin: 0; width: 100%;
+      max-height: 88vh; overflow-y: auto;
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .pm-modal-overlay.open .quote-card { transform: scale(1) translateY(0); }
+    .pm-modal-close {
+      position: absolute; top: -36px; right: 0; width: 28px; height: 28px;
+      border-radius: 50%; background: rgba(255, 255, 255, 0.25); border: none;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      color: #fff; z-index: 10; transition: background 0.15s, transform 0.2s;
+    }
+    .pm-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+    .pm-modal-close svg { width: 14px; height: 14px; }
     @media (max-width: 700px) {
       .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 20px 24px; }
       .pm-form-grid { grid-template-columns: 1fr; }
@@ -1085,8 +1111,13 @@
     </section>
 
     <!-- SECTION 4: REQUEST QUOTE FORM -->
-    <section id="quote-form" aria-label="Request a quote" data-skeleton-stagger>
-      <div class="quote-card">
+    <!-- REQUEST DEMO MODAL -->
+    <div class="pm-modal-overlay" id="pm-modal-overlay">
+      <div class="pm-modal-wrapper">
+        <button type="button" class="pm-modal-close" id="pm-modal-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="quote-card">
         <div id="quote-form-content">
           <h2 class="quote-title">Request a demo</h2>
           <p class="quote-subtitle">A NETZSCH specialist reaches out within 2 business days · ProPhi (S/N&nbsp;15202530-10)</p>
@@ -1127,8 +1158,9 @@
             Back to ProPhi
           </a>
         </div>
+        </div>
       </div>
-    </section>
+    </div>
 
   </div>
 
@@ -1153,18 +1185,33 @@ document.addEventListener('click', function(e) {
 </script>
 
 <script>
-// Smooth scroll to form on "Request Quote" click
-document.getElementById('btn-request-quote').addEventListener('click', function(e) {
-  e.preventDefault();
-  document.getElementById('quote-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
+// Request a Demo → open modal
+(function () {
+  var overlay = document.getElementById('pm-modal-overlay');
+  var closeBtn = document.getElementById('pm-modal-close');
+  var trigger = document.getElementById('btn-request-quote');
 
-// Submit form → show success state
-document.getElementById('btn-submit-quote').addEventListener('click', function() {
-  document.getElementById('quote-form-content').style.display = 'none';
-  var success = document.getElementById('quote-success');
-  success.classList.add('is-visible');
-});
+  function open() {
+    // reset to form state (in case reopened after a submit)
+    document.getElementById('quote-form-content').style.display = '';
+    document.getElementById('quote-success').classList.remove('is-visible');
+    overlay.classList.add('open');
+  }
+  function close() { overlay.classList.remove('open'); }
+
+  if (trigger) trigger.addEventListener('click', function (e) { e.preventDefault(); open(); });
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  if (overlay) overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay && overlay.classList.contains('open')) close();
+  });
+
+  // Submit form → show success state
+  document.getElementById('btn-submit-quote').addEventListener('click', function () {
+    document.getElementById('quote-form-content').style.display = 'none';
+    document.getElementById('quote-success').classList.add('is-visible');
+  });
+})();
 </script>
 
 <script>
