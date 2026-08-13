@@ -417,44 +417,61 @@
       gap: 0;
     }
 
-    /* ── PRODUCTION MONITORING UPGRADE BANNER (ProPhi) ─── */
-    .upgrade-banner {
-      position: relative;
-      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
-      border-radius: 16px;
-      padding: 24px;
-      overflow: hidden;
-      margin-bottom: 24px;
+    /* ── PRODUCTION MONITORING MODAL (ProPhi) ─── */
+    .prodmon-overlay {
+      position: fixed; inset: 0; z-index: 600;
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
     }
-    .upgrade-banner-bg {
-      position: absolute;
-      inset: 0;
+    .prodmon-overlay.open { opacity: 1; pointer-events: auto; }
+    .prodmon-wrapper { position: relative; width: 460px; max-width: 92vw; }
+    .prodmon-close {
+      position: absolute; top: -36px; right: 0; width: 28px; height: 28px;
+      border-radius: 50%; background: rgba(255, 255, 255, 0.25); border: none;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      color: #fff; z-index: 10; transition: background 0.15s, transform 0.2s;
+    }
+    .prodmon-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+    .prodmon-close svg { width: 14px; height: 14px; }
+    .prodmon-box {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .prodmon-overlay.open .prodmon-box { transform: scale(1) translateY(0); }
+    .prodmon-hero {
+      position: relative; overflow: hidden; color: #fff;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      padding: 28px 28px 24px;
+    }
+    .prodmon-hero-bg {
+      position: absolute; inset: 0; pointer-events: none;
       background:
         radial-gradient(circle at 20% 80%, rgba(255,255,255,0.06) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(255,255,255,0.04) 0%, transparent 50%);
-      pointer-events: none;
     }
-    .upgrade-badge {
-      position: absolute; top: 16px; right: 16px;
+    .prodmon-badge {
+      position: absolute; top: 16px; right: 16px; z-index: 1;
       background: #fff; color: #007167;
       font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
-      padding: 3px 10px; border-radius: 999px; line-height: 1.4; z-index: 1;
+      padding: 3px 10px; border-radius: 999px;
     }
-    .upgrade-icon {
+    .prodmon-hero-icon {
       width: 48px; height: 48px; border-radius: 50%;
       background: rgba(255,255,255,0.15);
       display: flex; align-items: center; justify-content: center;
       margin-bottom: 14px; position: relative; z-index: 1;
     }
-    .upgrade-title {
-      font-size: 18px; font-weight: 700; color: #fff;
-      letter-spacing: -0.2px; margin-bottom: 6px; position: relative; z-index: 1;
-    }
-    .upgrade-desc {
-      font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.85);
-      line-height: 19px; margin-bottom: 18px; max-width: 620px; position: relative; z-index: 1;
-    }
-    .upgrade-btn-override { position: relative; z-index: 1; background: #fff; color: #007167; }
+    .prodmon-hero h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; margin: 0 0 6px; position: relative; z-index: 1; }
+    .prodmon-hero p { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.5; margin: 0; max-width: 340px; position: relative; z-index: 1; }
+    .prodmon-body { padding: 22px 28px 26px; }
+    .prodmon-features { list-style: none; margin: 0 0 22px; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+    .prodmon-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #374151; }
+    .prodmon-features svg { width: 18px; height: 18px; color: #007167; flex-shrink: 0; margin-top: 1px; }
+    .prodmon-footer { display: flex; justify-content: flex-end; }
 
     /* ── HERO LAYOUT (Zara-inspired) ─── */
     .hero-card {
@@ -2064,6 +2081,17 @@
             </div>
             <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
+
+          <div class="hero-action-item" id="prodmon-trigger" style="cursor:pointer;">
+            <div class="hero-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Production Monitoring <span class="ai-badge">NEW</span></div>
+              <span class="hero-action-desc">Real-time tracking &amp; predictive maintenance</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
         </div>
 
       </div>
@@ -2105,17 +2133,51 @@
     </div>
     </div><!-- /hero-card -->
 
-    <!-- PRODUCTION MONITORING BANNER (ProPhi) -->
-    <div class="upgrade-banner">
-      <div class="upgrade-banner-bg"></div>
-      <div class="upgrade-badge">NEW</div>
-      <div class="upgrade-icon">
-        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <!-- PRODUCTION MONITORING MODAL (ProPhi) -->
+    <div class="prodmon-overlay" id="prodmon-overlay">
+      <div class="prodmon-wrapper">
+        <button type="button" class="prodmon-close" id="prodmon-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="prodmon-box">
+          <div class="prodmon-hero">
+            <div class="prodmon-hero-bg"></div>
+            <div class="prodmon-badge">NEW</div>
+            <div class="prodmon-hero-icon">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <h2>Production Monitoring</h2>
+            <p>Real-time performance tracking, predictive maintenance alerts, and production analytics for your ProPhi.</p>
+          </div>
+          <div class="prodmon-body">
+            <ul class="prodmon-features">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Real-time performance tracking</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Predictive maintenance alerts</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Production analytics &amp; reports</span></li>
+            </ul>
+            <div class="prodmon-footer">
+              <a href="production-monitoring.html" class="btn btn-primary btn-md">Learn More</a>
+            </div>
+          </div>
+        </div>
       </div>
-      <h3 class="upgrade-title">Production Monitoring</h3>
-      <p class="upgrade-desc">Real-time performance tracking, predictive maintenance alerts, and production analytics for your ProPhi.</p>
-      <a href="production-monitoring.html" class="btn btn-primary btn-md upgrade-btn-override">Learn More</a>
     </div>
+    <script>
+      (function () {
+        var trigger = document.getElementById('prodmon-trigger');
+        var overlay = document.getElementById('prodmon-overlay');
+        if (!trigger || !overlay) return;
+        var closeBtn = document.getElementById('prodmon-close');
+        function open() { overlay.classList.add('open'); }
+        function close() { overlay.classList.remove('open'); }
+        trigger.addEventListener('click', open);
+        closeBtn.addEventListener('click', close);
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+        });
+      })();
+    </script>
     <script>
       function toggleMachineDetails() {
         var d = document.getElementById('hero-details');
