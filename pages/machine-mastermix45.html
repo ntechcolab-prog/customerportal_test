@@ -424,7 +424,7 @@
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       gap: 0;
-      min-height: 400px;
+      min-height: 360px;
     }
     .hero-divider-v {
       width: 1px;
@@ -440,7 +440,7 @@
     }
     .hero-photo img {
       max-width: 100%;
-      max-height: 380px;
+      max-height: 300px;
       object-fit: contain;
       transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
     }
@@ -2208,7 +2208,7 @@
             <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
 
-          <div class="hero-action-item" id="subset-action-card" style="cursor:default;" onclick="event.stopPropagation();">
+          <div class="hero-action-item" id="subset-trigger" style="cursor:pointer;">
             <div class="hero-action-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
             </div>
@@ -2216,21 +2216,10 @@
               <div class="hero-action-title">Select subset</div>
               <span class="hero-action-desc">Browse spare parts by assembly / subset</span>
             </div>
-            <div class="subset-wrapper" id="subset-wrapper">
-              <button type="button" class="subset-select" id="subset-select">
-                <span id="subset-select-label" data-i18n="machine.selectSubset">Choose...</span>
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5l3 3 3-3" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <div class="subset-dropdown" role="listbox">
-                <button type="button" class="subset-option" data-subset="Sealings FFKM">Sealings FFKM</button>
-                <button type="button" class="subset-option" data-subset="Complete bearing">Complete bearing</button>
-                <button type="button" class="subset-option" data-subset="Grinding chamber complete">Grinding chamber complete</button>
-                <button type="button" class="subset-option" data-subset="Inlet flange complete" data-href="machine-subset-inlet-flange.html">Inlet flange complete</button>
-              </div>
-            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
 
-          <a href="service-request.html?machine=MasterMix%2045&serial=15202462-20&line=LINE%203&img=machine-mastermix45.png" class="hero-action-item">
+          <div class="hero-action-item" id="service-request-trigger" style="cursor:pointer;">
             <div class="hero-action-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             </div>
@@ -2239,7 +2228,7 @@
               <span class="hero-action-desc">Schedule maintenance or report an issue</span>
             </div>
             <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+          </div>
 
           <a href="#" class="hero-action-item docs-link">
             <div class="hero-action-icon">
@@ -2661,9 +2650,9 @@ document.addEventListener('click', function(e) {
     const subsetWrapper = document.getElementById('subset-wrapper');
     const subsetBtn = document.getElementById('subset-select');
     const subsetLabel = document.getElementById('subset-select-label');
-    const subsetOptions = subsetWrapper.querySelectorAll('.subset-option');
+    const subsetOptions = subsetWrapper ? subsetWrapper.querySelectorAll('.subset-option') : [];
 
-    subsetBtn.addEventListener('click', (e) => {
+    if (subsetBtn) subsetBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       subsetWrapper.classList.toggle('is-open');
     });
@@ -2695,12 +2684,12 @@ document.addEventListener('click', function(e) {
       });
     });
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('#subset-wrapper')) {
+      if (subsetWrapper && !e.target.closest('#subset-wrapper')) {
         subsetWrapper.classList.remove('is-open');
       }
     });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') subsetWrapper.classList.remove('is-open');
+      if (e.key === 'Escape' && subsetWrapper) subsetWrapper.classList.remove('is-open');
     });
 
     // Click Search → mostra reasoning loader (~2.4s) → próxima tela
@@ -2812,6 +2801,440 @@ document.addEventListener('click', function(e) {
   if(overlay)overlay.addEventListener('click',toggle);
 })();
 </script>
+  <!-- SERVICE REQUEST MODAL (padrão Discus) -->
+  <!-- SERVICE REQUEST MODAL -->
+  <div class="sr-modal-overlay" id="sr-modal-overlay">
+    <div class="sr-modal-wrapper">
+      <button type="button" class="sr-modal-close" id="sr-modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="sr-modal">
+
+      <!-- Form state -->
+      <div id="sr-form-state">
+        <div class="sr-modal-header">
+          <div class="sr-modal-header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <h2>Service Request</h2>
+            <p>Schedule maintenance or report an issue</p>
+          </div>
+        </div>
+
+        <div class="sr-machine-bar">
+          <img src="../assets/machine-mastermix45.png" alt="MasterMix 45">
+          <div class="sr-machine-bar-info">
+            <div class="sr-machine-bar-name">MasterMix 45</div>
+            <div class="sr-machine-bar-meta">SN: 15202462-20 · LINE 3</div>
+          </div>
+        </div>
+
+        <div class="sr-modal-body">
+          <!-- Request Type -->
+          <div>
+            <span class="sr-field-label">Request Type <span class="required">*</span></span>
+            <div class="sr-radio-cards" id="sr-radio-cards">
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="repair">
+                <div class="sr-radio-card-title">Repair</div>
+                <div class="sr-radio-card-sub">Equipment Fix</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="maintenance">
+                <div class="sr-radio-card-title">Maintenance</div>
+                <div class="sr-radio-card-sub">Preventive care</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="spare-parts">
+                <div class="sr-radio-card-title">Spare Parts</div>
+                <div class="sr-radio-card-sub">Request Parts</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="consultation">
+                <div class="sr-radio-card-title">Consultation</div>
+                <div class="sr-radio-card-sub">Expert Advice</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <div>
+            <label class="sr-field-label" for="sr-title">Title <span class="required">*</span></label>
+            <input type="text" class="sr-input" id="sr-title" placeholder="Brief summary of the issue...">
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="sr-field-label" for="sr-desc">Problem Description <span class="required">*</span></label>
+            <textarea class="sr-textarea" id="sr-desc" placeholder="Describe the issue in detail..."></textarea>
+          </div>
+
+          <!-- Attachments -->
+          <div>
+            <span class="sr-field-label">Attachments</span>
+            <div class="sr-dropzone" id="sr-dropzone">
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="sr-dropzone-text">Drop files here or click to upload</span>
+              <span class="sr-dropzone-hint">Supports: PDF, JPG, PNG</span>
+              <input type="file" id="sr-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
+            </div>
+          </div>
+
+          <div class="sr-modal-footer">
+            <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Send Request</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div class="sr-success" id="sr-success">
+        <div class="sr-success-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Request Submitted</h3>
+        <p>Your service request for <strong>MasterMix 45</strong> has been submitted. Our team will contact you within 24 hours.</p>
+        <button type="button" class="btn btn-primary btn-md" id="sr-btn-done" style="margin-top:8px;">Done</button>
+      </div>
+    </div>
+    </div>
+  </div>
+  <style>
+    .subset-modal-overlay {
+      position: fixed; inset: 0; z-index: 600;
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .subset-modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .subset-modal-wrapper { position: relative; width: 680px; max-width: 92vw; }
+    .subset-modal-close {
+      position: absolute; top: -36px; right: 0; width: 28px; height: 28px;
+      border-radius: 50%; background: rgba(255, 255, 255, 0.25); border: none;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      color: #fff; z-index: 10; transition: background 0.15s, transform 0.2s;
+    }
+    .subset-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+    .subset-modal-box {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      max-height: 86vh; display: flex; flex-direction: column;
+    }
+    .subset-modal-overlay.open .subset-modal-box { transform: scale(1) translateY(0); }
+    .subset-modal-head { display: flex; align-items: flex-start; gap: 14px; padding: 24px 24px 8px; }
+    .subset-modal-head-icon { width: 44px; height: 44px; border-radius: 12px; background: #f0faf9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .subset-modal-head h2 { font-size: 18px; font-weight: 700; color: #1f2937; margin: 0 0 2px; letter-spacing: -0.3px; }
+    .subset-modal-head p { font-size: 13px; color: #6b7280; margin: 0; }
+    .subset-modal-list { display: flex; flex-direction: column; gap: 8px; padding: 16px 24px 24px; }
+    .subset-modal-option {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      width: 100%; padding: 14px 16px; background: #fff;
+      border: 1px solid #e5e7eb; border-radius: 12px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #374151;
+      cursor: pointer; text-align: left; transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+    .subset-modal-option:hover { border-color: #007167; background: #f0faf9; color: #007167; }
+    .subset-modal-option svg { width: 16px; height: 16px; color: #9ca3af; flex-shrink: 0; }
+    .subset-modal-option:hover svg { color: #007167; }
+    /* Results state — green header + reuses .milla-results / .milla-results-table for the body */
+    .subset-green-head { position: relative; background: linear-gradient(135deg, #007167 0%, #0b9c92 100%); padding: 16px 24px; flex-shrink: 0; }
+    .subset-green-bar .chev { transition: transform 0.25s; }
+    .subset-green-bar.open .chev { transform: rotate(180deg); }
+    .subset-switch-dropdown { position: absolute; top: calc(100% - 6px); left: 24px; right: 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 12px 28px rgba(0,0,0,0.16); padding: 6px; z-index: 30; opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.32,0.72,0,1); }
+    .subset-switch-dropdown.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .subset-switch-option { display: block; width: 100%; text-align: left; padding: 12px 14px; background: none; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .subset-switch-option:hover { background: #f0faf9; color: #007167; }
+    .subset-switch-option.is-current { background: #e6f4f3; color: #007167; font-weight: 600; }
+    .subset-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; padding: 56px 24px; min-height: 240px; }
+    .subset-empty svg { width: 40px; height: 40px; color: #d1d5db; }
+    .subset-empty p { font-size: 14px; color: #6b7280; margin: 0; }
+    .subset-green-bar { display: flex; align-items: center; gap: 12px; width: 100%; height: 46px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 0 16px; cursor: pointer; transition: background 0.15s; }
+    .subset-green-bar:hover { background: rgba(255,255,255,0.22); }
+    .subset-green-bar .doc { width: 18px; height: 18px; color: #fff; flex-shrink: 0; }
+    .subset-green-bar span { flex: 1; text-align: left; font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.2px; }
+    .subset-green-bar .chev { width: 18px; height: 18px; color: rgba(255,255,255,0.9); flex-shrink: 0; }
+    .btn-wish-sm.wished { background: #e8f5f3; border-color: #007167; color: #007167; }
+  </style>
+  <div class="subset-modal-overlay" id="subset-modal-overlay">
+    <div class="subset-modal-wrapper">
+      <button type="button" class="subset-modal-close" id="subset-modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="subset-modal-box">
+        <div id="subset-results-state">
+          <div class="subset-green-head">
+            <button type="button" class="subset-green-bar" id="subset-results-back" aria-label="Change subset">
+              <svg class="doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span id="subset-results-name">Select subset</span>
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="subset-switch-dropdown" id="subset-switch-dropdown">
+              <button type="button" class="subset-switch-option" data-subset="Sealings FFKM">Sealings FFKM</button>
+              <button type="button" class="subset-switch-option" data-subset="Complete bearing">Complete bearing</button>
+              <button type="button" class="subset-switch-option" data-subset="Grinding chamber complete">Grinding chamber complete</button>
+              <button type="button" class="subset-switch-option" data-subset="Inlet flange complete">Inlet flange complete</button>
+            </div>
+          </div>
+          <!-- Placeholder: no subset chosen yet -->
+          <div class="subset-empty" id="subset-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <p>Choose an assembly to see its spare parts</p>
+          </div>
+          <div class="milla-results" id="subset-results-body" style="display:none;">
+            <div class="milla-results-header">
+              <h3 class="milla-results-title">Spare Parts Found</h3>
+              <span class="milla-results-count" id="subset-results-count">0 results</span>
+            </div>
+            <div class="milla-results-drawing" id="subset-drawing" style="cursor: zoom-in;">
+              <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing">
+            </div>
+            <div class="milla-results-table-wrap">
+              <table class="milla-results-table">
+                <thead><tr><th>Itm</th><th>Material Nr.</th><th>Description</th><th>Price/unit</th><th></th></tr></thead>
+                <tbody id="subset-results-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="drawing-lightbox" id="subset-drawing-lightbox" style="z-index: 700;">
+    <div class="drawing-lightbox-content">
+      <button type="button" class="drawing-lightbox-close" id="subset-drawing-lightbox-close" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing — full view">
+    </div>
+  </div>
+  <script>
+  (function() {
+    var overlay = document.getElementById('subset-modal-overlay');
+    var trigger = document.getElementById('subset-trigger');
+    if (!overlay || !trigger) return;
+    var emptyState = document.getElementById('subset-empty');
+    var resultsBody = document.getElementById('subset-results-body');
+    var resName = document.getElementById('subset-results-name');
+    var resCount = document.getElementById('subset-results-count');
+    var resBody = document.getElementById('subset-results-tbody');
+    var switchDd = document.getElementById('subset-switch-dropdown');
+    var greenBar = document.getElementById('subset-results-back');
+
+    var subsetData = {
+      "Sealings FFKM": [
+        {i:"210", m:"518702", d:"Seal ring FFKM", p:42.00},
+        {i:"211", m:"518703", d:"O-ring FFKM 80x3", p:18.50},
+        {i:"212", m:"518709", d:"Gasket FFKM", p:24.00}
+      ],
+      "Complete bearing": [
+        {i:"801", m:"140045213", d:"Ring - AISI 304", p:75.89},
+        {i:"802", m:"140023995", d:"Ring for inner pipe", q:true}
+      ],
+      "Grinding chamber complete": [
+        {i:"410", m:"530220", d:"Grinding chamber liner", p:420.00},
+        {i:"411", m:"530221", d:"Rotor disc", p:310.00},
+        {i:"412", m:"530225", d:"Wear sleeve", p:95.00}
+      ],
+      "Inlet flange complete": [
+        {i:"900", m:"517225", d:"O-Ring", p:30.00},
+        {i:"901", m:"535214", d:"O-ring - CERTS", p:30.00},
+        {i:"902", m:"535841", d:"O-ring", p:30.00},
+        {i:"903", m:"140045213", d:"Inlet flange", p:75.89}
+      ]
+    };
+
+    function rowHtml(r) {
+      var priceCell = r.q ? '<td class="quotation">Quotation</td>' : '<td>€' + r.p.toFixed(2) + '</td>';
+      return '<tr data-name="' + r.d + '" data-ref="' + r.m + '" data-price="' + (r.q ? '0' : r.p) + '"' + (r.q ? ' data-quotation="true"' : '') + '>'
+        + '<td>' + r.i + '</td>'
+        + '<td class="mono">' + r.m + '</td>'
+        + '<td>' + r.d + '</td>'
+        + priceCell
+        + '<td class="td-action"><span class="td-action-row">'
+        + '<span class="td-qty"><button type="button" class="td-qty-btn" data-dir="minus">−</button><input type="number" class="td-qty-val" value="1" min="1"><button type="button" class="td-qty-btn" data-dir="plus">+</button></span>'
+        + '<button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button>'
+        + '<button type="button" class="btn-wish-sm" aria-label="Add to wishlist"><svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg></button>'
+        + '</span></td></tr>';
+    }
+
+    function openModal() { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; resetToEmpty(); }
+    function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+    function resetToEmpty() {
+      resName.textContent = 'Select subset';
+      emptyState.style.display = '';
+      resultsBody.style.display = 'none';
+      switchDd.classList.remove('open'); greenBar.classList.remove('open');
+      switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.remove('is-current'); });
+    }
+    function showResults(name) {
+      var parts = subsetData[name] || [];
+      resName.textContent = name;
+      switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.toggle('is-current', o.getAttribute('data-subset') === name); });
+      resCount.textContent = parts.length + (parts.length === 1 ? ' result' : ' results');
+      resBody.innerHTML = parts.map(rowHtml).join('');
+      emptyState.style.display = 'none';
+      resultsBody.style.display = '';
+    }
+
+    trigger.addEventListener('click', openModal);
+    document.getElementById('subset-modal-close').addEventListener('click', closeModal);
+    // Green bar = trocar de subset no lugar (dropdown), sem voltar à lista
+    greenBar.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = switchDd.classList.toggle('open');
+      greenBar.classList.toggle('open', isOpen);
+    });
+    switchDd.querySelectorAll('.subset-switch-option').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        showResults(opt.getAttribute('data-subset'));
+        switchDd.classList.remove('open');
+        greenBar.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (switchDd.classList.contains('open') && !e.target.closest('.subset-green-head')) {
+        switchDd.classList.remove('open');
+        greenBar.classList.remove('open');
+      }
+    });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+    // Drawing zoom — own lightbox (the Milla one is nested in a closed overlay)
+    var sDraw = document.getElementById('subset-drawing');
+    var sLightbox = document.getElementById('subset-drawing-lightbox');
+    if (sDraw && sLightbox) {
+      sDraw.addEventListener('click', function() { sLightbox.classList.add('open'); });
+      document.getElementById('subset-drawing-lightbox-close').addEventListener('click', function() { sLightbox.classList.remove('open'); });
+      sLightbox.addEventListener('click', function(e) { if (e.target === sLightbox) sLightbox.classList.remove('open'); });
+    }
+
+    // qty steppers + add-to-cart for dynamically-rendered rows (delegation)
+    resBody.addEventListener('click', function(e) {
+      var qbtn = e.target.closest('.td-qty-btn');
+      if (qbtn) {
+        var input = qbtn.closest('.td-qty').querySelector('.td-qty-val');
+        var val = parseInt(input.value) || 1;
+        if (qbtn.dataset.dir === 'minus' && val > 1) input.value = val - 1;
+        if (qbtn.dataset.dir === 'plus') input.value = val + 1;
+        return;
+      }
+      var wishBtn = e.target.closest('.btn-wish-sm');
+      if (wishBtn) {
+        var wp = wishBtn.querySelector('svg path');
+        var on = wishBtn.classList.toggle('wished');
+        if (wp) { wp.setAttribute('fill', on ? '#007167' : 'none'); wp.setAttribute('stroke', on ? '#007167' : 'currentColor'); }
+        return;
+      }
+      var addBtn = e.target.closest('.btn-add-sm');
+      if (addBtn) {
+        var tr = addBtn.closest('tr');
+        if (!tr) return;
+        var qty = parseInt(tr.querySelector('.td-qty-val').value) || 1;
+        try {
+          var cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}');
+          if (!cart.items) cart.items = [];
+          var ref = tr.dataset.ref;
+          var existing = cart.items.find(function(i) { return i.ref === ref; });
+          if (existing) { existing.qty += qty; }
+          else { cart.items.push({ name: tr.dataset.name, ref: ref, unitPrice: parseFloat(tr.dataset.price) || 0, qty: qty, quotation: tr.dataset.quotation === 'true' }); }
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+          var badge = document.getElementById('cart-badge');
+          if (badge) { badge.textContent = cart.items.reduce(function(s, i) { return s + i.qty; }, 0); badge.style.display = 'flex'; }
+          addBtn.textContent = 'Added ✓';
+          addBtn.style.background = '#007167'; addBtn.style.color = '#fff';
+          setTimeout(function() { addBtn.textContent = 'Add'; addBtn.style.background = ''; addBtn.style.color = ''; }, 1200);
+        } catch(err) {}
+        return;
+      }
+    });
+  })();
+  </script>
+  <script>
+  (function() {
+    var srOverlay = document.getElementById('sr-modal-overlay');
+    var srFormState = document.getElementById('sr-form-state');
+    var srSuccess = document.getElementById('sr-success');
+    var srBtnSend = document.getElementById('sr-btn-send');
+    var srTitle = document.getElementById('sr-title');
+    var srDesc = document.getElementById('sr-desc');
+
+    // Open modal
+    document.getElementById('service-request-trigger').addEventListener('click', function() {
+      srOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeSrModal() {
+      srOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      // Reset after close animation
+      setTimeout(function() {
+        srFormState.style.display = '';
+        srSuccess.classList.remove('show');
+        srBtnSend.disabled = true;
+        srTitle.value = '';
+        srDesc.value = '';
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        document.querySelectorAll('input[name="srType"]').forEach(function(r) { r.checked = false; });
+      }, 300);
+    }
+
+    // Close handlers
+    document.getElementById('sr-modal-close').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-cancel').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-done').addEventListener('click', closeSrModal);
+    srOverlay.addEventListener('click', function(e) {
+      if (e.target === srOverlay) closeSrModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && srOverlay.classList.contains('open')) closeSrModal();
+    });
+
+    // Radio card selection
+    document.querySelectorAll('.sr-radio-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        card.classList.add('selected');
+        validateSrForm();
+      });
+    });
+
+    // Form validation
+    function validateSrForm() {
+      var hasType = document.querySelector('input[name="srType"]:checked');
+      var hasTitle = srTitle.value.trim().length > 0;
+      var hasDesc = srDesc.value.trim().length > 0;
+      srBtnSend.disabled = !(hasType && hasTitle && hasDesc);
+    }
+    srTitle.addEventListener('input', validateSrForm);
+    srDesc.addEventListener('input', validateSrForm);
+
+    // Dropzone
+    var srDropzone = document.getElementById('sr-dropzone');
+    var srFileInput = document.getElementById('sr-file-input');
+    srDropzone.addEventListener('click', function() { srFileInput.click(); });
+    srFileInput.addEventListener('change', function() {
+      if (srFileInput.files.length > 0) {
+        srDropzone.querySelector('.sr-dropzone-text').textContent = srFileInput.files.length + ' file(s) selected';
+      }
+    });
+
+    // Submit → success
+    srBtnSend.addEventListener('click', function() {
+      if (srBtnSend.disabled) return;
+      srFormState.style.display = 'none';
+      srSuccess.classList.add('show');
+    });
+  })();
+  </script>
+
 <script src="../assets/docs-modal.js"></script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
