@@ -133,3 +133,121 @@
     });
   }
 })();
+
+/**
+ * New hero layout (machine-discus30, machine-zeta60): make the production-line
+ * badge (.hero-line-badge, e.g. "LINE 1") editable via a small pencil button.
+ * Self-contained; no-ops on pages without the badge.
+ */
+(function () {
+  var badge = document.querySelector('.hero-line-badge');
+  if (!badge || badge.getAttribute('data-line-editable')) return;
+  badge.setAttribute('data-line-editable', 'true');
+
+  // Persist per machine
+  var titleEl = document.querySelector('.hero-machine-name') || document.querySelector('.machine-title');
+  var machineKey = titleEl ? titleEl.textContent.trim().replace(/\s+/g, '_').toLowerCase() : 'machine';
+  var storageKey = 'netzsch_line_' + machineKey;
+  var saved = null;
+  try { saved = localStorage.getItem(storageKey); } catch (e) {}
+  if (saved) badge.textContent = saved;
+
+  // ── Inject CSS (once) ──
+  if (!document.getElementById('hero-line-edit-styles')) {
+    var style = document.createElement('style');
+    style.id = 'hero-line-edit-styles';
+    style.textContent = [
+      '.hero-line-row { display:flex; align-items:center; gap:6px; margin-bottom:8px; align-self:flex-start; }',
+      '.hero-line-row .hero-line-badge { margin-bottom:0; }',
+      '.hero-line-edit-btn { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; border-radius:6px; cursor:pointer; color:#9ca3af; padding:0; transition:background 0.15s, color 0.15s; flex-shrink:0; }',
+      '.hero-line-edit-btn:hover { background:#f0f1f2; color:#007167; }',
+      '.hero-line-edit-btn:focus-visible { outline:2px solid #007167; outline-offset:2px; }',
+      '.hero-line-edit-btn svg { width:12px; height:12px; }',
+      '.hero-line-input { height:24px; border:1px solid #007167; border-radius:6px; padding:0 8px; font-family:"Inter",sans-serif; font-size:10px; font-weight:600; color:#1d1d1f; text-transform:uppercase; letter-spacing:0.08em; outline:none; width:160px; }',
+      '.hero-line-input:focus { box-shadow:0 0 0 3px rgba(0,113,103,0.12); }',
+      '.hero-line-save, .hero-line-cancel { width:24px; height:24px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; border:none; cursor:pointer; transition:background 0.15s; flex-shrink:0; }',
+      '.hero-line-save { background:#007167; color:#fff; }',
+      '.hero-line-save:hover { background:#005f57; }',
+      '.hero-line-cancel { background:#f3f4f6; color:#6b6e73; }',
+      '.hero-line-cancel:hover { background:#e5e7eb; }',
+      '.hero-line-save svg, .hero-line-cancel svg { width:11px; height:11px; }'
+    ].join('\n');
+    document.head.appendChild(style);
+  }
+
+  var pencilSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+  var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  var closeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+  // Wrap badge in a row and add the pencil button next to it
+  var row = document.createElement('span');
+  row.className = 'hero-line-row';
+  badge.parentNode.insertBefore(row, badge);
+  row.appendChild(badge);
+
+  var editBtn = document.createElement('button');
+  editBtn.type = 'button';
+  editBtn.className = 'hero-line-edit-btn';
+  editBtn.setAttribute('aria-label', 'Edit production line name');
+  editBtn.title = 'Edit production line';
+  editBtn.innerHTML = pencilSvg;
+  row.appendChild(editBtn);
+  editBtn.addEventListener('click', function (e) { e.preventDefault(); startEdit(); });
+
+  function startEdit() {
+    var currentValue = badge.textContent.trim();
+    badge.style.display = 'none';
+    editBtn.style.display = 'none';
+
+    var editWrap = document.createElement('span');
+    editWrap.className = 'hero-line-editing';
+    editWrap.style.cssText = 'display:inline-flex; align-items:center; gap:6px;';
+    editWrap.innerHTML =
+      '<input class="hero-line-input" type="text" maxlength="40" value="' + currentValue.replace(/"/g, '&quot;') + '" aria-label="Production line name">' +
+      '<button type="button" class="hero-line-save" title="Save" aria-label="Save">' + checkSvg + '</button>' +
+      '<button type="button" class="hero-line-cancel" title="Cancel" aria-label="Cancel">' + closeSvg + '</button>';
+    row.appendChild(editWrap);
+
+    var input = editWrap.querySelector('.hero-line-input');
+    input.focus();
+    input.select();
+
+    function finishSave() {
+      var val = input.value.trim();
+      if (val) {
+        badge.textContent = val;
+        try { localStorage.setItem(storageKey, val); } catch (e) {}
+        showToast('Production line updated');
+      }
+      cleanup();
+    }
+    function cleanup() {
+      editWrap.remove();
+      badge.style.display = '';
+      editBtn.style.display = '';
+    }
+
+    editWrap.querySelector('.hero-line-save').addEventListener('click', finishSave);
+    editWrap.querySelector('.hero-line-cancel').addEventListener('click', cleanup);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); finishSave(); }
+      else if (e.key === 'Escape') { e.preventDefault(); cleanup(); }
+    });
+  }
+
+  function showToast(msg) {
+    var existing = document.querySelector('.hourmeter-toast');
+    if (existing) {
+      existing.textContent = msg;
+      existing.classList.add('show');
+      setTimeout(function () { existing.classList.remove('show'); }, 2500);
+      return;
+    }
+    var t = document.createElement('div');
+    t.className = 'hourmeter-toast show';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function () { t.classList.remove('show'); }, 2500);
+    setTimeout(function () { t.remove(); }, 3000);
+  }
+})();
