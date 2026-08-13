@@ -418,13 +418,18 @@
     }
 
     /* ── HERO LAYOUT (Zara-inspired) ─── */
+    .hero-card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      margin: 16px 0 24px;
+      overflow: hidden;
+    }
     .hero-layout {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       gap: 0;
       min-height: 400px;
-      margin-top: 16px;
-      margin-bottom: 24px;
     }
     .hero-divider-v {
       width: 0;
@@ -446,10 +451,7 @@
 
     /* Left — machine photo */
     .hero-photo {
-      background: #fff;
-      border-radius: 16px 0 0 16px;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-right: none;
+      border-right: 1px solid rgba(0, 0, 0, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -468,10 +470,6 @@
 
     /* Right — info panel */
     .hero-info {
-      background: #fff;
-      border-radius: 0 16px 16px 0;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-left: none;
       padding: 24px 36px;
       display: flex;
       flex-direction: column;
@@ -612,7 +610,8 @@
       transform: rotate(180deg);
     }
     .hero-details {
-      margin-bottom: 24px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 16px 36px;
     }
     .hero-details-content {
       display: none;
@@ -1625,8 +1624,9 @@
     @media (max-width: 960px) {
       .hero-layout { grid-template-columns: 1fr; min-height: auto; }
       .hero-divider-v { display: none; }
-      .hero-photo { border-radius: 16px 16px 0 0; padding: 32px; max-height: 320px; }
-      .hero-info { border-radius: 0 0 16px 16px; border-left: 1px solid rgba(0,0,0,0.06); border-top: none; }
+      .hero-photo { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 32px; max-height: 320px; }
+      .hero-info { padding: 24px; }
+      .hero-details { padding: 16px 24px; }
       .detail-grid { grid-template-columns: 1fr; gap: 16px 0; }
     }
 
@@ -1947,6 +1947,7 @@
   <div class="page page-content">
 
     <!-- HERO: Zara-inspired split layout -->
+    <div class="hero-card">
     <div class="hero-layout" data-skeleton-stagger>
       <!-- Left — Machine photo -->
       <div class="hero-photo">
@@ -2052,6 +2053,7 @@
         </div>
       </div>
     </div>
+    </div><!-- /hero-card -->
 
 
     </div>
