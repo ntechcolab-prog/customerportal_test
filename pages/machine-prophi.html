@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
+  <link rel="stylesheet" href="../assets/machine-modals.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -20,7 +22,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f6f6f6;
+      background: #f5f5f7;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -34,9 +36,9 @@
       align-items: center;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 161;
       position: sticky;
       top: 0;
+      z-index: 161;
     }
     .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
     .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
@@ -48,15 +50,19 @@
 
     /* ── APP HEADER ─── */
     .app-header {
-      background: #fff;
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
       height: 60px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 32px;
       flex-shrink: 0;
-      z-index: 90;
+      z-index: 160;
+      position: sticky;
+      top: 40px;
     }
     .app-header-left { display: flex; align-items: center; gap: 0; }
     .netzsch-logo { height: 22px; object-fit: contain; }
@@ -405,160 +411,20 @@
     /* ── PAGE ─── */
     .page {
       flex: 1;
-      padding: 32px;
+      padding: 0 32px 32px;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 0;
     }
 
-    /* 2-column layout */
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(320px, 1fr) 2fr;
-      gap: 24px;
-    }
-
-    /* ── CARD ─── */
-    .card {
-      background: rgba(255, 255, 255, 0.92);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      backdrop-filter: saturate(180%) blur(20px);
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 16px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-      padding: 24px;
-    }
-    .card + .card { margin-top: 16px; }
-
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #86868b;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 16px;
-    }
-
-    /* Field rows (label : value) */
-    .fields {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .field-row {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 12px;
-      align-items: baseline;
-    }
-    .field-label {
-      font-size: 11px;
-      font-weight: 500;
-      color: #86868b;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .field-value {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1d1d1f;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* ── LEFT CARD: HEADER WITH PHOTO + NAME ─── */
-    .machine-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    .machine-thumb {
-      width: 64px;
-      height: 56px;
-      background: #fafbfc;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
-      flex-shrink: 0;
-    }
-    .machine-thumb img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-    .machine-title-block {
-      flex: 1;
-      min-width: 0;
-    }
-    .machine-title-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .machine-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1d1d1f;
-      letter-spacing: -0.3px;
-    }
-    .machine-edit-btn {
-      width: 24px;
-      height: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #9ca3af;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.15s;
-    }
-    .machine-edit-btn:hover { color: #007167; }
-    .machine-edit-btn svg { width: 14px; height: 14px; }
-
-    .machine-line {
-      font-size: 11px;
-      font-weight: 500;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 2px;
-    }
-
-    /* Browse documents link */
-    .docs-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #007167;
-      text-decoration: none;
-      margin-top: 16px;
-      transition: opacity 0.15s;
-    }
-    .docs-link:hover { opacity: 0.7; }
-    .docs-link svg { width: 14px; height: 14px; }
-
-    /* btn-service — powered by buttons.css */
-    .machine-service-btn { margin-top: 16px; width: 100%; }
-
-    /* ── RIGHT COLUMN ─── */
-    .right-col {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    /* ── PRODUCTION MONITORING UPGRADE BANNER ─── */
+    /* ── PRODUCTION MONITORING UPGRADE BANNER (ProPhi) ─── */
     .upgrade-banner {
       position: relative;
       background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
       border-radius: 16px;
       padding: 24px;
       overflow: hidden;
+      margin-bottom: 24px;
     }
     .upgrade-banner-bg {
       position: absolute;
@@ -569,52 +435,286 @@
       pointer-events: none;
     }
     .upgrade-badge {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: #fff;
-      color: #007167;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      padding: 3px 10px;
-      border-radius: 999px;
-      line-height: 1.4;
-      z-index: 1;
+      position: absolute; top: 16px; right: 16px;
+      background: #fff; color: #007167;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      padding: 3px 10px; border-radius: 999px; line-height: 1.4; z-index: 1;
     }
     .upgrade-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+      width: 48px; height: 48px; border-radius: 50%;
       background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px; position: relative; z-index: 1;
+    }
+    .upgrade-title {
+      font-size: 18px; font-weight: 700; color: #fff;
+      letter-spacing: -0.2px; margin-bottom: 6px; position: relative; z-index: 1;
+    }
+    .upgrade-desc {
+      font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.85);
+      line-height: 19px; margin-bottom: 18px; max-width: 620px; position: relative; z-index: 1;
+    }
+    .upgrade-btn-override { position: relative; z-index: 1; background: #fff; color: #007167; }
+
+    /* ── HERO LAYOUT (Zara-inspired) ─── */
+    .hero-card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      margin: 16px 0 24px;
+      overflow: hidden;
+    }
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      min-height: 360px;
+    }
+    .hero-divider-v {
+      width: 1px;
+      background: rgba(0, 0, 0, 0.06);
+      margin: 24px 0;
+    }
+    .hero-divider-v::after {
+      content: '';
+      position: absolute;
+      top: 48px;
+      bottom: 48px;
+      left: 0;
+      width: 1px;
+      background: rgba(0, 0, 0, 0.08);
+      transform: translateX(-0.5px);
+    }
+
+    /* Left — machine photo */
+    .hero-photo {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 1;
+      overflow: hidden;
+      padding: 24px;
     }
-    .upgrade-title {
-      font-size: 18px;
+    .hero-photo img {
+      max-width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .hero-photo:hover img {
+      transform: scale(1.04);
+    }
+
+    /* Right — info panel */
+    .hero-info {
+      padding: 24px 36px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-machine-name {
+      font-size: 28px;
       font-weight: 700;
-      color: #fff;
-      letter-spacing: -0.2px;
-      margin-bottom: 6px;
-      position: relative;
-      z-index: 1;
+      color: #1d1d1f;
+      letter-spacing: -0.4px;
+      margin-bottom: 4px;
     }
-    .upgrade-desc {
+    .hero-serial {
       font-size: 13px;
-      font-weight: 400;
-      color: rgba(255,255,255,0.85);
-      line-height: 19px;
-      margin-bottom: 18px;
-      position: relative;
-      z-index: 1;
+      color: #86868b;
+      margin-bottom: 8px;
     }
-    /* btn-upgrade — powered by buttons.css (.btn .btn-primary .btn-md) */
-    .upgrade-btn-override { position: relative; z-index: 1; background: #fff; color: #007167; }
-    .upgrade-btn-override:hover { background: #f0f0f0; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #86868b;
+      margin-bottom: 8px;
+    }
+    .hero-meta:last-of-type { margin-bottom: 16px; }
+    .hero-meta-label { font-weight: 600; color: #6b6e73; }
+    .hero-meta-value { font-variant-numeric: tabular-nums; }
+    .hero-divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.08);
+      margin-bottom: 16px;
+    }
+
+    /* Actions inside hero */
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .hero-action-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+    .hero-action-item:first-child {
+      background: rgba(0, 113, 103, 0.04);
+      border-color: rgba(0, 113, 103, 0.15);
+    }
+    .hero-action-item:hover {
+      background: rgba(0, 113, 103, 0.03);
+      border-color: rgba(0, 113, 103, 0.15);
+      transform: translateX(2px);
+    }
+    .hero-action-item:first-child:hover {
+      background: rgba(0, 113, 103, 0.08);
+      border-color: rgba(0, 113, 103, 0.25);
+    }
+    .hero-action-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(0, 113, 103, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-action-icon.milla-icon {
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+    }
+    .hero-action-icon.milla-icon img { filter: brightness(0) invert(1); }
+    .hero-action-text { flex: 1; min-width: 0; }
+    .hero-action-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d1d1f;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-action-item:first-child .hero-action-title { color: #007167; }
+    .hero-action-title .ai-badge {
+      padding: 1px 5px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #007167;
+      background: rgba(0, 113, 103, 0.08);
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+    .hero-action-desc {
+      font-size: 11px;
+      color: #86868b;
+      margin-top: 1px;
+    }
+    .hero-action-arrow {
+      color: #c3c5c7;
+      flex-shrink: 0;
+      transition: color 0.15s, transform 0.15s;
+    }
+    .hero-action-item:hover .hero-action-arrow {
+      color: #007167;
+      transform: translateX(2px);
+    }
+
+    /* Machine details accordion inside hero */
+    .hero-details-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 16px 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d1d1f;
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .hero-details-toggle:hover { background: #f9fafb; }
+    .hero-details-toggle svg {
+      width: 16px;
+      height: 16px;
+      color: #86868b;
+      flex-shrink: 0;
+      transition: transform 0.25s var(--ease-apple);
+    }
+    .hero-details.details-open .hero-details-toggle svg {
+      transform: rotate(180deg);
+    }
+    .hero-details {
+      position: relative;
+    }
+    .hero-details::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 36px;
+      right: 36px;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.06);
+    }
+    .hero-details-content {
+      display: none;
+      padding: 0 36px 20px;
+    }
+    .hero-details.details-open .hero-details-content {
+      display: block;
+    }
+
+    /* Data grid inside details */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 24px;
+    }
+    .detail-col-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label { font-size: 11px; color: #86868b; }
+    .detail-value { font-size: 11px; font-weight: 600; color: #1d1d1f; text-align: right; font-variant-numeric: tabular-nums; }
+
+    /* ── CARD (for Milla below) ─── */
+    .card {
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 24px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
 
     /* Ask Milla banner — collapsed e expanded */
     .milla-banner {
@@ -1155,6 +1255,300 @@
       }
     }
 
+    /* ── MILLA MODAL ─── */
+    .milla-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .milla-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .milla-modal {
+      position: relative;
+      width: 720px;
+      max-width: 92vw;
+      max-height: 85vh;
+      border-radius: 16px;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .milla-modal-overlay.open .milla-modal {
+      transform: scale(1) translateY(0);
+    }
+    .milla-modal-inner {
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 80vh;
+    }
+    .milla-modal .milla-banner {
+      border-radius: 0;
+      min-height: 0;
+      flex-shrink: 0;
+      transition: min-height 0.3s ease;
+    }
+    .milla-modal .milla-banner:not(.is-reasoning) { min-height: 280px; }
+    .milla-collapsed { display: none; }
+
+    .milla-modal-close {
+      position: absolute;
+      top: -36px;
+      right: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      z-index: 10;
+      transition: background 0.15s, transform 0.2s;
+    }
+    .milla-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+    .milla-modal-close svg { width: 14px; height: 14px; }
+
+    /* ── MILLA RESULTS (inside modal) ─── */
+    .milla-results {
+      background: #fff;
+      padding: 20px 24px 24px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .milla-results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .milla-results-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.01em;
+    }
+    .milla-results-count {
+      font-size: 11px;
+      font-weight: 500;
+      color: #86868b;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .milla-results-table-wrap {
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .milla-results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+    }
+    .milla-results-table thead th {
+      text-align: left;
+      padding: 9px 14px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: #fafbfc;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .milla-results-table tbody td {
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #1d1d1f;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    .milla-results-table tbody tr:last-child td { border-bottom: none; }
+    .milla-results-table tbody tr { transition: background 0.1s; }
+    .milla-results-table tbody tr:hover { background: rgba(0, 113, 103, 0.03); }
+    .milla-results-table .mono {
+      font-variant-numeric: tabular-nums;
+      font-size: 11px;
+      color: #6b7280;
+      letter-spacing: 0.02em;
+    }
+    .milla-results-table .quotation {
+      color: #007167;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .milla-results-table .td-action { text-align: right; white-space: nowrap; }
+    .td-action-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .td-qty {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .td-qty-btn {
+      width: 28px;
+      height: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.1s;
+    }
+    .td-qty-btn:hover { background: rgba(0,0,0,0.04); }
+    .td-qty-val {
+      width: 32px;
+      text-align: center;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1d1d1f;
+      -moz-appearance: textfield;
+    }
+    .td-qty-val::-webkit-outer-spin-button,
+    .td-qty-val::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .btn-wish-sm {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .btn-wish-sm:hover { color: #007167; border-color: rgba(0,113,103,0.2); }
+    .btn-wish-sm svg { width: 14px; height: 14px; }
+
+    /* Persistent search bar in results */
+    .milla-results-search {
+      display: none;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      flex-shrink: 0;
+    }
+    .milla-results-search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 0 14px;
+    }
+    .milla-results-search-bar img { width: 16px; height: 16px; opacity: 0.7; }
+    .milla-results-search-bar span {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      flex: 1;
+    }
+    .milla-results-search-bar .search-edit {
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .milla-results-search-bar .search-edit:hover { background: rgba(255, 255, 255, 0.3); }
+
+    /* Drawing thumbnail */
+    .milla-results-drawing {
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: zoom-in;
+      background: #fafbfc;
+      max-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .milla-results-drawing img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 12px;
+      transition: transform 0.3s ease;
+    }
+    .milla-results-drawing:hover img { transform: scale(1.03); }
+
+    /* Drawing lightbox → assets/machine-modals.css (CP-627b) */
+
+    /* Service Request modal → assets/machine-modals.css (CP-627b) */
+
+    /* Success state */
+    .sr-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 28px;
+      gap: 16px;
+    }
+    .sr-success.show { display: flex; }
+    .sr-success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(0, 113, 103, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sr-success h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1d1d1f;
+    }
+    .sr-success p {
+      font-size: 14px;
+      color: #86868b;
+      max-width: 340px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .sr-radio-cards { grid-template-columns: 1fr 1fr; }
+    }
+
     /* "or" divider + select subset card */
     .subset-card {
       background: rgba(255, 255, 255, 0.92);
@@ -1273,6 +1667,17 @@
       font-weight: 600;
     }
 
+    @media (max-width: 960px) {
+      .hero-layout { grid-template-columns: 1fr; min-height: auto; }
+      .hero-divider-v { display: none; }
+      .hero-photo { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 32px; max-height: 320px; }
+      .hero-info { padding: 24px; }
+      .hero-details-toggle { padding: 16px 24px; }
+      .hero-details-content { padding: 0 24px 20px; }
+      .hero-details::before { left: 24px; right: 24px; }
+      .detail-grid { grid-template-columns: 1fr; gap: 16px 0; }
+    }
+
     /* ── CART DROPDOWN ─── */
     :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
     .cart-dropdown-anchor { position: relative; display: flex; align-items: center; }
@@ -1321,18 +1726,15 @@
 
 
     /* ── RESPONSIVE ─── */
-    @media (max-width: 960px) {
-      .layout { grid-template-columns: 1fr; }
-    }
     @media (max-width: 768px) {
       .topbar { padding: 0 16px; }
       .app-header { padding: 0 16px; height: 56px; }
-      .breadcrumb-bar { padding: 8px 16px; }
+      .breadcrumb-bar { padding: 10px 16px; }
     }
     @media (max-width: 480px) {
       .topbar { padding: 0 12px; }
       .app-header { padding: 0 12px; }
-      .breadcrumb-bar { padding: 6px 12px; }
+      .breadcrumb-bar { padding: 10px 12px; }
       .breadcrumb { white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
       .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
@@ -1389,6 +1791,7 @@
   </style>
 </head>
 <body>
+<script src="../assets/i18n.js"></script>
 <script src="../assets/gate.js"></script>
 
   <!-- TOP BAR -->
@@ -1468,7 +1871,7 @@
               <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
               <div class="notif-item-content">
                 <span class="notif-item-title">Quote #QT-2026-0039 awaiting your decision</span>
-                <div class="notif-item-desc">Grinding beads bundle for Zeta 60 — €8,720.00</div>
+                <div class="notif-item-desc">Grinding beads bundle for ProPhi — €8,720.00</div>
                 <div class="notif-item-time">2 hours ago</div>
               </div>
             </div>
@@ -1559,197 +1962,447 @@
   <div class="breadcrumb-bar">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
-      <span class="breadcrumb-sep" aria-hidden="true">/</span>
-      <a href="machines.html">Machines</a>
-      <span class="breadcrumb-sep" aria-hidden="true">/</span>
-      <span aria-current="page">ProPhi</span>
+      <span class="breadcrumb-sep">/</span>
+      <a href="machines.html" data-i18n="machines.title">Machines</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>ProPhi</span>
     </nav>
   </div>
 
+  <!-- SKELETON LOADING -->
+  <div class="skeleton-wrapper skel-machine" aria-hidden="false" role="status" aria-label="Loading machine details">
+    <div class="skel-machine-detail">
+      <!-- Left — machine photo -->
+      <div class="skeleton skel-machine-photo"></div>
+      <!-- Middle — divider -->
+      <div class="skel-machine-divider"></div>
+      <!-- Right — machine info -->
+      <div class="skel-machine-info">
+        <div class="skeleton skeleton-text short" style="height:18px"></div>
+        <div class="skeleton skeleton-title wide" style="height:34px;margin:4px 0 2px"></div>
+        <div class="skeleton skeleton-text medium"></div>
+        <div class="skel-machine-actions">
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- PAGE -->
-  <div class="page">
-    <div class="layout">
+  <div class="page page-content">
 
-      <!-- LEFT COLUMN -->
-      <div class="left-col">
+    <!-- HERO: Zara-inspired split layout -->
+    <div class="hero-card">
+    <div class="hero-layout" data-skeleton-stagger>
+      <!-- Left — Machine photo -->
+      <div class="hero-photo">
+        <img src="../assets/machine-prophi.png" alt="ProPhi">
+      </div>
 
-        <!-- Card 1: Machine quick info -->
-        <div class="card">
-          <div class="machine-header">
-            <div class="machine-thumb">
-              <img src="../assets/machine-prophi.png" alt="ProPhi">
+      <div class="hero-divider-v"></div>
+
+      <!-- Right — Info + Actions -->
+      <div class="hero-info" id="hero-info">
+        <h1 class="hero-machine-name machine-title">ProPhi</h1>
+        <span class="hero-serial">SN: 15202530-10 · Brazil</span>
+        <span class="hero-meta" data-field="text" data-store="netzsch_line" data-aria="Edit production line name" data-toast="Production line updated">
+          <span class="hero-meta-label">Line:</span>
+          <span class="hero-meta-value">LINE 4 · WET GRINDING</span>
+        </span>
+        <span class="hero-meta" data-field="date" data-store="netzsch_installdate" data-aria="Edit installation date" data-toast="Installation date updated">
+          <span class="hero-meta-label">Installed:</span>
+          <span class="hero-meta-value" data-date="2024-08-20">20/08/2024</span>
+        </span>
+
+        <div class="hero-divider"></div>
+
+        <!-- Actions -->
+        <div class="hero-actions">
+          <div class="hero-action-item" id="milla-trigger-card" style="cursor:pointer;">
+            <div class="hero-action-icon milla-icon">
+              <img src="../assets/icon-sparkle.svg" alt="" width="18" height="18">
             </div>
-            <div class="machine-title-block">
-              <div class="machine-title-row">
-                <h1 class="machine-title">ProPhi</h1>
-                <button type="button" class="machine-edit-btn" aria-label="Edit machine">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                </button>
-              </div>
-              <div class="machine-line">LINE 4 · WET GRINDING</div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Ask Milla <span class="ai-badge">AI</span></div>
+              <span class="hero-action-desc">Find spare parts by photo, description or code</span>
             </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
 
-          <div class="fields">
-            <div class="field-row">
-              <span class="field-label">Serial Number:</span>
-              <span class="field-value">15202530-10</span>
+          <div class="hero-action-item" id="subset-trigger" style="cursor: pointer;">
+            <div class="hero-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
             </div>
-            <div class="field-row">
-              <span class="field-label">Country:</span>
-              <span class="field-value">Brazil</span>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Select subset</div>
+              <span class="hero-action-desc">Browse spare parts by assembly / subset</span>
             </div>
-            <div class="field-row">
-              <span class="field-label">Install Date:</span>
-              <span class="field-value">2024-08-20</span>
-            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
 
-          <a href="#" class="docs-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Browse equipment documents and manuals
+          <div class="hero-action-item" id="service-request-trigger" style="cursor: pointer;">
+            <div class="hero-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Service Request</div>
+              <span class="hero-action-desc">Schedule maintenance or report an issue</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <a href="#" class="hero-action-item docs-link">
+            <div class="hero-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Documents and Manuals</div>
+              <span class="hero-action-desc">Equipment manuals and technical docs</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
+        </div>
 
-          <button type="button" class="btn btn-primary btn-md machine-service-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Service Request
+      </div>
+    </div>
+
+    <!-- Machine Details — full-width, expands below the hero (image + actions) without pushing them -->
+    <div class="hero-details" id="hero-details">
+      <button type="button" class="hero-details-toggle" onclick="toggleMachineDetails()">
+        <span>Machine Details</span>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="hero-details-content">
+        <div class="detail-grid">
+          <div class="detail-col">
+            <h3 class="detail-col-title">Machine Information</h3>
+            <div class="detail-row"><span class="detail-label">Equipment</span><span class="detail-value">ProPhi</span></div>
+            <div class="detail-row"><span class="detail-label">Type</span><span class="detail-value">Agitator Bead Mill</span></div>
+            <div class="detail-row"><span class="detail-label">Serial Number</span><span class="detail-value">15202530-10</span></div>
+            <div class="detail-row"><span class="detail-label">Commission Nr.</span><span class="detail-value">15202530-10</span></div>
+            <div class="detail-row"><span class="detail-label">Service by</span><span class="detail-value">NEM</span></div>
+            <div class="detail-row"><span class="detail-label">Fig nr.</span><span class="detail-value">15890</span></div>
+            <div class="detail-row"><span class="detail-label">Purchase Date</span><span class="detail-value">2024-02-15</span></div>
+            <div class="detail-row"><span class="detail-label">Install Date</span><span class="detail-value">2024-08-20</span></div>
+            <div class="detail-row"><span class="detail-label">Country</span><span class="detail-value">Brazil</span></div>
+            <div class="detail-row"><span class="detail-label">Warranty</span><span class="detail-value">2026-08-20</span></div>
+          </div>
+          <div class="detail-col">
+            <h3 class="detail-col-title">Technical Details</h3>
+            <div class="detail-row"><span class="detail-label">Grinding System</span><span class="detail-value">Wet agitator bead mill</span></div>
+            <div class="detail-row"><span class="detail-label">Grinding Chamber</span><span class="detail-value">Closed system</span></div>
+            <div class="detail-row"><span class="detail-label">Grinding Shaft</span><span class="detail-value">Ceramic (ZrO&#8322;)</span></div>
+            <div class="detail-row"><span class="detail-label">Sealing Material</span><span class="detail-value">Double mechanical seal</span></div>
+            <div class="detail-row"><span class="detail-label">Max Speed</span><span class="detail-value">3,000 RPM</span></div>
+            <div class="detail-row"><span class="detail-label">Chamber Volume</span><span class="detail-value">0.3 L</span></div>
+            <div class="detail-row"><span class="detail-label">Cooling</span><span class="detail-value">Integrated jacket cooling</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div><!-- /hero-card -->
+
+    <!-- PRODUCTION MONITORING BANNER (ProPhi) -->
+    <div class="upgrade-banner">
+      <div class="upgrade-banner-bg"></div>
+      <div class="upgrade-badge">NEW</div>
+      <div class="upgrade-icon">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <h3 class="upgrade-title">Production Monitoring</h3>
+      <p class="upgrade-desc">Real-time performance tracking, predictive maintenance alerts, and production analytics for your ProPhi.</p>
+      <a href="production-monitoring.html" class="btn btn-primary btn-md upgrade-btn-override">Learn More</a>
+    </div>
+    <script>
+      function toggleMachineDetails() {
+        var d = document.getElementById('hero-details');
+        var opened = d.classList.toggle('details-open');
+        if (!opened) return;
+        requestAnimationFrame(function () {
+          var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var content = d.querySelector('.hero-details-content');
+          var rect = content.getBoundingClientRect();
+          var top = window.scrollY;
+          if (rect.bottom > window.innerHeight) {
+            // scroll just enough to reveal the opened content, but keep the
+            // toggle below the sticky header (don't overshoot)
+            top = window.scrollY + rect.bottom - window.innerHeight + 16;
+            var maxTop = window.scrollY + d.getBoundingClientRect().top - 76;
+            top = Math.min(top, maxTop);
+          }
+          window.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
+        });
+      }
+    </script>
+
+
+    </div>
+  </div>
+
+  <!-- MILLA MODAL -->
+  <div class="milla-modal-overlay" id="milla-modal-overlay">
+    <div class="milla-modal">
+      <button type="button" class="milla-modal-close" id="milla-modal-close-btn" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="milla-modal-inner">
+      <div class="milla-banner is-open" id="milla-banner">
+      <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
+
+      <!-- Collapsed: hidden since we use the trigger card -->
+      <div class="milla-collapsed">
+        <button type="button" class="btn-milla" id="btn-ask-milla" data-i18n="millaFlow.askMilla">
+          <img src="../assets/icon-sparkle.svg" alt="">
+          Ask Milla
+        </button>
+        <p class="milla-subtitle" data-i18n="millaFlow.subtitle">Find documentation, tutorials and get help from Milla AI.</p>
+      </div>
+
+      <!-- Expanded: Milla asking how to search -->
+      <div class="milla-expanded">
+        <button type="button" class="milla-close" id="btn-milla-close" aria-label="Close">
+          <img src="../assets/icon-milla-close.svg" alt="">
+        </button>
+        <div class="milla-expanded-head">
+          <img src="../assets/icon-sparkle.svg" alt="">
+          <span class="milla-expanded-title" data-i18n="millaFlow.howSearch">How would you like to search?</span>
+        </div>
+        <p class="milla-expanded-subtitle" data-i18n="millaFlow.chooseMethod">Choose a method to find what do you need</p>
+        <div class="milla-methods">
+          <button type="button" class="method-card" data-method="photo" data-i18n="millaFlow.methodPhoto">
+            <img src="../assets/icon-method-photo.svg" alt="">
+            <span>Photo</span>
+          </button>
+          <button type="button" class="method-card" id="btn-method-description" data-i18n="millaFlow.methodDescription">
+            <img src="../assets/icon-method-description.svg" alt="">
+            <span>Description</span>
+          </button>
+          <button type="button" class="method-card" data-method="code" data-i18n="millaFlow.methodProductCode">
+            <img src="../assets/icon-method-code.svg" alt="">
+            <span>Product Code</span>
           </button>
         </div>
 
-        <!-- Card 2: Machine Information -->
-        <div class="card">
-          <h2 class="card-title">Machine Information</h2>
-          <div class="fields">
-            <div class="field-row"><span class="field-label">Equipment Name:</span><span class="field-value">ProPhi</span></div>
-            <div class="field-row"><span class="field-label">Service by:</span><span class="field-value">NEM</span></div>
-            <div class="field-row"><span class="field-label">Commission Number:</span><span class="field-value">15202530-10</span></div>
-            <div class="field-row"><span class="field-label">Purchase Date</span><span class="field-value">2024-02-15</span></div>
-            <div class="field-row"><span class="field-label">Machine Type:</span><span class="field-value">Agitator Bead Mill</span></div>
-            <div class="field-row"><span class="field-label">Install Date:</span><span class="field-value">2024-08-20</span></div>
-            <div class="field-row"><span class="field-label">Fig nr.:</span><span class="field-value">15890</span></div>
-            <div class="field-row"><span class="field-label">Warranty Expiration:</span><span class="field-value">2026-08-20</span></div>
+        <!-- 3rd state: Search by Description form -->
+        <div class="milla-search-form">
+          <div class="milla-search-head">
+            <button type="button" class="milla-back-btn" id="btn-milla-back" aria-label="Back">
+              <img src="../assets/icon-milla-back.svg" alt="">
+            </button>
+            <img class="milla-search-head-icon" src="../assets/icon-method-description.svg" alt="">
+            <span class="milla-search-head-title" data-i18n="millaFlow.searchByDescription">Search by Description</span>
+          </div>
+          <textarea class="milla-search-input" id="milla-search-input"
+            placeholder="Describe the spare part you're looking for..." data-i18n-placeholder="millaFlow.searchPlaceholder"></textarea>
+          <div class="milla-search-actions">
+            <button type="button" class="btn-milla-search" id="btn-milla-search" data-i18n="millaFlow.search">Search</button>
           </div>
         </div>
 
-        <!-- Card 3: Technical Details -->
-        <div class="card">
-          <h2 class="card-title">Technical Details</h2>
-          <div class="fields">
-            <div class="field-row"><span class="field-label">Grinding System:</span><span class="field-value">Wet agitator bead mill</span></div>
-            <div class="field-row"><span class="field-label">Grinding Chamber:</span><span class="field-value">Closed system</span></div>
-            <div class="field-row"><span class="field-label">Material Grinding Shaft:</span><span class="field-value">Ceramic (ZrO&#8322;)</span></div>
-            <div class="field-row"><span class="field-label">Sealing Material:</span><span class="field-value">Double mechanical seal</span></div>
-            <div class="field-row"><span class="field-label">Operating Hours:</span><span class="field-value">6,580 hrs</span></div>
-            <div class="field-row"><span class="field-label">Max Speed:</span><span class="field-value">3,000 RPM</span></div>
-            <div class="field-row"><span class="field-label">Chamber Volume:</span><span class="field-value">0.3 L</span></div>
-            <div class="field-row"><span class="field-label">Cooling:</span><span class="field-value">Integrated jacket cooling</span></div>
+        <!-- 4th state: Reasoning loader -->
+        <div class="milla-reasoning">
+          <div class="milla-orb" aria-hidden="true">
+            <img src="../assets/icon-sparkle.svg" alt="">
           </div>
+          <div class="milla-dots" role="status" aria-label="Loading">
+            <span></span><span></span><span></span>
+          </div>
+          <h3 class="milla-reason-title">Reasoning with description</h3>
+          <p class="milla-reason-quote" id="milla-reason-quote">"I need to replace the ring from the inner chamber of my mill"</p>
         </div>
-
+      </div>
+    </div>
+    <!-- Persistent search bar (shown with results) -->
+    <div class="milla-results-search" id="milla-results-search">
+      <div class="milla-results-search-bar">
+        <img src="../assets/icon-sparkle.svg" alt="" style="filter: brightness(0) invert(1);">
+        <span id="milla-search-query-display">ring from the inner chamber</span>
+        <button type="button" class="search-edit" id="milla-search-edit">Edit</button>
+      </div>
+    </div>
+    <!-- Results state (shown after reasoning) -->
+    <div class="milla-results" id="milla-results" style="display:none;">
+      <div class="milla-results-header">
+        <h3 class="milla-results-title">Spare Parts Found</h3>
+        <span class="milla-results-count">2 results</span>
       </div>
 
-      <!-- RIGHT COLUMN -->
-      <div class="right-col">
-
-        <!-- PRODUCTION MONITORING BANNER -->
-        <div class="upgrade-banner">
-          <div class="upgrade-banner-bg"></div>
-          <div class="upgrade-badge">NEW</div>
-          <div class="upgrade-icon">
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          </div>
-          <h3 class="upgrade-title">Production Monitoring</h3>
-          <p class="upgrade-desc">Real-time performance tracking, predictive maintenance alerts, and production analytics for your ProPhi.</p>
-          <a href="production-monitoring.html" class="btn btn-primary btn-md upgrade-btn-override">Learn More</a>
-        </div>
-
-        <!-- Ask Milla banner (collapsed/expanded states) -->
-        <div class="milla-banner" id="milla-banner">
-          <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
-
-          <!-- Collapsed: Ask Milla button + subtitle -->
-          <div class="milla-collapsed">
-            <button type="button" class="btn-milla" id="btn-ask-milla">
-              <img src="../assets/icon-sparkle.svg" alt="">
-              Ask Milla
-            </button>
-            <p class="milla-subtitle">Find documentation, tutorials and get help from Milla AI.</p>
-          </div>
-
-          <!-- Expanded: Milla asking how to search -->
-          <div class="milla-expanded">
-            <button type="button" class="milla-close" id="btn-milla-close" aria-label="Close">
-              <img src="../assets/icon-milla-close.svg" alt="">
-            </button>
-            <div class="milla-expanded-head">
-              <img src="../assets/icon-sparkle.svg" alt="">
-              <span class="milla-expanded-title">How would you like to search?</span>
-            </div>
-            <p class="milla-expanded-subtitle">Choose a method to find what do you need</p>
-            <div class="milla-methods">
-              <button type="button" class="method-card" data-method="photo">
-                <img src="../assets/icon-method-photo.svg" alt="">
-                <span>Photo</span>
-              </button>
-              <button type="button" class="method-card" id="btn-method-description">
-                <img src="../assets/icon-method-description.svg" alt="">
-                <span>Description</span>
-              </button>
-              <button type="button" class="method-card" data-method="code">
-                <img src="../assets/icon-method-code.svg" alt="">
-                <span>Product Code</span>
-              </button>
-            </div>
-
-            <!-- 3rd state: Search by Description form -->
-            <div class="milla-search-form">
-              <div class="milla-search-head">
-                <button type="button" class="milla-back-btn" id="btn-milla-back" aria-label="Back">
-                  <img src="../assets/icon-milla-back.svg" alt="">
-                </button>
-                <img class="milla-search-head-icon" src="../assets/icon-method-description.svg" alt="">
-                <span class="milla-search-head-title">Search by Description</span>
-              </div>
-              <textarea class="milla-search-input" id="milla-search-input"
-                placeholder="Describe the spare part you're looking for..."></textarea>
-              <div class="milla-search-actions">
-                <button type="button" class="btn-milla-search" id="btn-milla-search">Search</button>
-              </div>
-            </div>
-
-            <!-- 4th state: Reasoning loader -->
-            <div class="milla-reasoning">
-              <div class="milla-orb" aria-hidden="true">
-                <img src="../assets/icon-sparkle.svg" alt="">
-              </div>
-              <div class="milla-dots" role="status" aria-label="Loading">
-                <span></span><span></span><span></span>
-              </div>
-              <h3 class="milla-reason-title">Reasoning with description</h3>
-              <p class="milla-reason-quote" id="milla-reason-quote">"I need to replace the ring from the inner chamber of my mill"</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- "or" + Select subset -->
-        <div class="subset-card">
-          <div class="or-divider">or</div>
-          <div class="subset-wrapper" id="subset-wrapper">
-            <button type="button" class="subset-select" id="subset-select">
-              <span id="subset-select-label">Select subset</span>
-              <img src="../assets/icon-chevron-down-input.svg" alt="">
-            </button>
-            <div class="subset-dropdown" role="listbox">
-              <button type="button" class="subset-option" data-subset="Agitator disc complete">Agitator disc complete</button>
-              <button type="button" class="subset-option" data-subset="Mechanical seal set">Mechanical seal set</button>
-              <button type="button" class="subset-option" data-subset="Grinding chamber complete">Grinding chamber complete</button>
-              <button type="button" class="subset-option" data-subset="Inlet/outlet connections">Inlet/outlet connections</button>
-            </div>
-          </div>
-        </div>
-
+      <!-- Technical drawing -->
+      <div class="milla-results-drawing">
+        <img src="../assets/drawing-discus30-grinding.png" alt="Grinding chamber technical drawing" id="milla-drawing-img">
       </div>
 
+      <!-- Results table -->
+      <div class="milla-results-table-wrap">
+        <table class="milla-results-table">
+          <thead>
+            <tr>
+              <th>Itm</th>
+              <th>Material Nr.</th>
+              <th>Description</th>
+              <th>Price/unit</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-name="Ring - AISI 304" data-ref="140045213" data-price="75.89">
+              <td>801</td>
+              <td class="mono">140045213</td>
+              <td>Ring - AISI 304</td>
+              <td>&euro;75.89</td>
+              <td class="td-action">
+                <span class="td-action-row">
+                  <span class="td-qty">
+                    <button type="button" class="td-qty-btn" data-dir="minus">−</button>
+                    <input type="number" class="td-qty-val" value="1" min="1">
+                    <button type="button" class="td-qty-btn" data-dir="plus">+</button>
+                  </span>
+                  <button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button>
+                  <button type="button" class="btn-wish-sm" aria-label="Add to wishlist">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </span>
+              </td>
+            </tr>
+            <tr data-name="Ring for inner pipe" data-ref="140023995" data-price="0" data-quotation="true">
+              <td>802</td>
+              <td class="mono">140023995</td>
+              <td>Ring for inner pipe</td>
+              <td class="quotation">Quotation</td>
+              <td class="td-action">
+                <span class="td-action-row">
+                  <span class="td-qty">
+                    <button type="button" class="td-qty-btn" data-dir="minus">−</button>
+                    <input type="number" class="td-qty-val" value="1" min="1">
+                    <button type="button" class="td-qty-btn" data-dir="plus">+</button>
+                  </span>
+                  <button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button>
+                  <button type="button" class="btn-wish-sm" aria-label="Add to wishlist">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Drawing lightbox -->
+    <div class="drawing-lightbox" id="drawing-lightbox">
+      <div class="drawing-lightbox-content">
+        <button type="button" class="drawing-lightbox-close" id="drawing-lightbox-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing — full view">
+      </div>
+    </div>
+    </div><!-- /milla-modal-inner -->
+    </div><!-- /milla-modal -->
+  </div><!-- /milla-modal-overlay -->
+
+  <!-- SERVICE REQUEST MODAL -->
+  <div class="sr-modal-overlay" id="sr-modal-overlay">
+    <div class="sr-modal-wrapper">
+      <button type="button" class="sr-modal-close" id="sr-modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="sr-modal">
+
+      <!-- Form state -->
+      <div id="sr-form-state">
+        <div class="sr-modal-header">
+          <div class="sr-modal-header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <h2>Service Request</h2>
+            <p>Schedule maintenance or report an issue</p>
+          </div>
+        </div>
+
+        <div class="sr-machine-bar">
+          <img src="../assets/machine-prophi.png" alt="ProPhi">
+          <div class="sr-machine-bar-info">
+            <div class="sr-machine-bar-name">ProPhi</div>
+            <div class="sr-machine-bar-meta">SN: 15202530-10 · LINE 4 · WET GRINDING</div>
+          </div>
+        </div>
+
+        <div class="sr-modal-body">
+          <!-- Request Type -->
+          <div>
+            <span class="sr-field-label">Request Type <span class="required">*</span></span>
+            <div class="sr-radio-cards" id="sr-radio-cards">
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="repair">
+                <div class="sr-radio-card-title">Repair</div>
+                <div class="sr-radio-card-sub">Equipment Fix</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="maintenance">
+                <div class="sr-radio-card-title">Maintenance</div>
+                <div class="sr-radio-card-sub">Preventive care</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="spare-parts">
+                <div class="sr-radio-card-title">Spare Parts</div>
+                <div class="sr-radio-card-sub">Request Parts</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="consultation">
+                <div class="sr-radio-card-title">Consultation</div>
+                <div class="sr-radio-card-sub">Expert Advice</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <div>
+            <label class="sr-field-label" for="sr-title">Title <span class="required">*</span></label>
+            <input type="text" class="sr-input" id="sr-title" placeholder="Brief summary of the issue...">
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="sr-field-label" for="sr-desc">Problem Description <span class="required">*</span></label>
+            <textarea class="sr-textarea" id="sr-desc" placeholder="Describe the issue in detail..."></textarea>
+          </div>
+
+          <!-- Attachments -->
+          <div>
+            <span class="sr-field-label">Attachments</span>
+            <div class="sr-dropzone" id="sr-dropzone">
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="sr-dropzone-text">Drop files here or click to upload</span>
+              <span class="sr-dropzone-hint">Supports: PDF, JPG, PNG</span>
+              <input type="file" id="sr-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
+            </div>
+          </div>
+
+          <div class="sr-modal-footer">
+            <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Send Request</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div class="sr-success" id="sr-success">
+        <div class="sr-success-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Request Submitted</h3>
+        <p>Your service request for <strong>ProPhi</strong> has been submitted. Our team will contact you within 24 hours.</p>
+        <button type="button" class="btn btn-primary btn-md" id="sr-btn-done" style="margin-top:8px;">Done</button>
+      </div>
+    </div>
     </div>
   </div>
 
@@ -1772,32 +2425,111 @@ document.addEventListener('click', function(e) {
 });
 </script>
   <script>
+    // Results table: qty controls, add to cart
+    (function() {
+      document.querySelectorAll('.td-qty-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var input = btn.closest('.td-qty').querySelector('.td-qty-val');
+          var val = parseInt(input.value) || 1;
+          if (btn.dataset.dir === 'minus' && val > 1) input.value = val - 1;
+          if (btn.dataset.dir === 'plus') input.value = val + 1;
+        });
+      });
+      document.querySelectorAll('.btn-add-sm').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var tr = btn.closest('tr');
+          if (!tr) return;
+          var name = tr.dataset.name;
+          var ref = tr.dataset.ref;
+          var price = parseFloat(tr.dataset.price) || 0;
+          var isQuotation = tr.dataset.quotation === 'true';
+          var qty = parseInt(tr.querySelector('.td-qty-val').value) || 1;
+          try {
+            var cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}');
+            if (!cart.items) cart.items = [];
+            var existing = cart.items.find(function(i) { return i.ref === ref; });
+            if (existing) { existing.qty += qty; }
+            else { cart.items.push({ name: name, ref: ref, unitPrice: price, qty: qty, quotation: isQuotation }); }
+            localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+            var badge = document.getElementById('cart-badge');
+            if (badge) { badge.textContent = cart.items.reduce(function(s, i) { return s + i.qty; }, 0); badge.style.display = 'flex'; }
+            btn.textContent = 'Added ✓';
+            btn.style.background = '#007167';
+            btn.style.color = '#fff';
+            setTimeout(function() { btn.textContent = 'Add'; btn.style.background = ''; btn.style.color = ''; }, 1200);
+          } catch(e) {}
+        });
+      });
+    })();
+
+    // Drawing lightbox
+    (function() {
+      var drawingImg = document.getElementById('milla-drawing-img');
+      var lightbox = document.getElementById('drawing-lightbox');
+      var closeBtn = document.getElementById('drawing-lightbox-close');
+      if (drawingImg && lightbox) {
+        drawingImg.closest('.milla-results-drawing').addEventListener('click', function() { lightbox.classList.add('open'); });
+        closeBtn.addEventListener('click', function() { lightbox.classList.remove('open'); });
+        lightbox.addEventListener('click', function(e) { if (e.target === lightbox) lightbox.classList.remove('open'); });
+      }
+    })();
+
     const banner = document.getElementById('milla-banner');
-    const btnAsk = document.getElementById('btn-ask-milla');
     const btnClose = document.getElementById('btn-milla-close');
     const btnDescription = document.getElementById('btn-method-description');
     const btnBack = document.getElementById('btn-milla-back');
     const searchInput = document.getElementById('milla-search-input');
     const btnSearch = document.getElementById('btn-milla-search');
 
-    // Open expanded methods
-    btnAsk.addEventListener('click', () => {
+    // Milla trigger card opens the modal
+    var millaOverlay = document.getElementById('milla-modal-overlay');
+
+    // Open Milla modal
+    document.getElementById('milla-trigger-card').addEventListener('click', function() {
+      millaOverlay.classList.add('open');
       banner.classList.add('is-open');
       banner.classList.remove('is-search');
+      document.body.style.overflow = 'hidden';
     });
 
-    // Close (back to collapsed)
-    btnClose.addEventListener('click', () => {
-      banner.classList.remove('is-open', 'is-search');
-      // Reset form
+    function closeMillaModal() {
+      millaOverlay.classList.remove('open');
+      banner.classList.remove('is-open', 'is-search', 'is-reasoning');
+      document.body.style.overflow = '';
       searchInput.value = '';
       btnSearch.classList.remove('enabled');
+      document.getElementById('milla-banner').style.display = '';
+      document.getElementById('milla-results-search').style.display = 'none';
+      document.getElementById('milla-results').style.display = 'none';
+    }
+
+    // Edit button in results — go back to search
+    document.getElementById('milla-search-edit').addEventListener('click', function() {
+      document.getElementById('milla-results-search').style.display = 'none';
+      document.getElementById('milla-results').style.display = 'none';
+      document.getElementById('milla-banner').style.display = '';
+      banner.classList.add('is-open', 'is-search');
+      banner.classList.remove('is-reasoning');
+      searchInput.focus();
+    });
+
+    // Close on X buttons
+    btnClose.addEventListener('click', closeMillaModal);
+    document.getElementById('milla-modal-close-btn').addEventListener('click', closeMillaModal);
+
+    // Close on overlay click
+    millaOverlay.addEventListener('click', function(e) {
+      if (e.target === millaOverlay) closeMillaModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && millaOverlay.classList.contains('open')) closeMillaModal();
     });
 
     // Method: Description → switch to search form
     btnDescription.addEventListener('click', () => {
       banner.classList.add('is-search');
-      // Focus input depois da animação
       setTimeout(() => searchInput.focus(), 350);
     });
 
@@ -1815,39 +2547,48 @@ document.addEventListener('click', function(e) {
     const subsetWrapper = document.getElementById('subset-wrapper');
     const subsetBtn = document.getElementById('subset-select');
     const subsetLabel = document.getElementById('subset-select-label');
-    const subsetOptions = subsetWrapper.querySelectorAll('.subset-option');
-
-    subsetBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      subsetWrapper.classList.toggle('is-open');
-    });
-    subsetOptions.forEach(opt => {
-      opt.addEventListener('click', () => {
-        const value = opt.dataset.subset;
-        const href = opt.dataset.href;
-        subsetLabel.textContent = value;
-        subsetBtn.classList.add('has-value');
-        subsetOptions.forEach(o => o.classList.remove('is-selected'));
-        opt.classList.add('is-selected');
-        subsetWrapper.classList.remove('is-open');
-        if (href) {
-          setTimeout(() => { window.location.href = href; }, 250);
+    if (subsetWrapper) {
+      const subsetOptions = subsetWrapper.querySelectorAll('.subset-option');
+      subsetBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        subsetWrapper.classList.toggle('is-open');
+      });
+      subsetOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const value = opt.dataset.subset;
+          const href = opt.dataset.href;
+          subsetLabel.textContent = value;
+          subsetBtn.classList.add('has-value');
+          subsetOptions.forEach(o => o.classList.remove('is-selected'));
+          opt.classList.add('is-selected');
+          subsetWrapper.classList.remove('is-open');
+          if (href) {
+            setTimeout(() => { window.location.href = href; }, 250);
+          }
+        });
+      });
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#subset-wrapper')) {
+          subsetWrapper.classList.remove('is-open');
         }
       });
-    });
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('#subset-wrapper')) {
-        subsetWrapper.classList.remove('is-open');
-      }
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') subsetWrapper.classList.remove('is-open');
-    });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') subsetWrapper.classList.remove('is-open');
+      });
+    }
 
-    // Click Search → mostra reasoning loader (~2.4s) → próxima tela
+    function showResultsModal(queryText) {
+      millaOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('milla-banner').style.display = 'none';
+      document.getElementById('milla-results').style.display = 'block';
+      document.getElementById('milla-results-search').style.display = 'block';
+      document.getElementById('milla-search-query-display').textContent = queryText;
+    }
+
+    // Click Search → mostra reasoning loader (~2.4s) → resultados no modal
     btnSearch.addEventListener('click', () => {
       if (!btnSearch.classList.contains('enabled')) return;
-      // Pega o texto digitado e injeta no quote do reasoning
       const query = searchInput.value.trim();
       const quoteEl = document.getElementById('milla-reason-quote');
       if (query && quoteEl) {
@@ -1856,11 +2597,346 @@ document.addEventListener('click', function(e) {
       // Transition: search → reasoning
       banner.classList.remove('is-search');
       banner.classList.add('is-reasoning');
-      // Após 2.4s, navega pra tela de resultados
+      // Após 2.4s, mostra resultados no modal
       setTimeout(() => {
-        window.location.href = 'machine-spare-parts-results.html';
+        showResultsModal(query || 'ring from the inner chamber');
       }, 2400);
     });
+  </script>
+
+  <!-- Select Subset Modal -->
+  <style>
+    .subset-modal-overlay {
+      position: fixed; inset: 0; z-index: 600;
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .subset-modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .subset-modal-wrapper { position: relative; width: 680px; max-width: 92vw; }
+    .subset-modal-close {
+      position: absolute; top: -36px; right: 0; width: 28px; height: 28px;
+      border-radius: 50%; background: rgba(255, 255, 255, 0.25); border: none;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      color: #fff; z-index: 10; transition: background 0.15s, transform 0.2s;
+    }
+    .subset-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+    .subset-modal-box {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      max-height: 86vh; display: flex; flex-direction: column;
+    }
+    .subset-modal-overlay.open .subset-modal-box { transform: scale(1) translateY(0); }
+    .subset-modal-head { display: flex; align-items: flex-start; gap: 14px; padding: 24px 24px 8px; }
+    .subset-modal-head-icon { width: 44px; height: 44px; border-radius: 12px; background: #f0faf9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .subset-modal-head h2 { font-size: 18px; font-weight: 700; color: #1f2937; margin: 0 0 2px; letter-spacing: -0.3px; }
+    .subset-modal-head p { font-size: 13px; color: #6b7280; margin: 0; }
+    .subset-modal-list { display: flex; flex-direction: column; gap: 8px; padding: 16px 24px 24px; }
+    .subset-modal-option {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      width: 100%; padding: 14px 16px; background: #fff;
+      border: 1px solid #e5e7eb; border-radius: 12px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #374151;
+      cursor: pointer; text-align: left; transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+    .subset-modal-option:hover { border-color: #007167; background: #f0faf9; color: #007167; }
+    .subset-modal-option svg { width: 16px; height: 16px; color: #9ca3af; flex-shrink: 0; }
+    .subset-modal-option:hover svg { color: #007167; }
+    /* Results state — green header + reuses .milla-results / .milla-results-table for the body */
+    .subset-green-head { position: relative; background: linear-gradient(135deg, #007167 0%, #0b9c92 100%); padding: 16px 24px; flex-shrink: 0; }
+    .subset-green-bar .chev { transition: transform 0.25s; }
+    .subset-green-bar.open .chev { transform: rotate(180deg); }
+    .subset-switch-dropdown { position: absolute; top: calc(100% - 6px); left: 24px; right: 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 12px 28px rgba(0,0,0,0.16); padding: 6px; z-index: 30; opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.32,0.72,0,1); }
+    .subset-switch-dropdown.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .subset-switch-option { display: block; width: 100%; text-align: left; padding: 12px 14px; background: none; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .subset-switch-option:hover { background: #f0faf9; color: #007167; }
+    .subset-switch-option.is-current { background: #e6f4f3; color: #007167; font-weight: 600; }
+    .subset-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; padding: 56px 24px; min-height: 240px; }
+    .subset-empty svg { width: 40px; height: 40px; color: #d1d5db; }
+    .subset-empty p { font-size: 14px; color: #6b7280; margin: 0; }
+    .subset-green-bar { display: flex; align-items: center; gap: 12px; width: 100%; height: 46px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 0 16px; cursor: pointer; transition: background 0.15s; }
+    .subset-green-bar:hover { background: rgba(255,255,255,0.22); }
+    .subset-green-bar .doc { width: 18px; height: 18px; color: #fff; flex-shrink: 0; }
+    .subset-green-bar span { flex: 1; text-align: left; font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.2px; }
+    .subset-green-bar .chev { width: 18px; height: 18px; color: rgba(255,255,255,0.9); flex-shrink: 0; }
+    .btn-wish-sm.wished { background: #e8f5f3; border-color: #007167; color: #007167; }
+  </style>
+  <div class="subset-modal-overlay" id="subset-modal-overlay">
+    <div class="subset-modal-wrapper">
+      <button type="button" class="subset-modal-close" id="subset-modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="subset-modal-box">
+        <div id="subset-results-state">
+          <div class="subset-green-head">
+            <button type="button" class="subset-green-bar" id="subset-results-back" aria-label="Change subset">
+              <svg class="doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span id="subset-results-name">Select subset</span>
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="subset-switch-dropdown" id="subset-switch-dropdown">
+              <button type="button" class="subset-switch-option" data-subset="Sealings FFKM">Sealings FFKM</button>
+              <button type="button" class="subset-switch-option" data-subset="Complete bearing">Complete bearing</button>
+              <button type="button" class="subset-switch-option" data-subset="Grinding chamber complete">Grinding chamber complete</button>
+              <button type="button" class="subset-switch-option" data-subset="Inlet flange complete">Inlet flange complete</button>
+            </div>
+          </div>
+          <!-- Placeholder: no subset chosen yet -->
+          <div class="subset-empty" id="subset-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <p>Choose an assembly to see its spare parts</p>
+          </div>
+          <div class="milla-results" id="subset-results-body" style="display:none;">
+            <div class="milla-results-header">
+              <h3 class="milla-results-title">Spare Parts Found</h3>
+              <span class="milla-results-count" id="subset-results-count">0 results</span>
+            </div>
+            <div class="milla-results-drawing" id="subset-drawing" style="cursor: zoom-in;">
+              <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing">
+            </div>
+            <div class="milla-results-table-wrap">
+              <table class="milla-results-table">
+                <thead><tr><th>Itm</th><th>Material Nr.</th><th>Description</th><th>Price/unit</th><th></th></tr></thead>
+                <tbody id="subset-results-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="drawing-lightbox" id="subset-drawing-lightbox" style="z-index: 700;">
+    <div class="drawing-lightbox-content">
+      <button type="button" class="drawing-lightbox-close" id="subset-drawing-lightbox-close" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing — full view">
+    </div>
+  </div>
+  <script>
+  (function() {
+    var overlay = document.getElementById('subset-modal-overlay');
+    var trigger = document.getElementById('subset-trigger');
+    if (!overlay || !trigger) return;
+    var emptyState = document.getElementById('subset-empty');
+    var resultsBody = document.getElementById('subset-results-body');
+    var resName = document.getElementById('subset-results-name');
+    var resCount = document.getElementById('subset-results-count');
+    var resBody = document.getElementById('subset-results-tbody');
+    var switchDd = document.getElementById('subset-switch-dropdown');
+    var greenBar = document.getElementById('subset-results-back');
+
+    var subsetData = {
+      "Sealings FFKM": [
+        {i:"210", m:"518702", d:"Seal ring FFKM", p:42.00},
+        {i:"211", m:"518703", d:"O-ring FFKM 80x3", p:18.50},
+        {i:"212", m:"518709", d:"Gasket FFKM", p:24.00}
+      ],
+      "Complete bearing": [
+        {i:"801", m:"140045213", d:"Ring - AISI 304", p:75.89},
+        {i:"802", m:"140023995", d:"Ring for inner pipe", q:true}
+      ],
+      "Grinding chamber complete": [
+        {i:"410", m:"530220", d:"Grinding chamber liner", p:420.00},
+        {i:"411", m:"530221", d:"Rotor disc", p:310.00},
+        {i:"412", m:"530225", d:"Wear sleeve", p:95.00}
+      ],
+      "Inlet flange complete": [
+        {i:"900", m:"517225", d:"O-Ring", p:30.00},
+        {i:"901", m:"535214", d:"O-ring - CERTS", p:30.00},
+        {i:"902", m:"535841", d:"O-ring", p:30.00},
+        {i:"903", m:"140045213", d:"Inlet flange", p:75.89}
+      ]
+    };
+
+    function rowHtml(r) {
+      var priceCell = r.q ? '<td class="quotation">Quotation</td>' : '<td>€' + r.p.toFixed(2) + '</td>';
+      return '<tr data-name="' + r.d + '" data-ref="' + r.m + '" data-price="' + (r.q ? '0' : r.p) + '"' + (r.q ? ' data-quotation="true"' : '') + '>'
+        + '<td>' + r.i + '</td>'
+        + '<td class="mono">' + r.m + '</td>'
+        + '<td>' + r.d + '</td>'
+        + priceCell
+        + '<td class="td-action"><span class="td-action-row">'
+        + '<span class="td-qty"><button type="button" class="td-qty-btn" data-dir="minus">−</button><input type="number" class="td-qty-val" value="1" min="1"><button type="button" class="td-qty-btn" data-dir="plus">+</button></span>'
+        + '<button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button>'
+        + '<button type="button" class="btn-wish-sm" aria-label="Add to wishlist"><svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg></button>'
+        + '</span></td></tr>';
+    }
+
+    function openModal() { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; resetToEmpty(); }
+    function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+    function resetToEmpty() {
+      resName.textContent = 'Select subset';
+      emptyState.style.display = '';
+      resultsBody.style.display = 'none';
+      switchDd.classList.remove('open'); greenBar.classList.remove('open');
+      switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.remove('is-current'); });
+    }
+    function showResults(name) {
+      var parts = subsetData[name] || [];
+      resName.textContent = name;
+      switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.toggle('is-current', o.getAttribute('data-subset') === name); });
+      resCount.textContent = parts.length + (parts.length === 1 ? ' result' : ' results');
+      resBody.innerHTML = parts.map(rowHtml).join('');
+      emptyState.style.display = 'none';
+      resultsBody.style.display = '';
+    }
+
+    trigger.addEventListener('click', openModal);
+    document.getElementById('subset-modal-close').addEventListener('click', closeModal);
+    // Green bar = trocar de subset no lugar (dropdown), sem voltar à lista
+    greenBar.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = switchDd.classList.toggle('open');
+      greenBar.classList.toggle('open', isOpen);
+    });
+    switchDd.querySelectorAll('.subset-switch-option').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        showResults(opt.getAttribute('data-subset'));
+        switchDd.classList.remove('open');
+        greenBar.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (switchDd.classList.contains('open') && !e.target.closest('.subset-green-head')) {
+        switchDd.classList.remove('open');
+        greenBar.classList.remove('open');
+      }
+    });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+    // Drawing zoom — own lightbox (the Milla one is nested in a closed overlay)
+    var sDraw = document.getElementById('subset-drawing');
+    var sLightbox = document.getElementById('subset-drawing-lightbox');
+    if (sDraw && sLightbox) {
+      sDraw.addEventListener('click', function() { sLightbox.classList.add('open'); });
+      document.getElementById('subset-drawing-lightbox-close').addEventListener('click', function() { sLightbox.classList.remove('open'); });
+      sLightbox.addEventListener('click', function(e) { if (e.target === sLightbox) sLightbox.classList.remove('open'); });
+    }
+
+    // qty steppers + add-to-cart for dynamically-rendered rows (delegation)
+    resBody.addEventListener('click', function(e) {
+      var qbtn = e.target.closest('.td-qty-btn');
+      if (qbtn) {
+        var input = qbtn.closest('.td-qty').querySelector('.td-qty-val');
+        var val = parseInt(input.value) || 1;
+        if (qbtn.dataset.dir === 'minus' && val > 1) input.value = val - 1;
+        if (qbtn.dataset.dir === 'plus') input.value = val + 1;
+        return;
+      }
+      var wishBtn = e.target.closest('.btn-wish-sm');
+      if (wishBtn) {
+        var wp = wishBtn.querySelector('svg path');
+        var on = wishBtn.classList.toggle('wished');
+        if (wp) { wp.setAttribute('fill', on ? '#007167' : 'none'); wp.setAttribute('stroke', on ? '#007167' : 'currentColor'); }
+        return;
+      }
+      var addBtn = e.target.closest('.btn-add-sm');
+      if (addBtn) {
+        var tr = addBtn.closest('tr');
+        if (!tr) return;
+        var qty = parseInt(tr.querySelector('.td-qty-val').value) || 1;
+        try {
+          var cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}');
+          if (!cart.items) cart.items = [];
+          var ref = tr.dataset.ref;
+          var existing = cart.items.find(function(i) { return i.ref === ref; });
+          if (existing) { existing.qty += qty; }
+          else { cart.items.push({ name: tr.dataset.name, ref: ref, unitPrice: parseFloat(tr.dataset.price) || 0, qty: qty, quotation: tr.dataset.quotation === 'true' }); }
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+          var badge = document.getElementById('cart-badge');
+          if (badge) { badge.textContent = cart.items.reduce(function(s, i) { return s + i.qty; }, 0); badge.style.display = 'flex'; }
+          addBtn.textContent = 'Added ✓';
+          addBtn.style.background = '#007167'; addBtn.style.color = '#fff';
+          setTimeout(function() { addBtn.textContent = 'Add'; addBtn.style.background = ''; addBtn.style.color = ''; }, 1200);
+        } catch(err) {}
+        return;
+      }
+    });
+  })();
+  </script>
+
+  <!-- Service Request Modal JS -->
+  <script>
+  (function() {
+    var srOverlay = document.getElementById('sr-modal-overlay');
+    var srFormState = document.getElementById('sr-form-state');
+    var srSuccess = document.getElementById('sr-success');
+    var srBtnSend = document.getElementById('sr-btn-send');
+    var srTitle = document.getElementById('sr-title');
+    var srDesc = document.getElementById('sr-desc');
+
+    // Open modal
+    document.getElementById('service-request-trigger').addEventListener('click', function() {
+      srOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeSrModal() {
+      srOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      // Reset after close animation
+      setTimeout(function() {
+        srFormState.style.display = '';
+        srSuccess.classList.remove('show');
+        srBtnSend.disabled = true;
+        srTitle.value = '';
+        srDesc.value = '';
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        document.querySelectorAll('input[name="srType"]').forEach(function(r) { r.checked = false; });
+      }, 300);
+    }
+
+    // Close handlers
+    document.getElementById('sr-modal-close').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-cancel').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-done').addEventListener('click', closeSrModal);
+    srOverlay.addEventListener('click', function(e) {
+      if (e.target === srOverlay) closeSrModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && srOverlay.classList.contains('open')) closeSrModal();
+    });
+
+    // Radio card selection
+    document.querySelectorAll('.sr-radio-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        card.classList.add('selected');
+        validateSrForm();
+      });
+    });
+
+    // Form validation
+    function validateSrForm() {
+      var hasType = document.querySelector('input[name="srType"]:checked');
+      var hasTitle = srTitle.value.trim().length > 0;
+      var hasDesc = srDesc.value.trim().length > 0;
+      srBtnSend.disabled = !(hasType && hasTitle && hasDesc);
+    }
+    srTitle.addEventListener('input', validateSrForm);
+    srDesc.addEventListener('input', validateSrForm);
+
+    // Dropzone
+    var srDropzone = document.getElementById('sr-dropzone');
+    var srFileInput = document.getElementById('sr-file-input');
+    srDropzone.addEventListener('click', function() { srFileInput.click(); });
+    srFileInput.addEventListener('change', function() {
+      if (srFileInput.files.length > 0) {
+        srDropzone.querySelector('.sr-dropzone-text').textContent = srFileInput.files.length + ' file(s) selected';
+      }
+    });
+
+    // Submit → success
+    srBtnSend.addEventListener('click', function() {
+      if (srBtnSend.disabled) return;
+      srFormState.style.display = 'none';
+      srSuccess.classList.add('show');
+    });
+  })();
   </script>
 
 <script>
@@ -1958,6 +3034,6 @@ document.addEventListener('click', function(e) {
 <script src="../assets/docs-modal.js"></script>
 <script src="../assets/hourmeter.js"></script>
 <script src="../assets/machine-line-edit.js"></script>
-<script src="../assets/i18n.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

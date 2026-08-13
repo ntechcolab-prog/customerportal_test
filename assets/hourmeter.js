@@ -14,7 +14,8 @@
     'discus_30': '6.120',
     'zeta_60': '8.452',
     'mastermix_45': '10.256',
-    'alpha_zeta_10': '10.256'
+    'alpha_zeta_10': '10.256',
+    'prophi': '6.580'
   };
   var currentHours = localStorage.getItem(storageKey) || defaults[machineKey] || '0';
 
