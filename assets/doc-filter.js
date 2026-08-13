@@ -9,6 +9,20 @@
   var productName = container.getAttribute('data-product') || 'PRODUCT';
   var perPage = 8;
 
+  // ── Standard empty state (matches portal empty-state: badge + title + desc) ──
+  if (!document.getElementById('doc-empty-styles')) {
+    var dfStyle = document.createElement('style');
+    dfStyle.id = 'doc-empty-styles';
+    dfStyle.textContent = [
+      '.doc-empty { display:flex; flex-direction:column; align-items:center; text-align:center; padding:48px 24px; }',
+      '.doc-empty-icon { width:48px; height:48px; margin-bottom:16px; border-radius:50%; background:#f3f4f6; display:flex; align-items:center; justify-content:center; flex-shrink:0; }',
+      '.doc-empty-icon svg { width:24px; height:24px; color:#9ca3af; }',
+      '.doc-empty-title { font-size:15px; font-weight:600; color:#374151; margin:0 0 4px; line-height:1.35; }',
+      '.doc-empty-desc { font-size:13px; color:#4b5563; margin:0; line-height:1.5; }'
+    ].join('\n');
+    document.head.appendChild(dfStyle);
+  }
+
   // ── Document catalog ──
   var types = [
     'Product Data Sheet',
@@ -245,7 +259,11 @@
     html += '</div></div>';
 
     if (totalFiltered === 0) {
-      html = '<div class="doc-empty">No documents found for the selected filters.</div>';
+      html = '<div class="doc-empty">' +
+        '<div class="doc-empty-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+        '<p class="doc-empty-title">No results found</p>' +
+        '<p class="doc-empty-desc">Try adjusting your search or filters</p>' +
+        '</div>';
     }
 
     tableWrap.innerHTML = html;

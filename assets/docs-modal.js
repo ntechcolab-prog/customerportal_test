@@ -30,7 +30,11 @@
     '.docs-search-input { flex:1; min-width:0; height:40px; border:1px solid #d4d6d8; border-radius:10px; padding:0 16px 0 40px; font-family:"Inter",sans-serif; font-size:14px; color:#2d2e33; background:#fff url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%239ca0a5\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Ccircle cx=\'11\' cy=\'11\' r=\'8\'/%3E%3Cline x1=\'21\' y1=\'21\' x2=\'16.65\' y2=\'16.65\'/%3E%3C/svg%3E") no-repeat 14px center; outline:none; transition:border-color 0.15s; }',
     '.docs-search-input:focus { border-color:#007167; }',
     '.docs-search-input::placeholder { color:#9ca0a5; }',
-    '.docs-no-results { padding:32px 0; text-align:center; color:#9ca0a5; font-size:14px; display:none; }',
+    '.docs-no-results { display:none; flex-direction:column; align-items:center; text-align:center; padding:40px 24px; }',
+    '.docs-no-results-icon { width:48px; height:48px; margin-bottom:16px; border-radius:50%; background:#f3f4f6; display:flex; align-items:center; justify-content:center; flex-shrink:0; }',
+    '.docs-no-results-icon svg { width:24px; height:24px; color:#9ca3af; }',
+    '.docs-no-results-title { font-size:15px; font-weight:600; color:#374151; margin:0 0 4px; line-height:1.35; }',
+    '.docs-no-results-desc { font-size:13px; color:#4b5563; margin:0; line-height:1.5; }',
 
     '.docs-lang-wrap { display:flex; align-items:center; gap:6px; flex-shrink:0; }',
     '.docs-lang-label { font-size:11px; font-weight:500; color:#6b6e73; text-transform:uppercase; letter-spacing:0.04em; }',
@@ -141,7 +145,11 @@
     '      </select>' +
     '    </div>' +
     '  </div>' +
-    '  <div class="docs-no-results" id="docsNoResults">No documents found.</div>' +
+    '  <div class="docs-no-results" id="docsNoResults">' +
+    '    <div class="docs-no-results-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+    '    <p class="docs-no-results-title">No results found</p>' +
+    '    <p class="docs-no-results-desc">Try adjusting your search or filters</p>' +
+    '  </div>' +
     '  <div class="docs-body" id="docsBody">' + bodyHtml + '</div>' +
     '</div>';
   document.body.appendChild(overlay);
@@ -173,7 +181,7 @@
       totalVisible += catVisible;
     });
 
-    noResults.style.display = totalVisible === 0 ? '' : 'none';
+    noResults.style.display = totalVisible === 0 ? 'flex' : 'none';
   }
 
   searchInput.addEventListener('input', applyFilter);
