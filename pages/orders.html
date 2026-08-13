@@ -1840,9 +1840,6 @@
         </div>
         <p class="empty-state-title" data-i18n="common.noResults">No results found</p>
         <p class="empty-state-desc" data-i18n="common.noResultsDesc">Try adjusting your search or filters</p>
-        <div class="empty-state-actions">
-          <button type="button" class="btn btn-secondary btn-sm" id="emptyClearFilters">Clear filters</button>
-        </div>
       </div>
       <!-- PAGINATION -->
       <div class="pagination" id="paginationWrap">
@@ -2037,17 +2034,6 @@ document.addEventListener('click', function(e) {
     });
 
     filterSearch.addEventListener('input', applyFilters);
-
-    // Empty-state CTA → reset all filters back to "All"
-    var emptyClear = document.getElementById('emptyClearFilters');
-    if (emptyClear) {
-      emptyClear.addEventListener('click', function() {
-        filterSearch.value = '';
-        activeStatus = '';
-        pills.forEach(function(p) { p.classList.toggle('active', p.dataset.status === ''); });
-        applyFilters();
-      });
-    }
 
     countByStatus();
 
