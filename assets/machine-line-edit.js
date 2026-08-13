@@ -32,8 +32,8 @@
     '.machine-line-cancel { background:#f3f4f6; color:#6b6e73; }',
     '.machine-line-cancel:hover { background:#e5e7eb; }',
     '.machine-line-save svg, .machine-line-cancel svg { width:10px; height:10px; }',
-    '.machine-line-edit-btn { width:18px; height:18px; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; color:#9ca3af; padding:0; transition:color 0.15s; flex-shrink:0; }',
-    '.machine-line-edit-btn:hover { color:#007167; }',
+    '.machine-line-edit-btn { width:18px; height:18px; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; color:#007167; padding:0; transition:color 0.15s; flex-shrink:0; }',
+    '.machine-line-edit-btn:hover { color:#005f57; }',
     '.machine-line-edit-btn svg { width:11px; height:11px; }',
   ].join('\n');
   document.head.appendChild(style);
@@ -159,8 +159,8 @@
     style.textContent = [
       '.hero-line-row { display:flex; align-items:center; gap:6px; margin-bottom:8px; align-self:flex-start; }',
       '.hero-line-row .hero-line-badge { margin-bottom:0; }',
-      '.hero-line-edit-btn { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; border-radius:6px; cursor:pointer; color:#9ca3af; padding:0; transition:background 0.15s, color 0.15s; flex-shrink:0; }',
-      '.hero-line-edit-btn:hover { background:#f0f1f2; color:#007167; }',
+      '.hero-line-edit-btn { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; border-radius:6px; cursor:pointer; color:#007167; padding:0; transition:background 0.15s, color 0.15s; flex-shrink:0; }',
+      '.hero-line-edit-btn:hover { background:#e8f5f3; color:#005f57; }',
       '.hero-line-edit-btn:focus-visible { outline:2px solid #007167; outline-offset:2px; }',
       '.hero-line-edit-btn svg { width:12px; height:12px; }',
       '.hero-line-input { height:24px; border:1px solid #007167; border-radius:6px; padding:0 8px; font-family:"Inter",sans-serif; font-size:10px; font-weight:600; color:#1d1d1f; text-transform:uppercase; letter-spacing:0.08em; outline:none; width:160px; }',
@@ -253,52 +253,44 @@
 })();
 
 /**
- * Hero layout (machine-discus30): editable installation date (.hero-install).
- * Displays dd/mm/yyyy, edits via a native date picker, persists locally.
- * Self-contained; no-ops on pages without the element.
+ * Hero layout (machine-discus30): standardized editable meta rows (.hero-meta).
+ * One row = label + value + pencil. Driven by data-attributes on .hero-meta:
+ *   data-field="text"|"date", data-store=<key prefix>, data-aria, data-toast.
+ * Text edits inline; date edits via a native picker, shown as dd/mm/yyyy.
+ * Persists locally per machine. Self-contained; no-ops without .hero-meta.
  */
 (function () {
-  var wrap = document.querySelector('.hero-install');
-  if (!wrap || wrap.getAttribute('data-date-editable')) return;
-  var valueEl = wrap.querySelector('.hero-install-value');
-  if (!valueEl) return;
-  wrap.setAttribute('data-date-editable', 'true');
+  var fields = document.querySelectorAll('.hero-meta');
+  if (!fields.length) return;
 
   var titleEl = document.querySelector('.hero-machine-name') || document.querySelector('.machine-title');
   var machineKey = titleEl ? titleEl.textContent.trim().replace(/\s+/g, '_').toLowerCase() : 'machine';
-  var storageKey = 'netzsch_installdate_' + machineKey;
 
   function formatDMY(iso) {
     var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
     return m ? m[3] + '/' + m[2] + '/' + m[1] : (iso || '');
   }
+  function isISO(v) { return /^\d{4}-\d{2}-\d{2}$/.test(v || ''); }
+  function esc(s) { return String(s).replace(/"/g, '&quot;'); }
 
-  // Restore saved value
-  var saved = null;
-  try { saved = localStorage.getItem(storageKey); } catch (e) {}
-  if (saved && /^\d{4}-\d{2}-\d{2}$/.test(saved)) {
-    valueEl.setAttribute('data-date', saved);
-    valueEl.textContent = formatDMY(saved);
-  }
-
-  // ── Inject CSS (once) ──
-  if (!document.getElementById('hero-install-edit-styles')) {
+  // ── Inject CSS (once) — pencil in NETZSCH green ──
+  if (!document.getElementById('hero-meta-edit-styles')) {
     var style = document.createElement('style');
-    style.id = 'hero-install-edit-styles';
+    style.id = 'hero-meta-edit-styles';
     style.textContent = [
-      '.hero-install-edit-btn { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; border-radius:6px; cursor:pointer; color:#9ca3af; padding:0; transition:background 0.15s, color 0.15s; flex-shrink:0; }',
-      '.hero-install-edit-btn:hover { background:#f0f1f2; color:#007167; }',
-      '.hero-install-edit-btn:focus-visible { outline:2px solid #007167; outline-offset:2px; }',
-      '.hero-install-edit-btn svg { width:12px; height:12px; }',
-      '.hero-install-input { height:26px; border:1px solid #007167; border-radius:6px; padding:0 8px; font-family:"Inter",sans-serif; font-size:12px; color:#374151; outline:none; }',
-      '.hero-install-input:focus { box-shadow:0 0 0 3px rgba(0,113,103,0.12); }',
-      '.hero-install-editing { display:inline-flex; align-items:center; gap:6px; }',
-      '.hero-install-save, .hero-install-cancel { width:24px; height:24px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; border:none; cursor:pointer; transition:background 0.15s; flex-shrink:0; }',
-      '.hero-install-save { background:#007167; color:#fff; }',
-      '.hero-install-save:hover { background:#005f57; }',
-      '.hero-install-cancel { background:#f3f4f6; color:#6b6e73; }',
-      '.hero-install-cancel:hover { background:#e5e7eb; }',
-      '.hero-install-save svg, .hero-install-cancel svg { width:11px; height:11px; }'
+      '.hero-meta-edit-btn { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; background:none; border:none; border-radius:6px; cursor:pointer; color:#007167; padding:0; transition:background 0.15s, color 0.15s; flex-shrink:0; }',
+      '.hero-meta-edit-btn:hover { background:#e8f5f3; color:#005f57; }',
+      '.hero-meta-edit-btn:focus-visible { outline:2px solid #007167; outline-offset:2px; }',
+      '.hero-meta-edit-btn svg { width:12px; height:12px; }',
+      '.hero-meta-input { height:26px; width:160px; max-width:60vw; border:1px solid #007167; border-radius:6px; padding:0 8px; font-family:"Inter",sans-serif; font-size:12px; color:#374151; outline:none; }',
+      '.hero-meta-input:focus { box-shadow:0 0 0 3px rgba(0,113,103,0.12); }',
+      '.hero-meta-editing { display:inline-flex; align-items:center; gap:6px; }',
+      '.hero-meta-save, .hero-meta-cancel { width:24px; height:24px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; border:none; cursor:pointer; transition:background 0.15s; flex-shrink:0; }',
+      '.hero-meta-save { background:#007167; color:#fff; }',
+      '.hero-meta-save:hover { background:#005f57; }',
+      '.hero-meta-cancel { background:#f3f4f6; color:#6b6e73; }',
+      '.hero-meta-cancel:hover { background:#e5e7eb; }',
+      '.hero-meta-save svg, .hero-meta-cancel svg { width:11px; height:11px; }'
     ].join('\n');
     document.head.appendChild(style);
   }
@@ -307,52 +299,86 @@
   var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
   var closeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
 
-  var editBtn = document.createElement('button');
-  editBtn.type = 'button';
-  editBtn.className = 'hero-install-edit-btn';
-  editBtn.setAttribute('aria-label', 'Edit installation date');
-  editBtn.title = 'Edit installation date';
-  editBtn.innerHTML = pencilSvg;
-  wrap.appendChild(editBtn);
-  editBtn.addEventListener('click', function (e) { e.preventDefault(); startEdit(); });
+  for (var i = 0; i < fields.length; i++) initField(fields[i]);
 
-  function startEdit() {
-    valueEl.style.display = 'none';
-    editBtn.style.display = 'none';
+  function initField(wrap) {
+    if (wrap.getAttribute('data-editable')) return;
+    var valueEl = wrap.querySelector('.hero-meta-value');
+    if (!valueEl) return;
+    wrap.setAttribute('data-editable', 'true');
 
-    var editWrap = document.createElement('span');
-    editWrap.className = 'hero-install-editing';
-    editWrap.innerHTML =
-      '<input class="hero-install-input" type="date" value="' + (valueEl.getAttribute('data-date') || '') + '" aria-label="Installation date">' +
-      '<button type="button" class="hero-install-save" title="Save" aria-label="Save">' + checkSvg + '</button>' +
-      '<button type="button" class="hero-install-cancel" title="Cancel" aria-label="Cancel">' + closeSvg + '</button>';
-    wrap.appendChild(editWrap);
+    var type = wrap.getAttribute('data-field') === 'date' ? 'date' : 'text';
+    var storageKey = (wrap.getAttribute('data-store') || 'netzsch_meta') + '_' + machineKey;
+    var toast = wrap.getAttribute('data-toast') || 'Updated';
+    var aria = wrap.getAttribute('data-aria') || 'Edit';
 
-    var input = editWrap.querySelector('.hero-install-input');
-    input.focus();
-
-    function finishSave() {
-      var val = input.value;
-      if (val && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
-        valueEl.setAttribute('data-date', val);
-        valueEl.textContent = formatDMY(val);
-        try { localStorage.setItem(storageKey, val); } catch (e) {}
-        showToast('Installation date updated');
+    // Restore saved value
+    var saved = null;
+    try { saved = localStorage.getItem(storageKey); } catch (e) {}
+    if (saved) {
+      if (type === 'date') {
+        if (isISO(saved)) { valueEl.setAttribute('data-date', saved); valueEl.textContent = formatDMY(saved); }
+      } else {
+        valueEl.textContent = saved;
       }
-      cleanup();
-    }
-    function cleanup() {
-      editWrap.remove();
-      valueEl.style.display = '';
-      editBtn.style.display = '';
     }
 
-    editWrap.querySelector('.hero-install-save').addEventListener('click', finishSave);
-    editWrap.querySelector('.hero-install-cancel').addEventListener('click', cleanup);
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') { e.preventDefault(); finishSave(); }
-      else if (e.key === 'Escape') { e.preventDefault(); cleanup(); }
-    });
+    var editBtn = document.createElement('button');
+    editBtn.type = 'button';
+    editBtn.className = 'hero-meta-edit-btn';
+    editBtn.setAttribute('aria-label', aria);
+    editBtn.title = aria;
+    editBtn.innerHTML = pencilSvg;
+    wrap.appendChild(editBtn);
+    editBtn.addEventListener('click', function (e) { e.preventDefault(); startEdit(); });
+
+    function startEdit() {
+      valueEl.style.display = 'none';
+      editBtn.style.display = 'none';
+
+      var editWrap = document.createElement('span');
+      editWrap.className = 'hero-meta-editing';
+      var inputHtml = type === 'date'
+        ? '<input class="hero-meta-input" type="date" value="' + (valueEl.getAttribute('data-date') || '') + '" aria-label="' + esc(aria) + '">'
+        : '<input class="hero-meta-input" type="text" maxlength="40" value="' + esc(valueEl.textContent.trim()) + '" aria-label="' + esc(aria) + '">';
+      editWrap.innerHTML = inputHtml +
+        '<button type="button" class="hero-meta-save" title="Save" aria-label="Save">' + checkSvg + '</button>' +
+        '<button type="button" class="hero-meta-cancel" title="Cancel" aria-label="Cancel">' + closeSvg + '</button>';
+      wrap.appendChild(editWrap);
+
+      var input = editWrap.querySelector('.hero-meta-input');
+      input.focus();
+      if (type !== 'date') input.select();
+
+      function finishSave() {
+        var val = input.value;
+        if (type === 'date') {
+          if (isISO(val)) {
+            valueEl.setAttribute('data-date', val);
+            valueEl.textContent = formatDMY(val);
+            persist(val);
+            showToast(toast);
+          }
+        } else {
+          val = val.trim();
+          if (val) { valueEl.textContent = val; persist(val); showToast(toast); }
+        }
+        cleanup();
+      }
+      function persist(v) { try { localStorage.setItem(storageKey, v); } catch (e) {} }
+      function cleanup() {
+        editWrap.remove();
+        valueEl.style.display = '';
+        editBtn.style.display = '';
+      }
+
+      editWrap.querySelector('.hero-meta-save').addEventListener('click', finishSave);
+      editWrap.querySelector('.hero-meta-cancel').addEventListener('click', cleanup);
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); finishSave(); }
+        else if (e.key === 'Escape') { e.preventDefault(); cleanup(); }
+      });
+    }
   }
 
   function showToast(msg) {

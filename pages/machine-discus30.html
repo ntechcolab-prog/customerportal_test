@@ -477,14 +477,6 @@
       flex-direction: column;
     }
 
-    .hero-line-badge {
-      font-size: 10px;
-      font-weight: 600;
-      color: #86868b;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
-    }
     .hero-machine-name {
       font-size: 28px;
       font-weight: 700;
@@ -495,18 +487,19 @@
     .hero-serial {
       font-size: 13px;
       color: #86868b;
-      margin-bottom: 4px;
+      margin-bottom: 8px;
     }
-    .hero-install {
+    .hero-meta {
       display: flex;
       align-items: center;
       gap: 6px;
       font-size: 13px;
       color: #86868b;
-      margin-bottom: 24px;
+      margin-bottom: 8px;
     }
-    .hero-install-label { font-weight: 600; color: #6b6e73; }
-    .hero-install-value { font-variant-numeric: tabular-nums; }
+    .hero-meta:last-of-type { margin-bottom: 24px; }
+    .hero-meta-label { font-weight: 600; color: #6b6e73; }
+    .hero-meta-value { font-variant-numeric: tabular-nums; }
     .hero-divider {
       height: 1px;
       background: rgba(0, 0, 0, 0.08);
@@ -1961,12 +1954,15 @@
 
       <!-- Right — Info + Actions -->
       <div class="hero-info" id="hero-info">
-        <span class="hero-line-badge">LINE 1</span>
         <h1 class="hero-machine-name">Discus 30</h1>
         <span class="hero-serial">SN: 2801548-10 · Brazil</span>
-        <span class="hero-install">
-          <span class="hero-install-label">Installed:</span>
-          <span class="hero-install-value" data-date="2024-08-20">20/08/2024</span>
+        <span class="hero-meta" data-field="text" data-store="netzsch_line" data-aria="Edit production line name" data-toast="Production line updated">
+          <span class="hero-meta-label">Line:</span>
+          <span class="hero-meta-value">LINE 1</span>
+        </span>
+        <span class="hero-meta" data-field="date" data-store="netzsch_installdate" data-aria="Edit installation date" data-toast="Installation date updated">
+          <span class="hero-meta-label">Installed:</span>
+          <span class="hero-meta-value" data-date="2024-08-20">20/08/2024</span>
         </span>
 
         <div class="hero-divider"></div>
