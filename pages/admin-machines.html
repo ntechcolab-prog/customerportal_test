@@ -1413,16 +1413,9 @@
     .mm-card-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
     .mm-card-title { font-size:16px; font-weight:700; color:#1d1d1f; }
     .mm-card-sub { font-size:13px; color:#6b7280; margin-top:4px; max-width:62ch; line-height:1.5; }
-    .mm-add-btn { display:inline-flex; align-items:center; gap:6px; background:#007167; color:#fff; border:none; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; border-radius:8px; padding:9px 15px; cursor:pointer; flex-shrink:0; }
-    .mm-add-btn:hover { background:#005f57; }
-    .mm-add-btn svg { width:14px; height:14px; }
     .mm-addrow { display:flex; gap:8px; align-items:center; margin:16px 0 4px; }
     .mm-input { height:38px; border:1px solid #007167; border-radius:8px; padding:0 12px; font-family:'Inter',sans-serif; font-size:14px; color:#1d1d1f; outline:none; flex:1; max-width:300px; }
     .mm-input:focus { box-shadow:0 0 0 3px rgba(0,113,103,0.12); }
-    .mm-save { background:#007167; color:#fff; border:none; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; border-radius:8px; padding:9px 15px; cursor:pointer; }
-    .mm-save:hover { background:#005f57; }
-    .mm-cancel { background:#f3f4f6; color:#5c5f62; border:none; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; border-radius:8px; padding:9px 15px; cursor:pointer; }
-    .mm-cancel:hover { background:#e9ebee; }
     .mm-err { display:flex; gap:8px; align-items:flex-start; background:#fbeceb; border:1px solid #f3c9c5; color:#8a2a20; font-size:13px; border-radius:8px; padding:10px 12px; margin:14px 0 0; }
     .mm-addrow[hidden], .mm-err[hidden] { display: none; }
     .mm-lines { margin-top:14px; }
@@ -1459,10 +1452,6 @@
     /* ── Header actions + popovers ── */
     .mm-actions { display:flex; gap:10px; align-items:center; }
     .mm-pop-wrap { position:relative; }
-    .mm-btn-secondary { display:inline-flex; align-items:center; gap:7px; background:#fff; color:#3d4246; border:1px solid #d7d9db; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; border-radius:8px; padding:9px 13px; cursor:pointer; }
-    .mm-btn-secondary:hover { border-color:#007167; color:#007167; }
-    .mm-btn-secondary svg:first-child { width:15px; height:15px; }
-    .mm-btn-secondary .mm-caret { width:11px; height:11px; }
     .mm-pop { position:absolute; top:48px; right:0; z-index:60; width:300px; background:#fff; border:1px solid #eaeaea; border-radius:12px; box-shadow:0 14px 40px rgba(0,0,0,.14); padding:14px; }
     .mm-pop[hidden] { display:none; }
     .mm-pop-title { font-size:12px; font-weight:700; letter-spacing:.3px; text-transform:uppercase; color:#86868b; margin-bottom:10px; }
@@ -1785,7 +1774,7 @@
         </div>
         <div class="mm-actions">
           <div class="mm-pop-wrap">
-            <button type="button" class="mm-btn-secondary" id="mmManageLinesBtn" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-secondary btn-sm" id="mmManageLinesBtn" aria-haspopup="true" aria-expanded="false">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3.5" width="12" height="9" rx="1.4"/><path d="M5 7h6M5 9.5h6" stroke-linecap="round"/></svg>
               <span data-i18n="admin.machines.manageLines">Manage lines</span>
               <svg class="mm-caret" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>
@@ -1794,14 +1783,14 @@
               <div class="mm-pop-title" data-i18n="admin.machines.linesTitle">Production Lines</div>
               <div class="mm-addrow">
                 <input type="text" id="mmAddInput" class="mm-input" placeholder="New line name" data-i18n-placeholder="admin.machines.newLinePlaceholder" maxlength="40" aria-label="New line name">
-                <button type="button" class="mm-save" id="mmAddSave" data-i18n="admin.machines.addLine">Add line</button>
+                <button type="button" class="btn btn-primary btn-sm" id="mmAddSave" data-i18n="admin.machines.addLine">Add line</button>
               </div>
               <div class="mm-err" id="mmErr" hidden><span aria-hidden="true">⛔</span><span id="mmErrText"></span></div>
               <div class="mm-lines" id="mmLines"></div>
             </div>
           </div>
           <div class="mm-pop-wrap">
-            <button type="button" class="mm-add-btn" id="mmAddMachineBtn" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-primary btn-sm" id="mmAddMachineBtn" aria-haspopup="true" aria-expanded="false">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg>
               <span data-i18n="admin.machines.addMachine">Add machine</span>
             </button>
@@ -1811,8 +1800,8 @@
               <select id="mmNewMachineLine" class="mm-msel" style="margin-top:8px"></select>
               <div class="mm-err" id="mmMachineErr" hidden><span aria-hidden="true">⛔</span><span id="mmMachineErrText"></span></div>
               <div class="mm-pop-foot">
-                <button type="button" class="mm-cancel" id="mmNewMachineCancel" data-i18n="admin.machines.cancel">Cancel</button>
-                <button type="button" class="mm-save" id="mmNewMachineSave" data-i18n="admin.machines.addMachine">Add machine</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="mmNewMachineCancel" data-i18n="admin.machines.cancel">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="mmNewMachineSave" data-i18n="admin.machines.addMachine">Add machine</button>
               </div>
               <p class="mm-pop-note" data-i18n="admin.machines.addMachineNote">Prototype: added machines show here but don't create a portal page yet.</p>
             </div>
@@ -1981,8 +1970,8 @@ document.addEventListener('click', function(e) {
     function startRename(rowEl, name) {
       clearErr();
       rowEl.innerHTML = '<input class="mm-input mm-rn-input" type="text" value="' + esc(name) + '" maxlength="40" aria-label="Line name">' +
-        '<div class="mm-acts"><button type="button" class="mm-save mm-rn-save">' + T('admin.machines.save', 'Save') + '</button>' +
-        '<button type="button" class="mm-cancel mm-rn-cancel">' + T('admin.machines.cancel', 'Cancel') + '</button></div>';
+        '<div class="mm-acts"><button type="button" class="btn btn-primary btn-sm mm-rn-save">' + T('admin.machines.save', 'Save') + '</button>' +
+        '<button type="button" class="btn btn-secondary btn-sm mm-rn-cancel">' + T('admin.machines.cancel', 'Cancel') + '</button></div>';
       var inp = rowEl.querySelector('.mm-rn-input'); inp.focus(); inp.select();
       function commit() {
         var r = MachineLines.renameLine(name, inp.value);
