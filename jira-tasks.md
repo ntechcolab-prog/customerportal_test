@@ -1,6 +1,6 @@
 # NETZSCH Customer Portal — Backlog
 
-> Última atualização: 14/08 — CP-586 concluída (skeleton em +15 páginas); CP-626 concluída (13/08); FIG-01 em 4/13.
+> Última atualização: 14/08 — Feature de **Linhas de produção** completa (P1–P4); CP-586 (skeleton +15 pgs); CP-626 (13/08); FIG-01 em 4/13.
 > Duas frentes: **Sprint do gerente** (HTML/CSS) e **Figma** (mocks & fluxos).
 
 ## 📋 Resumo do backlog
@@ -21,6 +21,15 @@
 | UI-02 | Padronizar steps de Orders e Quotes | HTML | ✅ Feito | steppers.css (fita chevron verde) em 4 telas; checkout-quote fora por decisão |
 
 ## ✅ Feito
+
+### LINHAS — Filtro & atribuição de linhas de produção (14/08)
+Linha = **entidade gerenciada** (não texto livre): usuário **seleciona**, nunca digita → filtro à prova de typo. Store único `assets/machine-lines.js` (`window.MachineLines`) persiste em localStorage.
+- **P1 — Filtro** (`machines.html`): dropdown multi-seleção (aplica ao vivo) ao lado dos filtros de família; "No line" no topo com contagem.
+- **P2 — Painel Admin** (`admin-machines.html`, menu "Machines Management"): CRUD de Production Lines; excluir linha com máquina = **bloqueado** com aviso; contagens dinâmicas; só Admin (role-guard).
+- **P3 — Select na máquina** (`machine-line-select.js`, 6 máquinas): campo Line vira dropdown do store; grava atribuição; "+ New line" só Admin; editor de texto livre desativado nesse campo.
+- **P4 — Selo + notificação**: cards/tabela sincronizam do store (atribuição/rename refletem); selo âmbar "⚠ No line"; notificação dinâmica "N machines without a production line" (link `?filter=noline`).
+- Zeta 500 criada como exemplo "sem linha". i18n EN/DE. Mock aprovado (Artifact).
+- **Futuro:** reatribuição em massa a partir da lista.
 
 ### CP-586 — Skeleton loading no resto das páginas (14/08)
 - Aplicado em **15 páginas de dados** (padrão: `.skeleton-wrapper` espelha o conteúdo →
