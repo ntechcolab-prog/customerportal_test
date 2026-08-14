@@ -1456,6 +1456,24 @@
     .mm-msel:focus { outline:none; border-color:#007167; box-shadow:0 0 0 3px rgba(0,113,103,.12); }
     .mm-msel.is-none { color:#8a5a00; border-color:#e6d9ac; background:#fdf9ee; }
     .mm-bulk .mm-msel { height:32px; }
+    /* ── Header actions + popovers ── */
+    .mm-actions { display:flex; gap:10px; align-items:center; }
+    .mm-pop-wrap { position:relative; }
+    .mm-btn-secondary { display:inline-flex; align-items:center; gap:7px; background:#fff; color:#3d4246; border:1px solid #d7d9db; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; border-radius:8px; padding:9px 13px; cursor:pointer; }
+    .mm-btn-secondary:hover { border-color:#007167; color:#007167; }
+    .mm-btn-secondary svg:first-child { width:15px; height:15px; }
+    .mm-btn-secondary .mm-caret { width:11px; height:11px; }
+    .mm-pop { position:absolute; top:48px; right:0; z-index:60; width:300px; background:#fff; border:1px solid #eaeaea; border-radius:12px; box-shadow:0 14px 40px rgba(0,0,0,.14); padding:14px; }
+    .mm-pop[hidden] { display:none; }
+    .mm-pop-title { font-size:12px; font-weight:700; letter-spacing:.3px; text-transform:uppercase; color:#86868b; margin-bottom:10px; }
+    .mm-pop .mm-addrow { display:flex; gap:8px; margin:0; }
+    .mm-input-full { width:100%; max-width:none; }
+    .mm-pop .mm-input { flex:1; max-width:none; }
+    .mm-pop .mm-lines { max-height:236px; overflow-y:auto; margin-top:8px; }
+    .mm-pop .mm-line { padding:11px 2px; }
+    .mm-pop-foot { display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
+    .mm-pop-note { font-size:11.5px; color:#9ca3af; margin-top:12px; line-height:1.45; }
+    @media (max-width:600px) { .mm-pop { width:min(300px, calc(100vw - 40px)); } }
     @media (max-width:640px) {
       .mmm-row { grid-template-columns:28px 1fr; row-gap:8px; }
       .mmm-thumb, .mmm-head span:nth-child(2) { display:none; }
@@ -1765,34 +1783,45 @@
           <h1 class="page-title" data-i18n="admin.machines.title">Machines Management</h1>
           <span class="page-subtitle" id="mmSubtitle">6 machines · 5 lines · 1 without line</span>
         </div>
-      </div>
-
-      <!-- PRODUCTION LINES -->
-      <div class="mm-card" data-skeleton-stagger>
-        <div class="mm-card-head">
-          <div>
-            <h2 class="mm-card-title" data-i18n="admin.machines.linesTitle">Production Lines</h2>
-            <p class="mm-card-sub" data-i18n="admin.machines.linesSub">Create and manage the production lines that machines can be assigned to. Renaming a line updates every machine on it.</p>
+        <div class="mm-actions">
+          <div class="mm-pop-wrap">
+            <button type="button" class="mm-btn-secondary" id="mmManageLinesBtn" aria-haspopup="true" aria-expanded="false">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3.5" width="12" height="9" rx="1.4"/><path d="M5 7h6M5 9.5h6" stroke-linecap="round"/></svg>
+              <span data-i18n="admin.machines.manageLines">Manage lines</span>
+              <svg class="mm-caret" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>
+            </button>
+            <div class="mm-pop" id="mmLinesPop" hidden>
+              <div class="mm-pop-title" data-i18n="admin.machines.linesTitle">Production Lines</div>
+              <div class="mm-addrow">
+                <input type="text" id="mmAddInput" class="mm-input" placeholder="New line name" data-i18n-placeholder="admin.machines.newLinePlaceholder" maxlength="40" aria-label="New line name">
+                <button type="button" class="mm-save" id="mmAddSave" data-i18n="admin.machines.addLine">Add line</button>
+              </div>
+              <div class="mm-err" id="mmErr" hidden><span aria-hidden="true">⛔</span><span id="mmErrText"></span></div>
+              <div class="mm-lines" id="mmLines"></div>
+            </div>
           </div>
-          <button type="button" class="mm-add-btn" id="mmAddBtn">
-            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-            <span data-i18n="admin.machines.addLine">Add line</span>
-          </button>
+          <div class="mm-pop-wrap">
+            <button type="button" class="mm-add-btn" id="mmAddMachineBtn" aria-haspopup="true" aria-expanded="false">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke-linecap="round"/></svg>
+              <span data-i18n="admin.machines.addMachine">Add machine</span>
+            </button>
+            <div class="mm-pop mm-pop-right" id="mmMachinePop" hidden>
+              <div class="mm-pop-title" data-i18n="admin.machines.addMachine">Add machine</div>
+              <input type="text" id="mmNewMachineName" class="mm-input mm-input-full" placeholder="Machine name" data-i18n-placeholder="admin.machines.machineNamePlaceholder" maxlength="40" aria-label="Machine name">
+              <select id="mmNewMachineLine" class="mm-msel" style="margin-top:8px"></select>
+              <div class="mm-err" id="mmMachineErr" hidden><span aria-hidden="true">⛔</span><span id="mmMachineErrText"></span></div>
+              <div class="mm-pop-foot">
+                <button type="button" class="mm-cancel" id="mmNewMachineCancel" data-i18n="admin.machines.cancel">Cancel</button>
+                <button type="button" class="mm-save" id="mmNewMachineSave" data-i18n="admin.machines.addMachine">Add machine</button>
+              </div>
+              <p class="mm-pop-note" data-i18n="admin.machines.addMachineNote">Prototype: added machines show here but don't create a portal page yet.</p>
+            </div>
+          </div>
         </div>
-
-        <div class="mm-addrow" id="mmAddRow" hidden>
-          <input type="text" id="mmAddInput" class="mm-input" placeholder="New line name" data-i18n-placeholder="admin.machines.newLinePlaceholder" maxlength="40" aria-label="New line name">
-          <button type="button" class="mm-save" id="mmAddSave" data-i18n="admin.machines.save">Save</button>
-          <button type="button" class="mm-cancel" id="mmAddCancel" data-i18n="admin.machines.cancel">Cancel</button>
-        </div>
-
-        <div class="mm-err" id="mmErr" hidden><span aria-hidden="true">⛔</span><span id="mmErrText"></span></div>
-
-        <div class="mm-lines" id="mmLines"></div>
       </div>
 
       <!-- MACHINES -->
-      <div class="mm-card mm-sec" data-skeleton-stagger>
+      <div class="mm-card" data-skeleton-stagger>
         <div class="mm-machines-head">
           <div>
             <h2 class="mm-card-title" data-i18n="admin.machines.machinesTitle">Machines</h2>
@@ -1831,96 +1860,41 @@ document.addEventListener('click', function(e) {
 </script>
 <script src="../assets/machine-lines.js"></script>
 <script>
-  // ── Machines Management — Production Lines CRUD ──
+  // ── Machines Management — lines (popover) + machines table ──
   (function () {
-    var linesEl = document.getElementById('mmLines');
-    if (!linesEl || !window.MachineLines) return;
+    if (!window.MachineLines) return;
     var subtitle = document.getElementById('mmSubtitle');
-    var addBtn = document.getElementById('mmAddBtn');
-    var addRow = document.getElementById('mmAddRow');
+
+    var manageBtn = document.getElementById('mmManageLinesBtn');
+    var linesPop = document.getElementById('mmLinesPop');
+    var linesEl = document.getElementById('mmLines');
     var addInput = document.getElementById('mmAddInput');
     var addSave = document.getElementById('mmAddSave');
-    var addCancel = document.getElementById('mmAddCancel');
     var errBox = document.getElementById('mmErr');
     var errText = document.getElementById('mmErrText');
-    var T = (window.NetzschI18n && NetzschI18n.t) ? function (k, d) { return NetzschI18n.t(k, d); } : function (k, d) { return d; };
 
+    var addMachineBtn = document.getElementById('mmAddMachineBtn');
+    var machinePop = document.getElementById('mmMachinePop');
+    var newName = document.getElementById('mmNewMachineName');
+    var newLine = document.getElementById('mmNewMachineLine');
+    var newSave = document.getElementById('mmNewMachineSave');
+    var newCancel = document.getElementById('mmNewMachineCancel');
+    var mErrBox = document.getElementById('mmMachineErr');
+    var mErrText = document.getElementById('mmMachineErrText');
+
+    var machinesEl = document.getElementById('mmMachines');
+    var bulkBar = document.getElementById('mmBulk');
+    var bulkCount = document.getElementById('mmBulkCount');
+    var bulkSelect = document.getElementById('mmBulkSelect');
+    var selected = new Set();
+
+    var T = (window.NetzschI18n && NetzschI18n.t) ? function (k, d) { return NetzschI18n.t(k, d); } : function (k, d) { return d; };
     var penSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg>';
     var trashSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>';
 
     function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
     function showErr(msg) { errText.textContent = msg; errBox.hidden = false; }
     function clearErr() { errBox.hidden = true; }
-
-    function render() {
-      clearErrIfRerender();
-      var lines = MachineLines.getLines();
-      var machines = MachineLines.getMachines();
-      var unassigned = MachineLines.unassignedCount();
-      subtitle.textContent = machines.length + ' ' + T('admin.machines.machinesWord', 'machines') + ' · ' +
-        lines.length + ' ' + T('admin.machines.linesWord', 'lines') + ' · ' +
-        unassigned + ' ' + T('admin.machines.withoutLine', 'without line');
-      linesEl.innerHTML = lines.map(function (name) {
-        var count = MachineLines.countForLine(name);
-        var word = count === 1 ? T('admin.machines.machineWord', 'machine') : T('admin.machines.machinesWord', 'machines');
-        return '<div class="mm-line" data-name="' + esc(name) + '">' +
-          '<span class="mm-line-name">' + esc(name) + '</span>' +
-          '<span class="mm-line-count">' + count + ' ' + word + '</span>' +
-          '<div class="mm-acts">' +
-            '<button type="button" class="mm-ic" data-act="rename" aria-label="Rename line">' + penSvg + '</button>' +
-            '<button type="button" class="mm-ic danger" data-act="delete" aria-label="Delete line">' + trashSvg + '</button>' +
-          '</div></div>';
-      }).join('');
-      renderMachines();
-    }
-    var _rerender = false;
-    function clearErrIfRerender() { if (_rerender) clearErr(); }
-
-    // Add line
-    addBtn.addEventListener('click', function () { addRow.hidden = false; addInput.value = ''; addInput.focus(); clearErr(); });
-    addCancel.addEventListener('click', function () { addRow.hidden = true; clearErr(); });
-    function doAdd() {
-      var r = MachineLines.addLine(addInput.value);
-      if (!r.ok) { showErr(r.err === 'dup' ? T('admin.machines.errDup', 'That line already exists.') : T('admin.machines.errEmpty', 'Enter a line name.')); return; }
-      addRow.hidden = true; _rerender = true; render(); _rerender = false;
-    }
-    addSave.addEventListener('click', doAdd);
-    addInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); doAdd(); } if (e.key === 'Escape') { addRow.hidden = true; clearErr(); } });
-
-    // Rename / delete (delegated)
-    linesEl.addEventListener('click', function (e) {
-      var btn = e.target.closest('.mm-ic'); if (!btn) return;
-      var rowEl = btn.closest('.mm-line'); var name = rowEl.dataset.name; var act = btn.dataset.act;
-      if (act === 'delete') {
-        var r = MachineLines.deleteLine(name);
-        if (!r.ok) { showErr('“' + name + '” ' + T('admin.machines.errHasMachines', 'still has machines. Move them to another line first.')); return; }
-        _rerender = true; render(); _rerender = false;
-      } else if (act === 'rename') {
-        startRename(rowEl, name);
-      }
-    });
-    function startRename(rowEl, name) {
-      clearErr();
-      rowEl.innerHTML = '<input class="mm-input mm-rn-input" type="text" value="' + esc(name) + '" maxlength="40" aria-label="Line name">' +
-        '<div class="mm-acts"><button type="button" class="mm-save mm-rn-save" data-i18n="admin.machines.save">' + T('admin.machines.save', 'Save') + '</button>' +
-        '<button type="button" class="mm-cancel mm-rn-cancel" data-i18n="admin.machines.cancel">' + T('admin.machines.cancel', 'Cancel') + '</button></div>';
-      var inp = rowEl.querySelector('.mm-rn-input'); inp.focus(); inp.select();
-      function commit() {
-        var r = MachineLines.renameLine(name, inp.value);
-        if (!r.ok) { showErr(r.err === 'dup' ? T('admin.machines.errDup', 'That line already exists.') : T('admin.machines.errEmpty', 'Enter a line name.')); return; }
-        _rerender = true; render(); _rerender = false;
-      }
-      rowEl.querySelector('.mm-rn-save').addEventListener('click', commit);
-      rowEl.querySelector('.mm-rn-cancel').addEventListener('click', function () { render(); });
-      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); commit(); } if (e.key === 'Escape') { render(); } });
-    }
-
-    // ── Machines table (inline line assignment + bulk) ──
-    var machinesEl = document.getElementById('mmMachines');
-    var bulkBar = document.getElementById('mmBulk');
-    var bulkCount = document.getElementById('mmBulkCount');
-    var bulkSelect = document.getElementById('mmBulkSelect');
-    var selected = new Set();
 
     function lineOptionsHtml(current) {
       var opts = '<option value="">' + T('machines.noLine', 'No line') + '</option>';
@@ -1935,19 +1909,29 @@ document.addEventListener('click', function(e) {
       MachineLines.getLines().forEach(function (l) { opts += '<option value="' + esc(l) + '">' + esc(l) + '</option>'; });
       return opts;
     }
+
+    function renderLines() {
+      linesEl.innerHTML = MachineLines.getLines().map(function (name) {
+        var count = MachineLines.countForLine(name);
+        var word = count === 1 ? T('admin.machines.machineWord', 'machine') : T('admin.machines.machinesWord', 'machines');
+        return '<div class="mm-line" data-name="' + esc(name) + '">' +
+          '<span class="mm-line-name">' + esc(name) + '</span>' +
+          '<span class="mm-line-count">' + count + ' ' + word + '</span>' +
+          '<div class="mm-acts">' +
+            '<button type="button" class="mm-ic" data-act="rename" aria-label="Rename line">' + penSvg + '</button>' +
+            '<button type="button" class="mm-ic danger" data-act="delete" aria-label="Delete line">' + trashSvg + '</button>' +
+          '</div></div>';
+      }).join('');
+    }
     function updateBulk() {
-      if (selected.size) {
-        bulkBar.hidden = false;
-        bulkCount.textContent = selected.size + ' ' + T('admin.machines.selected', 'selected');
-      } else { bulkBar.hidden = true; }
+      if (selected.size) { bulkBar.hidden = false; bulkCount.textContent = selected.size + ' ' + T('admin.machines.selected', 'selected'); }
+      else { bulkBar.hidden = true; }
     }
     function renderMachines() {
-      if (!machinesEl) return;
       var machines = MachineLines.getMachines();
       var head = '<div class="mmm-row mmm-head">' +
         '<label class="mmm-check"><input type="checkbox" id="mmSelAll" aria-label="Select all machines"></label>' +
-        '<span></span>' +
-        '<span class="mmm-h">' + T('common.machine', 'Machine') + '</span>' +
+        '<span></span><span class="mmm-h">' + T('common.machine', 'Machine') + '</span>' +
         '<span class="mmm-h">' + T('machines.lineFilter', 'Line') + '</span></div>';
       var rows = machines.map(function (m) {
         var none = m.line ? '' : ' is-none';
@@ -1959,19 +1943,80 @@ document.addEventListener('click', function(e) {
         '</div>';
       }).join('');
       machinesEl.innerHTML = head + rows;
-      if (bulkSelect) bulkSelect.innerHTML = bulkOptionsHtml();
+      bulkSelect.innerHTML = bulkOptionsHtml();
       updateBulk();
     }
+    function renderSubtitle() {
+      var machines = MachineLines.getMachines();
+      subtitle.textContent = machines.length + ' ' + T('admin.machines.machinesWord', 'machines') + ' · ' +
+        MachineLines.getLines().length + ' ' + T('admin.machines.linesWord', 'lines') + ' · ' +
+        MachineLines.unassignedCount() + ' ' + T('admin.machines.withoutLine', 'without line');
+    }
+    function render() { renderSubtitle(); renderLines(); renderMachines(); if (newLine) newLine.innerHTML = lineOptionsHtml(''); }
+
+    function closeLinesPop() { linesPop.hidden = true; manageBtn.setAttribute('aria-expanded', 'false'); }
+    function closeMachinePop() { machinePop.hidden = true; addMachineBtn.setAttribute('aria-expanded', 'false'); mErrBox.hidden = true; }
+
+    manageBtn.addEventListener('click', function (e) {
+      e.stopPropagation(); closeMachinePop();
+      var open = linesPop.hidden; linesPop.hidden = !open; manageBtn.setAttribute('aria-expanded', String(open)); clearErr();
+      if (open) addInput.focus();
+    });
+    function doAddLine() {
+      var r = MachineLines.addLine(addInput.value);
+      if (!r.ok) { showErr(r.err === 'dup' ? T('admin.machines.errDup', 'That line already exists.') : T('admin.machines.errEmpty', 'Enter a line name.')); return; }
+      addInput.value = ''; clearErr(); render(); addInput.focus();
+    }
+    addSave.addEventListener('click', doAddLine);
+    addInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); doAddLine(); } });
+    linesEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('.mm-ic'); if (!btn) return;
+      var rowEl = btn.closest('.mm-line'); var name = rowEl.dataset.name; var act = btn.dataset.act;
+      if (act === 'delete') {
+        var r = MachineLines.deleteLine(name);
+        if (!r.ok) { showErr('“' + name + '” ' + T('admin.machines.errHasMachines', 'still has machines. Move them to another line first.')); return; }
+        clearErr(); render();
+      } else if (act === 'rename') { startRename(rowEl, name); }
+    });
+    function startRename(rowEl, name) {
+      clearErr();
+      rowEl.innerHTML = '<input class="mm-input mm-rn-input" type="text" value="' + esc(name) + '" maxlength="40" aria-label="Line name">' +
+        '<div class="mm-acts"><button type="button" class="mm-save mm-rn-save">' + T('admin.machines.save', 'Save') + '</button>' +
+        '<button type="button" class="mm-cancel mm-rn-cancel">' + T('admin.machines.cancel', 'Cancel') + '</button></div>';
+      var inp = rowEl.querySelector('.mm-rn-input'); inp.focus(); inp.select();
+      function commit() {
+        var r = MachineLines.renameLine(name, inp.value);
+        if (!r.ok) { showErr(r.err === 'dup' ? T('admin.machines.errDup', 'That line already exists.') : T('admin.machines.errEmpty', 'Enter a line name.')); return; }
+        render();
+      }
+      rowEl.querySelector('.mm-rn-save').addEventListener('click', commit);
+      rowEl.querySelector('.mm-rn-cancel').addEventListener('click', function () { renderLines(); });
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); commit(); } if (e.key === 'Escape') { renderLines(); } });
+    }
+
+    addMachineBtn.addEventListener('click', function (e) {
+      e.stopPropagation(); closeLinesPop();
+      var open = machinePop.hidden; machinePop.hidden = !open; addMachineBtn.setAttribute('aria-expanded', String(open)); mErrBox.hidden = true;
+      if (open) { newName.value = ''; newLine.innerHTML = lineOptionsHtml(''); newName.focus(); }
+    });
+    newCancel.addEventListener('click', closeMachinePop);
+    function doAddMachine() {
+      var r = MachineLines.addMachine(newName.value, newLine.value);
+      if (!r.ok) { mErrText.textContent = T('admin.machines.errMachineEmpty', 'Enter a machine name.'); mErrBox.hidden = false; return; }
+      closeMachinePop(); render();
+    }
+    newSave.addEventListener('click', doAddMachine);
+    newName.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); doAddMachine(); } });
+
+    linesPop.addEventListener('click', function (e) { e.stopPropagation(); });
+    machinePop.addEventListener('click', function (e) { e.stopPropagation(); });
+    document.addEventListener('click', function () { closeLinesPop(); closeMachinePop(); });
 
     machinesEl.addEventListener('change', function (e) {
       var sel = e.target.closest('.mm-msel');
-      if (sel) { MachineLines.setMachineLine(sel.dataset.id, sel.value); _rerender = true; render(); _rerender = false; return; }
+      if (sel) { MachineLines.setMachineLine(sel.dataset.id, sel.value); render(); return; }
       var all = e.target.closest('#mmSelAll');
-      if (all) {
-        MachineLines.getMachines().forEach(function (m) { if (all.checked) selected.add(m.id); else selected.delete(m.id); });
-        renderMachines();
-        return;
-      }
+      if (all) { MachineLines.getMachines().forEach(function (m) { if (all.checked) selected.add(m.id); else selected.delete(m.id); }); renderMachines(); return; }
       var cb = e.target.closest('.mmm-cb');
       if (cb) { if (cb.checked) selected.add(cb.dataset.id); else selected.delete(cb.dataset.id); updateBulk(); }
     });
@@ -1979,8 +2024,7 @@ document.addEventListener('click', function(e) {
       if (bulkSelect.value === '__ph__') return;
       var line = bulkSelect.value;
       selected.forEach(function (id) { MachineLines.setMachineLine(id, line); });
-      selected.clear();
-      _rerender = true; render(); _rerender = false;
+      selected.clear(); render();
     });
 
     render();

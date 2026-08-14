@@ -12,6 +12,7 @@
 
   var LINES_KEY = 'netzsch_lines';
   var ASSIGN_KEY = 'netzsch_machine_lines';
+  var CUSTOM_KEY = 'netzsch_custom_machines';
 
   // Canonical machine roster (the prototype "database").
   var MACHINES = [
@@ -46,11 +47,29 @@
   }
   function saveAssignments(a) { write(ASSIGN_KEY, a); }
 
+  function getCustomMachines() { return read(CUSTOM_KEY, []); }
+  function saveCustomMachines(arr) { write(CUSTOM_KEY, arr); }
+  function allMachines() { return MACHINES.concat(getCustomMachines()); }
+
   function getMachines() {
     var a = getAssignments();
-    return MACHINES.map(function (m) {
-      return { id: m.id, name: m.name, page: m.page, img: m.img, line: (a[m.id] != null ? a[m.id] : m.defaultLine) };
+    return allMachines().map(function (m) {
+      return { id: m.id, name: m.name, page: m.page || '', img: m.img || 'machine-zeta60.png', custom: !!m.custom, line: (a[m.id] != null ? a[m.id] : (m.defaultLine || '')) };
     });
+  }
+
+  function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+  function addMachine(name, line) {
+    name = (name || '').trim();
+    if (!name) return { ok: false, err: 'empty' };
+    var custom = getCustomMachines();
+    var allIds = allMachines().map(function (m) { return m.id; });
+    var base = 'custom-' + (slug(name) || 'machine'); var id = base; var i = 2;
+    while (allIds.indexOf(id) !== -1) { id = base + '-' + (i++); }
+    custom.push({ id: id, name: name, page: '', img: 'machine-zeta60.png', custom: true });
+    saveCustomMachines(custom);
+    if (line) { var a = getAssignments(); a[id] = line; saveAssignments(a); }
+    return { ok: true, id: id };
   }
   function getMachineLine(id) { var a = getAssignments(); return a[id] != null ? a[id] : ''; }
   function setMachineLine(id, line) { var a = getAssignments(); a[id] = line || ''; saveAssignments(a); }
@@ -105,6 +124,7 @@
     unassignedCount: unassignedCount,
     addLine: addLine,
     renameLine: renameLine,
-    deleteLine: deleteLine
+    deleteLine: deleteLine,
+    addMachine: addMachine
   };
 })();
