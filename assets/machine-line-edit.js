@@ -303,6 +303,9 @@
 
   function initField(wrap) {
     if (wrap.getAttribute('data-editable')) return;
+    // The production-line field is handled by machine-line-select.js (dropdown
+    // from the managed lines store), not by this free-text editor.
+    if (wrap.getAttribute('data-store') === 'netzsch_line') return;
     var valueEl = wrap.querySelector('.hero-meta-value');
     if (!valueEl) return;
     wrap.setAttribute('data-editable', 'true');

@@ -231,6 +231,8 @@
   "machines.filterByLine": "Nach Linie filtern",
   "machines.noLine": "Keine Linie",
   "machines.clearFilter": "Zurücksetzen",
+  "machine.newLine": "Neue Linie",
+  "machine.lineUpdated": "Produktionslinie aktualisiert",
   "machines.viewDetails": "Details anzeigen",
   "machines.spareParts": "Ersatzteile",
   "machines.serialNum": "S/N",

@@ -231,6 +231,8 @@
   "machines.filterByLine": "Filter by line",
   "machines.noLine": "No line",
   "machines.clearFilter": "Clear",
+  "machine.newLine": "New line",
+  "machine.lineUpdated": "Production line updated",
   "machines.viewDetails": "View Details",
   "machines.spareParts": "Spare Parts",
   "machines.serialNum": "S/N",
