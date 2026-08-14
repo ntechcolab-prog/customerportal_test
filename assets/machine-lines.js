@@ -85,7 +85,7 @@
     if (!name) return { ok: false, err: 'empty' };
     var lines = getLines();
     if (lines.some(function (l) { return l.toLowerCase() === name.toLowerCase(); })) return { ok: false, err: 'dup' };
-    lines.push(name);
+    lines.unshift(name); // newest first so it's clearly visible after creating
     saveLines(lines);
     return { ok: true, name: name };
   }
