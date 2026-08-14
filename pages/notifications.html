@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1058,14 +1059,73 @@
   <!-- NOTIFICATION CENTER -->
   <main class="nc-layout">
 
+    <!-- SKELETON LOADING STATE -->
+    <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading notifications">
+      <div class="skel-nc-header">
+        <div class="skeleton skel-nc-title"></div>
+        <div class="skeleton skel-nc-markall"></div>
+      </div>
+      <div class="skel-nc-filters">
+        <div class="skeleton skel-nc-tab sm"></div>
+        <div class="skeleton skel-nc-tab lg"></div>
+        <div class="skeleton skel-nc-tab"></div>
+        <div class="skeleton skel-nc-tab"></div>
+        <div class="skeleton skel-nc-tab"></div>
+        <div class="skeleton skel-nc-tab"></div>
+      </div>
+      <div class="skeleton skel-nc-divider"></div>
+      <div class="skel-nc-list">
+        <div class="skel-nc-item">
+          <div class="skeleton skel-nc-icon"></div>
+          <div class="skel-nc-body">
+            <div class="skel-nc-line1"><div class="skeleton skel-nc-name"></div><div class="skeleton skel-nc-time"></div></div>
+            <div class="skeleton skel-nc-desc"></div>
+            <div class="skeleton skel-nc-action"></div>
+          </div>
+        </div>
+        <div class="skel-nc-item">
+          <div class="skeleton skel-nc-icon"></div>
+          <div class="skel-nc-body">
+            <div class="skel-nc-line1"><div class="skeleton skel-nc-name"></div><div class="skeleton skel-nc-time"></div></div>
+            <div class="skeleton skel-nc-desc"></div>
+          </div>
+        </div>
+        <div class="skel-nc-item">
+          <div class="skeleton skel-nc-icon"></div>
+          <div class="skel-nc-body">
+            <div class="skel-nc-line1"><div class="skeleton skel-nc-name"></div><div class="skeleton skel-nc-time"></div></div>
+            <div class="skeleton skel-nc-desc"></div>
+            <div class="skeleton skel-nc-action"></div>
+          </div>
+        </div>
+        <div class="skel-nc-item">
+          <div class="skeleton skel-nc-icon"></div>
+          <div class="skel-nc-body">
+            <div class="skel-nc-line1"><div class="skeleton skel-nc-name"></div><div class="skeleton skel-nc-time"></div></div>
+            <div class="skeleton skel-nc-desc"></div>
+          </div>
+        </div>
+        <div class="skel-nc-item">
+          <div class="skeleton skel-nc-icon"></div>
+          <div class="skel-nc-body">
+            <div class="skel-nc-line1"><div class="skeleton skel-nc-name"></div><div class="skeleton skel-nc-time"></div></div>
+            <div class="skeleton skel-nc-desc"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+
     <!-- Header -->
-    <div class="nc-header">
+    <div class="nc-header" data-skeleton-stagger>
       <h1 class="nc-title" data-i18n="nc.title">Notifications <span class="nc-title-count" id="ncUnreadCount">3</span></h1>
       <button class="nc-mark-all" id="ncMarkAll" data-i18n="nc.markAll">Mark all as read</button>
     </div>
 
     <!-- Filter tabs -->
-    <div class="nc-filters" id="ncFilters">
+    <div class="nc-filters" id="ncFilters" data-skeleton-stagger>
       <button class="nc-filter-tab active" data-filter="all" data-i18n="nc.filterAll">All</button>
       <button class="nc-filter-tab" data-filter="approvals" data-i18n="nc.filterApprovals">Approvals<span class="tab-count">2</span></button>
       <button class="nc-filter-tab" data-filter="orders" data-i18n="nc.filterOrders">Orders</button>
@@ -1075,7 +1135,7 @@
     </div>
 
     <!-- Notification list -->
-    <div class="nc-list" id="ncList">
+    <div class="nc-list" id="ncList" data-skeleton-stagger>
 
       <!-- Today -->
       <div class="nc-date-divider" data-i18n="nc.dateToday">Today</div>
@@ -1280,6 +1340,8 @@
         <p class="nc-empty-desc" data-i18n="nc.emptyDesc">No notifications match this category.</p>
       </div>
     </div>
+
+    </div><!-- /page-content -->
   </main>
 
 <script>
@@ -1703,5 +1765,6 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/i18n.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 </body>
 </html>

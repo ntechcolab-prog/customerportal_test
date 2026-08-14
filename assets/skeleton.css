@@ -458,6 +458,51 @@
 
 .skel-notif-section::after { display: none; }
 
+/* ── NOTIFICATIONS CENTER (notifications.html) ─── */
+.skel-nc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.skel-nc-title { height: 26px; width: 200px; }
+.skel-nc-markall { height: 16px; width: 110px; }
+.skel-nc-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.skel-nc-tab { height: 30px; width: 74px; border-radius: 6px; }
+.skel-nc-tab.sm { width: 56px; }
+.skel-nc-tab.lg { width: 96px; }
+.skel-nc-divider { height: 12px; width: 60px; margin: 4px 0 12px; }
+.skel-nc-list {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.skel-nc-item {
+  display: flex;
+  gap: 14px;
+  padding: 18px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.skel-nc-item:last-child { border-bottom: none; }
+.skel-nc-icon { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; }
+.skel-nc-body { flex: 1; display: flex; flex-direction: column; gap: 10px; padding-top: 2px; }
+.skel-nc-line1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.skel-nc-name { height: 15px; width: 55%; }
+.skel-nc-time { height: 12px; width: 64px; flex-shrink: 0; }
+.skel-nc-desc { height: 13px; width: 90%; }
+.skel-nc-action { height: 13px; width: 88px; margin-top: 2px; }
+
 /* ── MACHINE DETAIL (machine-zeta60 / discus30 / mastermix45) ─── */
 .skeleton-wrapper.skel-machine { padding: 0 32px 32px; }
 
