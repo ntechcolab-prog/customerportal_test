@@ -31,7 +31,6 @@
       '.hml-opt { padding:9px 10px; border-radius:7px; font-size:14px; color:#3d4246; cursor:pointer; display:flex; align-items:center; gap:8px; }',
       '.hml-opt:hover { background:#f6f7f8; }',
       '.hml-opt.cur { background:#eef6f5; color:#007167; font-weight:600; }',
-      '.hml-opt.none { color:#8a5a00; border-bottom:1px solid #eaeaea; margin-bottom:4px; padding-bottom:10px; }',
       '.hml-new { border-top:1px solid #eaeaea; margin-top:4px; padding-top:9px; color:#007167; font-weight:600; }',
       '.hml-new .adm { font-size:10px; background:#eef6f5; color:#007167; border-radius:4px; padding:1px 5px; margin-left:auto; letter-spacing:.4px; }',
       '.hml-newrow { display:flex; gap:6px; padding:6px 4px 4px; }',
@@ -66,7 +65,7 @@
     var lines = MachineLines.getLines();
     var panel = document.createElement('div');
     panel.className = 'hml-panel';
-    var html = '<div class="hml-opt none' + (line ? '' : ' cur') + '" data-line="">' + warn + esc(noLineLabel()) + '</div>';
+    var html = '<div class="hml-opt' + (line ? '' : ' cur') + '" data-line="">' + esc(noLineLabel()) + '</div>';
     html += lines.map(function (l) {
       return '<div class="hml-opt' + (l === line ? ' cur' : '') + '" data-line="' + esc(l) + '">' + esc(l) + '</div>';
     }).join('');
