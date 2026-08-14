@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../assets/tables.css">
   <link rel="stylesheet" href="../assets/buttons.css">
   <link rel="stylesheet" href="../assets/steppers.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1310,11 +1311,58 @@
     <span class="breadcrumb-current">Quotation #15098765</span>
   </div>
 
+  <!-- SKELETON LOADING STATE -->
+  <div class="skeleton-wrapper skel-detail" aria-hidden="false" role="status" aria-label="Loading quotation">
+    <div class="skeleton skel-dt-back"></div>
+    <div class="skel-dt-titlebar">
+      <div class="skeleton skel-dt-title"></div>
+      <div class="skel-dt-actions">
+        <div class="skeleton skel-dt-btn"></div>
+        <div class="skeleton skel-dt-btn"></div>
+      </div>
+    </div>
+    <div class="skel-dt-card">
+      <div class="skeleton skel-dt-card-title"></div>
+      <div class="skel-dt-steps">
+        <div class="skeleton skel-dt-step"></div>
+        <div class="skeleton skel-dt-step"></div>
+        <div class="skeleton skel-dt-step"></div>
+        <div class="skeleton skel-dt-step"></div>
+      </div>
+    </div>
+    <div class="skel-dt-two-col">
+      <div class="skel-dt-col">
+        <div class="skel-dt-card">
+          <div class="skeleton skel-dt-card-title"></div>
+          <div class="skeleton skel-dt-table-row"></div>
+          <div class="skeleton skel-dt-table-row"></div>
+        </div>
+        <div class="skel-dt-card">
+          <div class="skeleton skel-dt-card-title"></div>
+          <div class="skeleton skel-dt-row" style="width:55%"></div>
+          <div class="skeleton skel-dt-row" style="width:70%"></div>
+          <div class="skeleton skel-dt-row" style="width:45%"></div>
+        </div>
+      </div>
+      <div class="skel-dt-card">
+        <div class="skeleton skel-dt-card-title"></div>
+        <div class="skel-dt-pay-row"><div class="skeleton skel-dt-pay-label"></div><div class="skeleton skel-dt-pay-value"></div></div>
+        <div class="skel-dt-pay-row"><div class="skeleton skel-dt-pay-label"></div><div class="skeleton skel-dt-pay-value"></div></div>
+        <div class="skel-dt-pay-row"><div class="skeleton skel-dt-pay-label"></div><div class="skeleton skel-dt-pay-value"></div></div>
+        <div class="skel-dt-pay-row"><div class="skeleton skel-dt-pay-label"></div><div class="skeleton skel-dt-pay-value"></div></div>
+        <div class="skel-dt-pay-row"><div class="skeleton skel-dt-pay-label"></div><div class="skeleton skel-dt-pay-value"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content">
+
   <!-- MAIN -->
   <main class="main">
 
     <!-- BACK LINK -->
-    <a href="quotes.html" class="back-link">
+    <a href="quotes.html" class="back-link" data-skeleton-stagger>
       <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
@@ -1322,7 +1370,7 @@
     </a>
 
     <!-- TITLE BAR -->
-    <div class="title-bar">
+    <div class="title-bar" data-skeleton-stagger>
       <div class="title-bar-top">
         <h1>Quotation #15098765</h1>
         <button class="btn btn-secondary btn-sm" aria-label="Download PDF" data-i18n="quoteDetail.download">
@@ -1353,7 +1401,7 @@
     </div>
 
     <!-- QUOTATION PROGRESS -->
-    <div class="card">
+    <div class="card" data-skeleton-stagger>
       <div class="card-title">Quotation Progress</div>
       <div class="progress-bar" role="list">
         <div class="progress-step active" role="listitem">Received</div>
@@ -1364,7 +1412,7 @@
     </div>
 
     <!-- TWO COLUMN LAYOUT -->
-    <div class="two-col">
+    <div class="two-col" data-skeleton-stagger>
 
       <!-- LEFT COLUMN -->
       <div class="left-col">
@@ -1420,6 +1468,8 @@
     </div>
 
   </main>
+
+  </div><!-- /page-content -->
 
 <script>
 function toggleProfileDropdown(e) {
@@ -1786,6 +1836,7 @@ function sendFromSmallChat() {
 })();
 </script>
 <script src="../assets/role-guard.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 <script src="../assets/request-approval.js"></script>
 </body>
 </html>
