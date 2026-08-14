@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/tables.css">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1946,11 +1947,48 @@
     </nav>
   </div>
 
+  <!-- SKELETON LOADING STATE -->
+  <div class="skeleton-wrapper skel-pd" aria-hidden="false" role="status" aria-label="Loading product">
+    <div class="skel-pd-main">
+      <div class="skel-pd-card skel-pd-left">
+        <div class="skeleton skel-pd-title"></div>
+        <div class="skeleton skel-pd-ref"></div>
+        <div class="skeleton skel-pd-gallery"></div>
+        <div class="skel-pd-thumbs">
+          <div class="skeleton skel-pd-thumb"></div>
+          <div class="skeleton skel-pd-thumb"></div>
+          <div class="skeleton skel-pd-thumb"></div>
+          <div class="skeleton skel-pd-thumb"></div>
+        </div>
+        <div class="skel-pd-tabs">
+          <div class="skeleton skel-pd-tab"></div>
+          <div class="skeleton skel-pd-tab"></div>
+          <div class="skeleton skel-pd-tab"></div>
+        </div>
+        <div class="skeleton skel-pd-line" style="width:95%"></div>
+        <div class="skeleton skel-pd-line" style="width:100%"></div>
+        <div class="skeleton skel-pd-line" style="width:88%"></div>
+        <div class="skeleton skel-pd-line" style="width:70%"></div>
+      </div>
+      <div class="skel-pd-card skel-pd-right">
+        <div class="skeleton skel-pd-panel-title"></div>
+        <div class="skeleton skel-pd-field"></div>
+        <div class="skeleton skel-pd-field"></div>
+        <div class="skeleton skel-pd-price"></div>
+        <div class="skeleton skel-pd-btn"></div>
+        <div class="skeleton skel-pd-btn"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content">
+
   <!-- MAIN -->
   <div class="main">
 
     <!-- LEFT: Product Info -->
-    <div class="product-info">
+    <div class="product-info" data-skeleton-stagger>
       <h1 class="product-title">NETZSCH ZS BEADS</h1>
       <p class="product-ref">Ref: 443144</p>
 
@@ -2020,7 +2058,7 @@
     </div>
 
     <!-- RIGHT: Order Panel -->
-    <div class="order-panel">
+    <div class="order-panel" data-skeleton-stagger>
       <h2 class="order-panel-title" data-i18n="shopDetail.orderInfo">Order Information</h2>
 
       <!-- Select Size -->
@@ -2104,6 +2142,7 @@
     </div>
 
   </div>
+  </div><!-- /page-content -->
 
   <!-- TOAST (Wishlist) -->
   <div class="toast" id="wishlistToast">
@@ -2646,6 +2685,7 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/i18n.js"></script>
 <script src="../assets/role-guard.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 <script src="../assets/request-approval.js"></script>
 </body>
 </html>

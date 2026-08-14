@@ -279,6 +279,37 @@
   gap: 8px;
 }
 
+/* ── SHOP PRODUCT DETAIL (shop-product-*.html) ─── */
+.skeleton-wrapper.skel-pd { padding: 16px 32px 32px; }
+.skel-pd-main { display: flex; gap: 24px; align-items: stretch; }
+.skel-pd-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 16px;
+  padding: 24px;
+}
+.skel-pd-left { flex: 3; min-width: 0; }
+.skel-pd-right { flex: 2; min-width: 0; }
+.skel-pd-title { height: 26px; width: 65%; margin-bottom: 10px; }
+.skel-pd-ref { height: 13px; width: 110px; margin-bottom: 20px; }
+.skel-pd-gallery { height: 300px; border-radius: 12px; margin-bottom: 14px; }
+.skel-pd-thumbs { display: flex; gap: 10px; margin-bottom: 24px; }
+.skel-pd-thumb { width: 68px; height: 68px; border-radius: 8px; }
+.skel-pd-tabs { display: flex; gap: 22px; margin-bottom: 20px; }
+.skel-pd-tab { height: 15px; width: 130px; }
+.skel-pd-line { height: 13px; margin-bottom: 11px; }
+.skel-pd-panel-title { height: 22px; width: 55%; margin-bottom: 22px; }
+.skel-pd-field { height: 44px; border-radius: 8px; margin-bottom: 18px; }
+.skel-pd-price { height: 22px; width: 45%; margin: 6px 0 20px; }
+.skel-pd-btn { height: 46px; border-radius: 10px; margin-bottom: 12px; }
+@media (max-width: 960px) {
+  .skeleton-wrapper.skel-pd .skel-pd-main { flex-direction: column; }
+}
+@media (max-width: 768px) {
+  .skeleton-wrapper.skel-pd { padding: 12px 16px 24px; }
+  .skel-pd-gallery { height: 220px; }
+}
+
 /* ── PAGE TITLE ─── */
 .skel-page-title {
   height: 28px;
