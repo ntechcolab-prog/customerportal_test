@@ -15,12 +15,12 @@
 
   // Canonical machine roster (the prototype "database").
   var MACHINES = [
-    { id: 'discus30',    name: 'Discus 30',     page: 'machine-discus30.html',    defaultLine: 'Line 1' },
-    { id: 'zeta60',      name: 'Zeta 60',       page: 'machine-zeta60.html',      defaultLine: 'Black Production Only' },
-    { id: 'mastermix45', name: 'MasterMix 45',  page: 'machine-mastermix45.html', defaultLine: 'Line 3' },
-    { id: 'prophi',      name: 'ProPhi',        page: 'machine-prophi.html',      defaultLine: 'Line 4' },
-    { id: 'alphazeta10', name: 'Alpha Zeta 10', page: 'machine-alphazeta10.html', defaultLine: 'White Production Only' },
-    { id: 'zeta500',     name: 'Zeta 500',      page: 'machine-zeta500.html',     defaultLine: '' }
+    { id: 'discus30',    name: 'Discus 30',     page: 'machine-discus30.html',    img: 'machine-discus30.png',    defaultLine: 'Line 1' },
+    { id: 'zeta60',      name: 'Zeta 60',       page: 'machine-zeta60.html',      img: 'machine-zeta60.png',      defaultLine: 'Black Production Only' },
+    { id: 'mastermix45', name: 'MasterMix 45',  page: 'machine-mastermix45.html', img: 'machine-mastermix45.png', defaultLine: 'Line 3' },
+    { id: 'prophi',      name: 'ProPhi',        page: 'machine-prophi.html',      img: 'machine-prophi.png',      defaultLine: 'Line 4' },
+    { id: 'alphazeta10', name: 'Alpha Zeta 10', page: 'machine-alphazeta10.html', img: 'machine-zeta60.png',      defaultLine: 'White Production Only' },
+    { id: 'zeta500',     name: 'Zeta 500',      page: 'machine-zeta500.html',     img: 'machine-zeta60.png',      defaultLine: '' }
   ];
 
   var DEFAULT_LINES = ['Line 1', 'Black Production Only', 'Line 3', 'Line 4', 'White Production Only'];
@@ -49,7 +49,7 @@
   function getMachines() {
     var a = getAssignments();
     return MACHINES.map(function (m) {
-      return { id: m.id, name: m.name, page: m.page, line: (a[m.id] != null ? a[m.id] : m.defaultLine) };
+      return { id: m.id, name: m.name, page: m.page, img: m.img, line: (a[m.id] != null ? a[m.id] : m.defaultLine) };
     });
   }
   function getMachineLine(id) { var a = getAssignments(); return a[id] != null ? a[id] : ''; }

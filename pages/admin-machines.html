@@ -1438,6 +1438,29 @@
     .mm-ic.disabled { opacity:.4; cursor:not-allowed; }
     .mm-ic.disabled:hover { border-color:#eaeaea; color:#b42318; background:#fff; }
     .mm-ic svg { width:15px; height:15px; }
+    /* ── Machines table ── */
+    .mm-sec { margin-top:24px; }
+    .mm-machines-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+    .mm-bulk { display:flex; align-items:center; gap:12px; flex-wrap:wrap; background:#eef6f5; border:1px solid #cfe6e2; border-radius:8px; padding:9px 12px; margin:16px 0 4px; font-size:13px; color:#00514a; font-weight:600; }
+    .mm-bulk[hidden] { display:none; }
+    .mm-mtable { margin-top:12px; }
+    .mmm-row { display:grid; grid-template-columns:32px 44px 1fr minmax(180px,240px); align-items:center; gap:12px; padding:11px 4px; border-bottom:1px solid #eaeaea; }
+    .mmm-row:last-child { border-bottom:none; }
+    .mmm-head { border-bottom:1px solid #d7d9db; padding-bottom:9px; }
+    .mmm-h { font-size:11px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:#86868b; }
+    .mmm-check { display:flex; align-items:center; justify-content:center; }
+    .mmm-check input { width:16px; height:16px; accent-color:#007167; cursor:pointer; }
+    .mmm-thumb { width:40px; height:40px; border-radius:8px; background:#f5f6f7; object-fit:contain; padding:2px; }
+    .mmm-name { font-size:14px; font-weight:600; color:#1d1d1f; }
+    .mm-msel { height:36px; border:1px solid #d7d9db; border-radius:8px; padding:0 10px; font-family:'Inter',sans-serif; font-size:13px; color:#1d1d1f; background:#fff; cursor:pointer; width:100%; }
+    .mm-msel:focus { outline:none; border-color:#007167; box-shadow:0 0 0 3px rgba(0,113,103,.12); }
+    .mm-msel.is-none { color:#8a5a00; border-color:#e6d9ac; background:#fdf9ee; }
+    .mm-bulk .mm-msel { height:32px; }
+    @media (max-width:640px) {
+      .mmm-row { grid-template-columns:28px 1fr; row-gap:8px; }
+      .mmm-thumb, .mmm-head span:nth-child(2) { display:none; }
+      .mmm-row .mm-msel { grid-column:1 / -1; }
+    }
 </style>
 </head>
 <body>
@@ -1768,6 +1791,21 @@
         <div class="mm-lines" id="mmLines"></div>
       </div>
 
+      <!-- MACHINES -->
+      <div class="mm-card mm-sec" data-skeleton-stagger>
+        <div class="mm-machines-head">
+          <div>
+            <h2 class="mm-card-title" data-i18n="admin.machines.machinesTitle">Machines</h2>
+            <p class="mm-card-sub" data-i18n="admin.machines.machinesSub">Assign each machine to a production line. Select several to assign them at once.</p>
+          </div>
+        </div>
+        <div class="mm-bulk" id="mmBulk" hidden>
+          <span id="mmBulkCount">0 selected</span>
+          <select class="mm-msel" id="mmBulkSelect" style="max-width:220px"></select>
+        </div>
+        <div class="mm-mtable" id="mmMachines"></div>
+      </div>
+
       </div><!-- .page-content -->
 
     </main>
@@ -1833,6 +1871,7 @@ document.addEventListener('click', function(e) {
             '<button type="button" class="mm-ic danger" data-act="delete" aria-label="Delete line">' + trashSvg + '</button>' +
           '</div></div>';
       }).join('');
+      renderMachines();
     }
     var _rerender = false;
     function clearErrIfRerender() { if (_rerender) clearErr(); }
@@ -1875,6 +1914,74 @@ document.addEventListener('click', function(e) {
       rowEl.querySelector('.mm-rn-cancel').addEventListener('click', function () { render(); });
       inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); commit(); } if (e.key === 'Escape') { render(); } });
     }
+
+    // ── Machines table (inline line assignment + bulk) ──
+    var machinesEl = document.getElementById('mmMachines');
+    var bulkBar = document.getElementById('mmBulk');
+    var bulkCount = document.getElementById('mmBulkCount');
+    var bulkSelect = document.getElementById('mmBulkSelect');
+    var selected = new Set();
+
+    function lineOptionsHtml(current) {
+      var opts = '<option value="">' + T('machines.noLine', 'No line') + '</option>';
+      MachineLines.getLines().forEach(function (l) {
+        opts += '<option value="' + esc(l) + '"' + (l === current ? ' selected' : '') + '>' + esc(l) + '</option>';
+      });
+      return opts;
+    }
+    function bulkOptionsHtml() {
+      var opts = '<option value="__ph__" disabled selected>' + T('admin.machines.assignTo', 'Assign to…') + '</option>';
+      opts += '<option value="">' + T('machines.noLine', 'No line') + '</option>';
+      MachineLines.getLines().forEach(function (l) { opts += '<option value="' + esc(l) + '">' + esc(l) + '</option>'; });
+      return opts;
+    }
+    function updateBulk() {
+      if (selected.size) {
+        bulkBar.hidden = false;
+        bulkCount.textContent = selected.size + ' ' + T('admin.machines.selected', 'selected');
+      } else { bulkBar.hidden = true; }
+    }
+    function renderMachines() {
+      if (!machinesEl) return;
+      var machines = MachineLines.getMachines();
+      var head = '<div class="mmm-row mmm-head">' +
+        '<label class="mmm-check"><input type="checkbox" id="mmSelAll" aria-label="Select all machines"></label>' +
+        '<span></span>' +
+        '<span class="mmm-h">' + T('common.machine', 'Machine') + '</span>' +
+        '<span class="mmm-h">' + T('machines.lineFilter', 'Line') + '</span></div>';
+      var rows = machines.map(function (m) {
+        var none = m.line ? '' : ' is-none';
+        return '<div class="mmm-row" data-id="' + m.id + '">' +
+          '<label class="mmm-check"><input type="checkbox" class="mmm-cb" data-id="' + m.id + '"' + (selected.has(m.id) ? ' checked' : '') + ' aria-label="Select ' + esc(m.name) + '"></label>' +
+          '<img class="mmm-thumb" src="../assets/' + esc(m.img || '') + '" alt="">' +
+          '<span class="mmm-name">' + esc(m.name) + '</span>' +
+          '<select class="mm-msel' + none + '" data-id="' + m.id + '" aria-label="Line for ' + esc(m.name) + '">' + lineOptionsHtml(m.line) + '</select>' +
+        '</div>';
+      }).join('');
+      machinesEl.innerHTML = head + rows;
+      if (bulkSelect) bulkSelect.innerHTML = bulkOptionsHtml();
+      updateBulk();
+    }
+
+    machinesEl.addEventListener('change', function (e) {
+      var sel = e.target.closest('.mm-msel');
+      if (sel) { MachineLines.setMachineLine(sel.dataset.id, sel.value); _rerender = true; render(); _rerender = false; return; }
+      var all = e.target.closest('#mmSelAll');
+      if (all) {
+        MachineLines.getMachines().forEach(function (m) { if (all.checked) selected.add(m.id); else selected.delete(m.id); });
+        renderMachines();
+        return;
+      }
+      var cb = e.target.closest('.mmm-cb');
+      if (cb) { if (cb.checked) selected.add(cb.dataset.id); else selected.delete(cb.dataset.id); updateBulk(); }
+    });
+    bulkSelect.addEventListener('change', function () {
+      if (bulkSelect.value === '__ph__') return;
+      var line = bulkSelect.value;
+      selected.forEach(function (id) { MachineLines.setMachineLine(id, line); });
+      selected.clear();
+      _rerender = true; render(); _rerender = false;
+    });
 
     render();
   })();
