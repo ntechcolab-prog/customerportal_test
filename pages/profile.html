@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     html { scroll-behavior: smooth; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1582,7 +1583,52 @@
   <!-- MAIN CONTENT -->
   <div class="main">
 
-    <div class="profile-fixed-top">
+    <!-- SKELETON LOADING STATE -->
+    <div class="skeleton-wrapper skel-profile" aria-hidden="false" role="status" aria-label="Loading profile">
+      <div class="skel-pf-banner">
+        <div class="skeleton skel-pf-avatar"></div>
+        <div class="skel-pf-info">
+          <div class="skeleton" style="height:24px;width:180px"></div>
+          <div class="skeleton" style="height:14px;width:260px"></div>
+          <div class="skel-pf-meta">
+            <div class="skeleton" style="height:12px;width:150px"></div>
+            <div class="skeleton" style="height:12px;width:120px"></div>
+            <div class="skeleton" style="height:12px;width:140px"></div>
+          </div>
+        </div>
+        <div class="skel-pf-badges">
+          <div class="skeleton" style="height:24px;width:110px;border-radius:12px"></div>
+          <div class="skeleton" style="height:24px;width:72px;border-radius:12px"></div>
+        </div>
+      </div>
+      <div class="skel-pf-stats">
+        <div class="skeleton skel-pf-stat"></div>
+        <div class="skeleton skel-pf-stat"></div>
+        <div class="skeleton skel-pf-stat"></div>
+        <div class="skeleton skel-pf-stat"></div>
+      </div>
+      <div class="skel-pf-body">
+        <div class="skel-pf-sidebar">
+          <div class="skeleton" style="height:40px;border-radius:8px"></div>
+          <div class="skeleton" style="height:40px;border-radius:8px"></div>
+          <div class="skeleton" style="height:40px;border-radius:8px"></div>
+          <div class="skeleton" style="height:40px;border-radius:8px"></div>
+          <div class="skeleton" style="height:40px;border-radius:8px"></div>
+        </div>
+        <div class="skel-pf-content">
+          <div class="skeleton skel-dt-card-title"></div>
+          <div class="skeleton skel-dt-field"></div>
+          <div class="skeleton skel-dt-field"></div>
+          <div class="skeleton skel-dt-field"></div>
+          <div class="skeleton skel-dt-field"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+
+    <div class="profile-fixed-top" data-skeleton-stagger>
     <!-- PROFILE BANNER -->
     <div class="profile-banner">
       <div class="profile-banner-top">
@@ -1684,7 +1730,7 @@
     </div>
     </div><!-- /profile-fixed-top -->
 
-    <div class="profile-scrollable">
+    <div class="profile-scrollable" data-skeleton-stagger>
     <!-- CONTENT: SIDEBAR + MAIN -->
     <div class="content-layout">
 
@@ -2171,6 +2217,8 @@
     </div>
     </div><!-- /profile-scrollable -->
 
+    </div><!-- /page-content -->
+
   </div>
 
 <script>
@@ -2566,6 +2614,7 @@ function sendFromSmallChat() {
 })();
 </script>
 <script src="../assets/role-guard.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 <script src="../assets/request-approval.js"></script>
 <script src="../assets/i18n.js"></script>
 </body>

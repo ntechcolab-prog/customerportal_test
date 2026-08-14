@@ -513,6 +513,25 @@
   .skel-dt-two-col { grid-template-columns: 1fr; }
 }
 
+/* ── PROFILE (profile.html) ─── */
+.skeleton-wrapper.skel-profile { padding: 24px 32px 48px; }
+.skeleton-wrapper.skel-profile:not([aria-hidden="true"]) { display: flex; flex-direction: column; gap: 20px; }
+.skel-pf-banner { display: flex; gap: 20px; align-items: flex-start; background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 24px; }
+.skel-pf-avatar { width: 84px; height: 84px; border-radius: 50%; flex-shrink: 0; }
+.skel-pf-info { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-top: 6px; min-width: 0; }
+.skel-pf-meta { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 4px; }
+.skel-pf-badges { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; flex-shrink: 0; }
+.skel-pf-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.skel-pf-stat { height: 84px; border-radius: 12px; }
+.skel-pf-body { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: start; }
+.skel-pf-sidebar { display: flex; flex-direction: column; gap: 10px; }
+.skel-pf-content { background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+@media (max-width: 768px) {
+  .skeleton-wrapper.skel-profile { padding: 16px; }
+  .skel-pf-stats { grid-template-columns: repeat(2, 1fr); }
+  .skel-pf-body { grid-template-columns: 1fr; }
+}
+
 /* ── MACHINE RESULTS (machine-spare-parts-results, machine-subset-inlet-flange) ─── */
 .skeleton-wrapper.skel-mr { padding: 32px; }
 .skeleton-wrapper.skel-mr:not([aria-hidden="true"]) { display: flex; flex-direction: column; gap: 24px; }
