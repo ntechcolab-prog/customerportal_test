@@ -1,0 +1,2974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeta 500 — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
+  <link rel="stylesheet" href="../assets/machine-modals.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Apple-style easing curves */
+    :root {
+      --ease-apple:    cubic-bezier(0.32, 0.72, 0, 1);     /* iOS / macOS signature */
+      --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);       /* "ease out expo" smooth landing */
+      --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);   /* leve overshoot pra spring feel */
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 161;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label {
+      font-size: 16px; font-weight: 500; color: #fff;
+      letter-spacing: -0.31px; white-space: nowrap;
+    }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      height: 60px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 160;
+      position: sticky;
+      top: 40px;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: rgba(0, 0, 0, 0.08); margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 6px 14px;
+      height: auto;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b6e73;
+      text-decoration: none;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-tab:hover { background: rgba(0, 113, 103, 0.06); color: #374151; }
+    .nav-tab.active { color: #007167; background: rgba(0, 113, 103, 0.08); font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 6px; }
+    .header-divider-v {
+      width: 1px;
+      height: 24px;
+      background: #e5e7eb;
+      margin: 0 4px;
+      flex-shrink: 0;
+    }
+    .header-icon-btn {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; cursor: pointer; position: relative;
+      background: none; border: none;
+      transition: background 0.15s;
+    }
+    .header-icon-btn:hover { background: rgba(0, 113, 103, 0.06); }
+    .header-icon-btn img { width: 18px; height: 18px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 2px; right: 2px;
+      background: #c73e20; color: #fff;
+      font-size: 9px; font-weight: 700;
+      border-radius: 50%; width: 14px; height: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      display: none;
+    }
+    .user-initials {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+    .user-avatar-wrapper {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* ── PROFILE DROPDOWN ─── */
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 238px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .profile-dropdown.open { display: block; }
+    .profile-dropdown-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #f5f5f7;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .profile-dropdown-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      object-fit: cover;
+    }
+    .profile-dropdown-info { display: flex; flex-direction: column; }
+    .profile-dropdown-name {
+      font-size: 13px; font-weight: 600; color: #1f2937;
+      letter-spacing: -0.08px; line-height: 19.5px;
+    }
+    .profile-dropdown-email {
+      font-size: 11px; font-weight: 400; color: #9ca3af;
+      letter-spacing: 0.06px; line-height: 16.5px;
+    }
+    .profile-dropdown-menu {
+      padding: 6px 0 0 0;
+      list-style: none;
+    }
+    .profile-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      letter-spacing: -0.08px;
+      cursor: pointer;
+    }
+    .profile-dropdown-item:hover { background: #f3f4f6; }
+    .profile-dropdown-item img { width: 15px; height: 15px; }
+    .profile-dropdown-divider {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 0;
+      padding-top: 1px;
+    }
+    .profile-dropdown-item.logout { color: #ef4444; }
+
+    /* ── NOTIFICATIONS DROPDOWN ─── */
+    .notif-wrapper { position: relative; display: flex; align-items: center; }
+    .notif-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 378px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .notif-dropdown.open { display: block; }
+    .notif-dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 57px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .notif-dropdown-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notif-dropdown-title > span:first-child {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.31px;
+    }
+    .notif-count-badge {
+      background: #c73e20;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .notif-mark-read {
+      font-size: 12px;
+      font-weight: 500;
+      color: #007167;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .notif-mark-read:hover { text-decoration: underline; }
+    .notif-list { max-height: 360px; overflow-y: auto; }
+    .notif-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #f3f3f3;
+    }
+    .notif-item.unread { background: #f8fbfa; }
+    .notif-item-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notif-item-icon img { width: 16px; height: 16px; }
+    .notif-item-icon.quote { background: #fff3d6; }
+    .notif-item-icon.order { background: #e0f2ee; }
+    .notif-item-icon.service { background: #e8e0f4; }
+    .notif-item-content { flex: 1; min-width: 0; }
+    .notif-item-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .notif-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.08px;
+      line-height: 18px;
+    }
+    .notif-item.unread .notif-item-title { font-weight: 600; }
+    .notif-item:not(.unread) .notif-item-title { font-weight: 400; }
+    .notif-unread-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #007167;
+      flex-shrink: 0;
+    }
+    .notif-item-desc {
+      font-size: 12px;
+      color: #6b6e73;
+      line-height: 16px;
+      margin-top: 2px;
+    }
+    .notif-item-time {
+      font-size: 11px;
+      color: #9ca0a5;
+      line-height: 16.5px;
+      margin-top: 2px;
+    }
+    .notif-item-action {
+      display: inline-block;
+      margin-top: 8px;
+      background: #007167;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      height: 23px;
+      line-height: 16.5px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      line-height: 16.5px;
+    }
+    .notif-item-action:hover { background: #005f57; }
+    .notif-dropdown-footer {
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .notif-view-all {
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      letter-spacing: -0.08px;
+    }
+    .notif-view-all:hover { text-decoration: underline; }
+
+
+    .lang-switcher {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      user-select: none;
+      background: none;
+      border: none;
+      padding: 0 4px;
+    }
+    .lang-switcher .lang-globe { width: 16px; height: 16px; flex-shrink: 0; }
+    .lang-switcher .lang-chevron { width: 10px; height: 10px; transition: transform 0.2s; }
+    .lang-switcher.open .lang-chevron { transform: rotate(180deg); }
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      min-width: 80px;
+      overflow: hidden;
+      z-index: 300;
+    }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-option {
+      padding: 8px 16px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #3d4246;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .lang-option:hover { background: #f0faf9; }
+    .lang-option.active { color: #007167; background: #e6f4f3; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb-bar {
+      background: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 10px 32px;
+    }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #86868b;
+      gap: 6px;
+    }
+    .breadcrumb a {
+      color: #007167;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb-sep { color: #b1b4b7; }
+
+    /* ── PAGE ─── */
+    .page {
+      flex: 1;
+      padding: 0 32px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ── HERO LAYOUT (Zara-inspired) ─── */
+    .hero-card {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      margin: 16px 0 24px;
+      overflow: hidden;
+    }
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      min-height: 360px;
+    }
+    .hero-divider-v {
+      width: 1px;
+      background: rgba(0, 0, 0, 0.06);
+      margin: 24px 0;
+    }
+
+    /* Left — machine photo */
+    .hero-photo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 24px;
+    }
+    .hero-photo img {
+      max-width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .hero-photo:hover img {
+      transform: scale(1.04);
+    }
+
+    /* Right — info panel */
+    .hero-info {
+      padding: 24px 36px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-machine-name {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.4px;
+      margin-bottom: 4px;
+    }
+    .hero-serial {
+      font-size: 13px;
+      color: #86868b;
+      margin-bottom: 8px;
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #86868b;
+      margin-bottom: 8px;
+    }
+    .hero-meta:last-of-type { margin-bottom: 24px; }
+    .hero-meta-label { font-weight: 600; color: #6b6e73; }
+    .hero-meta-value { font-variant-numeric: tabular-nums; }
+    .hero-divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.08);
+      margin-bottom: 16px;
+    }
+
+    /* Actions inside hero */
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .hero-action-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+    .hero-action-item:first-child {
+      background: rgba(0, 113, 103, 0.04);
+      border-color: rgba(0, 113, 103, 0.15);
+    }
+    .hero-action-item:hover {
+      background: rgba(0, 113, 103, 0.03);
+      border-color: rgba(0, 113, 103, 0.15);
+      transform: translateX(2px);
+    }
+    .hero-action-item:first-child:hover {
+      background: rgba(0, 113, 103, 0.08);
+      border-color: rgba(0, 113, 103, 0.25);
+    }
+    .hero-action-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(0, 113, 103, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-action-icon.milla-icon {
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+    }
+    .hero-action-icon.milla-icon img { filter: brightness(0) invert(1); }
+    .hero-action-text { flex: 1; min-width: 0; }
+    .hero-action-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d1d1f;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-action-item:first-child .hero-action-title { color: #007167; }
+    .hero-action-title .ai-badge {
+      padding: 1px 5px;
+      font-size: 9px;
+      font-weight: 700;
+      color: #007167;
+      background: rgba(0, 113, 103, 0.08);
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+    .hero-action-desc {
+      font-size: 11px;
+      color: #86868b;
+      margin-top: 1px;
+    }
+    .hero-action-arrow {
+      color: #c3c5c7;
+      flex-shrink: 0;
+      transition: color 0.15s, transform 0.15s;
+    }
+    .hero-action-item:hover .hero-action-arrow {
+      color: #007167;
+      transform: translateX(2px);
+    }
+
+    /* Machine details accordion inside hero */
+    .hero-details {
+      position: relative;
+    }
+    .hero-details::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 36px;
+      right: 36px;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.06);
+    }
+    .hero-details-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 16px 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d1d1f;
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .hero-details-toggle:hover { background: #f9fafb; }
+    .hero-details-toggle svg {
+      width: 16px;
+      height: 16px;
+      color: #86868b;
+      flex-shrink: 0;
+      transition: transform 0.25s var(--ease-apple);
+    }
+    .hero-details.details-open .hero-details-toggle svg {
+      transform: rotate(180deg);
+    }
+    .hero-details-content {
+      display: none;
+      padding: 0 36px 20px;
+    }
+    .hero-details.details-open .hero-details-content {
+      display: block;
+    }
+
+    /* Data grid inside details */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 24px;
+    }
+    .detail-col-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label { font-size: 11px; color: #86868b; }
+    .detail-value { font-size: 11px; font-weight: 600; color: #1d1d1f; text-align: right; font-variant-numeric: tabular-nums; }
+
+    /* ── CARD (for Milla below) ─── */
+    .card {
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 24px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    /* Ask Milla banner — collapsed e expanded */
+    .milla-banner {
+      position: relative;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      border-radius: 16px;
+      padding: 32px 24px 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 113, 103, 0.15);
+      transition:
+        padding 0.6s var(--ease-apple),
+        box-shadow 0.6s var(--ease-apple);
+    }
+    .milla-banner.is-open {
+      padding: 24px 32px;
+      box-shadow: 0 16px 48px rgba(0, 113, 103, 0.25);
+    }
+    .milla-banner-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      opacity: 0.5;
+      transition: opacity 0.6s var(--ease-apple), transform 0.8s var(--ease-out);
+    }
+    .milla-banner.is-open .milla-banner-bg {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+
+    /* COLLAPSED STATE */
+    .milla-collapsed {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .milla-banner.is-open .milla-collapsed { display: none; }
+
+    .btn-milla {
+      height: 48px;
+      padding: 0 28px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.32);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.2px;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        transform 0.4s var(--ease-spring),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .btn-milla:hover {
+      background: rgba(255,255,255,0.24);
+      border-color: rgba(255,255,255,0.45);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    }
+    .btn-milla:active {
+      transform: translateY(0) scale(0.97);
+      transition-duration: 0.1s;
+    }
+    .btn-milla img {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.5s var(--ease-spring);
+    }
+    .btn-milla:hover img {
+      transform: rotate(180deg) scale(1.1);
+    }
+    .milla-subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: -0.05px;
+    }
+
+    /* EXPANDED STATE — Milla asking */
+    .milla-expanded {
+      position: relative;
+      z-index: 1;
+      display: none;
+    }
+    .milla-banner.is-open .milla-expanded {
+      display: block;
+      animation: milla-expand-in 0.6s var(--ease-out) both;
+    }
+
+    @keyframes milla-expand-in {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .milla-expanded-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .milla-expanded-head img {
+      width: 20px;
+      height: 20px;
+    }
+    .milla-expanded-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+    .milla-expanded-subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 20px;
+    }
+    /* Stagger title + subtitle */
+    .milla-banner.is-open .milla-expanded-head {
+      animation: milla-text-up 0.5s var(--ease-out) both;
+      animation-delay: 0.1s;
+    }
+    .milla-banner.is-open .milla-expanded-subtitle {
+      animation: milla-text-up 0.5s var(--ease-out) both;
+      animation-delay: 0.18s;
+    }
+    @keyframes milla-text-up {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .milla-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: rgba(255,255,255,0.8);
+      transition:
+        background 0.3s var(--ease-apple),
+        border-color 0.3s var(--ease-apple),
+        transform 0.4s var(--ease-spring);
+      z-index: 2;
+    }
+    .milla-close:hover {
+      background: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.35);
+      color: #fff;
+      transform: rotate(90deg) scale(1.08);
+    }
+    .milla-close:active {
+      transform: rotate(90deg) scale(0.92);
+      transition-duration: 0.1s;
+    }
+    .milla-close img { width: 12px; height: 12px; }
+    .milla-banner.is-open .milla-close {
+      animation: milla-pop-in 0.5s var(--ease-spring) both;
+      animation-delay: 0.25s;
+    }
+    @keyframes milla-pop-in {
+      from {
+        opacity: 0;
+        transform: scale(0.4) rotate(-90deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    /* Method picker (Photo / Description / Product Code) */
+    .milla-methods {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .method-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 20px;
+      padding: 28px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        transform 0.5s var(--ease-spring),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .method-card:hover {
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+    }
+    .method-card:active {
+      transform: translateY(-1px) scale(0.99);
+      transition-duration: 0.1s;
+    }
+    .method-card img {
+      width: 28px;
+      height: 28px;
+      transition: transform 0.5s var(--ease-spring);
+    }
+    .method-card:hover img {
+      transform: scale(1.15) rotate(-4deg);
+    }
+    .method-card span {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.05px;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .method-card:hover span {
+      transform: translateY(2px);
+    }
+
+    /* Stagger entrance dos method cards */
+    .milla-banner.is-open .method-card {
+      animation: milla-card-in 0.65s var(--ease-out) both;
+    }
+    .milla-banner.is-open .method-card:nth-child(1) { animation-delay: 0.22s; }
+    .milla-banner.is-open .method-card:nth-child(2) { animation-delay: 0.30s; }
+    .milla-banner.is-open .method-card:nth-child(3) { animation-delay: 0.38s; }
+    @keyframes milla-card-in {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ── 3rd STATE: Search by Description form ── */
+    .milla-search-form { display: none; }
+
+    /* Quando is-search ativa: esconde methods e mostra form */
+    .milla-banner.is-search .milla-expanded > .milla-expanded-head,
+    .milla-banner.is-search .milla-expanded > .milla-expanded-subtitle,
+    .milla-banner.is-search .milla-expanded > .milla-methods {
+      display: none;
+    }
+    .milla-banner.is-search .milla-search-form {
+      display: block;
+      animation: milla-slide-in 0.5s var(--ease-out) both;
+    }
+    @keyframes milla-slide-in {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0);    }
+    }
+
+    /* Header do form: back btn + ícone + título */
+    .milla-search-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .milla-search-head-icon {
+      width: 20px;
+      height: 20px;
+    }
+    .milla-search-head-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+
+    .milla-back-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition:
+        background 0.3s var(--ease-apple),
+        border-color 0.3s var(--ease-apple),
+        transform 0.4s var(--ease-spring);
+    }
+    .milla-back-btn:hover {
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.30);
+      transform: translateX(-2px);
+    }
+    .milla-back-btn:active {
+      transform: translateX(-2px) scale(0.92);
+      transition-duration: 0.1s;
+    }
+    .milla-back-btn img { width: 16px; height: 16px; }
+
+    /* Textarea de busca */
+    .milla-search-input {
+      width: 100%;
+      min-height: 116px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.20);
+      border-radius: 16px;
+      padding: 14px 16px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 22.5px;
+      resize: none;
+      outline: none;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .milla-search-input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+    .milla-search-input:focus {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.40);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.06);
+    }
+
+    /* Search button (right-aligned, disabled until text typed) */
+    .milla-search-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+    .btn-milla-search {
+      height: 44px;
+      padding: 0 28px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.30);
+      cursor: not-allowed;
+      transition:
+        background 0.4s var(--ease-apple),
+        border-color 0.4s var(--ease-apple),
+        color 0.4s var(--ease-apple),
+        transform 0.4s var(--ease-spring),
+        box-shadow 0.4s var(--ease-apple);
+    }
+    .btn-milla-search.enabled {
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.35);
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-milla-search.enabled:hover {
+      background: rgba(255,255,255,0.28);
+      border-color: rgba(255,255,255,0.45);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .btn-milla-search.enabled:active {
+      transform: translateY(0) scale(0.98);
+      transition-duration: 0.1s;
+    }
+
+    /* Stagger nos elementos do form */
+    .milla-banner.is-search .milla-search-head {
+      animation: milla-text-up 0.5s var(--ease-out) both;
+      animation-delay: 0.05s;
+    }
+    .milla-banner.is-search .milla-search-input {
+      animation: milla-text-up 0.55s var(--ease-out) both;
+      animation-delay: 0.12s;
+    }
+    .milla-banner.is-search .milla-search-actions {
+      animation: milla-text-up 0.55s var(--ease-out) both;
+      animation-delay: 0.18s;
+    }
+
+    /* ── 4th STATE: Reasoning (Milla "thinking") ── */
+    .milla-reasoning { display: none; }
+
+    .milla-banner.is-reasoning .milla-expanded > .milla-expanded-head,
+    .milla-banner.is-reasoning .milla-expanded > .milla-expanded-subtitle,
+    .milla-banner.is-reasoning .milla-expanded > .milla-methods,
+    .milla-banner.is-reasoning .milla-expanded > .milla-search-form,
+    .milla-banner.is-reasoning .milla-close {
+      display: none;
+    }
+    .milla-banner.is-reasoning .milla-reasoning {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      padding: 8px 0 16px;
+      animation: milla-reason-in 0.6s var(--ease-out) both;
+    }
+    @keyframes milla-reason-in {
+      from { opacity: 0; transform: translateY(8px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1);    }
+    }
+
+    /* Diamond decorativo girando com sparkle dentro */
+    .milla-orb {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .milla-orb::before,
+    .milla-orb::after {
+      content: '';
+      position: absolute;
+      border: 1.2px solid rgba(255,255,255,0.30);
+      border-radius: 6px;
+    }
+    .milla-orb::before {
+      width: 80px;
+      height: 80px;
+      animation: orb-rotate-cw 14s linear infinite;
+    }
+    .milla-orb::after {
+      width: 56px;
+      height: 56px;
+      border-color: rgba(255,255,255,0.45);
+      animation: orb-rotate-ccw 10s linear infinite;
+    }
+    .milla-orb img {
+      width: 28px;
+      height: 28px;
+      position: relative;
+      z-index: 1;
+      animation: orb-sparkle 2.8s ease-in-out infinite;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
+    }
+    @keyframes orb-rotate-cw {
+      from { transform: rotate(0); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes orb-rotate-ccw {
+      from { transform: rotate(360deg); }
+      to   { transform: rotate(0); }
+    }
+    @keyframes orb-sparkle {
+      0%, 100% { transform: scale(1); opacity: 0.94; }
+      50%      { transform: scale(1.12); opacity: 1; }
+    }
+
+    /* 3-dot loader pulsing */
+    .milla-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .milla-dots span {
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      animation: dot-pulse 1.4s var(--ease-out) infinite;
+    }
+    .milla-dots span:nth-child(1) { animation-delay: 0s; }
+    .milla-dots span:nth-child(2) { animation-delay: 0.18s; }
+    .milla-dots span:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes dot-pulse {
+      0%, 80%, 100% { transform: scale(0.78); opacity: 0.45; }
+      40%           { transform: scale(1);    opacity: 1;    }
+    }
+
+    .milla-reason-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+    .milla-reason-quote {
+      width: min(420px, 100%);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      line-height: 19.5px;
+    }
+
+    /* Respeitar prefers-reduced-motion (WCAG AAA) */
+    @media (prefers-reduced-motion: reduce) {
+      .milla-banner,
+      .milla-banner *,
+      .milla-banner *::before,
+      .milla-banner *::after {
+        animation-duration: 0.001s !important;
+        transition-duration: 0.001s !important;
+      }
+    }
+
+    /* ── MILLA MODAL ─── */
+    .milla-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .milla-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .milla-modal {
+      position: relative;
+      width: 720px;
+      max-width: 92vw;
+      max-height: 85vh;
+      border-radius: 16px;
+      overflow: visible;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .milla-modal-overlay.open .milla-modal {
+      transform: scale(1) translateY(0);
+    }
+    .milla-modal-inner {
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 80vh;
+    }
+    .milla-modal .milla-banner {
+      border-radius: 0;
+      min-height: 0;
+      flex-shrink: 0;
+      transition: min-height 0.3s ease;
+    }
+    .milla-modal .milla-banner:not(.is-reasoning) { min-height: 280px; }
+    .milla-collapsed { display: none; }
+
+    .milla-modal-close {
+      position: absolute;
+      top: -36px;
+      right: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      z-index: 10;
+      transition: background 0.15s, transform 0.2s;
+    }
+    .milla-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+    .milla-modal-close svg { width: 14px; height: 14px; }
+
+    /* ── MILLA RESULTS (inside modal) ─── */
+    .milla-results {
+      background: #fff;
+      padding: 20px 24px 24px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .milla-results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .milla-results-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.01em;
+    }
+    .milla-results-count {
+      font-size: 11px;
+      font-weight: 500;
+      color: #86868b;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+    .milla-results-table-wrap {
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .milla-results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+    }
+    .milla-results-table thead th {
+      text-align: left;
+      padding: 9px 14px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: #fafbfc;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .milla-results-table tbody td {
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #1d1d1f;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    .milla-results-table tbody tr:last-child td { border-bottom: none; }
+    .milla-results-table tbody tr { transition: background 0.1s; }
+    .milla-results-table tbody tr:hover { background: rgba(0, 113, 103, 0.03); }
+    .milla-results-table .mono {
+      font-variant-numeric: tabular-nums;
+      font-size: 11px;
+      color: #6b7280;
+      letter-spacing: 0.02em;
+    }
+    .milla-results-table .quotation {
+      color: #007167;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .milla-results-table .td-action { text-align: right; white-space: nowrap; }
+    .td-action-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .td-qty {
+      display: inline-flex;
+      align-items: center;
+      height: 28px;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .td-qty-btn {
+      width: 28px;
+      height: 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.1s;
+    }
+    .td-qty-btn:hover { background: rgba(0,0,0,0.04); }
+    .td-qty-val {
+      width: 32px;
+      text-align: center;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1d1d1f;
+      -moz-appearance: textfield;
+    }
+    .td-qty-val::-webkit-outer-spin-button,
+    .td-qty-val::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .btn-wish-sm {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .btn-wish-sm:hover { color: #007167; border-color: rgba(0,113,103,0.2); }
+    .btn-wish-sm svg { width: 14px; height: 14px; }
+
+    /* Persistent search bar in results */
+    .milla-results-search {
+      display: none;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      flex-shrink: 0;
+    }
+    .milla-results-search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 0 14px;
+    }
+    .milla-results-search-bar img { width: 16px; height: 16px; opacity: 0.7; }
+    .milla-results-search-bar span {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      flex: 1;
+    }
+    .milla-results-search-bar .search-edit {
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .milla-results-search-bar .search-edit:hover { background: rgba(255, 255, 255, 0.3); }
+
+    /* Drawing thumbnail */
+    .milla-results-drawing {
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: zoom-in;
+      background: #fafbfc;
+      max-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .milla-results-drawing img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 12px;
+      transition: transform 0.3s ease;
+    }
+    .milla-results-drawing:hover img { transform: scale(1.03); }
+
+    /* Drawing lightbox → assets/machine-modals.css (CP-627b) */
+
+    /* Service Request modal → assets/machine-modals.css (CP-627b) */
+
+    /* Success state */
+    .sr-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 28px;
+      gap: 16px;
+    }
+    .sr-success.show { display: flex; }
+    .sr-success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(0, 113, 103, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sr-success h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1d1d1f;
+    }
+    .sr-success p {
+      font-size: 14px;
+      color: #86868b;
+      max-width: 340px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .sr-radio-cards { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* "or" divider + select subset card */
+    .subset-card {
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #9ca3af;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .or-divider::before,
+    .or-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e5e7eb;
+    }
+
+    /* Subset select wrapper + dropdown */
+    .subset-wrapper {
+      position: relative;
+    }
+    .subset-select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      border-radius: 10px;
+      padding: 0 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #9ca3af;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      letter-spacing: -0.15px;
+      transition: border-color 0.2s var(--ease-apple);
+    }
+    .subset-select.has-value { color: #1f2937; font-weight: 500; }
+    .subset-select:hover,
+    .subset-select:focus,
+    .subset-wrapper.is-open .subset-select {
+      border-color: #0b9c92;
+      outline: none;
+    }
+    .subset-select img {
+      width: 14px;
+      height: auto;
+      display: block;
+      transition: transform 0.3s var(--ease-apple);
+    }
+    .subset-wrapper.is-open .subset-select img {
+      transform: rotate(180deg);
+    }
+
+    .subset-dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
+      padding: 6px 0;
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+      pointer-events: none;
+      transition:
+        opacity 0.25s var(--ease-apple),
+        transform 0.35s var(--ease-spring);
+      z-index: 50;
+    }
+    .subset-wrapper.is-open .subset-dropdown {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .subset-option {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      letter-spacing: -0.05px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .subset-option:hover {
+      background: #f0faf9;
+      color: #007167;
+    }
+    .subset-option.is-selected {
+      background: #e6f4f3;
+      color: #007167;
+      font-weight: 600;
+    }
+
+    @media (max-width: 960px) {
+      .hero-layout { grid-template-columns: 1fr; min-height: auto; }
+      .hero-divider-v { display: none; }
+      .hero-photo { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); padding: 32px; max-height: 320px; }
+      .hero-info { padding: 24px; }
+      .hero-details-toggle { padding: 16px 24px; }
+      .hero-details-content { padding: 0 24px 20px; }
+      .hero-details::before { left: 24px; right: 24px; }
+      .detail-grid { grid-template-columns: 1fr; gap: 16px 0; }
+    }
+
+    /* ── CART DROPDOWN ─── */
+    :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .cart-dropdown-anchor { position: relative; display: flex; align-items: center; }
+    .cart-dropdown {
+      position: absolute; top: calc(100% + 2px); right: -8px; width: 366px;
+      background: #fff; border: 1px solid #efefef; border-radius: 14px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25); padding: 24px;
+      opacity: 0; transform: translateY(-8px) scale(0.96); pointer-events: none;
+      transition: opacity 0.3s var(--ease-apple), transform 0.4s var(--ease-spring); z-index: 200;
+    }
+    .cart-dropdown.is-open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .cart-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .cart-title { font-size: 16px; font-weight: 500; color: #000; letter-spacing: -0.31px; line-height: 24px; }
+    .cart-close { width: 16px; height: 16px; background: none; border: none; color: #6b7280; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: color 0.15s; }
+    .cart-close:hover { color: #000; }
+    .cart-close svg { width: 16px; height: 16px; }
+    .cart-items { max-height: 300px; overflow-y: auto; }
+    .cart-empty { font-size: 13px; color: #9ca3af; text-align: center; padding: 24px 0; }
+    .cart-item { display: flex; gap: 10px; align-items: flex-start; padding-bottom: 16px; }
+    .cart-item + .cart-item { padding-top: 16px; }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-name { font-size: 12px; font-weight: 400; color: #6b7280; line-height: 16px; }
+    .cart-item-mat { font-size: 10px; font-weight: 400; color: #6b7280; letter-spacing: 0.12px; line-height: 14px; margin-top: 8px; }
+    .cart-item-price { text-align: right; flex-shrink: 0; }
+    .cart-item-price-label { font-size: 12px; font-weight: 700; color: #c3c5c7; text-transform: uppercase; line-height: 20px; }
+    .cart-item-price-value { font-size: 16px; font-weight: 700; color: #6b7280; margin-top: 0; letter-spacing: -0.31px; line-height: 24px; }
+    .cart-quantity { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #e8e8e8; }
+    .cart-quantity-label { font-size: 14px; font-weight: 500; color: #6b7280; letter-spacing: -0.15px; line-height: 20px; }
+    .cart-quantity-controls { display: flex; align-items: center; gap: 12px; }
+    .qty-btn { width: 24px; height: 24px; background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #6b7280; border-radius: 4px; transition: background 0.15s, color 0.15s; }
+    .qty-btn:hover { background: #f3f4f6; color: #1f2937; }
+    .qty-btn.delete { color: #c73e20; }
+    .qty-btn.delete:hover { background: #fdf2f0; }
+    .qty-btn.minus { color: #6b7280; }
+    .qty-btn svg { width: 16px; height: 16px; }
+    .qty-value { font-size: 14px; font-weight: 400; color: #6b7280; min-width: 32px; text-align: center; font-variant-numeric: tabular-nums; letter-spacing: -0.15px; line-height: 20px; }
+    .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
+    .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
+    .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
+    /* btn-view-cart — powered by buttons.css */
+    .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
+    .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
+    .cart-item-placeholder svg { width: 18px; height: 18px; }
+    .cart-badge { position: absolute; top: 4px; right: 4px; background: #c73e20; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 999px; display: none; align-items: center; justify-content: center; padding: 0 3px; letter-spacing: 0.12px; line-height: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1); }
+    .cart-badge.is-visible { display: flex; }
+
+
+    /* ── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .topbar { padding: 0 16px; }
+      .app-header { padding: 0 16px; height: 56px; }
+      .breadcrumb-bar { padding: 10px 16px; }
+    }
+    @media (max-width: 480px) {
+      .topbar { padding: 0 12px; }
+      .app-header { padding: 0 12px; }
+      .breadcrumb-bar { padding: 10px 12px; }
+      .breadcrumb { white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
+      .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
+      .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
+    }
+
+    /* ── HAMBURGER MENU ─── */
+    .hamburger-btn { display: none; }
+
+    .mobile-nav-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      z-index: 150; opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .mobile-nav-drawer {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 280px;
+      background: #fff; z-index: 151; padding: 80px 0 24px;
+      transform: translateX(-100%); transition: transform 0.25s ease;
+      overflow-y: auto; box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+    }
+    .mobile-nav.open .mobile-nav-overlay { opacity: 1; pointer-events: auto; }
+    .mobile-nav.open .mobile-nav-drawer { transform: translateX(0); }
+    .mobile-nav-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 24px; font-size: 16px; color: #374151;
+      text-decoration: none; min-height: 48px;
+    }
+    .mobile-nav-link.active { color: #007167; font-weight: 600; background: #f0faf9; }
+    .mobile-nav-link:hover { background: #f3f4f6; }
+
+    @media (max-width: 768px) {
+      .hamburger-btn {
+        display: flex; flex-direction: column; justify-content: center;
+        gap: 5px; width: 44px; height: 44px; padding: 10px;
+        background: none; border: none; cursor: pointer; margin-right: 8px;
+      }
+      .hamburger-line {
+        display: block; width: 20px; height: 2px;
+        background: #374151; border-radius: 1px;
+        transition: transform 0.2s, opacity 0.2s;
+      }
+      .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(2) { opacity: 0; }
+      .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .header-nav { display: none; }
+      .header-divider { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-nav-overlay,
+      .mobile-nav-drawer,
+      .hamburger-line { transition: none; }
+    }
+  </style>
+</head>
+<body>
+<script src="../assets/i18n.js"></script>
+<script src="../assets/gate.js"></script>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="home.html" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label" data-i18n="topbar.portal">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <button class="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab" data-i18n="nav.home">Home</a>
+        <a href="machines.html" class="nav-tab active" data-i18n="nav.machines">Machines</a>
+        <a href="shop.html" class="nav-tab" data-i18n="nav.shop">Shop</a>
+        <a href="orders.html" class="nav-tab" data-i18n="nav.orders">Orders</a>
+        <a href="quotes.html" class="nav-tab" data-i18n="nav.quotes">Quotes</a>
+        <a href="services.html" class="nav-tab" data-i18n="nav.services">Services</a>
+        <a href="lab-tests.html" class="nav-tab" data-i18n="nav.labTests">Lab Tests</a>
+        <a href="help.html" class="nav-tab" data-i18n="nav.help">Help</a>
+      </nav>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Main navigation">
+      <div class="mobile-nav-overlay"></div>
+      <div class="mobile-nav-drawer">
+        <a href="dashboard.html" class="mobile-nav-link" data-i18n="nav.home">Home</a>
+        <a href="machines.html" class="mobile-nav-link active" data-i18n="nav.machines">Machines</a>
+        <a href="shop.html" class="mobile-nav-link" data-i18n="nav.shop">Shop</a>
+        <a href="orders.html" class="mobile-nav-link" data-i18n="nav.orders">Orders</a>
+        <a href="quotes.html" class="mobile-nav-link" data-i18n="nav.quotes">Quotes</a>
+        <a href="services.html" class="mobile-nav-link" data-i18n="nav.services">Services</a>
+        <a href="lab-tests.html" class="mobile-nav-link" data-i18n="nav.labTests">Lab Tests</a>
+        <a href="help.html" class="mobile-nav-link" data-i18n="nav.help">Help</a>
+      </div>
+    </nav>
+    <div class="app-header-right">
+      <button class="header-icon-btn">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <div class="notif-wrapper">
+        <button class="header-icon-btn" onclick="toggleNotifDropdown(event)">
+          <img src="../assets/icon-bell.svg" alt="Notifications">
+          <span class="notif-badge">1</span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-dropdown-header">
+            <div class="notif-dropdown-title">
+              <span data-i18n="notif.title">Notifications</span>
+              <span class="notif-count-badge">1</span>
+            </div>
+            <button class="notif-mark-read" data-i18n="notif.markRead">Mark all as read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item unread">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <div class="notif-item-title-row">
+                  <span class="notif-item-title">Quote #QT-2026-0042 ready for approval</span>
+                  <span class="notif-unread-dot"></span>
+                </div>
+                <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — €12,450.00</div>
+                <div class="notif-item-time">5 min ago</div>
+                <a href="quote-detail.html" class="notif-item-action" data-i18n="notif.actionReviewApprove">Review &amp; Approve</a>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Quote #QT-2026-0039 awaiting your decision</span>
+                <div class="notif-item-desc">Grinding beads bundle for Zeta 500 — €8,720.00</div>
+                <div class="notif-item-time">2 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon order"><img src="../assets/icon-notif-order.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Order #ORD-78234 shipped</span>
+                <div class="notif-item-desc">Your order has been dispatched and is on the way.</div>
+                <div class="notif-item-time">1 day ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon service"><img src="../assets/icon-notif-service.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Service Request #SR-1192 updated</span>
+                <div class="notif-item-desc">Technician assigned — scheduled for Mar 20, 2026.</div>
+                <div class="notif-item-time">2 days ago</div>
+              </div>
+            </div>
+          </div>
+          <div class="notif-dropdown-footer">
+            <a href="notifications.html" class="notif-view-all" data-i18n="notif.viewAll">View all notifications</a>
+          </div>
+        </div>
+      </div>
+      <div class="cart-dropdown-anchor">
+        <button class="header-icon-btn" id="btn-cart">
+          <img src="../assets/icon-cart.svg" alt="Cart">
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <div class="cart-dropdown" id="cart-dropdown" role="dialog" aria-label="Shopping cart">
+          <div class="cart-head">
+            <h3 class="cart-title" data-i18n="cart.title">Shopping Cart</h3>
+            <button type="button" class="cart-close" id="cart-close" aria-label="Close cart">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="cart-items" id="cart-items"></div>
+          <div class="cart-subtotal" id="cart-subtotal-row" style="display:none;">
+            <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
+            <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
+          </div>
+          <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
+        </div>
+      </div>
+      <div class="user-avatar-wrapper">
+        <span class="user-initials" onclick="toggleProfileDropdown(event)">MW</span>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="profile-dropdown-header">
+            <img class="profile-dropdown-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+            <div class="profile-dropdown-info">
+              <span class="profile-dropdown-name">John Doe</span>
+              <span class="profile-dropdown-email">john.doe@acme-corp.com</span>
+            </div>
+          </div>
+          <ul class="profile-dropdown-menu">
+            <li><a class="profile-dropdown-item" href="profile.html" data-i18n="profile.profile"><img src="../assets/icon-profile-user.svg" alt="">Profile</a></li>
+            <li><a class="profile-dropdown-item" href="admin-users.html" data-i18n="profile.admin"><img src="../assets/icon-admin-settings.svg" alt="">Admin</a></li>
+            <li><a class="profile-dropdown-item" href="wishlist.html" data-i18n="profile.wishlist"><img src="../assets/icon-wishlist-heart.svg" alt="">My Wishlist</a></li>
+            <li><a class="profile-dropdown-item" href="contracts.html" data-i18n="profile.contracts"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Contracts</a></li>
+          </ul>
+          <div class="profile-dropdown-divider">
+            <a class="profile-dropdown-item logout" href="../index.html" data-i18n="profile.logout"><img src="../assets/icon-logout.svg" alt="">Log out</a>
+          </div>
+        </div>
+      </div>
+      <div class="header-divider-v" aria-hidden="true"></div>
+      <div class="lang-switcher" aria-label="Language selector">
+        <svg class="lang-globe" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.2"/>
+          <ellipse cx="8" cy="8" rx="2.6" ry="6.5" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="1.5" y1="6" x2="14.5" y2="6" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="1.5" y1="10" x2="14.5" y2="10" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        <span class="lang-label">EN</span>
+        <svg class="lang-chevron" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="lang-dropdown">
+          <div class="lang-option" data-lang="EN">EN</div>
+          <div class="lang-option" data-lang="DE">DE</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb-bar">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="machines.html" data-i18n="machines.title">Machines</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Zeta 500</span>
+    </nav>
+  </div>
+
+  <!-- SKELETON LOADING -->
+  <div class="skeleton-wrapper skel-machine" aria-hidden="false" role="status" aria-label="Loading machine details">
+    <div class="skel-machine-detail">
+      <!-- Left — machine photo -->
+      <div class="skeleton skel-machine-photo"></div>
+      <!-- Middle — divider -->
+      <div class="skel-machine-divider"></div>
+      <!-- Right — machine info -->
+      <div class="skel-machine-info">
+        <div class="skeleton skeleton-text short" style="height:18px"></div>
+        <div class="skeleton skeleton-title wide" style="height:34px;margin:4px 0 2px"></div>
+        <div class="skeleton skeleton-text medium"></div>
+        <div class="skel-machine-actions">
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+          <div class="skel-hero-action"><div class="skeleton skel-hero-action-icon"></div><div class="skel-hero-action-text"><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text long"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE -->
+  <div class="page page-content">
+
+    <!-- HERO: Zara-inspired split layout -->
+    <div class="hero-card">
+    <div class="hero-layout" data-skeleton-stagger>
+      <!-- Left — Machine photo -->
+      <div class="hero-photo">
+        <img src="../assets/machine-zeta60.png" alt="Zeta 500">
+      </div>
+
+      <div class="hero-divider-v"></div>
+
+      <!-- Right — Info + Actions -->
+      <div class="hero-info" id="hero-info">
+        <h1 class="hero-machine-name machine-title">Zeta 500</h1>
+        <span class="hero-serial">SN: 15202598-10 · Brazil</span>
+        <span class="hero-meta" data-field="text" data-store="netzsch_line" data-aria="Edit production line name" data-toast="Production line updated">
+          <span class="hero-meta-label">Line:</span>
+          <span class="hero-meta-value">NOT ASSIGNED</span>
+        </span>
+        <span class="hero-meta" data-field="date" data-store="netzsch_installdate" data-aria="Edit installation date" data-toast="Installation date updated">
+          <span class="hero-meta-label">Installed:</span>
+          <span class="hero-meta-value" data-date="2026-07-15">15/07/2026</span>
+        </span>
+
+        <div class="hero-divider"></div>
+
+        <!-- Actions -->
+        <div class="hero-actions">
+          <div class="hero-action-item" id="milla-trigger-card" style="cursor:pointer;">
+            <div class="hero-action-icon milla-icon">
+              <img src="../assets/icon-sparkle.svg" alt="" width="18" height="18">
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Ask Milla <span class="ai-badge">AI</span></div>
+              <span class="hero-action-desc">Find spare parts by photo, description or code</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div class="hero-action-item" id="subset-trigger" style="cursor:pointer;">
+            <div class="hero-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Select subset</div>
+              <span class="hero-action-desc">Browse spare parts by assembly / subset</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div class="hero-action-item" id="service-request-trigger" style="cursor:pointer;">
+            <div class="hero-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Service Request</div>
+              <span class="hero-action-desc">Schedule maintenance or report an issue</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <a href="#" class="hero-action-item docs-link">
+            <div class="hero-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="hero-action-text">
+              <div class="hero-action-title">Documents and Manuals</div>
+              <span class="hero-action-desc">Equipment manuals and technical docs</span>
+            </div>
+            <svg class="hero-action-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Machine Details — full-width, inside the card, expands below the hero -->
+    <div class="hero-details" id="hero-details">
+      <button type="button" class="hero-details-toggle" onclick="toggleMachineDetails()">
+        <span>Machine Details</span>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="hero-details-content">
+        <div class="detail-grid">
+          <div class="detail-col">
+            <h3 class="detail-col-title">Machine Information</h3>
+            <div class="detail-row"><span class="detail-label">Equipment</span><span class="detail-value">Zeta 500</span></div>
+            <div class="detail-row"><span class="detail-label">Type</span><span class="detail-value">Dispersing</span></div>
+            <div class="detail-row"><span class="detail-label">Serial Number</span><span class="detail-value">15202598-10</span></div>
+            <div class="detail-row"><span class="detail-label">Commission Nr.</span><span class="detail-value">15202598-10</span></div>
+            <div class="detail-row"><span class="detail-label">Service by</span><span class="detail-value">NEM</span></div>
+            <div class="detail-row"><span class="detail-label">Fig nr.</span><span class="detail-value">12640</span></div>
+            <div class="detail-row"><span class="detail-label">Purchase Date</span><span class="detail-value">2026-05-20</span></div>
+            <div class="detail-row"><span class="detail-label">Install Date</span><span class="detail-value">2026-07-15</span></div>
+            <div class="detail-row"><span class="detail-label">Country</span><span class="detail-value">Brazil</span></div>
+            <div class="detail-row"><span class="detail-label">Warranty</span><span class="detail-value">2028-07-15</span></div>
+          </div>
+          <div class="detail-col">
+            <h3 class="detail-col-title">Technical Details</h3>
+            <div class="detail-row"><span class="detail-label">Grinding System</span><span class="detail-value">Dispersing</span></div>
+            <div class="detail-row"><span class="detail-label">Grinding Chamber</span><span class="detail-value">Closed batch tank</span></div>
+            <div class="detail-row"><span class="detail-label">Grinding Shaft</span><span class="detail-value">Stainless steel</span></div>
+            <div class="detail-row"><span class="detail-label">Sealing Material</span><span class="detail-value">Mechanical seal</span></div>
+            <div class="detail-row"><span class="detail-label">Integrated Pump</span><span class="detail-value">No</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div><!-- /hero-card -->
+    <script>
+      function toggleMachineDetails() {
+        var d = document.getElementById('hero-details');
+        var opened = d.classList.toggle('details-open');
+        if (!opened) return;
+        requestAnimationFrame(function () {
+          var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var content = d.querySelector('.hero-details-content');
+          var rect = content.getBoundingClientRect();
+          var top = window.scrollY;
+          if (rect.bottom > window.innerHeight) {
+            top = window.scrollY + rect.bottom - window.innerHeight + 16;
+            var maxTop = window.scrollY + d.getBoundingClientRect().top - 76;
+            top = Math.min(top, maxTop);
+          }
+          window.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
+        });
+      }
+    </script>
+
+
+    </div>
+  </div>
+
+  <!-- MILLA MODAL -->
+  <div class="milla-modal-overlay" id="milla-modal-overlay">
+    <div class="milla-modal">
+      <button type="button" class="milla-modal-close" id="milla-modal-close-btn" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="milla-modal-inner">
+      <div class="milla-banner is-open" id="milla-banner">
+      <img class="milla-banner-bg" src="../assets/banner-waves.svg" alt="">
+
+      <!-- Collapsed: hidden since we use the trigger card -->
+      <div class="milla-collapsed">
+        <button type="button" class="btn-milla" id="btn-ask-milla" data-i18n="millaFlow.askMilla">
+          <img src="../assets/icon-sparkle.svg" alt="">
+          Ask Milla
+        </button>
+        <p class="milla-subtitle" data-i18n="millaFlow.subtitle">Find documentation, tutorials and get help from Milla AI.</p>
+      </div>
+
+      <!-- Expanded: Milla asking how to search -->
+      <div class="milla-expanded">
+        <button type="button" class="milla-close" id="btn-milla-close" aria-label="Close">
+          <img src="../assets/icon-milla-close.svg" alt="">
+        </button>
+        <div class="milla-expanded-head">
+          <img src="../assets/icon-sparkle.svg" alt="">
+          <span class="milla-expanded-title" data-i18n="millaFlow.howSearch">How would you like to search?</span>
+        </div>
+        <p class="milla-expanded-subtitle" data-i18n="millaFlow.chooseMethod">Choose a method to find what do you need</p>
+        <div class="milla-methods">
+          <button type="button" class="method-card" data-method="photo" data-i18n="millaFlow.methodPhoto">
+            <img src="../assets/icon-method-photo.svg" alt="">
+            <span>Photo</span>
+          </button>
+          <button type="button" class="method-card" id="btn-method-description" data-i18n="millaFlow.methodDescription">
+            <img src="../assets/icon-method-description.svg" alt="">
+            <span>Description</span>
+          </button>
+          <button type="button" class="method-card" data-method="code" data-i18n="millaFlow.methodProductCode">
+            <img src="../assets/icon-method-code.svg" alt="">
+            <span>Product Code</span>
+          </button>
+        </div>
+
+        <!-- 3rd state: Search by Description form -->
+        <div class="milla-search-form">
+          <div class="milla-search-head">
+            <button type="button" class="milla-back-btn" id="btn-milla-back" aria-label="Back">
+              <img src="../assets/icon-milla-back.svg" alt="">
+            </button>
+            <img class="milla-search-head-icon" src="../assets/icon-method-description.svg" alt="">
+            <span class="milla-search-head-title" data-i18n="millaFlow.searchByDescription">Search by Description</span>
+          </div>
+          <textarea class="milla-search-input" id="milla-search-input"
+            placeholder="Describe the spare part you're looking for..." data-i18n-placeholder="millaFlow.searchPlaceholder"></textarea>
+          <div class="milla-search-actions">
+            <button type="button" class="btn-milla-search" id="btn-milla-search" data-i18n="millaFlow.search">Search</button>
+          </div>
+        </div>
+
+        <!-- 4th state: Reasoning loader -->
+        <div class="milla-reasoning">
+          <div class="milla-orb" aria-hidden="true">
+            <img src="../assets/icon-sparkle.svg" alt="">
+          </div>
+          <div class="milla-dots" role="status" aria-label="Loading">
+            <span></span><span></span><span></span>
+          </div>
+          <h3 class="milla-reason-title">Reasoning with description</h3>
+          <p class="milla-reason-quote" id="milla-reason-quote">"I need to replace the ring from the inner chamber of my mill"</p>
+        </div>
+      </div>
+    </div>
+    <!-- Persistent search bar (shown with results) -->
+    <div class="milla-results-search" id="milla-results-search">
+      <div class="milla-results-search-bar">
+        <img src="../assets/icon-sparkle.svg" alt="" style="filter: brightness(0) invert(1);">
+        <span id="milla-search-query-display">ring from the inner chamber</span>
+        <button type="button" class="search-edit" id="milla-search-edit">Edit</button>
+      </div>
+    </div>
+    <!-- Results state (shown after reasoning) -->
+    <div class="milla-results" id="milla-results" style="display:none;">
+      <div class="milla-results-header">
+        <h3 class="milla-results-title">Spare Parts Found</h3>
+        <span class="milla-results-count">2 results</span>
+      </div>
+
+      <!-- Technical drawing -->
+      <div class="milla-results-drawing">
+        <img src="../assets/drawing-discus30-grinding.png" alt="Grinding chamber technical drawing" id="milla-drawing-img">
+      </div>
+
+      <!-- Results table -->
+      <div class="milla-results-table-wrap">
+        <table class="milla-results-table">
+          <thead>
+            <tr>
+              <th>Itm</th>
+              <th>Material Nr.</th>
+              <th>Description</th>
+              <th>Price/unit</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-name="Ring - AISI 304" data-ref="140045213" data-price="75.89">
+              <td>801</td>
+              <td class="mono">140045213</td>
+              <td>Ring - AISI 304</td>
+              <td>&euro;75.89</td>
+              <td class="td-action">
+                <span class="td-action-row">
+                  <span class="td-qty">
+                    <button type="button" class="td-qty-btn" data-dir="minus">−</button>
+                    <input type="number" class="td-qty-val" value="1" min="1">
+                    <button type="button" class="td-qty-btn" data-dir="plus">+</button>
+                  </span>
+                  <button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button>
+                  <button type="button" class="btn-wish-sm" aria-label="Add to wishlist">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </span>
+              </td>
+            </tr>
+            <tr data-name="Ring for inner pipe" data-ref="140023995" data-price="0" data-quotation="true">
+              <td>802</td>
+              <td class="mono">140023995</td>
+              <td>Ring for inner pipe</td>
+              <td class="quotation">Quotation</td>
+              <td class="td-action">
+                <span class="td-action-row">
+                  <span class="td-qty">
+                    <button type="button" class="td-qty-btn" data-dir="minus">−</button>
+                    <input type="number" class="td-qty-val" value="1" min="1">
+                    <button type="button" class="td-qty-btn" data-dir="plus">+</button>
+                  </span>
+                  <button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button>
+                  <button type="button" class="btn-wish-sm" aria-label="Add to wishlist">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg>
+                  </button>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Drawing lightbox -->
+    <div class="drawing-lightbox" id="drawing-lightbox">
+      <div class="drawing-lightbox-content">
+        <button type="button" class="drawing-lightbox-close" id="drawing-lightbox-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing — full view">
+      </div>
+    </div>
+    </div><!-- /milla-modal-inner -->
+    </div><!-- /milla-modal -->
+  </div><!-- /milla-modal-overlay -->
+
+  <!-- SERVICE REQUEST MODAL -->
+  <div class="sr-modal-overlay" id="sr-modal-overlay">
+    <div class="sr-modal-wrapper">
+      <button type="button" class="sr-modal-close" id="sr-modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="sr-modal">
+
+      <!-- Form state -->
+      <div id="sr-form-state">
+        <div class="sr-modal-header">
+          <div class="sr-modal-header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <h2>Service Request</h2>
+            <p>Schedule maintenance or report an issue</p>
+          </div>
+        </div>
+
+        <div class="sr-machine-bar">
+          <img src="../assets/machine-zeta60.png" alt="Zeta 500">
+          <div class="sr-machine-bar-info">
+            <div class="sr-machine-bar-name">Zeta 500</div>
+            <div class="sr-machine-bar-meta">SN: 15202598-10 · NOT ASSIGNED</div>
+          </div>
+        </div>
+
+        <div class="sr-modal-body">
+          <!-- Request Type -->
+          <div>
+            <span class="sr-field-label">Request Type <span class="required">*</span></span>
+            <div class="sr-radio-cards" id="sr-radio-cards">
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="repair">
+                <div class="sr-radio-card-title">Repair</div>
+                <div class="sr-radio-card-sub">Equipment Fix</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="maintenance">
+                <div class="sr-radio-card-title">Maintenance</div>
+                <div class="sr-radio-card-sub">Preventive care</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="spare-parts">
+                <div class="sr-radio-card-title">Spare Parts</div>
+                <div class="sr-radio-card-sub">Request Parts</div>
+              </label>
+              <label class="sr-radio-card">
+                <input type="radio" name="srType" value="consultation">
+                <div class="sr-radio-card-title">Consultation</div>
+                <div class="sr-radio-card-sub">Expert Advice</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <div>
+            <label class="sr-field-label" for="sr-title">Title <span class="required">*</span></label>
+            <input type="text" class="sr-input" id="sr-title" placeholder="Brief summary of the issue...">
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="sr-field-label" for="sr-desc">Problem Description <span class="required">*</span></label>
+            <textarea class="sr-textarea" id="sr-desc" placeholder="Describe the issue in detail..."></textarea>
+          </div>
+
+          <!-- Attachments -->
+          <div>
+            <span class="sr-field-label">Attachments</span>
+            <div class="sr-dropzone" id="sr-dropzone">
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="sr-dropzone-text">Drop files here or click to upload</span>
+              <span class="sr-dropzone-hint">Supports: PDF, JPG, PNG</span>
+              <input type="file" id="sr-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
+            </div>
+          </div>
+
+          <div class="sr-modal-footer">
+            <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Send Request</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div class="sr-success" id="sr-success">
+        <div class="sr-success-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Request Submitted</h3>
+        <p>Your service request for <strong>Zeta 500</strong> has been submitted. Our team will contact you within 24 hours.</p>
+        <button type="button" class="btn btn-primary btn-md" id="sr-btn-done" style="margin-top:8px;">Done</button>
+      </div>
+    </div>
+    </div>
+  </div>
+
+<script>
+function toggleProfileDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('notifDropdown').classList.remove('open');
+  document.getElementById('profileDropdown').classList.toggle('open');
+}
+function toggleNotifDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('profileDropdown').classList.remove('open');
+  document.getElementById('notifDropdown').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('profileDropdown');
+  var nd = document.getElementById('notifDropdown');
+  if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  if (nd && !nd.contains(e.target)) nd.classList.remove('open');
+});
+</script>
+  <script>
+    // Results table: qty controls, add to cart
+    (function() {
+      document.querySelectorAll('.td-qty-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var input = btn.closest('.td-qty').querySelector('.td-qty-val');
+          var val = parseInt(input.value) || 1;
+          if (btn.dataset.dir === 'minus' && val > 1) input.value = val - 1;
+          if (btn.dataset.dir === 'plus') input.value = val + 1;
+        });
+      });
+      document.querySelectorAll('.btn-add-sm').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var tr = btn.closest('tr');
+          if (!tr) return;
+          var name = tr.dataset.name;
+          var ref = tr.dataset.ref;
+          var price = parseFloat(tr.dataset.price) || 0;
+          var isQuotation = tr.dataset.quotation === 'true';
+          var qty = parseInt(tr.querySelector('.td-qty-val').value) || 1;
+          try {
+            var cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}');
+            if (!cart.items) cart.items = [];
+            var existing = cart.items.find(function(i) { return i.ref === ref; });
+            if (existing) { existing.qty += qty; }
+            else { cart.items.push({ name: name, ref: ref, unitPrice: price, qty: qty, quotation: isQuotation }); }
+            localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+            var badge = document.getElementById('cart-badge');
+            if (badge) { badge.textContent = cart.items.reduce(function(s, i) { return s + i.qty; }, 0); badge.style.display = 'flex'; }
+            btn.textContent = 'Added ✓';
+            btn.style.background = '#007167';
+            btn.style.color = '#fff';
+            setTimeout(function() { btn.textContent = 'Add'; btn.style.background = ''; btn.style.color = ''; }, 1200);
+          } catch(e) {}
+        });
+      });
+    })();
+
+    // Drawing lightbox
+    (function() {
+      var drawingImg = document.getElementById('milla-drawing-img');
+      var lightbox = document.getElementById('drawing-lightbox');
+      var closeBtn = document.getElementById('drawing-lightbox-close');
+      if (drawingImg && lightbox) {
+        drawingImg.closest('.milla-results-drawing').addEventListener('click', function() { lightbox.classList.add('open'); });
+        closeBtn.addEventListener('click', function() { lightbox.classList.remove('open'); });
+        lightbox.addEventListener('click', function(e) { if (e.target === lightbox) lightbox.classList.remove('open'); });
+      }
+    })();
+
+    const banner = document.getElementById('milla-banner');
+    const btnClose = document.getElementById('btn-milla-close');
+    const btnDescription = document.getElementById('btn-method-description');
+    const btnBack = document.getElementById('btn-milla-back');
+    const searchInput = document.getElementById('milla-search-input');
+    const btnSearch = document.getElementById('btn-milla-search');
+
+    // Milla trigger card opens the modal
+    var millaOverlay = document.getElementById('milla-modal-overlay');
+
+    // Open Milla modal
+    document.getElementById('milla-trigger-card').addEventListener('click', function() {
+      millaOverlay.classList.add('open');
+      banner.classList.add('is-open');
+      banner.classList.remove('is-search');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeMillaModal() {
+      millaOverlay.classList.remove('open');
+      banner.classList.remove('is-open', 'is-search', 'is-reasoning');
+      document.body.style.overflow = '';
+      searchInput.value = '';
+      btnSearch.classList.remove('enabled');
+      document.getElementById('milla-banner').style.display = '';
+      document.getElementById('milla-results-search').style.display = 'none';
+      document.getElementById('milla-results').style.display = 'none';
+    }
+
+    // Edit button in results — go back to search
+    document.getElementById('milla-search-edit').addEventListener('click', function() {
+      document.getElementById('milla-results-search').style.display = 'none';
+      document.getElementById('milla-results').style.display = 'none';
+      document.getElementById('milla-banner').style.display = '';
+      banner.classList.add('is-open', 'is-search');
+      banner.classList.remove('is-reasoning');
+      searchInput.focus();
+    });
+
+    // Close on X buttons
+    btnClose.addEventListener('click', closeMillaModal);
+    document.getElementById('milla-modal-close-btn').addEventListener('click', closeMillaModal);
+
+    // Close on overlay click
+    millaOverlay.addEventListener('click', function(e) {
+      if (e.target === millaOverlay) closeMillaModal();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && millaOverlay.classList.contains('open')) closeMillaModal();
+    });
+
+    // Method: Description → switch to search form
+    btnDescription.addEventListener('click', () => {
+      banner.classList.add('is-search');
+      setTimeout(() => searchInput.focus(), 350);
+    });
+
+    // Back from search form to methods
+    btnBack.addEventListener('click', () => {
+      banner.classList.remove('is-search');
+    });
+
+    // Habilita botão Search quando há texto
+    searchInput.addEventListener('input', () => {
+      btnSearch.classList.toggle('enabled', searchInput.value.trim().length > 0);
+    });
+
+    // ── Subset select dropdown ──
+    const subsetWrapper = document.getElementById('subset-wrapper');
+    const subsetBtn = document.getElementById('subset-select');
+    const subsetLabel = document.getElementById('subset-select-label');
+    if (subsetWrapper) {
+      const subsetOptions = subsetWrapper.querySelectorAll('.subset-option');
+      subsetBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        subsetWrapper.classList.toggle('is-open');
+      });
+      subsetOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const value = opt.dataset.subset;
+          const href = opt.dataset.href;
+          subsetLabel.textContent = value;
+          subsetBtn.classList.add('has-value');
+          subsetOptions.forEach(o => o.classList.remove('is-selected'));
+          opt.classList.add('is-selected');
+          subsetWrapper.classList.remove('is-open');
+          if (href) {
+            setTimeout(() => { window.location.href = href; }, 250);
+          }
+        });
+      });
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#subset-wrapper')) {
+          subsetWrapper.classList.remove('is-open');
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') subsetWrapper.classList.remove('is-open');
+      });
+    }
+
+    function showResultsModal(queryText) {
+      millaOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('milla-banner').style.display = 'none';
+      document.getElementById('milla-results').style.display = 'block';
+      document.getElementById('milla-results-search').style.display = 'block';
+      document.getElementById('milla-search-query-display').textContent = queryText;
+    }
+
+    // Click Search → mostra reasoning loader (~2.4s) → resultados no modal
+    btnSearch.addEventListener('click', () => {
+      if (!btnSearch.classList.contains('enabled')) return;
+      const query = searchInput.value.trim();
+      const quoteEl = document.getElementById('milla-reason-quote');
+      if (query && quoteEl) {
+        quoteEl.textContent = `"${query}"`;
+      }
+      // Transition: search → reasoning
+      banner.classList.remove('is-search');
+      banner.classList.add('is-reasoning');
+      // Após 2.4s, mostra resultados no modal
+      setTimeout(() => {
+        showResultsModal(query || 'ring from the inner chamber');
+      }, 2400);
+    });
+  </script>
+
+  <!-- Select Subset Modal -->
+  <style>
+    .subset-modal-overlay {
+      position: fixed; inset: 0; z-index: 600;
+      background: rgba(0, 0, 0, 0.35);
+      -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .subset-modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .subset-modal-wrapper { position: relative; width: 680px; max-width: 92vw; }
+    .subset-modal-close {
+      position: absolute; top: -36px; right: 0; width: 28px; height: 28px;
+      border-radius: 50%; background: rgba(255, 255, 255, 0.25); border: none;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      color: #fff; z-index: 10; transition: background 0.15s, transform 0.2s;
+    }
+    .subset-modal-close:hover { background: rgba(255, 255, 255, 0.45); transform: scale(1.08); }
+    .subset-modal-box {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      transform: scale(0.97) translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      max-height: 86vh; display: flex; flex-direction: column;
+    }
+    .subset-modal-overlay.open .subset-modal-box { transform: scale(1) translateY(0); }
+    .subset-modal-head { display: flex; align-items: flex-start; gap: 14px; padding: 24px 24px 8px; }
+    .subset-modal-head-icon { width: 44px; height: 44px; border-radius: 12px; background: #f0faf9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .subset-modal-head h2 { font-size: 18px; font-weight: 700; color: #1f2937; margin: 0 0 2px; letter-spacing: -0.3px; }
+    .subset-modal-head p { font-size: 13px; color: #6b7280; margin: 0; }
+    .subset-modal-list { display: flex; flex-direction: column; gap: 8px; padding: 16px 24px 24px; }
+    .subset-modal-option {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      width: 100%; padding: 14px 16px; background: #fff;
+      border: 1px solid #e5e7eb; border-radius: 12px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #374151;
+      cursor: pointer; text-align: left; transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+    .subset-modal-option:hover { border-color: #007167; background: #f0faf9; color: #007167; }
+    .subset-modal-option svg { width: 16px; height: 16px; color: #9ca3af; flex-shrink: 0; }
+    .subset-modal-option:hover svg { color: #007167; }
+    /* Results state — green header + reuses .milla-results / .milla-results-table for the body */
+    .subset-green-head { position: relative; background: linear-gradient(135deg, #007167 0%, #0b9c92 100%); padding: 16px 24px; flex-shrink: 0; }
+    .subset-green-bar .chev { transition: transform 0.25s; }
+    .subset-green-bar.open .chev { transform: rotate(180deg); }
+    .subset-switch-dropdown { position: absolute; top: calc(100% - 6px); left: 24px; right: 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 12px 28px rgba(0,0,0,0.16); padding: 6px; z-index: 30; opacity: 0; transform: translateY(-6px); pointer-events: none; transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.32,0.72,0,1); }
+    .subset-switch-dropdown.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .subset-switch-option { display: block; width: 100%; text-align: left; padding: 12px 14px; background: none; border: none; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: #374151; cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .subset-switch-option:hover { background: #f0faf9; color: #007167; }
+    .subset-switch-option.is-current { background: #e6f4f3; color: #007167; font-weight: 600; }
+    .subset-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; padding: 56px 24px; min-height: 240px; }
+    .subset-empty svg { width: 40px; height: 40px; color: #d1d5db; }
+    .subset-empty p { font-size: 14px; color: #6b7280; margin: 0; }
+    .subset-green-bar { display: flex; align-items: center; gap: 12px; width: 100%; height: 46px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 0 16px; cursor: pointer; transition: background 0.15s; }
+    .subset-green-bar:hover { background: rgba(255,255,255,0.22); }
+    .subset-green-bar .doc { width: 18px; height: 18px; color: #fff; flex-shrink: 0; }
+    .subset-green-bar span { flex: 1; text-align: left; font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.2px; }
+    .subset-green-bar .chev { width: 18px; height: 18px; color: rgba(255,255,255,0.9); flex-shrink: 0; }
+    .btn-wish-sm.wished { background: #e8f5f3; border-color: #007167; color: #007167; }
+  </style>
+  <div class="subset-modal-overlay" id="subset-modal-overlay">
+    <div class="subset-modal-wrapper">
+      <button type="button" class="subset-modal-close" id="subset-modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="subset-modal-box">
+        <div id="subset-results-state">
+          <div class="subset-green-head">
+            <button type="button" class="subset-green-bar" id="subset-results-back" aria-label="Change subset">
+              <svg class="doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span id="subset-results-name">Select subset</span>
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="subset-switch-dropdown" id="subset-switch-dropdown">
+              <button type="button" class="subset-switch-option" data-subset="Sealings FFKM">Sealings FFKM</button>
+              <button type="button" class="subset-switch-option" data-subset="Complete bearing">Complete bearing</button>
+              <button type="button" class="subset-switch-option" data-subset="Grinding chamber complete">Grinding chamber complete</button>
+              <button type="button" class="subset-switch-option" data-subset="Inlet flange complete">Inlet flange complete</button>
+            </div>
+          </div>
+          <!-- Placeholder: no subset chosen yet -->
+          <div class="subset-empty" id="subset-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <p>Choose an assembly to see its spare parts</p>
+          </div>
+          <div class="milla-results" id="subset-results-body" style="display:none;">
+            <div class="milla-results-header">
+              <h3 class="milla-results-title">Spare Parts Found</h3>
+              <span class="milla-results-count" id="subset-results-count">0 results</span>
+            </div>
+            <div class="milla-results-drawing" id="subset-drawing" style="cursor: zoom-in;">
+              <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing">
+            </div>
+            <div class="milla-results-table-wrap">
+              <table class="milla-results-table">
+                <thead><tr><th>Itm</th><th>Material Nr.</th><th>Description</th><th>Price/unit</th><th></th></tr></thead>
+                <tbody id="subset-results-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="drawing-lightbox" id="subset-drawing-lightbox" style="z-index: 700;">
+    <div class="drawing-lightbox-content">
+      <button type="button" class="drawing-lightbox-close" id="subset-drawing-lightbox-close" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <img src="../assets/drawing-discus30-grinding.png" alt="Technical drawing — full view">
+    </div>
+  </div>
+  <script>
+  (function() {
+    var overlay = document.getElementById('subset-modal-overlay');
+    var trigger = document.getElementById('subset-trigger');
+    if (!overlay || !trigger) return;
+    var emptyState = document.getElementById('subset-empty');
+    var resultsBody = document.getElementById('subset-results-body');
+    var resName = document.getElementById('subset-results-name');
+    var resCount = document.getElementById('subset-results-count');
+    var resBody = document.getElementById('subset-results-tbody');
+    var switchDd = document.getElementById('subset-switch-dropdown');
+    var greenBar = document.getElementById('subset-results-back');
+
+    var subsetData = {
+      "Sealings FFKM": [
+        {i:"210", m:"518702", d:"Seal ring FFKM", p:42.00},
+        {i:"211", m:"518703", d:"O-ring FFKM 80x3", p:18.50},
+        {i:"212", m:"518709", d:"Gasket FFKM", p:24.00}
+      ],
+      "Complete bearing": [
+        {i:"801", m:"140045213", d:"Ring - AISI 304", p:75.89},
+        {i:"802", m:"140023995", d:"Ring for inner pipe", q:true}
+      ],
+      "Grinding chamber complete": [
+        {i:"410", m:"530220", d:"Grinding chamber liner", p:420.00},
+        {i:"411", m:"530221", d:"Rotor disc", p:310.00},
+        {i:"412", m:"530225", d:"Wear sleeve", p:95.00}
+      ],
+      "Inlet flange complete": [
+        {i:"900", m:"517225", d:"O-Ring", p:30.00},
+        {i:"901", m:"535214", d:"O-ring - CERTS", p:30.00},
+        {i:"902", m:"535841", d:"O-ring", p:30.00},
+        {i:"903", m:"140045213", d:"Inlet flange", p:75.89}
+      ]
+    };
+
+    function rowHtml(r) {
+      var priceCell = r.q ? '<td class="quotation">Quotation</td>' : '<td>€' + r.p.toFixed(2) + '</td>';
+      return '<tr data-name="' + r.d + '" data-ref="' + r.m + '" data-price="' + (r.q ? '0' : r.p) + '"' + (r.q ? ' data-quotation="true"' : '') + '>'
+        + '<td>' + r.i + '</td>'
+        + '<td class="mono">' + r.m + '</td>'
+        + '<td>' + r.d + '</td>'
+        + priceCell
+        + '<td class="td-action"><span class="td-action-row">'
+        + '<span class="td-qty"><button type="button" class="td-qty-btn" data-dir="minus">−</button><input type="number" class="td-qty-val" value="1" min="1"><button type="button" class="td-qty-btn" data-dir="plus">+</button></span>'
+        + '<button type="button" class="btn btn-primary btn-sm btn-add-sm">Add</button>'
+        + '<button type="button" class="btn-wish-sm" aria-label="Add to wishlist"><svg viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7A3.5 3.5 0 0 1 8 4a3.5 3.5 0 0 1 5.5 3c0 3.5-5.5 7-5.5 7z" stroke="currentColor" stroke-width="1.5"/></svg></button>'
+        + '</span></td></tr>';
+    }
+
+    function openModal() { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; resetToEmpty(); }
+    function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+    function resetToEmpty() {
+      resName.textContent = 'Select subset';
+      emptyState.style.display = '';
+      resultsBody.style.display = 'none';
+      switchDd.classList.remove('open'); greenBar.classList.remove('open');
+      switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.remove('is-current'); });
+    }
+    function showResults(name) {
+      var parts = subsetData[name] || [];
+      resName.textContent = name;
+      switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.toggle('is-current', o.getAttribute('data-subset') === name); });
+      resCount.textContent = parts.length + (parts.length === 1 ? ' result' : ' results');
+      resBody.innerHTML = parts.map(rowHtml).join('');
+      emptyState.style.display = 'none';
+      resultsBody.style.display = '';
+    }
+
+    trigger.addEventListener('click', openModal);
+    document.getElementById('subset-modal-close').addEventListener('click', closeModal);
+    // Green bar = trocar de subset no lugar (dropdown), sem voltar à lista
+    greenBar.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = switchDd.classList.toggle('open');
+      greenBar.classList.toggle('open', isOpen);
+    });
+    switchDd.querySelectorAll('.subset-switch-option').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        showResults(opt.getAttribute('data-subset'));
+        switchDd.classList.remove('open');
+        greenBar.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', function(e) {
+      if (switchDd.classList.contains('open') && !e.target.closest('.subset-green-head')) {
+        switchDd.classList.remove('open');
+        greenBar.classList.remove('open');
+      }
+    });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal(); });
+    // Drawing zoom — own lightbox (the Milla one is nested in a closed overlay)
+    var sDraw = document.getElementById('subset-drawing');
+    var sLightbox = document.getElementById('subset-drawing-lightbox');
+    if (sDraw && sLightbox) {
+      sDraw.addEventListener('click', function() { sLightbox.classList.add('open'); });
+      document.getElementById('subset-drawing-lightbox-close').addEventListener('click', function() { sLightbox.classList.remove('open'); });
+      sLightbox.addEventListener('click', function(e) { if (e.target === sLightbox) sLightbox.classList.remove('open'); });
+    }
+
+    // qty steppers + add-to-cart for dynamically-rendered rows (delegation)
+    resBody.addEventListener('click', function(e) {
+      var qbtn = e.target.closest('.td-qty-btn');
+      if (qbtn) {
+        var input = qbtn.closest('.td-qty').querySelector('.td-qty-val');
+        var val = parseInt(input.value) || 1;
+        if (qbtn.dataset.dir === 'minus' && val > 1) input.value = val - 1;
+        if (qbtn.dataset.dir === 'plus') input.value = val + 1;
+        return;
+      }
+      var wishBtn = e.target.closest('.btn-wish-sm');
+      if (wishBtn) {
+        var wp = wishBtn.querySelector('svg path');
+        var on = wishBtn.classList.toggle('wished');
+        if (wp) { wp.setAttribute('fill', on ? '#007167' : 'none'); wp.setAttribute('stroke', on ? '#007167' : 'currentColor'); }
+        return;
+      }
+      var addBtn = e.target.closest('.btn-add-sm');
+      if (addBtn) {
+        var tr = addBtn.closest('tr');
+        if (!tr) return;
+        var qty = parseInt(tr.querySelector('.td-qty-val').value) || 1;
+        try {
+          var cart = JSON.parse(localStorage.getItem('netzsch_cart') || '{}');
+          if (!cart.items) cart.items = [];
+          var ref = tr.dataset.ref;
+          var existing = cart.items.find(function(i) { return i.ref === ref; });
+          if (existing) { existing.qty += qty; }
+          else { cart.items.push({ name: tr.dataset.name, ref: ref, unitPrice: parseFloat(tr.dataset.price) || 0, qty: qty, quotation: tr.dataset.quotation === 'true' }); }
+          localStorage.setItem('netzsch_cart', JSON.stringify(cart));
+          var badge = document.getElementById('cart-badge');
+          if (badge) { badge.textContent = cart.items.reduce(function(s, i) { return s + i.qty; }, 0); badge.style.display = 'flex'; }
+          addBtn.textContent = 'Added ✓';
+          addBtn.style.background = '#007167'; addBtn.style.color = '#fff';
+          setTimeout(function() { addBtn.textContent = 'Add'; addBtn.style.background = ''; addBtn.style.color = ''; }, 1200);
+        } catch(err) {}
+        return;
+      }
+    });
+  })();
+  </script>
+
+  <!-- Service Request Modal JS -->
+  <script>
+  (function() {
+    var srOverlay = document.getElementById('sr-modal-overlay');
+    var srFormState = document.getElementById('sr-form-state');
+    var srSuccess = document.getElementById('sr-success');
+    var srBtnSend = document.getElementById('sr-btn-send');
+    var srTitle = document.getElementById('sr-title');
+    var srDesc = document.getElementById('sr-desc');
+
+    // Open modal
+    document.getElementById('service-request-trigger').addEventListener('click', function() {
+      srOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    function closeSrModal() {
+      srOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      // Reset after close animation
+      setTimeout(function() {
+        srFormState.style.display = '';
+        srSuccess.classList.remove('show');
+        srBtnSend.disabled = true;
+        srTitle.value = '';
+        srDesc.value = '';
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        document.querySelectorAll('input[name="srType"]').forEach(function(r) { r.checked = false; });
+      }, 300);
+    }
+
+    // Close handlers
+    document.getElementById('sr-modal-close').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-cancel').addEventListener('click', closeSrModal);
+    document.getElementById('sr-btn-done').addEventListener('click', closeSrModal);
+    srOverlay.addEventListener('click', function(e) {
+      if (e.target === srOverlay) closeSrModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && srOverlay.classList.contains('open')) closeSrModal();
+    });
+
+    // Radio card selection
+    document.querySelectorAll('.sr-radio-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+        card.classList.add('selected');
+        validateSrForm();
+      });
+    });
+
+    // Form validation
+    function validateSrForm() {
+      var hasType = document.querySelector('input[name="srType"]:checked');
+      var hasTitle = srTitle.value.trim().length > 0;
+      var hasDesc = srDesc.value.trim().length > 0;
+      srBtnSend.disabled = !(hasType && hasTitle && hasDesc);
+    }
+    srTitle.addEventListener('input', validateSrForm);
+    srDesc.addEventListener('input', validateSrForm);
+
+    // Dropzone
+    var srDropzone = document.getElementById('sr-dropzone');
+    var srFileInput = document.getElementById('sr-file-input');
+    srDropzone.addEventListener('click', function() { srFileInput.click(); });
+    srFileInput.addEventListener('change', function() {
+      if (srFileInput.files.length > 0) {
+        srDropzone.querySelector('.sr-dropzone-text').textContent = srFileInput.files.length + ' file(s) selected';
+      }
+    });
+
+    // Submit → success
+    srBtnSend.addEventListener('click', function() {
+      if (srBtnSend.disabled) return;
+      srFormState.style.display = 'none';
+      srSuccess.classList.add('show');
+    });
+  })();
+  </script>
+
+<script>
+(function() {
+  var cartDropdown = document.getElementById('cart-dropdown');
+  var cartDdItems = document.getElementById('cart-items');
+  var cartDdSubtotal = document.getElementById('cart-subtotal');
+  var cartBadge = document.getElementById('cart-badge');
+  if (!cartDropdown) return;
+
+  function getCart() { try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; } }
+  function getCartItems() { return getCart().items || []; }
+  function saveCart(items) { var c = getCart(); c.items = items; localStorage.setItem('netzsch_cart', JSON.stringify(c)); }
+  function formatPrice(num) { var f = num.toFixed(2).split('.'); return f[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + f[1] + ' \u20ac'; }
+
+  var svgTrash = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
+  var svgMinus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  var svgPlus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  var svgPlaceholder = '<div class="cart-item-placeholder"><svg viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+
+  function renderCartDropdown() {
+    var cartItems = getCartItems();
+    var html = '';
+    var subtotal = 0;
+    var subtotalRow = document.getElementById('cart-subtotal-row');
+    var hasQuotation = cartItems.some(function(item) { return item.quotation; });
+    cartItems.forEach(function(item, i) {
+      var lineTotal = item.unitPrice * item.qty;
+      subtotal += lineTotal;
+      var leftBtn = '<button class="qty-btn minus" data-action="minus" data-index="' + i + '">' + svgMinus + '</button>';
+      var imgHtml = item.img
+        ? '<img class="cart-item-img" src="' + item.img + '" alt="' + item.name + '">'
+        : svgPlaceholder;
+      html += '<div class="cart-item">' + imgHtml +
+        '<div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div><div class="cart-item-mat">' + NetzschI18n.t("checkout.ref", "Ref:") + ' ' + item.ref + '</div></div>' +
+        '<div class="cart-item-price"><div class="cart-item-price-label">' + NetzschI18n.t("shopDetail.totalPrice", "Total price") + '</div><div class="cart-item-price-value">' + (hasQuotation ? NetzschI18n.t("checkout.quotation", "Quotation") : formatPrice(lineTotal)) + '</div></div></div>' +
+        '<div class="cart-quantity"><span class="cart-quantity-label">' + NetzschI18n.t("common.quantity", "Quantity") + '</span><div class="cart-quantity-controls">' + leftBtn +
+        '<span class="qty-value">' + item.qty + '</span>' +
+        '<button class="qty-btn" data-action="plus" data-index="' + i + '">' + svgPlus + '</button></div></div>';
+    });
+    if (cartItems.length === 0) {
+      html = '<div class="cart-empty">' + NetzschI18n.t("checkout.emptyCart", "Your cart is empty.") + '</div>';
+      if (subtotalRow) subtotalRow.style.display = 'none';
+    } else {
+      if (subtotalRow) subtotalRow.style.display = '';
+    }
+    cartDdItems.innerHTML = html;
+    cartDdSubtotal.textContent = hasQuotation ? '--' : formatPrice(subtotal);
+    // Update badge
+    var total = cartItems.reduce(function(s, i) { return s + 1; }, 0);
+    cartBadge.textContent = total;
+    cartBadge.classList.toggle('is-visible', total > 0);
+    // Bind qty buttons
+    cartDdItems.querySelectorAll('.qty-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var idx = parseInt(btn.dataset.index);
+        var action = btn.dataset.action;
+        var items = getCartItems();
+        if (action === 'plus') { items[idx].qty++; }
+        else if (action === 'minus') { items[idx].qty--; if (items[idx].qty <= 0) items.splice(idx, 1); }
+        else if (action === 'remove') { items.splice(idx, 1); }
+        saveCart(items);
+        renderCartDropdown();
+        if (items.length === 0) cartDropdown.classList.remove('is-open');
+      });
+    });
+  }
+
+  renderCartDropdown();
+  document.getElementById('btn-cart').addEventListener('click', function(e) { e.stopPropagation(); cartDropdown.classList.toggle('is-open'); });
+  document.getElementById('cart-close').addEventListener('click', function(e) { e.stopPropagation(); cartDropdown.classList.remove('is-open'); });
+  document.addEventListener('click', function(e) { if (!e.target.closest('#btn-cart') && !e.target.closest('#cart-dropdown')) cartDropdown.classList.remove('is-open'); });
+})();
+</script>
+
+<script>
+  window.Userback = window.Userback || {};
+  Userback.access_token = "A-B6EEL5g9k8aTvbyNklnvym0W3";
+  (function(d) {
+    var s = d.createElement("script");s.async = true;s.src = "https://static.userback.io/widget/v1.js";(d.head || d.body).appendChild(s);
+  })(document);
+</script>
+<script>
+(function(){
+  var btn=document.querySelector('.hamburger-btn'),nav=document.querySelector('.mobile-nav'),overlay=document.querySelector('.mobile-nav-overlay');
+  if(!btn||!nav)return;
+  function toggle(){var open=nav.classList.toggle('open');btn.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':'';}
+  btn.addEventListener('click',toggle);
+  if(overlay)overlay.addEventListener('click',toggle);
+})();
+</script>
+<script src="../assets/role-guard.js"></script>
+<script src="../assets/request-approval.js"></script>
+<script src="../assets/docs-modal.js"></script>
+<script src="../assets/hourmeter.js"></script>
+<script src="../assets/machine-line-edit.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
+</body>
+</html>
