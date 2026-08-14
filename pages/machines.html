@@ -938,6 +938,19 @@
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
+    .machine-line.is-none, .t-line.is-none { color: #8a5a00; }
+    .machine-line-selo {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fbf1d8;
+      color: #8a5a00;
+      border: 1px solid #e6d9ac;
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-size: 10.5px;
+      letter-spacing: 0.3px;
+    }
 
     .machine-rows {
       display: flex;
@@ -2302,6 +2315,7 @@ document.addEventListener('click', function(e) {
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
 </script>
+<script src="../assets/machine-lines.js"></script>
   <script>
     // ── References ──────────────────────────────────
     const grid = document.querySelector('.machine-grid');
@@ -2312,6 +2326,30 @@ document.addEventListener('click', function(e) {
     const cards = Array.from(document.querySelectorAll('.machine-grid .machine-card'));
     const rows = Array.from(document.querySelectorAll('#machine-tbody .machine-row'));
     const items = [...cards, ...rows];
+
+    // ── Sync each card/row's line from the managed store (single source of truth) ──
+    (function syncLinesFromStore() {
+      if (!window.MachineLines) return;
+      const noLine = (window.NetzschI18n && NetzschI18n.t) ? NetzschI18n.t('machines.noLine', 'No line') : 'No line';
+      const byName = {};
+      MachineLines.getMachines().forEach(function (m) { byName[m.name] = m; });
+      items.forEach(function (el) {
+        const m = byName[el.dataset.name];
+        if (!m) return;
+        el.dataset.line = m.line;
+        const isCard = el.classList.contains('machine-card');
+        const lineEl = el.querySelector(isCard ? '.machine-line' : '.t-line');
+        if (!lineEl) return;
+        lineEl.removeAttribute('style');
+        if (m.line) {
+          lineEl.textContent = m.line;
+          lineEl.classList.remove('is-none');
+        } else {
+          lineEl.innerHTML = '<span class="machine-line-selo">⚠︎ <span data-i18n="machines.noLine">' + noLine + '</span></span>';
+          lineEl.classList.add('is-none');
+        }
+      });
+    })();
     const search = document.getElementById('filter-search');
     const emptyState = document.getElementById('empty-state');
     const emptyStateTable = document.getElementById('empty-state-table');
@@ -2405,6 +2443,15 @@ document.addEventListener('click', function(e) {
     document.addEventListener('click', function (e) {
       if (!lineFilterEl.contains(e.target)) { linePanel.hidden = true; lineBtn.setAttribute('aria-expanded', 'false'); }
     });
+
+    // Pre-apply the "No line" filter when arriving from the "without line" notification.
+    if (/[?&]filter=noline\b/.test(location.search)) {
+      selectedLines.add(LINE_NONE);
+      var noneCbx = lineOpts.querySelector('.lf-cbx[data-key="__none__"]');
+      if (noneCbx) noneCbx.classList.add('on');
+      updateLineBadge();
+      applyFilters();
+    }
 
     // ── View toggle (grid <-> list) ────────────────
     viewToggle.querySelectorAll('button').forEach(btn => {

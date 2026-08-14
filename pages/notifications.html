@@ -1763,6 +1763,38 @@ function sendFromSmallChat() {
   if(overlay)overlay.addEventListener('click',toggle);
 })();
 </script>
+<script src="../assets/machine-lines.js"></script>
+<script>
+// ── "Machine without a production line" notification (from the managed store) ──
+(function () {
+  if (!window.MachineLines) return;
+  var list = document.getElementById('ncList');
+  if (!list) return;
+  var without = MachineLines.machinesWithoutLine();
+  if (!without.length) return;
+  var n = without.length;
+  var names = without.map(function (m) { return m.name; }).join(', ');
+  var title = n === 1 ? '1 machine without a production line' : n + ' machines without a production line';
+  var warnIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="#8a5a00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+  var html =
+    '<div class="nc-item unread" data-type="machines">' +
+      '<div class="nc-icon" style="background:#fbf1d8;">' + warnIcon + '</div>' +
+      '<div class="nc-content">' +
+        '<div class="nc-content-top">' +
+          '<span class="nc-item-title">' + title + '</span>' +
+          '<div class="nc-right"><span class="nc-time">Just now</span><span class="nc-unread-dot"></span></div>' +
+        '</div>' +
+        '<div class="nc-desc">' + names + ' — assign a production line to organize and filter them.</div>' +
+        '<a href="machines.html?filter=noline" class="nc-action">View machines without line</a>' +
+      '</div>' +
+    '</div>';
+  var divider = list.querySelector('.nc-date-divider');
+  if (divider) divider.insertAdjacentHTML('afterend', html);
+  else list.insertAdjacentHTML('afterbegin', html);
+  var badge = document.getElementById('ncUnreadCount');
+  if (badge) { badge.textContent = (parseInt(badge.textContent, 10) || 0) + n; }
+})();
+</script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/i18n.js"></script>
 <script src="../assets/skeleton-loader.js"></script>
