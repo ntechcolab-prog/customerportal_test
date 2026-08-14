@@ -512,8 +512,6 @@
     .lf-cbx.on::after { content: ''; width: 9px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); margin-top: -2px; }
     .lf-nm { flex: 1; }
     .lf-ct { color: #86868b; font-size: 12px; }
-    .lf-opt.none { border-bottom: 1px solid #eaeaea; margin-bottom: 4px; padding-bottom: 10px; }
-    .lf-opt.none .lf-nm { color: #8a5a00; font-weight: 600; }
     .line-filter-foot { display: flex; justify-content: flex-end; padding: 6px 4px 2px; }
     .lf-clear { background: none; border: none; color: #5c5f62; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; padding: 6px 8px; border-radius: 6px; }
     .lf-clear:hover { color: #007167; }
@@ -521,7 +519,6 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      flex: 1;
       flex-wrap: wrap;
     }
     .filter-pill {
@@ -1926,7 +1923,6 @@
           <div class="line-filter-foot"><button type="button" class="lf-clear" id="lineFilterClear" data-i18n="machines.clearFilter">Clear</button></div>
         </div>
       </div>
-      <div class="filter-divider"></div>
       <div class="view-toggle" id="view-toggle">
         <button type="button" data-view="list" aria-label="List view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
@@ -2393,6 +2389,8 @@ document.addEventListener('click', function(e) {
     }
     (function buildLineOptions() {
       const map = new Map();
+      // "No line" is always available, even when every machine has a line.
+      map.set(LINE_NONE, { label: noLineLabel(), count: 0 });
       cards.forEach(function (c) {
         const raw = (c.dataset.line || '').trim();
         const key = raw ? raw.toLowerCase() : LINE_NONE;
@@ -2407,10 +2405,8 @@ document.addEventListener('click', function(e) {
       });
       lineOpts.innerHTML = entries.map(function (e) {
         const key = e[0], v = e[1];
-        const noneCls = key === LINE_NONE ? ' none' : '';
-        const warn = key === LINE_NONE ? '⚠︎ ' : '';
-        return '<label class="lf-opt' + noneCls + '"><span class="lf-cbx" data-key="' + key + '"></span>' +
-               '<span class="lf-nm">' + warn + v.label + '</span><span class="lf-ct">' + v.count + '</span></label>';
+        return '<label class="lf-opt"><span class="lf-cbx" data-key="' + key + '"></span>' +
+               '<span class="lf-nm">' + v.label + '</span><span class="lf-ct">' + v.count + '</span></label>';
       }).join('');
     })();
 
