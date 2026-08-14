@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/tables.css">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1952,12 +1953,51 @@
     </nav>
   </div>
 
+  <!-- SKELETON LOADING STATE -->
+  <div class="skeleton-wrapper skel-mr" aria-hidden="false" role="status" aria-label="Loading spare parts">
+    <div class="skel-mr-layout">
+      <div class="skel-mr-col">
+        <div class="skel-mr-card">
+          <div class="skel-mr-machine-head">
+            <div class="skeleton skel-mr-thumb"></div>
+            <div class="skel-mr-machine-lines">
+              <div class="skeleton" style="height:20px;width:70%"></div>
+              <div class="skeleton" style="height:13px;width:40%"></div>
+            </div>
+          </div>
+          <div class="skeleton skel-dt-row" style="width:80%"></div>
+          <div class="skeleton skel-dt-row" style="width:65%"></div>
+          <div class="skeleton skel-dt-row" style="width:75%"></div>
+        </div>
+        <div class="skel-mr-card">
+          <div class="skeleton skel-dt-card-title"></div>
+          <div class="skeleton skel-dt-row" style="width:70%"></div>
+          <div class="skeleton skel-dt-row" style="width:55%"></div>
+        </div>
+      </div>
+      <div class="skel-mr-col">
+        <div class="skel-mr-card">
+          <div class="skeleton skel-dt-card-title"></div>
+          <div class="skeleton skel-mr-drawing"></div>
+          <div class="skeleton skel-mr-table-row"></div>
+          <div class="skeleton skel-mr-table-row"></div>
+          <div class="skeleton skel-mr-table-row"></div>
+          <div class="skeleton skel-mr-table-row"></div>
+          <div class="skeleton skel-mr-table-row"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content">
+
   <!-- PAGE -->
   <div class="page">
     <div class="layout">
 
       <!-- LEFT COLUMN -->
-      <div class="left-col">
+      <div class="left-col" data-skeleton-stagger>
 
         <!-- Card 1: Machine quick info -->
         <div class="card">
@@ -2035,7 +2075,7 @@
       </div>
 
       <!-- RIGHT COLUMN -->
-      <div class="right-col">
+      <div class="right-col" data-skeleton-stagger>
 
         <!-- Ask Milla banner (collapsed) -->
         <div class="milla-banner" id="milla-banner">
@@ -2251,6 +2291,8 @@
 
     </div>
   </div>
+
+  </div><!-- /page-content -->
 
   <!-- Wishlist toast (top-right) -->
   <div class="wishlist-toast" id="wishlist-toast" role="status" aria-live="polite">
@@ -2668,6 +2710,7 @@ document.addEventListener('click', function(e) {
 })();
 </script>
 <script src="../assets/role-guard.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 <script src="../assets/request-approval.js"></script>
 <script src="../assets/docs-modal.js"></script>
 <script src="../assets/hourmeter.js"></script>

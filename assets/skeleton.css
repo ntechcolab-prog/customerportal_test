@@ -513,6 +513,20 @@
   .skel-dt-two-col { grid-template-columns: 1fr; }
 }
 
+/* ── MACHINE RESULTS (machine-spare-parts-results, machine-subset-inlet-flange) ─── */
+.skeleton-wrapper.skel-mr { padding: 32px; }
+.skeleton-wrapper.skel-mr:not([aria-hidden="true"]) { display: flex; flex-direction: column; gap: 24px; }
+.skel-mr-layout { display: grid; grid-template-columns: minmax(320px, 1fr) 2fr; gap: 24px; align-items: start; }
+.skel-mr-col { display: flex; flex-direction: column; gap: 16px; }
+.skel-mr-card { background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 20px; }
+.skel-mr-machine-head { display: flex; gap: 14px; margin-bottom: 18px; }
+.skel-mr-thumb { width: 72px; height: 72px; border-radius: 10px; flex-shrink: 0; }
+.skel-mr-machine-lines { flex: 1; display: flex; flex-direction: column; gap: 10px; padding-top: 8px; }
+.skel-mr-drawing { height: 260px; border-radius: 12px; margin-bottom: 18px; }
+.skel-mr-table-row { height: 40px; border-radius: 6px; margin-bottom: 8px; }
+@media (max-width: 960px) { .skel-mr-layout { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { .skeleton-wrapper.skel-mr { padding: 16px; } }
+
 /* ── NOTIFICATIONS CENTER (notifications.html) ─── */
 .skel-nc-header {
   display: flex;
