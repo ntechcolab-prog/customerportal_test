@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/tables.css">
   <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1239,17 +1240,54 @@
     <span class="breadcrumb-current">CTR-P-2026-001</span>
   </div>
 
+  <!-- SKELETON LOADING STATE -->
+  <div class="skeleton-wrapper skel-detail" aria-hidden="false" role="status" aria-label="Loading contract">
+    <div class="skeleton skel-dt-back"></div>
+    <div class="skel-dt-titlebar">
+      <div class="skeleton skel-dt-title"></div>
+      <div class="skel-dt-actions">
+        <div class="skeleton skel-dt-btn"></div>
+      </div>
+    </div>
+    <div class="skel-dt-two-col">
+      <div class="skel-dt-col">
+        <div class="skel-dt-card">
+          <div class="skeleton skel-dt-card-title"></div>
+          <div class="skeleton skel-dt-row" style="width:60%"></div>
+          <div class="skeleton skel-dt-row" style="width:75%"></div>
+          <div class="skeleton skel-dt-row" style="width:55%"></div>
+          <div class="skeleton skel-dt-row" style="width:70%"></div>
+        </div>
+        <div class="skel-dt-card">
+          <div class="skeleton skel-dt-card-title"></div>
+          <div class="skeleton skel-dt-table-row"></div>
+          <div class="skeleton skel-dt-table-row"></div>
+        </div>
+      </div>
+      <div class="skel-dt-card">
+        <div class="skeleton skel-dt-card-title"></div>
+        <div class="skel-dt-pay-row"><div class="skeleton skel-dt-pay-label"></div><div class="skeleton skel-dt-pay-value"></div></div>
+        <div class="skel-dt-pay-row"><div class="skeleton skel-dt-pay-label"></div><div class="skeleton skel-dt-pay-value"></div></div>
+        <div class="skel-dt-pay-row"><div class="skeleton skel-dt-pay-label"></div><div class="skeleton skel-dt-pay-value"></div></div>
+        <div class="skel-dt-pay-row"><div class="skeleton skel-dt-pay-label"></div><div class="skeleton skel-dt-pay-value"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content">
+
   <!-- MAIN -->
   <main class="main">
 
     <!-- BACK LINK -->
-    <a href="contracts.html" class="back-link">
+    <a href="contracts.html" class="back-link" data-skeleton-stagger>
       <svg viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Back to Contracts
     </a>
 
     <!-- TITLE BAR -->
-    <div class="title-bar">
+    <div class="title-bar" data-skeleton-stagger>
       <div>
         <h1>CTR-P-2026-001</h1>
         <span style="font-size:14px;color:#6b7280;font-weight:400;">Parts Contract — NEOS 10, Instrumentation, Grinding Beads</span>
@@ -1263,7 +1301,7 @@
     </div>
 
     <!-- TWO COLUMN LAYOUT -->
-    <div class="two-col">
+    <div class="two-col" data-skeleton-stagger>
 
       <!-- LEFT COLUMN -->
       <div class="left-col">
@@ -1504,6 +1542,8 @@
     </div>
 
   </main>
+
+  </div><!-- /page-content -->
 
 <script>
 function toggleProfileDropdown(e) {
@@ -1908,6 +1948,7 @@ function sendFromSmallChat() {
 })();
 </script>
 <script src="../assets/role-guard.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 <script src="../assets/request-approval.js"></script>
 </body>
 </html>
