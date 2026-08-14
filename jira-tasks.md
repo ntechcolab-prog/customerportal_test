@@ -1,6 +1,6 @@
 # NETZSCH Customer Portal — Backlog
 
-> Última atualização: 10/08 — UI-01, UI-02, CP-585 e CP-627 concluídas; FIG-01 em 4/13.
+> Última atualização: 14/08 — CP-586 concluída (skeleton em +15 páginas); CP-626 concluída (13/08); FIG-01 em 4/13.
 > Duas frentes: **Sprint do gerente** (HTML/CSS) e **Figma** (mocks & fluxos).
 
 ## 📋 Resumo do backlog
@@ -11,9 +11,9 @@
 | CP-572 | Empty states + telas 404/500 | HTML | ✅ Feito | resíduo inline trivial em ~12 pgs |
 | CP-627 | `modals.css` + `forms.css` | HTML | ✅ Feito | componentes + páginas aplicáveis; shop-product fora por decisão |
 | CP-627b | Modais fase 2 (Service Request + Drawing/Milla) | HTML | 🚧 Parcial | Drawing ✅ + Service Request ✅ em `machine-modals.css`; Milla adiado (entrelaçado/risco de cascata) |
-| CP-626 | Layout novo nas máquinas | HTML | 🔴 Pendente | AlphaZeta10, ProPhi, MasterMix45 |
+| CP-626 | Layout novo nas máquinas | HTML | ✅ Feito | 5 máquinas no template hero-split (13/08) |
 | CP-585 | Skeleton no detalhe de máquina | HTML | ✅ Feito | zeta60/discus30/mastermix45 (classes .skel-machine-* no skeleton.css) |
-| CP-586 | Skeleton no resto | HTML | 🟡 Extra | mapear o que falta |
+| CP-586 | Skeleton no resto | HTML | ✅ Feito | +15 pgs de dados (14/08); auth/registro/confirmação/erros fora por decisão |
 | CP-584 | Contact Support | HTML | ✅ Existe | só revalidar |
 | FIG-01 | Fluxos no Figma (Sections + Prototype) | Figma | 🚧 Em andamento | 4/13: Login, Registro, Orders, Quotes ✅; faltam 9 + índice |
 | DOC-01 | `flows.md` (mapa de fluxos) | Docs | ✅ Feito | manter em sync c/ código+Figma |
@@ -21,6 +21,22 @@
 | UI-02 | Padronizar steps de Orders e Quotes | HTML | ✅ Feito | steppers.css (fita chevron verde) em 4 telas; checkout-quote fora por decisão |
 
 ## ✅ Feito
+
+### CP-586 — Skeleton loading no resto das páginas (14/08)
+- Aplicado em **15 páginas de dados** (padrão: `.skeleton-wrapper` espelha o conteúdo →
+  `skeleton-loader.js` mostra ~1s e revela `.page-content` com stagger):
+  `notifications`, 7× `shop-product-*`, `order-detail`, `quote-detail`,
+  `contract-parts-detail`, `contract-service-detail`, `machine-spare-parts-results`,
+  `machine-subset-inlet-flange`, `profile`.
+- Novos blocos no `skeleton.css`: `.skel-nc-*` (notificações), `.skel-pd-*` (produto),
+  `.skel-dt-*` (detalhe reutilizável order/quote/contract), `.skel-mr-*` (máquina+results),
+  `.skel-pf-*` (profile). Todos colapsam no mobile igual ao layout real.
+- **Fora por decisão** (skeleton em formulário/confirmação = ruído, não polish):
+  auth (`login*`, `forgot/reset-password`, `verify-code`), wizard de registro (16 telas),
+  confirmações (`*-submitted`, `*-confirmation`, `*-email*`), erros (`404`/`500`),
+  formulários puros (`service-request`, `contact-support`), fluxo `checkout-*`.
+- Fix de especificidade: layout do wrapper escopado com `:not([aria-hidden="true"])` p/ o
+  `display:none` de esconder o skeleton vencer.
 
 ### CP-582 — Componente reutilizável de empty state
 - Criado `assets/empty-states.css` (icon + título + descrição + CTA), tokens em `:root`,
