@@ -24,12 +24,12 @@
       'quotes.html', 'quote-detail.html', 'contracts.html',
       'budget.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
-      'admin-requests.html', 'admin-notifications.html'
+      'admin-requests.html', 'admin-notifications.html', 'admin-machines.html'
     ],
     buyer: [
       'lab-tests.html', 'contracts.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
-      'admin-requests.html', 'admin-notifications.html'
+      'admin-requests.html', 'admin-notifications.html', 'admin-machines.html'
     ],
     administrator: [
       'budget.html'
@@ -44,7 +44,7 @@
       'budget.html',
       'lab-tests.html', 'contracts.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
-      'admin-requests.html', 'admin-notifications.html'
+      'admin-requests.html', 'admin-notifications.html', 'admin-machines.html'
     ]
   };
 

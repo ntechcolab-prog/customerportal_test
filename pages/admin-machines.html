@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Management — NETZSCH Customer Portal</title>
+  <title>Machines Management — NETZSCH Customer Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1408,7 +1408,37 @@
       .mobile-nav-drawer,
       .hamburger-line { transition: none; }
     }
-  </style>
+      /* ── Machines Management (Production Lines) ── */
+    .mm-card { background:#fff; border:1px solid rgba(0,0,0,0.06); border-radius:12px; padding:20px 22px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+    .mm-card-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+    .mm-card-title { font-size:16px; font-weight:700; color:#1d1d1f; }
+    .mm-card-sub { font-size:13px; color:#6b7280; margin-top:4px; max-width:62ch; line-height:1.5; }
+    .mm-add-btn { display:inline-flex; align-items:center; gap:6px; background:#007167; color:#fff; border:none; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; border-radius:8px; padding:9px 15px; cursor:pointer; flex-shrink:0; }
+    .mm-add-btn:hover { background:#005f57; }
+    .mm-add-btn svg { width:14px; height:14px; }
+    .mm-addrow { display:flex; gap:8px; align-items:center; margin:16px 0 4px; }
+    .mm-input { height:38px; border:1px solid #007167; border-radius:8px; padding:0 12px; font-family:'Inter',sans-serif; font-size:14px; color:#1d1d1f; outline:none; flex:1; max-width:300px; }
+    .mm-input:focus { box-shadow:0 0 0 3px rgba(0,113,103,0.12); }
+    .mm-save { background:#007167; color:#fff; border:none; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; border-radius:8px; padding:9px 15px; cursor:pointer; }
+    .mm-save:hover { background:#005f57; }
+    .mm-cancel { background:#f3f4f6; color:#5c5f62; border:none; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; border-radius:8px; padding:9px 15px; cursor:pointer; }
+    .mm-cancel:hover { background:#e9ebee; }
+    .mm-err { display:flex; gap:8px; align-items:flex-start; background:#fbeceb; border:1px solid #f3c9c5; color:#8a2a20; font-size:13px; border-radius:8px; padding:10px 12px; margin:14px 0 0; }
+    .mm-addrow[hidden], .mm-err[hidden] { display: none; }
+    .mm-lines { margin-top:14px; }
+    .mm-line { display:flex; align-items:center; gap:14px; padding:14px 4px; border-bottom:1px solid #eaeaea; }
+    .mm-line:last-child { border-bottom:none; }
+    .mm-line-name { font-size:14.5px; font-weight:600; color:#1d1d1f; flex:1; }
+    .mm-line-count { font-size:12.5px; color:#86868b; white-space:nowrap; }
+    .mm-acts { display:flex; gap:6px; }
+    .mm-ic { width:32px; height:32px; border-radius:8px; border:1px solid #eaeaea; background:#fff; display:flex; align-items:center; justify-content:center; color:#5c5f62; cursor:pointer; transition:border-color .15s,color .15s,background .15s; }
+    .mm-ic:hover { border-color:#c4c7ca; color:#1d1d1f; }
+    .mm-ic.danger { color:#b42318; }
+    .mm-ic.danger:hover { border-color:#f3c9c5; background:#fef4f3; }
+    .mm-ic.disabled { opacity:.4; cursor:not-allowed; }
+    .mm-ic.disabled:hover { border-color:#eaeaea; color:#b42318; background:#fff; }
+    .mm-ic svg { width:15px; height:15px; }
+</style>
 </head>
 <body>
 <script src="../assets/gate.js"></script>
@@ -1633,7 +1663,7 @@
       <div class="admin-sidebar-nav">
       <div class="admin-sidebar-label" data-i18n="admin.sidebar.title">Administration</div>
       <nav class="admin-nav">
-        <a href="admin-users.html" class="admin-nav-item active" aria-current="page" data-i18n="admin.sidebar.users">
+        <a href="admin-users.html" class="admin-nav-item" data-i18n="admin.sidebar.users">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM3 14c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -1646,12 +1676,13 @@
           </svg>
           Access &amp; Roles
         </a>
-        <a href="admin-machines.html" class="admin-nav-item" data-i18n="admin.sidebar.machines">
+        <a href="admin-machines.html" class="admin-nav-item active" aria-current="page" data-i18n="admin.sidebar.machines">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <rect x="2" y="3.5" width="12" height="8" rx="1.2" stroke="currentColor" stroke-width="1.4"/>
             <path d="M5.5 14h5M8 11.5V14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
           </svg>
           Machines Management
+
         </a>
         <a href="admin-requests.html" class="admin-nav-item" data-i18n="admin.sidebar.requests">
           <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1708,321 +1739,38 @@
       <!-- PAGE HEADER -->
       <div class="page-header" data-skeleton-stagger>
         <div class="page-header-left">
-          <h1 class="page-title" data-i18n="admin.users.title">Users</h1>
-          <span class="page-subtitle" id="pageSubtitle">8 users, 4 roles</span>
-        </div>
-        <button class="btn-add-user" id="btnAddUser" aria-label="Add new user">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          Add User
-        </button>
-      </div>
-
-      <!-- STAT CARDS -->
-      <div class="stat-cards" data-skeleton-stagger>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M10 10a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5zM3.75 17.5c0-3.45 2.8-6.25 6.25-6.25s6.25 2.8 6.25 6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="stat-info">
-            <div class="stat-value">12</div>
-            <div class="stat-label">Total Users</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M6 10l3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="stat-info">
-            <div class="stat-value">9</div>
-            <div class="stat-label">Active</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M6 10h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="stat-info">
-            <div class="stat-value">2</div>
-            <div class="stat-label">Inactive</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <circle cx="10" cy="10" r="6.5" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M10 6.5v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="stat-info">
-            <div class="stat-value">1</div>
-            <div class="stat-label">Pending</div>
-          </div>
+          <h1 class="page-title" data-i18n="admin.machines.title">Machines Management</h1>
+          <span class="page-subtitle" id="mmSubtitle">6 machines · 5 lines · 1 without line</span>
         </div>
       </div>
 
-      <!-- FILTER BAR (search + pills, integrated toolbar) -->
-      <div class="filter-bar" data-skeleton-stagger>
-        <div class="filter-search">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <input type="text" id="filterSearch" placeholder="Search user, email, role..." aria-label="Search users" data-i18n-placeholder="admin.users.searchPlaceholder">
-        </div>
-        <div class="filter-divider"></div>
-        <div class="filter-pills" id="filterPills">
-          <button class="filter-pill active" data-status="">All <span class="pill-count" id="countAll"></span></button>
-          <button class="filter-pill" data-status="active">Active <span class="pill-count" id="countActive"></span></button>
-          <button class="filter-pill" data-status="inactive">Inactive <span class="pill-count" id="countInactive"></span></button>
-          <button class="filter-pill" data-status="pending">Pending <span class="pill-count" id="countPending"></span></button>
-        </div>
-      </div>
-
-      <!-- USERS TABLE -->
-      <div class="table-card" data-skeleton-stagger>
-        <table class="users-table" aria-label="Users list">
-          <thead>
-            <tr>
-              <th class="col-check"><input type="checkbox" class="row-checkbox" id="selectAll" aria-label="Select all users"></th>
-              <th class="col-user"><span class="th-sortable"><span data-i18n="admin.users.user">User</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th class="col-email"><span class="th-sortable"><span data-i18n="admin.users.email">Email</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th class="col-role"><span class="th-sortable"><span data-i18n="admin.users.role">Role</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th class="col-status"><span class="th-sortable"><span data-i18n="admin.users.status">Status</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th class="col-active"><span class="th-sortable"><span data-i18n="admin.users.lastActive">Last Active</span> <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
-              <th class="col-actions" aria-label="Actions" data-i18n-aria-label="common.actions"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- John Doe -->
-            <tr>
-              <td><input type="checkbox" class="row-checkbox" aria-label="Select John Doe"></td>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar-circle" style="background:#007167">JD</div>
-                  <div>
-                    <div class="user-name">John Doe</div>
-                    <div class="user-dept">Operations</div>
-                  </div>
-                </div>
-              </td>
-              <td>john.doe@acme-corp.com</td>
-              <td><span class="role-special">Administrator</span></td>
-              <td><span class="status-badge status-active" data-i18n="status.active">Active</span></td>
-              <td class="last-active">2 min ago</td>
-              <td><button class="actions-btn" aria-label="Actions for John Doe">...</button></td>
-            </tr>
-            <!-- Noah Anderson -->
-            <tr>
-              <td><input type="checkbox" class="row-checkbox" aria-label="Select Noah Anderson"></td>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar-circle" style="background:#22c55e">NA</div>
-                  <div>
-                    <div class="user-name">Noah Anderson</div>
-                    <div class="user-dept">Procurement</div>
-                  </div>
-                </div>
-              </td>
-              <td>noah.anderson@acme-corp.com</td>
-              <td>Buyer</td>
-              <td><span class="status-badge status-active" data-i18n="status.active">Active</span></td>
-              <td class="last-active">1 hour ago</td>
-              <td><button class="actions-btn" aria-label="Actions for Noah Anderson">...</button></td>
-            </tr>
-            <!-- Liam Harris -->
-            <tr>
-              <td><input type="checkbox" class="row-checkbox" aria-label="Select Liam Harris"></td>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar-circle" style="background:#f97316">LH</div>
-                  <div>
-                    <div class="user-name">Liam Harris</div>
-                    <div class="user-dept">Procurement</div>
-                  </div>
-                </div>
-              </td>
-              <td>liam.harris@acme-corp.com</td>
-              <td>Buyer</td>
-              <td><span class="status-badge status-inactive" data-i18n="status.inactive">Inactive</span></td>
-              <td class="last-active">30 days ago</td>
-              <td><button class="actions-btn" aria-label="Actions for Liam Harris">...</button></td>
-            </tr>
-            <!-- Mason Clark -->
-            <tr>
-              <td><input type="checkbox" class="row-checkbox" aria-label="Select Mason Clark"></td>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar-circle" style="background:#007167">MC</div>
-                  <div>
-                    <div class="user-name">Mason Clark</div>
-                    <div class="user-dept">Finance</div>
-                  </div>
-                </div>
-              </td>
-              <td>mason.clark@acme-corp.com</td>
-              <td><span class="role-special">Approver</span></td>
-              <td><span class="status-badge status-active" data-i18n="status.active">Active</span></td>
-              <td class="last-active">5 min ago</td>
-              <td><button class="actions-btn" aria-label="Actions for Mason Clark">...</button></td>
-            </tr>
-            <!-- Logan Thompson -->
-            <tr>
-              <td><input type="checkbox" class="row-checkbox" aria-label="Select Logan Thompson"></td>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar-circle" style="background:#3b82f6">LT</div>
-                  <div>
-                    <div class="user-name">Logan Thompson</div>
-                    <div class="user-dept">Engineering</div>
-                  </div>
-                </div>
-              </td>
-              <td>logan.thompson@acme-corp.com</td>
-              <td>Buyer</td>
-              <td><span class="status-badge status-active" data-i18n="status.active">Active</span></td>
-              <td class="last-active">3 hours ago</td>
-              <td><button class="actions-btn" aria-label="Actions for Logan Thompson">...</button></td>
-            </tr>
-            <!-- William Parker -->
-            <tr>
-              <td><input type="checkbox" class="row-checkbox" aria-label="Select William Parker"></td>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar-circle" style="background:#a855f7">WP</div>
-                  <div>
-                    <div class="user-name">William Parker</div>
-                    <div class="user-dept">Quality</div>
-                  </div>
-                </div>
-              </td>
-              <td>william.parker@acme-corp.com</td>
-              <td><span class="role-special">Technician</span></td>
-              <td><span class="status-badge status-pending" data-i18n="status.pendingInvitation">Pending Invitation</span></td>
-              <td class="last-active">Never</td>
-              <td><button class="actions-btn" aria-label="Actions for William Parker">...</button></td>
-            </tr>
-            <!-- James Cooper -->
-            <tr>
-              <td><input type="checkbox" class="row-checkbox" aria-label="Select James Cooper"></td>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar-circle" style="background:#22c55e">JC</div>
-                  <div>
-                    <div class="user-name">James Cooper</div>
-                    <div class="user-dept">Finance</div>
-                  </div>
-                </div>
-              </td>
-              <td>james.cooper@acme-corp.com</td>
-              <td><span class="role-special">Approver</span></td>
-              <td><span class="status-badge status-active" data-i18n="status.active">Active</span></td>
-              <td class="last-active">15 min ago</td>
-              <td><button class="actions-btn" aria-label="Actions for James Cooper">...</button></td>
-            </tr>
-            <!-- Benjamin Reed -->
-            <tr>
-              <td><input type="checkbox" class="row-checkbox" aria-label="Select Benjamin Reed"></td>
-              <td>
-                <div class="user-cell">
-                  <div class="user-avatar-circle" style="background:#007167">BR</div>
-                  <div>
-                    <div class="user-name">Benjamin Reed</div>
-                    <div class="user-dept">Procurement</div>
-                  </div>
-                </div>
-              </td>
-              <td>benjamin.reed@acme-corp.com</td>
-              <td>Buyer</td>
-              <td><span class="status-badge status-active" data-i18n="status.active">Active</span></td>
-              <td class="last-active">2 days ago</td>
-              <td><button class="actions-btn" aria-label="Actions for Benjamin Reed">...</button></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="empty-state" id="emptyState" hidden>
-          <div class="empty-state-icon">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <!-- PRODUCTION LINES -->
+      <div class="mm-card" data-skeleton-stagger>
+        <div class="mm-card-head">
+          <div>
+            <h2 class="mm-card-title" data-i18n="admin.machines.linesTitle">Production Lines</h2>
+            <p class="mm-card-sub" data-i18n="admin.machines.linesSub">Create and manage the production lines that machines can be assigned to. Renaming a line updates every machine on it.</p>
           </div>
-          <p class="empty-state-title" data-i18n="common.noResults">No results found</p>
-          <p class="empty-state-desc" data-i18n="common.noResultsDesc">Try adjusting your search or filters</p>
+          <button type="button" class="mm-add-btn" id="mmAddBtn">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <span data-i18n="admin.machines.addLine">Add line</span>
+          </button>
         </div>
 
-        <!-- PAGINATION -->
-        <div class="pagination" id="paginationWrap">
-          <span class="pagination-info" id="paginationInfo">Showing 1–8 of 12 users</span>
-          <div class="pagination-controls">
-            <button class="page-btn disabled" aria-label="Previous page">
-              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="page-btn active" aria-label="Page 1" aria-current="page">1</button>
-            <button class="page-btn" aria-label="Page 2">2</button>
-            <button class="page-btn" aria-label="Next page">
-              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </div>
+        <div class="mm-addrow" id="mmAddRow" hidden>
+          <input type="text" id="mmAddInput" class="mm-input" placeholder="New line name" data-i18n-placeholder="admin.machines.newLinePlaceholder" maxlength="40" aria-label="New line name">
+          <button type="button" class="mm-save" id="mmAddSave" data-i18n="admin.machines.save">Save</button>
+          <button type="button" class="mm-cancel" id="mmAddCancel" data-i18n="admin.machines.cancel">Cancel</button>
         </div>
+
+        <div class="mm-err" id="mmErr" hidden><span aria-hidden="true">⛔</span><span id="mmErrText"></span></div>
+
+        <div class="mm-lines" id="mmLines"></div>
       </div>
 
       </div><!-- .page-content -->
 
     </main>
-  </div>
-
-  <!-- ADD USER MODAL -->
-  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-header-text">
-          <h2 id="modalTitle">Invite New User</h2>
-          <p>Send an invitation to join your organization.</p>
-        </div>
-        <button class="modal-close" id="modalClose" aria-label="Close modal">
-          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label" for="email">Email Address</label>
-          <input class="form-input" type="email" id="email" placeholder="e.g. maria.schmidt@company.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="role">Role</label>
-          <select class="form-select" id="role">
-            <option value="" disabled selected>Select a role</option>
-            <option>Administrator</option>
-            <option>Buyer</option>
-            <option>Approver</option>
-            <option>Technician</option>
-          </select>
-        </div>
-        <div class="info-banner">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/>
-            <path d="M8 5v1M8 7.5v3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-          </svg>
-          <span>An invitation email will be sent to this address. The user will need to complete registration to access the portal.</span>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary btn-md btn-modal-cancel" id="btnCancel">Cancel</button>
-        <button class="btn btn-primary btn-md">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M14 2L7 9M14 2l-4.5 12-2-5.5L2 6l12-4z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Send Invitation
-        </button>
-      </div>
-    </div>
   </div>
 
 <script>
@@ -2043,108 +1791,94 @@ document.addEventListener('click', function(e) {
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
 </script>
-  <script>
-    // Modal open/close
-    const modalOverlay = document.getElementById('modalOverlay');
-    const btnAddUser = document.getElementById('btnAddUser');
-    const modalClose = document.getElementById('modalClose');
-    const btnCancel = document.getElementById('btnCancel');
+<script src="../assets/machine-lines.js"></script>
+<script>
+  // ── Machines Management — Production Lines CRUD ──
+  (function () {
+    var linesEl = document.getElementById('mmLines');
+    if (!linesEl || !window.MachineLines) return;
+    var subtitle = document.getElementById('mmSubtitle');
+    var addBtn = document.getElementById('mmAddBtn');
+    var addRow = document.getElementById('mmAddRow');
+    var addInput = document.getElementById('mmAddInput');
+    var addSave = document.getElementById('mmAddSave');
+    var addCancel = document.getElementById('mmAddCancel');
+    var errBox = document.getElementById('mmErr');
+    var errText = document.getElementById('mmErrText');
+    var T = (window.NetzschI18n && NetzschI18n.t) ? function (k, d) { return NetzschI18n.t(k, d); } : function (k, d) { return d; };
 
-    function openModal() {
-      modalOverlay.classList.add('visible');
-      document.body.style.overflow = 'hidden';
-      modalClose.focus();
+    var penSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg>';
+    var trashSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>';
+
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function showErr(msg) { errText.textContent = msg; errBox.hidden = false; }
+    function clearErr() { errBox.hidden = true; }
+
+    function render() {
+      clearErrIfRerender();
+      var lines = MachineLines.getLines();
+      var machines = MachineLines.getMachines();
+      var unassigned = MachineLines.unassignedCount();
+      subtitle.textContent = machines.length + ' ' + T('admin.machines.machinesWord', 'machines') + ' · ' +
+        lines.length + ' ' + T('admin.machines.linesWord', 'lines') + ' · ' +
+        unassigned + ' ' + T('admin.machines.withoutLine', 'without line');
+      linesEl.innerHTML = lines.map(function (name) {
+        var count = MachineLines.countForLine(name);
+        var word = count === 1 ? T('admin.machines.machineWord', 'machine') : T('admin.machines.machinesWord', 'machines');
+        return '<div class="mm-line" data-name="' + esc(name) + '">' +
+          '<span class="mm-line-name">' + esc(name) + '</span>' +
+          '<span class="mm-line-count">' + count + ' ' + word + '</span>' +
+          '<div class="mm-acts">' +
+            '<button type="button" class="mm-ic" data-act="rename" aria-label="Rename line">' + penSvg + '</button>' +
+            '<button type="button" class="mm-ic danger" data-act="delete" aria-label="Delete line">' + trashSvg + '</button>' +
+          '</div></div>';
+      }).join('');
     }
-    function closeModal() {
-      modalOverlay.classList.remove('visible');
-      document.body.style.overflow = '';
-      btnAddUser.focus();
+    var _rerender = false;
+    function clearErrIfRerender() { if (_rerender) clearErr(); }
+
+    // Add line
+    addBtn.addEventListener('click', function () { addRow.hidden = false; addInput.value = ''; addInput.focus(); clearErr(); });
+    addCancel.addEventListener('click', function () { addRow.hidden = true; clearErr(); });
+    function doAdd() {
+      var r = MachineLines.addLine(addInput.value);
+      if (!r.ok) { showErr(r.err === 'dup' ? T('admin.machines.errDup', 'That line already exists.') : T('admin.machines.errEmpty', 'Enter a line name.')); return; }
+      addRow.hidden = true; _rerender = true; render(); _rerender = false;
     }
+    addSave.addEventListener('click', doAdd);
+    addInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); doAdd(); } if (e.key === 'Escape') { addRow.hidden = true; clearErr(); } });
 
-    btnAddUser.addEventListener('click', openModal);
-    modalClose.addEventListener('click', closeModal);
-    btnCancel.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', function(e) {
-      if (e.target === modalOverlay) closeModal();
-    });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) closeModal();
-    });
-
-    // ── Quick filter pills + search ──
-    var filterSearch = document.getElementById('filterSearch');
-    var pills = document.querySelectorAll('.filter-pill');
-    var activeStatus = '';
-
-    function getRowStatus(row) {
-      var badge = row.querySelector('.status-badge');
-      if (!badge) return '';
-      var classes = badge.className;
-      var m = classes.match(/status-(\w+)/g);
-      if (!m) return '';
-      for (var i = 0; i < m.length; i++) {
-        var s = m[i].replace('status-', '');
-        if (s !== 'badge') return s;
+    // Rename / delete (delegated)
+    linesEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('.mm-ic'); if (!btn) return;
+      var rowEl = btn.closest('.mm-line'); var name = rowEl.dataset.name; var act = btn.dataset.act;
+      if (act === 'delete') {
+        var r = MachineLines.deleteLine(name);
+        if (!r.ok) { showErr('“' + name + '” ' + T('admin.machines.errHasMachines', 'still has machines. Move them to another line first.')); return; }
+        _rerender = true; render(); _rerender = false;
+      } else if (act === 'rename') {
+        startRename(rowEl, name);
       }
-      return '';
+    });
+    function startRename(rowEl, name) {
+      clearErr();
+      rowEl.innerHTML = '<input class="mm-input mm-rn-input" type="text" value="' + esc(name) + '" maxlength="40" aria-label="Line name">' +
+        '<div class="mm-acts"><button type="button" class="mm-save mm-rn-save" data-i18n="admin.machines.save">' + T('admin.machines.save', 'Save') + '</button>' +
+        '<button type="button" class="mm-cancel mm-rn-cancel" data-i18n="admin.machines.cancel">' + T('admin.machines.cancel', 'Cancel') + '</button></div>';
+      var inp = rowEl.querySelector('.mm-rn-input'); inp.focus(); inp.select();
+      function commit() {
+        var r = MachineLines.renameLine(name, inp.value);
+        if (!r.ok) { showErr(r.err === 'dup' ? T('admin.machines.errDup', 'That line already exists.') : T('admin.machines.errEmpty', 'Enter a line name.')); return; }
+        _rerender = true; render(); _rerender = false;
+      }
+      rowEl.querySelector('.mm-rn-save').addEventListener('click', commit);
+      rowEl.querySelector('.mm-rn-cancel').addEventListener('click', function () { render(); });
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); commit(); } if (e.key === 'Escape') { render(); } });
     }
 
-    function countByStatus() {
-      var rows = document.querySelectorAll('.users-table tbody tr');
-      var counts = { all: rows.length, active: 0, inactive: 0, pending: 0 };
-      rows.forEach(function(row) {
-        var s = getRowStatus(row);
-        if (counts[s] !== undefined) counts[s]++;
-      });
-      document.getElementById('countAll').textContent = counts.all;
-      document.getElementById('countActive').textContent = counts.active;
-      document.getElementById('countInactive').textContent = counts.inactive;
-      document.getElementById('countPending').textContent = counts.pending;
-    }
-
-    function applyFilters() {
-      var searchVal = filterSearch.value.toLowerCase().trim();
-      var rows = document.querySelectorAll('.users-table tbody tr');
-      var visible = 0;
-      rows.forEach(function(row) {
-        var rowStatus = getRowStatus(row);
-        var rowText = row.textContent.toLowerCase();
-        var show = true;
-        if (activeStatus && rowStatus !== activeStatus) show = false;
-        if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
-        row.style.display = show ? '' : 'none';
-        if (show) visible++;
-      });
-      document.getElementById('emptyState').hidden = visible > 0;
-      document.getElementById('paginationWrap').style.display = visible > 0 ? '' : 'none';
-      document.getElementById('paginationInfo').textContent = 'Showing ' + (visible > 0 ? '1\u2013' + visible : '0') + ' of ' + visible + ' users';
-    }
-
-    pills.forEach(function(pill) {
-      pill.addEventListener('click', function() {
-        pills.forEach(function(p) { p.classList.remove('active'); });
-        pill.classList.add('active');
-        activeStatus = pill.dataset.status;
-        applyFilters();
-      });
-    });
-
-    filterSearch.addEventListener('input', applyFilters);
-    countByStatus();
-
-    // Select all checkbox
-    const selectAll = document.getElementById('selectAll');
-    const rowCheckboxes = document.querySelectorAll('tbody .row-checkbox');
-
-    selectAll.addEventListener('change', function() {
-      rowCheckboxes.forEach(function(cb) { cb.checked = selectAll.checked; });
-    });
-    rowCheckboxes.forEach(function(cb) {
-      cb.addEventListener('change', function() {
-        selectAll.checked = Array.from(rowCheckboxes).every(function(c) { return c.checked; });
-      });
-    });
-  </script>
+    render();
+  })();
+</script>
 <script>
 (function() {
   var cartDropdown = document.getElementById('cart-dropdown');
