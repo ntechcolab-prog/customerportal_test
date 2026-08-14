@@ -489,6 +489,30 @@
 
 .skel-notif-section::after { display: none; }
 
+/* ── DETAIL PAGES (order/quote/contract detail) ─── */
+.skeleton-wrapper.skel-detail { padding: 24px 32px 48px; }
+.skeleton-wrapper.skel-detail:not([aria-hidden="true"]) { display: flex; flex-direction: column; gap: 16px; }
+.skel-dt-back { height: 14px; width: 110px; }
+.skel-dt-titlebar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.skel-dt-title { height: 28px; width: 240px; }
+.skel-dt-actions { display: flex; gap: 10px; }
+.skel-dt-btn { height: 34px; width: 120px; border-radius: 8px; }
+.skel-dt-card { background: #fff; border: 1px solid #eaeaea; border-radius: 12px; padding: 20px; }
+.skel-dt-card-title { height: 16px; width: 160px; margin-bottom: 16px; }
+.skel-dt-steps { display: flex; gap: 8px; }
+.skel-dt-step { height: 30px; flex: 1; border-radius: 6px; }
+.skel-dt-two-col { display: grid; grid-template-columns: 1fr 360px; gap: 16px; align-items: start; }
+.skel-dt-col { display: flex; flex-direction: column; gap: 16px; }
+.skel-dt-row { height: 14px; margin-bottom: 12px; }
+.skel-dt-table-row { height: 44px; border-radius: 6px; margin-bottom: 8px; }
+.skel-dt-pay-row { display: flex; justify-content: space-between; margin-bottom: 14px; }
+.skel-dt-pay-label { height: 13px; width: 90px; }
+.skel-dt-pay-value { height: 13px; width: 60px; }
+@media (max-width: 768px) {
+  .skeleton-wrapper.skel-detail { padding: 16px; }
+  .skel-dt-two-col { grid-template-columns: 1fr; }
+}
+
 /* ── NOTIFICATIONS CENTER (notifications.html) ─── */
 .skel-nc-header {
   display: flex;
