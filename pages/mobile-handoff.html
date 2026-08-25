@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#007167">
+<title>Continue on phone — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .topbar {
+    background: #007167;
+    padding: calc(11px + env(safe-area-inset-top)) 18px 11px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topbar img { height: 17px; display: block; }
+  .topbar-tag {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  main { flex: 1; padding: 18px 16px 8px; max-width: 620px; width: 100%; margin: 0 auto; }
+
+  /* ── contexto recebido ── */
+  .ctx {
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 14px;
+    padding: 18px;
+  }
+  .ctx-from {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #535356;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ctx-from::before {
+    content: "";
+    width: 5px; height: 5px; border-radius: 50%;
+    background: #0b9c92; flex-shrink: 0;
+  }
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    line-height: 1.2;
+    margin-top: 9px;
+  }
+  .ctx-sub { font-size: 13.5px; color: #535356; margin-top: 5px; }
+  .ctx-session {
+    margin-top: 15px;
+    padding-top: 14px;
+    border-top: 1px solid #f0f1f2;
+    font-size: 12px;
+    color: #535356;
+  }
+  .ctx-session strong { color: #3d4246; font-weight: 600; }
+
+  h2 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #535356;
+    margin: 26px 2px 9px;
+  }
+
+  /* ── peças: uma lista, não vários cards ── */
+  .parts {
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .part {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-top: 1px solid #f2f3f3;
+  }
+  .part:first-child { border-top: 0; }
+
+  .part-pos {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: #535356;
+    font-variant-numeric: tabular-nums;
+    width: 24px;
+  }
+  .part-body { flex: 1; min-width: 0; }
+  .part-name {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    line-height: 1.3;
+  }
+  .part-code {
+    font-size: 13px;
+    color: #535356;
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .part-right { text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+  .part-price {
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .part-price.quote { color: #535356; font-weight: 500; font-size: 12px; }
+
+  .copy {
+    border: 1px solid #e2e4e5;
+    background: #fff;
+    border-radius: 7px;
+    padding: 0 10px;
+    height: 30px;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #535356;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .copy:active { background: #e6f0ef; border-color: #007167; color: #007167; }
+  .copy.is-done { color: #007167; border-color: #007167; }
+
+  /* ── expirado ── */
+  .expired {
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 14px;
+    padding: 30px 22px;
+    text-align: center;
+  }
+  .expired svg { width: 30px; height: 30px; color: #c9704a; margin-bottom: 12px; }
+  .expired h1 { font-size: 19px; margin: 0 0 7px; }
+  .expired p { font-size: 13.5px; color: #535356; line-height: 1.55; max-width: 34ch; margin: 0 auto; }
+
+  .note {
+    margin: 22px 2px 0;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: #535356;
+  }
+  .note strong { font-weight: 700; color: #6e7276; }
+
+  footer {
+    padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+    text-align: center;
+    font-size: 10.5px;
+    letter-spacing: 0.03em;
+    color: #535356;
+  }
+
+  :focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · handoff prototype</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // Catálogo mínimo, com os dados que já existem nas telas do protótipo.
+  var DATA = {
+    'inlet-flange': {
+      machine: 'Discus 30', title: 'Inlet Flange Complete', sub: 'Subset parts list',
+      parts: [
+        { pos: '900', code: '517225', name: 'O-Ring', price: '€30.00' },
+        { pos: '901', code: '535214', name: 'O-ring - CERTS', price: '€30.00' },
+        { pos: '902', code: '535841', name: 'O-ring', price: '€30.00' },
+        { pos: '903', code: '545802', name: 'O-ring', price: '€45.00' },
+        { pos: '904', code: '528256', name: 'O-Ring', price: null }
+      ]
+    },
+    'spare-parts': {
+      machine: 'Zeta 60', title: 'Spare parts', sub: 'Search results',
+      parts: [
+        { pos: '801', code: '140045213', name: 'Ring - AISI 304', price: '€75.89' },
+        { pos: '802', code: '140023995', name: 'Ring for inner pipe', price: null }
+      ]
+    },
+    'zeta60': {
+      machine: 'Zeta 60', title: 'Zeta 60', sub: 'Machine details',
+      parts: [
+        { pos: '801', code: '140045213', name: 'Ring - AISI 304', price: '€75.89' },
+        { pos: '802', code: '140023995', name: 'Ring for inner pipe', price: null }
+      ]
+    },
+    'discus30': {
+      machine: 'Discus 30', title: 'Discus 30', sub: 'Machine details',
+      parts: [
+        { pos: '900', code: '517225', name: 'O-Ring', price: '€30.00' },
+        { pos: '903', code: '545802', name: 'O-ring', price: '€45.00' }
+      ]
+    }
+  };
+
+  function param(n) { return new URLSearchParams(window.location.search).get(n); }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  var app = document.getElementById('app');
+  var ctxKey = param('ctx') || param('m') || 'zeta60';
+  var ctx = DATA[ctxKey] || DATA['zeta60'];
+  var exp = parseInt(param('exp') || '0', 10);
+
+  if (exp > 0 && (Date.now() / 1000) > exp) {
+    app.innerHTML =
+      '<div class="expired">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+        'stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/>' +
+        '<path d="M12 7v5l3 2"/></svg>' +
+        '<h1>This link has expired</h1>' +
+        '<p>Handoff codes are short-lived. Generate a new one on your computer.</p>' +
+      '</div>' +
+      '<p class="note"><strong>Protótipo de descoberta.</strong> A expiração aqui é só o ' +
+      'parâmetro da URL. Como o token é emitido, escopado e revogado de verdade é a ' +
+      'pergunta do spike CP-640.</p>';
+    return;
+  }
+
+  var parts = ctx.parts.map(function (p) {
+    return '<div class="part">' +
+        '<div class="part-pos">' + esc(p.pos) + '</div>' +
+        '<div class="part-body">' +
+          '<div class="part-name">' + esc(p.name) + '</div>' +
+          '<div class="part-code">' + esc(p.code) + '</div>' +
+        '</div>' +
+        '<div class="part-right">' +
+          (p.price
+            ? '<span class="part-price">' + esc(p.price) + '</span>'
+            : '<span class="part-price quote">Quotation only</span>') +
+          '<button type="button" class="copy" data-code="' + esc(p.code) + '">Copy</button>' +
+        '</div>' +
+      '</div>';
+  }).join('');
+
+  app.innerHTML =
+    '<div class="ctx">' +
+      '<div class="ctx-from">From your computer</div>' +
+      '<h1>' + esc(ctx.title) + '</h1>' +
+      '<div class="ctx-sub">' + esc(ctx.machine) + ' · ' + esc(ctx.sub) + '</div>' +
+      '<div class="ctx-session">Signed in as <strong>Technician</strong>, no new login</div>' +
+    '</div>' +
+    '<h2>Parts</h2>' +
+    '<div class="parts">' + parts + '</div>' +
+    '<p class="note"><strong>Protótipo de descoberta (CP-638).</strong> Prova a jornada: ' +
+    'o desktop passou o contexto e o telefone abriu na tela certa. Não prova a sessão — ' +
+    'nenhum login real aconteceu aqui, e é isso que o spike CP-640 precisa responder ' +
+    'com o time de plataforma.</p>';
+
+  app.addEventListener('click', function (e) {
+    var btn = e.target.closest('.copy');
+    if (!btn) return;
+    var done = function () {
+      btn.textContent = 'Copied';
+      btn.classList.add('is-done');
+      setTimeout(function () {
+        btn.textContent = 'Copy';
+        btn.classList.remove('is-done');
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(btn.getAttribute('data-code')).then(done, done);
+    } else { done(); }
+  });
+})();
+</script>
+</body>
+</html>

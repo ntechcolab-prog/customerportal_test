@@ -1,0 +1,202 @@
+/* handoff.css — desktop → celular.
+   Protótipo de descoberta (CP-638/640).
+   Tokens do portal: verdes #007167 / #0b9c92, neutros sóbrios, Inter.
+   Sem cor decorativa, sem gradiente, sem ornamento — sobriedade industrial. */
+
+/* ── gatilho ─────────────────────────────────────────────── */
+
+.ho-titlerow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+.ho-titlerow > h1 { margin-bottom: 0; }
+
+.ho-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+  order: 99;                       /* encosta na direita mesmo com irmãos depois */
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 0 13px 0 11px;
+  border-radius: 8px;
+  border: 1px solid #d7d9db;
+  background: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: #3d4246;
+  cursor: pointer;
+  transition: border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+}
+.ho-trigger:hover { border-color: #007167; color: #007167; background: #f4f8f7; }
+.ho-trigger:active { background: #e6f0ef; }
+.ho-trigger:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
+.ho-ico { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.75; }
+.ho-trigger:hover .ho-ico { opacity: 1; }
+
+/* ── modal ───────────────────────────────────────────────── */
+
+.ho-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 26, 27, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ho-overlay.is-open { opacity: 1; pointer-events: auto; }
+
+.ho-dialog {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 24px 56px rgba(0, 0, 0, 0.22);
+  width: 100%;
+  max-width: 396px;
+  padding: 26px 26px 22px;
+  transform: translateY(10px) scale(0.985);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+.ho-overlay.is-open .ho-dialog { transform: none; }
+
+.ho-head { display: flex; align-items: flex-start; gap: 12px; }
+.ho-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #1d1d1f;
+  letter-spacing: -0.022em;
+  line-height: 1.25;
+  margin: 0;
+  flex: 1;
+}
+.ho-close {
+  border: 0; background: transparent; cursor: pointer;
+  width: 32px; height: 32px; margin: -6px -8px 0 0; flex-shrink: 0;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  color: #535356; transition: background 0.15s ease, color 0.15s ease;
+}
+.ho-close svg { width: 16px; height: 16px; }
+.ho-close:hover { background: #f0f1f2; color: #1d1d1f; }
+.ho-close:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
+
+.ho-sub {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #535356;
+  margin: 7px 0 20px;
+  max-width: 44ch;
+}
+
+/* QR — a moldura é o assunto da tela, então respira mais que o resto */
+.ho-qr-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 20px 18px;
+  background: #f7f8f8;
+  border: 1px solid #eaeaea;
+  border-radius: 14px;
+}
+.ho-qr {
+  width: 190px; height: 190px;
+  padding: 11px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.ho-qr svg { width: 100%; height: 100%; display: block; }
+
+.ho-meta { text-align: center; margin-top: 16px; }
+.ho-ctx {
+  font-size: 13px; font-weight: 600; color: #1d1d1f;
+  letter-spacing: -0.008em; margin: 0;
+}
+.ho-expiry {
+  font-size: 12px; color: #535356; margin: 3px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+.ho-expiry.is-expired { color: #96332b; font-weight: 600; }
+
+.ho-regen {
+  margin-top: 15px; min-height: 34px; padding: 0 15px;
+  border-radius: 7px; border: 1px solid #d7d9db; background: #fff;
+  font-family: inherit; font-size: 12.5px; font-weight: 600; color: #3d4246;
+  cursor: pointer; transition: border-color 0.16s ease, color 0.16s ease;
+}
+.ho-regen:hover { border-color: #007167; color: #007167; }
+.ho-regen:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
+
+/* passos — numeração sem círculo pesado, ritmo apertado */
+.ho-steps { margin: 20px 0 0; padding: 0; list-style: none; counter-reset: ho; }
+.ho-steps li {
+  counter-increment: ho;
+  position: relative;
+  padding-left: 26px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #3d4246;
+  margin-bottom: 7px;
+}
+.ho-steps li:last-child { margin-bottom: 0; }
+.ho-steps li::before {
+  content: counter(ho) ".";
+  position: absolute; left: 0; top: 0;
+  color: #007167; font-weight: 700; font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ho-note {
+  margin: 20px -26px -22px;
+  padding: 15px 26px 18px;
+  border-top: 1px solid #eaeaea;
+  background: #fbfbfb;
+  border-radius: 0 0 18px 18px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #535356;
+}
+.ho-note strong { font-weight: 700; color: #4a4e51; }
+
+.ho-fallback {
+  margin: 14px 0 0;
+  font-size: 11.5px;
+  color: #535356;
+  line-height: 1.5;
+}
+.ho-fallback a { color: #007167; word-break: break-all; }
+
+.ho-warn {
+  margin: 4px 0 0;
+  padding: 14px 15px;
+  background: #fbf7e8;
+  border: 1px solid #efe4bf;
+  border-radius: 10px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #6b5a1f;
+}
+.ho-warn code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px;
+  background: rgba(0,0,0,0.05);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+@media (max-width: 640px) {
+  .ho-titlerow { flex-wrap: wrap; gap: 10px; }
+  .ho-trigger { margin-left: 0; order: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ho-overlay, .ho-dialog, .ho-trigger, .ho-close, .ho-regen { transition: none; }
+}

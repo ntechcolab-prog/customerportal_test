@@ -1735,6 +1735,7 @@
       .hamburger-line { transition: none; }
     }
   </style>
+  <link rel="stylesheet" href="../assets/handoff.css">
 </head>
 <body>
 <script src="../assets/i18n.js"></script>
@@ -1952,7 +1953,7 @@
       <!-- Right — Info + Actions -->
       <div class="hero-info" id="hero-info">
         <span class="hero-line-badge">BLACK PRODUCTION ONLY</span>
-        <h1 class="hero-machine-name">Zeta 60</h1>
+        <div class="ho-titlerow"><h1 class="hero-machine-name">Zeta 60</h1><button type="button" class="ho-trigger" data-handoff="zeta60"><svg class="ho-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg><span>Open on phone</span></button></div>
         <span class="hero-serial">SN: 15202531-10 · Brazil · Jun 2024</span>
 
         <div class="hero-divider"></div>
@@ -2934,5 +2935,7 @@ document.addEventListener('click', function(e) {
 <script src="../assets/hourmeter.js"></script>
 <script src="../assets/machine-line-edit.js"></script>
 <script src="../assets/skeleton-loader.js"></script>
+  <script src="../assets/qr.js"></script>
+  <script src="../assets/handoff.js"></script>
 </body>
 </html>
