@@ -74,27 +74,17 @@
     '.hm-save svg, .hm-cancel svg { width:11px; height:11px; }',
     '.hourmeter-toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:#007167; color:#fff; padding:12px 24px; border-radius:10px; font-family:"Inter",sans-serif; font-size:14px; font-weight:500; box-shadow:0 8px 24px rgba(0,0,0,0.15); z-index:600; opacity:0; transition:transform 0.3s cubic-bezier(0.32,0.72,0,1), opacity 0.3s ease; pointer-events:none; }',
     '.hourmeter-toast.show { transform:translateX(-50%) translateY(0); opacity:1; }',
-    /* ── Confirmation modal ── */
-    '.hm-modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:700; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.2s ease; }',
-    '.hm-modal-overlay.show { opacity:1; pointer-events:auto; }',
-    '.hm-modal { background:#fff; border-radius:14px; width:440px; max-width:90vw; box-shadow:0 25px 50px rgba(0,0,0,0.25); transform:scale(0.96); transition:transform 0.2s ease; overflow:hidden; }',
-    '.hm-modal-overlay.show .hm-modal { transform:scale(1); }',
-    '.hm-modal-header { display:flex; align-items:center; gap:12px; padding:22px 24px 0; }',
-    '.hm-modal-icon { width:40px; height:40px; border-radius:50%; background:#e5f5f4; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#007167; }',
-    '.hm-modal-icon svg { width:20px; height:20px; }',
-    '.hm-modal-title { font-size:17px; font-weight:700; color:#1f2937; letter-spacing:-0.2px; }',
-    '.hm-modal-body { padding:14px 24px 4px; font-size:14px; color:#4b5563; line-height:21px; }',
-    '.hm-modal-change { display:flex; align-items:center; gap:12px; margin:16px 0 4px; padding:12px 16px; background:#f8f9fa; border-radius:10px; font-variant-numeric:tabular-nums; }',
-    '.hm-modal-change .hm-old { color:#9ca3af; text-decoration:line-through; font-size:14px; }',
-    '.hm-modal-change .hm-arrow { color:#9ca3af; display:inline-flex; }',
-    '.hm-modal-change .hm-arrow svg { width:16px; height:16px; }',
-    '.hm-modal-change .hm-new { color:#007167; font-weight:700; font-size:16px; }',
-    '.hm-modal-footer { padding:18px 24px 22px; display:flex; gap:10px; justify-content:flex-end; }',
-    '.hm-modal-btn { height:40px; padding:0 18px; border-radius:999px; font-family:"Inter",sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:background 0.15s, border-color 0.15s; }',
-    '.hm-modal-cancel { background:#fff; border:1px solid #d1d5db; color:#374151; }',
-    '.hm-modal-cancel:hover { background:#f9fafb; }',
-    '.hm-modal-confirm { background:#007167; border:1px solid #007167; color:#fff; }',
-    '.hm-modal-confirm:hover { background:#005f57; border-color:#005f57; }'
+    /* ── Confirmation modal (padrão do projeto — modal centralizado) ── */
+    '.hm-modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000; align-items:center; justify-content:center; }',
+    '.hm-modal-overlay.open { display:flex; }',
+    '.hm-modal { background:#fff; border-radius:14px; padding:32px; width:420px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,0.15); text-align:center; }',
+    '.hm-modal-icon { width:48px; height:48px; border-radius:50%; background:#e5f5f4; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }',
+    '.hm-modal-icon svg { width:24px; height:24px; color:#007167; }',
+    '.hm-modal-title { font-size:18px; font-weight:700; color:#1f2937; margin-bottom:8px; }',
+    '.hm-modal-text { font-size:14px; color:#6b7280; line-height:1.5; margin-bottom:24px; }',
+    '.hm-modal-text .hm-old { color:#9ca3af; text-decoration:line-through; font-weight:600; font-variant-numeric:tabular-nums; }',
+    '.hm-modal-text .hm-new { color:#007167; font-weight:700; font-variant-numeric:tabular-nums; }',
+    '.hm-modal-actions { display:flex; gap:12px; justify-content:center; }'
   ].join('\n');
   document.head.appendChild(style);
 
@@ -102,7 +92,6 @@
   var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
   var closeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
   var clockSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
-  var arrowSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
 
   // ── Toast ──
   var toast = document.querySelector('.hourmeter-toast');
@@ -118,17 +107,12 @@
   modalOverlay.className = 'hm-modal-overlay';
   modalOverlay.innerHTML = [
     '<div class="hm-modal" role="dialog" aria-modal="true" aria-labelledby="hmModalTitle">',
-    '  <div class="hm-modal-header">',
-    '    <div class="hm-modal-icon">' + clockSvg + '</div>',
-    '    <span class="hm-modal-title" id="hmModalTitle">Confirm hourmeter update</span>',
-    '  </div>',
-    '  <div class="hm-modal-body">',
-    '    You are about to change this machine’s hourmeter. This is critical data used for maintenance planning and service — please confirm the new reading is correct.',
-    '    <div class="hm-modal-change"><span class="hm-old" id="hmModalOld"></span><span class="hm-arrow">' + arrowSvg + '</span><span class="hm-new" id="hmModalNew"></span></div>',
-    '  </div>',
-    '  <div class="hm-modal-footer">',
-    '    <button type="button" class="hm-modal-btn hm-modal-cancel" id="hmModalCancel">Cancel</button>',
-    '    <button type="button" class="hm-modal-btn hm-modal-confirm" id="hmModalConfirm">Confirm update</button>',
+    '  <div class="hm-modal-icon">' + clockSvg + '</div>',
+    '  <div class="hm-modal-title" id="hmModalTitle">Confirm hourmeter update</div>',
+    '  <div class="hm-modal-text">You are about to change this machine’s hourmeter from <span class="hm-old" id="hmModalOld"></span> to <span class="hm-new" id="hmModalNew"></span>. This is critical data used for maintenance planning and service — please confirm the new reading is correct.</div>',
+    '  <div class="hm-modal-actions">',
+    '    <button type="button" class="btn btn-secondary" id="hmModalCancel">Cancel</button>',
+    '    <button type="button" class="btn btn-primary" id="hmModalConfirm">Confirm update</button>',
     '  </div>',
     '</div>'
   ].join('\n');
@@ -138,10 +122,10 @@
     pendingDigits = newDigits;
     modalOverlay.querySelector('#hmModalOld').textContent = currentHours + 'h';
     modalOverlay.querySelector('#hmModalNew').textContent = formatHours(newDigits) + 'h';
-    modalOverlay.classList.add('show');
+    modalOverlay.classList.add('open');
     modalOverlay.querySelector('#hmModalConfirm').focus();
   }
-  function closeConfirm() { modalOverlay.classList.remove('show'); }
+  function closeConfirm() { modalOverlay.classList.remove('open'); }
   function confirmSave() {
     currentHours = formatHours(pendingDigits);
     try { localStorage.setItem(storageKey, currentHours); } catch (e) {}
@@ -153,7 +137,7 @@
   modalOverlay.querySelector('#hmModalCancel').addEventListener('click', closeConfirm);
   modalOverlay.addEventListener('click', function (e) { if (e.target === modalOverlay) closeConfirm(); });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && modalOverlay.classList.contains('show')) { e.preventDefault(); closeConfirm(); }
+    if (e.key === 'Escape' && modalOverlay.classList.contains('open')) { e.preventDefault(); closeConfirm(); }
   });
 
   // ── Row ──
