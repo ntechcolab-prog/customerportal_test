@@ -88,7 +88,8 @@
     '.hm-modal-text { font-size:14px; color:#6b7280; line-height:1.5; margin-bottom:24px; }',
     '.hm-modal-text .hm-old { color:#374151; font-weight:600; font-variant-numeric:tabular-nums; }',
     '.hm-modal-text .hm-new { color:#007167; font-weight:700; font-variant-numeric:tabular-nums; }',
-    '.hm-modal-actions { display:flex; gap:12px; justify-content:center; }'
+    '.hm-modal-actions { display:flex; gap:12px; justify-content:center; }',
+    '.hm-modal-actions .btn { flex:1 1 0; }'
   ].join('\n');
   document.head.appendChild(style);
 
