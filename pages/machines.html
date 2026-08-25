@@ -935,19 +935,7 @@
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
-    .machine-line.is-none, .t-line.is-none { color: #8a5a00; }
-    .machine-line-selo {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: #fbf1d8;
-      color: #8a5a00;
-      border: 1px solid #e6d9ac;
-      border-radius: 6px;
-      padding: 2px 7px;
-      font-size: 10.5px;
-      letter-spacing: 0.3px;
-    }
+    .machine-line.is-none, .t-line.is-none { color: #b0b5bb; font-weight: 400; }
 
     .machine-rows {
       display: flex;
@@ -2340,7 +2328,7 @@ document.addEventListener('click', function(e) {
           lineEl.textContent = m.line;
           lineEl.classList.remove('is-none');
         } else {
-          lineEl.innerHTML = '<span class="machine-line-selo">⚠︎ <span data-i18n="machines.noLine">' + noLine + '</span></span>';
+          lineEl.innerHTML = '<span data-i18n="machines.noLine">' + noLine + '</span>';
           lineEl.classList.add('is-none');
         }
       });
