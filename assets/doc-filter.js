@@ -98,7 +98,7 @@
   });
 
   // ── State ──
-  var activeLang = 'en';
+  var activeLang = 'all';
   var activeCategory = 'all';
   var currentPage = 1;
 
@@ -132,7 +132,7 @@
   langWrap.innerHTML =
     '<span class="doc-lang-label" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span>' +
     '<select class="doc-lang-select" id="docLangSelect" aria-label="Filter documents by language">' +
-      langs.map(function (l) {
+      [{ code: 'all', label: 'All languages' }].concat(langs).map(function (l) {
         return '<option value="' + l.code + '"' + (l.code === activeLang ? ' selected' : '') + '>' + l.label + '</option>';
       }).join('') +
     '</select>';
@@ -193,7 +193,7 @@
 
     // Filter docs
     var filtered = docs.filter(function (d) {
-      if (d.lang !== activeLang) return false;
+      if (activeLang !== 'all' && d.lang !== activeLang) return false;
       if (activeCategory !== 'all' && d.category !== activeCategory) return false;
       if (searchTerm && d.title.toLowerCase().indexOf(searchTerm) === -1) return false;
       return true;
