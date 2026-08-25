@@ -77,12 +77,16 @@
     /* ── Confirmation modal (padrão do projeto — modal centralizado) ── */
     '.hm-modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000; align-items:center; justify-content:center; }',
     '.hm-modal-overlay.open { display:flex; }',
-    '.hm-modal { background:#fff; border-radius:14px; padding:32px; width:420px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,0.15); text-align:center; }',
+    '.hm-modal { position:relative; background:#fff; border-radius:14px; padding:32px; width:420px; max-width:90vw; box-shadow:0 20px 60px rgba(0,0,0,0.15); text-align:center; }',
+    '.hm-modal-close { position:absolute; top:12px; right:12px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:none; background:none; cursor:pointer; border-radius:8px; color:#9ca3af; transition:background 0.15s, color 0.15s; }',
+    '.hm-modal-close:hover { background:#f3f4f6; color:#6b7280; }',
+    '.hm-modal-close:focus-visible { outline:2px solid #007167; outline-offset:2px; }',
+    '.hm-modal-close svg { width:18px; height:18px; }',
     '.hm-modal-icon { width:48px; height:48px; border-radius:50%; background:#e5f5f4; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }',
     '.hm-modal-icon svg { width:24px; height:24px; color:#007167; }',
     '.hm-modal-title { font-size:18px; font-weight:700; color:#1f2937; margin-bottom:8px; }',
     '.hm-modal-text { font-size:14px; color:#6b7280; line-height:1.5; margin-bottom:24px; }',
-    '.hm-modal-text .hm-old { color:#9ca3af; text-decoration:line-through; font-weight:600; font-variant-numeric:tabular-nums; }',
+    '.hm-modal-text .hm-old { color:#374151; font-weight:600; font-variant-numeric:tabular-nums; }',
     '.hm-modal-text .hm-new { color:#007167; font-weight:700; font-variant-numeric:tabular-nums; }',
     '.hm-modal-actions { display:flex; gap:12px; justify-content:center; }'
   ].join('\n');
@@ -107,6 +111,7 @@
   modalOverlay.className = 'hm-modal-overlay';
   modalOverlay.innerHTML = [
     '<div class="hm-modal" role="dialog" aria-modal="true" aria-labelledby="hmModalTitle">',
+    '  <button type="button" class="hm-modal-close" id="hmModalClose" aria-label="Close">' + closeSvg + '</button>',
     '  <div class="hm-modal-icon">' + clockSvg + '</div>',
     '  <div class="hm-modal-title" id="hmModalTitle">Confirm hourmeter update</div>',
     '  <div class="hm-modal-text">You are about to change this machine’s hourmeter from <span class="hm-old" id="hmModalOld"></span> to <span class="hm-new" id="hmModalNew"></span>. This is critical data used for maintenance planning and service — please confirm the new reading is correct.</div>',
@@ -135,6 +140,7 @@
   }
   modalOverlay.querySelector('#hmModalConfirm').addEventListener('click', confirmSave);
   modalOverlay.querySelector('#hmModalCancel').addEventListener('click', closeConfirm);
+  modalOverlay.querySelector('#hmModalClose').addEventListener('click', closeConfirm);
   modalOverlay.addEventListener('click', function (e) { if (e.target === modalOverlay) closeConfirm(); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && modalOverlay.classList.contains('open')) { e.preventDefault(); closeConfirm(); }
