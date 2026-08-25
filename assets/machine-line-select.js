@@ -15,7 +15,6 @@
   var id = page.replace(/^machine-/, '').replace(/\.html$/, '');
   var isAdmin = (localStorage.getItem('netzsch_user_role') || 'administrator') === 'administrator';
   var T = (window.NetzschI18n && NetzschI18n.t) ? function (k, d) { return NetzschI18n.t(k, d); } : function (k, d) { return d; };
-  var warn = '⚠︎ ';
   var open = false;
 
   if (!document.getElementById('hml-styles')) {
@@ -23,9 +22,9 @@
     st.id = 'hml-styles';
     st.textContent = [
       '.hml { position:relative; display:inline-block; }',
-      '.hml-trigger { display:inline-flex; align-items:center; gap:8px; height:32px; padding:0 10px; border:1px solid #007167; border-radius:8px; background:#fff; font-family:"Inter",sans-serif; font-size:13px; font-weight:600; color:#1d1d1f; cursor:pointer; transition:background .15s; }',
-      '.hml-trigger:hover { background:#fafbfc; }',
-      '.hml-trigger.none { color:#8a5a00; }',
+      '.hml-trigger { display:inline-flex; align-items:center; gap:8px; height:32px; padding:0 10px; border:1px solid rgba(0,0,0,0.12); border-radius:8px; background:#fff; font-family:"Inter",sans-serif; font-size:13px; font-weight:600; color:#1d1d1f; cursor:pointer; transition:border-color .15s, color .15s, background .15s; }',
+      '.hml-trigger:hover { border-color:#007167; color:#007167; }',
+      '.hml-trigger:focus-visible { outline:2px solid #007167; outline-offset:2px; }',
       '.hml-trigger .cv { width:11px; height:11px; }',
       '.hml-panel { position:absolute; top:38px; left:0; z-index:60; width:238px; background:#fff; border:1px solid #eaeaea; border-radius:10px; box-shadow:0 12px 32px rgba(0,0,0,0.14); padding:6px; }',
       '.hml-opt { padding:9px 10px; border-radius:7px; font-size:14px; color:#3d4246; cursor:pointer; display:flex; align-items:center; gap:8px; }',
@@ -51,8 +50,8 @@
 
   function render() {
     var line = MachineLines.getMachineLine(id);
-    valueEl.innerHTML = '<button type="button" class="hml-trigger' + (line ? '' : ' none') + '">' +
-      (line ? esc(line) : warn + esc(noLineLabel())) + chev + '</button>';
+    valueEl.innerHTML = '<button type="button" class="hml-trigger">' +
+      esc(line || noLineLabel()) + chev + '</button>';
     valueEl.querySelector('.hml-trigger').addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
   }
 
