@@ -37,7 +37,8 @@
     '.docs-no-results-desc { font-size:13px; color:#4b5563; margin:0; line-height:1.5; }',
 
     '.docs-lang-wrap { display:flex; align-items:center; gap:6px; flex-shrink:0; }',
-    '.docs-lang-label { font-size:11px; font-weight:500; color:#6b6e73; text-transform:uppercase; letter-spacing:0.04em; }',
+    '.docs-lang-label { display:inline-flex; align-items:center; color:#6b6e73; flex-shrink:0; }',
+    '.docs-lang-label svg { width:16px; height:16px; }',
     '.docs-lang-select { appearance:none; -webkit-appearance:none; height:40px; border:1px solid #d4d6d8; border-radius:10px; padding:0 34px 0 14px; font-family:"Inter",sans-serif; font-size:13px; font-weight:500; color:#2d2e33; background:#fff url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'8\' fill=\'none\'%3E%3Cpath d=\'M1 1.5l5 5 5-5\' stroke=\'%236b6e73\' stroke-width=\'1.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E") no-repeat right 12px center; cursor:pointer; outline:none; transition:border-color 0.15s, box-shadow 0.15s; }',
     '.docs-lang-select:focus { border-color:#007167; box-shadow:0 0 0 3px rgba(0,113,103,0.1); }',
 
@@ -137,7 +138,7 @@
     '  <div class="docs-search">' +
     '    <input class="docs-search-input" type="text" placeholder="Search documents..." id="docsSearch">' +
     '    <div class="docs-lang-wrap">' +
-    '      <span class="docs-lang-label">Lang.</span>' +
+    '      <span class="docs-lang-label" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span>' +
     '      <select class="docs-lang-select" id="docsLangSelect" aria-label="Filter documents by language">' +
     docLangs.map(function (l) {
       return '<option value="' + l.code + '">' + l.label + '</option>';
