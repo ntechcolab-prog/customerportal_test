@@ -86,7 +86,7 @@
     '.hm-modal-icon svg { width:24px; height:24px; color:#007167; }',
     '.hm-modal-title { font-size:18px; font-weight:700; color:#1f2937; margin-bottom:8px; }',
     '.hm-modal-text { font-size:14px; color:#6b7280; line-height:1.5; margin-bottom:24px; }',
-    '.hm-modal-text .hm-old { color:#374151; font-weight:600; font-variant-numeric:tabular-nums; }',
+    '.hm-modal-text .hm-old { color:#9ca3af; font-weight:400; font-variant-numeric:tabular-nums; }',
     '.hm-modal-text .hm-new { color:#1f2937; font-weight:700; font-variant-numeric:tabular-nums; }',
     '.hm-modal-actions { display:flex; gap:12px; justify-content:center; }',
     '.hm-modal-actions .btn { flex:1 1 0; }'
