@@ -26,16 +26,16 @@
       '.hml-trigger:hover { border-color:#007167; color:#007167; }',
       '.hml-trigger:focus-visible { outline:2px solid #007167; outline-offset:2px; }',
       '.hml-trigger .cv { width:11px; height:11px; }',
-      '.hml-panel { position:absolute; top:38px; left:0; z-index:60; width:238px; background:#fff; border:1px solid #eaeaea; border-radius:10px; box-shadow:0 12px 32px rgba(0,0,0,0.14); padding:6px; }',
+      '.hml-panel { position:absolute; top:38px; left:0; z-index:60; width:264px; background:#fff; border:1px solid #eaeaea; border-radius:10px; box-shadow:0 12px 32px rgba(0,0,0,0.14); padding:6px; }',
       '.hml-opt { padding:9px 10px; border-radius:7px; font-size:14px; color:#3d4246; cursor:pointer; display:flex; align-items:center; gap:8px; }',
       '.hml-opt:hover { background:#f6f7f8; }',
       '.hml-opt.cur { background:#eef6f5; color:#007167; font-weight:600; }',
       '.hml-new { border-top:1px solid #eaeaea; margin-top:4px; padding-top:9px; color:#007167; font-weight:600; }',
       '.hml-new .adm { font-size:10px; background:#eef6f5; color:#007167; border-radius:4px; padding:1px 5px; margin-left:auto; letter-spacing:.4px; }',
-      '.hml-newrow { display:flex; gap:6px; padding:6px 4px 4px; }',
-      '.hml-newinput { flex:1; height:34px; border:1px solid #007167; border-radius:7px; padding:0 9px; font-family:"Inter",sans-serif; font-size:13px; color:#1d1d1f; outline:none; }',
+      '.hml-newrow { display:flex; align-items:center; gap:8px; padding:8px 10px 8px; }',
+      '.hml-newinput { flex:1; min-width:0; height:32px; border:1px solid #007167; border-radius:7px; padding:0 9px; font-family:"Inter",sans-serif; font-size:13px; color:#1d1d1f; outline:none; }',
       '.hml-newinput:focus { box-shadow:0 0 0 3px rgba(0,113,103,0.12); }',
-      '.hml-newsave { background:#007167; color:#fff; border:none; border-radius:7px; padding:0 13px; font-size:12px; font-weight:600; cursor:pointer; }',
+      '.hml-newsave { flex-shrink:0; }',
       '.hml-err { color:#b42318; font-size:12px; padding:2px 8px 6px; }'
     ].join('\n');
     document.head.appendChild(st);
@@ -85,7 +85,7 @@
     panel.innerHTML =
       '<div class="hml-newrow">' +
         '<input class="hml-newinput" type="text" maxlength="40" placeholder="' + esc(T('admin.machines.newLinePlaceholder', 'New line name')) + '" aria-label="New line name">' +
-        '<button type="button" class="hml-newsave">' + esc(T('admin.machines.save', 'Save')) + '</button>' +
+        '<button type="button" class="btn btn-primary btn-sm hml-newsave">' + esc(T('admin.machines.save', 'Save')) + '</button>' +
       '</div><div class="hml-err" hidden></div>';
     var inp = panel.querySelector('.hml-newinput'); inp.focus();
     var err = panel.querySelector('.hml-err');
