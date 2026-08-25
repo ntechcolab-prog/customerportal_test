@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Production Monitoring — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Customer Portal</span>
+  </span>
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main>
+  <div class="ctx">
+    <div class="ctx-from">Opened from a link</div>
+    <h1>Production Monitoring</h1>
+    <div class="ctx-sub">ProPhi · Line 1</div>
+    <div class="ctx-session">Signed in as <strong>John Doe · Technician</strong>, no new login</div>
+  </div>
+
+  <h2>Status</h2>
+  <div class="callout is-warn">
+    <strong>Not connected for this machine.</strong> The portal has no live production
+    data to show here — throughput, energy and grinding efficiency are described as
+    capabilities, not delivered as readings.
+  </div>
+
+  <h2>What the portal offers today</h2>
+  <div class="card">
+    <div class="spec"><dt>Real-Time Dashboard</dt><dd>Not connected</dd></div>
+    <div class="spec"><dt>Predictive Maintenance</dt><dd>Not connected</dd></div>
+    <div class="spec"><dt>Production Analytics</dt><dd>Not connected</dd></div>
+    <div class="spec"><dt>Remote Monitoring</dt><dd>Not connected</dd></div>
+    <div class="spec"><dt>Alert System</dt><dd>Not connected</dd></div>
+    <div class="spec"><dt>Integration (OPC-UA, MQTT)</dt><dd>Not connected</dd></div>
+  </div>
+
+  <h2>Next step in the portal</h2>
+  <div class="card">
+    <a class="row" href="../pages/production-monitoring.html">
+      <span class="row-body">
+        <span class="row-title">Request a quote</span>
+        <span class="row-sub">A NETZSCH specialist replies within 2 business days</span>
+      </span>
+      <svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>
+    </a>
+  </div>
+
+  <p class="note"><strong>Uso 6 — achado que muda a ficha.</strong> O levantamento
+  colocou "ver o Production Monitoring em campo" no grupo A, o de quem só precisa da
+  sessão. Não é o caso: <em>pages/production-monitoring.html</em> é uma
+  <strong>página comercial</strong> do módulo (benefícios, "Request Quote",
+  formulário), não um painel com dado da máquina. Levar isso para o celular não
+  entrega nada ao técnico no chão de fábrica. O uso 6 pertence ao grupo "precisa de
+  tela nova" — e antes disso, de uma fonte de dado que o portal ainda não tem.</p>
+</main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+</body>
+</html>

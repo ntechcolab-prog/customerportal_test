@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Budget — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Customer Portal</span>
+  </span>
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+  var b = CP.budget;
+
+  var split = b.split.map(function (s) {
+    return '<div class="row">' +
+        '<span class="row-body"><span class="row-title">' + M.esc(s.label) + '</span>' +
+        '<span class="row-sub">' + M.esc(s.orders) + ' · avg ' + M.esc(s.avg) + '</span></span>' +
+        '<span style="text-align:right;flex-shrink:0">' +
+          '<span class="row-title" style="display:block;font-variant-numeric:tabular-nums">' + M.esc(s.value) + '</span>' +
+          '<span class="row-sub" style="display:block">' + M.esc(s.share) + '</span>' +
+        '</span>' +
+      '</div>';
+  }).join('');
+
+  var history = b.history.map(function (h) {
+    return '<div class="row" style="gap:11px">' +
+        '<span style="width:66px;flex-shrink:0;font-size:13.5px;color:var(--ink-2)">' + M.esc(h.period) + '</span>' +
+        '<span class="row-body"><span class="meter"><span class="meter-fill' +
+          (h.pct >= b.thresholds[1] ? ' is-high' : '') + '" style="width:' + h.pct + '%"></span></span></span>' +
+        '<span style="width:82px;flex-shrink:0;text-align:right;font-size:13.5px;font-weight:600;font-variant-numeric:tabular-nums">' +
+          M.esc(h.value) + '</span>' +
+      '</div>';
+  }).join('');
+
+  app.innerHTML =
+    M.ctxCard({
+      from: 'Opened from a link',
+      title: 'Budget',
+      sub: b.period + ' · limit ' + b.limit
+    }) +
+    '<h2>Spent this month</h2>' +
+    '<div class="card" style="padding:18px 16px">' +
+      '<div class="figure"><span class="figure-big">' + M.esc(b.spent) + '</span>' +
+        '<span class="figure-of">of ' + M.esc(b.limit) + '</span></div>' +
+      '<div class="meter" style="margin-top:13px"><span class="meter-fill" style="width:' + b.used + '%"></span></div>' +
+      '<div class="row-sub" style="margin-top:9px">' + b.used + '% used · <strong>' +
+        M.esc(b.remaining) + '</strong> remaining</div>' +
+    '</div>' +
+    '<h2>Where it went</h2>' +
+    '<div class="card">' + split + '</div>' +
+    '<h2>Last six months</h2>' +
+    '<div class="card">' + history + '</div>' +
+    M.noteCard('<strong>Uso 7 do levantamento.</strong> Sem saber o saldo, a aprovação ' +
+      'móvel fica cega — por isso o Budget entra no mesmo pacote que a aprovação fora ' +
+      'da mesa. Só leitura: aprovar de fato é o trilho do Approver, que depende de ' +
+      'notificação.');
+})();
+</script>
+</body>
+</html>

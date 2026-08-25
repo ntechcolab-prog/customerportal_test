@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "m-customerportal.vercel.app" }],
+      "destination": "/m/index.html"
+    }
+  ]
+}

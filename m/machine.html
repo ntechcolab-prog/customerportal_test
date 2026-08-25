@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Machine details — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Customer Portal</span>
+  </span>
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+
+  if (M.isExpired()) { app.innerHTML = M.expiredMarkup; return; }
+
+  var m = CP.machines[M.param('m', 'zeta60')] || CP.machines.zeta60;
+  document.title = m.name + ' — NETZSCH Customer Portal';
+
+  app.innerHTML =
+    M.ctxCard({
+      from: M.param('from') === 'link' ? 'Opened from a link' : 'From your computer',
+      title: m.name,
+      sub: m.line + ' · SN ' + m.sn + ' · ' + m.country
+    }) +
+    '<h2>On this machine</h2>' +
+    '<div class="card">' +
+      '<a class="row" href="parts.html?ctx=' + M.esc(m.parts) + '">' +
+        '<span class="row-body"><span class="row-title">Spare parts</span>' +
+        '<span class="row-sub">' + M.esc(CP.parts[m.parts].sub) + '</span></span>' +
+        '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>' +
+      '</a>' +
+      '<a class="row" href="help.html?m=' + M.esc(m.id) + '">' +
+        '<span class="row-body"><span class="row-title">Help for ' + M.esc(m.name) + '</span>' +
+        '<span class="row-sub">Articles filtered to this machine</span></span>' +
+        '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>' +
+      '</a>' +
+    '</div>' +
+    '<h2>Machine information</h2>' + M.specs(m.info) +
+    '<h2>Technical details</h2>' + M.specs(m.technical) +
+    M.noteCard('<strong>Uso 2 do levantamento.</strong> Número de série, comissão e ' +
+      'garantia consultados de pé, na frente do moinho — hoje isso exige voltar ao ' +
+      'terminal ou levar impresso. O conteúdo é o mesmo de <em>' + M.esc(m.desktop) +
+      '</em>, sem nada acrescentado.');
+})();
+</script>
+</body>
+</html>

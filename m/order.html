@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Order tracking — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Customer Portal</span>
+  </span>
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+  var o = CP.order;
+
+  var steps = o.steps.map(function (s) {
+    return '<li class="track-step' + (s.done ? ' is-done' : '') + '">' +
+        '<span class="track-mark" aria-hidden="true"><span class="track-dot"></span><span class="track-line"></span></span>' +
+        '<span class="track-body">' +
+          '<span class="track-title">' + M.esc(s.title) + '</span>' +
+          '<span class="track-note">' + M.esc(s.note) + '</span>' +
+          '<span class="track-state">' + M.esc(s.state) + '</span>' +
+        '</span>' +
+      '</li>';
+  }).join('');
+
+  app.innerHTML =
+    M.ctxCard({
+      from: 'Opened from a notification',
+      title: 'Order #' + o.id,
+      sub: o.carrier + ' · estimated ' + o.eta
+    }) +
+    '<h2>Delivery</h2>' +
+    '<div class="card"><ol class="track" style="list-style:none">' + steps + '</ol></div>' +
+    '<h2>Tracking number</h2>' +
+    '<div class="card">' +
+      '<div class="row">' +
+        '<span class="row-body"><span class="row-title" style="font-variant-numeric:tabular-nums">' +
+          M.esc(o.tracking) + '</span><span class="row-sub">' + M.esc(o.carrier) + '</span></span>' +
+        '<button type="button" class="btn copy" data-copy="' + M.esc(o.tracking) + '" ' +
+          'aria-label="Copy tracking number">Copy</button>' +
+      '</div>' +
+    '</div>' +
+    '<h2>Item</h2>' +
+    M.specs([
+      ['Product', o.item.name],
+      ['Ref', o.item.ref],
+      ['Size', o.item.size],
+      ['Quantity', o.item.qty],
+      ['Unit price', o.item.unit],
+      ['Order total', o.total]
+    ]) +
+    '<h2>Shipping to</h2>' +
+    '<div class="callout">' + o.address.map(M.esc).join('<br>') + '</div>' +
+    M.noteCard('<strong>Uso 4 do levantamento.</strong> Este é um caso de ' +
+      '<em>entrada direta</em>: a pessoa não passou pelo desktop, chegou aqui por um ' +
+      'aviso. O QR não ajuda em nada — o que falta é notificação, e ela ' +
+      '<strong>não tem ticket hoje</strong>. Sem ela, este link não tem como chegar ' +
+      'até a pessoa.');
+})();
+</script>
+</body>
+</html>
