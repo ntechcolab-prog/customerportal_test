@@ -5,6 +5,11 @@
       "source": "/",
       "has": [{ "type": "host", "value": "m-customerportal.vercel.app" }],
       "destination": "/m/index.html"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "gd-customerportal-mobile.vercel.app" }],
+      "destination": "/m/index.html"
     }
   ]
 }
