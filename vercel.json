@@ -1,15 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
       "has": [{ "type": "host", "value": "m-customerportal.vercel.app" }],
-      "destination": "/m/index.html"
+      "destination": "/m/index.html",
+      "permanent": false
     },
     {
       "source": "/",
       "has": [{ "type": "host", "value": "gd-customerportal-mobile.vercel.app" }],
-      "destination": "/m/index.html"
+      "destination": "/m/index.html",
+      "permanent": false
     }
   ]
 }
