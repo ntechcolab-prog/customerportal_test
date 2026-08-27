@@ -1497,25 +1497,22 @@
     var total = items.length;
     var visibleCount = 0;
 
-    if (filter === 'all') {
-      items.forEach(function(it) { it.style.display = ''; visibleCount++; });
-      dividers.forEach(function(d) { d.style.display = ''; });
-    } else {
-      items.forEach(function(it) {
-        var show = it.dataset.type === filter;
-        it.style.display = show ? '' : 'none';
-        if (show) visibleCount++;
-      });
-      dividers.forEach(function(d) {
-        var next = d.nextElementSibling;
-        var hasVisible = false;
-        while (next && !next.classList.contains('nc-date-divider')) {
-          if (next.classList.contains('nc-item') && next.style.display !== 'none') hasVisible = true;
-          next = next.nextElementSibling;
-        }
-        d.style.display = hasVisible ? '' : 'none';
-      });
-    }
+    items.forEach(function(it) {
+      var show = (filter === 'all') || (it.dataset.type === filter);
+      it.style.display = show ? '' : 'none';
+      if (show) visibleCount++;
+    });
+
+    // A date divider is hidden whenever its group has no visible items left
+    dividers.forEach(function(d) {
+      var next = d.nextElementSibling;
+      var hasVisible = false;
+      while (next && !next.classList.contains('nc-date-divider')) {
+        if (next.classList.contains('nc-item') && next.style.display !== 'none') hasVisible = true;
+        next = next.nextElementSibling;
+      }
+      d.style.display = hasVisible ? '' : 'none';
+    });
 
     if (total === 0) {
       // Everything cleared → "all caught up"
