@@ -64,6 +64,13 @@
   "nc.actionViewPendingOrders": "View Pending Orders",
   "nc.emptyTitle": "No notifications found",
   "nc.emptyDesc": "No notifications match this category.",
+  "nc.clearAll": "Clear all",
+  "nc.dismiss": "Dismiss notification",
+  "nc.undo": "Undo",
+  "nc.toastDismissed": "Notification dismissed",
+  "nc.toastCleared": "Notifications cleared",
+  "nc.caughtUpTitle": "You're all caught up",
+  "nc.caughtUpDesc": "You have no notifications right now.",
 
   "cart.title": "Shopping Cart",
   "cart.subtotal": "Subtotal",

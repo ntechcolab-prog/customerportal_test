@@ -592,6 +592,100 @@
     }
     .nc-mark-all:hover { background: #f0faf9; }
 
+    /* Header actions cluster */
+    .nc-actions { display: flex; align-items: center; gap: 8px; }
+
+    /* Clear all — secondary; signals removal on hover */
+    .nc-clear-all {
+      font-size: 13px;
+      font-weight: 500;
+      color: #6b7280;
+      background: none;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 999px;
+      padding: 8px 20px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .nc-clear-all:hover { background: #fdf2f0; color: #c73e20; border-color: rgba(199,62,32,0.25); }
+    .nc-clear-all:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
+
+    /* Per-item dismiss (×) — revealed on hover/focus, collapses to width:0 (no reserved gap) */
+    .nc-dismiss {
+      flex-shrink: 0;
+      width: 0;
+      height: 28px;
+      padding: 0;
+      border: none;
+      background: none;
+      color: #9ca3af;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      opacity: 0;
+      overflow: hidden;
+      transition: width 0.15s ease, opacity 0.15s ease, background 0.15s, color 0.15s;
+    }
+    .nc-item:hover .nc-dismiss,
+    .nc-item:focus-within .nc-dismiss { width: 28px; opacity: 1; }
+    .nc-dismiss:hover { background: #fdf2f0; color: #c73e20; }
+    .nc-dismiss:focus-visible { outline: 2px solid #007167; outline-offset: 1px; width: 28px; opacity: 1; }
+    .nc-dismiss svg { width: 16px; height: 16px; }
+
+    /* Removal animation */
+    .nc-item.nc-removing {
+      opacity: 0;
+      transform: translateX(8px);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+      pointer-events: none;
+    }
+
+    /* Undo toast */
+    .nc-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #1d1d1f;
+      color: #fff;
+      padding: 12px 16px 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      z-index: 3000;
+      animation: nc-toast-in 0.2s ease;
+    }
+    .nc-toast[hidden] { display: none; }
+    .nc-toast-msg { font-weight: 500; }
+    .nc-toast-undo {
+      background: none;
+      border: none;
+      color: #4db6a9;
+      font-weight: 600;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nc-toast-undo:hover { color: #6fd3c6; background: rgba(255,255,255,0.08); }
+    .nc-toast-undo:focus-visible { outline: 2px solid #4db6a9; outline-offset: 2px; }
+    @keyframes nc-toast-in {
+      from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nc-dismiss, .nc-item.nc-removing, .nc-toast { transition: none; animation: none; }
+    }
+
     /* Filter tabs */
     .nc-filters {
       display: flex;
@@ -1121,7 +1215,10 @@
     <!-- Header -->
     <div class="nc-header" data-skeleton-stagger>
       <h1 class="nc-title" data-i18n="nc.title">Notifications <span class="nc-title-count" id="ncUnreadCount">3</span></h1>
-      <button class="nc-mark-all" id="ncMarkAll" data-i18n="nc.markAll">Mark all as read</button>
+      <div class="nc-actions">
+        <button class="nc-mark-all" id="ncMarkAll" data-i18n="nc.markAll">Mark all as read</button>
+        <button class="nc-clear-all" id="ncClearAll" data-i18n="nc.clearAll">Clear all</button>
+      </div>
     </div>
 
     <!-- Filter tabs -->
@@ -1345,24 +1442,59 @@
   </main>
 
 <script>
-// ── NOTIFICATION CENTER FILTERS ──
+// ── NOTIFICATION CENTER: filters, mark-all, dismiss, clear-all, undo ──
 (function() {
   var filters = document.getElementById('ncFilters');
   var list = document.getElementById('ncList');
   var markAllBtn = document.getElementById('ncMarkAll');
+  var clearAllBtn = document.getElementById('ncClearAll');
   var countBadge = document.getElementById('ncUnreadCount');
   var emptyState = document.getElementById('ncEmptyState');
+  if (!list) return;
 
-  // Filter tabs
-  filters.addEventListener('click', function(e) {
-    var tab = e.target.closest('.nc-filter-tab');
-    if (!tab) return;
-    filters.querySelectorAll('.nc-filter-tab').forEach(function(t) { t.classList.remove('active'); });
-    tab.classList.add('active');
+  // Lazy i18n lookup (i18n.js loads after this script)
+  function t(key, fallback) {
+    return (window.NetzschI18n && window.NetzschI18n.t) ? window.NetzschI18n.t(key, fallback) : fallback;
+  }
 
-    var filter = tab.dataset.filter;
+  var snapshot = null;   // list.innerHTML captured before the last destructive action
+  var toast, toastMsg, toastUndoBtn, toastTimer;
+
+  function currentFilter() {
+    var active = filters ? filters.querySelector('.nc-filter-tab.active') : null;
+    return active ? active.dataset.filter : 'all';
+  }
+
+  // Give every item a dismiss (×) button if it doesn't already have one
+  function ensureDismissButtons() {
+    var items = list.querySelectorAll('.nc-item');
+    for (var i = 0; i < items.length; i++) {
+      var it = items[i];
+      if (it.querySelector('.nc-dismiss')) continue;
+      var right = it.querySelector('.nc-right');
+      if (!right) continue;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'nc-dismiss';
+      btn.setAttribute('data-i18n-aria-label', 'nc.dismiss');
+      btn.setAttribute('aria-label', t('nc.dismiss', 'Dismiss notification'));
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      right.appendChild(btn);
+    }
+  }
+
+  function setEmpty(titleKey, titleFb, descKey, descFb) {
+    var tt = emptyState.querySelector('.nc-empty-title');
+    var dd = emptyState.querySelector('.nc-empty-desc');
+    if (tt) { tt.setAttribute('data-i18n', titleKey); tt.textContent = t(titleKey, titleFb); }
+    if (dd) { dd.setAttribute('data-i18n', descKey); dd.textContent = t(descKey, descFb); }
+  }
+
+  // Show/hide items per active filter + resolve the empty state
+  function applyFilter(filter) {
     var items = list.querySelectorAll('.nc-item');
     var dividers = list.querySelectorAll('.nc-date-divider');
+    var total = items.length;
     var visibleCount = 0;
 
     if (filter === 'all') {
@@ -1374,7 +1506,6 @@
         it.style.display = show ? '' : 'none';
         if (show) visibleCount++;
       });
-      // Hide date dividers that have no visible items after them
       dividers.forEach(function(d) {
         var next = d.nextElementSibling;
         var hasVisible = false;
@@ -1385,18 +1516,154 @@
         d.style.display = hasVisible ? '' : 'none';
       });
     }
-    emptyState.hidden = visibleCount > 0;
+
+    if (total === 0) {
+      // Everything cleared → "all caught up"
+      setEmpty('nc.caughtUpTitle', "You're all caught up", 'nc.caughtUpDesc', 'You have no notifications right now.');
+      emptyState.hidden = false;
+      if (filters) filters.style.display = 'none';
+    } else {
+      if (filters) filters.style.display = '';
+      if (visibleCount === 0) {
+        setEmpty('nc.emptyTitle', 'No notifications found', 'nc.emptyDesc', 'No notifications match this category.');
+        emptyState.hidden = false;
+      } else {
+        emptyState.hidden = true;
+      }
+    }
+  }
+
+  // Recompute unread count, header buttons, tab counts, then re-apply the filter
+  function recompute() {
+    var total = list.querySelectorAll('.nc-item').length;
+    var unread = list.querySelectorAll('.nc-item.unread').length;
+
+    if (countBadge) {
+      if (unread > 0) { countBadge.textContent = unread; countBadge.style.display = ''; }
+      else { countBadge.style.display = 'none'; }
+    }
+    if (markAllBtn) markAllBtn.style.display = unread > 0 ? '' : 'none';
+    if (clearAllBtn) clearAllBtn.style.display = total > 0 ? '' : 'none';
+
+    if (filters) {
+      filters.querySelectorAll('.nc-filter-tab').forEach(function(tab) {
+        var span = tab.querySelector('.tab-count');
+        if (!span) return;
+        var n = list.querySelectorAll('.nc-item.unread[data-type="' + tab.dataset.filter + '"]').length;
+        span.textContent = n > 0 ? n : '';
+        span.style.display = n > 0 ? '' : 'none';
+      });
+    }
+
+    applyFilter(currentFilter());
+  }
+
+  // ── Toast + undo ──
+  function buildToast() {
+    toast = document.createElement('div');
+    toast.className = 'nc-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.hidden = true;
+    toastMsg = document.createElement('span');
+    toastMsg.className = 'nc-toast-msg';
+    toastUndoBtn = document.createElement('button');
+    toastUndoBtn.type = 'button';
+    toastUndoBtn.className = 'nc-toast-undo';
+    toastUndoBtn.setAttribute('data-i18n', 'nc.undo');
+    toastUndoBtn.textContent = t('nc.undo', 'Undo');
+    toastUndoBtn.addEventListener('click', undo);
+    toast.appendChild(toastMsg);
+    toast.appendChild(toastUndoBtn);
+    document.body.appendChild(toast);
+  }
+  function showToast(msg) {
+    if (!toast) buildToast();
+    toastMsg.textContent = msg;
+    toastUndoBtn.textContent = t('nc.undo', 'Undo');
+    toast.hidden = false;
+    toast.style.animation = 'none'; void toast.offsetWidth; toast.style.animation = '';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { hideToast(); snapshot = null; }, 5000);
+  }
+  function hideToast() { if (toast) toast.hidden = true; clearTimeout(toastTimer); }
+
+  function undo() {
+    if (snapshot == null) return;
+    list.innerHTML = snapshot;
+    snapshot = null;
+    hideToast();
+    recompute();
+  }
+
+  // Remove one or more items (with animation), snapshotting first for undo
+  function dismissItems(items, mode) {
+    if (!items.length) return;
+    snapshot = list.innerHTML;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    items.forEach(function(it) {
+      if (reduce) {
+        if (it.parentNode) it.parentNode.removeChild(it);
+      } else {
+        it.classList.add('nc-removing');
+        (function(node) {
+          setTimeout(function() {
+            if (node.parentNode) node.parentNode.removeChild(node);
+            recompute();
+          }, 170);
+        })(it);
+      }
+    });
+    if (reduce) recompute();
+    showToast(mode === 'clear' ? t('nc.toastCleared', 'Notifications cleared') : t('nc.toastDismissed', 'Notification dismissed'));
+  }
+
+  // ── Wire up ──
+  if (filters) {
+    filters.addEventListener('click', function(e) {
+      var tab = e.target.closest('.nc-filter-tab');
+      if (!tab) return;
+      filters.querySelectorAll('.nc-filter-tab').forEach(function(x) { x.classList.remove('active'); });
+      tab.classList.add('active');
+      applyFilter(tab.dataset.filter);
+    });
+  }
+
+  if (markAllBtn) {
+    markAllBtn.addEventListener('click', function() {
+      list.querySelectorAll('.nc-item.unread').forEach(function(it) {
+        it.classList.remove('unread');
+        var dot = it.querySelector('.nc-unread-dot');
+        if (dot) dot.remove();
+      });
+      recompute();
+    });
+  }
+
+  if (clearAllBtn) {
+    clearAllBtn.addEventListener('click', function() {
+      var visible = Array.prototype.filter.call(list.querySelectorAll('.nc-item'), function(it) {
+        return it.style.display !== 'none';
+      });
+      dismissItems(visible, 'clear');
+    });
+  }
+
+  // Delegated per-item dismiss
+  list.addEventListener('click', function(e) {
+    var btn = e.target.closest('.nc-dismiss');
+    if (!btn) return;
+    var item = btn.closest('.nc-item');
+    if (item) dismissItems([item], 'single');
   });
 
-  // Mark all as read
-  markAllBtn.addEventListener('click', function() {
-    list.querySelectorAll('.nc-item.unread').forEach(function(it) {
-      it.classList.remove('unread');
-      var dot = it.querySelector('.nc-unread-dot');
-      if (dot) dot.remove();
-    });
-    countBadge.style.display = 'none';
-    markAllBtn.style.display = 'none';
+  ensureDismissButtons();
+  recompute();
+
+  // Re-run once more after the machine-lines item may have been injected + i18n loaded
+  window.addEventListener('load', function() {
+    ensureDismissButtons();
+    recompute();
   });
 })();
 </script>
@@ -1782,7 +2049,7 @@ function sendFromSmallChat() {
       '<div class="nc-content">' +
         '<div class="nc-content-top">' +
           '<span class="nc-item-title">' + title + '</span>' +
-          '<div class="nc-right"><span class="nc-time">Just now</span><span class="nc-unread-dot"></span></div>' +
+          '<div class="nc-right"><span class="nc-time">Just now</span><span class="nc-unread-dot"></span><button type="button" class="nc-dismiss" data-i18n-aria-label="nc.dismiss" aria-label="Dismiss notification"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>' +
         '</div>' +
         '<div class="nc-desc">' + names + ' — assign a production line to organize and filter them.</div>' +
         '<a href="machines.html?filter=noline" class="nc-action">View machines without line</a>' +

@@ -64,6 +64,13 @@
   "nc.actionViewPendingOrders": "Ausstehende Bestellungen anzeigen",
   "nc.emptyTitle": "Keine Benachrichtigungen gefunden",
   "nc.emptyDesc": "Keine Benachrichtigungen für diese Kategorie.",
+  "nc.clearAll": "Alle löschen",
+  "nc.dismiss": "Benachrichtigung ausblenden",
+  "nc.undo": "Rückgängig",
+  "nc.toastDismissed": "Benachrichtigung ausgeblendet",
+  "nc.toastCleared": "Benachrichtigungen gelöscht",
+  "nc.caughtUpTitle": "Alles erledigt",
+  "nc.caughtUpDesc": "Sie haben derzeit keine Benachrichtigungen.",
 
   "cart.title": "Warenkorb",
   "cart.subtotal": "Zwischensumme",
