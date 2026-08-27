@@ -578,38 +578,8 @@
       margin-left: 10px;
       vertical-align: middle;
     }
-    .nc-mark-all {
-      font-size: 13px;
-      font-weight: 500;
-      color: #007167;
-      background: none;
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 999px;
-      padding: 8px 20px;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: background 0.15s;
-    }
-    .nc-mark-all:hover { background: #f0faf9; }
-
-    /* Header actions cluster */
+    /* Header actions cluster — buttons use the design-system .btn classes */
     .nc-actions { display: flex; align-items: center; gap: 8px; }
-
-    /* Clear all — secondary; signals removal on hover */
-    .nc-clear-all {
-      font-size: 13px;
-      font-weight: 500;
-      color: #6b7280;
-      background: none;
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 999px;
-      padding: 8px 20px;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: background 0.15s, color 0.15s, border-color 0.15s;
-    }
-    .nc-clear-all:hover { background: #fdf2f0; color: #c73e20; border-color: rgba(199,62,32,0.25); }
-    .nc-clear-all:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
 
     /* Per-item dismiss (×) — revealed on hover/focus, collapses to width:0 (no reserved gap) */
     .nc-dismiss {
@@ -1216,8 +1186,8 @@
     <div class="nc-header" data-skeleton-stagger>
       <h1 class="nc-title" data-i18n="nc.title">Notifications <span class="nc-title-count" id="ncUnreadCount">3</span></h1>
       <div class="nc-actions">
-        <button class="nc-mark-all" id="ncMarkAll" data-i18n="nc.markAll">Mark all as read</button>
-        <button class="nc-clear-all" id="ncClearAll" data-i18n="nc.clearAll">Clear all</button>
+        <button class="btn btn-secondary btn-sm" id="ncMarkAll" data-i18n="nc.markAll">Mark all as read</button>
+        <button class="btn btn-danger-outline btn-sm" id="ncClearAll" data-i18n="nc.clearAll">Clear all</button>
       </div>
     </div>
 
