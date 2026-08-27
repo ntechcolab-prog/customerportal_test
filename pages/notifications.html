@@ -1488,19 +1488,15 @@
     // Nothing visible to clear → disable Clear all (harmless when the cluster is hidden)
     if (clearAllBtn) clearAllBtn.disabled = visibleCount === 0;
 
+    // Only the list body swaps to an empty state — the header (title, tabs, buttons) stays put
     if (total === 0) {
-      // Everything cleared → "all caught up"
       setEmpty('nc.caughtUpTitle', "You're all caught up", 'nc.caughtUpDesc', 'You have no notifications right now.');
       emptyState.hidden = false;
-      if (filters) filters.style.display = 'none';
+    } else if (visibleCount === 0) {
+      setEmpty('nc.emptyTitle', 'No notifications found', 'nc.emptyDesc', 'No notifications match this category.');
+      emptyState.hidden = false;
     } else {
-      if (filters) filters.style.display = '';
-      if (visibleCount === 0) {
-        setEmpty('nc.emptyTitle', 'No notifications found', 'nc.emptyDesc', 'No notifications match this category.');
-        emptyState.hidden = false;
-      } else {
-        emptyState.hidden = true;
-      }
+      emptyState.hidden = true;
     }
   }
 
@@ -1513,11 +1509,8 @@
       if (unread > 0) { countBadge.textContent = unread; countBadge.style.display = ''; }
       else { countBadge.style.display = 'none'; }
     }
-    // Mark-all stays put but goes disabled when nothing is unread (no "vanish on click")
+    // Header buttons never disappear — just disable when there's nothing to act on
     if (markAllBtn) markAllBtn.disabled = unread === 0;
-    // The whole action cluster only disappears once the list is fully empty (→ caught-up state)
-    var actions = markAllBtn ? markAllBtn.closest('.nc-actions') : null;
-    if (actions) actions.style.display = total > 0 ? '' : 'none';
 
     if (filters) {
       filters.querySelectorAll('.nc-filter-tab').forEach(function(tab) {
