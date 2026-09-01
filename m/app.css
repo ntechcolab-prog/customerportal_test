@@ -345,6 +345,49 @@ a.row:active { background: var(--brand-wash); }
 .empty h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
 .empty p { font-size: 13.5px; color: var(--ink-2); max-width: 34ch; margin: 0 auto; line-height: 1.55; }
 
+/* ── notificações ── */
+.notif-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 13px 16px;
+  border-top: 1px solid var(--line-soft);
+  text-decoration: none;
+  color: inherit;
+}
+.notif-item:first-child { border-top: 0; }
+.notif-item.is-unread { background: var(--surface-2); }
+a.notif-item:active { background: var(--brand-wash); }
+.notif-top { display: flex; align-items: baseline; gap: 8px; }
+.notif-dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand);
+  align-self: flex-start;
+  margin-top: 5px;
+}
+.notif-title { flex: 1; min-width: 0; font-size: 14.5px; font-weight: 500; letter-spacing: -0.012em; line-height: 1.35; }
+.notif-item.is-unread .notif-title { font-weight: 700; }
+.notif-time { flex-shrink: 0; font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+.notif-desc { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+.notif-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.notif-type {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+.notif-go { margin-left: auto; display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; color: var(--brand-ink); }
+.notif-go svg { width: 7px; height: 12px; }
+.notif-portal { margin-left: auto; font-size: 11.5px; color: var(--ink-3); }
+
 /* ── nota de protótipo (discovery) ── */
 .note { margin: 20px 2px 0; font-size: 12px; line-height: 1.6; color: var(--ink-2); }
 .note strong { font-weight: 700; color: var(--ink-2); }

@@ -193,12 +193,33 @@ window.CP = (function () {
     return { title: a[0], category: a[1], machine: a[2], updated: a[3] };
   });
 
+  /* notifications.html — copiado 1:1 da lista do portal (pages/notifications.html).
+     `type` segue os data-type do portal (approvals, orders, quotes, contracts,
+     services); `unread` reproduz os 3 não lidos. `to` só existe quando a tela
+     daquele assunto já existe no companion — senão o item abre no portal. */
+  var NOTIFICATIONS = [
+    { type: 'approvals', unread: true,  title: 'Order #2800998-27 approved by Daniel Costa', time: '20 min ago',  desc: 'Your order for Steel Beads Micro (1.200,00 €) has been approved and is now being processed.' },
+    { type: 'approvals', unread: true,  title: 'Order #2800998-25 rejected by Daniel Costa', time: '2 hours ago', desc: 'Reason: "Exceeds Q2 budget limit for spare parts." You can edit and resubmit this order for approval.' },
+    { type: 'orders',    unread: false, title: 'Order #2800998-24 shipped',                  time: '1 day ago',    desc: 'Your order has been dispatched from Selb, Germany. Estimated delivery: May 12, 2026. Tracking number: DHL-4829103847.' },
+    { type: 'approvals', unread: false, title: 'Order #2800998-26 approved by Ana Ferreira',  time: '1 day ago',    desc: 'Your order for ZetaBeads Plus 0.3mm (850,00 €) has been approved.' },
+    { type: 'quotes',    unread: false, title: 'Quote #QT-2026-0041 ready for review',        time: '2 days ago',   desc: 'Spare parts for Alpha Zeta 10 — 12.450,00 €. Valid until May 31, 2026.' },
+    { type: 'contracts', unread: true,  title: 'Contract CTR-S-2025-002 expiring soon',       time: '3 days ago',   desc: 'Service contract for Epsilon + PMD (5 units) expires on Jul 31, 2026. Review and renew to maintain coverage and discounts.' },
+    { type: 'contracts', unread: false, title: 'Service visit scheduled — CTR-S-2026-001',    time: '5 days ago',   desc: 'Preventive maintenance visit confirmed for Jul 15–17, 2026. NEOS 10 (3 units). 1 NETZSCH technician, 3 business days.' },
+    { type: 'approvals', unread: false, title: 'Reminder: 3 orders pending approval',         time: '3 days ago',   desc: 'Orders #2800998-28, #29, #30 are awaiting approver review. Average approval time: 1.5 business days.' },
+    { type: 'orders',    unread: false, title: 'Order #2800998-23 delivered',                 time: '4 days ago',   desc: 'Your order for CERABEADS 0.4 has been delivered successfully. Signed by: Reception desk.' },
+    { type: 'services',  unread: false, title: 'Service Request #SR-1192 updated',            time: '1 week ago',   desc: 'Technician assigned — scheduled maintenance for your Zeta 60 on May 20, 2026.', to: 'machine.html?m=zeta60' },
+    { type: 'approvals', unread: false, title: 'Order #2800998-22 rejected by Daniel Costa',  time: '1 week ago',   desc: 'Reason: "Duplicate order — already processed under #2800998-21." No action needed.' },
+    { type: 'quotes',    unread: false, title: 'Quote #QT-2026-0038 expired',                 time: '2 weeks ago',  desc: 'Your quote for Grinding beads bundle for Zeta 60 (8.720,00 €) has expired. Request a new quote if still needed.' },
+    { type: 'orders',    unread: false, title: 'Order #2800998-21 confirmed by NETZSCH',      time: '2 weeks ago',  desc: 'Your order has been received and is being processed. Expected shipment: May 1, 2026.' }
+  ];
+
   return {
     user: { name: 'John Doe', role: 'Technician', company: 'Acme Corp' },
     machines: MACHINES,
     parts: PARTS,
     order: ORDER,
     budget: BUDGET,
-    help: HELP
+    help: HELP,
+    notifications: NOTIFICATIONS
   };
 })();

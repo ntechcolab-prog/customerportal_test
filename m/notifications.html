@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Notifications — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Customer Portal</span>
+  </span>
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main>
+  <div id="head"></div>
+
+  <div class="chips" id="chips" role="group" aria-label="Filter by type"></div>
+
+  <h2><span id="count"></span></h2>
+  <div id="list"></div>
+
+  <p class="note"><strong>Uso 11 do levantamento (CP-670).</strong> As mesmas
+  notificações do portal, agora no bolso — é a fundação que faz um aviso virar ação no
+  celular. Trazer a <em>lista</em> é esta tela; abrir cada item já na tela certa do
+  companion é o <em>deep link autenticado</em> (<strong>CP-659 / CP-640</strong>). Hoje o
+  telefone já abre os assuntos que têm tela aqui (a máquina do Service Request); pedido,
+  cotação, aprovação e o detalhe do Service Request ainda abrem no portal — são os Usos
+  04, 10, 08 e 12 (<strong>CP-663 / CP-669 / CP-667 / CP-671</strong>).</p>
+</main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var TYPES = [
+    { key: 'all',       label: 'All' },
+    { key: 'approvals', label: 'Approvals' },
+    { key: 'orders',    label: 'Orders' },
+    { key: 'quotes',    label: 'Quotes' },
+    { key: 'contracts', label: 'Contracts' },
+    { key: 'services',  label: 'Service' }
+  ];
+  var SINGULAR = { approvals: 'Approval', orders: 'Order', quotes: 'Quote', contracts: 'Contract', services: 'Service' };
+
+  var items = CP.notifications;
+  var unread = items.filter(function (n) { return n.unread; }).length;
+  var filter = 'all';
+
+  document.getElementById('head').innerHTML = M.ctxCard({
+    from: 'Mobile companion',
+    title: 'Notifications',
+    sub: unread + ' unread · ' + items.length + ' total'
+  });
+
+  var chips = document.getElementById('chips');
+  chips.innerHTML = TYPES.map(function (t) {
+    return '<button type="button" class="chip" data-type="' + t.key + '" aria-pressed="' +
+      (t.key === filter) + '">' + M.esc(t.label) + '</button>';
+  }).join('');
+
+  var chevron =
+    '<svg viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+    'stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
+
+  function item(n) {
+    var open = n.to;
+    var tag = open ? 'a' : 'div';
+    var attrs = open ? ' href="' + M.esc(n.to) + '"' : '';
+    return '<' + tag + ' class="notif-item' + (n.unread ? ' is-unread' : '') + '"' + attrs + '>' +
+        '<div class="notif-top">' +
+          (n.unread ? '<span class="notif-dot" aria-label="Unread"></span>' : '') +
+          '<span class="notif-title">' + M.esc(n.title) + '</span>' +
+          '<span class="notif-time">' + M.esc(n.time) + '</span>' +
+        '</div>' +
+        '<div class="notif-desc">' + M.esc(n.desc) + '</div>' +
+        '<div class="notif-meta">' +
+          '<span class="notif-type">' + M.esc(SINGULAR[n.type] || n.type) + '</span>' +
+          (open
+            ? '<span class="notif-go">Open ' + chevron + '</span>'
+            : '<span class="notif-portal">In the portal</span>') +
+        '</div>' +
+      '</' + tag + '>';
+  }
+
+  function render() {
+    var found = items.filter(function (n) { return filter === 'all' || n.type === filter; });
+    document.getElementById('count').textContent =
+      found.length + (found.length === 1 ? ' notification' : ' notifications');
+
+    document.getElementById('list').innerHTML = found.length
+      ? '<div class="card">' + found.map(item).join('') + '</div>'
+      : '<div class="card empty">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+          'stroke-linecap="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/>' +
+          '<path d="M10 20a2 2 0 0 0 4 0"/></svg>' +
+          '<h3>Nothing here</h3><p>No notifications of this type.</p>' +
+        '</div>';
+  }
+
+  chips.addEventListener('click', function (e) {
+    var btn = e.target.closest('.chip');
+    if (!btn) return;
+    filter = btn.getAttribute('data-type');
+    Array.prototype.forEach.call(chips.querySelectorAll('.chip'), function (c) {
+      c.setAttribute('aria-pressed', String(c === btn));
+    });
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
