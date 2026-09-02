@@ -49,10 +49,6 @@
     return '<span class="badge' + (cls ? ' ' + esc(cls) : '') + '">' + esc(label) + '</span>';
   };
 
-  var noteCard = function (html) {
-    return '<p class="note">' + html + '</p>';
-  };
-
   var specs = function (pairs) {
     return '<div class="card"><dl>' + pairs.map(function (p) {
       return '<div class="spec"><dt>' + esc(p[0]) + '</dt><dd>' + esc(p[1]) + '</dd></div>';
@@ -106,7 +102,6 @@
     expiredMarkup: expiredMarkup,
     ctxCard: ctxCard,
     badge: badge,
-    noteCard: noteCard,
     specs: specs,
     partsList: partsList
   };

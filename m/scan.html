@@ -78,19 +78,6 @@
     return M.ctxCard({ from: 'Handed off from Milla', title: meta.title, sub: sub });
   }
 
-  function note() {
-    return M.noteCard('<strong>Usos 15 e 20 do levantamento (CP-674 / CP-678).</strong> O Milla ' +
-      'já oferece Photo · Description · Product Code, mas só <em>Description</em> tinha handler — ' +
-      'os outros dois só fazem sentido no celular, então os botões mortos do desktop passam o ' +
-      'bastão pra cá (mesma tela pros dois, parametrizada). <strong>Decisão registrada (a ' +
-      'confirmar com Field Service/produto):</strong> a foto alimenta o reconhecimento do Milla ' +
-      '(matched / candidates / no match), não abre chamado humano; o código é lido como número ' +
-      'da peça — OCR ou barcode ainda em aberto (<strong>CP-642</strong>). A entrada manual fica ' +
-      'sempre disponível. Captura de verdade depende de câmera + backend de anexo ' +
-      '(<strong>CP-641 / CP-642</strong>) e de sessão (<strong>CP-640</strong>). Estados de ' +
-      'resultado: <code>?result=match</code> · <code>?result=candidates</code> · <code>?result=none</code>.');
-  }
-
   function go(r) { window.location.search = '?method=' + method + '&result=' + r; }
 
   /* ── estado de captura ── */
@@ -113,8 +100,7 @@
               'placeholder="Type the material number" aria-label="Material number">' +
             '<button type="button" class="btn" id="lookup">Look up</button>' +
           '</div></div>'
-        : '') +
-      note();
+        : '');
 
     document.getElementById('capture').addEventListener('click', function () { go('candidates'); });
     var lookup = document.getElementById('lookup');
@@ -182,7 +168,7 @@
         againCard();
     }
 
-    app.innerHTML = header(sub) + body + note();
+    app.innerHTML = header(sub) + body;
   }
 
   if (result) { renderResult(); } else { renderCapture(); }
