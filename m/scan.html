@@ -97,13 +97,13 @@
   function renderCapture() {
     app.innerHTML =
       header(machineName + ' · Milla search') +
-      '<div style="margin-top:14px">' +
+      '<div class="scan-capture">' +
         '<div class="scan-frame">' +
           '<div class="scan-reticle' + (method === 'code' ? ' is-code' : '') + '" aria-hidden="true"></div>' +
           '<div class="scan-ico" aria-hidden="true">' + ICON[method] + '</div>' +
           '<p class="scan-hint">' + M.esc(meta.hint) + '</p>' +
         '</div>' +
-        '<button type="button" class="btn btn-primary btn-full" id="capture" style="margin-top:14px">' +
+        '<button type="button" class="btn btn-primary btn-full" id="capture">' +
           M.esc(meta.cta) + '</button>' +
       '</div>' +
       (method === 'code'
@@ -155,14 +155,15 @@
     if (result === 'match') {
       sub = machineName + ' · exact match';
       body =
-        '<div class="callout" style="margin-top:14px"><strong>Exact match.</strong> One part in the ' +
+        '<div class="callout lead"><strong>Exact match.</strong> One part in the ' +
           M.esc(machineName) + ' catalogue matches ' + found + '.</div>' +
-        '<h2>Matched part</h2>' + M.partsList([ctx.items[0]]) +
-        '<h2>Take it to the desk</h2>' + resultsLink() + againCard();
+        '<h2>Matched part</h2>' +
+        '<div class="stack">' + M.partsList([ctx.items[0]]) + resultsLink() + '</div>' +
+        againCard();
     } else if (result === 'none') {
       sub = machineName + ' · no match';
       body =
-        '<div class="card empty" style="margin-top:14px">' +
+        '<div class="card empty lead">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
           'stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/>' +
           '<path d="m20 20-4.5-4.5"/><path d="M8 10.5h5"/></svg>' +
@@ -173,11 +174,12 @@
     } else {
       sub = machineName + ' · ' + ctx.items.length + ' candidates';
       body =
-        '<div class="callout" style="margin-top:14px"><strong>' + ctx.items.length +
+        '<div class="callout lead"><strong>' + ctx.items.length +
           ' possible matches.</strong> Milla couldn&rsquo;t pick one for sure from ' + found +
           ' — tap the right part to open it.</div>' +
-        '<h2>Candidates</h2>' + M.partsList(ctx.items) +
-        '<h2>Take it to the desk</h2>' + resultsLink() + againCard();
+        '<h2>Candidates</h2>' +
+        '<div class="stack">' + M.partsList(ctx.items) + resultsLink() + '</div>' +
+        againCard();
     }
 
     app.innerHTML = header(sub) + body + note();
