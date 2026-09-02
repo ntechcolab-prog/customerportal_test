@@ -380,8 +380,7 @@ a.row:active { background: var(--brand-wash); }
 
 .scan-frame {
   position: relative;
-  aspect-ratio: 4 / 5;
-  max-height: 340px;
+  height: 300px;
   border-radius: var(--radius);
   background: var(--surface-2);
   border: 1px solid var(--card-border);
