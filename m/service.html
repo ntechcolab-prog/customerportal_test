@@ -36,6 +36,7 @@
   var m = CP.machines[s.machine];
 
   var LABELS = { submitted: 'Submitted', 'in-progress': 'In Progress', completed: 'Completed' };
+  var BADGE_CLS = { submitted: 'is-submitted', 'in-progress': 'is-progress', completed: 'is-completed', cancelled: 'is-cancelled' };
   var ORDER = ['submitted', 'in-progress', 'completed'];
 
   /* Caso "mudou de novo entre o aviso e o toque" (CP-671): a notificação carrega
@@ -79,7 +80,8 @@
     M.ctxCard({
       from: 'Opened from a notification',
       title: 'Service ' + s.id,
-      sub: s.type + ' · ' + m.name + ' · ' + currentLabel
+      sub: s.type + ' · ' + m.name,
+      badge: M.badge(currentLabel, BADGE_CLS[s.status])
     }) +
     lead +
     '<h2>Progress</h2>' +

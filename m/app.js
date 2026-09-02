@@ -37,9 +37,16 @@
         '<div class="ctx-from">' + esc(o.from || 'From your computer') + '</div>' +
         '<h1>' + esc(o.title) + '</h1>' +
         (o.sub ? '<div class="ctx-sub">' + esc(o.sub) + '</div>' : '') +
+        (o.badge ? '<div class="ctx-badges">' + o.badge + '</div>' : '') +
         '<div class="ctx-session">Signed in as <strong>' + esc(o.role || 'Technician') +
           '</strong>, no new login</div>' +
       '</div>';
+  };
+
+  /* Badge de status na linguagem do portal (.badge + .is-*). Recebe já a classe
+     do estado para não espalhar o mapeamento pelas telas. */
+  var badge = function (label, cls) {
+    return '<span class="badge' + (cls ? ' ' + esc(cls) : '') + '">' + esc(label) + '</span>';
   };
 
   var noteCard = function (html) {
@@ -98,6 +105,7 @@
     isExpired: isExpired,
     expiredMarkup: expiredMarkup,
     ctxCard: ctxCard,
+    badge: badge,
     noteCard: noteCard,
     specs: specs,
     partsList: partsList

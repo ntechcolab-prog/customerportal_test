@@ -29,6 +29,11 @@
 
   --radius: 14px;
   --radius-sm: 9px;
+
+  /* Assinatura do portal desktop: borda quase invisível + sombra suave "Apple",
+     em vez da linha cinza chapada. Espelha --nz-shadow de assets/tables.css. */
+  --card-border: rgba(0, 0, 0, 0.06);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.02);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -123,10 +128,12 @@ h2 {
 /* ── cartão de contexto (topo de cada tela) ── */
 .ctx {
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius);
   padding: 17px 18px;
+  box-shadow: var(--shadow);
 }
+.ctx-badges { margin-top: 11px; display: flex; flex-wrap: wrap; gap: 6px; }
 .ctx-from {
   font-size: 11.5px;
   font-weight: 600;
@@ -159,9 +166,10 @@ h2 {
 /* ── listas em cartão ── */
 .card {
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius);
   overflow: hidden;
+  box-shadow: var(--shadow);
 }
 .row {
   display: flex;
@@ -226,7 +234,7 @@ a.row:active { background: var(--brand-wash); }
 .btn {
   border: 1px solid var(--line);
   background: var(--surface);
-  border-radius: 8px;
+  border-radius: 999px;
   min-height: 44px;
   padding: 0 14px;
   font-family: inherit;
@@ -243,9 +251,9 @@ a.row:active { background: var(--brand-wash); }
 .btn:active { background: var(--brand-wash); border-color: var(--brand); color: var(--brand-ink); }
 .btn.is-done { color: var(--brand-ink); border-color: var(--brand); }
 .btn-full { width: 100%; }
-.btn-primary { background: var(--brand-deep); border-color: var(--brand-deep); color: #fff; }
+.btn-primary { background: var(--brand-deep); border-color: var(--brand-deep); color: #fff; box-shadow: 0 2px 8px rgba(0, 113, 103, 0.22); }
 .btn-primary:active { background: var(--brand); border-color: var(--brand); color: #fff; }
-.copy { position: relative; min-height: 34px; padding: 0 10px; font-size: 11.5px; border-radius: 7px; }
+.copy { position: relative; min-height: 34px; padding: 0 12px; font-size: 11.5px; border-radius: 999px; }
 .copy::after { content: ""; position: absolute; inset: -5px -6px; }
 
 /* ── timeline de rastreio ── */
@@ -324,7 +332,7 @@ a.row:active { background: var(--brand-wash); }
   align-items: center;
 }
 .chip::after { content: ""; position: absolute; inset: -3px 0; }
-.chip[aria-pressed="true"] { background: var(--brand-deep); border-color: var(--brand-deep); color: #fff; }
+.chip[aria-pressed="true"] { background: var(--brand-wash); border-color: var(--brand); color: var(--brand-ink); }
 
 /* ── avisos ── */
 .callout {
@@ -334,11 +342,33 @@ a.row:active { background: var(--brand-wash); }
   line-height: 1.55;
   color: var(--ink-2);
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
 }
 .callout strong { color: var(--ink); font-weight: 600; }
-.callout.is-warn { background: var(--warn-wash); border-color: #f0ddc9; color: var(--warn-ink); }
+.callout.is-warn { background: var(--warn-wash); border-color: #f0ddc9; color: var(--warn-ink); box-shadow: none; }
 .callout.is-warn strong { color: var(--warn-ink); }
+
+/* ── badge de status (linguagem do portal: wash + bolinha viva + texto AAA) ── */
+.badge {
+  --dot: var(--ink-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 3px 10px 3px 9px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+.badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--dot); flex-shrink: 0; }
+/* Matiz do portal, texto escurecido até ≥ 7:1 sobre o wash (WCAG AAA). */
+.badge.is-progress  { --dot: #e08a0b; background: var(--warn-wash); color: var(--warn-ink); }  /* In Progress */
+.badge.is-submitted { --dot: #2f6fe0; background: #e9eefb;          color: #1e3a8a;         }  /* Submitted   */
+.badge.is-completed { --dot: #1f9d57; background: #e6f2ea;          color: #0f5a34;         }  /* Completed   */
+.badge.is-cancelled { --dot: #e0483f; background: #fbeaea;          color: #9a1c1c;         }  /* Cancelled   */
 
 .empty { text-align: center; padding: 30px 20px; }
 .empty svg { width: 28px; height: 28px; color: var(--ink-2); margin-bottom: 10px; }
