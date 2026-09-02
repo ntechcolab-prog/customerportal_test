@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Service request — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Customer Portal</span>
+  </span>
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+  var s = CP.service;
+  var m = CP.machines[s.machine];
+
+  var LABELS = { submitted: 'Submitted', 'in-progress': 'In Progress', completed: 'Completed' };
+  var ORDER = ['submitted', 'in-progress', 'completed'];
+
+  /* Caso "mudou de novo entre o aviso e o toque" (CP-671): a notificação carrega
+     o estado que ela anunciava em ?since=. Se o chamado já andou além disso, a
+     tela mostra a verdade atual e sinaliza que o alerta ficou para trás. */
+  var since = M.param('since', s.status);
+  var stale = ORDER.indexOf(since) > -1 && ORDER.indexOf(since) < ORDER.indexOf(s.status);
+  var currentLabel = LABELS[s.status] || s.status;
+
+  var chevron =
+    '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
+  var machineIcon =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+    'stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/>' +
+    '<path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M12 11v5"/></svg>';
+
+  var steps = s.steps.map(function (st) {
+    return '<li class="track-step' + (st.done ? ' is-done' : '') + '">' +
+        '<span class="track-mark" aria-hidden="true"><span class="track-dot"></span><span class="track-line"></span></span>' +
+        '<span class="track-body">' +
+          '<span class="track-title">' + M.esc(st.title) + '</span>' +
+          '<span class="track-note">' + M.esc(st.note) + '</span>' +
+          '<span class="track-state">' + M.esc(st.state) + '</span>' +
+        '</span>' +
+      '</li>';
+  }).join('');
+
+  var lead = stale
+    ? '<div class="callout is-warn" style="margin-top:14px">' +
+        '<strong>This request moved on since that alert.</strong> The notification you tapped said ' +
+        '&ldquo;' + M.esc(LABELS[since] || since) + '&rdquo;. It&rsquo;s now <strong>' + M.esc(currentLabel) +
+        '</strong> — you&rsquo;re looking at where it stands right now, not where the alert left it.' +
+      '</div>'
+    : '<div class="callout" style="margin-top:14px">' +
+        '<strong>' + M.esc(s.event.title) + '.</strong> ' + M.esc(s.event.note) +
+        ' <span style="color:var(--ink-3)">' + M.esc(s.event.time) + '</span>' +
+      '</div>';
+
+  app.innerHTML =
+    M.ctxCard({
+      from: 'Opened from a notification',
+      title: 'Service ' + s.id,
+      sub: s.type + ' · ' + m.name + ' · ' + currentLabel
+    }) +
+    lead +
+    '<h2>Progress</h2>' +
+    '<div class="card"><ol class="track" style="list-style:none">' + steps + '</ol></div>' +
+    '<h2>Request</h2>' +
+    M.specs([
+      ['Request ID', s.id],
+      ['Type', s.type],
+      ['Machine', m.name],
+      ['Serial number', m.sn],
+      ['Scheduled', s.scheduled],
+      ['Service by', s.serviceBy]
+    ]) +
+    '<h2>Machine</h2>' +
+    '<div class="card"><a class="row" href="machine.html?m=' + M.esc(s.machine) + '">' +
+      '<span class="row-icon" aria-hidden="true">' + machineIcon + '</span>' +
+      '<span class="row-body"><span class="row-title">' + M.esc(m.name) + '</span>' +
+        '<span class="row-sub">' + M.esc(m.line) + ' · SN ' + M.esc(m.sn) + '</span></span>' +
+      chevron +
+    '</a></div>' +
+    '<h2>Reference</h2>' +
+    '<div class="card"><div class="row">' +
+      '<span class="row-body"><span class="row-title" style="font-variant-numeric:tabular-nums">' +
+        M.esc(s.id) + '</span><span class="row-sub">Quote this when you contact NETZSCH</span></span>' +
+      '<button type="button" class="btn copy" data-copy="' + M.esc(s.id) + '" ' +
+        'aria-label="Copy request number">Copy</button>' +
+    '</div></div>' +
+    M.noteCard('<strong>Uso 12 do levantamento (CP-671).</strong> O técnico que abriu o ' +
+      'chamado é quem menos está na mesa — hoje ele descobre que algo mudou voltando ao ' +
+      'portal para checar. Aqui o portal <em>avisa</em> e abre já no ponto do que mudou. ' +
+      'Nem toda mudança vira aviso: valem <strong>técnico designado</strong>, ' +
+      '<strong>visita remarcada</strong> e <strong>concluído</strong> (com o relatório); ' +
+      'o &ldquo;Submitted&rdquo; inicial e edições internas não pingam — técnico que recebe ' +
+      'aviso de tudo para de ler. Se o chamado andou de novo entre o aviso e o toque, a tela ' +
+      'mostra o <strong>estado atual</strong> e marca que o alerta ficou para trás (veja ' +
+      '<code>?since=submitted</code>). Abrir direto neste ponto por um toque na notificação ' +
+      'é o <strong>deep link autenticado (CP-659 / CP-640)</strong>.');
+})();
+</script>
+</body>
+</html>

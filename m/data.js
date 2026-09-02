@@ -207,11 +207,36 @@ window.CP = (function () {
     { type: 'contracts', unread: false, title: 'Service visit scheduled — CTR-S-2026-001',    time: '5 days ago',   desc: 'Preventive maintenance visit confirmed for Jul 15–17, 2026. NEOS 10 (3 units). 1 NETZSCH technician, 3 business days.' },
     { type: 'approvals', unread: false, title: 'Reminder: 3 orders pending approval',         time: '3 days ago',   desc: 'Orders #2800998-28, #29, #30 are awaiting approver review. Average approval time: 1.5 business days.' },
     { type: 'orders',    unread: false, title: 'Order #2800998-23 delivered',                 time: '4 days ago',   desc: 'Your order for CERABEADS 0.4 has been delivered successfully. Signed by: Reception desk.' },
-    { type: 'services',  unread: false, title: 'Service Request #SR-1192 updated',            time: '1 week ago',   desc: 'Technician assigned — scheduled maintenance for your Zeta 60 on May 20, 2026.', to: 'machine.html?m=zeta60' },
+    { type: 'services',  unread: false, title: 'Service Request #SR-1192 updated',            time: '1 week ago',   desc: 'Technician assigned — scheduled maintenance for your Zeta 60 on May 20, 2026.', to: 'service.html' },
     { type: 'approvals', unread: false, title: 'Order #2800998-22 rejected by Daniel Costa',  time: '1 week ago',   desc: 'Reason: "Duplicate order — already processed under #2800998-21." No action needed.' },
     { type: 'quotes',    unread: false, title: 'Quote #QT-2026-0038 expired',                 time: '2 weeks ago',  desc: 'Your quote for Grinding beads bundle for Zeta 60 (8.720,00 €) has expired. Request a new quote if still needed.' },
     { type: 'orders',    unread: false, title: 'Order #2800998-21 confirmed by NETZSCH',      time: '2 weeks ago',  desc: 'Your order has been received and is being processed. Expected shipment: May 1, 2026.' }
   ];
+
+  /* service-request-submitted.html — o mesmo Service Request da notificação
+     (SR-1192). O modelo de status é o do portal: Submitted → In Progress →
+     Completed. `machine` referencia MACHINES.zeta60; `serviceBy` sai do
+     "Service by: NEM" da ficha da máquina. `notify` marca quais mudanças de
+     status valem um aviso no celular (é a decisão de discovery do CP-671):
+     técnico designado e concluído pingam; o "Submitted" inicial não. */
+  var SERVICE = {
+    id: 'SR-1192',
+    type: 'Maintenance',
+    machine: 'zeta60',
+    scheduled: 'May 20, 2026',
+    serviceBy: 'NEM',
+    status: 'in-progress',
+    event: {
+      title: 'Technician assigned',
+      note: 'Scheduled maintenance for your Zeta 60 on May 20, 2026.',
+      time: '1 week ago'
+    },
+    steps: [
+      { key: 'submitted',   title: 'Submitted',   note: 'Request received by NETZSCH.',                        state: 'Received', done: true,  notify: false },
+      { key: 'in-progress', title: 'In Progress', note: 'Technician assigned · visit scheduled May 20, 2026.', state: 'Current',  done: true,  notify: true  },
+      { key: 'completed',   title: 'Completed',   note: 'The service report will appear here.',                state: 'Pending',  done: false, notify: true  }
+    ]
+  };
 
   return {
     user: { name: 'John Doe', role: 'Technician', company: 'Acme Corp' },
@@ -220,6 +245,7 @@ window.CP = (function () {
     order: ORDER,
     budget: BUDGET,
     help: HELP,
-    notifications: NOTIFICATIONS
+    notifications: NOTIFICATIONS,
+    service: SERVICE
   };
 })();
