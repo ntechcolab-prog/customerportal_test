@@ -71,6 +71,34 @@
     </a>
   </div>
 
+  <h2>Find a part</h2>
+  <div class="card">
+    <a class="row" href="scan.html?method=photo">
+      <span class="row-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 7h3l1.7-2h6.6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/>
+        </svg>
+      </span>
+      <span class="row-body">
+        <span class="row-title">Search by photo</span>
+        <span class="row-sub">Point your phone at the part</span>
+      </span>
+      <svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>
+    </a>
+    <a class="row" href="scan.html?method=code">
+      <span class="row-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M8 8v8M11 8v8M14 8v8M16.5 8v8"/>
+        </svg>
+      </span>
+      <span class="row-body">
+        <span class="row-title">Scan the product code</span>
+        <span class="row-sub">Read the code off the part or its plate</span>
+      </span>
+      <svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>
+    </a>
+  </div>
+
   <h2>Sent from your computer</h2>
   <div class="card">
     <a class="row" href="parts.html?ctx=inlet-flange">
@@ -167,8 +195,12 @@
   grupo A do levantamento — as que dependem só de ter sessão no celular. Elas chegam de
   três jeitos: por <strong>QR</strong> do desktop, por <strong>link</strong> direto, e
   pela <strong>caixa de notificações</strong> (<strong>CP-670</strong>), o canal que
-  entrega o aviso no telefone. Nenhum login real acontece aqui: é isso que o spike
-  <strong>CP-640</strong> precisa responder com o time de plataforma.</p>
+  entrega o aviso no telefone. O bloco <strong>Find a part</strong> é a exceção: é a
+  única coisa que você <em>inicia</em> no celular em vez de receber — a porta
+  phone-native da busca por câmera (Usos 15/20, <strong>CP-674 / CP-678</strong>), que
+  em produção depende de o telefone ter login próprio. Nenhum login real acontece aqui:
+  é isso que os spikes <strong>CP-640 / CP-659 / CP-680</strong> precisam responder com o
+  time de plataforma.</p>
 </main>
 
 <footer>NETZSCH Customer Portal · mobile companion</footer>
