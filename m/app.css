@@ -370,6 +370,61 @@ a.row:active { background: var(--brand-wash); }
 .badge.is-completed { --dot: #1f9d57; background: #e6f2ea;          color: #0f5a34;         }  /* Completed   */
 .badge.is-cancelled { --dot: #e0483f; background: #fbeaea;          color: #9a1c1c;         }  /* Cancelled   */
 
+/* ── captura Milla (photo / product code) ── */
+.scan-frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  max-height: 400px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  text-align: center;
+  padding: 26px;
+  overflow: hidden;
+}
+.scan-reticle {
+  position: absolute;
+  inset: 14% 12%;
+  border: 2px solid rgba(0, 113, 103, 0.45);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.scan-reticle.is-code { inset: 33% 12%; }
+.scan-reticle.is-code::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 50%;
+  height: 2px;
+  background: var(--brand);
+  box-shadow: 0 0 8px rgba(0, 113, 103, 0.55);
+  animation: scanline 2.1s ease-in-out infinite;
+}
+@keyframes scanline { 0%, 100% { transform: translateY(-16px); } 50% { transform: translateY(16px); } }
+.scan-ico { position: relative; width: 44px; height: 44px; color: var(--brand-ink); }
+.scan-ico svg { width: 100%; height: 100%; }
+.scan-hint { position: relative; font-size: 13.5px; color: var(--ink-2); max-width: 30ch; line-height: 1.5; }
+.scan-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  padding: 0 15px;
+  font-family: inherit;
+  font-size: 16px; /* < 16px faz o iOS dar zoom no foco */
+  color: var(--ink);
+}
+.scan-input::placeholder { color: var(--ink-2); }
+
 .empty { text-align: center; padding: 30px 20px; }
 .empty svg { width: 28px; height: 28px; color: var(--ink-2); margin-bottom: 10px; }
 .empty h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }

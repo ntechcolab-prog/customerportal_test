@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Search by camera — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Customer Portal</span>
+  </span>
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+
+  /* Alvo de handoff: se o link do QR já expirou, não há o que capturar. */
+  if (M.isExpired()) { app.innerHTML = M.expiredMarkup; return; }
+
+  var method = M.param('method', 'photo') === 'code' ? 'code' : 'photo';
+  var result = M.param('result', null); // null = captura · 'match' · 'candidates' · 'none'
+
+  /* Foto e código convergem no MESMO resultado que o "Description" já produz —
+     é a tese dos usos 15/20: terminar uma promessa que o Milla já faz. */
+  var ctx = CP.parts['search-zeta60'];
+  var machineName = CP.machines[ctx.machine].name;
+
+  var ICON = {
+    photo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M4 7h3l1.7-2h6.6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg>',
+    code: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/>' +
+      '<path d="M8 8v8M11 8v8M14 8v8M16.5 8v8"/></svg>',
+    rescan: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M20 11a8 8 0 1 0-.6 4"/><path d="M20 4v5h-5"/></svg>',
+    parts: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
+      '<circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.6M12 18.4V21M21 12h-2.6M5.6 12H3M18.4 5.6l-1.9 1.9M7.5 16.5l-1.9 1.9M18.4 18.4l-1.9-1.9M7.5 7.5 5.6 5.6"/></svg>'
+  };
+
+  var META = {
+    photo: {
+      title: 'Search by photo',
+      hint: 'Point your phone at the part. Milla matches it against the ' + machineName + ' catalogue.',
+      cta: 'Capture photo'
+    },
+    code: {
+      title: 'Search by product code',
+      hint: 'Point your phone at the code on the part or its plate.',
+      cta: 'Scan code'
+    }
+  };
+  var meta = META[method];
+
+  var chevron =
+    '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
+
+  function header(sub) {
+    return M.ctxCard({ from: 'Handed off from Milla', title: meta.title, sub: sub });
+  }
+
+  function note() {
+    return M.noteCard('<strong>Usos 15 e 20 do levantamento (CP-674 / CP-678).</strong> O Milla ' +
+      'já oferece Photo · Description · Product Code, mas só <em>Description</em> tinha handler — ' +
+      'os outros dois só fazem sentido no celular, então os botões mortos do desktop passam o ' +
+      'bastão pra cá (mesma tela pros dois, parametrizada). <strong>Decisão registrada (a ' +
+      'confirmar com Field Service/produto):</strong> a foto alimenta o reconhecimento do Milla ' +
+      '(matched / candidates / no match), não abre chamado humano; o código é lido como número ' +
+      'da peça — OCR ou barcode ainda em aberto (<strong>CP-642</strong>). A entrada manual fica ' +
+      'sempre disponível. Captura de verdade depende de câmera + backend de anexo ' +
+      '(<strong>CP-641 / CP-642</strong>) e de sessão (<strong>CP-640</strong>). Estados de ' +
+      'resultado: <code>?result=match</code> · <code>?result=candidates</code> · <code>?result=none</code>.');
+  }
+
+  function go(r) { window.location.search = '?method=' + method + '&result=' + r; }
+
+  /* ── estado de captura ── */
+  function renderCapture() {
+    app.innerHTML =
+      header(machineName + ' · Milla search') +
+      '<div style="margin-top:14px">' +
+        '<div class="scan-frame">' +
+          '<div class="scan-reticle' + (method === 'code' ? ' is-code' : '') + '" aria-hidden="true"></div>' +
+          '<div class="scan-ico" aria-hidden="true">' + ICON[method] + '</div>' +
+          '<p class="scan-hint">' + M.esc(meta.hint) + '</p>' +
+        '</div>' +
+        '<button type="button" class="btn btn-primary btn-full" id="capture" style="margin-top:14px">' +
+          M.esc(meta.cta) + '</button>' +
+      '</div>' +
+      (method === 'code'
+        ? '<h2>Or enter it by hand</h2>' +
+          '<div class="card"><div class="row">' +
+            '<input class="scan-input" id="manual" inputmode="numeric" ' +
+              'placeholder="Type the material number" aria-label="Material number">' +
+            '<button type="button" class="btn" id="lookup">Look up</button>' +
+          '</div></div>'
+        : '') +
+      note();
+
+    document.getElementById('capture').addEventListener('click', function () { go('candidates'); });
+    var lookup = document.getElementById('lookup');
+    if (lookup) lookup.addEventListener('click', function () { go('candidates'); });
+  }
+
+  function againCard() {
+    var other = method === 'photo' ? 'code' : 'photo';
+    return '<h2>Not it?</h2>' +
+      '<div class="card">' +
+        '<a class="row" href="scan.html?method=' + method + '">' +
+          '<span class="row-icon" aria-hidden="true">' + ICON.rescan + '</span>' +
+          '<span class="row-body"><span class="row-title">' + M.esc(meta.cta) + ' again</span>' +
+            '<span class="row-sub">Line it up and try once more</span></span>' + chevron +
+        '</a>' +
+        '<a class="row" href="scan.html?method=' + other + '">' +
+          '<span class="row-icon" aria-hidden="true">' + ICON[other] + '</span>' +
+          '<span class="row-body"><span class="row-title">' +
+            (other === 'code' ? 'Try the product code instead' : 'Try a photo instead') + '</span>' +
+            '<span class="row-sub">Same search, other method</span></span>' + chevron +
+        '</a>' +
+      '</div>';
+  }
+
+  function resultsLink() {
+    return '<div class="card"><a class="row" href="parts.html?ctx=search-zeta60">' +
+        '<span class="row-icon" aria-hidden="true">' + ICON.parts + '</span>' +
+        '<span class="row-body"><span class="row-title">Open in Milla results</span>' +
+          '<span class="row-sub">Full spare-parts list for ' + M.esc(machineName) + '</span></span>' + chevron +
+      '</a></div>';
+  }
+
+  /* ── estados de resultado ── */
+  function renderResult() {
+    var found = method === 'code' ? 'that code' : 'your photo';
+    var body, sub;
+
+    if (result === 'match') {
+      sub = machineName + ' · exact match';
+      body =
+        '<div class="callout" style="margin-top:14px"><strong>Exact match.</strong> One part in the ' +
+          M.esc(machineName) + ' catalogue matches ' + found + '.</div>' +
+        '<h2>Matched part</h2>' + M.partsList([ctx.items[0]]) +
+        '<h2>Take it to the desk</h2>' + resultsLink() + againCard();
+    } else if (result === 'none') {
+      sub = machineName + ' · no match';
+      body =
+        '<div class="card empty" style="margin-top:14px">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+          'stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/>' +
+          '<path d="m20 20-4.5-4.5"/><path d="M8 10.5h5"/></svg>' +
+          '<h3>No match from ' + found + '</h3>' +
+          '<p>Nothing in the ' + M.esc(machineName) + ' catalogue lined up. Try again, switch method, ' +
+          'or describe it to Milla back at the desk.</p>' +
+        '</div>' + againCard();
+    } else {
+      sub = machineName + ' · ' + ctx.items.length + ' candidates';
+      body =
+        '<div class="callout" style="margin-top:14px"><strong>' + ctx.items.length +
+          ' possible matches.</strong> Milla couldn&rsquo;t pick one for sure from ' + found +
+          ' — tap the right part to open it.</div>' +
+        '<h2>Candidates</h2>' + M.partsList(ctx.items) +
+        '<h2>Take it to the desk</h2>' + resultsLink() + againCard();
+    }
+
+    app.innerHTML = header(sub) + body + note();
+  }
+
+  if (result) { renderResult(); } else { renderCapture(); }
+})();
+</script>
+</body>
+</html>

@@ -20,7 +20,13 @@
     'zeta60': { label: 'Zeta 60 — machine details', machine: 'zeta60', route: '/m/machine.html?m=zeta60' },
     'discus30': { label: 'Discus 30 — machine details', machine: 'discus30', route: '/m/machine.html?m=discus30' },
     'inlet-flange': { label: 'Inlet Flange Complete — parts list', machine: 'discus30', subset: 'inlet-flange', route: '/m/parts.html?ctx=inlet-flange' },
-    'spare-parts': { label: 'Spare parts search', machine: 'zeta60', route: '/m/parts.html?ctx=search-zeta60' }
+    'spare-parts': { label: 'Spare parts search', machine: 'zeta60', route: '/m/parts.html?ctx=search-zeta60' },
+    // Os dois métodos que só fazem sentido no telefone (CP-674 / CP-678):
+    // o botão morto do desktop passa o bastão pra tela de captura no companion.
+    'milla-photo': { label: 'Milla — search a part by photo', machine: 'zeta60', route: '/m/scan.html?method=photo',
+      sub: 'Scan to point your phone camera at the part, already signed in.' },
+    'milla-code': { label: 'Milla — read the part code', machine: 'zeta60', route: '/m/scan.html?method=code',
+      sub: 'Scan to read the part code with your phone camera, already signed in.' }
   };
 
   // O companion tem endereço próprio; o portal de produção não o serve na mesma
@@ -75,8 +81,8 @@
           'stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>' +
         '</button>' +
       '</div>' +
-      '<p class="ho-sub">Scan to open this part list on your phone, already signed in. ' +
-        'No writing part numbers on paper.</p>' +
+      '<p class="ho-sub">' + (ctx.sub || 'Scan to open this part list on your phone, already signed in. ' +
+        'No writing part numbers on paper.') + '</p>' +
       (tooLong
         ? '<div class="ho-warn"><strong>Link longo demais para este gerador de QR.</strong> ' +
           'Acima de ' + QR_SAFE_BYTES + ' bytes o código sai ilegível para a câmera. ' +
@@ -196,13 +202,13 @@
       });
     });
 
-    // 2. os dois métodos da Milla que hoje não têm handler nenhum.
-    //    São justamente os que só fazem sentido no telefone.
+    // 2. os dois métodos da Milla que só fazem sentido no telefone: o handoff
+    //    abre já na tela de captura do método certo (CP-674 foto / CP-678 código).
     document.querySelectorAll('.method-card[data-method="photo"], .method-card[data-method="code"]')
       .forEach(function (el) {
         el.addEventListener('click', function (e) {
           e.preventDefault();
-          open(guessContext());
+          open(el.getAttribute('data-method') === 'code' ? 'milla-code' : 'milla-photo');
         });
       });
   });
