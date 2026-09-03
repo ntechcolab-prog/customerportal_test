@@ -505,6 +505,43 @@ a.notif-item:active { background: var(--brand-wash); }
 .notif-go svg { width: 7px; height: 12px; }
 .notif-portal { margin-left: auto; font-size: 11.5px; color: var(--ink-3); }
 
+/* ── ações de decisão (approve/reject · aceitar quote · grant/deny) ── */
+.actions { margin-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.btn-danger { color: #9a1c1c; border-color: #e6c9c9; }
+.btn-danger:active { background: #fbeaea; border-color: #cf6b6b; color: #7f1414; }
+
+/* ── campo de texto (motivo de recusa etc.) ── */
+.field { margin-top: 14px; }
+.field-label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-2); margin: 0 2px 7px; }
+.field-input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 11px 13px;
+  font-family: inherit;
+  font-size: 16px; /* < 16px faz o iOS dar zoom no foco */
+  color: var(--ink);
+  line-height: 1.5;
+}
+textarea.field-input { min-height: 92px; resize: vertical; }
+.field-input::placeholder { color: var(--ink-2); }
+.field-input:focus { outline: none; border-color: var(--brand); }
+.field-error { margin: 8px 2px 0; font-size: 12.5px; color: #9a1c1c; font-weight: 600; }
+
+/* ── resultado de uma decisão (confirmação) ── */
+.result { text-align: center; padding: 34px 22px; }
+.result-ico {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.result-ico svg { width: 28px; height: 28px; }
+.result-ico.is-ok { background: var(--ok-wash); color: var(--ok-ink); }
+.result-ico.is-no { background: #fbeaea; color: #9a1c1c; }
+.result h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 7px; }
+.result p { font-size: 13.5px; color: var(--ink-2); max-width: 36ch; margin: 0 auto; line-height: 1.55; }
+
 /* ── nota de protótipo (discovery) ── */
 .note { margin: 20px 2px 0; font-size: 12px; line-height: 1.6; color: var(--ink-2); }
 .note strong { font-weight: 700; color: var(--ink-2); }

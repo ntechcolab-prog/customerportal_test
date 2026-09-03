@@ -205,7 +205,7 @@ window.CP = (function () {
     { type: 'quotes',    unread: false, title: 'Quote #QT-2026-0041 ready for review',        time: '2 days ago',   desc: 'Spare parts for Alpha Zeta 10 — 12.450,00 €. Valid until May 31, 2026.' },
     { type: 'contracts', unread: true,  title: 'Contract CTR-S-2025-002 expiring soon',       time: '3 days ago',   desc: 'Service contract for Epsilon + PMD (5 units) expires on Jul 31, 2026. Review and renew to maintain coverage and discounts.' },
     { type: 'contracts', unread: false, title: 'Service visit scheduled — CTR-S-2026-001',    time: '5 days ago',   desc: 'Preventive maintenance visit confirmed for Jul 15–17, 2026. NEOS 10 (3 units). 1 NETZSCH technician, 3 business days.' },
-    { type: 'approvals', unread: false, title: 'Reminder: 3 orders pending approval',         time: '3 days ago',   desc: 'Orders #2800998-28, #29, #30 are awaiting approver review. Average approval time: 1.5 business days.' },
+    { type: 'approvals', unread: false, title: 'Reminder: 3 orders pending approval',         time: '3 days ago',   desc: 'Orders #2800998-28, #29, #30 are awaiting approver review. Average approval time: 1.5 business days.', to: 'approve.html' },
     { type: 'orders',    unread: false, title: 'Order #2800998-23 delivered',                 time: '4 days ago',   desc: 'Your order for CERABEADS 0.4 has been delivered successfully. Signed by: Reception desk.' },
     { type: 'services',  unread: false, title: 'Service Request #SR-1192 updated',            time: '1 week ago',   desc: 'Technician assigned — scheduled maintenance for your Zeta 60 on May 20, 2026.', to: 'service.html' },
     { type: 'approvals', unread: false, title: 'Order #2800998-22 rejected by Daniel Costa',  time: '1 week ago',   desc: 'Reason: "Duplicate order — already processed under #2800998-21." No action needed.' },
@@ -238,6 +238,34 @@ window.CP = (function () {
     ]
   };
 
+  /* Approver decision (CP-667) — a aprovação de pedido NÃO existe como tela no
+     desktop; ela aparece só no feed de notificações (pages/notifications.html):
+     "approved/rejected by Daniel Costa", e o lembrete "3 orders pending
+     approval" (#2800998-28/29/30). Este objeto reúne o que o portal de fato
+     mostra: o approver (Daniel Costa), o outro approver que cobre o estado
+     "outra pessoa já decidiu" (Ana Ferreira, também do feed), o pedido pendente
+     com dados reais do dashboard (#2800998-30: data, total, descrição, itens) e
+     os motivos de recusa que o próprio feed traz. `requestedBy` sai de
+     CP.user.name. Nada inventado. */
+  var APPROVAL = {
+    approver: 'Daniel Costa',
+    otherApprover: 'Ana Ferreira',
+    pendingCount: 3,                 /* "3 orders pending approval" */
+    order: {
+      id: '2800998-30',
+      date: 'Feb 28, 2026',
+      requestedBy: 'John Doe',
+      desc: 'LMZ60 spares',
+      items: 3,
+      total: '4.000,00 EUR'
+    },
+    /* motivos que o feed do portal traz em recusas reais (#2800998-25 / -22) */
+    reasons: [
+      'Exceeds budget limit for spare parts',
+      'Duplicate order'
+    ]
+  };
+
   return {
     user: { name: 'John Doe', role: 'Technician', company: 'Acme Corp' },
     machines: MACHINES,
@@ -246,6 +274,7 @@ window.CP = (function () {
     budget: BUDGET,
     help: HELP,
     notifications: NOTIFICATIONS,
-    service: SERVICE
+    service: SERVICE,
+    approval: APPROVAL
   };
 })();

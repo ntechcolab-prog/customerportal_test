@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Approve order — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Customer Portal</span>
+  </span>
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var app = document.getElementById('app');
+  var esc = M.esc;
+  var A = CP.approval;
+  var o = A.order;
+
+  /* Deep link (CP-659) carrega quem abriu e o estado no momento do aviso.
+     ?role=  → papel de quem tocou (default: approver, o destinatário do link)
+     ?state= → pending | handled (já decidido por outra pessoa nesse meio-tempo) */
+  var role = M.param('role', 'approver');
+  var state = M.param('state', 'pending');
+
+  var checkSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+  var xSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+  var lockSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/>' +
+    '<path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>';
+
+  /* Cartão de contexto do topo. `who` diz de quem é a sessão que abriu o link. */
+  function head(badgeLabel, badgeCls, who) {
+    return M.ctxCard({
+      from: 'Opened from a notification',
+      title: 'Order #' + o.id,
+      sub: 'Requested by ' + o.requestedBy + ' · ' + o.desc,
+      badge: M.badge(badgeLabel, badgeCls),
+      role: who
+    });
+  }
+
+  /* Ficha do pedido — os dados que o approver precisa para decidir. */
+  function orderSpecs() {
+    return M.specs([
+      ['Order', o.id],
+      ['Requested by', o.requestedBy],
+      ['Placed', o.date],
+      ['Items', o.items + (o.items === 1 ? ' item' : ' items')],
+      ['Total', o.total]
+    ]);
+  }
+
+  /* Contexto de orçamento: é o critério real de recusa do portal
+     ("Exceeds budget limit for spare parts"). Dado real de CP.budget. */
+  function budgetNote() {
+    return '<div class="callout lead">' +
+        'This order is <strong>' + esc(o.total) + '</strong>. ' +
+        'Budget left in ' + esc(CP.budget.period) + ': <strong>' + esc(CP.budget.remaining) + '</strong>.' +
+      '</div>';
+  }
+
+  function result(cls, ico, title, body) {
+    return '<div class="card"><div class="result" role="status">' +
+        '<span class="result-ico ' + cls + '" aria-hidden="true">' + ico + '</span>' +
+        '<h3>' + esc(title) + '</h3>' +
+        '<p>' + body + '</p>' +
+      '</div></div>';
+  }
+
+  /* ── Estados de exceção (resolvidos antes do fluxo normal) ── */
+
+  // Link expirado — mesma regra dos outros deep links do companion.
+  if (M.isExpired()) { app.innerHTML = M.expiredMarkup; return; }
+
+  // Aberto por quem não tem direito de aprovar.
+  if (role !== 'approver') {
+    app.innerHTML =
+      head('Pending approval', 'is-progress', CP.user.name + ' · ' + CP.user.role) +
+      '<div class="card empty lead">' + lockSvg +
+        '<h3>You don’t have approval rights</h3>' +
+        '<p>This decision belongs to an approver. Ask an admin for access, or open it from the approver’s device.</p>' +
+      '</div>';
+    return;
+  }
+
+  // Já decidido por outra pessoa entre o aviso e o toque.
+  if (state === 'handled') {
+    app.innerHTML =
+      head('Approved', 'is-completed', A.approver + ' · Approver') +
+      '<div class="callout is-warn lead">' +
+        '<strong>' + esc(A.otherApprover) + ' already approved this order.</strong> ' +
+        'It moved before you got to it — there’s nothing left to decide. ' +
+        'You’re seeing where it stands now, not where the alert left it.' +
+      '</div>' +
+      orderSpecs();
+    return;
+  }
+
+  /* ── Fluxo normal: decidir ──
+     Máquina de estados simples: 'decide' → 'reason' → done. */
+  function render(view, reasonText) {
+    var body;
+
+    if (view === 'done-approve') {
+      body = result('is-ok', checkSvg, 'Order approved',
+        'Order #' + esc(o.id) + ' is approved. <strong>' + esc(o.requestedBy) +
+        '</strong> will be notified.');
+
+    } else if (view === 'done-reject') {
+      body = result('is-no', xSvg, 'Order rejected',
+        'Order #' + esc(o.id) + ' was rejected. <strong>' + esc(o.requestedBy) +
+        '</strong> will be notified.') +
+        '<div class="callout is-warn"><strong>Reason sent:</strong> ' + esc(reasonText) + '</div>';
+
+    } else if (view === 'reason') {
+      var chips = A.reasons.map(function (r) {
+        return '<button type="button" class="chip" data-reason="' + esc(r) + '">' + esc(r) + '</button>';
+      }).join('');
+      body =
+        '<h2>Reason for rejection</h2>' +
+        '<div class="chips" id="reasonChips" role="group" aria-label="Common reasons">' + chips + '</div>' +
+        '<div class="field">' +
+          '<label class="field-label" for="reasonText">Add a reason (required)</label>' +
+          '<textarea class="field-input" id="reasonText" ' +
+            'placeholder="' + esc(A.reasons[0]) + '" aria-describedby="reasonErr"></textarea>' +
+          '<p class="field-error" id="reasonErr" hidden>A reason is required before you reject.</p>' +
+        '</div>' +
+        '<div class="actions">' +
+          '<button type="button" class="btn btn-danger btn-full" id="confirmReject">Confirm rejection</button>' +
+          '<button type="button" class="btn btn-full" id="cancelReject">Cancel</button>' +
+        '</div>';
+
+    } else { /* decide */
+      body =
+        budgetNote() +
+        '<h2>What you’re approving</h2>' +
+        orderSpecs() +
+        '<div class="actions">' +
+          '<button type="button" class="btn btn-primary btn-full" id="approve">Approve order</button>' +
+          '<button type="button" class="btn btn-danger btn-full" id="reject">Reject…</button>' +
+        '</div>' +
+        '<p class="note">This is 1 of ' + A.pendingCount + ' orders awaiting your approval.</p>';
+    }
+
+    var badge = view.indexOf('done-approve') === 0
+      ? ['Approved', 'is-completed']
+      : view.indexOf('done-reject') === 0
+        ? ['Rejected', 'is-cancelled']
+        : ['Pending approval', 'is-progress'];
+
+    app.innerHTML = head(badge[0], badge[1], A.approver + ' · Approver') + body;
+    wire(view);
+  }
+
+  function wire(view) {
+    if (view === 'decide') {
+      document.getElementById('approve').addEventListener('click', function () {
+        render('done-approve');
+        window.scrollTo(0, 0);
+      });
+      document.getElementById('reject').addEventListener('click', function () {
+        render('reason');
+        var ta = document.getElementById('reasonText');
+        if (ta) ta.focus();
+      });
+      return;
+    }
+
+    if (view === 'reason') {
+      var chips = document.getElementById('reasonChips');
+      var ta = document.getElementById('reasonText');
+      var err = document.getElementById('reasonErr');
+
+      chips.addEventListener('click', function (e) {
+        var btn = e.target.closest('.chip');
+        if (!btn) return;
+        ta.value = btn.getAttribute('data-reason');
+        err.hidden = true;
+        Array.prototype.forEach.call(chips.querySelectorAll('.chip'), function (c) {
+          c.setAttribute('aria-pressed', String(c === btn));
+        });
+        ta.focus();
+      });
+
+      document.getElementById('confirmReject').addEventListener('click', function () {
+        var reason = ta.value.trim();
+        if (!reason) {
+          err.hidden = false;
+          ta.focus();
+          return;
+        }
+        render('done-reject', reason);
+        window.scrollTo(0, 0);
+      });
+
+      document.getElementById('cancelReject').addEventListener('click', function () {
+        render('decide');
+      });
+    }
+  }
+
+  render('decide');
+})();
+</script>
+</body>
+</html>
