@@ -202,7 +202,7 @@ window.CP = (function () {
     { type: 'approvals', unread: true,  title: 'Order #2800998-25 rejected by Daniel Costa', time: '2 hours ago', desc: 'Reason: "Exceeds Q2 budget limit for spare parts." You can edit and resubmit this order for approval.' },
     { type: 'orders',    unread: false, title: 'Order #2800998-24 shipped',                  time: '1 day ago',    desc: 'Your order has been dispatched from Selb, Germany. Estimated delivery: May 12, 2026. Tracking number: DHL-4829103847.' },
     { type: 'approvals', unread: false, title: 'Order #2800998-26 approved by Ana Ferreira',  time: '1 day ago',    desc: 'Your order for ZetaBeads Plus 0.3mm (850,00 €) has been approved.' },
-    { type: 'quotes',    unread: false, title: 'Quote #QT-2026-0041 ready for review',        time: '2 days ago',   desc: 'Spare parts for Alpha Zeta 10 — 12.450,00 €. Valid until May 31, 2026.' },
+    { type: 'quotes',    unread: false, title: 'Quote #QT-2026-0041 ready for review',        time: '2 days ago',   desc: 'Spare parts for Alpha Zeta 10 — 12.450,00 €. Valid until May 31, 2026.', to: 'quote.html' },
     { type: 'contracts', unread: true,  title: 'Contract CTR-S-2025-002 expiring soon',       time: '3 days ago',   desc: 'Service contract for Epsilon + PMD (5 units) expires on Jul 31, 2026. Review and renew to maintain coverage and discounts.' },
     { type: 'contracts', unread: false, title: 'Service visit scheduled — CTR-S-2026-001',    time: '5 days ago',   desc: 'Preventive maintenance visit confirmed for Jul 15–17, 2026. NEOS 10 (3 units). 1 NETZSCH technician, 3 business days.' },
     { type: 'approvals', unread: false, title: 'Reminder: 3 orders pending approval',         time: '3 days ago',   desc: 'Orders #2800998-28, #29, #30 are awaiting approver review. Average approval time: 1.5 business days.', to: 'approve.html' },
@@ -266,6 +266,32 @@ window.CP = (function () {
     ]
   };
 
+  /* Accept a quote (CP-669) — mesma família de decisão do CP-667, com um passo a
+     mais: aceitar é compromisso comercial, então há um gate explícito antes de
+     confirmar. Fonte: a única quote com itens de linha completos no desktop é
+     pages/quote-detail.html (Quotation #15098765: O-Ring, Ref 539256, €25.00×2 =
+     €50.00; "approve within 30 days"; pick-up grátis; ações Approve / Decline).
+     O portal linka a notificação "Quote #QT-2026-004x ready for review" (Alpha
+     Zeta 10, €12.450) direto para essa detail de €50 — a inconsistência é do
+     próprio portal (notif→detail), reproduzida aqui sem reconciliar. O desktop
+     tem Approve e Decline, mas NÃO tem "request changes" — este fica no
+     computador, não no celular. */
+  var QUOTE = {
+    id: '15098765',            /* título real da quote (quote-detail.html) */
+    ref: 'QT-2026-0041',       /* nº da notificação do feed que a abre */
+    status: 'pending',
+    validityDays: 30,
+    role: 'John Doe · Buyer',
+    summary: 'Spare parts · pick-up at company',
+    count: '1 item',
+    total: '€50.00',
+    delivery: 'Pick-up at company · Free',
+    shipTo: 'Central NY, New York',
+    items: [
+      { name: 'O-Ring', ref: '539256', unit: '€25.00', qty: 2, line: '€50.00' }
+    ]
+  };
+
   return {
     user: { name: 'John Doe', role: 'Technician', company: 'Acme Corp' },
     machines: MACHINES,
@@ -275,6 +301,7 @@ window.CP = (function () {
     help: HELP,
     notifications: NOTIFICATIONS,
     service: SERVICE,
-    approval: APPROVAL
+    approval: APPROVAL,
+    quote: QUOTE
   };
 })();
