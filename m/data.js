@@ -292,6 +292,28 @@ window.CP = (function () {
     ]
   };
 
+  /* Admin grants an access request (CP-668) — mesma família de decisão. Fonte:
+     pages/admin-requests.html, REQ-004 (ref ACC-2026-0034): Emma Wilson (dept
+     Quality) pedindo o papel Buyer para o módulo Shop; status Pending; prioridade
+     Low; Mar 13, 2026. `company` = Acme Corp (tenant do portal — CP.user.company
+     e domínio @acme-corp.com). `admin` = John Doe, o único Administrator na lista
+     de usuários (admin-users.html, role-special "Administrator"). Como o portal só
+     tem 1 admin nomeado, o estado "já resolvido" NÃO nomeia outro admin — fica
+     genérico, sem inventar. Papéis reais do portal: Administrator / Buyer /
+     Approver / Technician. */
+  var ACCESS = {
+    admin: 'John Doe',
+    requester: 'Emma Wilson',
+    dept: 'Quality',
+    company: 'Acme Corp',
+    roleRequested: 'Buyer',
+    module: 'Shop module',
+    id: 'REQ-004',
+    ref: 'ACC-2026-0034',
+    requested: 'Mar 13, 2026',
+    priority: 'Low'
+  };
+
   return {
     user: { name: 'John Doe', role: 'Technician', company: 'Acme Corp' },
     machines: MACHINES,
@@ -302,6 +324,7 @@ window.CP = (function () {
     notifications: NOTIFICATIONS,
     service: SERVICE,
     approval: APPROVAL,
-    quote: QUOTE
+    quote: QUOTE,
+    access: ACCESS
   };
 })();
