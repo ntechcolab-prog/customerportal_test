@@ -76,7 +76,6 @@
       multiple: false, reticle: 'face',
       hint: 'Use the front camera, face inside the circle.',
       shutter: 'Take photo',
-      limits: ['JPG or PNG', 'Square, at least 320 px', 'Up to 8 MB'],
       attach: 'Use this photo',
       uploadingTitle: 'Setting your photo…',
       doneBadge: ['Updated', 'is-completed'],
@@ -92,7 +91,6 @@
       multiple: true, reticle: 'frame',
       hint: 'Point at the fault — take as many as you need.',
       shutter: 'Take photo',
-      limits: ['JPG or PNG', 'Up to 5 photos', 'Up to 10 MB each'],
       attach: 'Attach to ' + CP.service.id,
       uploadingTitle: 'Uploading to ' + CP.service.id + '…',
       doneBadge: ['Attached', 'is-completed'],
@@ -109,7 +107,6 @@
       multiple: true, reticle: 'frame',
       hint: 'Show the problem — take as many as you need.',
       shutter: 'Take photo',
-      limits: ['JPG or PNG', 'Up to 5 images', 'Up to 10 MB each'],
       attach: 'Attach to ticket',
       uploadingTitle: 'Uploading to your ticket…',
       doneBadge: ['Attached', 'is-completed'],
@@ -147,11 +144,6 @@
   function header(badge) {
     return M.ctxCard({ from: conf.from, title: conf.title, sub: conf.sub, badge: badge, role: uName });
   }
-  function limitsList() {
-    return '<ul class="limits">' + conf.limits.map(function (l) {
-      return '<li>' + esc(l) + '</li>';
-    }).join('') + '</ul>';
-  }
   function countPhrase() {
     return photos.length + (photos.length === 1 ? ' photo' : ' photos');
   }
@@ -167,8 +159,7 @@
         '</div>' +
         '<p class="cap-hint">' + esc(conf.hint) + '</p>' +
         '<button type="button" class="btn btn-primary btn-full" id="shutter">' + esc(conf.shutter) + '</button>' +
-      '</div>' +
-      limitsList();
+      '</div>';
     document.getElementById('shutter').addEventListener('click', function () {
       if (conf.multiple) { photos.push(makePhoto(photos.length)); }
       else { photos = [makePhoto(0)]; }
@@ -190,7 +181,6 @@
         '<div class="cap-crop"><img src="' + conf.sample + '" alt="Your new profile photo"></div>' +
         '<p class="cap-reframe">Pinch or drag to reframe — the circle is what shows on your profile.</p>' +
       '</div>' +
-      limitsList() +
       '<div class="cap-actions">' +
         '<button type="button" class="btn btn-primary btn-full" id="attach">' + esc(conf.attach) + '</button>' +
         '<div style="display:flex;gap:10px">' +
@@ -222,7 +212,6 @@
         (photos.length < MAX ? '<button type="button" class="shot-add" id="addmore">' + plusSvg + 'Add another</button>' : '') +
       '</div>' +
       (photos.length >= MAX ? '<p class="cap-reframe" style="text-align:left;margin:11px 0 0 2px">Limit reached — ' + MAX + ' photos.</p>' : '') +
-      limitsList() +
       '<div class="cap-actions">' +
         '<button type="button" class="btn btn-primary btn-full" id="attach">' + esc(conf.attach) + ' (' + photos.length + ')</button>' +
       '</div>';
