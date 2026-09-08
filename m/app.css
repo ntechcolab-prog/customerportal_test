@@ -127,12 +127,14 @@ h2 {
 
 /* ── cartão de contexto (topo de cada tela) ── */
 .ctx {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
   padding: 17px 18px;
   box-shadow: var(--shadow);
 }
+.ctx.has-avatar { padding-right: 74px; }
 .ctx-badges { margin-top: 11px; display: flex; flex-wrap: wrap; gap: 6px; }
 .ctx-from {
   font-size: 11.5px;
@@ -545,6 +547,140 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 /* ── nota de protótipo (discovery) ── */
 .note { margin: 20px 2px 0; font-size: 12px; line-height: 1.6; color: var(--ink-2); }
 .note strong { font-weight: 700; color: var(--ink-2); }
+
+/* ── captura de foto: perfil (03) · problema no SR (09) · ticket de suporte (12) ──
+   Um só padrão (m/capture.html), três entradas — herda o viewfinder de .scan-frame. */
+.cap { margin-top: 16px; }
+.cap > .btn { margin-top: 14px; }
+.cap-actions { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+
+/* Guia circular para o rosto — no lugar dos 4 cantos do scanner de código. */
+.scan-reticle.is-face {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: min(62%, 208px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(0, 113, 103, 0.5);
+  border-radius: 50%;
+  background: none;
+}
+
+/* Foto de perfil capturada — recorte circular, como aparece no portal. */
+.cap-crop {
+  position: relative;
+  width: 208px;
+  height: 208px;
+  margin: 4px auto 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--surface-2);
+  box-shadow: 0 0 0 1px var(--card-border), var(--shadow);
+}
+.cap-crop img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cap-reframe { margin: 12px auto 0; text-align: center; font-size: 12.5px; color: var(--ink-2); max-width: 32ch; }
+
+/* Galeria de fotos do problema (múltiplas). */
+.shots { margin-top: 4px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.shot {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--card-border);
+}
+.shot-img { position: absolute; inset: 0; }
+.shot-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px 7px 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.58));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.shot-remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+.shot-remove svg { width: 13px; height: 13px; }
+.shot-remove::after { content: ""; position: absolute; inset: -9px; }  /* alvo de toque ≥ 44px */
+.shot-add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  border: 1.5px dashed var(--line-strong);
+  background: var(--surface);
+  color: var(--brand-ink);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.shot-add svg { width: 22px; height: 22px; }
+
+/* Limites (formato, contagem, tamanho) acordados com a plataforma, na tela. */
+.limits { margin: 11px 2px 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.limits li { position: relative; padding-left: 15px; font-size: 12px; color: var(--ink-2); }
+.limits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+/* Progresso de upload (feliz, lento e falho). */
+.progress { height: 8px; border-radius: 5px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--line); }
+.progress-fill { height: 100%; width: 0; background: var(--brand); transition: width 0.18s linear; }
+.progress-fill.is-fail { background: #9a1c1c; }
+.up-pct { margin-top: 9px; text-align: center; font-size: 13px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* Avatar tocável na home → abre a captura de foto de perfil. */
+.ctx-avatar { position: absolute; top: 15px; right: 15px; width: 46px; height: 46px; display: block; flex-shrink: 0; }
+.ctx-avatar img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; display: block; box-shadow: 0 0 0 1px var(--card-border); }
+.ctx-avatar-cam {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--brand-deep);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.ctx-avatar-cam svg { width: 12px; height: 12px; }
 
 footer {
   padding: 20px 16px calc(20px + env(safe-area-inset-bottom));

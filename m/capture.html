@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Add a photo — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" id="back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Customer Portal</span>
+  </span>
+  <span class="topbar-tag">Phone</span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+/* Capture-and-attach — um só padrão, três entradas (CP-673/675/676).
+   Foto de perfil (03 Profile) é o piloto: uma imagem, sem objeto de negócio.
+   Foto do problema no Service Request (09) e no ticket de Suporte (12) reusam
+   o mesmo take → review → upload, só que com várias imagens. A perna de volta
+   (a foto reaparecer no formulário do desktop) é de propósito NÃO provada aqui
+   — depende do handoff autenticado (CP-640) e do backend aceitar anexo (CP-641). */
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+  var esc = M.esc;
+
+  /* Link de handoff expirado: sem alvo, nada a capturar. */
+  if (M.isExpired()) { app.innerHTML = M.expiredMarkup; return; }
+
+  var target = M.param('target', 'profile');
+  /* ?net=poor derruba a primeira tentativa de upload — é como o estado de falha
+     e o retry ficam demonstráveis numa URL, sem aleatoriedade. */
+  var forceFail = M.param('net', '') === 'poor';
+
+  /* ── ícones ── */
+  var camSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M4 7h3l1.7-2h6.6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg>';
+  var checkSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+  var alertSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 20h20z"/><path d="M12 10v4"/><path d="M12 17.5h.01"/></svg>';
+  var upSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9.5a3.5 3.5 0 0 1-.5 8.5"/><path d="M12 12v6"/><path d="m9.5 14 2.5-2.5L14.5 14"/></svg>';
+  var xSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+  var plusSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+
+  var uName = CP.user.name + ' · ' + CP.user.role;
+  var srMachine = CP.machines[CP.service.machine].name;
+
+  /* ── registry: uma config por entrada ── */
+  var TARGETS = {
+    profile: {
+      from: 'Opened from your profile',
+      title: 'Profile photo',
+      sub: CP.user.name + ' · ' + CP.user.company,
+      back: 'index.html', backLabel: 'Back to portal',
+      multiple: false, reticle: 'face',
+      hint: 'Use the front camera. Line your face up inside the circle.',
+      shutter: 'Take photo',
+      limits: ['JPG or PNG', 'Square, at least 320 px', 'Up to 8 MB'],
+      attach: 'Use this photo',
+      uploadingTitle: 'Setting your photo…',
+      doneBadge: ['Updated', 'is-completed'],
+      doneTitle: 'Profile photo updated',
+      doneBody: 'Your new photo is set on <strong>your profile</strong>. It shows up across the portal the next time a page loads.',
+      sample: '../assets/profile-photo.png'
+    },
+    service: {
+      from: 'Opened from a Service Request',
+      title: 'Photo of the problem',
+      sub: 'Service ' + CP.service.id + ' · ' + srMachine,
+      back: 'service.html', backLabel: 'Back to ' + CP.service.id,
+      multiple: true, reticle: 'frame',
+      hint: 'Point the camera at the fault. Take as many as you need.',
+      shutter: 'Take photo',
+      limits: ['JPG or PNG', 'Up to 5 photos', 'Up to 10 MB each'],
+      attach: 'Attach to ' + CP.service.id,
+      uploadingTitle: 'Uploading to ' + CP.service.id + '…',
+      doneBadge: ['Attached', 'is-completed'],
+      doneTitle: 'Photos attached',
+      doneBody: 'attached to <strong>' + esc(CP.service.id) + '</strong>. Service can see the fault without a call.',
+      addToSubmitted: 'You can add photos to this request even after it’s submitted.',
+      returnNote: 'Back at your computer, they show up on the request you were filling in.'
+    },
+    support: {
+      from: 'Opened from Support',
+      title: 'Photo for your ticket',
+      sub: 'Support · new ticket',
+      back: 'help.html', backLabel: 'Back to Support',
+      multiple: true, reticle: 'frame',
+      hint: 'A photo or a screenshot settles in one step what a description takes three messages to convey.',
+      shutter: 'Take photo',
+      limits: ['JPG or PNG', 'Up to 5 images', 'Up to 10 MB each'],
+      attach: 'Attach to ticket',
+      uploadingTitle: 'Uploading to your ticket…',
+      doneBadge: ['Attached', 'is-completed'],
+      doneTitle: 'Images attached',
+      doneBody: 'attached to your <strong>support ticket</strong>. No back-and-forth to describe it.',
+      addToSubmitted: 'You can attach images while you open a new ticket, or add them to an existing one.',
+      returnNote: 'Back at your computer, they show up on the ticket you’re opening.'
+    }
+  };
+  var conf = TARGETS[target] || TARGETS.profile;
+  var MAX = 5;
+
+  var back = document.getElementById('back');
+  if (back && conf.back) back.setAttribute('href', conf.back);
+
+  /* Miniaturas do "problema": aparência metálica/industrial, deterministas por
+     índice (nada de Math.random — a mesma URL desenha a mesma galeria). */
+  var SHOTS = [
+    'linear-gradient(135deg,#6b7075,#9aa0a4 55%,#c3c7ca)',
+    'linear-gradient(135deg,#4e5356,#7a8085 60%,#a7abae)',
+    'linear-gradient(160deg,#7b6f63,#a89b8c 55%,#cabfb1)',
+    'linear-gradient(140deg,#5c6266,#868c90 50%,#b0b4b7)',
+    'linear-gradient(150deg,#726a60,#9d9488 60%,#c2b9ad)'
+  ];
+  var SIZES = ['2.4 MB', '1.9 MB', '3.1 MB', '2.7 MB', '2.2 MB'];
+  function makePhoto(i) { return { bg: SHOTS[i % SHOTS.length], name: 'IMG_' + (4021 + i) + '.jpg', size: SIZES[i % SIZES.length] }; }
+
+  /* estado */
+  var photos = [];
+  var retried = false;
+
+  function reducedMotion() {
+    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+  function header(badge) {
+    return M.ctxCard({ from: conf.from, title: conf.title, sub: conf.sub, badge: badge, role: uName });
+  }
+  function limitsList() {
+    return '<ul class="limits">' + conf.limits.map(function (l) {
+      return '<li>' + esc(l) + '</li>';
+    }).join('') + '</ul>';
+  }
+  function countPhrase() {
+    return photos.length + (photos.length === 1 ? ' photo' : ' photos');
+  }
+
+  /* ── captura: o viewfinder ── */
+  function renderCapture() {
+    app.innerHTML =
+      header() +
+      '<div class="cap">' +
+        '<div class="scan-frame">' +
+          '<div class="scan-reticle' + (conf.reticle === 'face' ? ' is-face' : '') + '" aria-hidden="true"></div>' +
+          '<div class="scan-ico" aria-hidden="true">' + camSvg + '</div>' +
+          '<p class="scan-hint">' + esc(conf.hint) + '</p>' +
+        '</div>' +
+        '<button type="button" class="btn btn-primary btn-full" id="shutter">' + esc(conf.shutter) + '</button>' +
+      '</div>' +
+      limitsList();
+    document.getElementById('shutter').addEventListener('click', function () {
+      if (conf.multiple) { photos.push(makePhoto(photos.length)); }
+      else { photos = [makePhoto(0)]; }
+      renderReview();
+    });
+  }
+
+  /* ── review: perfil (recorte) ou galeria (problema) ── */
+  function renderReview() {
+    if (!photos.length) { renderCapture(); return; }
+    if (conf.multiple) { renderGallery(); } else { renderCrop(); }
+    window.scrollTo(0, 0);
+  }
+
+  function renderCrop() {
+    app.innerHTML =
+      header() +
+      '<div class="card" style="padding:18px">' +
+        '<div class="cap-crop"><img src="' + conf.sample + '" alt="Your new profile photo"></div>' +
+        '<p class="cap-reframe">Pinch or drag to reframe — the circle is what shows on your profile.</p>' +
+      '</div>' +
+      limitsList() +
+      '<div class="cap-actions">' +
+        '<button type="button" class="btn btn-primary btn-full" id="attach">' + esc(conf.attach) + '</button>' +
+        '<div style="display:flex;gap:10px">' +
+          '<button type="button" class="btn btn-full" id="retake">Retake</button>' +
+          '<button type="button" class="btn btn-danger btn-full" id="remove">Remove</button>' +
+        '</div>' +
+      '</div>';
+    document.getElementById('attach').addEventListener('click', renderUploading);
+    document.getElementById('retake').addEventListener('click', renderCapture);
+    document.getElementById('remove').addEventListener('click', function () { photos = []; renderCapture(); });
+  }
+
+  function shotTile(p, i) {
+    return '<div class="shot">' +
+        '<span class="shot-img" style="background:' + p.bg + '" aria-hidden="true"></span>' +
+        '<button type="button" class="shot-remove" data-i="' + i + '" aria-label="Remove photo ' + (i + 1) + '">' + xSvg + '</button>' +
+        '<span class="shot-cap">' + esc(p.name) + ' · ' + esc(p.size) + '</span>' +
+      '</div>';
+  }
+
+  function renderGallery() {
+    app.innerHTML =
+      header() +
+      '<div class="callout lead"><strong>A photo of the fault</strong> is worth more than a paragraph describing it. ' +
+        esc(conf.addToSubmitted) + '</div>' +
+      '<h2>' + countPhrase() + '</h2>' +
+      '<div class="shots">' +
+        photos.map(shotTile).join('') +
+        (photos.length < MAX ? '<button type="button" class="shot-add" id="addmore">' + plusSvg + 'Add another</button>' : '') +
+      '</div>' +
+      (photos.length >= MAX ? '<p class="cap-reframe" style="text-align:left;margin:11px 0 0 2px">Limit reached — ' + MAX + ' photos.</p>' : '') +
+      limitsList() +
+      '<div class="cap-actions">' +
+        '<button type="button" class="btn btn-primary btn-full" id="attach">' + esc(conf.attach) + ' (' + photos.length + ')</button>' +
+      '</div>';
+
+    var add = document.getElementById('addmore');
+    if (add) add.addEventListener('click', renderCapture);
+    document.getElementById('attach').addEventListener('click', renderUploading);
+    Array.prototype.forEach.call(app.querySelectorAll('.shot-remove'), function (btn) {
+      btn.addEventListener('click', function () {
+        photos.splice(parseInt(btn.getAttribute('data-i'), 10), 1);
+        renderReview();
+      });
+    });
+  }
+
+  /* ── upload: progresso, e (com ?net=poor) falha + retry ── */
+  function setProgress(fill, pct, v) {
+    fill.style.width = v + '%';
+    fill.setAttribute('aria-valuenow', v);
+    pct.textContent = v + '%';
+  }
+
+  function renderUploading() {
+    app.innerHTML =
+      header(['Uploading', 'is-progress']) +
+      '<div class="card">' +
+        '<div class="result" role="status" aria-live="polite">' +
+          '<span class="result-ico" style="background:var(--brand-wash);color:var(--brand-ink)" aria-hidden="true">' + upSvg + '</span>' +
+          '<h3>' + esc(conf.uploadingTitle) + '</h3>' +
+          '<p>' + (conf.multiple ? esc(countPhrase()) + ' · keep this open until it’s done.' : 'Keep this open until it’s done.') + '</p>' +
+        '</div>' +
+        '<div style="padding:0 18px 20px">' +
+          '<div class="progress"><span class="progress-fill" id="upfill" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Upload progress"></span></div>' +
+          '<div class="up-pct" id="uppct">0%</div>' +
+        '</div>' +
+      '</div>';
+    window.scrollTo(0, 0);
+
+    var fill = document.getElementById('upfill');
+    var pct = document.getElementById('uppct');
+    var willFail = forceFail && !retried;
+    var ceiling = willFail ? 68 : 100;
+
+    if (reducedMotion()) {
+      setProgress(fill, pct, ceiling);
+      if (willFail) fill.classList.add('is-fail');
+      finish(willFail);
+      return;
+    }
+
+    var v = 0;
+    (function step() {
+      v += willFail ? 6 : 9;
+      if (v >= ceiling) {
+        v = ceiling;
+        setProgress(fill, pct, v);
+        if (willFail) fill.classList.add('is-fail');
+        setTimeout(function () { finish(willFail); }, 280);
+        return;
+      }
+      setProgress(fill, pct, v);
+      setTimeout(step, 90);
+    })();
+  }
+  function finish(failed) { if (failed) renderFailed(); else renderDone(); }
+
+  /* ── falha de rede ── */
+  function renderFailed() {
+    var noun = conf.multiple ? 'photos' : 'photo';
+    app.innerHTML =
+      header(['Upload failed', 'is-cancelled']) +
+      '<div class="card"><div class="result" role="status">' +
+        '<span class="result-ico is-no" aria-hidden="true">' + alertSvg + '</span>' +
+        '<h3>Upload didn’t finish</h3>' +
+        '<p>The connection dropped before your ' + noun + ' finished uploading. Nothing was attached yet.</p>' +
+      '</div></div>' +
+      '<div class="callout is-warn lead"><strong>Weak signal on the floor?</strong> Move somewhere with a better ' +
+        'connection and try again — your ' + noun + ' ' + (conf.multiple ? 'are' : 'is') + ' still on the phone.</div>' +
+      '<div class="cap-actions">' +
+        '<button type="button" class="btn btn-primary btn-full" id="retry">Try again</button>' +
+        '<button type="button" class="btn btn-full" id="reviewback">Back to ' + noun + '</button>' +
+      '</div>';
+    document.getElementById('retry').addEventListener('click', function () { retried = true; renderUploading(); });
+    document.getElementById('reviewback').addEventListener('click', renderReview);
+  }
+
+  /* ── concluído ── */
+  function renderDone() {
+    var body = conf.multiple ? (esc(countPhrase()) + ' ' + conf.doneBody) : conf.doneBody;
+    var preview = conf.multiple
+      ? '<div class="shots" style="margin-top:2px">' + photos.map(function (p, i) {
+          return '<div class="shot">' +
+              '<span class="shot-img" style="background:' + p.bg + '" aria-hidden="true"></span>' +
+              '<span class="shot-cap">' + esc(p.name) + '</span>' +
+            '</div>';
+        }).join('') + '</div>'
+      : '<div class="card" style="padding:18px"><div class="cap-crop"><img src="' + conf.sample + '" alt="Your profile photo"></div></div>';
+
+    app.innerHTML =
+      header(conf.doneBadge) +
+      '<div class="card"><div class="result" role="status">' +
+        '<span class="result-ico is-ok" aria-hidden="true">' + checkSvg + '</span>' +
+        '<h3>' + esc(conf.doneTitle) + '</h3>' +
+        '<p>' + body + '</p>' +
+      '</div></div>' +
+      '<h2>' + (conf.multiple ? 'Attached' : 'Your photo') + '</h2>' +
+      preview +
+      (conf.returnNote ? '<p class="cap-reframe" style="text-align:left;margin:14px 0 0 2px">' + esc(conf.returnNote) + '</p>' : '') +
+      '<div class="cap-actions">' +
+        '<a class="btn btn-primary btn-full" href="' + esc(conf.back) + '">' + esc(conf.backLabel) + '</a>' +
+      '</div>';
+    window.scrollTo(0, 0);
+  }
+
+  renderCapture();
+})();
+</script>
+</body>
+</html>
