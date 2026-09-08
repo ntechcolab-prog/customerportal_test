@@ -179,18 +179,13 @@
       header() +
       '<div class="card" style="padding:18px">' +
         '<div class="cap-crop"><img src="' + conf.sample + '" alt="Your new profile photo"></div>' +
-        '<p class="cap-reframe">Pinch or drag to reframe — the circle is what shows on your profile.</p>' +
       '</div>' +
       '<div class="cap-actions">' +
         '<button type="button" class="btn btn-primary btn-full" id="attach">' + esc(conf.attach) + '</button>' +
-        '<div style="display:flex;gap:10px">' +
-          '<button type="button" class="btn btn-full" id="retake">Retake</button>' +
-          '<button type="button" class="btn btn-danger btn-full" id="remove">Remove</button>' +
-        '</div>' +
+        '<button type="button" class="btn btn-full" id="retake">Retake</button>' +
       '</div>';
     document.getElementById('attach').addEventListener('click', renderUploading);
     document.getElementById('retake').addEventListener('click', renderCapture);
-    document.getElementById('remove').addEventListener('click', function () { photos = []; renderCapture(); });
   }
 
   function shotTile(p, i) {
