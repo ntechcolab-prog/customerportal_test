@@ -51,11 +51,29 @@
   var category = 'All';
   var query = '';
 
+  var chevron =
+    '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
+
+  /* Suporte: anexar uma foto ao ticket resolve num passo o que uma descrição
+     leva três mensagens (CP-675). Aqui é a entrada da mesma captura da 673/676. */
+  var supportCard =
+    '<h2>Contact support</h2>' +
+    '<div class="card"><a class="row" href="capture.html?target=support">' +
+      '<span class="row-icon" aria-hidden="true">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M4 7h3l1.7-2h6.6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg>' +
+      '</span>' +
+      '<span class="row-body"><span class="row-title">Attach a photo to a ticket</span>' +
+        '<span class="row-sub">Show the problem instead of describing it</span></span>' +
+      chevron +
+    '</a></div>';
+
   document.getElementById('head').innerHTML = M.ctxCard({
     from: machine ? 'From your computer' : 'Opened from a link',
     title: 'Help',
     sub: machine ? machine.name + ' · ' + machine.line : 'Knowledge base · 37 articles'
-  });
+  }) + supportCard;
 
   var chips = document.getElementById('chips');
   /* O chip da máquina vem primeiro: é o filtro que veio do contexto, e a faixa
