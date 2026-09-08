@@ -74,7 +74,7 @@
       sub: CP.user.name + ' · ' + CP.user.company,
       back: 'index.html', backLabel: 'Back to portal',
       multiple: false, reticle: 'face',
-      hint: 'Use the front camera. Line your face up inside the circle.',
+      hint: 'Use the front camera, face inside the circle.',
       shutter: 'Take photo',
       limits: ['JPG or PNG', 'Square, at least 320 px', 'Up to 8 MB'],
       attach: 'Use this photo',
@@ -90,7 +90,7 @@
       sub: 'Service ' + CP.service.id + ' · ' + srMachine,
       back: 'service.html', backLabel: 'Back to ' + CP.service.id,
       multiple: true, reticle: 'frame',
-      hint: 'Point the camera at the fault. Take as many as you need.',
+      hint: 'Point at the fault — take as many as you need.',
       shutter: 'Take photo',
       limits: ['JPG or PNG', 'Up to 5 photos', 'Up to 10 MB each'],
       attach: 'Attach to ' + CP.service.id,
@@ -107,7 +107,7 @@
       sub: 'Support · new ticket',
       back: 'help.html', backLabel: 'Back to Support',
       multiple: true, reticle: 'frame',
-      hint: 'A photo or a screenshot settles in one step what a description takes three messages to convey.',
+      hint: 'Show the problem — take as many as you need.',
       shutter: 'Take photo',
       limits: ['JPG or PNG', 'Up to 5 images', 'Up to 10 MB each'],
       attach: 'Attach to ticket',
@@ -164,8 +164,8 @@
         '<div class="scan-frame">' +
           '<div class="scan-reticle' + (conf.reticle === 'face' ? ' is-face' : '') + '" aria-hidden="true"></div>' +
           '<div class="scan-ico" aria-hidden="true">' + camSvg + '</div>' +
-          '<p class="scan-hint">' + esc(conf.hint) + '</p>' +
         '</div>' +
+        '<p class="cap-hint">' + esc(conf.hint) + '</p>' +
         '<button type="button" class="btn btn-primary btn-full" id="shutter">' + esc(conf.shutter) + '</button>' +
       '</div>' +
       limitsList();

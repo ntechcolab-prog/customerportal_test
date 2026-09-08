@@ -552,6 +552,8 @@ textarea.field-input { min-height: 92px; resize: vertical; }
    Um só padrão (m/capture.html), três entradas — herda o viewfinder de .scan-frame. */
 .cap { margin-top: 16px; }
 .cap > .btn { margin-top: 14px; }
+/* Instrução da captura: fora do viewfinder, logo acima do botão, uma linha. */
+.cap-hint { margin: 13px 2px 0; text-align: center; font-size: 13px; line-height: 1.5; color: var(--ink-2); }
 .cap-actions { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
 
 /* Guia circular para o rosto — no lugar dos 4 cantos do scanner de código. */
