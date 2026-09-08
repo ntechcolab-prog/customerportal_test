@@ -177,8 +177,10 @@
   function renderCrop() {
     app.innerHTML =
       header() +
-      '<div class="card" style="padding:18px">' +
-        '<div class="cap-crop"><img src="' + conf.sample + '" alt="Your new profile photo"></div>' +
+      '<div class="cap">' +
+        '<div class="scan-frame">' +
+          '<div class="cap-crop"><img src="' + conf.sample + '" alt="Your new profile photo"></div>' +
+        '</div>' +
       '</div>' +
       '<div class="cap-actions">' +
         '<button type="button" class="btn btn-primary btn-full" id="attach">' + esc(conf.attach) + '</button>' +
