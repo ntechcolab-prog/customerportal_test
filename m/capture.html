@@ -80,7 +80,7 @@
       uploadingTitle: 'Setting your photo…',
       doneBadge: ['Updated', 'is-completed'],
       doneTitle: 'Profile photo updated',
-      doneBody: 'Your new photo is set on <strong>your profile</strong>. It shows up across the portal the next time a page loads.',
+      doneBody: 'Set on <strong>your profile</strong> — it shows across the portal on the next page load.',
       sample: '../assets/profile-photo.png'
     },
     service: {
@@ -297,30 +297,50 @@
   }
 
   /* ── concluído ── */
-  function renderDone() {
-    var body = conf.multiple ? (esc(countPhrase()) + ' ' + conf.doneBody) : conf.doneBody;
-    var preview = conf.multiple
-      ? '<div class="shots" style="margin-top:2px">' + photos.map(function (p, i) {
-          return '<div class="shot">' +
-              '<span class="shot-img" style="background:' + p.bg + '" aria-hidden="true"></span>' +
-              '<span class="shot-cap">' + esc(p.name) + '</span>' +
-            '</div>';
-        }).join('') + '</div>'
-      : '<div class="card" style="padding:18px"><div class="cap-crop"><img src="' + conf.sample + '" alt="Your profile photo"></div></div>';
+  function backAction() {
+    return '<div class="cap-actions">' +
+      '<a class="btn btn-primary btn-full" href="' + esc(conf.back) + '">' + esc(conf.backLabel) + '</a>' +
+    '</div>';
+  }
 
+  function renderDone() {
+    /* Perfil: toast compacto — foto pequena ao lado da confirmação, sem seção
+       separada com a foto grande. */
+    if (!conf.multiple) {
+      app.innerHTML =
+        header(conf.doneBadge) +
+        '<div class="card"><div class="cap-done" role="status">' +
+          '<span class="cap-done-avatar">' +
+            '<img src="' + conf.sample + '" alt="Your new profile photo">' +
+            '<span class="cap-done-check" aria-hidden="true">' + checkSvg + '</span>' +
+          '</span>' +
+          '<div class="cap-done-text">' +
+            '<h3>' + esc(conf.doneTitle) + '</h3>' +
+            '<p>' + conf.doneBody + '</p>' +
+          '</div>' +
+        '</div></div>' +
+        backAction();
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    /* Serviço/suporte: confirmação + galeria das fotos anexadas. */
     app.innerHTML =
       header(conf.doneBadge) +
       '<div class="card"><div class="result" role="status">' +
         '<span class="result-ico is-ok" aria-hidden="true">' + checkSvg + '</span>' +
         '<h3>' + esc(conf.doneTitle) + '</h3>' +
-        '<p>' + body + '</p>' +
+        '<p>' + esc(countPhrase()) + ' ' + conf.doneBody + '</p>' +
       '</div></div>' +
-      '<h2>' + (conf.multiple ? 'Attached' : 'Your photo') + '</h2>' +
-      preview +
+      '<h2>Attached</h2>' +
+      '<div class="shots" style="margin-top:2px">' + photos.map(function (p) {
+        return '<div class="shot">' +
+            '<span class="shot-img" style="background:' + p.bg + '" aria-hidden="true"></span>' +
+            '<span class="shot-cap">' + esc(p.name) + '</span>' +
+          '</div>';
+      }).join('') + '</div>' +
       (conf.returnNote ? '<p class="cap-reframe" style="text-align:left;margin:14px 0 0 2px">' + esc(conf.returnNote) + '</p>' : '') +
-      '<div class="cap-actions">' +
-        '<a class="btn btn-primary btn-full" href="' + esc(conf.back) + '">' + esc(conf.backLabel) + '</a>' +
-      '</div>';
+      backAction();
     window.scrollTo(0, 0);
   }
 
