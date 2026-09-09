@@ -314,9 +314,31 @@ window.CP = (function () {
     priority: 'Low'
   };
 
+  /* Frota completa (machines.html) — modelos e linhas reais do portal desktop
+     (pages/machines.html: Zeta 60, Discus 30, MasterMix 45, ProPhi, Alpha Zeta 10;
+     linhas Black/White Production Only, Line 1/3/4), como um cliente de frota
+     grande de fato aparece: poucos modelos, várias unidades por linha. As duas
+     primeiras (zeta60, discus30) têm ficha completa em MACHINES; as demais abrem
+     no detalhe leve do machine.html. `recent` marca o que a home destaca. */
+  var FLEET = [
+    { id: 'zeta60',        name: 'Zeta 60',       type: 'Dispersing',            line: 'Black Production Only', sn: '15202531-10', recent: true },
+    { id: 'discus30',      name: 'Discus 30',     type: 'Bead Mill Stirrer',     line: 'Line 1',                sn: '2801548-10',  recent: true },
+    { id: 'zeta60-2',      name: 'Zeta 60',       type: 'Dispersing',            line: 'Line 1',                sn: '15202462-20' },
+    { id: 'zeta60-3',      name: 'Zeta 60',       type: 'Dispersing',            line: 'Line 4',                sn: '15202544-10' },
+    { id: 'discus30-2',    name: 'Discus 30',     type: 'Bead Mill Stirrer',     line: 'Line 3',                sn: '2801551-10' },
+    { id: 'discus30-3',    name: 'Discus 30',     type: 'Bead Mill Stirrer',     line: 'White Production Only', sn: '2801563-10' },
+    { id: 'mastermix45',   name: 'MasterMix 45',  type: 'Mixer',                 line: 'Line 3',                sn: '15330012-10' },
+    { id: 'mastermix45-2', name: 'MasterMix 45',  type: 'Mixer',                 line: 'Line 4',                sn: '15330018-10' },
+    { id: 'alphazeta10',   name: 'Alpha Zeta 10', type: 'Agitator bead mill',    line: 'White Production Only', sn: '80204882' },
+    { id: 'alphazeta10-2', name: 'Alpha Zeta 10', type: 'Agitator bead mill',    line: 'Line 1',                sn: '80204915' },
+    { id: 'prophi',        name: 'ProPhi',        type: 'Production monitoring', line: 'Line 4',                sn: '15202530-10' },
+    { id: 'prophi-2',      name: 'ProPhi',        type: 'Production monitoring', line: 'Black Production Only', sn: '15202537-10' }
+  ];
+
   return {
     user: { name: 'John Doe', role: 'Technician', company: 'Acme Corp' },
     machines: MACHINES,
+    fleet: FLEET,
     parts: PARTS,
     order: ORDER,
     budget: BUDGET,

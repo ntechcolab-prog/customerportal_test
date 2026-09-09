@@ -34,30 +34,68 @@
 
   if (M.isExpired()) { app.innerHTML = M.expiredMarkup; return; }
 
-  var m = CP.machines[M.param('m', 'zeta60')] || CP.machines.zeta60;
-  document.title = m.name + ' — NETZSCH Customer Portal';
+  var chevron =
+    '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
 
-  app.innerHTML =
-    M.ctxCard({
-      from: M.param('from') === 'link' ? 'Opened from a link' : 'From your computer',
-      title: m.name,
-      sub: m.line + ' · SN ' + m.sn + ' · ' + m.country
-    }) +
-    '<h2>On this machine</h2>' +
-    '<div class="card">' +
-      '<a class="row" href="parts.html?ctx=' + M.esc(m.parts) + '">' +
-        '<span class="row-body"><span class="row-title">Spare parts</span>' +
-        '<span class="row-sub">' + M.esc(CP.parts[m.parts].sub) + '</span></span>' +
-        '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>' +
-      '</a>' +
-      '<a class="row" href="help.html?m=' + M.esc(m.id) + '">' +
-        '<span class="row-body"><span class="row-title">Help for ' + M.esc(m.name) + '</span>' +
-        '<span class="row-sub">Articles filtered to this machine</span></span>' +
-        '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>' +
-      '</a>' +
-    '</div>' +
-    '<h2>Machine information</h2>' + M.specs(m.info) +
-    '<h2>Technical details</h2>' + M.specs(m.technical);
+  var id = M.param('m', 'zeta60');
+  var rich = CP.machines[id];              /* zeta60 / discus30 têm ficha completa */
+  var unit = null;
+  if (!rich && CP.fleet) {
+    for (var i = 0; i < CP.fleet.length; i++) {
+      if (CP.fleet[i].id === id) { unit = CP.fleet[i]; break; }
+    }
+  }
+
+  if (rich) { renderFull(rich); }
+  else if (unit) { renderLight(unit); }
+  else { renderFull(CP.machines.zeta60); }
+
+  /* Ficha completa (as duas máquinas com dados copiados do desktop). */
+  function renderFull(m) {
+    document.title = m.name + ' — NETZSCH Customer Portal';
+    app.innerHTML =
+      M.ctxCard({
+        from: M.param('from') === 'link' ? 'Opened from a link' : 'From your computer',
+        title: m.name,
+        sub: m.line + ' · SN ' + m.sn + ' · ' + m.country
+      }) +
+      '<h2>On this machine</h2>' +
+      '<div class="card">' +
+        '<a class="row" href="parts.html?ctx=' + M.esc(m.parts) + '">' +
+          '<span class="row-body"><span class="row-title">Spare parts</span>' +
+          '<span class="row-sub">' + M.esc(CP.parts[m.parts].sub) + '</span></span>' + chevron +
+        '</a>' +
+        '<a class="row" href="help.html?m=' + M.esc(m.id) + '">' +
+          '<span class="row-body"><span class="row-title">Help for ' + M.esc(m.name) + '</span>' +
+          '<span class="row-sub">Articles filtered to this machine</span></span>' + chevron +
+        '</a>' +
+      '</div>' +
+      '<h2>Machine information</h2>' + M.specs(m.info) +
+      '<h2>Technical details</h2>' + M.specs(m.technical);
+  }
+
+  /* Detalhe leve: unidade da frota sem ficha técnica completa no companion.
+     Mostra o essencial e aponta o registro completo para o desktop. */
+  function renderLight(f) {
+    document.title = f.name + ' — NETZSCH Customer Portal';
+    app.innerHTML =
+      M.ctxCard({ from: 'Your equipment', title: f.name, sub: f.line + ' · SN ' + f.sn }) +
+      '<h2>Machine</h2>' +
+      M.specs([
+        ['Equipment', f.name],
+        ['Type', f.type],
+        ['Production line', f.line],
+        ['Serial Number', f.sn]
+      ]) +
+      '<div class="callout lead"><strong>Full record on your computer.</strong> Spare parts, technical ' +
+        'data and documents for ' + M.esc(f.name) + ' live on the desktop portal.</div>' +
+      '<h2>Help</h2>' +
+      '<div class="card"><a class="row" href="help.html">' +
+        '<span class="row-body"><span class="row-title">Help articles</span>' +
+        '<span class="row-sub">Search the knowledge base</span></span>' + chevron +
+      '</a></div>';
+  }
 })();
 </script>
 </body>
