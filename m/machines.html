@@ -10,10 +10,7 @@
 </head>
 <body>
 
-<div class="topbar">
-  <a class="topbar-back" href="index.html" aria-label="Back">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
-  </a>
+<div class="topbar" data-nav="machines">
   <span class="topbar-brand">
     <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
     <span class="topbar-divider" aria-hidden="true"></span>
@@ -113,21 +110,32 @@
     return true;
   }
 
-  function render() {
-    var found = fleet.filter(matches);
-    var filtering = query !== '' || line !== 'All';
-    var heading = filtering
-      ? found.length + (found.length === 1 ? ' machine' : ' machines')
-      : 'All machines · ' + fleet.length;
+  function byName(a, b) { return a.name.localeCompare(b.name) || a.sn.localeCompare(b.sn); }
+  function cardOf(items) { return '<div class="card">' + items.map(machineRow).join('') + '</div>'; }
+  function emptyCard() {
+    return '<div class="card empty">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+        'stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/>' +
+        '<path d="m20 20-4.5-4.5"/></svg>' +
+        '<h3>No machines found</h3><p>Try another name or serial, or clear the line filter.</p>' +
+      '</div>';
+  }
 
-    $('list').innerHTML = '<h2>' + heading + '</h2>' + (found.length
-      ? '<div class="card">' + found.map(machineRow).join('') + '</div>'
-      : '<div class="card empty">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
-          'stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/>' +
-          '<path d="m20 20-4.5-4.5"/></svg>' +
-          '<h3>No machines found</h3><p>Try another name or serial, or clear the line filter.</p>' +
-        '</div>');
+  function render() {
+    /* Filtrando/buscando: lista plana ordenada. */
+    if (query !== '' || line !== 'All') {
+      var found = fleet.filter(matches).sort(byName);
+      $('list').innerHTML = '<h2>' + found.length + (found.length === 1 ? ' machine' : ' machines') + '</h2>' +
+        (found.length ? cardOf(found) : emptyCard());
+      return;
+    }
+    /* Sem filtro: agrupado por linha (cabeçalho com contagem), na ordem do chão. */
+    $('list').innerHTML = lines.map(function (l) {
+      var items = fleet.filter(function (m) { return m.line === l; }).sort(byName);
+      if (!items.length) return '';
+      return '<div class="list-group-head"><span class="list-group-name">' + M.esc(l) + '</span>' +
+        '<span class="list-group-count">' + items.length + '</span></div>' + cardOf(items);
+    }).join('');
   }
 
   /* ── bottom sheet: seleção de linha (escala p/ dezenas de linhas) ── */
