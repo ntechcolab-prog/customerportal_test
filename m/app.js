@@ -106,3 +106,32 @@
     partsList: partsList
   };
 })();
+
+/* Navegação: hamburger + drawer, espelhando o mobile do portal desktop.
+   No-op nas telas sem o botão. Fecha por overlay, botão X e Escape; trava o
+   scroll do corpo e devolve o foco ao abrir/fechar. */
+(function () {
+  'use strict';
+  var btn = document.querySelector('.hamburger-btn');
+  var nav = document.querySelector('.mobile-nav');
+  if (!btn || !nav) return;
+
+  var overlay = nav.querySelector('.mobile-nav-overlay');
+  var closeBtn = nav.querySelector('.mobile-nav-close');
+  var firstLink = nav.querySelector('.mobile-nav-link');
+
+  function setOpen(open) {
+    nav.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open && firstLink) { firstLink.focus(); }
+    else if (!open) { btn.focus(); }
+  }
+
+  btn.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
+  if (overlay) overlay.addEventListener('click', function () { setOpen(false); });
+  if (closeBtn) closeBtn.addEventListener('click', function () { setOpen(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('open')) setOpen(false);
+  });
+})();
