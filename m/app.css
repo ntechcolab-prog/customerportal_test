@@ -68,9 +68,9 @@ body {
 .topbar-brand img { width: 20px; height: 20px; display: block; flex-shrink: 0; }
 .topbar-divider { width: 1px; height: 15px; background: rgba(255, 255, 255, 0.34); flex-shrink: 0; }
 .topbar-label {
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: -0.005em;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
