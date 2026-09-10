@@ -940,6 +940,23 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 .done-check svg { width: 17px; height: 17px; }
 .done-hero h3 { margin-top: 18px; font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
 .done-hero p { margin: 7px 0 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.55; }
+/* check centrado (service/support, sem foto-avatar) */
+.done-mark {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--ok-wash);
+  color: var(--ok-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.done-mark svg { width: 27px; height: 27px; }
+/* fotos anexadas, centradas no card de sucesso */
+.done-shots { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
+.done-shot { position: relative; width: 68px; height: 68px; border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px var(--card-border); }
+/* nota da perna de volta, centrada e discreta */
+.done-note { margin: 14px auto 0; max-width: 38ch; text-align: center; font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
 
 /* Galeria de fotos do problema (múltiplas). */
 .shots { margin-top: 4px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }

@@ -97,7 +97,7 @@
       uploadingTitle: 'Uploading to ' + CP.service.id + '…',
       doneBadge: ['Attached', 'is-completed'],
       doneTitle: 'Photos attached',
-      doneBody: 'attached to <strong>' + esc(CP.service.id) + '</strong>. Service can see the fault without a call.',
+      doneBody: 'attached to <strong>' + esc(CP.service.id) + '</strong>.',
       addToSubmitted: 'You can add photos to this request even after it’s submitted.',
       returnNote: 'Back at your computer, they show up on the request you were filling in.'
     },
@@ -113,7 +113,7 @@
       uploadingTitle: 'Uploading to your ticket…',
       doneBadge: ['Attached', 'is-completed'],
       doneTitle: 'Images attached',
-      doneBody: 'attached to your <strong>support ticket</strong>. No back-and-forth to describe it.',
+      doneBody: 'attached to your <strong>support ticket</strong>.',
       addToSubmitted: 'You can attach images while you open a new ticket, or add them to an existing one.',
       returnNote: 'Back at your computer, they show up on the ticket you’re opening.'
     }
@@ -333,21 +333,17 @@
       return;
     }
 
-    /* Serviço/suporte: confirmação + galeria das fotos anexadas. */
+    /* Serviço/suporte: sucesso centrado com as fotos anexadas no mesmo card. */
     app.innerHTML =
-      '<div class="card"><div class="result" role="status">' +
-        '<span class="result-ico is-ok" aria-hidden="true">' + checkSvg + '</span>' +
+      '<div class="card"><div class="done-hero" role="status">' +
+        '<span class="done-mark" aria-hidden="true">' + checkSvg + '</span>' +
         '<h3>' + esc(conf.doneTitle) + '</h3>' +
         '<p>' + esc(countPhrase()) + ' ' + conf.doneBody + '</p>' +
+        '<div class="done-shots">' + photos.map(function (p) {
+          return '<span class="done-shot"><span class="shot-img" style="background:' + p.bg + '" aria-hidden="true"></span></span>';
+        }).join('') + '</div>' +
       '</div></div>' +
-      '<h2>Attached</h2>' +
-      '<div class="shots" style="margin-top:2px">' + photos.map(function (p) {
-        return '<div class="shot">' +
-            '<span class="shot-img" style="background:' + p.bg + '" aria-hidden="true"></span>' +
-            '<span class="shot-cap">' + esc(p.name) + '</span>' +
-          '</div>';
-      }).join('') + '</div>' +
-      (conf.returnNote ? '<p class="cap-reframe" style="text-align:left;margin:14px 0 0 2px">' + esc(conf.returnNote) + '</p>' : '') +
+      (conf.returnNote ? '<p class="done-note">' + esc(conf.returnNote) + '</p>' : '') +
       backAction();
     window.scrollTo(0, 0);
   }
