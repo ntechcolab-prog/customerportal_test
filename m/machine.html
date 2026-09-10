@@ -47,54 +47,49 @@
     }
   }
 
-  if (rich) { renderFull(rich); }
-  else if (unit) { renderLight(unit); }
-  else { renderFull(CP.machines.zeta60); }
+  if (rich) { render(rich, true); }
+  else if (unit) { render(unit, false); }
+  else { render(CP.machines.zeta60, true); }
 
-  /* Ficha completa (as duas máquinas com dados copiados do desktop). */
-  function renderFull(m) {
+  /* Layout único para toda máquina. Rich (zeta60/discus30) traz ficha e specs
+     técnicas reais do desktop; as demais mostram a mesma estrutura com os dados
+     que existem + aviso "full record on desktop" no lugar das specs técnicas. */
+  function render(m, isRich) {
     document.title = m.name + ' — NETZSCH Customer Portal';
+    var sub = m.line + ' · SN ' + m.sn + (m.country ? ' · ' + m.country : '');
+
+    var onMachine = '<h2>On this machine</h2><div class="card">' +
+      (isRich
+        ? '<a class="row" href="parts.html?ctx=' + M.esc(m.parts) + '">' +
+            '<span class="row-body"><span class="row-title">Spare parts</span>' +
+            '<span class="row-sub">' + M.esc(CP.parts[m.parts].sub) + '</span></span>' + chevron + '</a>'
+        : '') +
+      '<a class="row" href="help.html' + (isRich ? '?m=' + M.esc(m.id) : '') + '">' +
+        '<span class="row-body"><span class="row-title">Help' + (isRich ? ' for ' + M.esc(m.name) : ' articles') + '</span>' +
+        '<span class="row-sub">' + (isRich ? 'Articles filtered to this machine' : 'Search the knowledge base') + '</span></span>' + chevron +
+      '</a></div>';
+
+    var info = isRich ? m.info : [
+      ['Equipment', m.name],
+      ['Type', m.type],
+      ['Production line', m.line],
+      ['Serial Number', m.sn]
+    ];
+
+    var technical = isRich
+      ? '<h2>Technical details</h2>' + M.specs(m.technical)
+      : '<h2>Technical details</h2><div class="callout"><strong>Full record on your computer.</strong> ' +
+        'Technical data, spare parts and documents for ' + M.esc(m.name) + ' live on the desktop portal.</div>';
+
     app.innerHTML =
       M.ctxCard({
         from: M.param('from') === 'link' ? 'Opened from a link' : 'From your computer',
         title: m.name,
-        sub: m.line + ' · SN ' + m.sn + ' · ' + m.country
+        sub: sub
       }) +
-      '<h2>On this machine</h2>' +
-      '<div class="card">' +
-        '<a class="row" href="parts.html?ctx=' + M.esc(m.parts) + '">' +
-          '<span class="row-body"><span class="row-title">Spare parts</span>' +
-          '<span class="row-sub">' + M.esc(CP.parts[m.parts].sub) + '</span></span>' + chevron +
-        '</a>' +
-        '<a class="row" href="help.html?m=' + M.esc(m.id) + '">' +
-          '<span class="row-body"><span class="row-title">Help for ' + M.esc(m.name) + '</span>' +
-          '<span class="row-sub">Articles filtered to this machine</span></span>' + chevron +
-        '</a>' +
-      '</div>' +
-      '<h2>Machine information</h2>' + M.specs(m.info) +
-      '<h2>Technical details</h2>' + M.specs(m.technical);
-  }
-
-  /* Detalhe leve: unidade da frota sem ficha técnica completa no companion.
-     Mostra o essencial e aponta o registro completo para o desktop. */
-  function renderLight(f) {
-    document.title = f.name + ' — NETZSCH Customer Portal';
-    app.innerHTML =
-      M.ctxCard({ from: 'Your equipment', title: f.name, sub: f.line + ' · SN ' + f.sn }) +
-      '<h2>Machine</h2>' +
-      M.specs([
-        ['Equipment', f.name],
-        ['Type', f.type],
-        ['Production line', f.line],
-        ['Serial Number', f.sn]
-      ]) +
-      '<div class="callout lead"><strong>Full record on your computer.</strong> Spare parts, technical ' +
-        'data and documents for ' + M.esc(f.name) + ' live on the desktop portal.</div>' +
-      '<h2>Help</h2>' +
-      '<div class="card"><a class="row" href="help.html">' +
-        '<span class="row-body"><span class="row-title">Help articles</span>' +
-        '<span class="row-sub">Search the knowledge base</span></span>' + chevron +
-      '</a></div>';
+      onMachine +
+      '<h2>Machine information</h2>' + M.specs(info) +
+      technical;
   }
 })();
 </script>
