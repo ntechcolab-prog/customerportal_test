@@ -51,6 +51,9 @@
   var camSvg =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
     '<path d="M4 7h3l1.7-2h6.6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg>';
+  var flipSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M20 8a8 8 0 0 0-14-3"/><path d="M4 5v3h3"/><path d="M4 16a8 8 0 0 0 14 3"/><path d="M20 19v-3h-3"/><circle cx="12" cy="12" r="2.4"/></svg>';
   var checkSvg =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
   var alertSvg =
@@ -70,10 +73,10 @@
     profile: {
       from: 'Opened from your profile',
       title: 'Profile photo',
-      sub: '',
+      sub: 'A new photo for your profile',
       back: 'index.html', backLabel: 'Back to portal',
       multiple: false, reticle: 'face',
-      hint: 'Use the front camera, face inside the circle.',
+      hints: { front: 'Front camera — line your face up in the circle.', rear: 'Rear camera — line up your shot.' },
       shutter: 'Take photo',
       attach: 'Use this photo',
       uploadingTitle: 'Setting your photo…',
@@ -88,7 +91,7 @@
       sub: 'Service ' + CP.service.id + ' · ' + srMachine,
       back: 'service.html', backLabel: 'Back to ' + CP.service.id,
       multiple: true, reticle: 'frame',
-      hint: 'Point at the fault — take as many as you need.',
+      hints: { rear: 'Point at the fault — take as many as you need.', front: 'Front camera — take as many as you need.' },
       shutter: 'Take photo',
       attach: 'Attach to ' + CP.service.id,
       uploadingTitle: 'Uploading to ' + CP.service.id + '…',
@@ -104,7 +107,7 @@
       sub: 'Support · new ticket',
       back: 'help.html', backLabel: 'Back to Support',
       multiple: true, reticle: 'frame',
-      hint: 'Show the problem — take as many as you need.',
+      hints: { rear: 'Show the problem — take as many as you need.', front: 'Front camera — take as many as you need.' },
       shutter: 'Take photo',
       attach: 'Attach to ticket',
       uploadingTitle: 'Uploading to your ticket…',
@@ -116,6 +119,7 @@
     }
   };
   var conf = TARGETS[target] || TARGETS.profile;
+  var facing = conf.reticle === 'face' ? 'front' : 'rear';  /* câmera atual (flip) */
   var MAX = 5;
 
   var back = document.getElementById('back');
@@ -157,8 +161,9 @@
       '<div class="cam">' +
         '<div class="cam-frame">' +
           '<div class="cam-guide ' + (conf.reticle === 'face' ? 'is-face' : 'is-frame') + '" aria-hidden="true"></div>' +
+          '<button type="button" class="cam-flip" id="flip" aria-label="Switch camera">' + flipSvg + '</button>' +
         '</div>' +
-        '<p class="cam-hint">' + esc(conf.hint) + '</p>' +
+        '<p class="cam-hint">' + esc(conf.hints[facing]) + '</p>' +
         '<button type="button" class="cam-shutter" id="shutter" aria-label="' + esc(conf.shutter) + '">' +
           '<span class="cam-shutter-ring" aria-hidden="true"></span>' +
         '</button>' +
@@ -167,6 +172,10 @@
       if (conf.multiple) { photos.push(makePhoto(photos.length)); }
       else { photos = [makePhoto(0)]; }
       renderReview();
+    });
+    document.getElementById('flip').addEventListener('click', function () {
+      facing = facing === 'front' ? 'rear' : 'front';
+      renderCapture();
     });
   }
 

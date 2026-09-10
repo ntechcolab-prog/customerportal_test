@@ -844,6 +844,29 @@ textarea.field-input { min-height: 92px; resize: vertical; }
     linear-gradient(var(--c), var(--c)) 100% 100% / var(--th) var(--len);
   background-repeat: no-repeat;
 }
+/* botão de girar a câmera (front/rear), no canto do viewfinder */
+.cam-flip {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.cam-flip svg { width: 20px; height: 20px; }
+.cam-flip::after { content: ""; position: absolute; inset: -5px; }  /* alvo de toque ≥ 44px */
+.cam-flip:active { background: rgba(255, 255, 255, 0.28); }
+
 /* foto capturada dentro do viewfinder (review do perfil) — anel branco, destaca no escuro */
 .cam-frame .cap-crop { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.92), 0 8px 24px rgba(0, 0, 0, 0.4); }
 .cam-hint { margin: 14px 2px 0; text-align: center; font-size: 13px; line-height: 1.5; color: var(--ink-2); }
