@@ -796,8 +796,9 @@ textarea.field-input { min-height: 92px; resize: vertical; }
   border: 2px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.3);
 }
-/* guia em 4 cantos para foto do problema */
+/* guia em 4 cantos (foto do problema / scan) */
 .cam-guide.is-frame {
+  position: relative;
   --c: rgba(255, 255, 255, 0.9);
   --len: 26px;
   --th: 2px;
@@ -836,6 +837,20 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 .cam-flip svg { width: 20px; height: 20px; }
 .cam-flip::after { content: ""; position: absolute; inset: -5px; }  /* alvo de toque ≥ 44px */
 .cam-flip:active { background: rgba(255, 255, 255, 0.28); }
+
+/* linha de leitura animada (scan de código/nameplate/beads) */
+.cam-guide.is-scan::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 50%;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  animation: scanline 2.1s ease-in-out infinite;
+}
 
 /* foto capturada dentro do viewfinder (review do perfil) — anel branco, destaca no escuro */
 .cam-frame .cap-crop { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.92), 0 8px 24px rgba(0, 0, 0, 0.4); }

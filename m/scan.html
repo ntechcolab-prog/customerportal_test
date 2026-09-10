@@ -247,13 +247,14 @@
   function renderCapture() {
     app.innerHTML =
       header(conf.captureSub) +
-      '<div class="scan-capture">' +
-        '<div class="scan-frame">' +
-          '<div class="scan-reticle' + (conf.scanLine ? ' is-code' : '') + '" aria-hidden="true"></div>' +
-          '<div class="scan-ico" aria-hidden="true">' + ICON[conf.icon] + '</div>' +
-          '<p class="scan-hint">' + M.esc(conf.hint) + '</p>' +
+      '<div class="cam">' +
+        '<div class="cam-frame">' +
+          '<div class="cam-guide is-frame' + (conf.scanLine ? ' is-scan' : '') + '" aria-hidden="true"></div>' +
         '</div>' +
-        '<button type="button" class="btn btn-primary btn-full" id="capture">' + M.esc(conf.cta) + '</button>' +
+        '<p class="cam-hint">' + M.esc(conf.hint) + '</p>' +
+        '<button type="button" class="cam-shutter" id="capture" aria-label="' + M.esc(conf.cta) + '">' +
+          '<span class="cam-shutter-ring" aria-hidden="true"></span>' +
+        '</button>' +
       '</div>' +
       (conf.manual
         ? '<h2>Or enter it by hand</h2><div class="card"><div class="row">' +
