@@ -38,8 +38,7 @@
         '<h1>' + esc(o.title) + '</h1>' +
         (o.sub ? '<div class="ctx-sub">' + esc(o.sub) + '</div>' : '') +
         (o.badge ? '<div class="ctx-badges">' + o.badge + '</div>' : '') +
-        '<div class="ctx-session">Signed in as <strong>' + esc(o.role || 'Technician') +
-          '</strong>, no new login</div>' +
+        '<span class="ctx-signed">No new login</span>' +
       '</div>';
   };
 
