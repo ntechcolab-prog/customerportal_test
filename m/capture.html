@@ -82,7 +82,7 @@
       uploadingTitle: 'Setting your photo…',
       doneBadge: ['Updated', 'is-completed'],
       doneTitle: 'Profile photo updated',
-      doneBody: 'Set on <strong>your profile</strong> — it shows across the portal on the next page load.',
+      doneBody: 'It shows across the portal on the next page load.',
       sample: '../assets/profile-photo.png'
     },
     service: {
@@ -320,16 +320,13 @@
        separada com a foto grande. */
     if (!conf.multiple) {
       app.innerHTML =
-        header(conf.doneBadge) +
-        '<div class="card"><div class="cap-done" role="status">' +
-          '<span class="cap-done-avatar">' +
+        '<div class="card"><div class="done-hero" role="status">' +
+          '<span class="done-avatar">' +
             '<img src="' + conf.sample + '" alt="Your new profile photo">' +
-            '<span class="cap-done-check" aria-hidden="true">' + checkSvg + '</span>' +
+            '<span class="done-check" aria-hidden="true">' + checkSvg + '</span>' +
           '</span>' +
-          '<div class="cap-done-text">' +
-            '<h3>' + esc(conf.doneTitle) + '</h3>' +
-            '<p>' + conf.doneBody + '</p>' +
-          '</div>' +
+          '<h3>' + esc(conf.doneTitle) + '</h3>' +
+          '<p>' + conf.doneBody + '</p>' +
         '</div></div>' +
         backAction();
       window.scrollTo(0, 0);
@@ -338,7 +335,6 @@
 
     /* Serviço/suporte: confirmação + galeria das fotos anexadas. */
     app.innerHTML =
-      header(conf.doneBadge) +
       '<div class="card"><div class="result" role="status">' +
         '<span class="result-ico is-ok" aria-hidden="true">' + checkSvg + '</span>' +
         '<h3>' + esc(conf.doneTitle) + '</h3>' +

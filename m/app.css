@@ -919,29 +919,27 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 .cap-crop img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cap-reframe { margin: 12px auto 0; text-align: center; font-size: 12.5px; color: var(--ink-2); max-width: 32ch; }
 
-/* Confirmação compacta do perfil: foto pequena ao lado da mensagem. */
-.cap-done { display: flex; align-items: center; gap: 15px; padding: 17px 18px; }
-.cap-done-avatar { position: relative; flex-shrink: 0; width: 60px; height: 60px; }
-.cap-done-avatar img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; display: block; box-shadow: 0 0 0 1px var(--card-border); }
-.cap-done-check {
+/* Sucesso do perfil: centrado, com a foto nova em destaque. */
+.done-hero { text-align: center; padding: 30px 24px; }
+.done-avatar { position: relative; display: inline-block; width: 96px; height: 96px; }
+.done-avatar img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; display: block; box-shadow: 0 0 0 1px var(--card-border), 0 0 0 5px var(--brand-wash); }
+.done-check {
   position: absolute;
-  right: -3px;
-  bottom: -3px;
-  width: 24px;
-  height: 24px;
+  right: 2px;
+  bottom: 2px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background: var(--ok-wash);
-  color: var(--ok-ink);
+  background: var(--ok-ink);
+  color: #fff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 2px var(--surface);
+  box-shadow: 0 0 0 3px var(--surface);
 }
-.cap-done-check svg { width: 14px; height: 14px; }
-.cap-done-text { min-width: 0; }
-.cap-done-text h3 { font-size: 16px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.25; }
-.cap-done-text p { font-size: 13px; color: var(--ink-2); margin-top: 4px; line-height: 1.5; }
-.cap-done-text strong { color: var(--ink); font-weight: 600; }
+.done-check svg { width: 17px; height: 17px; }
+.done-hero h3 { margin-top: 18px; font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
+.done-hero p { margin: 7px auto 0; max-width: 32ch; font-size: 13.5px; color: var(--ink-2); line-height: 1.55; }
 
 /* Galeria de fotos do problema (múltiplas). */
 .shots { margin-top: 4px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
