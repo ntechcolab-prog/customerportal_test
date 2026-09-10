@@ -939,7 +939,7 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 }
 .done-check svg { width: 17px; height: 17px; }
 .done-hero h3 { margin-top: 18px; font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
-.done-hero p { margin: 7px auto 0; max-width: 32ch; font-size: 13.5px; color: var(--ink-2); line-height: 1.55; }
+.done-hero p { margin: 7px 0 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.55; }
 
 /* Galeria de fotos do problema (múltiplas). */
 .shots { margin-top: 4px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
