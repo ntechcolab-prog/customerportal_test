@@ -163,11 +163,6 @@
       '</nav>');
   }
 
-  var navback = document.getElementById('navback');
-  if (navback) navback.addEventListener('click', function (e) {
-    if (window.history.length > 1) { e.preventDefault(); window.history.back(); }
-  });
-
   var btn = document.querySelector('.hamburger-btn');
   var nav = document.querySelector('.mobile-nav');
   if (!btn || !nav) return;
