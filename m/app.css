@@ -264,19 +264,6 @@ h2 {
 .greet-body { min-width: 0; }
 .greet-hi { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
 .greet-role { font-size: 13.5px; color: var(--ink-2); margin-top: 3px; }
-.greet-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 9px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--ok-ink);
-  background: var(--ok-wash);
-  padding: 3px 10px 3px 9px;
-  border-radius: 999px;
-}
-.greet-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ok-ink); flex-shrink: 0; }
 .ctx-badges { margin-top: 11px; display: flex; flex-wrap: wrap; gap: 6px; }
 .ctx-from {
   font-size: 11.5px;
