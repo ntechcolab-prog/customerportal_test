@@ -133,7 +133,13 @@
   if (bar) {
     var active = bar.getAttribute('data-nav');
     var user = (window.CP && CP.user) ? (CP.user.name + ' · ' + CP.user.role) : 'John Doe · Technician';
-    bar.insertAdjacentHTML('afterbegin',
+    /* Voltar à esquerda (menos na home, que é a raiz); hamburger à direita. */
+    if (active !== 'home') {
+      bar.insertAdjacentHTML('afterbegin',
+        '<a class="topbar-back" id="navback" href="index.html" aria-label="Back">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg></a>');
+    }
+    bar.insertAdjacentHTML('beforeend',
       '<button class="hamburger-btn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">' +
         '<span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button>');
     var links = NAV.map(function (n) {
@@ -155,6 +161,11 @@
         '</div>' +
       '</nav>');
   }
+
+  var navback = document.getElementById('navback');
+  if (navback) navback.addEventListener('click', function (e) {
+    if (window.history.length > 1) { e.preventDefault(); window.history.back(); }
+  });
 
   var btn = document.querySelector('.hamburger-btn');
   var nav = document.querySelector('.mobile-nav');

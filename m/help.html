@@ -65,11 +65,10 @@
       chevron +
     '</a></div>';
 
-  document.getElementById('head').innerHTML = M.ctxCard({
-    from: machine ? 'From your computer' : 'Opened from a link',
-    title: 'Help',
-    sub: machine ? machine.name + ' · ' + machine.line : 'Knowledge base · 37 articles'
-  }) + supportCard;
+  document.getElementById('head').innerHTML =
+    '<div class="page-head"><h1>Help</h1><p class="page-head-sub">' +
+    M.esc(machine ? machine.name + ' · ' + machine.line : 'Knowledge base · 37 articles') +
+    '</p></div>' + supportCard;
 
   var chips = document.getElementById('chips');
   /* O chip da máquina vem primeiro: é o filtro que veio do contexto, e a faixa
