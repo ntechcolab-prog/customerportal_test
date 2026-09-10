@@ -140,9 +140,9 @@
   function reducedMotion() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
-  function header(badge) {
-    return M.ctxCard({ from: conf.from, title: conf.title, sub: conf.sub, badge: badge, role: uName });
-  }
+  /* Sem card de contexto na captura: a tela (viewfinder/galeria/resultado) já se
+     explica. Mantido como no-op para não tocar cada estado. */
+  function header() { return ''; }
   function countPhrase() {
     return photos.length + (photos.length === 1 ? ' photo' : ' photos');
   }
