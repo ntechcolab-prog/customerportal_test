@@ -43,7 +43,13 @@
   var CATEGORIES = ['All', 'Service & Maintenance', 'Machine Documentation', 'Orders & Invoices', 'Customer Portal Guides'];
   var SHORT = { 'All': 'All', 'Service & Maintenance': 'Service', 'Machine Documentation': 'Machines', 'Orders & Invoices': 'Orders', 'Customer Portal Guides': 'Portal' };
 
-  var machine = CP.machines[M.param('m', '')] || null;
+  var mid = M.param('m', '');
+  var machine = CP.machines[mid] || null;
+  if (!machine && CP.fleet) {
+    for (var fi = 0; fi < CP.fleet.length; fi++) {
+      if (CP.fleet[fi].id === mid) { machine = CP.fleet[fi]; break; }
+    }
+  }
   var category = 'All';
   var query = '';
 
