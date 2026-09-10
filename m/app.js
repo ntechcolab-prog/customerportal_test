@@ -32,12 +32,13 @@
 
   /* Cartão de contexto do topo. `from` diz de onde a pessoa veio — é o que
      diferencia chegar por QR (proximidade) de chegar por link (entrada direta). */
+  /* Header padrão das telas: título grande (page-head), no lugar do card antigo
+     com eyebrow. Mantém sub e badge de status (service/decisões). */
   var ctxCard = function (o) {
-    return '<div class="ctx">' +
-        '<div class="ctx-from">' + esc(o.from || 'From your computer') + '</div>' +
+    return '<div class="page-head">' +
         '<h1>' + esc(o.title) + '</h1>' +
-        (o.sub ? '<div class="ctx-sub">' + esc(o.sub) + '</div>' : '') +
-        (o.badge ? '<div class="ctx-badges">' + o.badge + '</div>' : '') +
+        (o.sub ? '<p class="page-head-sub">' + esc(o.sub) + '</p>' : '') +
+        (o.badge ? '<div class="page-head-badge">' + o.badge + '</div>' : '') +
       '</div>';
   };
 
