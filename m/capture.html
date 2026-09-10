@@ -154,13 +154,14 @@
   function renderCapture() {
     app.innerHTML =
       header() +
-      '<div class="cap">' +
-        '<div class="scan-frame">' +
-          '<div class="scan-reticle' + (conf.reticle === 'face' ? ' is-face' : '') + '" aria-hidden="true"></div>' +
-          '<div class="scan-ico" aria-hidden="true">' + camSvg + '</div>' +
+      '<div class="cam">' +
+        '<div class="cam-frame">' +
+          '<div class="cam-guide ' + (conf.reticle === 'face' ? 'is-face' : 'is-frame') + '" aria-hidden="true"></div>' +
         '</div>' +
-        '<p class="cap-hint">' + esc(conf.hint) + '</p>' +
-        '<button type="button" class="btn btn-primary btn-full" id="shutter">' + esc(conf.shutter) + '</button>' +
+        '<p class="cam-hint">' + esc(conf.hint) + '</p>' +
+        '<button type="button" class="cam-shutter" id="shutter" aria-label="' + esc(conf.shutter) + '">' +
+          '<span class="cam-shutter-ring" aria-hidden="true"></span>' +
+        '</button>' +
       '</div>';
     document.getElementById('shutter').addEventListener('click', function () {
       if (conf.multiple) { photos.push(makePhoto(photos.length)); }
@@ -179,12 +180,12 @@
   function renderCrop() {
     app.innerHTML =
       header() +
-      '<div class="cap">' +
-        '<div class="scan-frame">' +
+      '<div class="cam">' +
+        '<div class="cam-frame">' +
           '<div class="cap-crop"><img src="' + conf.sample + '" alt="Your new profile photo"></div>' +
         '</div>' +
+        '<p class="cam-hint">This is how it’ll look on your profile.</p>' +
       '</div>' +
-      '<p class="cap-hint">This is how it’ll look on your profile.</p>' +
       '<div class="cap-actions">' +
         '<button type="button" class="btn btn-primary btn-full" id="attach">' + esc(conf.attach) + '</button>' +
         '<button type="button" class="btn btn-full" id="retake">Retake</button>' +

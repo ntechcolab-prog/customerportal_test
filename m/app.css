@@ -803,6 +803,70 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 .cap > .btn { margin-top: 14px; }
 /* Instrução da captura: fora do viewfinder, logo acima do botão, uma linha. */
 .cap-hint { margin: 13px 2px 0; text-align: center; font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+
+/* ── viewfinder de câmera: escuro, guia clara, shutter redondo (tela "tirar foto") ── */
+.cam { margin-top: 16px; display: flex; flex-direction: column; align-items: center; }
+.cam-frame {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: radial-gradient(125% 95% at 50% 32%, #2b3036, #15171a 72%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 8px 24px rgba(0, 0, 0, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* guia circular para o rosto, com o resto do quadro escurecido (spotlight) */
+.cam-guide.is-face {
+  width: min(58%, 196px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.3);
+}
+/* guia em 4 cantos para foto do problema */
+.cam-guide.is-frame {
+  --c: rgba(255, 255, 255, 0.9);
+  --len: 26px;
+  --th: 2px;
+  width: 66%;
+  height: 62%;
+  background:
+    linear-gradient(var(--c), var(--c)) 0 0 / var(--len) var(--th),
+    linear-gradient(var(--c), var(--c)) 0 0 / var(--th) var(--len),
+    linear-gradient(var(--c), var(--c)) 100% 0 / var(--len) var(--th),
+    linear-gradient(var(--c), var(--c)) 100% 0 / var(--th) var(--len),
+    linear-gradient(var(--c), var(--c)) 0 100% / var(--len) var(--th),
+    linear-gradient(var(--c), var(--c)) 0 100% / var(--th) var(--len),
+    linear-gradient(var(--c), var(--c)) 100% 100% / var(--len) var(--th),
+    linear-gradient(var(--c), var(--c)) 100% 100% / var(--th) var(--len);
+  background-repeat: no-repeat;
+}
+/* foto capturada dentro do viewfinder (review do perfil) — anel branco, destaca no escuro */
+.cam-frame .cap-crop { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.92), 0 8px 24px rgba(0, 0, 0, 0.4); }
+.cam-hint { margin: 14px 2px 0; text-align: center; font-size: 13px; line-height: 1.5; color: var(--ink-2); }
+
+/* shutter redondo estilo câmera */
+.cam-shutter {
+  margin-top: 20px;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 4px var(--brand-wash), 0 3px 12px rgba(0, 0, 0, 0.16);
+  transition: transform 0.1s ease;
+}
+.cam-shutter-ring { width: 56px; height: 56px; border-radius: 50%; border: 3px solid var(--brand-deep); }
+.cam-shutter:active { transform: scale(0.94); }
+.cam-shutter:active .cam-shutter-ring { background: var(--brand-wash); }
 .cap-actions { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
 
 /* Guia circular para o rosto — no lugar dos 4 cantos do scanner de código. */
