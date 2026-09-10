@@ -70,7 +70,7 @@
     profile: {
       from: 'Opened from your profile',
       title: 'Profile photo',
-      sub: CP.user.name + ' · ' + CP.user.company,
+      sub: '',
       back: 'index.html', backLabel: 'Back to portal',
       multiple: false, reticle: 'face',
       hint: 'Use the front camera, face inside the circle.',
@@ -140,9 +140,12 @@
   function reducedMotion() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
-  /* Sem card de contexto na captura: a tela (viewfinder/galeria/resultado) já se
-     explica. Mantido como no-op para não tocar cada estado. */
-  function header() { return ''; }
+  /* Título leve estilo Machines (page-head), no lugar do card de contexto pesado.
+     Um sub só quando ajuda (o alvo do anexo); no perfil, só o título. */
+  function header() {
+    return '<div class="page-head"><h1>' + M.esc(conf.title) + '</h1>' +
+      (conf.sub ? '<p class="page-head-sub">' + M.esc(conf.sub) + '</p>' : '') + '</div>';
+  }
   function countPhrase() {
     return photos.length + (photos.length === 1 ? ' photo' : ' photos');
   }
