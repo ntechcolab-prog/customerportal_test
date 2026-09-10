@@ -59,6 +59,10 @@
     var sub = m.line + ' · SN ' + m.sn + (m.country ? ' · ' + m.country : '');
 
     var onMachine = '<h2>On this machine</h2><div class="card">' +
+      '<a class="row" href="parts.html?m=' + M.esc(m.id) + '">' +
+        '<span class="row-body"><span class="row-title">Spare parts</span>' +
+        '<span class="row-sub">Parts for this machine</span></span>' + chevron +
+      '</a>' +
       '<a class="row" href="help.html?m=' + M.esc(m.id) + '">' +
         '<span class="row-body"><span class="row-title">Help for ' + M.esc(m.name) + '</span>' +
         '<span class="row-sub">Articles filtered to this machine</span></span>' + chevron +
