@@ -215,27 +215,27 @@
   var METHODS = {
     photo: {
       from: 'Handed off from Milla', title: 'Search by photo', captureSub: partsMachine + ' · Milla search',
-      hint: 'Point your phone at the part. Milla matches it against the ' + partsMachine + ' catalogue.',
+      hint: 'Point your phone at the part.',
       cta: 'Capture photo', icon: 'photo', scanLine: false, manual: null,
       sibling: 'code', switchLabel: 'Try the product code instead', go: 'candidates', results: partResults
     },
     code: {
       from: 'Handed off from Milla', title: 'Search by product code', captureSub: partsMachine + ' · Milla search',
-      hint: 'Point your phone at the code on the part or its plate.',
+      hint: 'Point at the code on the part or plate.',
       cta: 'Scan code', icon: 'code', scanLine: true,
       manual: { placeholder: 'Type the material number', inputmode: 'numeric' },
       sibling: 'photo', switchLabel: 'Try a photo instead', go: 'candidates', results: partResults
     },
     nameplate: {
       from: 'At the machine', title: 'Identify this machine', captureSub: 'Point at the nameplate',
-      hint: 'Point your phone at the machine nameplate. No serial number to type.',
+      hint: 'Point at the machine nameplate.',
       cta: 'Scan nameplate', icon: 'nameplate', scanLine: true,
       manual: { placeholder: 'Type the serial number', inputmode: 'text' },
       sibling: null, go: 'match', results: machineResults
     },
     beads: {
       from: 'In the warehouse', title: 'Reorder by scanning', captureSub: 'Point at the beads packaging',
-      hint: 'Point your phone at the code on the beads packaging.',
+      hint: 'Point at the code on the packaging.',
       cta: 'Scan packaging', icon: 'beads', scanLine: true,
       manual: { placeholder: 'Type the product code', inputmode: 'numeric' },
       sibling: null, go: 'identified', results: reorderResults
@@ -257,11 +257,10 @@
         '</button>' +
       '</div>' +
       (conf.manual
-        ? '<h2>Or enter it by hand</h2><div class="card"><div class="row">' +
-            '<input class="scan-input" id="manual" inputmode="' + conf.manual.inputmode + '" ' +
+        ? '<div class="cam-or" aria-hidden="true"><span>or</span></div>' +
+            '<input class="field-input" id="manual" inputmode="' + conf.manual.inputmode + '" ' +
               'placeholder="' + M.esc(conf.manual.placeholder) + '" aria-label="' + M.esc(conf.manual.placeholder) + '">' +
-            '<button type="button" class="btn" id="lookup">Look up</button>' +
-          '</div></div>'
+            '<button type="button" class="btn btn-primary btn-full" id="lookup" style="margin-top:12px">Find</button>'
         : '');
 
     document.getElementById('capture').addEventListener('click', function () { go(conf.go); });
