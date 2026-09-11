@@ -23,7 +23,13 @@
     items: cartGet,
     count: function () { return cartGet().length; },
     has: function (code) { return cartGet().some(function (x) { return x.code === code; }); },
-    add: function (p) { var a = cartGet(); if (!cart.has(p.code)) { a.push(p); cartSet(a); } return a.length; },
+    add: function (p) {
+      var a = cartGet(), found = false;
+      for (var k = 0; k < a.length; k++) { if (a[k].code === p.code) { a[k] = p; found = true; break; } }
+      if (!found) a.push(p);
+      cartSet(a);
+      return a.length;
+    },
     remove: function (code) { cartSet(cartGet().filter(function (x) { return x.code !== code; })); },
     clear: function () { cartSet([]); }
   };
@@ -76,7 +82,6 @@
 
   var partsList = function (items) {
     return '<div class="card">' + items.map(function (p) {
-      var added = cart.has(p.code);
       var meta = (p.pos ? 'Pos. ' + esc(p.pos) + ' · ' : '') + esc(p.code);
       return '<div class="part is-stacked">' +
           '<div class="part-top">' +
@@ -95,10 +100,10 @@
               '<span class="qstep-val"><b class="part-qty">1</b></span>' +
               '<button type="button" class="qstep-btn part-step" data-step="+" aria-label="Increase quantity">+</button>' +
             '</span>' +
-            '<button type="button" class="btn part-add' + (added ? ' is-done' : '') + '"' +
+            '<button type="button" class="btn btn-primary part-add"' +
               ' data-add-code="' + esc(p.code) + '" data-add-name="' + esc(p.name) + '"' +
-              ' data-add-price="' + esc(p.price || 'Quotation only') + '"' + (added ? ' data-added="1"' : '') +
-              ' aria-label="Add ' + esc(p.name) + ' to your order">' + (added ? 'Added' : 'Add') + '</button>' +
+              ' data-add-price="' + esc(p.price || 'Quotation only') + '"' +
+              ' aria-label="Add ' + esc(p.name) + ' to your order">Add</button>' +
           '</div>' +
         '</div>';
     }).join('') + '</div>';
@@ -118,7 +123,7 @@
       return;
     }
     var btn = e.target.closest('[data-add-code]');
-    if (!btn || btn.getAttribute('data-added')) return;
+    if (!btn) return;
     var prow = btn.closest('.part');
     var pq = prow && prow.querySelector('.part-qty');
     cart.add({
@@ -127,9 +132,8 @@
       price: btn.getAttribute('data-add-price'),
       qty: pq ? (parseInt(pq.textContent, 10) || 1) : 1
     });
-    btn.textContent = 'Added';
-    btn.classList.add('is-done');
-    btn.setAttribute('data-added', '1');
+    btn.textContent = 'Added';                              /* flash rápido; volta pra "Add" */
+    setTimeout(function () { btn.textContent = 'Add'; }, 1100);
     renderCartBar();
   });
 
