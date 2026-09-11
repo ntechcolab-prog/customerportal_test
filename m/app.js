@@ -153,13 +153,14 @@
     cart.add(p);
     updateSend();
     var n = cart.count();
-    toast('Added · ' + n + (n === 1 ? ' item to send' : ' items to send'));
+    toast('Added to Send list', 'cart.html');
     return n;
   }
 
-  /* Toast: confirmação transitória perto da ação (além do contador na topbar). */
+  /* Toast: confirmação transitória perto da ação (além do contador na topbar).
+     `href` opcional adiciona um atalho "View" (ex.: abrir a Send list). */
   var toastEl, toastTimer;
-  function toast(msg) {
+  function toast(msg, href) {
     if (!toastEl) {
       toastEl = document.createElement('div');
       toastEl.className = 'toast';
@@ -169,12 +170,13 @@
     toastEl.innerHTML =
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' +
-      '<span>' + esc(msg) + '</span>';
+      '<span>' + esc(msg) + '</span>' +
+      (href ? '<a class="toast-action" href="' + href + '">View</a>' : '');
     /* reflow pra reiniciar a transição em cliques seguidos */
     void toastEl.offsetWidth;
     toastEl.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 1700);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, href ? 2600 : 1700);
   }
 
   /* Botão na topbar: N peças juntadas prontas para enviar ao computador. Fica ao
