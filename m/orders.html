@@ -83,9 +83,10 @@
   }
 
   function row(o) {
-    var title = o.item || ('Order #' + o.id);
+    var name = o.item && o.item.name;
+    var title = name || ('Order #' + o.id);
     var meta = [];
-    if (o.item) meta.push('#' + o.id);          /* id só quando o título é o item */
+    if (name) meta.push('#' + o.id);            /* id só quando o título é o item */
     meta.push(o.time);
     return '<a class="order-row ' + (o.cls || '') + '" href="order.html?id=' + encodeURIComponent(o.id) + '">' +
         '<span class="order-row-top">' +

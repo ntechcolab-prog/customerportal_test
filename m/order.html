@@ -32,25 +32,24 @@
   'use strict';
   var app = document.getElementById('app');
 
-  /* Sem ?id= cai no #06 (único com rastreio completo) — é pra onde reorder e
-     scan apontam. Com ?id= abre o pedido escolhido na listagem. */
+  /* Sem ?id= cai no #06 (timeline/endereço reais) — é pra onde reorder e scan
+     apontam. Com ?id= abre o pedido escolhido na listagem. */
   var id = M.param('id', CP.order.id);
   var s = (CP.orders || []).filter(function (o) { return o.id === id; })[0] || null;
+  var ADDRESS = CP.order.address;              /* ship-to padrão da conta (John Doe · Acme) */
 
   function icon(paths) {
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
   }
   var STATE_ICON = {
-    'is-progress':  icon('<circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/>'),                 /* clock  */
-    'is-submitted': icon('<path d="M3 7.5h10v8H3z"/><path d="M13 10.5h4l3.5 3.5v2H13z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/>'), /* truck */
-    'is-completed': icon('<circle cx="12" cy="12" r="9"/><path d="m8.3 12.2 2.4 2.4 4.9-5.2"/>'),    /* check  */
-    'is-cancelled': icon('<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2"/><path d="M12 16.2h.01"/>'), /* alert */
-    '':             icon('<circle cx="12" cy="12" r="9"/><path d="m8.3 12.2 2.4 2.4 4.9-5.2"/>')     /* check (Confirmed) */
+    'is-progress':  icon('<circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/>'),
+    'is-submitted': icon('<path d="M3 7.5h10v8H3z"/><path d="M13 10.5h4l3.5 3.5v2H13z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/>'),
+    'is-completed': icon('<circle cx="12" cy="12" r="9"/><path d="m8.3 12.2 2.4 2.4 4.9-5.2"/>'),
+    'is-cancelled': icon('<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2"/><path d="M12 16.2h.01"/>'),
+    '':             icon('<circle cx="12" cy="12" r="9"/><path d="m8.3 12.2 2.4 2.4 4.9-5.2"/>')
   };
 
-  /* Bloco de status: ícone do estado num chip colorido + status + nota. Absorve
-     o que antes era um callout repetindo o badge. */
   function hero(o) {
     var cls = o.cls || '';
     return '<div class="order-hero ' + cls + '">' +
@@ -75,6 +74,48 @@
     }).join('') + '</dl></div>';
   }
 
+  function stepsList(steps) {
+    return '<div class="card"><ol class="track" style="list-style:none">' + steps.map(function (st) {
+      return '<li class="track-step' + (st.done ? ' is-done' : '') + '">' +
+          '<span class="track-mark" aria-hidden="true"><span class="track-dot"></span><span class="track-line"></span></span>' +
+          '<span class="track-body">' +
+            '<span class="track-title">' + M.esc(st.title) + '</span>' +
+            '<span class="track-note">' + M.esc(st.note) + '</span>' +
+            '<span class="track-state">' + M.esc(st.state) + '</span>' +
+          '</span>' +
+        '</li>';
+    }).join('') + '</ol></div>';
+  }
+
+  /* Timeline derivada do status: quantas etapas concluídas + a etapa atual leva
+     o horário do pedido; as futuras ficam pendentes. */
+  function timelineFor(o) {
+    var DONE = { 'is-completed': 4, 'is-submitted': 2, 'is-progress': 1, '': 1 };
+    var TPL = [
+      { title: 'Order Placed',     note: 'Your order has been confirmed.' },
+      { title: 'Dispatched',       note: 'Your order has been dispatched.' },
+      { title: 'Out for Delivery', note: 'Your order is out for delivery.' },
+      { title: 'Delivered',        note: 'Your order has been delivered.' }
+    ];
+    var done = DONE[o.cls || ''] || 1;
+    return TPL.map(function (t, i) {
+      var isDone = i < done;
+      var state = isDone ? (i === done - 1 ? o.time : 'Completed')
+                         : (i === TPL.length - 1 ? 'Pending completion' : 'Pending');
+      return { title: t.title, note: t.note, state: state, done: isDone };
+    });
+  }
+
+  function itemCard(o) {
+    var it = o.item;
+    if (!it) return '';
+    var pairs = [['Product', it.name]];
+    if (it.ref) pairs.push(['Reference', it.ref]);
+    if (it.size) pairs.push(['Grinding media size', it.size]);
+    if (o.total) pairs.push(['Order total', o.total, true]);
+    return '<h2>Item</h2>' + specCard(pairs);
+  }
+
   function trackingCard(number, carrier) {
     return '<h2>Tracking number</h2>' +
       '<div class="card"><div class="row">' +
@@ -84,34 +125,25 @@
       '</div></div>';
   }
 
+  function shipping() {
+    return '<h2>Shipping to</h2><div class="callout">' + ADDRESS.map(M.esc).join('<br>') + '</div>';
+  }
+
   var DESK_NOTE =
     '<p class="order-foot">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
         '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/></svg>' +
       'Full order — line items, documents and invoice — on your computer.</p>';
 
-  /* Detalhe rico: só o #06 tem timeline + endereço + specs completos (CP.order). */
+  /* #06: timeline, rastreio, item e endereço reais (objeto ORDER). */
   function renderRich() {
     var o = CP.order;
-    var steps = o.steps.map(function (st) {
-      return '<li class="track-step' + (st.done ? ' is-done' : '') + '">' +
-          '<span class="track-mark" aria-hidden="true"><span class="track-dot"></span><span class="track-line"></span></span>' +
-          '<span class="track-body">' +
-            '<span class="track-title">' + M.esc(st.title) + '</span>' +
-            '<span class="track-note">' + M.esc(st.note) + '</span>' +
-            '<span class="track-state">' + M.esc(st.state) + '</span>' +
-          '</span>' +
-        '</li>';
-    }).join('');
-
     app.innerHTML =
       head(s || { id: o.id }, o.item.name) +
       (s ? hero(s) : '') +
-      '<h2>Delivery</h2>' +
-      '<div class="card"><ol class="track" style="list-style:none">' + steps + '</ol></div>' +
+      '<h2>Delivery</h2>' + stepsList(o.steps) +
       trackingCard(o.tracking, o.carrier) +
-      '<h2>Item</h2>' +
-      specCard([
+      '<h2>Item</h2>' + specCard([
         ['Product', o.item.name],
         ['Ref', o.item.ref],
         ['Size', o.item.size],
@@ -119,37 +151,38 @@
         ['Unit price', o.item.unit],
         ['Order total', o.total, true]
       ]) +
-      '<h2>Shipping to</h2>' +
-      '<div class="callout">' + o.address.map(M.esc).join('<br>') + '</div>';
-  }
-
-  /* Detalhe leve: status + rastreio quando existe + o que o feed traz, cruzado
-     com o histórico de beads (mesma order id) pra puxar referência e tamanho.
-     O resto vive no computador — mesmo padrão rico/leve das máquinas. */
-  function renderLight() {
-    var o = s || { id: id, status: 'Order', cls: '', note: '' };
-    var bead = (CP.beadOrders || []).filter(function (b) { return b.order === o.id; })[0];
-
-    var item = [];
-    if (o.item) item.push(['Product', o.item]);
-    if (bead) { item.push(['Reference', bead.ref]); item.push(['Grinding media size', bead.size]); }
-    if (o.total) item.push(['Order total', o.total, true]);
-
-    var ship = [];
-    if (o.carrier) ship.push(['Carrier', o.carrier]);
-    if (o.eta) ship.push(['Estimated delivery', o.eta]);
-
-    app.innerHTML =
-      head(o, o.item) +
-      hero(o) +
-      (o.tracking ? trackingCard(o.tracking, o.carrier) : '') +
-      (ship.length ? '<h2>Delivery</h2>' + specCard(ship) : '') +
-      (item.length ? '<h2>Item</h2>' + specCard(item) : '') +
+      shipping() +
       DESK_NOTE;
   }
 
-  if (id === CP.order.id || (s && s.full)) renderRich();
-  else renderLight();
+  /* Demais pedidos: mesmo formato rico, com timeline derivada do status. */
+  function renderFull() {
+    var o = s || { id: id, status: 'Order', cls: '', time: '' };
+
+    /* Recusado não tem entrega: status + item, sem timeline/rastreio. */
+    if (o.cls === 'is-cancelled') {
+      app.innerHTML = head(o, o.item && o.item.name) + hero(o) + itemCard(o) + DESK_NOTE;
+      return;
+    }
+
+    var steps = timelineFor(o);
+    var done = steps.filter(function (x) { return x.done; }).length;
+    var track = o.tracking
+      ? trackingCard(o.tracking, o.carrier)
+      : (done < 2 ? '<h2>Tracking number</h2><div class="callout">Assigned when your order ships.</div>' : '');
+
+    app.innerHTML =
+      head(o, o.item && o.item.name) +
+      hero(o) +
+      '<h2>Delivery</h2>' + stepsList(steps) +
+      track +
+      itemCard(o) +
+      shipping() +
+      DESK_NOTE;
+  }
+
+  if (id === CP.order.id) renderRich();
+  else renderFull();
 })();
 </script>
 </body>
