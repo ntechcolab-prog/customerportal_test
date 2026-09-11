@@ -4,13 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#00564e">
-<title>Order tracking — NETZSCH Customer Portal</title>
+<title>Order — NETZSCH Customer Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="app.css">
 </head>
 <body>
 
-<div class="topbar" data-nav="orders">
+<div class="topbar">
+  <a class="topbar-back" href="orders.html" aria-label="Back to orders">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
   <span class="topbar-brand">
     <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
     <span class="topbar-divider" aria-hidden="true"></span>
@@ -28,47 +31,76 @@
 (function () {
   'use strict';
   var app = document.getElementById('app');
-  var o = CP.order;
 
-  var steps = o.steps.map(function (s) {
-    return '<li class="track-step' + (s.done ? ' is-done' : '') + '">' +
-        '<span class="track-mark" aria-hidden="true"><span class="track-dot"></span><span class="track-line"></span></span>' +
-        '<span class="track-body">' +
-          '<span class="track-title">' + M.esc(s.title) + '</span>' +
-          '<span class="track-note">' + M.esc(s.note) + '</span>' +
-          '<span class="track-state">' + M.esc(s.state) + '</span>' +
-        '</span>' +
-      '</li>';
-  }).join('');
+  /* Sem ?id= cai no #06 (único com rastreio completo) — é pra onde reorder e
+     scan apontam. Com ?id= abre o pedido escolhido na listagem. */
+  var id = M.param('id', CP.order.id);
+  var s = (CP.orders || []).filter(function (o) { return o.id === id; })[0] || null;
 
-  app.innerHTML =
-    M.ctxCard({
-      from: 'Opened from a notification',
-      title: 'Order #' + o.id,
-      sub: o.carrier + ' · estimated ' + o.eta
-    }) +
-    '<h2>Delivery</h2>' +
-    '<div class="card"><ol class="track" style="list-style:none">' + steps + '</ol></div>' +
-    '<h2>Tracking number</h2>' +
-    '<div class="card">' +
-      '<div class="row">' +
+  function trackingCard(number, carrier) {
+    return '<h2>Tracking number</h2>' +
+      '<div class="card"><div class="row">' +
         '<span class="row-body"><span class="row-title" style="font-variant-numeric:tabular-nums">' +
-          M.esc(o.tracking) + '</span><span class="row-sub">' + M.esc(o.carrier) + '</span></span>' +
-        '<button type="button" class="btn copy" data-copy="' + M.esc(o.tracking) + '" ' +
-          'aria-label="Copy tracking number">Copy</button>' +
-      '</div>' +
-    '</div>' +
-    '<h2>Item</h2>' +
-    M.specs([
-      ['Product', o.item.name],
-      ['Ref', o.item.ref],
-      ['Size', o.item.size],
-      ['Quantity', o.item.qty],
-      ['Unit price', o.item.unit],
-      ['Order total', o.total]
-    ]) +
-    '<h2>Shipping to</h2>' +
-    '<div class="callout">' + o.address.map(M.esc).join('<br>') + '</div>';
+          M.esc(number) + '</span>' + (carrier ? '<span class="row-sub">' + M.esc(carrier) + '</span>' : '') + '</span>' +
+        '<button type="button" class="btn copy" data-copy="' + M.esc(number) + '" aria-label="Copy tracking number">Copy</button>' +
+      '</div></div>';
+  }
+
+  /* Detalhe rico: só o #06 tem timeline + endereço + specs completos (CP.order). */
+  function renderRich() {
+    var o = CP.order;
+    var steps = o.steps.map(function (st) {
+      return '<li class="track-step' + (st.done ? ' is-done' : '') + '">' +
+          '<span class="track-mark" aria-hidden="true"><span class="track-dot"></span><span class="track-line"></span></span>' +
+          '<span class="track-body">' +
+            '<span class="track-title">' + M.esc(st.title) + '</span>' +
+            '<span class="track-note">' + M.esc(st.note) + '</span>' +
+            '<span class="track-state">' + M.esc(st.state) + '</span>' +
+          '</span>' +
+        '</li>';
+    }).join('');
+
+    app.innerHTML =
+      M.ctxCard({ title: 'Order #' + o.id, sub: o.item.name, badge: s ? M.badge(s.status, s.cls) : '' }) +
+      '<h2>Delivery</h2>' +
+      '<div class="card"><ol class="track" style="list-style:none">' + steps + '</ol></div>' +
+      trackingCard(o.tracking, o.carrier) +
+      '<h2>Item</h2>' +
+      M.specs([
+        ['Product', o.item.name],
+        ['Ref', o.item.ref],
+        ['Size', o.item.size],
+        ['Quantity', o.item.qty],
+        ['Unit price', o.item.unit],
+        ['Order total', o.total]
+      ]) +
+      '<h2>Shipping to</h2>' +
+      '<div class="callout">' + o.address.map(M.esc).join('<br>') + '</div>';
+  }
+
+  /* Detalhe leve: o que o feed traz + rastreio quando existe. O resto vive no
+     computador — mesmo padrão rico/leve das máquinas. */
+  function renderLight() {
+    var o = s || { id: id, status: 'Order', cls: '', note: '' };
+    var specs = [];
+    if (o.item) specs.push(['Product', o.item]);
+    if (o.total) specs.push(['Order total', o.total]);
+    if (o.carrier) specs.push(['Carrier', o.carrier]);
+    if (o.eta) specs.push(['Estimated delivery', o.eta]);
+
+    app.innerHTML =
+      M.ctxCard({ title: 'Order #' + o.id, sub: o.item || '', badge: M.badge(o.status, o.cls) }) +
+      (o.note
+        ? '<div class="callout' + (o.cls === 'is-cancelled' ? ' is-warn' : '') + '">' +
+            '<strong>' + M.esc(o.status) + '.</strong> ' + M.esc(o.note) + '</div>'
+        : '') +
+      (o.tracking ? trackingCard(o.tracking, o.carrier) : '') +
+      (specs.length ? '<h2>Details</h2>' + M.specs(specs) : '') +
+      '<div class="callout">Full order — line items, documents and invoice — on your computer.</div>';
+  }
+
+  if (id === CP.order.id || (s && s.full)) renderRich();
+  else renderLight();
 })();
 </script>
 </body>

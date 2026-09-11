@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Orders — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar" data-nav="orders">
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+  </span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+  var orders = CP.orders || [];
+
+  var BOX =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5"/><path d="M12 12v9"/></svg>';
+
+  var rows = orders.map(function (o) {
+    var title = o.item || ('Order #' + o.id);
+    var bits = [];
+    if (o.item) bits.push('#' + o.id);
+    if (o.total) bits.push(o.total);
+    bits.push(o.time);
+    return '<a class="row" href="order.html?id=' + encodeURIComponent(o.id) + '">' +
+        '<span class="row-icon" aria-hidden="true">' + BOX + '</span>' +
+        '<span class="row-body">' +
+          '<span class="row-title">' + M.esc(title) + '</span>' +
+          '<span class="row-sub">' + M.esc(bits.join(' · ')) + '</span>' +
+        '</span>' +
+        M.badge(o.status, o.cls) +
+      '</a>';
+  }).join('');
+
+  app.innerHTML =
+    '<div class="page-head"><h1>Orders</h1>' +
+      '<p class="page-head-sub">Track deliveries · full history on your computer</p></div>' +
+    '<div class="card">' + rows + '</div>';
+})();
+</script>
+</body>
+</html>

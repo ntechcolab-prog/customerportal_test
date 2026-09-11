@@ -129,6 +129,22 @@ window.CP = (function () {
     ]
   };
 
+  /* Orders (orders.html = listagem, order.html = detalhe). Todos os pedidos e
+     status saem do feed real (NOTIFICATIONS): #27 aprovado/em processamento;
+     #25 recusado (estouro de orçamento Q2); #24 despachado de Selb com rastreio
+     DHL; #26 aprovado por Ana Ferreira; #23 entregue (assinado na recepção). O
+     #06 é o ÚNICO com timeline/rastreio/endereço completos (objeto ORDER acima)
+     e é o detalhe rico; os demais mostram só o que o feed traz + "resto no
+     computador". `cls` é a classe do badge (.badge.is-*). Nada inventado. */
+  var ORDERS = [
+    { id: '2800998-27', item: 'Steel Beads Micro',     total: '1.200,00 €', status: 'Processing', cls: 'is-progress',  time: '20 min ago',  note: 'Approved by Daniel Costa — now being processed.' },
+    { id: '2800998-25', item: 'Spare parts',           total: null,         status: 'Rejected',   cls: 'is-cancelled', time: '2 hours ago', note: 'Rejected — exceeds Q2 budget limit for spare parts. Edit and resubmit on your computer.' },
+    { id: '2800998-24', item: null,                    total: null,         status: 'In transit', cls: 'is-submitted', time: '1 day ago',   note: 'Dispatched from Selb, Germany.', carrier: 'DHL', tracking: 'DHL-4829103847', eta: 'May 12, 2026' },
+    { id: '2800998-26', item: 'ZetaBeads Plus 0.3mm',  total: '850,00 €',   status: 'Confirmed',  cls: '',             time: '1 day ago',   note: 'Approved by Ana Ferreira.' },
+    { id: '2800998-23', item: 'NETZSCH CERABEADS 0.4', total: null,         status: 'Delivered',  cls: 'is-completed', time: '4 days ago',  note: 'Delivered · signed by Reception desk.' },
+    { id: '2800998-06', item: 'NETZSCH CERABEADS 0.4', total: '37,75 €',    status: 'Processing', cls: 'is-progress',  time: 'Nov 13, 2025', note: 'Order placed — awaiting dispatch.', full: true, carrier: 'Fedex Express', tracking: 'PK367366373', eta: 'Nov 13, 2025 by 16:00' }
+  ];
+
   var BUDGET = {
     period: 'May 2026',
     spent: '16.967,55 €',
@@ -353,6 +369,7 @@ window.CP = (function () {
     beadOrders: BEAD_ORDERS,
     parts: PARTS,
     order: ORDER,
+    orders: ORDERS,
     budget: BUDGET,
     help: HELP,
     notifications: NOTIFICATIONS,
