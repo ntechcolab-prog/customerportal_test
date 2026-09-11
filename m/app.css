@@ -421,6 +421,17 @@ a.row:active { background: var(--brand-wash); }
   justify-content: center;
 }
 .row-icon svg { width: 19px; height: 19px; }
+/* thumbnail com a foto da máquina (no lugar do ícone genérico) */
+.row-thumb {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  object-fit: contain;
+  padding: 3px;
+}
 
 /* ── pares rótulo/valor (ficha técnica) ── */
 .spec { display: flex; gap: 14px; padding: 11px 16px; border-top: 1px solid var(--line-soft); }
