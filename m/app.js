@@ -146,7 +146,29 @@
     btn.textContent = 'Added';                              /* flash rápido; volta pra "Add" */
     setTimeout(function () { btn.textContent = 'Add'; }, 1100);
     updateSend();
+    var n = cart.count();
+    toast('Added · ' + n + (n === 1 ? ' part to send' : ' parts to send'));
   });
+
+  /* Toast: confirmação transitória perto da ação (além do contador na topbar). */
+  var toastEl, toastTimer;
+  function toast(msg) {
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.className = 'toast';
+      toastEl.setAttribute('role', 'status');
+      document.body.appendChild(toastEl);
+    }
+    toastEl.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' +
+      '<span>' + esc(msg) + '</span>';
+    /* reflow pra reiniciar a transição em cliques seguidos */
+    void toastEl.offsetWidth;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 1700);
+  }
 
   /* Botão na topbar: N peças juntadas prontas para enviar ao computador. Fica ao
      lado do hamburger (ou no canto, em telas de fluxo), some quando a lista está

@@ -34,11 +34,14 @@
   var checkSvg =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
 
+  app.addEventListener('click', onClick);
+
   var sent = M.param('sent', '');
   if (sent) { renderSent(sent); return; }
   render();
 
-  /* Revisão: peças montadas na máquina, prontas para enviar ao desktop. */
+  /* Revisão: peças juntadas na máquina, prontas para enviar ao computador.
+     Quantidade editável por peça; Remover é secundário. */
   function render() {
     var items = M.cart.items();
     if (!items.length) { renderEmpty(); return; }
@@ -46,26 +49,46 @@
       '<div class="page-head"><h1>Send to your computer</h1>' +
         '<p class="page-head-sub">' + items.length + (items.length === 1 ? ' part' : ' parts') + ' ready to send</p></div>' +
       '<div class="card">' + items.map(function (p) {
-        return '<div class="part">' +
-            '<div class="part-body"><div class="part-name">' + M.esc(p.name) + '</div>' +
-              '<div class="part-code">Qty ' + (p.qty || 1) + ' · ' + M.esc(p.code) + '</div></div>' +
-            '<div class="part-right">' +
+        var qty = p.qty || 1;
+        return '<div class="part is-stacked">' +
+            '<div class="part-top">' +
+              '<div class="part-body"><div class="part-name">' + M.esc(p.name) + '</div>' +
+                '<div class="part-meta">' + M.esc(p.code) + '</div></div>' +
               '<span class="part-price' + (p.price === 'Quotation only' ? ' quote' : '') + '">' + M.esc(p.price) + '</span>' +
-              '<button type="button" class="btn copy" data-remove="' + M.esc(p.code) + '" aria-label="Remove ' + M.esc(p.name) + '">Remove</button>' +
+            '</div>' +
+            '<div class="part-actions">' +
+              '<span class="qstep">' +
+                '<button type="button" class="qstep-btn cart-step" data-step="-" data-code="' + M.esc(p.code) + '" aria-label="Decrease quantity">−</button>' +
+                '<span class="qstep-val"><b class="cart-qty" data-code="' + M.esc(p.code) + '">' + qty + '</b></span>' +
+                '<button type="button" class="qstep-btn cart-step" data-step="+" data-code="' + M.esc(p.code) + '" aria-label="Increase quantity">+</button>' +
+              '</span>' +
+              '<button type="button" class="btn btn-secondary cart-remove" data-remove="' + M.esc(p.code) + '" aria-label="Remove ' + M.esc(p.name) + '">Remove</button>' +
             '</div>' +
           '</div>';
       }).join('') + '</div>' +
       '<button type="button" class="btn btn-primary btn-full" id="send" style="margin-top:16px">Send to my computer</button>' +
       '<p class="done-note">They land on your computer, ready to check out there.</p>';
+  }
 
-    Array.prototype.forEach.call(app.querySelectorAll('[data-remove]'), function (btn) {
-      btn.addEventListener('click', function () { M.cart.remove(btn.getAttribute('data-remove')); render(); });
-    });
-    document.getElementById('send').addEventListener('click', function () {
+  function onClick(e) {
+    var step = e.target.closest('.cart-step');
+    if (step) {
+      var code = step.getAttribute('data-code');
+      var it = M.cart.items().filter(function (x) { return x.code === code; })[0];
+      if (!it) return;
+      it.qty = Math.max(1, Math.min(99, (it.qty || 1) + (step.getAttribute('data-step') === '+' ? 1 : -1)));
+      M.cart.add(it);
+      var qEl = app.querySelector('.cart-qty[data-code="' + code + '"]');
+      if (qEl) qEl.textContent = it.qty;
+      return;
+    }
+    var rem = e.target.closest('.cart-remove');
+    if (rem) { M.cart.remove(rem.getAttribute('data-remove')); render(); return; }
+    if (e.target.closest('#send')) {
       var n = M.cart.count();
       M.cart.clear();
       window.location.search = '?sent=' + n;
-    });
+    }
   }
 
   function renderEmpty() {
