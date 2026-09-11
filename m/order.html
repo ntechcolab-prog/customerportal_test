@@ -37,6 +37,44 @@
   var id = M.param('id', CP.order.id);
   var s = (CP.orders || []).filter(function (o) { return o.id === id; })[0] || null;
 
+  function icon(paths) {
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
+  }
+  var STATE_ICON = {
+    'is-progress':  icon('<circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/>'),                 /* clock  */
+    'is-submitted': icon('<path d="M3 7.5h10v8H3z"/><path d="M13 10.5h4l3.5 3.5v2H13z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/>'), /* truck */
+    'is-completed': icon('<circle cx="12" cy="12" r="9"/><path d="m8.3 12.2 2.4 2.4 4.9-5.2"/>'),    /* check  */
+    'is-cancelled': icon('<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.2"/><path d="M12 16.2h.01"/>'), /* alert */
+    '':             icon('<circle cx="12" cy="12" r="9"/><path d="m8.3 12.2 2.4 2.4 4.9-5.2"/>')     /* check (Confirmed) */
+  };
+
+  /* Bloco de status: ícone do estado num chip colorido + status + nota. Absorve
+     o que antes era um callout repetindo o badge. */
+  function hero(o) {
+    var cls = o.cls || '';
+    return '<div class="order-hero ' + cls + '">' +
+        '<span class="order-hero-ic" aria-hidden="true">' + (STATE_ICON[cls] || STATE_ICON['']) + '</span>' +
+        '<span class="order-hero-body">' +
+          '<span class="order-hero-status">' + M.esc(o.status) + '</span>' +
+          (o.note ? '<span class="order-hero-note">' + M.esc(o.note) + '</span>' : '') +
+        '</span>' +
+      '</div>';
+  }
+
+  function head(o, subItem) {
+    var bits = [];
+    if (subItem) bits.push(subItem);
+    if (o.time) bits.push(o.time);
+    return M.ctxCard({ title: 'Order #' + o.id, sub: bits.join(' · ') });
+  }
+
+  function specCard(pairs) {
+    return '<div class="card"><dl>' + pairs.map(function (p) {
+      return '<div class="spec' + (p[2] ? ' is-total' : '') + '"><dt>' + M.esc(p[0]) + '</dt><dd>' + M.esc(p[1]) + '</dd></div>';
+    }).join('') + '</dl></div>';
+  }
+
   function trackingCard(number, carrier) {
     return '<h2>Tracking number</h2>' +
       '<div class="card"><div class="row">' +
@@ -45,6 +83,12 @@
         '<button type="button" class="btn copy" data-copy="' + M.esc(number) + '" aria-label="Copy tracking number">Copy</button>' +
       '</div></div>';
   }
+
+  var DESK_NOTE =
+    '<p class="order-foot">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/></svg>' +
+      'Full order — line items, documents and invoice — on your computer.</p>';
 
   /* Detalhe rico: só o #06 tem timeline + endereço + specs completos (CP.order). */
   function renderRich() {
@@ -61,42 +105,39 @@
     }).join('');
 
     app.innerHTML =
-      M.ctxCard({ title: 'Order #' + o.id, sub: o.item.name, badge: s ? M.badge(s.status, s.cls) : '' }) +
+      head(s || { id: o.id }, o.item.name) +
+      (s ? hero(s) : '') +
       '<h2>Delivery</h2>' +
       '<div class="card"><ol class="track" style="list-style:none">' + steps + '</ol></div>' +
       trackingCard(o.tracking, o.carrier) +
       '<h2>Item</h2>' +
-      M.specs([
+      specCard([
         ['Product', o.item.name],
         ['Ref', o.item.ref],
         ['Size', o.item.size],
         ['Quantity', o.item.qty],
         ['Unit price', o.item.unit],
-        ['Order total', o.total]
+        ['Order total', o.total, true]
       ]) +
       '<h2>Shipping to</h2>' +
       '<div class="callout">' + o.address.map(M.esc).join('<br>') + '</div>';
   }
 
-  /* Detalhe leve: o que o feed traz + rastreio quando existe. O resto vive no
-     computador — mesmo padrão rico/leve das máquinas. */
+  /* Detalhe leve: status + rastreio quando existe + o que o feed traz. O resto
+     vive no computador — mesmo padrão rico/leve das máquinas. */
   function renderLight() {
     var o = s || { id: id, status: 'Order', cls: '', note: '' };
-    var specs = [];
-    if (o.item) specs.push(['Product', o.item]);
-    if (o.total) specs.push(['Order total', o.total]);
-    if (o.carrier) specs.push(['Carrier', o.carrier]);
-    if (o.eta) specs.push(['Estimated delivery', o.eta]);
+    var pairs = [];
+    if (o.carrier) pairs.push(['Carrier', o.carrier]);
+    if (o.eta) pairs.push(['Estimated delivery', o.eta]);
+    if (o.total) pairs.push(['Order total', o.total, true]);
 
     app.innerHTML =
-      M.ctxCard({ title: 'Order #' + o.id, sub: o.item || '', badge: M.badge(o.status, o.cls) }) +
-      (o.note
-        ? '<div class="callout' + (o.cls === 'is-cancelled' ? ' is-warn' : '') + '">' +
-            '<strong>' + M.esc(o.status) + '.</strong> ' + M.esc(o.note) + '</div>'
-        : '') +
+      head(o, o.item) +
+      hero(o) +
       (o.tracking ? trackingCard(o.tracking, o.carrier) : '') +
-      (specs.length ? '<h2>Details</h2>' + M.specs(specs) : '') +
-      '<div class="callout">Full order — line items, documents and invoice — on your computer.</div>';
+      (pairs.length ? '<h2>Summary</h2>' + specCard(pairs) : '') +
+      DESK_NOTE;
   }
 
   if (id === CP.order.id || (s && s.full)) renderRich();

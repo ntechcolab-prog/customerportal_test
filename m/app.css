@@ -525,6 +525,52 @@ a.row:active { background: var(--brand-wash); }
 }
 .track-step.is-done .track-state { background: var(--brand-wash); color: var(--brand-ink); }
 
+/* ── status hero da order (topo do detalhe) ── */
+.order-hero {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 17px 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.order-hero-ic {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--chip-bg, var(--surface-2));
+  color: var(--chip-ink, var(--ink-2));
+}
+.order-hero-ic svg { width: 23px; height: 23px; }
+.order-hero-body { flex: 1; min-width: 0; padding-top: 1px; }
+.order-hero-status { font-size: 17px; font-weight: 700; letter-spacing: -0.014em; color: var(--ink); }
+.order-hero-note { margin-top: 3px; font-size: 13.5px; line-height: 1.45; color: var(--ink-2); }
+.order-hero.is-progress { --chip-bg: var(--warn-wash); --chip-ink: #b5651d; }
+.order-hero.is-submitted { --chip-bg: #e9eefb;          --chip-ink: #1e3a8a; }
+.order-hero.is-completed { --chip-bg: #e6f2ea;          --chip-ink: #0f5a34; }
+.order-hero.is-cancelled { --chip-bg: #fbeaea;          --chip-ink: #9a1c1c; }
+
+/* total em destaque no resumo (tipo recibo) */
+.spec.is-total { border-top: 1px solid var(--line); }
+.spec.is-total dt { font-weight: 600; color: var(--ink); align-self: center; }
+.spec.is-total dd { font-size: 17px; font-weight: 700; color: var(--ink); }
+
+/* rodapé discreto: "resto no computador" */
+.order-foot {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 4px 2px 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+.order-foot svg { flex-shrink: 0; width: 16px; height: 16px; color: var(--ink-2); opacity: .85; }
+
 /* ── barra de gasto (budget) ── */
 .meter { display: block; height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--line); }
 .meter-fill { display: block; height: 100%; background: var(--brand); }
