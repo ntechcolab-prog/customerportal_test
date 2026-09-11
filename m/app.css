@@ -577,6 +577,8 @@ a.row:active { background: var(--brand-wash); }
   position: relative;
   padding: 13px 16px 13px 22px;
   border-top: 1px solid var(--line-soft);
+  color: var(--ink);
+  text-decoration: none;
 }
 .order-row:first-child { border-top: 0; }
 .order-row::before {

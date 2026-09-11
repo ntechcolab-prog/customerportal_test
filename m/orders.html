@@ -18,7 +18,14 @@
   </span>
 </div>
 
-<main id="app"></main>
+<main>
+  <div class="page-head">
+    <h1>Orders</h1>
+    <p class="page-head-sub">Track deliveries · full history on your computer</p>
+  </div>
+  <div class="chips" id="chips" role="group" aria-label="Filter by status"></div>
+  <div id="olist"></div>
+</main>
 
 <footer>NETZSCH Customer Portal · mobile companion</footer>
 
@@ -27,7 +34,6 @@
 <script>
 (function () {
   'use strict';
-  var app = document.getElementById('app');
 
   /* Ordena por status: In transit primeiro (o que o celular existe pra
      rastrear), depois Processing, Confirmed, Delivered, Rejected. Dentro do
@@ -40,7 +46,19 @@
     })
     .map(function (x) { return x.o; });
 
-  var rows = orders.map(function (o) {
+  /* Chips = só os status que existem de fato, na ordem de prioridade + "All". */
+  var seen = {}, statuses = [];
+  orders.forEach(function (o) { if (!seen[o.status]) { seen[o.status] = 1; statuses.push(o.status); } });
+  var FILTERS = [{ key: 'all', label: 'All' }].concat(statuses.map(function (s) { return { key: s, label: s }; }));
+  var filter = 'all';
+
+  var chips = document.getElementById('chips');
+  chips.innerHTML = FILTERS.map(function (f) {
+    return '<button type="button" class="chip" data-status="' + M.esc(f.key) + '" aria-pressed="' +
+      (f.key === filter) + '">' + M.esc(f.label) + '</button>';
+  }).join('');
+
+  function row(o) {
     var title = o.item || ('Order #' + o.id);
     var meta = [];
     if (o.item) meta.push('#' + o.id);          /* id só quando o título é o item */
@@ -54,12 +72,31 @@
           '<span class="order-row-status">' + M.esc(o.status) + '</span> · ' + M.esc(meta.join(' · ')) +
         '</span>' +
       '</a>';
-  }).join('');
+  }
 
-  app.innerHTML =
-    '<div class="page-head"><h1>Orders</h1>' +
-      '<p class="page-head-sub">Track deliveries · full history on your computer</p></div>' +
-    '<div class="card">' + rows + '</div>';
+  function render() {
+    var found = orders.filter(function (o) { return filter === 'all' || o.status === filter; });
+    document.getElementById('olist').innerHTML = found.length
+      ? '<div class="card">' + found.map(row).join('') + '</div>'
+      : '<div class="card empty">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5"/><path d="M12 12v9"/></svg>' +
+          '<h3>Nothing here</h3><p>No orders with this status.</p>' +
+        '</div>';
+  }
+
+  chips.addEventListener('click', function (e) {
+    var btn = e.target.closest('.chip');
+    if (!btn) return;
+    filter = btn.getAttribute('data-status');
+    Array.prototype.forEach.call(chips.querySelectorAll('.chip'), function (c) {
+      c.setAttribute('aria-pressed', String(c === btn));
+    });
+    render();
+  });
+
+  render();
 })();
 </script>
 </body>
