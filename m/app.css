@@ -876,6 +876,7 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 .stepper-val { font-size: 17px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .stepper-val b { font-size: 24px; font-weight: 700; color: var(--ink); }
 .stepper-price { padding: 11px 16px; border-top: 1px solid var(--line-soft); text-align: center; font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.stepper-price strong { color: var(--ink); font-weight: 700; font-size: 15px; }
 
 /* seletor segmentado (Photo | Code na busca de peça) */
 .seg { display: flex; margin-top: 16px; padding: 3px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; }
