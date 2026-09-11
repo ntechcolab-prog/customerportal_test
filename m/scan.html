@@ -162,13 +162,6 @@
 
   /* ── resultado: reorder por scan (beads) ── */
   function reorderResults(r) {
-    if (r === 'added') {
-      var q = M.param('qty', '1');
-      return { sub: 'added to cart',
-        body: '<div class="callout lead" style="background:var(--ok-wash);border-color:#cfe6d8;color:var(--ok-ink)">' +
-          '<strong>Added to cart.</strong> ' + M.esc(q) + ' kg of ' + M.esc(beads.name) + ' (' + M.esc(beads.unit) +
-          ') is in your cart — finish the order at your desk.</div>' };
-    }
     if (r === 'ambiguous') {
       return { sub: '2 products match',
         body: '<div class="callout lead"><strong>Two products match that code.</strong> Pick the one ' +
@@ -302,8 +295,10 @@
       if (minus) minus.addEventListener('click', function () { if (qty > 1) { qty--; upd(); } });
       if (plus) plus.addEventListener('click', function () { if (qty < 20) { qty++; upd(); } });
     }
+    /* Reorder por scan cai na mesma lista de envio (Send to your computer). */
     if (reorder) reorder.addEventListener('click', function () {
-      window.location.search = '?method=beads&result=added&qty=' + qty;
+      M.cart.add({ code: beads.ref, name: beads.name, price: beads.unit, qty: qty });
+      window.location.href = 'cart.html';
     });
   }
 
