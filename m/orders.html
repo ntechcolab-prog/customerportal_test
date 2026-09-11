@@ -28,26 +28,31 @@
 (function () {
   'use strict';
   var app = document.getElementById('app');
-  var orders = CP.orders || [];
 
-  var BOX =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
-    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5"/><path d="M12 12v9"/></svg>';
+  /* Ordena por status: In transit primeiro (o que o celular existe pra
+     rastrear), depois Processing, Confirmed, Delivered, Rejected. Dentro do
+     grupo mantém a ordem do feed (mais recente primeiro). */
+  var PRIO = { 'is-submitted': 0, 'is-progress': 1, '': 2, 'is-completed': 3, 'is-cancelled': 4 };
+  var orders = (CP.orders || []).map(function (o, i) { return { o: o, i: i }; })
+    .sort(function (a, b) {
+      var pa = PRIO[a.o.cls || ''], pb = PRIO[b.o.cls || ''];
+      return pa === pb ? a.i - b.i : pa - pb;
+    })
+    .map(function (x) { return x.o; });
 
   var rows = orders.map(function (o) {
     var title = o.item || ('Order #' + o.id);
-    var bits = [];
-    if (o.item) bits.push('#' + o.id);
-    if (o.total) bits.push(o.total);
-    bits.push(o.time);
-    return '<a class="row" href="order.html?id=' + encodeURIComponent(o.id) + '">' +
-        '<span class="row-icon" aria-hidden="true">' + BOX + '</span>' +
-        '<span class="row-body">' +
-          '<span class="row-title">' + M.esc(title) + '</span>' +
-          '<span class="row-sub">' + M.esc(bits.join(' · ')) + '</span>' +
+    var meta = [];
+    if (o.item) meta.push('#' + o.id);          /* id só quando o título é o item */
+    meta.push(o.time);
+    return '<a class="order-row ' + (o.cls || '') + '" href="order.html?id=' + encodeURIComponent(o.id) + '">' +
+        '<span class="order-row-top">' +
+          '<span class="order-row-title">' + M.esc(title) + '</span>' +
+          (o.total ? '<span class="order-row-amt">' + M.esc(o.total) + '</span>' : '') +
         '</span>' +
-        M.badge(o.status, o.cls) +
+        '<span class="order-row-meta">' +
+          '<span class="order-row-status">' + M.esc(o.status) + '</span> · ' + M.esc(meta.join(' · ')) +
+        '</span>' +
       '</a>';
   }).join('');
 

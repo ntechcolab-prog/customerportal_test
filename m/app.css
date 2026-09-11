@@ -571,6 +571,48 @@ a.row:active { background: var(--brand-wash); }
 }
 .order-foot svg { flex-shrink: 0; width: 16px; height: 16px; color: var(--ink-2); opacity: .85; }
 
+/* ── linha da listagem de orders: faixa de status + valor ── */
+.order-row {
+  display: block;
+  position: relative;
+  padding: 13px 16px 13px 22px;
+  border-top: 1px solid var(--line-soft);
+}
+.order-row:first-child { border-top: 0; }
+.order-row::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 13px;
+  bottom: 13px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--accent, var(--line));
+}
+.order-row-top { display: flex; align-items: baseline; gap: 12px; }
+.order-row-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+}
+.order-row-amt {
+  flex-shrink: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.008em;
+  color: var(--ink);
+}
+.order-row-meta { display: block; margin-top: 3px; font-size: 13px; color: var(--ink-2); }
+.order-row-status { font-weight: 600; color: var(--accent-ink, var(--ink-2)); }
+.order-row.is-progress  { --accent: #e08a0b; --accent-ink: var(--warn-ink); }
+.order-row.is-submitted { --accent: #2f6fe0; --accent-ink: #1e3a8a; }
+.order-row.is-completed { --accent: #1f9d57; --accent-ink: #0f5a34; }
+.order-row.is-cancelled { --accent: #e0483f; --accent-ink: #9a1c1c; }
+
 /* ── barra de gasto (budget) ── */
 .meter { display: block; height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--line); }
 .meter-fill { display: block; height: 100%; background: var(--brand); }
