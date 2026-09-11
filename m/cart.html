@@ -48,7 +48,7 @@
       '<div class="card">' + items.map(function (p) {
         return '<div class="part">' +
             '<div class="part-body"><div class="part-name">' + M.esc(p.name) + '</div>' +
-              '<div class="part-code">' + M.esc(p.code) + '</div></div>' +
+              '<div class="part-code">Qty ' + (p.qty || 1) + ' · ' + M.esc(p.code) + '</div></div>' +
             '<div class="part-right">' +
               '<span class="part-price' + (p.price === 'Quotation only' ? ' quote' : '') + '">' + M.esc(p.price) + '</span>' +
               '<button type="button" class="btn copy" data-remove="' + M.esc(p.code) + '" aria-label="Remove ' + M.esc(p.name) + '">Remove</button>' +

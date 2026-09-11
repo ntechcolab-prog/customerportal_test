@@ -78,17 +78,24 @@
     return '<div class="card">' + items.map(function (p) {
       var added = cart.has(p.code);
       var meta = (p.pos ? 'Pos. ' + esc(p.pos) + ' · ' : '') + esc(p.code);
-      return '<div class="part">' +
-          '<span class="part-icon" aria-hidden="true">' + PART_ICON + '</span>' +
-          '<div class="part-body">' +
-            '<div class="part-name">' + esc(p.name) + '</div>' +
-            '<div class="part-meta">' + meta + '</div>' +
-          '</div>' +
-          '<div class="part-right">' +
+      return '<div class="part is-stacked">' +
+          '<div class="part-top">' +
+            '<span class="part-icon" aria-hidden="true">' + PART_ICON + '</span>' +
+            '<div class="part-body">' +
+              '<div class="part-name">' + esc(p.name) + '</div>' +
+              '<div class="part-meta">' + meta + '</div>' +
+            '</div>' +
             (p.price
               ? '<span class="part-price">' + esc(p.price) + '</span>'
               : '<span class="part-price quote">Quotation only</span>') +
-            '<button type="button" class="btn copy' + (added ? ' is-done' : '') + '"' +
+          '</div>' +
+          '<div class="part-actions">' +
+            '<span class="qstep">' +
+              '<button type="button" class="qstep-btn part-step" data-step="-" aria-label="Decrease quantity">−</button>' +
+              '<span class="qstep-val"><b class="part-qty">1</b></span>' +
+              '<button type="button" class="qstep-btn part-step" data-step="+" aria-label="Increase quantity">+</button>' +
+            '</span>' +
+            '<button type="button" class="btn part-add' + (added ? ' is-done' : '') + '"' +
               ' data-add-code="' + esc(p.code) + '" data-add-name="' + esc(p.name) + '"' +
               ' data-add-price="' + esc(p.price || 'Quotation only') + '"' + (added ? ' data-added="1"' : '') +
               ' aria-label="Add ' + esc(p.name) + ' to your order">' + (added ? 'Added' : 'Add') + '</button>' +
@@ -97,15 +104,28 @@
     }).join('') + '</div>';
   };
 
-  /* "Montar o pedido na máquina": adiciona a peça ao carrinho do celular; o
-     envio pro desktop acontece em cart.html (perna de volta do handoff). */
+  /* Peças: stepper de quantidade por linha + "Add" que monta o pedido no
+     celular. O envio pro desktop acontece em cart.html (perna de volta). */
   document.addEventListener('click', function (e) {
+    var step = e.target.closest('.part-step');
+    if (step) {
+      var row = step.closest('.part');
+      var qEl = row && row.querySelector('.part-qty');
+      if (qEl) {
+        var q = (parseInt(qEl.textContent, 10) || 1) + (step.getAttribute('data-step') === '+' ? 1 : -1);
+        qEl.textContent = String(Math.max(1, Math.min(99, q)));
+      }
+      return;
+    }
     var btn = e.target.closest('[data-add-code]');
     if (!btn || btn.getAttribute('data-added')) return;
+    var prow = btn.closest('.part');
+    var pq = prow && prow.querySelector('.part-qty');
     cart.add({
       code: btn.getAttribute('data-add-code'),
       name: btn.getAttribute('data-add-name'),
-      price: btn.getAttribute('data-add-price')
+      price: btn.getAttribute('data-add-price'),
+      qty: pq ? (parseInt(pq.textContent, 10) || 1) : 1
     });
     btn.textContent = 'Added';
     btn.classList.add('is-done');

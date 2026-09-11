@@ -437,6 +437,11 @@ a.row:active { background: var(--brand-wash); }
 /* ── peças ── */
 .part { display: flex; align-items: center; gap: 13px; padding: 13px 16px; border-top: 1px solid var(--line-soft); }
 .part:first-child { border-top: 0; }
+/* variante em 2 linhas (lista de peças com quantidade) */
+.part.is-stacked { flex-direction: column; align-items: stretch; gap: 12px; }
+.part-top { display: flex; align-items: center; gap: 13px; }
+.part-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.part-add { min-width: 96px; }
 .part-icon {
   flex-shrink: 0;
   width: 36px;
