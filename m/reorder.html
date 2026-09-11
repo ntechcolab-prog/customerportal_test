@@ -50,20 +50,14 @@
 
   var back = document.getElementById('back');
   var itemParam = M.param('item', '');
-  var added = M.param('added', '');
 
   if (itemParam === '') {
     renderList();
   } else {
     var idx = parseInt(itemParam, 10);
     var b = list[idx] || list[0];
-    if (added) {
-      if (back) back.setAttribute('href', 'index.html');   /* concluído → volta pra home */
-      renderAdded(b, added);
-    } else {
-      if (back) back.setAttribute('href', 'reorder.html');  /* detalhe → volta pra lista */
-      renderDetail(b, idx);
-    }
+    if (back) back.setAttribute('href', 'reorder.html');    /* detalhe → volta pra lista */
+    renderDetail(b, idx);
   }
 
   /* Lista: os beads que você já pediu — toca e reordena. */
@@ -123,22 +117,11 @@
       if (!isNaN(n)) { qty = n; paint(); }
     });
     qtyEl.addEventListener('blur', function () { setQty(qty); });
-    document.getElementById('reorder').addEventListener('click', function () { window.location.search = '?item=' + i + '&added=' + qty; });
-  }
-
-  /* Confirmação. */
-  function renderAdded(b, q) {
-    document.title = 'Added to cart — NETZSCH Customer Portal';
-    app.innerHTML =
-      '<div class="page-head"><h1>Reorder beads</h1></div>' +
-      '<div class="card"><div class="result" role="status">' +
-        '<span class="result-ico is-ok" aria-hidden="true">' + checkSvg + '</span>' +
-        '<h3>Added to cart</h3>' +
-        '<p>' + M.esc(q) + ' kg of <strong>' + M.esc(b.name) + '</strong> is in your cart — finish the order at your desk.</p>' +
-      '</div></div>' +
-      '<div class="cap-actions">' +
-        '<a class="btn btn-primary btn-full" href="index.html">Back to home</a>' +
-      '</div>';
+    /* Reorder cai na mesma lista de envio das peças (Send to your computer). */
+    document.getElementById('reorder').addEventListener('click', function () {
+      M.cart.add({ code: b.ref, name: b.name, price: b.unit, qty: qty });
+      window.location.href = 'cart.html';
+    });
   }
 })();
 </script>
