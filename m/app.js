@@ -190,8 +190,6 @@
     { key: 'notifications', label: 'Notifications',         href: 'notifications.html', icon: ic('<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/>'), count: '3' },
     { key: 'services',      label: 'Services',              href: 'service.html',       icon: ic('<path d="M14.5 4.5a4 4 0 0 0-5.2 5.2L4 15v3h3l5.3-5.3a4 4 0 0 0 5.2-5.2l-2.4 2.4-2.1-.6-.6-2.1z"/>') },
     { key: 'orders',        label: 'Orders',                href: 'order.html',         icon: ic('<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18.5" r="1.7"/><circle cx="17.5" cy="18.5" r="1.7"/>') },
-    { key: 'budget',        label: 'Budget',                href: 'budget.html',        icon: ic('<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M7 14.5h4"/>') },
-    { key: 'monitoring',    label: 'Production Monitoring', href: 'monitoring.html',    icon: ic('<path d="M4 19V5"/><path d="M4 19h16"/><path d="m7.5 15 3.2-4.2 3 2.4L18 8"/>') },
     { key: 'help',          label: 'Help',                  href: 'help.html',          icon: ic('<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.4"/><path d="M12 17.2h.01"/>') }
   ];
 
