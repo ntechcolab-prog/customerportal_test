@@ -526,6 +526,7 @@ a.row:active { background: var(--brand-wash); }
 .track-step.is-done .track-state { background: var(--brand-wash); color: var(--brand-ink); }
 
 /* ── status hero da order (topo do detalhe) ── */
+.page-head + .order-hero { margin-top: 16px; }
 .order-hero {
   display: flex;
   gap: 14px;
