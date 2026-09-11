@@ -90,7 +90,7 @@
             '<span class="prod-row-label">Quantity</span>' +
             '<span class="qstep">' +
               '<button type="button" class="qstep-btn" id="minus" aria-label="Decrease quantity">−</button>' +
-              '<span class="qstep-val"><b id="qty">' + b.qty + '</b> kg</span>' +
+              '<span class="qstep-val"><input class="qstep-input" id="qty" type="text" inputmode="numeric" value="' + b.qty + '" aria-label="Quantity in kg"> kg</span>' +
               '<button type="button" class="qstep-btn" id="plus" aria-label="Increase quantity">+</button>' +
             '</span>' +
           '</div>' +
@@ -108,10 +108,16 @@
     var qty = b.qty;
     var qtyEl = document.getElementById('qty');
     var totalEl = document.getElementById('total');
-    function upd() { qtyEl.textContent = String(qty); if (totalEl) totalEl.textContent = priceFmt(unit * qty); }
-    upd();
-    document.getElementById('minus').addEventListener('click', function () { if (qty > 1) { qty--; upd(); } });
-    document.getElementById('plus').addEventListener('click', function () { if (qty < 20) { qty++; upd(); } });
+    function paint() { if (totalEl) totalEl.textContent = priceFmt(unit * qty); }
+    function setQty(n) { qty = Math.max(1, Math.min(99, n || 1)); qtyEl.value = String(qty); paint(); }
+    setQty(qty);
+    document.getElementById('minus').addEventListener('click', function () { setQty(qty - 1); });
+    document.getElementById('plus').addEventListener('click', function () { setQty(qty + 1); });
+    qtyEl.addEventListener('input', function () {
+      var n = parseInt(qtyEl.value.replace(/[^\d]/g, ''), 10);
+      if (!isNaN(n)) { qty = n; paint(); }
+    });
+    qtyEl.addEventListener('blur', function () { setQty(qty); });
     document.getElementById('reorder').addEventListener('click', function () { window.location.search = '?item=' + i + '&added=' + qty; });
   }
 

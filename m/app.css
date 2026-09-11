@@ -904,8 +904,21 @@ textarea.field-input { min-height: 92px; resize: vertical; }
   justify-content: center;
 }
 .qstep-btn:active { background: var(--brand-wash); border-color: var(--brand); color: var(--brand-ink); }
-.qstep-val { font-size: 14px; font-weight: 600; color: var(--ink-2); min-width: 46px; text-align: center; font-variant-numeric: tabular-nums; }
-.qstep-val b { font-size: 18px; font-weight: 700; color: var(--ink); }
+.qstep-val { font-size: 14px; font-weight: 600; color: var(--ink-2); display: inline-flex; align-items: baseline; gap: 4px; }
+.qstep-input {
+  width: 42px;
+  border: 0;
+  border-bottom: 2px solid var(--line);
+  background: transparent;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+  padding: 2px 0;
+  font-variant-numeric: tabular-nums;
+}
+.qstep-input:focus { outline: none; border-bottom-color: var(--brand); }
 
 /* último pedido: link discreto abaixo do botão */
 .prod-last { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; font-size: 12.5px; color: var(--ink-2); text-decoration: none; }
