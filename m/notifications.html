@@ -21,20 +21,39 @@
 <main>
   <div id="head"></div>
 
-  <div class="chips" id="chips" role="group" aria-label="Filter by type"></div>
+  <button type="button" class="filter-trigger" id="typeTrigger" aria-haspopup="dialog" style="margin-top:16px">
+    <svg class="ft-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4-2v-4z"/></svg>
+    <span class="ft-label">Type:</span>
+    <span class="ft-value" id="typeValue">All</span>
+    <svg class="ft-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
 
   <h2><span id="count"></span></h2>
   <div id="list"></div>
-
 </main>
 
 <footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<div class="sheet" id="typeSheet" aria-hidden="true">
+  <div class="sheet-overlay"></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-label="Filter by type">
+    <span class="sheet-grip" aria-hidden="true"></span>
+    <div class="sheet-head">
+      <span class="sheet-title">Filter by type</span>
+      <button type="button" class="sheet-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="sheet-list" id="sheetList"></div>
+  </div>
+</div>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
 <script>
 (function () {
   'use strict';
+  var $ = function (id) { return document.getElementById(id); };
 
   var TYPES = [
     { key: 'all',       label: 'All' },
@@ -44,27 +63,29 @@
     { key: 'contracts', label: 'Contracts' },
     { key: 'services',  label: 'Service' }
   ];
+  var LABEL = {};
+  TYPES.forEach(function (t) { LABEL[t.key] = t.label; });
   var SINGULAR = { approvals: 'Approval', orders: 'Order', quotes: 'Quote', contracts: 'Contract', services: 'Service' };
 
   var items = CP.notifications;
   var unread = items.filter(function (n) { return n.unread; }).length;
   var filter = 'all';
 
-  document.getElementById('head').innerHTML = M.ctxCard({
-    from: 'Mobile companion',
+  $('head').innerHTML = M.ctxCard({
     title: 'Notifications',
     sub: unread + ' unread · ' + items.length + ' total'
   });
 
-  var chips = document.getElementById('chips');
-  chips.innerHTML = TYPES.map(function (t) {
-    return '<button type="button" class="chip" data-type="' + t.key + '" aria-pressed="' +
-      (t.key === filter) + '">' + M.esc(t.label) + '</button>';
-  }).join('');
-
   var chevron =
     '<svg viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" ' +
     'stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
+  var checkIcon =
+    '<svg class="sheet-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  function typeCount(key) {
+    return key === 'all' ? items.length : items.filter(function (n) { return n.type === key; }).length;
+  }
 
   function item(n) {
     var open = n.to;
@@ -88,10 +109,9 @@
 
   function render() {
     var found = items.filter(function (n) { return filter === 'all' || n.type === filter; });
-    document.getElementById('count').textContent =
-      found.length + (found.length === 1 ? ' notification' : ' notifications');
+    $('count').textContent = found.length + (found.length === 1 ? ' notification' : ' notifications');
 
-    document.getElementById('list').innerHTML = found.length
+    $('list').innerHTML = found.length
       ? '<div class="card">' + found.map(item).join('') + '</div>'
       : '<div class="card empty">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
@@ -101,14 +121,46 @@
         '</div>';
   }
 
-  chips.addEventListener('click', function (e) {
-    var btn = e.target.closest('.chip');
+  /* ── bottom sheet: filtro por tipo (mesmo padrão de Máquinas/Orders) ── */
+  var sheet = $('typeSheet');
+
+  function buildSheet() {
+    $('sheetList').innerHTML = TYPES.map(function (t) {
+      return '<button type="button" class="sheet-item' + (t.key === filter ? ' is-active' : '') +
+          '" data-type="' + M.esc(t.key) + '">' + checkIcon +
+          '<span class="sheet-item-label">' + M.esc(t.key === 'all' ? 'All types' : t.label) + '</span>' +
+          '<span class="sheet-item-count">' + typeCount(t.key) + '</span>' +
+        '</button>';
+    }).join('');
+  }
+
+  function openSheet() {
+    buildSheet();
+    sheet.classList.add('open');
+    sheet.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSheet() {
+    sheet.classList.remove('open');
+    sheet.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    $('typeTrigger').focus();
+  }
+
+  $('typeTrigger').addEventListener('click', openSheet);
+  sheet.querySelector('.sheet-close').addEventListener('click', closeSheet);
+  sheet.querySelector('.sheet-overlay').addEventListener('click', closeSheet);
+  $('sheetList').addEventListener('click', function (e) {
+    var btn = e.target.closest('.sheet-item');
     if (!btn) return;
     filter = btn.getAttribute('data-type');
-    Array.prototype.forEach.call(chips.querySelectorAll('.chip'), function (c) {
-      c.setAttribute('aria-pressed', String(c === btn));
-    });
+    $('typeValue').textContent = filter === 'all' ? 'All' : LABEL[filter];
+    $('typeTrigger').classList.toggle('is-active', filter !== 'all');
+    closeSheet();
     render();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
   });
 
   render();
