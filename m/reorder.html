@@ -82,24 +82,29 @@
     document.title = b.name + ' — NETZSCH Customer Portal';
     var unit = priceNum(b.unit);
     app.innerHTML =
-      '<div class="page-head"><h1>' + M.esc(b.name) + '</h1>' +
-        '<p class="page-head-sub">Ref ' + M.esc(b.ref) + ' · ' + M.esc(b.size) + '</p></div>' +
-      '<h2>Quantity</h2>' +
-      '<div class="card">' +
-        '<div class="stepper">' +
-          '<button type="button" class="stepper-btn" id="minus" aria-label="Decrease quantity">−</button>' +
-          '<span class="stepper-val"><b id="qty">' + b.qty + '</b> kg</span>' +
-          '<button type="button" class="stepper-btn" id="plus" aria-label="Increase quantity">+</button>' +
+      '<div class="card prod">' +
+        '<div class="prod-visual" aria-hidden="true"></div>' +
+        '<div class="prod-body">' +
+          '<div class="prod-name">' + M.esc(b.name) + '</div>' +
+          '<div class="prod-spec">Ref ' + M.esc(b.ref) + ' · ' + M.esc(b.size) + '</div>' +
+          '<div class="prod-row">' +
+            '<span class="prod-row-label">Quantity</span>' +
+            '<span class="qstep">' +
+              '<button type="button" class="qstep-btn" id="minus" aria-label="Decrease quantity">−</button>' +
+              '<span class="qstep-val"><b id="qty">' + b.qty + '</b> kg</span>' +
+              '<button type="button" class="qstep-btn" id="plus" aria-label="Increase quantity">+</button>' +
+            '</span>' +
+          '</div>' +
+          (unit > 0 ?
+            '<div class="prod-row">' +
+              '<span class="prod-row-label">Total</span>' +
+              '<span class="prod-total"><strong id="total"></strong> <span class="prod-unit">' + M.esc(b.unit) + '/kg</span></span>' +
+            '</div>' : '') +
         '</div>' +
-        (unit > 0 ? '<div class="stepper-price"><strong id="total"></strong> · ' + M.esc(b.unit) + ' / kg</div>' : '') +
       '</div>' +
-      '<h2>Last order</h2>' +
-      '<div class="card"><a class="row" href="order.html">' +
-        '<span class="row-icon" aria-hidden="true">' + truck + '</span>' +
-        '<span class="row-body"><span class="row-title">Order ' + M.esc(b.order) + '</span>' +
-          '<span class="row-sub">' + b.qty + ' kg · ' + M.esc(b.last) + '</span></span>' + chevron +
-      '</a></div>' +
-      '<button type="button" class="btn btn-primary btn-full" id="reorder" style="margin-top:16px">Reorder</button>';
+      '<button type="button" class="btn btn-primary btn-full" id="reorder" style="margin-top:16px">Reorder</button>' +
+      '<a class="prod-last" href="order.html">Last ordered ' + b.qty + ' kg · ' + M.esc(b.last) +
+        '<svg viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg></a>';
 
     var qty = b.qty;
     var qtyEl = document.getElementById('qty');
