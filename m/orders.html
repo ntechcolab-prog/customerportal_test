@@ -23,17 +23,39 @@
     <h1>Orders</h1>
     <p class="page-head-sub">Track deliveries · full history on your computer</p>
   </div>
-  <div class="chips" id="chips" role="group" aria-label="Filter by status"></div>
-  <div id="olist"></div>
+
+  <button type="button" class="filter-trigger" id="statusTrigger" aria-haspopup="dialog" style="margin-top:16px">
+    <svg class="ft-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4-2v-4z"/></svg>
+    <span class="ft-label">Status:</span>
+    <span class="ft-value" id="statusValue">All</span>
+    <svg class="ft-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+
+  <div id="list"></div>
 </main>
 
 <footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<div class="sheet" id="statusSheet" aria-hidden="true">
+  <div class="sheet-overlay"></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-label="Filter by status">
+    <span class="sheet-grip" aria-hidden="true"></span>
+    <div class="sheet-head">
+      <span class="sheet-title">Filter by status</span>
+      <button type="button" class="sheet-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="sheet-list" id="sheetList"></div>
+  </div>
+</div>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
 <script>
 (function () {
   'use strict';
+  var $ = function (id) { return document.getElementById(id); };
 
   /* Ordena por status: In transit primeiro (o que o celular existe pra
      rastrear), depois Processing, Confirmed, Delivered, Rejected. Dentro do
@@ -46,17 +68,19 @@
     })
     .map(function (x) { return x.o; });
 
-  /* Chips = só os status que existem de fato, na ordem de prioridade + "All". */
+  /* Só os status que existem de fato, na ordem de prioridade. */
   var seen = {}, statuses = [];
   orders.forEach(function (o) { if (!seen[o.status]) { seen[o.status] = 1; statuses.push(o.status); } });
-  var FILTERS = [{ key: 'all', label: 'All' }].concat(statuses.map(function (s) { return { key: s, label: s }; }));
-  var filter = 'all';
 
-  var chips = document.getElementById('chips');
-  chips.innerHTML = FILTERS.map(function (f) {
-    return '<button type="button" class="chip" data-status="' + M.esc(f.key) + '" aria-pressed="' +
-      (f.key === filter) + '">' + M.esc(f.label) + '</button>';
-  }).join('');
+  var status = 'All';
+
+  var checkIcon =
+    '<svg class="sheet-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  function statusCount(s) {
+    return s === 'All' ? orders.length : orders.filter(function (o) { return o.status === s; }).length;
+  }
 
   function row(o) {
     var title = o.item || ('Order #' + o.id);
@@ -75,8 +99,8 @@
   }
 
   function render() {
-    var found = orders.filter(function (o) { return filter === 'all' || o.status === filter; });
-    document.getElementById('olist').innerHTML = found.length
+    var found = orders.filter(function (o) { return status === 'All' || o.status === status; });
+    $('list').innerHTML = found.length
       ? '<div class="card">' + found.map(row).join('') + '</div>'
       : '<div class="card empty">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
@@ -86,14 +110,47 @@
         '</div>';
   }
 
-  chips.addEventListener('click', function (e) {
-    var btn = e.target.closest('.chip');
+  /* ── bottom sheet: seleção de status (mesmo padrão das Máquinas) ── */
+  var sheet = $('statusSheet');
+
+  function buildSheet() {
+    var opts = ['All'].concat(statuses);
+    $('sheetList').innerHTML = opts.map(function (s) {
+      return '<button type="button" class="sheet-item' + (s === status ? ' is-active' : '') +
+          '" data-status="' + M.esc(s) + '">' + checkIcon +
+          '<span class="sheet-item-label">' + M.esc(s === 'All' ? 'All statuses' : s) + '</span>' +
+          '<span class="sheet-item-count">' + statusCount(s) + '</span>' +
+        '</button>';
+    }).join('');
+  }
+
+  function openSheet() {
+    buildSheet();
+    sheet.classList.add('open');
+    sheet.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSheet() {
+    sheet.classList.remove('open');
+    sheet.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    $('statusTrigger').focus();
+  }
+
+  $('statusTrigger').addEventListener('click', openSheet);
+  sheet.querySelector('.sheet-close').addEventListener('click', closeSheet);
+  sheet.querySelector('.sheet-overlay').addEventListener('click', closeSheet);
+  $('sheetList').addEventListener('click', function (e) {
+    var btn = e.target.closest('.sheet-item');
     if (!btn) return;
-    filter = btn.getAttribute('data-status');
-    Array.prototype.forEach.call(chips.querySelectorAll('.chip'), function (c) {
-      c.setAttribute('aria-pressed', String(c === btn));
-    });
+    status = btn.getAttribute('data-status');
+    $('statusValue').textContent = status;
+    $('statusTrigger').classList.toggle('is-active', status !== 'All');
+    closeSheet();
     render();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
   });
 
   render();
