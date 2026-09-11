@@ -247,6 +247,12 @@
   function renderCapture() {
     app.innerHTML =
       header('') +
+      (conf.sibling
+        ? '<div class="seg" role="tablist" aria-label="Search method">' +
+            '<a class="seg-opt' + (method === 'photo' ? ' is-active' : '') + '" href="scan.html?method=photo">Photo</a>' +
+            '<a class="seg-opt' + (method === 'code' ? ' is-active' : '') + '" href="scan.html?method=code">Code</a>' +
+          '</div>'
+        : '') +
       '<div class="cam">' +
         '<div class="cam-frame">' +
           '<div class="cam-guide is-frame' + (conf.scanLine ? ' is-scan' : '') + '" aria-hidden="true"></div>' +
