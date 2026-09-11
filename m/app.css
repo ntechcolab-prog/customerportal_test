@@ -879,14 +879,6 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 .stepper-price strong { color: var(--ink); font-weight: 700; font-size: 15px; }
 
 /* ── card de produto (reorder) — visual + specs + quantidade/total num só bloco ── */
-.prod { overflow: hidden; }
-.prod-visual {
-  height: 120px;
-  background-color: var(--brand-wash);
-  background-image: radial-gradient(circle, rgba(0, 113, 103, 0.28) 2.5px, transparent 3px);
-  background-size: 20px 20px;
-  background-position: center;
-}
 .prod-body { padding: 16px 18px; }
 .prod-name { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
 .prod-spec { font-size: 13px; color: var(--ink-2); margin-top: 3px; }
