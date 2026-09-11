@@ -299,7 +299,7 @@
        aparece/incrementa + toast, sem tirar você da tela. */
     if (reorder) reorder.addEventListener('click', function () {
       M.addToSend({ code: beads.ref, name: beads.name, price: beads.unit, qty: qty });
-      reorder.textContent = 'Added ✓';
+      reorder.textContent = '✓ Added';
       setTimeout(function () { reorder.textContent = 'Reorder ' + qty + ' kg'; }, 1300);
     });
   }

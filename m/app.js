@@ -143,40 +143,27 @@
       price: btn.getAttribute('data-add-price'),
       qty: pq ? (parseInt(pq.textContent, 10) || 1) : 1
     });
-    btn.textContent = 'Added';                              /* flash rápido; volta pra "Add" */
+    btn.textContent = '✓ Added';                            /* flash rápido; volta pra "Add" */
     setTimeout(function () { btn.textContent = 'Add'; }, 1100);
   });
 
-  /* Junta um item na Send list + atualiza o contador da topbar + toast.
-     Fonte única, reusada por peças (aqui), reorder e scan. */
+  /* Junta um item na Send list: grava, atualiza o contador da topbar e dá um
+     "pop" nele (feedback sem elemento flutuante). Fonte única — peças (aqui),
+     reorder e scan. A confirmação textual fica no próprio botão ("✓ Added"). */
   function addToSend(p) {
     cart.add(p);
     updateSend();
-    var n = cart.count();
-    toast('Added to Send list', 'cart.html');
-    return n;
+    bumpSend();
+    return cart.count();
   }
 
-  /* Toast: confirmação transitória perto da ação (além do contador na topbar).
-     `href` opcional adiciona um atalho "View" (ex.: abrir a Send list). */
-  var toastEl, toastTimer;
-  function toast(msg, href) {
-    if (!toastEl) {
-      toastEl = document.createElement('div');
-      toastEl.className = 'toast';
-      toastEl.setAttribute('role', 'status');
-      document.body.appendChild(toastEl);
-    }
-    toastEl.innerHTML =
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' +
-      '<span>' + esc(msg) + '</span>' +
-      (href ? '<a class="toast-action" href="' + href + '">View</a>' : '');
-    /* reflow pra reiniciar a transição em cliques seguidos */
-    void toastEl.offsetWidth;
-    toastEl.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, href ? 2600 : 1700);
+  /* Pop no contador da topbar quando um item entra. Respeita reduced-motion (CSS). */
+  function bumpSend() {
+    var badge = document.querySelector('.topbar-send-count');
+    if (!badge) return;
+    badge.classList.remove('is-bump');
+    void badge.offsetWidth;                                 /* reflow p/ reexecutar a animação */
+    badge.classList.add('is-bump');
   }
 
   /* Botão na topbar: N peças juntadas prontas para enviar ao computador. Fica ao

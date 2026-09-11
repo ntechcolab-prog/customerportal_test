@@ -122,7 +122,7 @@
     var reBtn = document.getElementById('reorder');
     reBtn.addEventListener('click', function () {
       M.addToSend({ code: b.ref, name: b.name, price: b.unit, qty: qty });
-      reBtn.textContent = 'Added ✓';
+      reBtn.textContent = '✓ Added';
       setTimeout(function () { reBtn.textContent = 'Reorder'; }, 1300);
     });
   }
