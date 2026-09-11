@@ -166,13 +166,7 @@
       return { sub: 'added to cart',
         body: '<div class="callout lead" style="background:var(--ok-wash);border-color:#cfe6d8;color:var(--ok-ink)">' +
           '<strong>Added to cart.</strong> 1 kg of ' + M.esc(beads.name) + ' (' + M.esc(beads.unit) +
-          ') is in your cart — finish the order at your desk.</div>' +
-          '<h2>Scan another</h2><div class="card">' +
-            '<a class="row" href="scan.html?method=beads">' +
-              '<span class="row-icon" aria-hidden="true">' + ICON.beads + '</span>' +
-              '<span class="row-body"><span class="row-title">Scan another pack</span>' +
-                '<span class="row-sub">Keep reordering from the shelf</span></span>' + chevron +
-            '</a></div>' };
+          ') is in your cart — finish the order at your desk.</div>' };
     }
     if (r === 'ambiguous') {
       return { sub: '2 products match',
@@ -195,10 +189,10 @@
           'Only Buyers and Admins can reorder consumables — send this pack to your Buyer, or ask for ' +
           'the role.</div>' + again() };
     }
-    /* identified — o caminho feliz: quantidade do último pedido num toque. */
-    return { sub: beads.name + ' · identified',
-      body: '<div class="callout lead"><strong>Product identified.</strong> Read from the packaging — ' +
-        'reorder the last quantity in one tap.</div>' +
+    /* identified — reorder direto do último pedido, num toque (sem scan). */
+    return { sub: 'Your last order',
+      body: '<div class="callout lead"><strong>' + M.esc(beads.name) + '.</strong> ' +
+        'Reorder your last quantity in one tap — finish at your desk.</div>' +
         '<h2>Reorder</h2>' +
         '<div class="card"><div class="row">' +
           '<span class="row-icon" aria-hidden="true">' + ICON.beads + '</span>' +
@@ -207,8 +201,7 @@
         '</div></div>' +
         M.specs([['Last order', beads.qty], ['Unit price', beads.unit + ' / kg']]) +
         '<button type="button" class="btn btn-primary btn-full" id="reorder" style="margin-top:14px">' +
-          'Reorder 1 kg</button>' +
-        again() };
+          'Reorder 1 kg</button>' };
   }
 
   /* ── registry de métodos ── */
@@ -234,7 +227,7 @@
       sibling: null, go: 'match', results: machineResults
     },
     beads: {
-      from: 'In the warehouse', title: 'Reorder by scanning', captureSub: 'Point at the beads packaging',
+      from: 'In the warehouse', title: 'Reorder beads', captureSub: 'Point at the beads packaging',
       hint: 'Point at the code on the packaging.',
       cta: 'Scan packaging', icon: 'beads', scanLine: true,
       manual: { placeholder: 'Type the product code', inputmode: 'numeric' },
