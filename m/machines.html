@@ -89,10 +89,11 @@
   /* Foto de produto por modelo (assets do desktop). Alpha Zeta 10 não tem foto
      → cai no ícone genérico. */
   var PHOTO = {
-    'Zeta 60':      'machine-zeta60.png',
-    'Discus 30':    'machine-discus30.png',
-    'MasterMix 45': 'machine-mastermix45.png',
-    'ProPhi':       'machine-prophi.png'
+    'Zeta 60':       'machine-zeta60.png',
+    'Discus 30':     'machine-discus30.png',
+    'MasterMix 45':  'machine-mastermix45.png',
+    'ProPhi':        'machine-prophi.png',
+    'Alpha Zeta 10': 'machine-zeta60.png'   /* sem foto própria → usa a da Zeta 60 */
   };
   function thumb(m) {
     return PHOTO[m.name]
