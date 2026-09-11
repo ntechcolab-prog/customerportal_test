@@ -437,16 +437,23 @@ a.row:active { background: var(--brand-wash); }
 /* ── peças ── */
 .part { display: flex; align-items: center; gap: 13px; padding: 13px 16px; border-top: 1px solid var(--line-soft); }
 .part:first-child { border-top: 0; }
-.part-pos {
+.part-icon {
   flex-shrink: 0;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--ink-2);
-  font-variant-numeric: tabular-nums;
-  width: 26px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-wash);
+  color: var(--brand-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.part-icon svg { width: 19px; height: 19px; }
 .part-body { flex: 1; min-width: 0; }
 .part-name { font-size: 15px; font-weight: 600; letter-spacing: -0.012em; line-height: 1.3; }
+.part-meta { font-size: 12.5px; color: var(--ink-2); margin-top: 2px; font-variant-numeric: tabular-nums; }
+/* usados por cart.html e quote.html (linhas de peça/quantidade) */
+.part-pos { flex-shrink: 0; font-size: 11.5px; font-weight: 700; color: var(--ink-2); font-variant-numeric: tabular-nums; width: 26px; }
 .part-code { font-size: 13px; color: var(--ink-2); margin-top: 2px; font-variant-numeric: tabular-nums; }
 .part-right { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
 .part-price { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }

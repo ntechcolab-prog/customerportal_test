@@ -69,14 +69,20 @@
     }).join('') + '</dl></div>';
   };
 
+  var PART_ICON =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3.5h11L22 12l-4.5 8.5h-11L2 12z"/>' +
+    '<circle cx="12" cy="12" r="3.2"/></svg>';
+
   var partsList = function (items) {
     return '<div class="card">' + items.map(function (p) {
       var added = cart.has(p.code);
+      var meta = (p.pos ? 'Pos. ' + esc(p.pos) + ' · ' : '') + esc(p.code);
       return '<div class="part">' +
-          '<div class="part-pos">' + esc(p.pos) + '</div>' +
+          '<span class="part-icon" aria-hidden="true">' + PART_ICON + '</span>' +
           '<div class="part-body">' +
             '<div class="part-name">' + esc(p.name) + '</div>' +
-            '<div class="part-code">' + esc(p.code) + '</div>' +
+            '<div class="part-meta">' + meta + '</div>' +
           '</div>' +
           '<div class="part-right">' +
             (p.price
