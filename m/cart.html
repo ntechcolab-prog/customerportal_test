@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Your order — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+  </span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+  var checkSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  var sent = M.param('sent', '');
+  if (sent) { renderSent(sent); return; }
+  render();
+
+  /* Revisão: peças montadas na máquina, prontas para enviar ao desktop. */
+  function render() {
+    var items = M.cart.items();
+    if (!items.length) { renderEmpty(); return; }
+    app.innerHTML =
+      '<div class="page-head"><h1>Your order</h1>' +
+        '<p class="page-head-sub">' + items.length + (items.length === 1 ? ' part' : ' parts') + ' to send to your desktop</p></div>' +
+      '<div class="card">' + items.map(function (p) {
+        return '<div class="part">' +
+            '<div class="part-body"><div class="part-name">' + M.esc(p.name) + '</div>' +
+              '<div class="part-code">' + M.esc(p.code) + '</div></div>' +
+            '<div class="part-right">' +
+              '<span class="part-price' + (p.price === 'Quotation only' ? ' quote' : '') + '">' + M.esc(p.price) + '</span>' +
+              '<button type="button" class="btn copy" data-remove="' + M.esc(p.code) + '" aria-label="Remove ' + M.esc(p.name) + '">Remove</button>' +
+            '</div>' +
+          '</div>';
+      }).join('') + '</div>' +
+      '<button type="button" class="btn btn-primary btn-full" id="send" style="margin-top:16px">Send to my desktop</button>' +
+      '<p class="done-note">They land on your desktop, ready to check out at your computer.</p>';
+
+    Array.prototype.forEach.call(app.querySelectorAll('[data-remove]'), function (btn) {
+      btn.addEventListener('click', function () { M.cart.remove(btn.getAttribute('data-remove')); render(); });
+    });
+    document.getElementById('send').addEventListener('click', function () {
+      var n = M.cart.count();
+      M.cart.clear();
+      window.location.search = '?sent=' + n;
+    });
+  }
+
+  function renderEmpty() {
+    app.innerHTML =
+      '<div class="page-head"><h1>Your order</h1></div>' +
+      '<div class="card empty">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">' +
+        '<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18.5" r="1.7"/><circle cx="17.5" cy="18.5" r="1.7"/></svg>' +
+        '<h3>No parts added yet</h3>' +
+        '<p>Add spare parts from a machine or a search, then send them to your desktop.</p>' +
+      '</div>' +
+      '<div class="cap-actions"><a class="btn btn-full" href="index.html">Back to home</a></div>';
+  }
+
+  function renderSent(n) {
+    var label = (n === '1' ? 'part is' : 'parts are');
+    app.innerHTML =
+      '<div class="page-head"><h1>Order sent</h1></div>' +
+      '<div class="card"><div class="result" role="status">' +
+        '<span class="result-ico is-ok" aria-hidden="true">' + checkSvg + '</span>' +
+        '<h3>Sent to your desktop</h3>' +
+        '<p>' + M.esc(n) + ' ' + label + ' waiting on your computer — finish the order there.</p>' +
+      '</div></div>' +
+      '<div class="cap-actions"><a class="btn btn-primary btn-full" href="index.html">Back to home</a></div>';
+  }
+})();
+</script>
+</body>
+</html>

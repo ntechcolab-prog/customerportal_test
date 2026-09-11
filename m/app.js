@@ -13,6 +13,21 @@
     return v === null || v === '' ? (fallback === undefined ? null : fallback) : v;
   };
 
+  /* Carrinho do celular: peças que você seleciona na máquina para ENVIAR ao
+     desktop (a "perna de volta" do handoff). Persiste na sessão para acumular
+     de várias listas antes de enviar. */
+  var CART_KEY = 'cp_cart';
+  function cartGet() { try { return JSON.parse(sessionStorage.getItem(CART_KEY) || '[]'); } catch (e) { return []; } }
+  function cartSet(a) { try { sessionStorage.setItem(CART_KEY, JSON.stringify(a)); } catch (e) {} }
+  var cart = {
+    items: cartGet,
+    count: function () { return cartGet().length; },
+    has: function (code) { return cartGet().some(function (x) { return x.code === code; }); },
+    add: function (p) { var a = cartGet(); if (!cart.has(p.code)) { a.push(p); cartSet(a); } return a.length; },
+    remove: function (code) { cartSet(cartGet().filter(function (x) { return x.code !== code; })); },
+    clear: function () { cartSet([]); }
+  };
+
   /* O link do handoff carrega ?exp= (epoch em segundos). Nada aqui é segurança
      de verdade — o token é gerado no cliente. É o spike CP-640 que responde
      como a sessão do celular se sustenta. */
@@ -56,6 +71,7 @@
 
   var partsList = function (items) {
     return '<div class="card">' + items.map(function (p) {
+      var added = cart.has(p.code);
       return '<div class="part">' +
           '<div class="part-pos">' + esc(p.pos) + '</div>' +
           '<div class="part-body">' +
@@ -66,33 +82,51 @@
             (p.price
               ? '<span class="part-price">' + esc(p.price) + '</span>'
               : '<span class="part-price quote">Quotation only</span>') +
-            '<button type="button" class="btn copy" data-copy="' + esc(p.code) + '" ' +
-              'aria-label="Copy material number ' + esc(p.code) + '">Copy</button>' +
+            '<button type="button" class="btn copy' + (added ? ' is-done' : '') + '"' +
+              ' data-add-code="' + esc(p.code) + '" data-add-name="' + esc(p.name) + '"' +
+              ' data-add-price="' + esc(p.price || 'Quotation only') + '"' + (added ? ' data-added="1"' : '') +
+              ' aria-label="Add ' + esc(p.name) + ' to your order">' + (added ? 'Added' : 'Add') + '</button>' +
           '</div>' +
         '</div>';
     }).join('') + '</div>';
   };
 
-  /* Copiar código de peça é o gesto central do "levar comigo": a pessoa está
-     na frente da máquina e precisa do número na mão. */
+  /* "Montar o pedido na máquina": adiciona a peça ao carrinho do celular; o
+     envio pro desktop acontece em cart.html (perna de volta do handoff). */
   document.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-copy]');
-    if (!btn) return;
-    var label = btn.textContent;
-    var done = function () {
-      btn.textContent = 'Copied';
-      btn.classList.add('is-done');
-      setTimeout(function () {
-        btn.textContent = label;
-        btn.classList.remove('is-done');
-      }, 1500);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(btn.getAttribute('data-copy')).then(done, done);
-    } else {
-      done();
-    }
+    var btn = e.target.closest('[data-add-code]');
+    if (!btn || btn.getAttribute('data-added')) return;
+    cart.add({
+      code: btn.getAttribute('data-add-code'),
+      name: btn.getAttribute('data-add-name'),
+      price: btn.getAttribute('data-add-price')
+    });
+    btn.textContent = 'Added';
+    btn.classList.add('is-done');
+    btn.setAttribute('data-added', '1');
+    renderCartBar();
   });
+
+  /* Barra fixa: N peças prontas para enviar ao desktop. Some quando vazio ou
+     quando você já está no próprio carrinho. */
+  function renderCartBar() {
+    if (/cart\.html/.test(window.location.pathname)) return;
+    var n = cart.count();
+    var bar = document.getElementById('cartbar');
+    if (!n) { if (bar) bar.parentNode.removeChild(bar); return; }
+    if (!bar) {
+      bar = document.createElement('a');
+      bar.id = 'cartbar';
+      bar.className = 'cartbar';
+      bar.href = 'cart.html';
+      document.body.appendChild(bar);
+    }
+    bar.innerHTML =
+      '<span class="cartbar-count">' + n + '</span>' +
+      '<span class="cartbar-label">' + (n === 1 ? 'part' : 'parts') + ' for your desktop</span>' +
+      '<span class="cartbar-cta">Review ›</span>';
+  }
+  renderCartBar();
 
   window.M = {
     esc: esc,
@@ -102,7 +136,8 @@
     ctxCard: ctxCard,
     badge: badge,
     specs: specs,
-    partsList: partsList
+    partsList: partsList,
+    cart: cart
   };
 })();
 
