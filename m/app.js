@@ -145,29 +145,39 @@
     });
     btn.textContent = 'Added';                              /* flash rápido; volta pra "Add" */
     setTimeout(function () { btn.textContent = 'Add'; }, 1100);
-    renderCartBar();
+    updateSend();
   });
 
-  /* Barra fixa: N peças prontas para enviar ao desktop. Some quando vazio ou
-     quando você já está no próprio carrinho. */
-  function renderCartBar() {
-    if (/cart\.html/.test(window.location.pathname)) return;
+  /* Botão na topbar: N peças juntadas prontas para enviar ao computador. Fica ao
+     lado do hamburger (ou no canto, em telas de fluxo), some quando a lista está
+     vazia ou quando você já está na própria tela de envio. */
+  function updateSend() {
+    var topbar = document.querySelector('.topbar');
+    if (!topbar) return;
+    var btn = document.getElementById('topbar-send');
     var n = cart.count();
-    var bar = document.getElementById('cartbar');
-    if (!n) { if (bar) bar.parentNode.removeChild(bar); return; }
-    if (!bar) {
-      bar = document.createElement('a');
-      bar.id = 'cartbar';
-      bar.className = 'cartbar';
-      bar.href = 'cart.html';
-      document.body.appendChild(bar);
+    if (!n || /cart\.html/.test(window.location.pathname)) {
+      if (btn) btn.parentNode.removeChild(btn);
+      return;
     }
-    bar.innerHTML =
-      '<span class="cartbar-count">' + n + '</span>' +
-      '<span class="cartbar-label">' + (n === 1 ? 'part' : 'parts') + ' for your desktop</span>' +
-      '<span class="cartbar-cta">Review ›</span>';
+    if (!btn) {
+      btn = document.createElement('a');
+      btn.id = 'topbar-send';
+      btn.className = 'topbar-send';
+      btn.href = 'cart.html';
+      btn.setAttribute('aria-label', 'Review parts to send to your computer');
+      var ham = topbar.querySelector('.hamburger-btn');
+      if (ham) topbar.insertBefore(btn, ham);         /* fica à esquerda do menu */
+      else topbar.appendChild(btn);                   /* telas de fluxo: canto direito */
+    }
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/>' +
+        '<path d="M9.5 10.5 12 13l2.5-2.5"/><path d="M12 6v6.5"/></svg>' +
+      '<span class="topbar-send-count">' + n + '</span>';
   }
-  renderCartBar();
+  updateSend();
 
   window.M = {
     esc: esc,
