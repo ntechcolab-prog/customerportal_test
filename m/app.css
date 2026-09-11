@@ -432,6 +432,19 @@ a.row:active { background: var(--brand-wash); }
   object-fit: contain;
   padding: 3px;
 }
+/* hero com a foto no topo do detalhe da máquina */
+.machine-hero {
+  margin: 2px 0 16px;
+  height: 200px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow: hidden;
+}
+.machine-hero img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
 /* ── pares rótulo/valor (ficha técnica) ── */
 .spec { display: flex; gap: 14px; padding: 11px 16px; border-top: 1px solid var(--line-soft); }
@@ -801,8 +814,7 @@ a.row:active { background: var(--brand-wash); }
 /* ── notificações ── */
 .notif-item {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  gap: 12px;
   padding: 13px 16px;
   border-top: 1px solid var(--line-soft);
   text-decoration: none;
@@ -811,16 +823,21 @@ a.row:active { background: var(--brand-wash); }
 .notif-item:first-child { border-top: 0; }
 .notif-item.is-unread { background: var(--surface-2); }
 a.notif-item:active { background: var(--brand-wash); }
-.notif-top { display: flex; align-items: baseline; gap: 8px; }
-.notif-dot {
+.notif-icon {
   flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--brand);
-  align-self: flex-start;
-  margin-top: 5px;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
 }
+.notif-icon svg { width: 18px; height: 18px; }
+.notif-item.is-unread .notif-icon { background: var(--brand-wash); color: var(--brand-ink); }
+.notif-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.notif-top { display: flex; align-items: baseline; gap: 8px; }
 .notif-title { flex: 1; min-width: 0; font-size: 14.5px; font-weight: 500; letter-spacing: -0.012em; line-height: 1.35; }
 .notif-item.is-unread .notif-title { font-weight: 700; }
 .notif-time { flex-shrink: 0; font-size: 12px; color: var(--ink-2); white-space: nowrap; }

@@ -38,6 +38,20 @@
     '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" ' +
     'stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
 
+  /* Foto de produto por modelo (Alpha Zeta 10 reaproveita a da Zeta 60). */
+  var PHOTO = {
+    'Zeta 60':       'machine-zeta60.png',
+    'Discus 30':     'machine-discus30.png',
+    'MasterMix 45':  'machine-mastermix45.png',
+    'ProPhi':        'machine-prophi.png',
+    'Alpha Zeta 10': 'machine-zeta60.png'
+  };
+  function heroOf(m) {
+    return PHOTO[m.name]
+      ? '<div class="machine-hero"><img src="../assets/' + PHOTO[m.name] + '" alt="' + M.esc(m.name) + '"></div>'
+      : '';
+  }
+
   var id = M.param('m', 'zeta60');
   var rich = CP.machines[id];              /* zeta60 / discus30 têm ficha completa */
   var unit = null;
@@ -81,11 +95,8 @@
         'Technical data, spare parts and documents for ' + M.esc(m.name) + ' live on the desktop portal.</div>';
 
     app.innerHTML =
-      M.ctxCard({
-        from: M.param('from') === 'link' ? 'Opened from a link' : 'From your computer',
-        title: m.name,
-        sub: sub
-      }) +
+      heroOf(m) +
+      M.ctxCard({ title: m.name, sub: sub }) +
       onMachine +
       '<h2>Machine information</h2>' + M.specs(info) +
       technical;
