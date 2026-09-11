@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Reorder beads — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar">
+  <a class="topbar-back" id="back" href="index.html" aria-label="Back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+  </a>
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+  </span>
+</div>
+
+<main id="app"></main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+(function () {
+  'use strict';
+  var app = document.getElementById('app');
+  if (M.isExpired()) { app.innerHTML = M.expiredMarkup; return; }
+
+  var list = CP.beadOrders;
+  var chevron =
+    '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" ' +
+    'stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
+  var beadIcon =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M3 8l9-4 9 4v8l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v8"/></svg>';
+  var truck =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18.5" r="1.7"/><circle cx="17.5" cy="18.5" r="1.7"/></svg>';
+  var checkSvg =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  var back = document.getElementById('back');
+  var itemParam = M.param('item', '');
+  var added = M.param('added', '');
+
+  if (itemParam === '') {
+    renderList();
+  } else {
+    var idx = parseInt(itemParam, 10);
+    var b = list[idx] || list[0];
+    if (back) back.setAttribute('href', 'reorder.html');   /* detalhe volta para a lista */
+    if (added) { renderAdded(b, added); } else { renderDetail(b, idx); }
+  }
+
+  /* Lista: os beads que você já pediu — toca e reordena. */
+  function renderList() {
+    document.title = 'Reorder beads — NETZSCH Customer Portal';
+    app.innerHTML =
+      '<div class="page-head"><h1>Reorder beads</h1><p class="page-head-sub">From your recent orders</p></div>' +
+      '<h2>Recent orders</h2>' +
+      '<div class="card">' + list.map(function (b, i) {
+        return '<a class="row" href="reorder.html?item=' + i + '">' +
+            '<span class="row-icon" aria-hidden="true">' + beadIcon + '</span>' +
+            '<span class="row-body"><span class="row-title">' + M.esc(b.name) + '</span>' +
+              '<span class="row-sub">Last: ' + b.qty + ' kg · ' + M.esc(b.last) + '</span></span>' +
+            chevron +
+          '</a>';
+      }).join('') + '</div>';
+  }
+
+  /* Detalhe: escolhe a quantidade e reordena num toque. */
+  function renderDetail(b, i) {
+    document.title = b.name + ' — NETZSCH Customer Portal';
+    app.innerHTML =
+      '<div class="page-head"><h1>' + M.esc(b.name) + '</h1>' +
+        '<p class="page-head-sub">Ref ' + M.esc(b.ref) + ' · ' + M.esc(b.size) + '</p></div>' +
+      '<h2>Quantity</h2>' +
+      '<div class="card">' +
+        '<div class="stepper">' +
+          '<button type="button" class="stepper-btn" id="minus" aria-label="Decrease quantity">−</button>' +
+          '<span class="stepper-val"><b id="qty">' + b.qty + '</b> kg</span>' +
+          '<button type="button" class="stepper-btn" id="plus" aria-label="Increase quantity">+</button>' +
+        '</div>' +
+        (b.unit !== '—' ? '<div class="stepper-price">' + M.esc(b.unit) + ' / kg</div>' : '') +
+      '</div>' +
+      '<h2>Last order</h2>' +
+      '<div class="card"><a class="row" href="order.html">' +
+        '<span class="row-icon" aria-hidden="true">' + truck + '</span>' +
+        '<span class="row-body"><span class="row-title">Order ' + M.esc(b.order) + '</span>' +
+          '<span class="row-sub">' + b.qty + ' kg · ' + M.esc(b.last) + '</span></span>' + chevron +
+      '</a></div>' +
+      '<button type="button" class="btn btn-primary btn-full" id="reorder" style="margin-top:16px">Reorder ' + b.qty + ' kg</button>';
+
+    var qty = b.qty;
+    var qtyEl = document.getElementById('qty');
+    var reorder = document.getElementById('reorder');
+    function upd() { qtyEl.textContent = String(qty); reorder.textContent = 'Reorder ' + qty + ' kg'; }
+    document.getElementById('minus').addEventListener('click', function () { if (qty > 1) { qty--; upd(); } });
+    document.getElementById('plus').addEventListener('click', function () { if (qty < 20) { qty++; upd(); } });
+    reorder.addEventListener('click', function () { window.location.search = '?item=' + i + '&added=' + qty; });
+  }
+
+  /* Confirmação. */
+  function renderAdded(b, q) {
+    document.title = 'Added to cart — NETZSCH Customer Portal';
+    app.innerHTML =
+      '<div class="page-head"><h1>Reorder beads</h1></div>' +
+      '<div class="card"><div class="result" role="status">' +
+        '<span class="result-ico is-ok" aria-hidden="true">' + checkSvg + '</span>' +
+        '<h3>Added to cart</h3>' +
+        '<p>' + M.esc(q) + ' kg of <strong>' + M.esc(b.name) + '</strong> is in your cart — finish the order at your desk.</p>' +
+      '</div></div>' +
+      '<div class="cap-actions">' +
+        '<a class="btn btn-full" href="reorder.html">Reorder something else</a>' +
+      '</div>';
+  }
+})();
+</script>
+</body>
+</html>

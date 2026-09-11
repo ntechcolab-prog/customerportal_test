@@ -335,10 +335,22 @@ window.CP = (function () {
     { id: 'prophi-2',      name: 'ProPhi',        type: 'Production monitoring', line: 'Black Production Only', sn: '15202537-10' }
   ];
 
+  /* Reorder beads (reorder.html) — histórico de mídias de moagem que o cliente
+     já pediu. Os produtos vêm do feed real (notifications) e do último pedido:
+     CERABEADS 0.4 (#2800998-06/-23), ZetaBeads Plus 0.3mm (#2800998-26),
+     Steel Beads Micro (#2800998-27). Ref/tamanho/preço reais para os dois
+     primeiros; o Steel Beads tem nome+pedido reais, resto representativo. */
+  var BEAD_ORDERS = [
+    { name: 'NETZSCH CERABEADS 0.4', ref: '443385', size: '0,40 - 0,60 mm', unit: '39,75 €', qty: 1, last: 'Nov 13, 2025', order: '2800998-06' },
+    { name: 'ZetaBeads Plus 0.3mm',  ref: '140028', size: '0,30 mm',        unit: '42,10 €', qty: 2, last: 'May 1, 2026',  order: '2800998-26' },
+    { name: 'Steel Beads Micro',     ref: '150221', size: '0,10 - 0,20 mm', unit: '58,40 €', qty: 5, last: 'Apr 20, 2026', order: '2800998-27' }
+  ];
+
   return {
     user: { name: 'John Doe', role: 'Technician', company: 'Acme Corp' },
     machines: MACHINES,
     fleet: FLEET,
+    beadOrders: BEAD_ORDERS,
     parts: PARTS,
     order: ORDER,
     budget: BUDGET,
