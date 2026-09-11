@@ -137,7 +137,7 @@
     if (!btn) return;
     var prow = btn.closest('.part');
     var pq = prow && prow.querySelector('.part-qty');
-    cart.add({
+    addToSend({
       code: btn.getAttribute('data-add-code'),
       name: btn.getAttribute('data-add-name'),
       price: btn.getAttribute('data-add-price'),
@@ -145,10 +145,17 @@
     });
     btn.textContent = 'Added';                              /* flash rápido; volta pra "Add" */
     setTimeout(function () { btn.textContent = 'Add'; }, 1100);
+  });
+
+  /* Junta um item na Send list + atualiza o contador da topbar + toast.
+     Fonte única, reusada por peças (aqui), reorder e scan. */
+  function addToSend(p) {
+    cart.add(p);
     updateSend();
     var n = cart.count();
-    toast('Added · ' + n + (n === 1 ? ' part to send' : ' parts to send'));
-  });
+    toast('Added · ' + n + (n === 1 ? ' item to send' : ' items to send'));
+    return n;
+  }
 
   /* Toast: confirmação transitória perto da ação (além do contador na topbar). */
   var toastEl, toastTimer;
@@ -187,7 +194,7 @@
       btn.id = 'topbar-send';
       btn.className = 'topbar-send';
       btn.href = 'cart.html';
-      btn.setAttribute('aria-label', 'Review parts to send to your computer');
+      btn.setAttribute('aria-label', 'Open your send list');
       var ham = topbar.querySelector('.hamburger-btn');
       if (ham) topbar.insertBefore(btn, ham);         /* fica à esquerda do menu */
       else topbar.appendChild(btn);                   /* telas de fluxo: canto direito */
@@ -210,7 +217,8 @@
     badge: badge,
     specs: specs,
     partsList: partsList,
-    cart: cart
+    cart: cart,
+    addToSend: addToSend
   };
 })();
 

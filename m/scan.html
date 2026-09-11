@@ -295,10 +295,12 @@
       if (minus) minus.addEventListener('click', function () { if (qty > 1) { qty--; upd(); } });
       if (plus) plus.addEventListener('click', function () { if (qty < 20) { qty++; upd(); } });
     }
-    /* Reorder por scan cai na mesma lista de envio (Send to your computer). */
+    /* Reorder por scan junta na Send list (igual ao Add): contador na topbar
+       aparece/incrementa + toast, sem tirar você da tela. */
     if (reorder) reorder.addEventListener('click', function () {
-      M.cart.add({ code: beads.ref, name: beads.name, price: beads.unit, qty: qty });
-      window.location.href = 'cart.html';
+      M.addToSend({ code: beads.ref, name: beads.name, price: beads.unit, qty: qty });
+      reorder.textContent = 'Added ✓';
+      setTimeout(function () { reorder.textContent = 'Reorder ' + qty + ' kg'; }, 1300);
     });
   }
 

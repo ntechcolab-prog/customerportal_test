@@ -117,10 +117,13 @@
       if (!isNaN(n)) { qty = n; paint(); }
     });
     qtyEl.addEventListener('blur', function () { setQty(qty); });
-    /* Reorder cai na mesma lista de envio das peças (Send to your computer). */
-    document.getElementById('reorder').addEventListener('click', function () {
-      M.cart.add({ code: b.ref, name: b.name, price: b.unit, qty: qty });
-      window.location.href = 'cart.html';
+    /* Reorder junta na Send list (igual ao Add das peças): contador na topbar
+       aparece/incrementa + toast, sem tirar você da tela. */
+    var reBtn = document.getElementById('reorder');
+    reBtn.addEventListener('click', function () {
+      M.addToSend({ code: b.ref, name: b.name, price: b.unit, qty: qty });
+      reBtn.textContent = 'Added ✓';
+      setTimeout(function () { reBtn.textContent = 'Reorder'; }, 1300);
     });
   }
 })();
