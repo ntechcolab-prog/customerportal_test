@@ -91,7 +91,6 @@
     return '<a class="order-row ' + (o.cls || '') + '" href="order.html?id=' + encodeURIComponent(o.id) + '">' +
         '<span class="order-row-top">' +
           '<span class="order-row-title">' + M.esc(title) + '</span>' +
-          (o.total ? '<span class="order-row-amt">' + M.esc(o.total) + '</span>' : '') +
         '</span>' +
         '<span class="order-row-meta">' +
           '<span class="order-row-status">' + M.esc(o.status) + '</span> · ' + M.esc(meta.join(' · ')) +
