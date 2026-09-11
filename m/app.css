@@ -546,9 +546,9 @@ a.row:active { background: var(--brand-wash); }
   color: var(--chip-ink, var(--ink-2));
 }
 .order-hero-ic svg { width: 23px; height: 23px; }
-.order-hero-body { flex: 1; min-width: 0; padding-top: 1px; }
-.order-hero-status { font-size: 17px; font-weight: 700; letter-spacing: -0.014em; color: var(--ink); }
-.order-hero-note { margin-top: 3px; font-size: 13.5px; line-height: 1.45; color: var(--ink-2); }
+.order-hero-body { flex: 1; min-width: 0; padding-top: 2px; }
+.order-hero-status { display: block; font-size: 17px; font-weight: 700; letter-spacing: -0.014em; color: var(--ink); }
+.order-hero-note { display: block; margin-top: 4px; font-size: 13.5px; line-height: 1.45; color: var(--ink-2); }
 .order-hero.is-progress { --chip-bg: var(--warn-wash); --chip-ink: #b5651d; }
 .order-hero.is-submitted { --chip-bg: #e9eefb;          --chip-ink: #1e3a8a; }
 .order-hero.is-completed { --chip-bg: #e6f2ea;          --chip-ink: #0f5a34; }

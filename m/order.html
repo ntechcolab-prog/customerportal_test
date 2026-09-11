@@ -123,20 +123,28 @@
       '<div class="callout">' + o.address.map(M.esc).join('<br>') + '</div>';
   }
 
-  /* Detalhe leve: status + rastreio quando existe + o que o feed traz. O resto
-     vive no computador — mesmo padrão rico/leve das máquinas. */
+  /* Detalhe leve: status + rastreio quando existe + o que o feed traz, cruzado
+     com o histórico de beads (mesma order id) pra puxar referência e tamanho.
+     O resto vive no computador — mesmo padrão rico/leve das máquinas. */
   function renderLight() {
     var o = s || { id: id, status: 'Order', cls: '', note: '' };
-    var pairs = [];
-    if (o.carrier) pairs.push(['Carrier', o.carrier]);
-    if (o.eta) pairs.push(['Estimated delivery', o.eta]);
-    if (o.total) pairs.push(['Order total', o.total, true]);
+    var bead = (CP.beadOrders || []).filter(function (b) { return b.order === o.id; })[0];
+
+    var item = [];
+    if (o.item) item.push(['Product', o.item]);
+    if (bead) { item.push(['Reference', bead.ref]); item.push(['Grinding media size', bead.size]); }
+    if (o.total) item.push(['Order total', o.total, true]);
+
+    var ship = [];
+    if (o.carrier) ship.push(['Carrier', o.carrier]);
+    if (o.eta) ship.push(['Estimated delivery', o.eta]);
 
     app.innerHTML =
       head(o, o.item) +
       hero(o) +
       (o.tracking ? trackingCard(o.tracking, o.carrier) : '') +
-      (pairs.length ? '<h2>Summary</h2>' + specCard(pairs) : '') +
+      (ship.length ? '<h2>Delivery</h2>' + specCard(ship) : '') +
+      (item.length ? '<h2>Item</h2>' + specCard(item) : '') +
       DESK_NOTE;
   }
 
