@@ -284,6 +284,7 @@ h2 {
 .page-head h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
 .page-head-sub { font-size: 13.5px; color: var(--ink-2); margin-top: 5px; }
 .page-head-badge { margin-top: 11px; display: flex; flex-wrap: wrap; gap: 6px; }
+.page-head + .card { margin-top: 16px; }
 
 /* ── gatilho de filtro (abre o bottom sheet) — escala p/ qualquer nº de linhas ── */
 .filter-trigger {

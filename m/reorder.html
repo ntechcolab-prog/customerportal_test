@@ -57,8 +57,13 @@
   } else {
     var idx = parseInt(itemParam, 10);
     var b = list[idx] || list[0];
-    if (back) back.setAttribute('href', 'reorder.html');   /* detalhe volta para a lista */
-    if (added) { renderAdded(b, added); } else { renderDetail(b, idx); }
+    if (added) {
+      if (back) back.setAttribute('href', 'index.html');   /* concluído → volta pra home */
+      renderAdded(b, added);
+    } else {
+      if (back) back.setAttribute('href', 'reorder.html');  /* detalhe → volta pra lista */
+      renderDetail(b, idx);
+    }
   }
 
   /* Lista: os beads que você já pediu — toca e reordena. */
@@ -132,7 +137,7 @@
         '<p>' + M.esc(q) + ' kg of <strong>' + M.esc(b.name) + '</strong> is in your cart — finish the order at your desk.</p>' +
       '</div></div>' +
       '<div class="cap-actions">' +
-        '<a class="btn btn-full" href="reorder.html">Reorder something else</a>' +
+        '<a class="btn btn-full" href="index.html">Back to home</a>' +
       '</div>';
   }
 })();
