@@ -80,19 +80,6 @@
     '<svg viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="1.8" ' +
     'stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
 
-  /* Ícone por tipo (monocromático, no chip da marca). */
-  function tic(paths) {
-    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
-  }
-  var TYPE_ICON = {
-    orders:    tic('<path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5 12 12l8.5-4.5"/><path d="M12 12v9"/>'),
-    approvals: tic('<circle cx="12" cy="12" r="9"/><path d="m8.3 12.2 2.4 2.4 4.9-5.2"/>'),
-    quotes:    tic('<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 15.5h6"/>'),
-    contracts: tic('<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="m9 14 1.4 1.4L14 12.5"/>'),
-    services:  tic('<path d="M14.5 4.5a4 4 0 0 0-5.2 5.2L4 15v3h3l5.3-5.3a4 4 0 0 0 5.2-5.2l-2.4 2.4-2.1-.6-.6-2.1z"/>')
-  };
-
   /* Link da notificação: usa o `to` explícito; senão, se o título traz um nº de
      pedido que existe na listagem, abre a order correspondente. */
   function linkOf(n) {
@@ -117,20 +104,18 @@
     var tag = open ? 'a' : 'div';
     var attrs = open ? ' href="' + M.esc(open) + '"' : '';
     return '<' + tag + ' class="notif-item' + (n.unread ? ' is-unread' : '') + '"' + attrs + '>' +
-        '<span class="notif-icon" aria-hidden="true">' + (TYPE_ICON[n.type] || '') + '</span>' +
-        '<span class="notif-main">' +
-          '<span class="notif-top">' +
-            '<span class="notif-title">' + M.esc(n.title) + '</span>' +
-            '<span class="notif-time">' + M.esc(n.time) + '</span>' +
-          '</span>' +
-          '<span class="notif-desc">' + M.esc(n.desc) + '</span>' +
-          '<span class="notif-meta">' +
-            '<span class="notif-type">' + M.esc(SINGULAR[n.type] || n.type) + '</span>' +
-            (open
-              ? '<span class="notif-go">Open ' + chevron + '</span>'
-              : '<span class="notif-portal">In the portal</span>') +
-          '</span>' +
-        '</span>' +
+        '<div class="notif-top">' +
+          (n.unread ? '<span class="notif-dot" aria-label="Unread"></span>' : '') +
+          '<span class="notif-title">' + M.esc(n.title) + '</span>' +
+          '<span class="notif-time">' + M.esc(n.time) + '</span>' +
+        '</div>' +
+        '<div class="notif-desc">' + M.esc(n.desc) + '</div>' +
+        '<div class="notif-meta">' +
+          '<span class="notif-type">' + M.esc(SINGULAR[n.type] || n.type) + '</span>' +
+          (open
+            ? '<span class="notif-go">' + chevron + '</span>'
+            : '<span class="notif-portal">In the portal</span>') +
+        '</div>' +
       '</' + tag + '>';
   }
 
