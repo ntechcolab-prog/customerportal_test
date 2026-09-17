@@ -68,6 +68,18 @@
   var uName = CP.user.name + ' · ' + CP.user.role;
   var srMachine = CP.machines[CP.service.machine].name;
 
+  /* SR-1: rascunho do novo chamado (new-service.html). Dá o nome da máquina para
+     o sub e recebe de volta a contagem de fotos anexadas — assim as fotos
+     "sobrevivem" ao round-trip câmera→formulário. */
+  var NEWSR_KEY = 'cp_newsr';
+  function newsrDraft() { try { return JSON.parse(sessionStorage.getItem(NEWSR_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function newsrMachineName() {
+    var d = newsrDraft(), id = d.machine;
+    if (id && CP.machines[id]) return CP.machines[id].name;
+    if (id && CP.fleet) { for (var i = 0; i < CP.fleet.length; i++) { if (CP.fleet[i].id === id) return CP.fleet[i].name; } }
+    return 'your machine';
+  }
+
   /* ── registry: uma config por entrada ── */
   var TARGETS = {
     profile: {
@@ -100,6 +112,22 @@
       doneBody: 'attached to <strong>' + esc(CP.service.id) + '</strong>.',
       addToSubmitted: 'You can add photos to this request even after it’s submitted.',
       returnNote: 'They appear on the request at your desk.'
+    },
+    'new-service': {
+      from: 'Opened from a new service request',
+      title: 'Photo of the problem',
+      sub: 'New request · ' + newsrMachineName(),
+      back: 'new-service.html', backLabel: 'Back to your request',
+      multiple: true, reticle: 'frame',
+      hints: { rear: 'Point at the fault — take as many as you need.', front: 'Front camera — take as many as you need.' },
+      shutter: 'Take photo',
+      attach: 'Attach to request',
+      uploadingTitle: 'Attaching to your request…',
+      doneBadge: ['Attached', 'is-completed'],
+      doneTitle: 'Photos attached',
+      doneBody: 'ready to send with your new request.',
+      addToSubmitted: 'Add as many as help — they go with the request when you submit it.',
+      returnNote: 'Finish the request to send them to NETZSCH.'
     },
     support: {
       from: 'Opened from Support',
@@ -316,6 +344,14 @@
   }
 
   function renderDone() {
+    /* SR-1: devolve a contagem ao rascunho (acumula com o que já havia — "add
+       more" tem que ser verdade). O formulário lê isso ao reconstruir. */
+    if (target === 'new-service') {
+      var d = newsrDraft();
+      d.photos = (typeof d.photos === 'number' ? d.photos : 0) + photos.length;
+      try { sessionStorage.setItem(NEWSR_KEY, JSON.stringify(d)); } catch (e) {}
+    }
+
     /* Perfil: toast compacto — foto pequena ao lado da confirmação, sem seção
        separada com a foto grande. */
     if (!conf.multiple) {
