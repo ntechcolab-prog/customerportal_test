@@ -283,7 +283,30 @@
     draft.title = titleEl.value.trim();
     draft.description = descEl.value.trim();
     saveDraft();
+    recordSubmitted();
     renderDone();
+  }
+
+  /* Grava o chamado enviado para ele aparecer na lista (services.html) — fecha o
+     loop do novo chamado. Dedup por id (reenvio/refresh não duplica). Data do
+     dia formatada no cliente. */
+  function recordSubmitted() {
+    var m = resolveMachine(draft.machine);
+    var rec = {
+      id: NEW_ID, date: fmtToday(), type: draft.type, title: draft.title,
+      status: 'submitted', machine: draft.machine, desc: draft.description
+    };
+    try {
+      var arr = JSON.parse(sessionStorage.getItem('cp_submitted') || '[]') || [];
+      arr = arr.filter(function (x) { return x.id !== NEW_ID; });
+      arr.push(rec);
+      sessionStorage.setItem('cp_submitted', JSON.stringify(arr));
+    } catch (e) {}
+  }
+  function fmtToday() {
+    try {
+      return new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    } catch (e) { return ''; }
   }
 
   /* ── confirmação ── */
@@ -320,8 +343,8 @@
           'aria-label="Copy request number">Copy</button>' +
       '</div></div>' +
       '<div class="actions" style="margin-top:20px">' +
-        '<a class="btn btn-primary btn-full" href="machine.html?m=' + esc(draft.machine) + '">Back to ' + esc(m.name) + '</a>' +
-        '<a class="btn btn-full" href="index.html">Done</a>' +
+        '<a class="btn btn-primary btn-full" href="service.html?id=' + esc(NEW_ID) + '">View request</a>' +
+        '<a class="btn btn-full" href="services.html">All requests</a>' +
       '</div>';
 
     clearDraft();

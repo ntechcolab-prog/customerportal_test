@@ -264,6 +264,27 @@ window.CP = (function () {
     ]
   };
 
+  /* services.html (SR-2) — a lista de Service Requests. O 1º é o SR-1192 (o
+     chamado rico, com detalhe completo em service.html: steps, captura, ligado
+     às notificações). Os demais são o histórico copiado 1:1 de
+     pages/services.html (#153456xx: data, tipo, status e descrição reais),
+     mapeado às MÁQUINAS DA FROTA do companion (o desktop usa "Zeta 300"/SNs
+     próprios; aqui aponto para unidades reais de CP.fleet/CP.machines para os
+     links de detalhe→máquina resolverem — mesma reconciliação já feita no
+     SR-1192→Zeta 60). Status seguem o modelo do portal: submitted / in-progress
+     / completed / cancelled. `rich` marca o único com detalhe completo. */
+  var SERVICES = [
+    { id: 'SR-1192', date: 'May 13, 2026', type: 'Maintenance',  status: 'in-progress', machine: 'zeta60',      desc: 'Scheduled maintenance — technician assigned.', rich: true },
+    { id: '15345678', date: 'Feb 2, 2026',  type: 'Repair',       status: 'in-progress', machine: 'zeta60',      desc: 'Strange noise during operation at high RPM.' },
+    { id: '15345679', date: 'Feb 2, 2026',  type: 'Spare Parts',  status: 'in-progress', machine: 'zeta60',      desc: 'I need a spare part for this machine.' },
+    { id: '15345680', date: 'Jan 20, 2026', type: 'Maintenance',  status: 'completed',   machine: 'zeta60',      desc: 'Scheduled preventive maintenance.' },
+    { id: '15345681', date: 'Jan 10, 2026', type: 'Consultation', status: 'submitted',   machine: 'discus30',    desc: 'Need expert advice on grinding parameters.' },
+    { id: '15345682', date: 'Dec 15, 2025', type: 'Repair',       status: 'cancelled',   machine: 'prophi',      desc: 'Issue resolved before service visit.' },
+    { id: '15345683', date: 'Nov 28, 2025', type: 'Maintenance',  status: 'in-progress', machine: 'alphazeta10', desc: 'Annual calibration and alignment check.' },
+    { id: '15345684', date: 'Nov 15, 2025', type: 'Spare Parts',  status: 'completed',   machine: 'discus30',    desc: 'Replacement grinding discs for quarterly swap.' },
+    { id: '15345685', date: 'Nov 3, 2025',  type: 'Consultation', status: 'submitted',   machine: 'mastermix45', desc: 'Process optimization for new material batch.' }
+  ];
+
   /* Approver decision (CP-667) — a aprovação de pedido NÃO existe como tela no
      desktop; ela aparece só no feed de notificações (pages/notifications.html):
      "approved/rejected by Daniel Costa", e o lembrete "3 orders pending
@@ -384,6 +405,7 @@ window.CP = (function () {
     help: HELP,
     notifications: NOTIFICATIONS,
     service: SERVICE,
+    services: SERVICES,
     approval: APPROVAL,
     quote: QUOTE,
     access: ACCESS

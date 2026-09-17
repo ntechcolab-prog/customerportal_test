@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#00564e">
+<title>Service requests — NETZSCH Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="topbar" data-nav="services">
+  <span class="topbar-brand">
+    <img src="../assets/gd-logo-white.svg" alt="NETZSCH">
+    <span class="topbar-divider" aria-hidden="true"></span>
+    <span class="topbar-label">Grinding &amp; Dispersing Customer Portal</span>
+  </span>
+</div>
+
+<main>
+  <div class="page-head">
+    <h1>Service requests</h1>
+    <p class="page-head-sub">Track your requests · full history on your computer</p>
+  </div>
+
+  <a class="btn btn-primary btn-full" id="newBtn" href="new-service.html" style="margin-top:16px">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    New service request
+  </a>
+
+  <button type="button" class="filter-trigger" id="statusTrigger" aria-haspopup="dialog" style="margin-top:12px">
+    <svg class="ft-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4-2v-4z"/></svg>
+    <span class="ft-label">Status:</span>
+    <span class="ft-value" id="statusValue">All</span>
+    <svg class="ft-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+
+  <div id="list" style="margin-top:14px"></div>
+</main>
+
+<footer>NETZSCH Customer Portal · mobile companion</footer>
+
+<div class="sheet" id="statusSheet" aria-hidden="true">
+  <div class="sheet-overlay"></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-label="Filter by status">
+    <span class="sheet-grip" aria-hidden="true"></span>
+    <div class="sheet-head">
+      <span class="sheet-title">Filter by status</span>
+      <button type="button" class="sheet-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="sheet-list" id="sheetList"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+/* SR-2 · Lista de Service Requests. Mesma linguagem do orders.html: faixa de
+   status colorida por linha (.order-row.is-*) + filtro por bottom-sheet. Os
+   chamados submetidos aqui no celular (SR-1, gravados em sessionStorage) entram
+   no topo — fecha o loop do novo chamado que você acabou de abrir. */
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+
+  var LABELS = { submitted: 'Submitted', 'in-progress': 'In Progress', completed: 'Completed', cancelled: 'Cancelled' };
+  var CLS    = { submitted: 'is-submitted', 'in-progress': 'is-progress', completed: 'is-completed', cancelled: 'is-cancelled' };
+  var PRIO   = { 'in-progress': 0, submitted: 1, completed: 2, cancelled: 3 };
+
+  function machineName(id) {
+    if (CP.machines[id]) return CP.machines[id].name;
+    if (CP.fleet) { for (var i = 0; i < CP.fleet.length; i++) { if (CP.fleet[i].id === id) return CP.fleet[i].name; } }
+    return id;
+  }
+
+  /* Chamados abertos no celular (SR-1 → sessionStorage). Mais recente primeiro. */
+  function submitted() {
+    try { return (JSON.parse(sessionStorage.getItem('cp_submitted') || '[]') || []).slice().reverse(); }
+    catch (e) { return []; }
+  }
+
+  /* Base copiada do portal, ordenada por prioridade de status; dentro do grupo
+     mantém a ordem da fonte (mais recente primeiro). */
+  var base = (CP.services || []).map(function (s, i) { return { s: s, i: i }; })
+    .sort(function (a, b) {
+      var pa = PRIO[a.s.status], pb = PRIO[b.s.status];
+      return pa === pb ? a.i - b.i : pa - pb;
+    })
+    .map(function (x) { return x.s; });
+
+  /* Submetidos no celular vão sempre no topo (você acabou de abrir). */
+  var all = submitted().concat(base);
+
+  var status = 'All';
+
+  var checkIcon =
+    '<svg class="sheet-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  /* Só os status que existem de fato, na ordem de prioridade. */
+  var seen = {}, statuses = [];
+  Object.keys(PRIO).forEach(function (st) {
+    if (all.some(function (s) { return s.status === st; })) statuses.push(st);
+  });
+
+  function statusCount(st) {
+    return st === 'All' ? all.length : all.filter(function (s) { return s.status === st; }).length;
+  }
+
+  function row(s) {
+    var title = s.type + ' · ' + machineName(s.machine);
+    var meta = LABELS[s.status] || s.status;
+    return '<a class="order-row ' + (CLS[s.status] || '') + '" href="service.html?id=' + encodeURIComponent(s.id) + '">' +
+        '<span class="order-row-top">' +
+          '<span class="order-row-title">' + M.esc(title) + '</span>' +
+        '</span>' +
+        '<span class="order-row-meta">' +
+          '<span class="order-row-status">' + M.esc(meta) + '</span> · #' + M.esc(s.id) + ' · ' + M.esc(s.date) +
+        '</span>' +
+      '</a>';
+  }
+
+  function render() {
+    var found = all.filter(function (s) { return status === 'All' || s.status === status; });
+    $('list').innerHTML = found.length
+      ? '<div class="card">' + found.map(row).join('') + '</div>'
+      : '<div class="card empty">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<path d="M14.5 4.5a4 4 0 0 0-5.2 5.2L4 15v3h3l5.3-5.3a4 4 0 0 0 5.2-5.2l-2.4 2.4-2.1-.6-.6-2.1z"/></svg>' +
+          '<h3>Nothing here</h3><p>No service requests with this status.</p>' +
+        '</div>';
+  }
+
+  /* ── bottom sheet: status (mesmo padrão de orders/máquinas) ── */
+  var sheet = $('statusSheet');
+
+  function buildSheet() {
+    var opts = ['All'].concat(statuses);
+    $('sheetList').innerHTML = opts.map(function (st) {
+      return '<button type="button" class="sheet-item' + (st === status ? ' is-active' : '') +
+          '" data-status="' + M.esc(st) + '">' + checkIcon +
+          '<span class="sheet-item-label">' + M.esc(st === 'All' ? 'All statuses' : (LABELS[st] || st)) + '</span>' +
+          '<span class="sheet-item-count">' + statusCount(st) + '</span>' +
+        '</button>';
+    }).join('');
+  }
+
+  function openSheet() {
+    buildSheet();
+    sheet.classList.add('open');
+    sheet.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSheet() {
+    sheet.classList.remove('open');
+    sheet.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    $('statusTrigger').focus();
+  }
+
+  $('statusTrigger').addEventListener('click', openSheet);
+  sheet.querySelector('.sheet-close').addEventListener('click', closeSheet);
+  sheet.querySelector('.sheet-overlay').addEventListener('click', closeSheet);
+  $('sheetList').addEventListener('click', function (e) {
+    var btn = e.target.closest('.sheet-item');
+    if (!btn) return;
+    status = btn.getAttribute('data-status');
+    $('statusValue').textContent = status === 'All' ? 'All' : (LABELS[status] || status);
+    $('statusTrigger').classList.toggle('is-active', status !== 'All');
+    closeSheet();
+    render();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

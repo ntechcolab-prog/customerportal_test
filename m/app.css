@@ -695,6 +695,8 @@ a.row:active { background: var(--brand-wash); }
 .callout strong { color: var(--ink); font-weight: 600; }
 .callout.is-warn { background: var(--warn-wash); border-color: #f0ddc9; color: var(--warn-ink); box-shadow: none; }
 .callout.is-warn strong { color: var(--warn-ink); }
+.callout.is-ok { background: var(--ok-wash); border-color: #cfe6d8; color: var(--ok-ink); box-shadow: none; }
+.callout.is-ok strong { color: var(--ok-ink); }
 
 /* ── badge de status (linguagem do portal: wash + bolinha viva + texto AAA) ── */
 .badge {
