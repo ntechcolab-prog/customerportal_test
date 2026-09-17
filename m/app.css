@@ -282,6 +282,11 @@ h2 {
 /* ── título de página (iOS large title), no lugar do ctxCard em listas ── */
 .page-head { margin: 6px 2px 0; }
 .page-head h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+/* Header com ação à direita (título/sub à esquerda, botão compacto à direita),
+   como o page-header do desktop. O texto encolhe/quebra; o botão nunca. */
+.page-head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.page-head-row .page-head-text { flex: 1; min-width: 0; }
+.page-head-row .btn { flex-shrink: 0; }
 .page-head-sub { font-size: 13.5px; color: var(--ink-2); margin-top: 5px; }
 .page-head-badge { margin-top: 11px; display: flex; flex-wrap: wrap; gap: 6px; }
 .page-head + .card { margin-top: 16px; }

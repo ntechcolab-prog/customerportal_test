@@ -19,17 +19,18 @@
 </div>
 
 <main>
-  <div class="page-head">
-    <h1>Service requests</h1>
-    <p class="page-head-sub">Track your requests · full history on your computer</p>
+  <div class="page-head page-head-row">
+    <div class="page-head-text">
+      <h1>Service requests</h1>
+      <p class="page-head-sub">Track your requests · full history on your computer</p>
+    </div>
+    <a class="btn btn-primary" id="newBtn" href="new-service.html" aria-label="New service request">
+      <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>
+      New
+    </a>
   </div>
 
-  <a class="btn btn-primary btn-full" id="newBtn" href="new-service.html" style="margin-top:16px">
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-    New service request
-  </a>
-
-  <button type="button" class="filter-trigger" id="statusTrigger" aria-haspopup="dialog" style="margin-top:12px">
+  <button type="button" class="filter-trigger" id="statusTrigger" aria-haspopup="dialog" style="margin-top:16px">
     <svg class="ft-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4-2v-4z"/></svg>
     <span class="ft-label">Status:</span>
     <span class="ft-value" id="statusValue">All</span>
