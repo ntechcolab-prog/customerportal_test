@@ -876,6 +876,52 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 .field-input:focus { outline: none; border-color: var(--brand); }
 .field-error { margin: 8px 2px 0; font-size: 12.5px; color: #9a1c1c; font-weight: 600; }
 
+/* ── radio cards — tipo do chamado ──
+   Espelha o desktop (pages/service-request.html): card com título + subtítulo,
+   círculo à esquerda; selecionado ganha borda verde 2px + wash. Empilhados no
+   celular: alvo de toque generoso e leitura AAA. */
+.radio-cards { display: grid; gap: 10px; margin-top: 2px; }
+.radio-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  background: var(--surface);
+  cursor: pointer;
+  min-height: 44px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.radio-card:active { background: var(--surface-2); }
+.radio-card:focus-within { outline: 2px solid var(--brand-ink); outline-offset: 2px; }
+.radio-card.is-selected {
+  border-color: var(--brand);
+  border-width: 2px;
+  padding: 13px 15px;            /* compensa a borda +1px para não "pular" */
+  background: var(--brand-wash);
+}
+.radio-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+.radio-mark {
+  width: 20px; height: 20px;
+  border: 2px solid var(--line-strong);
+  border-radius: 50%;
+  flex: 0 0 auto;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+}
+.radio-card.is-selected .radio-mark { border-color: var(--brand); }
+.radio-mark::after {
+  content: ""; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--brand); transform: scale(0); transition: transform 0.12s;
+}
+.radio-card.is-selected .radio-mark::after { transform: scale(1); }
+.radio-body { min-width: 0; }
+.radio-title { font-size: 14.5px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.radio-sub { font-size: 12.5px; color: var(--ink-2); line-height: 1.35; margin-top: 2px; }
+@media (prefers-reduced-motion: reduce) { .radio-card, .radio-mark::after { transition: none; } }
+
 /* ── resultado de uma decisão (confirmação) ── */
 .result { text-align: center; padding: 34px 22px; }
 .result-ico {

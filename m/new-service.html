@@ -25,15 +25,14 @@
 
 <footer>NETZSCH Customer Portal · mobile companion</footer>
 
-<!-- Bottom sheet reaproveitado (padrão de machines.html): serve tanto para
-     escolher o tipo do chamado quanto para trocar a máquina. O conteúdo é
-     montado por JS conforme o gatilho que abriu. -->
+<!-- Bottom sheet: trocar a máquina (a versão celular do <select> do desktop,
+     com busca porque a frota escala). Padrão copiado de machines.html. -->
 <div class="sheet" id="sheet" aria-hidden="true">
   <div class="sheet-overlay"></div>
-  <div class="sheet-panel" role="dialog" aria-modal="true" aria-label="Choose an option">
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-label="Choose machine">
     <span class="sheet-grip" aria-hidden="true"></span>
     <div class="sheet-head">
-      <span class="sheet-title" id="sheetTitle">Choose</span>
+      <span class="sheet-title">Choose machine</span>
       <button type="button" class="sheet-close" aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -48,36 +47,53 @@
 <script src="data.js"></script>
 <script src="app.js"></script>
 <script>
-/* SR-1 · Novo Service Request. É a tarefa "na máquina" mais central do
-   companion: você está de pé na frente do equipamento, algo está errado, abre
-   o chamado ali mesmo com a máquina já preenchida e uma foto do problema.
+/* SR-1 · Novo Service Request. Espelha o form do desktop
+   (pages/service-request.html): tipo em radio cards (Repair / Maintenance /
+   Spare Parts Request / Consultation, cada um com subtítulo), Title, Problem
+   Description e Attachments — só que numa coluna, com a máquina pré-preenchida
+   pela câmera/QR e a foto do problema no lugar do dropzone.
 
-   Fidelidade: o modelo (Submitted → In Progress → Completed), o "Service by",
-   os tipos e a máquina saem do que o portal já tem (CP.service, CP.machines,
-   CP.fleet). O número novo (SR-1193) continua a sequência do único chamado real
-   do protótipo (SR-1192), do mesmo jeito que os Orders estendem a numeração.
+   Fidelidade: tipos, labels e o modelo (Submitted → In Progress → Completed)
+   saem do portal. O número novo (SR-1193) continua a sequência do único chamado
+   real do protótipo (SR-1192), como os Orders estendem a numeração.
 
-   Rascunho persistido: o formulário some da tela quando você vai tirar a foto
-   (capture.html) e volta — então machine/type/description/nº de fotos vivem em
-   sessionStorage (mesmo padrão do cart em app.js) para sobreviver ao round-trip
-   e a um refresh. */
+   Rascunho persistido em sessionStorage (mesmo padrão do cart em app.js):
+   machine/type/title/description/photos sobrevivem ao round-trip da câmera. */
 (function () {
   'use strict';
   var app = document.getElementById('app');
   var esc = M.esc;
 
-  /* Link de handoff expirado: mesma regra dos outros deep links. */
   if (M.isExpired()) { app.innerHTML = M.expiredMarkup; return; }
 
   var DRAFT_KEY = 'cp_newsr';
   var NEW_ID = 'SR-1193';                    /* próximo nº na sequência de SR-1192 */
+  var REQ = ' <span aria-hidden="true" style="color:#9a1c1c">*</span>';
 
-  var TYPES = ['Maintenance', 'Repair', 'Inspection', 'Installation & commissioning', 'Other'];
+  /* Tipos e subtítulos idênticos aos radio cards do desktop. */
+  var TYPES = [
+    { value: 'Repair',              sub: 'Equipment fix' },
+    { value: 'Maintenance',         sub: 'Preventive care' },
+    { value: 'Spare Parts Request', sub: 'Request parts' },
+    { value: 'Consultation',        sub: 'Expert advice' }
+  ];
+
+  /* Foto de produto por modelo (assets do desktop) — mesma tabela de machines.html. */
+  var PHOTO = {
+    'Zeta 60':       'machine-zeta60.png',
+    'Discus 30':     'machine-discus30.png',
+    'MasterMix 45':  'machine-mastermix45.png',
+    'ProPhi':        'machine-prophi.png',
+    'Alpha Zeta 10': 'machine-zeta60.png'
+  };
 
   /* ── ícones ── */
   var chevron =
     '<svg class="row-chevron" viewBox="0 0 8 13" fill="none" stroke="currentColor" ' +
     'stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M1.5 1.5 6.5 6.5l-5 5"/></svg>';
+  var caretSvg =
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;color:var(--ink-2)"><path d="M6 9l6 6 6-6"/></svg>';
   var camSvg =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
     '<path d="M4 7h3l1.7-2h6.6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg>';
@@ -88,16 +104,15 @@
   var checkIcon =
     '<svg class="sheet-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+  var sendSvg =
+    '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4"/></svg>';
   var okSvg =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
-  var caretSvg =
-    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" ' +
-    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;color:var(--ink-2)"><path d="M6 9l6 6 6-6"/></svg>';
 
   /* Resolve qualquer id (máquina rica de CP.machines OU unidade da frota) para
-     um objeto com name/line/sn. A frota tem ids como "zeta60-2" que não existem
-     em CP.machines. */
+     um objeto com name/line/sn. A frota tem ids como "zeta60-2" fora de CP.machines. */
   function resolveMachine(id) {
     if (CP.machines[id]) return CP.machines[id];
     if (CP.fleet) {
@@ -107,17 +122,16 @@
     }
     return CP.machines.zeta60;
   }
+  function thumb(m) {
+    return PHOTO[m.name]
+      ? '<img class="row-thumb" src="../assets/' + PHOTO[m.name] + '" alt="" aria-hidden="true">'
+      : '<span class="row-icon" aria-hidden="true">' + machineIcon + '</span>';
+  }
 
   /* ── rascunho ── */
-  function loadDraft() {
-    try { return JSON.parse(sessionStorage.getItem(DRAFT_KEY) || '{}') || {}; } catch (e) { return {}; }
-  }
-  function saveDraft() {
-    try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft)); } catch (e) {}
-  }
-  function clearDraft() {
-    try { sessionStorage.removeItem(DRAFT_KEY); } catch (e) {}
-  }
+  function loadDraft() { try { return JSON.parse(sessionStorage.getItem(DRAFT_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function saveDraft() { try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft)); } catch (e) {} }
+  function clearDraft() { try { sessionStorage.removeItem(DRAFT_KEY); } catch (e) {} }
 
   var draft = loadDraft();
   /* ?m= manda na primeira carga; depois o rascunho é a fonte da verdade (para a
@@ -128,57 +142,70 @@
   if (typeof draft.photos !== 'number') draft.photos = 0;
   saveDraft();
 
-  /* Voltar: para a máquina de origem quando veio de uma (?m=), senão para a home. */
   var back = document.getElementById('back');
   if (back && mParam) back.setAttribute('href', 'machine.html?m=' + encodeURIComponent(draft.machine));
 
-  /* ── render do formulário ── */
-  function machineRowBlock() {
+  /* ── blocos do formulário ── */
+  function machineBlock() {
     var m = resolveMachine(draft.machine);
     return '<h2>Machine</h2>' +
       '<div class="card"><button type="button" class="row" id="machineTrigger" ' +
         'aria-haspopup="dialog" style="width:100%;text-align:left;background:none;border:0;font:inherit;cursor:pointer">' +
-        '<span class="row-icon" aria-hidden="true">' + machineIcon + '</span>' +
+        thumb(m) +
         '<span class="row-body"><span class="row-title">' + esc(m.name) + '</span>' +
           '<span class="row-sub">' + esc(m.line) + ' · SN ' + esc(m.sn) + '</span></span>' +
         caretSvg +
       '</button></div>';
   }
 
-  function typeFieldBlock() {
-    var val = draft.type || '';
+  function typeBlock() {
+    var cards = TYPES.map(function (t) {
+      var on = draft.type === t.value;
+      return '<label class="radio-card' + (on ? ' is-selected' : '') + '" data-val="' + esc(t.value) + '">' +
+          '<input type="radio" name="requestType" value="' + esc(t.value) + '"' + (on ? ' checked' : '') + '>' +
+          '<span class="radio-mark" aria-hidden="true"></span>' +
+          '<span class="radio-body"><span class="radio-title">' + esc(t.value) + '</span>' +
+            '<span class="radio-sub">' + esc(t.sub) + '</span></span>' +
+        '</label>';
+    }).join('');
     return '<div class="field">' +
-        '<label class="field-label" for="typeTrigger">Request type</label>' +
-        '<button type="button" class="field-input" id="typeTrigger" aria-haspopup="dialog" ' +
-          'aria-describedby="typeErr" style="text-align:left;display:flex;align-items:center;justify-content:space-between;cursor:pointer">' +
-          '<span id="typeValue"' + (val ? '' : ' style="color:var(--ink-2)"') + '>' + esc(val || 'Select a type') + '</span>' +
-          caretSvg +
-        '</button>' +
-        '<p class="field-error" id="typeErr" hidden>Choose a request type before you submit.</p>' +
+        '<span class="field-label" id="typeLabel">Request type' + REQ + '</span>' +
+        '<div class="radio-cards" id="typeCards" role="radiogroup" aria-labelledby="typeLabel">' + cards + '</div>' +
+        '<p class="field-error" id="typeErr" hidden>Choose a request type.</p>' +
       '</div>';
   }
 
-  function descFieldBlock() {
+  function titleBlock() {
     return '<div class="field">' +
-        '<label class="field-label" for="descText">What&rsquo;s the problem? (required)</label>' +
+        '<label class="field-label" for="titleText">Title' + REQ + '</label>' +
+        '<input type="text" class="field-input" id="titleText" placeholder="Write a short title" ' +
+          'value="' + esc(draft.title || '') + '" aria-describedby="titleErr">' +
+        '<p class="field-error" id="titleErr" hidden>Add a short title.</p>' +
+      '</div>';
+  }
+
+  function descBlock() {
+    return '<div class="field">' +
+        '<label class="field-label" for="descText">Problem description' + REQ + '</label>' +
         '<textarea class="field-input" id="descText" ' +
-          'placeholder="Describe what you&rsquo;re seeing — noise, leak, error code, when it started…" ' +
+          'placeholder="Describe the issue in detail — noise, leak, error code, when it started…" ' +
           'aria-describedby="descErr">' + esc(draft.description || '') + '</textarea>' +
-        '<p class="field-error" id="descErr" hidden>Add a short description so Service knows what to look at.</p>' +
+        '<p class="field-error" id="descErr" hidden>Describe the issue so Service knows what to look at.</p>' +
       '</div>';
   }
 
-  function photoBlock() {
+  function attachBlock() {
     var n = draft.photos || 0;
     var title = n ? (n + (n === 1 ? ' photo attached' : ' photos attached')) : 'Add a photo of the problem';
     var sub = n ? 'Tap to add more' : 'A photo often says more than a paragraph';
-    return '<h2>Attachment</h2>' +
+    return '<div class="field">' +
+      '<span class="field-label">Attachments</span>' +
       '<div class="card"><a class="row" id="attachRow" href="capture.html?target=new-service">' +
         '<span class="row-icon" aria-hidden="true">' + camSvg + '</span>' +
         '<span class="row-body"><span class="row-title">' + esc(title) + '</span>' +
           '<span class="row-sub">' + esc(sub) + '</span></span>' +
         chevron +
-      '</a></div>';
+      '</a></div></div>';
   }
 
   function renderForm() {
@@ -186,52 +213,75 @@
     document.title = 'New service request — NETZSCH Customer Portal';
     app.innerHTML =
       M.ctxCard({ title: 'New service request', sub: 'For ' + m.name + ' · ' + m.line }) +
-      machineRowBlock() +
-      '<h2>Details</h2>' +
-      typeFieldBlock() +
-      descFieldBlock() +
-      photoBlock() +
+      machineBlock() +
+      '<h2>Service details</h2>' +
+      typeBlock() +
+      titleBlock() +
+      descBlock() +
+      attachBlock() +
       '<div class="actions" style="margin-top:20px">' +
-        '<button type="button" class="btn btn-primary btn-full" id="submit">Submit request</button>' +
-      '</div>' +
-      '<p class="note">NETZSCH will confirm and assign a technician. You&rsquo;ll see the request at your desk too.</p>';
+        '<button type="button" class="btn btn-primary btn-full" id="submit">' + sendSvg + 'Send request</button>' +
+      '</div>';
     wireForm();
   }
 
   function wireForm() {
-    document.getElementById('machineTrigger').addEventListener('click', function () { openSheet('machine'); });
-    document.getElementById('typeTrigger').addEventListener('click', function () { openSheet('type'); });
+    document.getElementById('machineTrigger').addEventListener('click', openSheet);
 
-    /* Descrição escreve direto no rascunho, para sobreviver ao round-trip da foto. */
-    var ta = document.getElementById('descText');
-    ta.addEventListener('input', function () {
-      draft.description = ta.value;
+    /* Radio cards: seleção nativa (teclado/leitor de tela via <input radio>), com
+       o realce do card atualizado em runtime — sem re-render, preserva o que foi
+       digitado nos campos. */
+    document.getElementById('typeCards').addEventListener('change', function (e) {
+      var input = e.target.closest('input[type="radio"]');
+      if (!input) return;
+      draft.type = input.value;
       saveDraft();
-      if (ta.value.trim()) document.getElementById('descErr').hidden = true;
+      Array.prototype.forEach.call(this.querySelectorAll('.radio-card'), function (c) {
+        c.classList.toggle('is-selected', c.getAttribute('data-val') === draft.type);
+      });
+      document.getElementById('typeErr').hidden = true;
     });
 
-    /* Antes de ir para a câmera, garante o rascunho salvo (a foto volta e o
-       formulário se reconstrói a partir dele). */
+    var titleEl = document.getElementById('titleText');
+    titleEl.addEventListener('input', function () {
+      draft.title = titleEl.value; saveDraft();
+      if (titleEl.value.trim()) document.getElementById('titleErr').hidden = true;
+    });
+
+    var descEl = document.getElementById('descText');
+    descEl.addEventListener('input', function () {
+      draft.description = descEl.value; saveDraft();
+      if (descEl.value.trim()) document.getElementById('descErr').hidden = true;
+    });
+
+    /* Antes de ir à câmera, garante o rascunho salvo (a foto volta e o form se
+       reconstrói a partir dele). */
     document.getElementById('attachRow').addEventListener('click', saveDraft);
 
     document.getElementById('submit').addEventListener('click', onSubmit);
   }
 
   function onSubmit() {
-    var ok = true;
-    var typeErr = document.getElementById('typeErr');
-    var descErr = document.getElementById('descErr');
-    var ta = document.getElementById('descText');
+    var titleEl = document.getElementById('titleText');
+    var descEl = document.getElementById('descText');
+    var firstBad = null;
 
-    if (!draft.type) { typeErr.hidden = false; ok = false; }
-    if (!ta.value.trim()) { descErr.hidden = false; if (ok) ta.focus(); ok = false; }
-    if (!ok) {
-      /* leva o foco/scroll ao primeiro problema */
-      if (!draft.type) { document.getElementById('typeTrigger').focus(); }
-      window.scrollTo(0, 0);
-      return;
+    if (!draft.type) {
+      document.getElementById('typeErr').hidden = false;
+      firstBad = firstBad || document.querySelector('#typeCards input[type="radio"]');
     }
-    draft.description = ta.value.trim();
+    if (!titleEl.value.trim()) {
+      document.getElementById('titleErr').hidden = false;
+      firstBad = firstBad || titleEl;
+    }
+    if (!descEl.value.trim()) {
+      document.getElementById('descErr').hidden = false;
+      firstBad = firstBad || descEl;
+    }
+    if (firstBad) { firstBad.focus(); return; }
+
+    draft.title = titleEl.value.trim();
+    draft.description = descEl.value.trim();
     saveDraft();
     renderDone();
   }
@@ -257,9 +307,10 @@
       M.specs([
         ['Request ID', NEW_ID],
         ['Type', draft.type],
+        ['Title', draft.title],
         ['Machine', m.name],
         ['Serial number', m.sn],
-        ['Service by', m.info ? serviceBy(m) : 'NEM']
+        ['Service by', serviceBy(m)]
       ]) +
       '<h2>Reference</h2>' +
       '<div class="card"><div class="row">' +
@@ -273,7 +324,6 @@
         '<a class="btn btn-full" href="index.html">Done</a>' +
       '</div>';
 
-    /* Submetido: o rascunho cumpriu seu papel. */
     clearDraft();
     window.scrollTo(0, 0);
   }
@@ -289,11 +339,9 @@
     return 'NEM';
   }
 
-  /* ── bottom sheet (tipo | máquina) ── */
+  /* ── bottom sheet: máquina ── */
   var sheet = document.getElementById('sheet');
-  var sheetMode = 'type';
   var sheetQuery = '';
-  var lastTrigger = null;
 
   function machineOptions() {
     return (CP.fleet || [resolveMachine(draft.machine)]).filter(function (m) {
@@ -301,36 +349,20 @@
       return (m.name + ' ' + m.line + ' ' + m.sn).toLowerCase().indexOf(sheetQuery) > -1;
     });
   }
-
   function buildSheet() {
-    var list = document.getElementById('sheetList');
-    if (sheetMode === 'type') {
-      list.innerHTML = TYPES.map(function (t) {
-        return '<button type="button" class="sheet-item' + (t === draft.type ? ' is-active' : '') +
-            '" data-val="' + esc(t) + '">' + checkIcon +
-            '<span class="sheet-item-label">' + esc(t) + '</span>' +
-          '</button>';
-      }).join('');
-    } else {
-      list.innerHTML = machineOptions().map(function (m) {
-        return '<button type="button" class="sheet-item' + (m.id === draft.machine ? ' is-active' : '') +
-            '" data-val="' + esc(m.id) + '">' + checkIcon +
-            '<span class="sheet-item-label">' + esc(m.name) +
-              '<span style="display:block;font-size:12.5px;color:var(--ink-2);font-weight:400">' +
-              esc(m.line) + ' · SN ' + esc(m.sn) + '</span></span>' +
-          '</button>';
-      }).join('');
-    }
+    document.getElementById('sheetList').innerHTML = machineOptions().map(function (m) {
+      return '<button type="button" class="sheet-item' + (m.id === draft.machine ? ' is-active' : '') +
+          '" data-val="' + esc(m.id) + '">' + checkIcon +
+          '<span class="sheet-item-label">' + esc(m.name) +
+            '<span style="display:block;font-size:12.5px;color:var(--ink-2);font-weight:400">' +
+            esc(m.line) + ' · SN ' + esc(m.sn) + '</span></span>' +
+        '</button>';
+    }).join('');
   }
-
-  function openSheet(mode) {
-    sheetMode = mode;
+  function openSheet() {
     sheetQuery = '';
-    lastTrigger = document.getElementById(mode === 'type' ? 'typeTrigger' : 'machineTrigger');
-    document.getElementById('sheetTitle').textContent = mode === 'type' ? 'Request type' : 'Choose machine';
     var sw = document.getElementById('sheetSearch'); if (sw) sw.value = '';
-    /* busca interna só faz sentido na lista de máquinas (a frota escala). */
-    document.getElementById('sheetSearchWrap').hidden = mode !== 'machine' || (CP.fleet || []).length <= 8;
+    document.getElementById('sheetSearchWrap').hidden = (CP.fleet || []).length <= 8;
     buildSheet();
     sheet.classList.add('open');
     sheet.setAttribute('aria-hidden', 'false');
@@ -340,7 +372,7 @@
     sheet.classList.remove('open');
     sheet.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    if (lastTrigger) lastTrigger.focus();
+    var t = document.getElementById('machineTrigger'); if (t) t.focus();
   }
 
   sheet.querySelector('.sheet-close').addEventListener('click', closeSheet);
@@ -348,13 +380,7 @@
   document.getElementById('sheetList').addEventListener('click', function (e) {
     var btn = e.target.closest('.sheet-item');
     if (!btn) return;
-    var val = btn.getAttribute('data-val');
-    if (sheetMode === 'type') {
-      draft.type = val;
-      document.getElementById('typeErr').hidden = true;
-    } else {
-      draft.machine = val;
-    }
+    draft.machine = btn.getAttribute('data-val');
     saveDraft();
     closeSheet();
     renderForm();
