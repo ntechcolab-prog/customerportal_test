@@ -638,6 +638,33 @@ a.row:active { background: var(--brand-wash); }
 .order-row.is-completed { --accent: #1f9d57; --accent-ink: #0f5a34; }
 .order-row.is-cancelled { --accent: #e0483f; --accent-ink: #9a1c1c; }
 
+/* ── linha de Service Request (services.html) ──
+   Traduz a linha da tabela do desktop (pages/services.html) para um card
+   empilhado do celular: ícone de tipo colorido + status badge (.badge.is-*) +
+   descrição + máquina · data. Mesmos ícones de /assets/icon-type-*.svg. */
+.sr-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 16px;
+  border-top: 1px solid var(--line-soft);
+  color: var(--ink); text-decoration: none;
+}
+.sr-item:first-child { border-top: 0; }
+.sr-item:active { background: var(--surface-2); }
+.sr-type { width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; object-fit: contain; }
+.sr-body { flex: 1; min-width: 0; }
+.sr-top { display: flex; align-items: center; gap: 10px; }
+.sr-title {
+  flex: 1; min-width: 0;
+  font-size: 15px; font-weight: 600; letter-spacing: -0.012em; color: var(--ink);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.sr-top .badge { flex-shrink: 0; }
+.sr-desc {
+  margin-top: 4px; font-size: 13px; color: var(--ink-2); line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.sr-meta { margin-top: 5px; font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
 /* ── barra de gasto (budget) ── */
 .meter { display: block; height: 10px; border-radius: 5px; background: var(--surface-2); overflow: hidden; border: 1px solid var(--line); }
 .meter-fill { display: block; height: 100%; background: var(--brand); }

@@ -100,6 +100,21 @@
     '<svg class="sheet-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
 
+  /* Ícones de tipo do desktop (assets compartilhados). */
+  var TYPE_ICON = {
+    'Repair':               'icon-type-repair.svg',
+    'Maintenance':          'icon-type-maintenance.svg',
+    'Spare Parts':          'icon-type-spare-parts.svg',
+    'Spare Parts Request':  'icon-type-spare-parts.svg',
+    'Consultation':         'icon-type-consultation.svg'
+  };
+  function typeIcon(t) {
+    var f = TYPE_ICON[t];
+    return f
+      ? '<img class="sr-type" src="../assets/' + f + '" alt="" aria-hidden="true">'
+      : '<span class="sr-type" aria-hidden="true"></span>';
+  }
+
   /* Só os status que existem de fato, na ordem de prioridade. */
   var seen = {}, statuses = [];
   Object.keys(PRIO).forEach(function (st) {
@@ -111,14 +126,17 @@
   }
 
   function row(s) {
-    var title = s.type + ' · ' + machineName(s.machine);
-    var meta = LABELS[s.status] || s.status;
-    return '<a class="order-row ' + (CLS[s.status] || '') + '" href="service.html?id=' + encodeURIComponent(s.id) + '">' +
-        '<span class="order-row-top">' +
-          '<span class="order-row-title">' + M.esc(title) + '</span>' +
-        '</span>' +
-        '<span class="order-row-meta">' +
-          '<span class="order-row-status">' + M.esc(meta) + '</span> · #' + M.esc(s.id) + ' · ' + M.esc(s.date) +
+    var label = LABELS[s.status] || s.status;
+    var meta = '#' + M.esc(s.id) + ' · ' + M.esc(machineName(s.machine)) + ' · ' + M.esc(s.date);
+    return '<a class="sr-item" href="service.html?id=' + encodeURIComponent(s.id) + '">' +
+        typeIcon(s.type) +
+        '<span class="sr-body">' +
+          '<span class="sr-top">' +
+            '<span class="sr-title">' + M.esc(s.type) + '</span>' +
+            M.badge(label, CLS[s.status]) +
+          '</span>' +
+          (s.desc ? '<span class="sr-desc">' + M.esc(s.desc) + '</span>' : '') +
+          '<span class="sr-meta">' + meta + '</span>' +
         '</span>' +
       '</a>';
   }
