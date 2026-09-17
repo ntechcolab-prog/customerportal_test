@@ -287,6 +287,9 @@ h2 {
 .page-head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .page-head-row .page-head-text { flex: 1; min-width: 0; }
 .page-head-row .btn { flex-shrink: 0; }
+/* Botão só-ícone (ex.: "+" para novo): círculo de 44px, alvo de toque cheio. */
+.btn-icon { width: 44px; padding: 0; }
+.btn-icon svg { width: 18px; height: 18px; }
 .page-head-sub { font-size: 13.5px; color: var(--ink-2); margin-top: 5px; }
 .page-head-badge { margin-top: 11px; display: flex; flex-wrap: wrap; gap: 6px; }
 .page-head + .card { margin-top: 16px; }
