@@ -236,7 +236,18 @@
   var bar = document.querySelector('.topbar[data-nav]');
   if (bar) {
     var active = bar.getAttribute('data-nav');
-    var user = (window.CP && CP.user) ? (CP.user.name + ' · ' + CP.user.role) : 'John Doe · Technician';
+    var u = (window.CP && CP.user) ? CP.user : { name: 'John Doe', role: 'Technician', company: 'Acme Corp' };
+    var roleLine = u.role + (u.company ? ' · ' + u.company : '');
+    var camSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h3l1.7-2h6.6L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg>';
+    var profileHtml =
+      '<div class="mobile-nav-profile">' +
+        '<a class="mnp-avatar" href="capture.html?target=profile" aria-label="Change your profile photo">' +
+          '<img src="../assets/profile-photo.png" alt="">' +
+          '<span class="mnp-cam" aria-hidden="true">' + camSvg + '</span>' +
+        '</a>' +
+        '<div class="mnp-info"><div class="mnp-name">' + esc(u.name) + '</div>' +
+          '<div class="mnp-role">' + esc(roleLine) + '</div></div>' +
+      '</div>';
     /* Voltar à esquerda (menos na home, que é a raiz); hamburger à direita. */
     if (active !== 'home') {
       bar.insertAdjacentHTML('afterbegin',
@@ -259,8 +270,9 @@
             '<button class="mobile-nav-close" type="button" aria-label="Close menu">' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
             '</button></div>' +
+          profileHtml +
           links +
-          '<div class="mobile-nav-foot"><div class="mobile-nav-user">' + esc(user) + '</div>' +
+          '<div class="mobile-nav-foot">' +
             '<div class="mobile-nav-note">Open the full portal on your computer</div></div>' +
         '</div>' +
       '</nav>');
