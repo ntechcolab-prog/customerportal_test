@@ -172,43 +172,23 @@
     return cart.count();
   }
 
-  /* Pop no contador da topbar quando um item entra. Respeita reduced-motion (CSS). */
+  /* Pop no badge do carrinho (item "Cart" do menu) quando um item entra. */
   function bumpSend() {
-    var badge = document.querySelector('.topbar-send-count');
+    var badge = document.getElementById('mobile-cart-count');
     if (!badge) return;
     badge.classList.remove('is-bump');
     void badge.offsetWidth;                                 /* reflow p/ reexecutar a animação */
     badge.classList.add('is-bump');
   }
 
-  /* Botão na topbar: N peças juntadas prontas para enviar ao computador. Fica ao
-     lado do hamburger (ou no canto, em telas de fluxo), some quando a lista está
-     vazia ou quando você já está na própria tela de envio. */
+  /* O contador do carrinho vive no item "Cart" do menu hamburger (não na topbar).
+     Atualiza o badge quando algo entra; some quando o carrinho está vazio. */
   function updateSend() {
-    var topbar = document.querySelector('.topbar');
-    if (!topbar) return;
-    var btn = document.getElementById('topbar-send');
+    var badge = document.getElementById('mobile-cart-count');
+    if (!badge) return;
     var n = cart.count();
-    if (!n || /(cart|checkout)\.html/.test(window.location.pathname)) {
-      if (btn) btn.parentNode.removeChild(btn);
-      return;
-    }
-    if (!btn) {
-      btn = document.createElement('a');
-      btn.id = 'topbar-send';
-      btn.className = 'topbar-send';
-      btn.href = 'cart.html';
-      btn.setAttribute('aria-label', 'Open your cart');
-      var ham = topbar.querySelector('.hamburger-btn');
-      if (ham) topbar.insertBefore(btn, ham);         /* fica à esquerda do menu */
-      else topbar.appendChild(btn);                   /* telas de fluxo: canto direito */
-    }
-    btn.innerHTML =
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
-        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-        '<path d="M4 5h2l2.2 10.4a1 1 0 0 0 1 .8h8.1a1 1 0 0 0 1-.78L20 8H6.4"/>' +
-        '<circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>' +
-      '<span class="topbar-send-count">' + n + '</span>';
+    badge.textContent = n;
+    badge.style.display = n ? '' : 'none';
   }
   updateSend();
 
@@ -246,6 +226,7 @@
     { key: 'notifications', label: 'Notifications',         href: 'notifications.html', icon: ic('<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/>'), count: '5' },
     { key: 'services',      label: 'Services',              href: 'services.html',      icon: ic('<path d="M14.5 4.5a4 4 0 0 0-5.2 5.2L4 15v3h3l5.3-5.3a4 4 0 0 0 5.2-5.2l-2.4 2.4-2.1-.6-.6-2.1z"/>') },
     { key: 'orders',        label: 'Orders',                href: 'orders.html',        icon: ic('<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18.5" r="1.7"/><circle cx="17.5" cy="18.5" r="1.7"/>') },
+    { key: 'cart',          label: 'Cart',                  href: 'cart.html',          icon: ic('<path d="M4 5h2l2.2 10.4a1 1 0 0 0 1 .8h8.1a1 1 0 0 0 1-.78L20 8H6.4"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/>') },
     { key: 'help',          label: 'Help',                  href: 'help.html',          icon: ic('<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.4"/><path d="M12 17.2h.01"/>') }
   ];
 
@@ -274,9 +255,15 @@
       '<button class="hamburger-btn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">' +
         '<span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button>');
     var links = NAV.map(function (n) {
+      var badge = '';
+      if (n.key === 'cart') {
+        var cn = (window.M && M.cart) ? M.cart.count() : 0;
+        badge = '<span class="mobile-nav-count" id="mobile-cart-count"' + (cn ? '' : ' style="display:none"') + '>' + cn + '</span>';
+      } else if (n.count) {
+        badge = '<span class="mobile-nav-count">' + n.count + '</span>';
+      }
       return '<a href="' + n.href + '" class="mobile-nav-link' + (n.key === active ? ' active' : '') + '"' +
-        (n.key === active ? ' aria-current="page"' : '') + '>' + n.icon + esc(n.label) +
-        (n.count ? '<span class="mobile-nav-count">' + n.count + '</span>' : '') + '</a>';
+        (n.key === active ? ' aria-current="page"' : '') + '>' + n.icon + esc(n.label) + badge + '</a>';
     }).join('');
     bar.insertAdjacentHTML('afterend',
       '<nav class="mobile-nav" id="mobile-nav" aria-label="Main navigation">' +
