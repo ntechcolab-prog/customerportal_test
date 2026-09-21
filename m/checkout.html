@@ -99,7 +99,8 @@
       '</div>' +
 
       '<div class="actionbar">' +
-        '<button type="button" class="btn btn-primary btn-full" id="place">' +
+        (hasPriced ? '<div class="actionbar-total"><span>Total</span><b>' + M.money.format(subtotal) + '</b></div>' : '') +
+        '<button type="button" class="btn btn-primary' + (hasPriced ? '' : ' btn-full') + '" id="place">' +
           (hasPriced ? 'Place order' : 'Request quote') +
         '</button>' +
       '</div>' +

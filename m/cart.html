@@ -71,19 +71,14 @@
           '</div>';
       }).join('') + '</div>' +
 
-      '<div class="card sum">' +
-        (hasPriced
-          ? '<div class="sum-row"><span>Subtotal</span><b>' + M.money.format(subtotal) + '</b></div>'
-          : '') +
-        (quoteCount
-          ? '<div class="sum-row is-muted"><span>' + quoteCount + (quoteCount === 1 ? ' item priced on quotation' : ' items priced on quotation') + '</span><span>—</span></div>'
-          : '') +
-        (hasPriced ? '<div class="sum-note">Shipping and taxes calculated at checkout.</div>' : '') +
-      '</div>' +
+      (quoteCount
+        ? '<div class="card"><div class="sum-note" style="margin-top:0">' + quoteCount + (quoteCount === 1 ? ' item is priced on quotation' : ' items are priced on quotation') + ' — NETZSCH confirms pricing at checkout.</div></div>'
+        : '') +
 
       '<div class="actionbar">' +
-        '<a class="btn btn-primary btn-full" id="checkout" href="checkout.html">' +
-          (hasPriced ? 'Proceed to checkout' : 'Request quote') +
+        (hasPriced ? '<div class="actionbar-total"><span>Subtotal</span><b>' + M.money.format(subtotal) + '</b></div>' : '') +
+        '<a class="btn btn-primary' + (hasPriced ? '' : ' btn-full') + '" id="checkout" href="checkout.html">' +
+          (hasPriced ? 'Checkout' : 'Request quote') +
         '</a>' +
       '</div>' +
       '<div class="actionbar-spacer"></div>';
