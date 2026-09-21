@@ -74,6 +74,28 @@
     '.docs-item-download { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; color:#007167; transition:background 0.15s; flex-shrink:0; }',
     '.docs-item-download:hover { background:#e8f5f3; }',
     '.docs-item-download svg { width:18px; height:18px; }',
+
+    /* Footer + Download all */
+    '.docs-footer { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 24px; border-top:1px solid #eaeaea; background:#fbfcfc; flex-shrink:0; }',
+    '.docs-footer-info { font-size:13px; color:#6b6e73; }',
+    '.docs-downloadall { display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 16px; border-radius:10px; border:none; background:#007167; color:#fff; font-family:"Inter",sans-serif; font-size:13.5px; font-weight:600; cursor:pointer; transition:background 0.15s; }',
+    '.docs-downloadall:hover { background:#005f56; }',
+    '.docs-downloadall:disabled { opacity:0.55; cursor:default; }',
+    '.docs-downloadall svg { width:16px; height:16px; }',
+
+    /* Download progress toast */
+    '.docs-dl-toast { position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(12px); z-index:600; display:none; align-items:center; gap:12px; width:360px; max-width:calc(100vw - 32px); padding:13px 16px; border-radius:12px; background:#0f3f39; color:#fff; box-shadow:0 12px 30px rgba(0,0,0,0.24); opacity:0; transition:opacity 0.2s ease, transform 0.2s ease; }',
+    '.docs-dl-toast.show { display:flex; opacity:1; transform:translateX(-50%) translateY(0); }',
+    '.docs-dl-toast-icon { width:22px; height:22px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#7ee0d0; }',
+    '.docs-dl-toast-icon svg { width:20px; height:20px; }',
+    '.docs-dl-toast-main { flex:1; min-width:0; }',
+    '.docs-dl-toast-label { font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }',
+    '.docs-dl-bar { margin-top:8px; height:4px; border-radius:2px; background:rgba(255,255,255,0.2); overflow:hidden; }',
+    '.docs-dl-toast.done .docs-dl-bar { display:none; }',
+    '.docs-dl-bar-fill { height:100%; width:0; background:#7ee0d0; border-radius:2px; }',
+    '.docs-dl-spin { width:18px; height:18px; border:2px solid rgba(255,255,255,0.35); border-top-color:#fff; border-radius:50%; animation:docs-dl-rot 0.7s linear infinite; }',
+    '@keyframes docs-dl-rot { to { transform:rotate(360deg); } }',
+    '@media (prefers-reduced-motion: reduce) { .docs-dl-toast { transition:none; } .docs-dl-spin { animation:none; } .docs-dl-bar-fill { transition:none !important; } }',
   ].join('\n');
   document.head.appendChild(style);
 
@@ -120,7 +142,7 @@
     group.docs.forEach(function (doc) {
       var type = iconType(doc.fileName);
       var name = doc.title || doc.fileName;
-      bodyHtml += '<div class="docs-item" data-langs="' + esc(doc.languages.join(',')) + '">';
+      bodyHtml += '<div class="docs-item" data-langs="' + esc(doc.languages.join(',')) + '" data-file="' + esc(doc.fileName) + '">';
       bodyHtml += '<div class="docs-item-icon ' + type + '">' + type.toUpperCase() + '</div>';
       bodyHtml += '<div class="docs-item-info">';
       bodyHtml += '<span class="docs-item-name">' + esc(name) + '</span>';
@@ -166,8 +188,19 @@
     '    <p class="docs-no-results-title">No results found</p>' +
     '    <p class="docs-no-results-desc">Try adjusting your search or filters</p>' +
     '  </div>' +
-    '  <div class="docs-body" id="docsBody">' + bodyHtml + '</div>')
+    '  <div class="docs-body" id="docsBody">' + bodyHtml + '</div>' +
+    '  <div class="docs-footer" id="docsFooter">' +
+    '    <span class="docs-footer-info" id="docsFooterInfo"></span>' +
+    '    <button class="docs-downloadall" id="docsDownloadAll" type="button">' + downloadSvg + '<span id="docsDownloadAllLabel">Download all</span></button>' +
+    '  </div>')
     : ('  <div class="docs-body" id="docsBody">' + emptyDocsHtml + '</div>')) +
+    '  <div class="docs-dl-toast" id="docsDlToast" role="status" aria-live="polite">' +
+    '    <div class="docs-dl-toast-icon" id="docsDlIcon"></div>' +
+    '    <div class="docs-dl-toast-main">' +
+    '      <div class="docs-dl-toast-label" id="docsDlLabel"></div>' +
+    '      <div class="docs-dl-bar"><div class="docs-dl-bar-fill" id="docsDlBar"></div></div>' +
+    '    </div>' +
+    '  </div>' +
     '</div>';
   document.body.appendChild(overlay);
 
@@ -176,6 +209,81 @@
   var langSelect = document.getElementById('docsLangSelect');
   var noResults = document.getElementById('docsNoResults');
   var docsBody = document.getElementById('docsBody');
+
+  // ── Download simulation (prototype: visual only, no real file leaves the browser) ──
+  var footerInfo = document.getElementById('docsFooterInfo');
+  var downloadAllBtn = document.getElementById('docsDownloadAll');
+  var downloadAllLabel = document.getElementById('docsDownloadAllLabel');
+  var dlToast = document.getElementById('docsDlToast');
+  var dlIcon = document.getElementById('docsDlIcon');
+  var dlLabel = document.getElementById('docsDlLabel');
+  var dlBar = document.getElementById('docsDlBar');
+  var totalItems = docsBody ? docsBody.querySelectorAll('.docs-item').length : 0;
+  var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var spinnerHtml = '<span class="docs-dl-spin" aria-hidden="true"></span>';
+  var checkHtml = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
+  var dlT1 = null, dlT2 = null;
+
+  function countVisible() {
+    if (!docsBody) return 0;
+    var c = 0;
+    docsBody.querySelectorAll('.docs-item').forEach(function (it) { if (it.style.display !== 'none') c++; });
+    return c;
+  }
+
+  function updateFooter(visible) {
+    if (!downloadAllBtn) return;
+    if (visible == null) visible = countVisible();
+    downloadAllLabel.textContent = 'Download all' + (visible ? ' (' + visible + ')' : '');
+    footerInfo.textContent = (visible === totalItems)
+      ? (totalItems + (totalItems === 1 ? ' document' : ' documents'))
+      : (visible + ' of ' + totalItems + ' documents');
+    downloadAllBtn.disabled = visible === 0;
+  }
+
+  function runDownload(label, doneLabel, duration) {
+    if (!dlToast) return;
+    if (reduceMotion) duration = 200;
+    clearTimeout(dlT1); clearTimeout(dlT2);
+    dlToast.classList.remove('done');
+    dlIcon.innerHTML = spinnerHtml;
+    dlLabel.textContent = label;
+    dlBar.style.transition = 'none';
+    dlBar.style.width = '0%';
+    dlToast.classList.add('show');
+    void dlBar.offsetWidth; // reflow so the width animates from 0
+    dlBar.style.transition = 'width ' + duration + 'ms linear';
+    dlBar.style.width = '100%';
+    dlT1 = setTimeout(function () {
+      dlToast.classList.add('done');
+      dlIcon.innerHTML = checkHtml;
+      dlLabel.textContent = doneLabel;
+      if (downloadAllBtn) downloadAllBtn.disabled = countVisible() === 0;
+      dlT2 = setTimeout(function () { dlToast.classList.remove('show'); }, 1500);
+    }, duration + 80);
+  }
+
+  // Individual download (delegated on the list)
+  if (docsBody) {
+    docsBody.addEventListener('click', function (e) {
+      var btn = e.target.closest('.docs-item-download');
+      if (!btn) return;
+      e.preventDefault(); e.stopPropagation();
+      var item = e.target.closest('.docs-item');
+      var file = item ? (item.getAttribute('data-file') || (item.querySelector('.docs-item-name') || {}).textContent) : 'document';
+      runDownload('Downloading ' + file + '…', 'Download complete', 950);
+    });
+  }
+
+  // Download all (respects the current search / language filter)
+  if (downloadAllBtn) {
+    downloadAllBtn.addEventListener('click', function () {
+      var n = countVisible();
+      if (!n) return;
+      downloadAllBtn.disabled = true;
+      runDownload('Preparing ' + n + (n === 1 ? ' document' : ' documents') + '…', n + (n === 1 ? ' document downloaded' : ' documents downloaded'), 1500);
+    });
+  }
 
   function applyFilter() {
     if (!searchInput || !docsBody) return;
@@ -200,6 +308,7 @@
     });
 
     if (noResults) noResults.style.display = totalVisible === 0 ? 'flex' : 'none';
+    updateFooter(totalVisible);
   }
 
   if (searchInput) searchInput.addEventListener('input', applyFilter);
@@ -216,6 +325,7 @@
   }
   function closeDocs() {
     overlay.classList.remove('open');
+    if (dlToast) { clearTimeout(dlT1); clearTimeout(dlT2); dlToast.classList.remove('show'); }
   }
 
   docsLink.addEventListener('click', openDocs);
