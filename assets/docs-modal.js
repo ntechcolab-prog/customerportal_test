@@ -1,12 +1,22 @@
 /**
  * NETZSCH Customer Portal — Equipment Documents & Manuals Modal
- * Opens when clicking "Browse equipment documents and manuals" link.
+ * Opens when clicking the "Documents and Manuals" card on a machine page.
+ *
+ * Data comes from the shared DocsStore (assets/docs-store.js): documents are
+ * grouped into the 5 real categories and filtered by the current user's role,
+ * so a customer only sees the documents an Admin made visible to their profile.
  */
 (function () {
   var docsLink = document.querySelector('.docs-link');
   if (!docsLink) return;
+  if (!window.DocsStore) return; // store must load before this script
 
-  // Get machine name from page
+  // ── Which machine + which role are we on? ──
+  var file = (location.pathname.split('/').pop() || '');
+  var machineId = file.replace(/^machine-/, '').replace(/\.html$/, '');
+  var role = 'administrator';
+  try { role = localStorage.getItem('netzsch_user_role') || 'administrator'; } catch (e) {}
+
   var machineTitle = 'Equipment';
   var titleEl = document.querySelector('.machine-title');
   if (titleEl) machineTitle = titleEl.textContent.trim();
@@ -57,9 +67,9 @@
     '.docs-item-icon.pdf { background:#c73e20; }',
     '.docs-item-icon.dwg { background:#2563eb; }',
 
-    '.docs-item-info { flex:1; display:flex; flex-direction:column; gap:2px; }',
+    '.docs-item-info { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }',
     '.docs-item-name { font-size:14px; font-weight:500; color:#2d2e33; letter-spacing:-0.15px; }',
-    '.docs-item-meta { font-size:12px; color:#9ca0a5; }',
+    '.docs-item-meta { font-size:12px; color:#9ca0a5; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }',
 
     '.docs-item-download { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; color:#007167; transition:background 0.15s; flex-shrink:0; }',
     '.docs-item-download:hover { background:#e8f5f3; }',
@@ -67,169 +77,68 @@
   ].join('\n');
   document.head.appendChild(style);
 
-  // ── Languages available in the filter (order per portal: DE, PT, EN, ES) ──
-  var docLangs = [
-    { code: 'all', label: 'All languages' },
-    { code: 'de', label: 'Deutsch' },
-    { code: 'pt', label: 'Português' },
-    { code: 'en', label: 'English' },
-    { code: 'es', label: 'Español' },
-  ];
+  // ── Language filter options (only the languages actually present here) ──
+  var LANG_LABEL = {};
+  DocsStore.LANGUAGES.forEach(function (l) { LANG_LABEL[l.code] = l.label; });
+  var present = {};
+  DocsStore.list({ machineId: machineId, role: role }).forEach(function (d) {
+    d.languages.forEach(function (c) { present[c] = true; });
+  });
+  var docLangs = [{ code: 'all', label: 'All languages' }].concat(
+    DocsStore.LANGUAGES.filter(function (l) { return present[l.code]; })
+  );
 
-  // ── Documents data (dynamic per machine) ──
-  // `langs` = languages each document is available in (drives the language filter).
-  var m = machineTitle;
-  var machineDocs = {
-    'Operating Manuals': [
-      { name: m + ' — Operating Manual v3.2', type: 'pdf', size: '4.2 MB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Operating Manual v3.1 (legacy)', type: 'pdf', size: '4.0 MB', date: 'Jun 2025', langs: ['de', 'en'] },
-      { name: m + ' — Quick Start Guide', type: 'pdf', size: '1.1 MB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Control Panel Reference', type: 'pdf', size: '2.3 MB', date: 'Dec 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — HMI User Guide', type: 'pdf', size: '3.1 MB', date: 'Nov 2025', langs: ['de', 'pt', 'en'] },
-      { name: m + ' — Operator Handbook', type: 'pdf', size: '5.6 MB', date: 'Feb 2026', langs: ['de', 'en'] },
-      { name: m + ' — Daily Operation Checklist', type: 'pdf', size: '640 KB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-    ],
-    'Installation & Commissioning': [
-      { name: m + ' — Installation Manual', type: 'pdf', size: '3.8 MB', date: 'Oct 2025', langs: ['de', 'en'] },
-      { name: m + ' — Commissioning Report Template', type: 'pdf', size: '720 KB', date: 'Sep 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Site Preparation Guide', type: 'pdf', size: '1.4 MB', date: 'Aug 2025', langs: ['de', 'pt', 'en'] },
-      { name: m + ' — Foundation and Anchoring Plan', type: 'dwg', size: '2.6 MB', date: 'Aug 2024', langs: ['de', 'en'] },
-      { name: m + ' — Utility Connection Guide', type: 'pdf', size: '1.9 MB', date: 'Jul 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Alignment Procedure', type: 'pdf', size: '2.2 MB', date: 'Sep 2025', langs: ['de', 'en'] },
-      { name: m + ' — Transport and Handling Instructions', type: 'pdf', size: '1.0 MB', date: 'Jun 2025', langs: ['de', 'pt', 'en', 'es'] },
-    ],
-    'Maintenance Guides': [
-      { name: m + ' — Preventive Maintenance Schedule', type: 'pdf', size: '2.8 MB', date: 'Dec 2025', langs: ['de', 'pt', 'en'] },
-      { name: m + ' — Maintenance Manual', type: 'pdf', size: '6.2 MB', date: 'Nov 2025', langs: ['de', 'en'] },
-      { name: m + ' — Lubrication Chart', type: 'pdf', size: '850 KB', date: 'Oct 2025', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Seal Replacement Procedure', type: 'pdf', size: '1.7 MB', date: 'Sep 2025', langs: ['de', 'en'] },
-      { name: m + ' — Bearing Service Guide', type: 'pdf', size: '2.0 MB', date: 'Aug 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Grinding Chamber Maintenance', type: 'pdf', size: '3.3 MB', date: 'Dec 2025', langs: ['de', 'pt', 'en'] },
-      { name: m + ' — Annual Service Checklist', type: 'pdf', size: '700 KB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Maintenance Log Template', type: 'pdf', size: '480 KB', date: 'Nov 2025', langs: ['de', 'en'] },
-    ],
-    'Troubleshooting': [
-      { name: m + ' — Troubleshooting Guide', type: 'pdf', size: '3.5 MB', date: 'Nov 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Fault Code Reference', type: 'pdf', size: '1.6 MB', date: 'Dec 2025', langs: ['de', 'en'] },
-      { name: m + ' — Vibration Diagnostics', type: 'pdf', size: '2.4 MB', date: 'Oct 2025', langs: ['de', 'en'] },
-      { name: m + ' — Common Issues FAQ', type: 'pdf', size: '900 KB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Emergency Stop Recovery', type: 'pdf', size: '620 KB', date: 'Sep 2025', langs: ['de', 'pt', 'en'] },
-      { name: m + ' — Noise and Overheating Guide', type: 'pdf', size: '1.3 MB', date: 'Aug 2025', langs: ['de', 'en', 'es'] },
-    ],
-    'Spare Parts Catalog': [
-      { name: m + ' — Spare Parts Catalog 2026', type: 'pdf', size: '8.6 MB', date: 'Feb 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Spare Parts Catalog 2025', type: 'pdf', size: '8.1 MB', date: 'Feb 2025', langs: ['de', 'en'] },
-      { name: m + ' — Wear Parts Reference', type: 'pdf', size: '1.9 MB', date: 'Oct 2025', langs: ['de', 'en'] },
-      { name: m + ' — Recommended Spare Parts Kit', type: 'pdf', size: '1.2 MB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Grinding Media Selection Guide', type: 'pdf', size: '2.7 MB', date: 'Nov 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Consumables Price List', type: 'pdf', size: '540 KB', date: 'Jan 2026', langs: ['de', 'pt', 'en'] },
-      { name: m + ' — Parts Cross-Reference Table', type: 'pdf', size: '1.1 MB', date: 'Dec 2025', langs: ['de', 'en'] },
-    ],
-    'Certificates & Compliance': [
-      { name: m + ' — CE Declaration of Conformity', type: 'pdf', size: '420 KB', date: 'Aug 2024', langs: ['de', 'en'] },
-      { name: m + ' — Calibration Certificate', type: 'pdf', size: '380 KB', date: 'Mar 2026', langs: ['de', 'en', 'es'] },
-      { name: m + ' — ATEX Compliance Report', type: 'pdf', size: '1.2 MB', date: 'Aug 2024', langs: ['de', 'en'] },
-      { name: m + ' — Material Certificate 3.1', type: 'pdf', size: '460 KB', date: 'Jul 2024', langs: ['de', 'en'] },
-      { name: m + ' — Factory Acceptance Test Report', type: 'pdf', size: '2.1 MB', date: 'Aug 2024', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Noise Emission Certificate', type: 'pdf', size: '340 KB', date: 'Jun 2024', langs: ['de', 'en'] },
-      { name: m + ' — RoHS Compliance Statement', type: 'pdf', size: '300 KB', date: 'May 2024', langs: ['de', 'en'] },
-      { name: m + ' — Pressure Equipment Certificate', type: 'pdf', size: '520 KB', date: 'Aug 2024', langs: ['de', 'en'] },
-    ],
-    'Safety & Regulatory': [
-      { name: m + ' — Safety Manual', type: 'pdf', size: '2.9 MB', date: 'Oct 2025', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Risk Assessment Report', type: 'pdf', size: '1.8 MB', date: 'Sep 2025', langs: ['de', 'en'] },
-      { name: m + ' — Lockout/Tagout Procedure', type: 'pdf', size: '900 KB', date: 'Aug 2025', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Safety Data Sheet (Hydraulic Oil)', type: 'pdf', size: '260 KB', date: 'Jul 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — PPE Requirements Sheet', type: 'pdf', size: '410 KB', date: 'Jun 2025', langs: ['de', 'pt', 'en'] },
-      { name: m + ' — Machine Safety Labels Guide', type: 'pdf', size: '720 KB', date: 'May 2025', langs: ['de', 'en'] },
-      { name: m + ' — Emergency Procedures Poster', type: 'pdf', size: '1.1 MB', date: 'Apr 2025', langs: ['de', 'pt', 'en', 'es'] },
-    ],
-    'Technical Drawings': [
-      { name: m + ' — General Assembly Drawing', type: 'dwg', size: '5.4 MB', date: 'Aug 2024', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Inlet Flange Detail', type: 'dwg', size: '2.1 MB', date: 'Aug 2024', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Grinding Chamber Assembly', type: 'dwg', size: '4.7 MB', date: 'Aug 2024', langs: ['de', 'en'] },
-      { name: m + ' — Rotor Detail Drawing', type: 'dwg', size: '3.2 MB', date: 'Aug 2024', langs: ['de', 'en'] },
-      { name: m + ' — Sealing System Layout', type: 'dwg', size: '2.8 MB', date: 'Aug 2024', langs: ['de', 'en'] },
-      { name: m + ' — Cooling Circuit Diagram', type: 'dwg', size: '1.9 MB', date: 'Aug 2024', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Foundation Plan', type: 'dwg', size: '2.4 MB', date: 'Aug 2024', langs: ['de', 'en'] },
-      { name: m + ' — Piping and Instrumentation Diagram', type: 'dwg', size: '3.6 MB', date: 'Aug 2024', langs: ['de', 'en'] },
-    ],
-    'Electrical & Automation': [
-      { name: m + ' — Electrical Wiring Diagram', type: 'dwg', size: '4.1 MB', date: 'Sep 2024', langs: ['de', 'en'] },
-      { name: m + ' — Control Cabinet Layout', type: 'dwg', size: '2.9 MB', date: 'Sep 2024', langs: ['de', 'en'] },
-      { name: m + ' — PLC Program Documentation', type: 'pdf', size: '3.4 MB', date: 'Oct 2025', langs: ['de', 'en'] },
-      { name: m + ' — I/O List', type: 'pdf', size: '780 KB', date: 'Sep 2025', langs: ['de', 'en'] },
-      { name: m + ' — Motor Datasheet', type: 'pdf', size: '1.3 MB', date: 'Aug 2024', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Frequency Converter Manual', type: 'pdf', size: '5.2 MB', date: 'Jul 2025', langs: ['de', 'en'] },
-      { name: m + ' — Sensor Configuration Guide', type: 'pdf', size: '1.6 MB', date: 'Nov 2025', langs: ['de', 'en', 'es'] },
-    ],
-    'Process & Application Notes': [
-      { name: m + ' — Application Note: Nano Grinding', type: 'pdf', size: '1.5 MB', date: 'Dec 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Application Note: Dispersing', type: 'pdf', size: '1.4 MB', date: 'Nov 2025', langs: ['de', 'en'] },
-      { name: m + ' — Process Optimization Guide', type: 'pdf', size: '2.6 MB', date: 'Oct 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Bead Size Selection Chart', type: 'pdf', size: '680 KB', date: 'Sep 2025', langs: ['de', 'pt', 'en'] },
-      { name: m + ' — Scale-Up Guidelines', type: 'pdf', size: '1.9 MB', date: 'Aug 2025', langs: ['de', 'en'] },
-      { name: m + ' — Cleaning and CIP Procedure', type: 'pdf', size: '1.2 MB', date: 'Jul 2025', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Product Changeover Guide', type: 'pdf', size: '940 KB', date: 'Jun 2025', langs: ['de', 'en'] },
-    ],
-    'Software & Firmware': [
-      { name: m + ' — Control Software Release Notes v4.5', type: 'pdf', size: '620 KB', date: 'Feb 2026', langs: ['de', 'en'] },
-      { name: m + ' — Firmware Update Guide', type: 'pdf', size: '1.1 MB', date: 'Jan 2026', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Data Logging Manual', type: 'pdf', size: '2.2 MB', date: 'Dec 2025', langs: ['de', 'en'] },
-      { name: m + ' — Remote Monitoring Setup', type: 'pdf', size: '1.8 MB', date: 'Nov 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — OPC-UA Integration Guide', type: 'pdf', size: '1.5 MB', date: 'Oct 2025', langs: ['de', 'en'] },
-      { name: m + ' — Recipe Management Manual', type: 'pdf', size: '2.0 MB', date: 'Sep 2025', langs: ['de', 'pt', 'en'] },
-    ],
-    'Training Materials': [
-      { name: m + ' — Operator Training Handbook', type: 'pdf', size: '4.8 MB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Maintenance Training Slides', type: 'pdf', size: '6.1 MB', date: 'Dec 2025', langs: ['de', 'en'] },
-      { name: m + ' — Safety Induction Presentation', type: 'pdf', size: '3.2 MB', date: 'Nov 2025', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Video Tutorial Index', type: 'pdf', size: '320 KB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Competency Assessment Form', type: 'pdf', size: '410 KB', date: 'Oct 2025', langs: ['de', 'en'] },
-      { name: m + ' — Quick Reference Card', type: 'pdf', size: '280 KB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Hands-On Exercise Workbook', type: 'pdf', size: '2.4 MB', date: 'Sep 2025', langs: ['de', 'en'] },
-    ],
-    'Warranty & Service': [
-      { name: m + ' — Warranty Terms and Conditions', type: 'pdf', size: '340 KB', date: 'Aug 2024', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Service Contract Overview', type: 'pdf', size: '720 KB', date: 'Jan 2026', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Return Material Authorization Form', type: 'pdf', size: '260 KB', date: 'Dec 2025', langs: ['de', 'en'] },
-      { name: m + ' — Service Report Template', type: 'pdf', size: '480 KB', date: 'Nov 2025', langs: ['de', 'en'] },
-      { name: m + ' — Spare Parts Order Form', type: 'pdf', size: '300 KB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-    ],
-    'Datasheets & Specifications': [
-      { name: m + ' — Technical Datasheet', type: 'pdf', size: '1.2 MB', date: 'Jan 2026', langs: ['de', 'pt', 'en', 'es'] },
-      { name: m + ' — Performance Specification', type: 'pdf', size: '900 KB', date: 'Dec 2025', langs: ['de', 'en'] },
-      { name: m + ' — Dimensional Data Sheet', type: 'pdf', size: '640 KB', date: 'Aug 2024', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Capacity and Throughput Chart', type: 'pdf', size: '720 KB', date: 'Nov 2025', langs: ['de', 'en'] },
-      { name: m + ' — Energy Consumption Report', type: 'pdf', size: '1.1 MB', date: 'Oct 2025', langs: ['de', 'en', 'es'] },
-      { name: m + ' — Materials of Construction List', type: 'pdf', size: '540 KB', date: 'Sep 2025', langs: ['de', 'en'] },
-      { name: m + ' — Weight and Load Data', type: 'pdf', size: '380 KB', date: 'Aug 2024', langs: ['de', 'en'] },
-      { name: m + ' — Environmental Conditions Spec', type: 'pdf', size: '460 KB', date: 'Jul 2025', langs: ['de', 'pt', 'en'] },
-      { name: m + ' — Acoustic Performance Data', type: 'pdf', size: '420 KB', date: 'Jun 2025', langs: ['de', 'en'] },
-      { name: m + ' — Certified Dimension Drawing', type: 'dwg', size: '2.2 MB', date: 'Aug 2024', langs: ['de', 'en'] },
-    ],
-  };
-
-  // ── Build modal HTML ──
+  // ── Build modal HTML from the store, grouped by category ──
   var downloadSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
 
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function iconType(fileName) {
+    var ext = (fileName.split('.').pop() || '').toLowerCase();
+    return (ext === 'dwg' || ext === 'dxf') ? 'dwg' : 'pdf';
+  }
+
+  function metaLine(doc) {
+    var parts = [];
+    if (doc.docType) parts.push(doc.docType);
+    if (doc.position) parts.push(doc.position);
+    if (doc.version) parts.push(doc.version);
+    if (doc.sizeLabel) parts.push(doc.sizeLabel);
+    if (doc.languages && doc.languages.length) parts.push(doc.languages.map(function (c) { return c.toUpperCase(); }).join('/'));
+    if (doc.uploadedAt) parts.push('Updated ' + doc.uploadedAt);
+    return parts.join(' · ');
+  }
+
+  var groups = DocsStore.listByCategory({ machineId: machineId, role: role });
+  var hasAnyDocs = groups.length > 0;
+
   var bodyHtml = '';
-  Object.keys(machineDocs).forEach(function (category) {
+  groups.forEach(function (group) {
     bodyHtml += '<div class="docs-category">';
-    bodyHtml += '<div class="docs-category-title">' + category + '</div>';
+    bodyHtml += '<div class="docs-category-title">' + esc(group.label) + '</div>';
     bodyHtml += '<div class="docs-list">';
-    machineDocs[category].forEach(function (doc) {
-      bodyHtml += '<div class="docs-item" data-langs="' + doc.langs.join(',') + '">';
-      bodyHtml += '<div class="docs-item-icon ' + doc.type + '">' + doc.type.toUpperCase() + '</div>';
+    group.docs.forEach(function (doc) {
+      var type = iconType(doc.fileName);
+      var name = doc.title || doc.fileName;
+      bodyHtml += '<div class="docs-item" data-langs="' + esc(doc.languages.join(',')) + '">';
+      bodyHtml += '<div class="docs-item-icon ' + type + '">' + type.toUpperCase() + '</div>';
       bodyHtml += '<div class="docs-item-info">';
-      bodyHtml += '<span class="docs-item-name">' + doc.name + '</span>';
-      bodyHtml += '<span class="docs-item-meta">' + doc.size + ' · Updated ' + doc.date + '</span>';
+      bodyHtml += '<span class="docs-item-name">' + esc(name) + '</span>';
+      bodyHtml += '<span class="docs-item-meta">' + esc(metaLine(doc)) + '</span>';
       bodyHtml += '</div>';
-      bodyHtml += '<button class="docs-item-download" title="Download" aria-label="Download ' + doc.name + '">' + downloadSvg + '</button>';
+      bodyHtml += '<button class="docs-item-download" title="Download" aria-label="Download ' + esc(name) + '">' + downloadSvg + '</button>';
       bodyHtml += '</div>';
     });
     bodyHtml += '</div></div>';
   });
+
+  // Empty state when this machine has no documents visible to the role.
+  var emptyDocsHtml =
+    '<div class="docs-no-results" style="display:flex">' +
+    '  <div class="docs-no-results-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+    '  <p class="docs-no-results-title">No documents available yet</p>' +
+    '  <p class="docs-no-results-desc">Documents for this equipment haven\'t been published for your profile yet.</p>' +
+    '</div>';
 
   var overlay = document.createElement('div');
   overlay.className = 'docs-overlay';
@@ -237,19 +146,18 @@
     '<div class="docs-modal">' +
     '  <div class="docs-header">' +
     '    <div class="docs-header-left">' +
-    '      <span class="docs-header-title">Documents & Manuals</span>' +
-    '      <span class="docs-header-subtitle">' + machineTitle + '</span>' +
+    '      <span class="docs-header-title">Documents &amp; Manuals</span>' +
+    '      <span class="docs-header-subtitle">' + esc(machineTitle) + '</span>' +
     '    </div>' +
     '    <button class="docs-header-close" aria-label="Close">&#x2715;</button>' +
     '  </div>' +
-    '  <div class="docs-search">' +
+    (hasAnyDocs ?
+    ('  <div class="docs-search">' +
     '    <input class="docs-search-input" type="text" placeholder="Search documents..." id="docsSearch">' +
     '    <div class="docs-lang-wrap">' +
     '      <span class="docs-lang-label" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span>' +
     '      <select class="docs-lang-select" id="docsLangSelect" aria-label="Filter documents by language">' +
-    docLangs.map(function (l) {
-      return '<option value="' + l.code + '">' + l.label + '</option>';
-    }).join('') +
+    docLangs.map(function (l) { return '<option value="' + l.code + '">' + esc(l.label) + '</option>'; }).join('') +
     '      </select>' +
     '    </div>' +
     '  </div>' +
@@ -258,7 +166,8 @@
     '    <p class="docs-no-results-title">No results found</p>' +
     '    <p class="docs-no-results-desc">Try adjusting your search or filters</p>' +
     '  </div>' +
-    '  <div class="docs-body" id="docsBody">' + bodyHtml + '</div>' +
+    '  <div class="docs-body" id="docsBody">' + bodyHtml + '</div>')
+    : ('  <div class="docs-body" id="docsBody">' + emptyDocsHtml + '</div>')) +
     '</div>';
   document.body.appendChild(overlay);
 
@@ -269,8 +178,9 @@
   var docsBody = document.getElementById('docsBody');
 
   function applyFilter() {
+    if (!searchInput || !docsBody) return;
     var q = searchInput.value.trim().toLowerCase();
-    var lang = langSelect.value;
+    var lang = langSelect ? langSelect.value : 'all';
     var totalVisible = 0;
 
     docsBody.querySelectorAll('.docs-category').forEach(function (cat) {
@@ -289,20 +199,20 @@
       totalVisible += catVisible;
     });
 
-    noResults.style.display = totalVisible === 0 ? 'flex' : 'none';
+    if (noResults) noResults.style.display = totalVisible === 0 ? 'flex' : 'none';
   }
 
-  searchInput.addEventListener('input', applyFilter);
-  langSelect.addEventListener('change', applyFilter);
+  if (searchInput) searchInput.addEventListener('input', applyFilter);
+  if (langSelect) langSelect.addEventListener('change', applyFilter);
 
   // ── Events ──
   function openDocs(e) {
     e.preventDefault();
-    searchInput.value = '';
-    langSelect.value = 'all';
+    if (searchInput) { searchInput.value = ''; }
+    if (langSelect) { langSelect.value = 'all'; }
     applyFilter();
     overlay.classList.add('open');
-    setTimeout(function () { searchInput.focus(); }, 300);
+    if (searchInput) setTimeout(function () { searchInput.focus(); }, 300);
   }
   function closeDocs() {
     overlay.classList.remove('open');
