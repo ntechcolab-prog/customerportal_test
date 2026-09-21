@@ -169,7 +169,29 @@
     cart.add(p);
     updateSend();
     bumpSend();
+    showCartToast();
     return cart.count();
+  }
+
+  /* Snackbar de confirmação após "Add": confirma que foi pro carrinho e oferece
+     um atalho pra abri-lo (o carrinho agora vive no menu, então isso dá o
+     caminho direto). Fonte única — peças, reorder e scan. Reusa um só elemento. */
+  var cartToastEl = null, cartToastTimer = null;
+  function showCartToast() {
+    if (!cartToastEl) {
+      cartToastEl = document.createElement('div');
+      cartToastEl.className = 'cart-toast';
+      cartToastEl.setAttribute('role', 'status');
+      cartToastEl.innerHTML =
+        '<span class="cart-toast-msg">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>' +
+          'Added to cart</span>' +
+        '<a class="cart-toast-action" href="cart.html">View cart</a>';
+      document.body.appendChild(cartToastEl);
+    }
+    cartToastEl.classList.add('show');
+    if (cartToastTimer) clearTimeout(cartToastTimer);
+    cartToastTimer = setTimeout(function () { cartToastEl.classList.remove('show'); }, 3500);
   }
 
   /* Pop no badge do carrinho (item "Cart" do menu) quando um item entra. */

@@ -1287,6 +1287,15 @@ textarea.field-input { min-height: 92px; resize: vertical; }
 .co-sumline:first-child { border-top: 0; padding-top: 2px; }
 .co-sumline > span { white-space: nowrap; color: var(--ink-2); flex-shrink: 0; }
 .co-sumline > b { text-align: right; line-height: 1.4; }
+
+/* Snackbar "Added to cart" + atalho pro carrinho (o carrinho vive no menu) */
+.cart-toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%) translateY(12px); z-index: 60; display: flex; align-items: center; gap: 12px; max-width: calc(100% - 28px); padding: 11px 12px 11px 16px; border-radius: 13px; background: #0f3f39; color: #fff; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28); opacity: 0; pointer-events: none; transition: opacity 0.22s ease, transform 0.22s ease; }
+.cart-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+.cart-toast-msg { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; white-space: nowrap; }
+.cart-toast-msg svg { width: 18px; height: 18px; color: #7ee0d0; flex-shrink: 0; }
+.cart-toast-action { font-size: 14px; font-weight: 700; color: #7ee0d0; text-decoration: none; white-space: nowrap; padding: 6px 8px; border-radius: 8px; }
+.cart-toast-action:active { background: rgba(255, 255, 255, 0.12); }
+@media (prefers-reduced-motion: reduce) { .cart-toast { transition: opacity 0.22s ease; } }
 .co-addr { font-size: 14px; line-height: 1.55; color: var(--ink); }
 .co-addr .co-addr-name { font-weight: 600; }
 .co-change { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--brand-ink); background: none; border: none; padding: 0; cursor: pointer; }
