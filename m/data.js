@@ -224,6 +224,8 @@ window.CP = (function () {
      services); `unread` reproduz os 3 não lidos. `to` só existe quando a tela
      daquele assunto já existe no companion — senão o item abre no portal. */
   var NOTIFICATIONS = [
+    { type: 'handoff',   unread: true,  title: 'Inlet Flange Complete',                        time: '2 min ago',    desc: 'Sent from your computer · Discus 30 · subset parts list · 5 items', to: 'parts.html?ctx=inlet-flange' },
+    { type: 'handoff',   unread: true,  title: 'Spare parts found — Zeta 60',                  time: '10 min ago',   desc: 'Sent from your computer · search results · 2 items', to: 'parts.html?ctx=search-zeta60' },
     { type: 'approvals', unread: true,  title: 'Order #2800998-27 approved by Daniel Costa', time: '20 min ago',  desc: 'Your order for Steel Beads Micro (1.200,00 €) has been approved and is now being processed.' },
     { type: 'approvals', unread: true,  title: 'Order #2800998-25 rejected by Daniel Costa', time: '2 hours ago', desc: 'Reason: "Exceeds Q2 budget limit for spare parts." You can edit and resubmit this order for approval.' },
     { type: 'orders',    unread: false, title: 'Order #2800998-24 shipped',                  time: '1 day ago',    desc: 'Your order has been dispatched from Selb, Germany. Estimated delivery: May 12, 2026. Tracking number: DHL-4829103847.' },

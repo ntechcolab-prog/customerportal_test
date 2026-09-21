@@ -243,8 +243,7 @@
   var NAV = [
     { key: 'home',          label: 'Home',                  href: 'index.html',         icon: ic('<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9h14v-9"/>') },
     { key: 'machines',      label: 'Machines',              href: 'machines.html',      icon: ic('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M12 11v5"/>') },
-    { key: 'notifications', label: 'Notifications',         href: 'notifications.html', icon: ic('<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/>'), count: '3' },
-    { key: 'sent',          label: 'Sent from computer',    href: 'sent.html',          icon: ic('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'), count: '2' },
+    { key: 'notifications', label: 'Notifications',         href: 'notifications.html', icon: ic('<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/>'), count: '5' },
     { key: 'services',      label: 'Services',              href: 'services.html',      icon: ic('<path d="M14.5 4.5a4 4 0 0 0-5.2 5.2L4 15v3h3l5.3-5.3a4 4 0 0 0 5.2-5.2l-2.4 2.4-2.1-.6-.6-2.1z"/>') },
     { key: 'orders',        label: 'Orders',                href: 'orders.html',        icon: ic('<path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18.5" r="1.7"/><circle cx="17.5" cy="18.5" r="1.7"/>') },
     { key: 'help',          label: 'Help',                  href: 'help.html',          icon: ic('<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.4"/><path d="M12 17.2h.01"/>') }
