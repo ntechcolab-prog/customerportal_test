@@ -185,9 +185,9 @@
         '<h3>' + o.title + '</h3>' +
         '<p>' + o.refLabel + ' <b>' + M.esc(o.ref) + '</b></p>' +
       '</div></div>' +
-      '<div class="card">' +
+      '<div class="card co-pad">' +
         o.lines.map(function (l) {
-          return '<div class="sum-row"><span>' + M.esc(l[0]) + '</span><b>' + M.esc(l[1]) + '</b></div>';
+          return '<div class="sum-row co-sumline"><span>' + M.esc(l[0]) + '</span><b>' + M.esc(l[1]) + '</b></div>';
         }).join('') +
         '<div class="sum-note">' + o.note + '</div>' +
       '</div>' +
