@@ -1503,8 +1503,14 @@
     .docadm-doc { display:flex; align-items:center; gap:12px; min-width:0; }
     .docadm-doc-icon { width:36px; height:36px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; background:#c73e20; }
     .docadm-doc-icon.dwg { background:#2563eb; }
+    .docadm-doc-tile { width:36px; height:36px; border-radius:8px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+    .docadm-doc-tile svg { width:19px; height:19px; }
     .docadm-doc-info { min-width:0; display:flex; flex-direction:column; gap:3px; }
+    .docadm-name-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
     .docadm-doc-name { font-size:14px; font-weight:600; color:#2d2e33; letter-spacing:-0.15px; }
+    .docadm-badge { display:inline-flex; align-items:center; height:18px; padding:0 7px; border-radius:5px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; }
+    .docadm-badge.new { background:#e6f5ec; color:#127a3e; }
+    .docadm-badge.updated { background:#eaf0fe; color:#2456c9; }
     .docadm-doc-meta { font-size:12px; color:#9ca0a5; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .docadm-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
     .docadm-tag { display:inline-flex; align-items:center; height:20px; padding:0 8px; border-radius:6px; font-size:11px; font-weight:600; background:#eef2f1; color:#3d5c57; }
@@ -2077,7 +2083,9 @@ document.addEventListener('click', function(e) {
   }
 
   function docRowHtml(doc) {
-    var type = iconType(doc.fileName);
+    var ic = S.categoryIcon(doc.category);
+    var badge = S.recencyBadge(doc);
+    var badgeHtml = badge ? '<span class="docadm-badge ' + badge + '">' + (badge === 'new' ? 'New' : 'Updated') + '</span>' : '';
     var meta = [doc.fileName, doc.version, doc.sizeLabel, 'Updated ' + doc.uploadedAt].filter(Boolean).join(' · ');
     var tags = '';
     if (doc.docType) tags += '<span class="docadm-tag">' + esc(doc.docType) + '</span>';
@@ -2089,9 +2097,9 @@ document.addEventListener('click', function(e) {
     }).join('');
     return '<div class="docadm-row" data-id="' + esc(doc.id) + '">' +
       '<div class="docadm-doc">' +
-        '<div class="docadm-doc-icon ' + type + '">' + type.toUpperCase() + '</div>' +
+        '<div class="docadm-doc-tile" style="background:' + ic.bg + ';color:' + ic.color + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic.svg + '</svg></div>' +
         '<div class="docadm-doc-info">' +
-          '<span class="docadm-doc-name">' + esc(doc.title || doc.fileName) + '</span>' +
+          '<span class="docadm-name-row"><span class="docadm-doc-name">' + esc(doc.title || doc.fileName) + '</span>' + badgeHtml + '</span>' +
           '<span class="docadm-doc-meta">' + esc(meta) + '</span>' +
           '<div class="docadm-tags">' + tags + '</div>' +
         '</div>' +

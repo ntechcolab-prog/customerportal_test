@@ -51,6 +51,28 @@
     { code: 'es', label: 'Español' }
   ];
 
+  // ── Per-category icon + muted tint (kept sober per NETZSCH brand) ──
+  // svg = inner paths of a 24×24 line icon; color = stroke; bg = soft tile tint.
+  var CATEGORY_ICONS = {
+    drawings:     { color: '#2563eb', bg: '#eaf0fe', svg: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/>' },
+    instructions: { color: '#007167', bg: '#e6f2f0', svg: '<path d="M5 4a1 1 0 011-1h13v18H6a1 1 0 00-1 1V4z"/><path d="M5 4v15"/>' },
+    electrical:   { color: '#b45309', bg: '#fbf0e4', svg: '<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>' },
+    suppliers:    { color: '#475569', bg: '#eef1f5', svg: '<path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/>' },
+    certificates: { color: '#a16207', bg: '#f8f1e0', svg: '<circle cx="12" cy="8" r="6"/><path d="M8.21 13.89L7 22l5-3 5 3-1.21-8.11"/>' }
+  };
+  function categoryIcon(key) { return CATEGORY_ICONS[key] || CATEGORY_ICONS.instructions; }
+
+  // ── Recency badge: "new" (recently added) or "updated" (recently re-versioned) ──
+  var DAY = 86400000;
+  var RECENCY_WINDOW = 21 * DAY;
+  function recencyBadge(doc) {
+    var now = Date.now();
+    var multi = doc.versions && doc.versions.length > 1;
+    if (multi && doc.updatedTs && (now - doc.updatedTs) <= RECENCY_WINDOW) return 'updated';
+    if (!multi && doc.createdTs && (now - doc.createdTs) <= RECENCY_WINDOW) return 'new';
+    return null;
+  }
+
   function read(key, fallback) {
     try { var v = JSON.parse(localStorage.getItem(key)); return v == null ? fallback : v; }
     catch (e) { return fallback; }
@@ -85,8 +107,13 @@
   function seedDocs() {
     var d = [];
     var n = 0;
+    var seedNow = Date.now();
     function doc(machineId, category, o) {
       n++;
+      var createdDaysAgo = (o.createdDaysAgo != null) ? o.createdDaysAgo : 300;
+      var updatedDaysAgo = (o.updatedDaysAgo != null) ? o.updatedDaysAgo : createdDaysAgo;
+      var versions = [{ version: o.version || 'R00', fileName: o.fileName, uploadedAt: o.uploadedAt || 'Jul 2026' }];
+      if (o.prevVersion) versions.push({ version: o.prevVersion, fileName: o.fileName, uploadedAt: o.prevUploadedAt || 'Jan 2026' });
       d.push({
         id: 'doc-' + machineId + '-' + n,
         machineId: machineId,
@@ -101,7 +128,9 @@
         uploadedAt: o.uploadedAt || 'Jul 2026',
         uploadedBy: o.uploadedBy || 'Documentation Team',
         visibility: o.visibility || ALL_ROLE_KEYS.slice(),
-        versions: [{ version: o.version || 'R00', fileName: o.fileName, uploadedAt: o.uploadedAt || 'Jul 2026' }]
+        versions: versions,
+        createdTs: seedNow - createdDaysAgo * DAY,
+        updatedTs: seedNow - updatedDaysAgo * DAY
       });
     }
 
@@ -113,7 +142,7 @@
     doc('zeta60', 'instructions', { title: 'Operating Manual — MC10', fileName: '15203320-MC10-OM-EN-R00.pdf', docType: 'OM', sizeLabel: '1.2 MB', languages: ['en'] });
     doc('zeta60', 'instructions', { title: 'Data Sheet — MC10', fileName: '15203320-MC10-DS-EN-R00.pdf', docType: 'DS', sizeLabel: '372 KB', languages: ['en'] });
     // 3. Electrical Doc
-    doc('zeta60', 'electrical', { title: 'Electrical Documentation', fileName: 'KMCC22440_02.pdf', docType: 'Electrical', version: 'R02', sizeLabel: '2.2 MB', languages: ['en'] });
+    doc('zeta60', 'electrical', { title: 'Electrical Documentation', fileName: 'KMCC22440_02.pdf', docType: 'Electrical', version: 'R02', prevVersion: 'R01', sizeLabel: '2.2 MB', languages: ['en'], createdDaysAgo: 220, updatedDaysAgo: 5 });
     // 4. Suppliers (POS. 10 — internal component docs, restricted from Buyer)
     var supVis = ['administrator', 'approver', 'technician'];
     doc('zeta60', 'suppliers', { title: 'Motor B34E 160M — CE', fileName: '140124928 - MOTOR TRIF. ESP. B34E 160M - CE.pdf', docType: 'Supplier', position: 'POS. 10', sizeLabel: '84 KB', languages: ['en'], visibility: supVis });
@@ -123,7 +152,7 @@
     doc('zeta60', 'suppliers', { title: 'Mini Ball Valve 2-Way', fileName: '449265 - EN - MINI BALL VALVE 2 VIAS - END-KUGEL.pdf', docType: 'Supplier', position: 'POS. 10', sizeLabel: '124 KB', languages: ['en'], visibility: supVis });
     doc('zeta60', 'suppliers', { title: 'Level Switch — LMT121', fileName: '4709715 - LEVEL SIWTCH - LMT121-01_EN-US.pdf', docType: 'Supplier', position: 'POS. 10', sizeLabel: '236 KB', languages: ['en'], visibility: supVis });
     // 5. Certificates
-    doc('zeta60', 'certificates', { title: 'Material Certificate 2.1', fileName: '2.1 Material Certificate.pdf', docType: 'Material Cert', sizeLabel: '76 KB', languages: ['en'] });
+    doc('zeta60', 'certificates', { title: 'Material Certificate 2.1', fileName: '2.1 Material Certificate.pdf', docType: 'Material Cert', sizeLabel: '76 KB', languages: ['en'], createdDaysAgo: 6 });
     var fdaVis = ['administrator', 'approver'];
     doc('zeta60', 'certificates', { title: 'FDA Certificate — NF 62264', fileName: '4716594_2354487 - NF_62264.pdf', docType: 'FDA', sizeLabel: '264 KB', languages: ['en'], visibility: fdaVis });
     doc('zeta60', 'certificates', { title: 'FDA Certificate — NF 61466', fileName: '517261_2346192-20 - NF_61466.pdf', docType: 'FDA', sizeLabel: '44 KB', languages: ['en'], visibility: fdaVis });
@@ -132,7 +161,7 @@
 
     // ── DISCUS 30 — moderate set ──
     doc('discus30', 'drawings', { title: 'Drawings & Part List — Discus 30', fileName: '15104120-10-DISCUS30-D&PL-EN-R00.pdf', docType: 'D&PL', position: 'POS. 10', sizeLabel: '1.6 MB', languages: ['en'] });
-    doc('discus30', 'instructions', { title: 'Operating Manual — Discus 30', fileName: '15104120-DISCUS30-OM-EN-R01.pdf', docType: 'OM', version: 'R01', sizeLabel: '3.4 MB', languages: ['en', 'de'] });
+    doc('discus30', 'instructions', { title: 'Operating Manual — Discus 30', fileName: '15104120-DISCUS30-OM-EN-R01.pdf', docType: 'OM', version: 'R01', prevVersion: 'R00', sizeLabel: '3.4 MB', languages: ['en', 'de'], createdDaysAgo: 180, updatedDaysAgo: 12 });
     doc('discus30', 'instructions', { title: 'Data Sheet — Discus 30', fileName: '15104120-DISCUS30-DS-EN-R00.pdf', docType: 'DS', sizeLabel: '410 KB', languages: ['en', 'de'] });
     doc('discus30', 'electrical', { title: 'Electrical Documentation', fileName: 'KMCC21980_01.pdf', docType: 'Electrical', version: 'R01', sizeLabel: '1.9 MB', languages: ['en'] });
     doc('discus30', 'certificates', { title: 'CE Declaration of Conformity', fileName: 'DISCUS30-CE-DECLARATION.pdf', docType: 'CE', sizeLabel: '420 KB', languages: ['en', 'de'] });
@@ -219,7 +248,9 @@
       uploadedAt: doc.uploadedAt || nowLabel(),
       uploadedBy: doc.uploadedBy || 'Documentation Team',
       visibility: (doc.visibility && doc.visibility.length) ? doc.visibility.slice() : ALL_ROLE_KEYS.slice(),
-      versions: [{ version: doc.version || 'R00', fileName: (doc.fileName || '').trim(), uploadedAt: doc.uploadedAt || nowLabel() }]
+      versions: [{ version: doc.version || 'R00', fileName: (doc.fileName || '').trim(), uploadedAt: doc.uploadedAt || nowLabel() }],
+      createdTs: Date.now(),
+      updatedTs: Date.now()
     };
     all.push(rec);
     saveAll(all);
@@ -237,6 +268,8 @@
     if (o.fileName) rec.fileName = o.fileName;
     if (o.sizeLabel) rec.sizeLabel = o.sizeLabel;
     rec.uploadedAt = o.uploadedAt || nowLabel();
+    rec.updatedTs = Date.now();
+    if (!rec.createdTs) rec.createdTs = rec.updatedTs;
     saveAll(all);
     return { ok: true, doc: rec };
   }
@@ -272,6 +305,8 @@
     machines: machines,
     machineName: machineName,
     categoryLabel: categoryLabel,
+    categoryIcon: categoryIcon,
+    recencyBadge: recencyBadge,
     list: list,
     listByCategory: listByCategory,
     get: get,

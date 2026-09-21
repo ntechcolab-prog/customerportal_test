@@ -63,12 +63,15 @@
     '.docs-item { display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:10px; border:1px solid #eef0f2; transition:background 0.15s, border-color 0.15s; cursor:pointer; }',
     '.docs-item:hover { background:#f8f9fa; border-color:#d4d6d8; }',
 
-    '.docs-item-icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; font-weight:700; color:#fff; }',
-    '.docs-item-icon.pdf { background:#c73e20; }',
-    '.docs-item-icon.dwg { background:#2563eb; }',
+    '.docs-item-icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }',
+    '.docs-item-icon svg { width:20px; height:20px; }',
 
     '.docs-item-info { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }',
+    '.docs-item-titlerow { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }',
     '.docs-item-name { font-size:14px; font-weight:500; color:#2d2e33; letter-spacing:-0.15px; }',
+    '.docs-badge { display:inline-flex; align-items:center; height:18px; padding:0 7px; border-radius:5px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; }',
+    '.docs-badge.new { background:#e6f5ec; color:#127a3e; }',
+    '.docs-badge.updated { background:#eaf0fe; color:#2456c9; }',
     '.docs-item-meta { font-size:12px; color:#9ca0a5; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }',
 
     '.docs-item-download { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; background:none; border:none; cursor:pointer; color:#007167; transition:background 0.15s; flex-shrink:0; }',
@@ -140,12 +143,14 @@
     bodyHtml += '<div class="docs-category-title">' + esc(group.label) + '</div>';
     bodyHtml += '<div class="docs-list">';
     group.docs.forEach(function (doc) {
-      var type = iconType(doc.fileName);
+      var ic = DocsStore.categoryIcon(doc.category);
+      var badge = DocsStore.recencyBadge(doc);
+      var badgeHtml = badge ? '<span class="docs-badge ' + badge + '">' + (badge === 'new' ? 'New' : 'Updated') + '</span>' : '';
       var name = doc.title || doc.fileName;
       bodyHtml += '<div class="docs-item" data-langs="' + esc(doc.languages.join(',')) + '" data-file="' + esc(doc.fileName) + '">';
-      bodyHtml += '<div class="docs-item-icon ' + type + '">' + type.toUpperCase() + '</div>';
+      bodyHtml += '<div class="docs-item-icon" style="background:' + ic.bg + ';color:' + ic.color + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic.svg + '</svg></div>';
       bodyHtml += '<div class="docs-item-info">';
-      bodyHtml += '<span class="docs-item-name">' + esc(name) + '</span>';
+      bodyHtml += '<span class="docs-item-titlerow"><span class="docs-item-name">' + esc(name) + '</span>' + badgeHtml + '</span>';
       bodyHtml += '<span class="docs-item-meta">' + esc(metaLine(doc)) + '</span>';
       bodyHtml += '</div>';
       bodyHtml += '<button class="docs-item-download" title="Download" aria-label="Download ' + esc(name) + '">' + downloadSvg + '</button>';
