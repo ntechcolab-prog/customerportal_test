@@ -34,6 +34,21 @@
     clear: function () { cartSet([]); }
   };
 
+  /* Dinheiro: as peças vêm "€30.00" (ponto) e os beads "39,75 €" (vírgula).
+     parse cobre os dois; format unifica a saída do carrinho/checkout. */
+  var money = {
+    isPriced: function (s) { return s != null && String(s).trim() !== '' && /\d/.test(String(s)) && !/quotation/i.test(String(s)); },
+    parse: function (s) {
+      if (!this.isPriced(s)) return 0;
+      var t = String(s).replace(/[^0-9.,]/g, '');
+      if (t.lastIndexOf(',') > t.lastIndexOf('.')) { t = t.replace(/\./g, '').replace(',', '.'); }
+      else { t = t.replace(/,/g, ''); }
+      var n = parseFloat(t);
+      return isNaN(n) ? 0 : n;
+    },
+    format: function (n) { return '€' + (Number(n) || 0).toFixed(2); }
+  };
+
   /* O link do handoff carrega ?exp= (epoch em segundos). Nada aqui é segurança
      de verdade — o token é gerado no cliente. É o spike CP-640 que responde
      como a sessão do celular se sustenta. */
@@ -174,7 +189,7 @@
     if (!topbar) return;
     var btn = document.getElementById('topbar-send');
     var n = cart.count();
-    if (!n || /cart\.html/.test(window.location.pathname)) {
+    if (!n || /(cart|checkout)\.html/.test(window.location.pathname)) {
       if (btn) btn.parentNode.removeChild(btn);
       return;
     }
@@ -183,7 +198,7 @@
       btn.id = 'topbar-send';
       btn.className = 'topbar-send';
       btn.href = 'cart.html';
-      btn.setAttribute('aria-label', 'Open your send list');
+      btn.setAttribute('aria-label', 'Open your cart');
       var ham = topbar.querySelector('.hamburger-btn');
       if (ham) topbar.insertBefore(btn, ham);         /* fica à esquerda do menu */
       else topbar.appendChild(btn);                   /* telas de fluxo: canto direito */
@@ -191,8 +206,8 @@
     btn.innerHTML =
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
         'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-        '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/>' +
-        '<path d="M9.5 10.5 12 13l2.5-2.5"/><path d="M12 6v6.5"/></svg>' +
+        '<path d="M4 5h2l2.2 10.4a1 1 0 0 0 1 .8h8.1a1 1 0 0 0 1-.78L20 8H6.4"/>' +
+        '<circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>' +
       '<span class="topbar-send-count">' + n + '</span>';
   }
   updateSend();
@@ -207,6 +222,7 @@
     specs: specs,
     partsList: partsList,
     cart: cart,
+    money: money,
     addToSend: addToSend
   };
 })();
