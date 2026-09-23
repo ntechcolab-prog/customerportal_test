@@ -907,8 +907,12 @@
     .doc-group-head.is-empty .doc-group-name { color: #6b7280; font-weight: 600; }
     .doc-group-head.is-empty .doc-group-count { font-style: italic; }
     .doc-empty-machine-inner { padding: 14px 20px 14px 40px; font-size: 13px; color: #86868b; }
-    .doc-inline-add { border: none; background: none; padding: 0; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #007167; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
-    .doc-inline-add:hover { color: #005f57; }
+    .users-table.docs-table tbody tr.doc-add-row td { padding: 8px 20px 10px 36px; }
+    .doc-inline-add { display: inline-flex; align-items: center; gap: 6px; border: none; background: none; padding: 4px 6px; margin: 0 -6px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #007167; cursor: pointer; transition: background 0.15s; }
+    .doc-inline-add:hover { background: rgba(0, 113, 103, 0.08); color: #005f57; }
+    .doc-inline-add svg { width: 14px; height: 14px; }
+    .doc-empty-machine-inner .doc-inline-add { padding: 0; margin: 0; text-decoration: underline; text-underline-offset: 2px; }
+    .doc-empty-machine-inner .doc-inline-add:hover { background: none; }
 
     /* Empty / no-results dentro da tabela */
     .doc-empty-row td { padding: 0 !important; }
@@ -1722,6 +1726,8 @@ document.addEventListener('click', function(e) {
       '</tr>';
       if (mdocs.length) {
         html += mdocs.map(function (d) { return docRowTr(d, m.id, isCollapsed); }).join('');
+        html += '<tr class="doc-doc-row doc-add-row' + (isCollapsed ? ' hidden-row' : '') + '" data-machine="' + esc(m.id) + '">' +
+          '<td colspan="6"><button type="button" class="doc-inline-add" data-machine="' + esc(m.id) + '"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Add document</button></td></tr>';
       } else {
         html += '<tr class="doc-doc-row doc-empty-machine' + (isCollapsed ? ' hidden-row' : '') + '" data-machine="' + esc(m.id) + '">' +
           '<td colspan="6"><div class="doc-empty-machine-inner">No documents yet \u2014 <button type="button" class="doc-inline-add" data-machine="' + esc(m.id) + '">Upload the first one</button></div></td></tr>';
