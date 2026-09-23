@@ -890,6 +890,21 @@
     .vis-badge.restricted { background: rgba(0, 0, 0, 0.045); color: #5c5f62; }
     .vis-badge svg { width: 12px; height: 12px; }
 
+    /* Accordion por máquina */
+    .users-table.docs-table tbody tr.doc-group-head td { padding: 0 !important; background: #f7f9fa; white-space: nowrap; }
+    .users-table.docs-table tbody tr.doc-group-head:hover td { background: #eef3f4; }
+    .users-table.docs-table tbody tr.doc-group-head:first-child td { border-top: none; }
+    .doc-group-row { display: flex; align-items: center; gap: 10px; padding: 11px 20px; cursor: pointer; }
+    .doc-group-chevron { width: 15px; height: 15px; color: #007167; flex-shrink: 0; transition: transform 0.2s ease; transform: rotate(90deg); }
+    .doc-group-head.collapsed .doc-group-chevron { transform: rotate(0deg); }
+    .doc-group-name { font-size: 13px; font-weight: 700; color: #1d1d1f; letter-spacing: -0.2px; }
+    .doc-group-count { font-size: 12px; color: #86868b; font-weight: 500; }
+    .doc-group-add { margin-left: auto; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border: none; background: none; border-radius: 7px; color: #007167; cursor: pointer; transition: background 0.15s, transform 0.15s; }
+    .doc-group-add:hover { background: rgba(0, 113, 103, 0.1); transform: scale(1.08); }
+    .doc-group-add svg { width: 15px; height: 15px; }
+    .doc-doc-row.hidden-row { display: none; }
+    .users-table.docs-table tbody tr.doc-doc-row td.col-doc { padding-left: 40px; }
+
     /* Empty / no-results dentro da tabela */
     .doc-empty-row td { padding: 0 !important; }
     .doc-empty-row:hover { background: transparent !important; }
@@ -1462,7 +1477,6 @@
         <div class="filter-divider"></div>
         <div class="filter-pills" id="docCatPills" role="tablist" aria-label="Filter by category"></div>
         <div class="filter-selects">
-          <select class="filter-select" id="docMachine" aria-label="Filter by machine"></select>
           <select class="filter-select" id="docLang" aria-label="Filter by language"></select>
         </div>
       </div>
@@ -1515,7 +1529,6 @@ document.addEventListener('click', function(e) {
   var S = window.DocsStore;
 
   // ── DOM refs ──
-  var machineSel     = document.getElementById('docMachine');
   var langFilter     = document.getElementById('docLang');
   var searchInput    = document.getElementById('docSearch');
   var catPillsEl     = document.getElementById('docCatPills');
@@ -1527,8 +1540,9 @@ document.addEventListener('click', function(e) {
   var statRestricted = document.getElementById('statRestricted');
   var statMachines   = document.getElementById('statMachines');
   var currentCat     = 'all';
+  var collapsed      = {};   // machineId -> true quando o grupo está recolhido
 
-  var currentMachine = (S.machines()[0] || { id: '' }).id;
+  var currentMachine = (S.machines()[0] || { id: '' }).id;   // default p/ o modal de upload
 
   // ── Helpers ──
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -1602,7 +1616,7 @@ document.addEventListener('click', function(e) {
 
   // ── Render list ──
   function filteredDocs() {
-    var opts = { machineId: currentMachine };
+    var opts = {};
     if (currentCat !== 'all') opts.category = currentCat;
     if (langFilter.value !== 'all') opts.language = langFilter.value;
     var docs = S.list(opts);
@@ -1615,7 +1629,7 @@ document.addEventListener('click', function(e) {
     return docs;
   }
 
-  function docRowTr(doc) {
+  function docRowTr(doc, machineId, hidden) {
     var ic = S.categoryIcon(doc.category);
     var cat = (S.CATEGORIES.filter(function (c) { return c.key === doc.category; })[0] || {}).label || doc.category;
     var badge = S.recencyBadge(doc);
@@ -1626,7 +1640,7 @@ document.addEventListener('click', function(e) {
     var vis = vN >= total
       ? '<span class="vis-badge all">All profiles</span>'
       : '<span class="vis-badge restricted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>' + vN + '/' + total + '</span>';
-    return '<tr data-id="' + esc(doc.id) + '">' +
+    return '<tr class="doc-doc-row' + (hidden ? ' hidden-row' : '') + '" data-machine="' + esc(machineId) + '" data-id="' + esc(doc.id) + '">' +
       '<td class="col-doc"><div class="doc-cell">' +
         '<div class="doc-tile" style="background:' + ic.bg + ';color:' + ic.color + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic.svg + '</svg></div>' +
         '<div class="doc-cell-info"><div class="doc-cell-name"><span class="doc-name">' + esc(doc.title || doc.fileName) + '</span>' + badgeHtml + '</div><div class="doc-meta">' + esc(meta) + '</div></div>' +
@@ -1651,38 +1665,60 @@ document.addEventListener('click', function(e) {
   }
 
   function render() {
-    var all = S.list({ machineId: currentMachine });
+    var allDocs = S.list({});
     var catSet = {}, restricted = 0;
-    all.forEach(function (d) { catSet[d.category] = 1; if (d.visibility.length < S.ROLES.length) restricted++; });
+    allDocs.forEach(function (d) { catSet[d.category] = 1; if (d.visibility.length < S.ROLES.length) restricted++; });
     var catCount = Object.keys(catSet).length;
-    statDocs.textContent = all.length;
+    var machinesWithDocs = S.machines().filter(function (m) { return S.countForMachine(m.id) > 0; });
+    statDocs.textContent = allDocs.length;
     statCats.textContent = catCount;
     statRestricted.textContent = restricted;
-    statMachines.textContent = S.machines().filter(function (m) { return S.countForMachine(m.id) > 0; }).length;
-    var parts = [all.length + (all.length === 1 ? ' document' : ' documents'), catCount + (catCount === 1 ? ' category' : ' categories')];
+    statMachines.textContent = machinesWithDocs.length;
+    var parts = [allDocs.length + (allDocs.length === 1 ? ' document' : ' documents'),
+                 machinesWithDocs.length + (machinesWithDocs.length === 1 ? ' machine' : ' machines')];
     if (restricted) parts.push(restricted + ' with restricted visibility');
     subtitleEl.textContent = parts.join(' \u00b7 ');
 
     if (currentCat !== 'all' && !catSet[currentCat]) currentCat = 'all';
-    buildPills(all);
+    buildPills(allDocs);
 
     var docs = filteredDocs();
+    var filtering = (searchInput.value.trim() !== '' || currentCat !== 'all' || langFilter.value !== 'all');
+
     if (docs.length === 0) {
-      var msg;
-      if (all.length === 0) {
-        msg = '<div class="doc-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M9 14h6M9 17h4"/></svg></div>' +
-          '<div class="doc-empty-title">No documents for this machine yet</div>' +
-          '<div class="doc-empty-desc">Upload the first document to start building this equipment\'s documentation.</div>' +
-          '<button type="button" class="btn btn-primary btn-sm" id="docEmptyUpload">Upload document</button>';
-      } else {
-        msg = '<div class="doc-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>' +
-          '<div class="doc-empty-title">No documents match your filters</div>' +
-          '<div class="doc-empty-desc">Try a different search term, category or language.</div>';
-      }
-      tbodyEl.innerHTML = '<tr class="doc-empty-row"><td colspan="6"><div class="doc-empty">' + msg + '</div></td></tr>';
+      var empty = (allDocs.length === 0)
+        ? '<div class="doc-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M9 14h6M9 17h4"/></svg></div>' +
+            '<div class="doc-empty-title">No documents yet</div>' +
+            '<div class="doc-empty-desc">Upload the first document to start building the equipment documentation.</div>' +
+            '<button type="button" class="btn btn-primary btn-sm" id="docEmptyUpload">Upload document</button>'
+        : '<div class="doc-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>' +
+            '<div class="doc-empty-title">No documents match your filters</div>' +
+            '<div class="doc-empty-desc">Try a different search term, category or language.</div>';
+      tbodyEl.innerHTML = '<tr class="doc-empty-row"><td colspan="6"><div class="doc-empty">' + empty + '</div></td></tr>';
       return;
     }
-    tbodyEl.innerHTML = docs.map(docRowTr).join('');
+
+    // Agrupa por m\u00e1quina, na ordem de machines()
+    var byMachine = {};
+    docs.forEach(function (d) { (byMachine[d.machineId] = byMachine[d.machineId] || []).push(d); });
+    var html = '';
+    S.machines().forEach(function (m) {
+      var mdocs = byMachine[m.id];
+      if (!mdocs || !mdocs.length) return;
+      var isCollapsed = !filtering && !!collapsed[m.id];
+      var rest = mdocs.filter(function (d) { return d.visibility.length < S.ROLES.length; }).length;
+      var count = mdocs.length + (mdocs.length === 1 ? ' document' : ' documents') + (rest ? ' \u00b7 ' + rest + ' restricted' : '');
+      html += '<tr class="doc-group-head' + (isCollapsed ? ' collapsed' : '') + '" data-machine="' + esc(m.id) + '">' +
+        '<td colspan="6"><div class="doc-group-row">' +
+          '<svg class="doc-group-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '<span class="doc-group-name">' + esc(m.name) + '</span>' +
+          '<span class="doc-group-count">' + count + '</span>' +
+          '<button type="button" class="doc-group-add" data-machine="' + esc(m.id) + '" aria-label="Upload document to ' + esc(m.name) + '"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>' +
+        '</div></td>' +
+      '</tr>';
+      html += mdocs.map(function (d) { return docRowTr(d, m.id, isCollapsed); }).join('');
+    });
+    tbodyEl.innerHTML = html;
   }
 
   // ── Modals container ──
@@ -1832,8 +1868,10 @@ document.addEventListener('click', function(e) {
   });
   upFileClear.addEventListener('click', function () { upPicked = null; upFileBox.hidden = true; upDrop.hidden = false; });
 
-  function openUpload() {
-    upMachine.innerHTML = S.machines().map(function (m) { return '<option value="' + esc(m.id) + '"' + (m.id === currentMachine ? ' selected' : '') + '>' + esc(m.name) + '</option>'; }).join('');
+  function openUpload(presetMachine) {
+    var mid = (typeof presetMachine === 'string' && presetMachine) ? presetMachine : (currentMachine || (S.machines()[0] || {}).id);
+    currentMachine = mid;
+    upMachine.innerHTML = S.machines().map(function (m) { return '<option value="' + esc(m.id) + '"' + (m.id === mid ? ' selected' : '') + '>' + esc(m.name) + '</option>'; }).join('');
     upCategory.innerHTML = catOptions(currentCat !== 'all' ? currentCat : S.CATEGORIES[0].key, false);
     upTitle.value = ''; upType.value = ''; upVersion.value = 'R00'; upPosition.value = '';
     upLangs.innerHTML = langChecks(['en']); upVis.innerHTML = roleChecks(S.ROLES.map(function (r) { return r.key; }));
@@ -1865,7 +1903,7 @@ document.addEventListener('click', function(e) {
     };
     setTimeout(function () {
       S.add(payload);
-      if (payload.machineId !== currentMachine) { currentMachine = payload.machineId; syncMachineSelectors(); }
+      currentMachine = payload.machineId; delete collapsed[payload.machineId];
       closeOverlay(upOverlay); render(); showToast('Document uploaded');
     }, 900);
   });
@@ -1925,7 +1963,7 @@ document.addEventListener('click', function(e) {
     visSub.textContent = (doc.title || doc.fileName) + ' · ' + S.categoryLabel(doc.category);
     visChecks.innerHTML = roleChecks(doc.visibility);
     visApplyCat.checked = false; visError.hidden = true;
-    visOverlay.dataset.docId = doc.id; visOverlay.dataset.cat = doc.category;
+    visOverlay.dataset.docId = doc.id; visOverlay.dataset.cat = doc.category; visOverlay.dataset.machine = doc.machineId;
     openOverlay(visOverlay);
   }
   visSave.addEventListener('click', function () {
@@ -1934,7 +1972,7 @@ document.addEventListener('click', function(e) {
     if (!roles.length) { visErrorText.textContent = 'Select at least one profile.'; visError.hidden = false; return; }
     var id = visOverlay.dataset.docId;
     if (visApplyCat.checked) {
-      S.list({ machineId: currentMachine, category: visOverlay.dataset.cat }).forEach(function (d) { S.setVisibility(d.id, roles); });
+      S.list({ machineId: visOverlay.dataset.machine, category: visOverlay.dataset.cat }).forEach(function (d) { S.setVisibility(d.id, roles); });
     } else {
       S.setVisibility(id, roles);
     }
@@ -1981,6 +2019,10 @@ document.addEventListener('click', function(e) {
   // ── Table interactions (delegação) ──
   tbodyEl.addEventListener('click', function (e) {
     if (e.target.closest('#docEmptyUpload')) { openUpload(); return; }
+    var add = e.target.closest('.doc-group-add');
+    if (add) { openUpload(add.getAttribute('data-machine')); return; }
+    var head = e.target.closest('.doc-group-head');
+    if (head) { var mid = head.getAttribute('data-machine'); collapsed[mid] = !collapsed[mid]; closeMenu(); render(); return; }
     var btn = e.target.closest('.doc-actions-btn'); if (!btn) return;
     var row = e.target.closest('tr[data-id]'); if (!row) return;
     var id = row.getAttribute('data-id');
@@ -2002,10 +2044,7 @@ document.addEventListener('click', function(e) {
   });
 
   // ── Filters wiring ──
-  function syncMachineSelectors() { machineSel.innerHTML = machineOptions(); }
-  syncMachineSelectors();
   langFilter.innerHTML = langOptions(true);
-  machineSel.addEventListener('change', function () { currentMachine = machineSel.value; currentCat = 'all'; render(); });
   langFilter.addEventListener('change', render);
   searchInput.addEventListener('input', render);
   uploadBtn.addEventListener('click', openUpload);
