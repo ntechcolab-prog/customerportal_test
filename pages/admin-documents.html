@@ -1623,7 +1623,7 @@ document.addEventListener('click', function(e) {
     var q = searchInput.value.trim().toLowerCase();
     if (q) {
       docs = docs.filter(function (d) {
-        return (d.title + ' ' + d.fileName + ' ' + d.docType + ' ' + (d.position || '')).toLowerCase().indexOf(q) !== -1;
+        return (d.title + ' ' + d.fileName + ' ' + d.docType + ' ' + (d.position || '') + ' ' + S.machineName(d.machineId)).toLowerCase().indexOf(q) !== -1;
       });
     }
     return docs;
