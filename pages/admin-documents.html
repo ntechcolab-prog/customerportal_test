@@ -2049,6 +2049,9 @@ document.addEventListener('click', function(e) {
   searchInput.addEventListener('input', render);
   uploadBtn.addEventListener('click', openUpload);
 
+  // Grupos começam recolhidos ao entrar na página
+  S.machines().forEach(function (m) { collapsed[m.id] = true; });
+
   render();
 })();
 </script>
