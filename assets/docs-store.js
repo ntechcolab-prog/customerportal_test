@@ -27,11 +27,11 @@
 
   // ── The 5 real categories (stable keys, order = display order) ──
   var CATEGORIES = [
-    { key: 'drawings',     label: 'Drawings & Part List' },
-    { key: 'instructions', label: 'Instructions Manual' },
-    { key: 'electrical',   label: 'Electrical Doc' },
-    { key: 'suppliers',    label: 'Suppliers' },
-    { key: 'certificates', label: 'Certificates' }
+    { key: 'drawings',     label: 'Drawings & Part List', shortLabel: 'Drawings' },
+    { key: 'instructions', label: 'Instructions Manual',  shortLabel: 'Instructions' },
+    { key: 'electrical',   label: 'Electrical Doc',       shortLabel: 'Electrical' },
+    { key: 'suppliers',    label: 'Suppliers',            shortLabel: 'Suppliers' },
+    { key: 'certificates', label: 'Certificates',         shortLabel: 'Certificates' }
   ];
 
   // ── Customer roles (keys match `netzsch_user_role` / login data-role) ──
