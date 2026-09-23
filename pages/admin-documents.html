@@ -831,6 +831,77 @@
       height: 16px;
     }
 
+    /* ── FILTER SELECTS (machine + language) ── */
+    .filter-selects { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .filter-select {
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 0 30px 0 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #1d1d1f;
+      background-color: #fafbfc;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="%236b7280" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    }
+    .filter-select:hover { border-color: rgba(0, 0, 0, 0.16); }
+    .filter-select:focus { outline: none; border-color: #007167; background-color: #fff; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
+
+    /* ── DOCS TABLE ── */
+    .users-table.docs-table .col-doc { width: 34%; }
+    .users-table.docs-table .col-cat { width: 19%; }
+    .users-table.docs-table .col-lang { width: 13%; }
+    .users-table.docs-table .col-ver { width: 10%; }
+    .users-table.docs-table .col-vis { width: 17%; }
+    .users-table.docs-table .col-acts { width: 56px; text-align: right; cursor: default; }
+    .users-table.docs-table .col-acts:hover { background: transparent; }
+    .users-table.docs-table tbody td.col-cat { white-space: normal; }
+
+    .doc-cell { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .doc-tile { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .doc-tile svg { width: 18px; height: 18px; }
+    .doc-cell-info { min-width: 0; }
+    .doc-cell-name { display: flex; align-items: center; gap: 6px; min-width: 0; }
+    .doc-name { font-size: 13px; font-weight: 600; color: #1d1d1f; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; }
+    .doc-meta { font-size: 11px; color: #86868b; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; }
+    .doc-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; }
+    .doc-badge.new { background: rgba(0, 113, 103, 0.1); color: #007167; }
+    .doc-badge.updated { background: #fff3d6; color: #8a6d00; }
+    .doc-cat-label { font-size: 13px; color: #3d4246; }
+    .doc-langs { display: flex; flex-wrap: wrap; gap: 4px; }
+    .lang-chip { font-size: 10px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; background: rgba(0, 0, 0, 0.05); color: #5c5f62; }
+    .doc-ver { font-size: 12px; color: #5c5f62; font-variant-numeric: tabular-nums; }
+    .vis-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 6px; white-space: nowrap; }
+    .vis-badge.all { background: rgba(0, 113, 103, 0.06); color: #007167; }
+    .vis-badge.restricted { background: rgba(0, 0, 0, 0.045); color: #5c5f62; }
+    .vis-badge svg { width: 12px; height: 12px; }
+
+    /* Empty / no-results dentro da tabela */
+    .doc-empty-row td { padding: 0 !important; }
+    .doc-empty-row:hover { background: transparent !important; }
+    .doc-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 48px 20px; }
+    .doc-empty-icon { width: 44px; height: 44px; border-radius: 12px; background: #f0faf9; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+    .doc-empty-icon svg { width: 22px; height: 22px; color: #007167; }
+    .doc-empty-title { font-size: 15px; font-weight: 600; color: #1d1d1f; }
+    .doc-empty-desc { font-size: 13px; color: #86868b; max-width: 360px; line-height: 1.5; }
+    .doc-empty .btn { margin-top: 10px; }
+
+    /* Actions menu (popover no body) */
+    .doc-menu { position: fixed; z-index: 1000; min-width: 190px; background: #fff; border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 10px; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14); padding: 6px; display: none; }
+    .doc-menu.open { display: block; }
+    .doc-menu-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px; border: none; background: none; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; color: #3d4246; cursor: pointer; text-align: left; }
+    .doc-menu-item:hover { background: #f3f4f6; }
+    .doc-menu-item.danger { color: #c73e20; }
+    .doc-menu-item.danger:hover { background: #fdece8; }
+    .doc-menu-item svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+
     /* ── REDUCED MOTION ─── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; animation: none !important; }
@@ -1348,46 +1419,61 @@
           <h1 class="page-title" data-i18n="admin.documents.title">Documents</h1>
           <span class="page-subtitle" id="docSubtitle">Loading…</span>
         </div>
-        <div class="docadm-head-actions">
-          <button type="button" class="btn btn-primary btn-sm" id="docUploadBtn">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 10.5V3M5 6l3-3 3 3M3 12.5h10" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span data-i18n="admin.documents.upload">Upload document</span>
-          </button>
+        <button type="button" class="btn-add-user" id="docUploadBtn" aria-label="Upload document">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 11V3M5 6l3-3 3 3M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="admin.documents.upload">Upload document</span>
+        </button>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stat-cards" data-skeleton-stagger>
+        <div class="stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M11.5 2.5H5.5A1.5 1.5 0 004 4v12a1.5 1.5 0 001.5 1.5h9A1.5 1.5 0 0016 16V7l-4.5-4.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11.5 2.5V7H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="stat-info"><div class="stat-value" id="statDocs">0</div><div class="stat-label" data-i18n="admin.documents.statDocuments">Documents</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2.5 6.5A1.5 1.5 0 014 5h3l1.5 2H16a1.5 1.5 0 011.5 1.5v6A1.5 1.5 0 0116 16H4a1.5 1.5 0 01-1.5-1.5v-8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <div class="stat-info"><div class="stat-value" id="statCats">0</div><div class="stat-label" data-i18n="admin.documents.statCategories">Categories</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="4.5" y="9" width="11" height="7.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 9V6.5a3 3 0 016 0V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="stat-info"><div class="stat-value" id="statRestricted">0</div><div class="stat-label" data-i18n="admin.documents.statRestricted">Restricted</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="4.5" width="15" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 17.5h6M10 14.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="stat-info"><div class="stat-value" id="statMachines">0</div><div class="stat-label" data-i18n="admin.documents.statMachines">Machines</div></div>
         </div>
       </div>
 
-      <p class="docadm-intro" data-i18n="admin.documents.intro">Manage the equipment documents the NETZSCH documentation team publishes. Upload files, organise them by category, replace versions and choose which customer profiles can see each document.</p>
-
-      <!-- TOOLBAR -->
-      <div class="docadm-toolbar" data-skeleton-stagger>
-        <label class="docadm-field">
-          <span class="docadm-field-label" data-i18n="admin.documents.machine">Machine</span>
-          <select class="docadm-select" id="docMachine"></select>
-        </label>
-        <div class="docadm-search-wrap">
-          <svg class="docadm-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" class="docadm-search" id="docSearch" placeholder="Search documents…" data-i18n-placeholder="admin.documents.search" aria-label="Search documents">
+      <!-- FILTER BAR -->
+      <div class="filter-bar" data-skeleton-stagger>
+        <div class="filter-search">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input type="text" id="docSearch" placeholder="Search documents…" data-i18n-placeholder="admin.documents.search" aria-label="Search documents">
         </div>
-        <select class="docadm-select docadm-select-sm" id="docCategory" aria-label="Filter by category"></select>
-        <select class="docadm-select docadm-select-sm" id="docLang" aria-label="Filter by language"></select>
+        <div class="filter-divider"></div>
+        <div class="filter-pills" id="docCatPills" role="tablist" aria-label="Filter by category"></div>
+        <div class="filter-selects">
+          <select class="filter-select" id="docMachine" aria-label="Filter by machine"></select>
+          <select class="filter-select" id="docLang" aria-label="Filter by language"></select>
+        </div>
       </div>
 
-      <!-- DOCUMENT LIST (rendered by JS) -->
-      <div id="docList" class="docadm-list"></div>
-
-      <!-- NO SEARCH RESULTS -->
-      <div id="docNoResults" class="docadm-empty" hidden>
-        <div class="docadm-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-        <h2 class="docadm-empty-title" data-i18n="admin.documents.noResultsTitle">No documents match your filters</h2>
-        <p class="docadm-empty-desc" data-i18n="admin.documents.noResultsDesc">Try a different search term, category or language.</p>
-      </div>
-
-      <!-- EMPTY MACHINE -->
-      <div id="docEmpty" class="docadm-empty" hidden>
-        <div class="docadm-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M9 14h6M9 17h4"/></svg></div>
-        <h2 class="docadm-empty-title" data-i18n="admin.documents.emptyTitle">No documents for this machine yet</h2>
-        <p class="docadm-empty-desc" data-i18n="admin.documents.emptyDesc">Upload the first document to start building this equipment's documentation.</p>
-        <button type="button" class="btn btn-primary btn-sm" id="docEmptyUpload" data-i18n="admin.documents.upload">Upload document</button>
+      <!-- DOCUMENTS TABLE -->
+      <div class="table-card" data-skeleton-stagger>
+        <table class="users-table docs-table" aria-label="Equipment documents">
+          <thead>
+            <tr>
+              <th class="col-doc"><span class="th-sortable"><span data-i18n="admin.documents.colDocument">Document</span></span></th>
+              <th class="col-cat"><span data-i18n="admin.documents.colCategory">Category</span></th>
+              <th class="col-lang"><span data-i18n="admin.documents.colLanguage">Language</span></th>
+              <th class="col-ver"><span data-i18n="admin.documents.colVersion">Version</span></th>
+              <th class="col-vis"><span data-i18n="admin.documents.colVisibility">Visibility</span></th>
+              <th class="col-acts" aria-label="Actions" data-i18n-aria-label="common.actions"></th>
+            </tr>
+          </thead>
+          <tbody id="docTableBody"></tbody>
+        </table>
       </div>
 
       </div><!-- .page-content -->
@@ -1421,16 +1507,18 @@ document.addEventListener('click', function(e) {
   var S = window.DocsStore;
 
   // ── DOM refs ──
-  var machineSel  = document.getElementById('docMachine');
-  var catFilter   = document.getElementById('docCategory');
-  var langFilter  = document.getElementById('docLang');
-  var searchInput = document.getElementById('docSearch');
-  var listEl      = document.getElementById('docList');
-  var emptyEl     = document.getElementById('docEmpty');
-  var noResultsEl = document.getElementById('docNoResults');
-  var subtitleEl  = document.getElementById('docSubtitle');
-  var uploadBtn   = document.getElementById('docUploadBtn');
-  var emptyUpload = document.getElementById('docEmptyUpload');
+  var machineSel     = document.getElementById('docMachine');
+  var langFilter     = document.getElementById('docLang');
+  var searchInput    = document.getElementById('docSearch');
+  var catPillsEl     = document.getElementById('docCatPills');
+  var tbodyEl        = document.getElementById('docTableBody');
+  var subtitleEl     = document.getElementById('docSubtitle');
+  var uploadBtn      = document.getElementById('docUploadBtn');
+  var statDocs       = document.getElementById('statDocs');
+  var statCats       = document.getElementById('statCats');
+  var statRestricted = document.getElementById('statRestricted');
+  var statMachines   = document.getElementById('statMachines');
+  var currentCat     = 'all';
 
   var currentMachine = (S.machines()[0] || { id: '' }).id;
 
@@ -1507,7 +1595,7 @@ document.addEventListener('click', function(e) {
   // ── Render list ──
   function filteredDocs() {
     var opts = { machineId: currentMachine };
-    if (catFilter.value !== 'all') opts.category = catFilter.value;
+    if (currentCat !== 'all') opts.category = currentCat;
     if (langFilter.value !== 'all') opts.language = langFilter.value;
     var docs = S.list(opts);
     var q = searchInput.value.trim().toLowerCase();
@@ -1519,66 +1607,74 @@ document.addEventListener('click', function(e) {
     return docs;
   }
 
-  function docRowHtml(doc) {
+  function docRowTr(doc) {
     var ic = S.categoryIcon(doc.category);
+    var cat = (S.CATEGORIES.filter(function (c) { return c.key === doc.category; })[0] || {}).label || doc.category;
     var badge = S.recencyBadge(doc);
-    var badgeHtml = badge ? '<span class="docadm-badge ' + badge + '">' + (badge === 'new' ? 'New' : 'Updated') + '</span>' : '';
-    var meta = [doc.fileName, doc.version, doc.sizeLabel, 'Updated ' + doc.uploadedAt].filter(Boolean).join(' · ');
-    var tags = '';
-    if (doc.docType) tags += '<span class="docadm-tag">' + esc(doc.docType) + '</span>';
-    if (doc.position) tags += '<span class="docadm-tag">' + esc(doc.position) + '</span>';
-    doc.languages.forEach(function (l) { tags += '<span class="docadm-tag lang">' + esc(l) + '</span>'; });
-    var vis = S.ROLES.map(function (r) {
-      var on = doc.visibility.indexOf(r.key) !== -1;
-      return '<span class="docadm-vischip' + (on ? ' on' : '') + '" title="' + esc(r.label) + (on ? ' can view' : ' hidden') + '">' + esc(r.label) + '</span>';
+    var badgeHtml = badge ? '<span class="doc-badge ' + badge + '">' + (badge === 'new' ? 'New' : 'Updated') + '</span>' : '';
+    var meta = [doc.fileName, doc.sizeLabel].filter(Boolean).join(' \u00b7 ');
+    var langs = doc.languages.map(function (l) { return '<span class="lang-chip">' + esc(l) + '</span>'; }).join('');
+    var total = S.ROLES.length, vN = doc.visibility.length;
+    var vis = vN >= total
+      ? '<span class="vis-badge all">All profiles</span>'
+      : '<span class="vis-badge restricted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>' + vN + '/' + total + '</span>';
+    return '<tr data-id="' + esc(doc.id) + '">' +
+      '<td class="col-doc"><div class="doc-cell">' +
+        '<div class="doc-tile" style="background:' + ic.bg + ';color:' + ic.color + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic.svg + '</svg></div>' +
+        '<div class="doc-cell-info"><div class="doc-cell-name"><span class="doc-name">' + esc(doc.title || doc.fileName) + '</span>' + badgeHtml + '</div><div class="doc-meta">' + esc(meta) + '</div></div>' +
+      '</div></td>' +
+      '<td class="col-cat"><span class="doc-cat-label">' + esc(cat) + '</span></td>' +
+      '<td class="col-lang"><div class="doc-langs">' + langs + '</div></td>' +
+      '<td class="col-ver"><span class="doc-ver">' + esc(doc.version || '\u2014') + '</span></td>' +
+      '<td class="col-vis">' + vis + '</td>' +
+      '<td class="col-acts"><button type="button" class="actions-btn doc-actions-btn" aria-haspopup="true" aria-label="Actions"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button></td>' +
+    '</tr>';
+  }
+
+  function buildPills(all) {
+    var counts = {};
+    all.forEach(function (d) { counts[d.category] = (counts[d.category] || 0) + 1; });
+    var cats = S.CATEGORIES.filter(function (c) { return counts[c.key]; });
+    var html = '<button type="button" class="filter-pill' + (currentCat === 'all' ? ' active' : '') + '" data-cat="all">All <span class="pill-count">' + all.length + '</span></button>';
+    html += cats.map(function (c) {
+      return '<button type="button" class="filter-pill' + (currentCat === c.key ? ' active' : '') + '" data-cat="' + c.key + '">' + esc(c.label) + ' <span class="pill-count">' + counts[c.key] + '</span></button>';
     }).join('');
-    return '<div class="docadm-row" data-id="' + esc(doc.id) + '">' +
-      '<div class="docadm-doc">' +
-        '<div class="docadm-doc-tile" style="background:' + ic.bg + ';color:' + ic.color + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic.svg + '</svg></div>' +
-        '<div class="docadm-doc-info">' +
-          '<span class="docadm-name-row"><span class="docadm-doc-name">' + esc(doc.title || doc.fileName) + '</span>' + badgeHtml + '</span>' +
-          '<span class="docadm-doc-meta">' + esc(meta) + '</span>' +
-          '<div class="docadm-tags">' + tags + '</div>' +
-        '</div>' +
-      '</div>' +
-      '<div class="docadm-vis">' + vis + '</div>' +
-      '<div class="docadm-actions">' +
-        '<button type="button" class="docadm-ic" data-act="version" title="Upload new version" aria-label="Upload new version">' + icVersion + '</button>' +
-        '<button type="button" class="docadm-ic" data-act="visibility" title="Edit visibility" aria-label="Edit visibility">' + icEye + '</button>' +
-        '<button type="button" class="docadm-ic danger" data-act="remove" title="Remove document" aria-label="Remove document">' + icTrash + '</button>' +
-      '</div>' +
-    '</div>';
+    catPillsEl.innerHTML = html;
   }
 
   function render() {
     var all = S.list({ machineId: currentMachine });
-    var catSet = {}; var restricted = 0;
+    var catSet = {}, restricted = 0;
     all.forEach(function (d) { catSet[d.category] = 1; if (d.visibility.length < S.ROLES.length) restricted++; });
     var catCount = Object.keys(catSet).length;
+    statDocs.textContent = all.length;
+    statCats.textContent = catCount;
+    statRestricted.textContent = restricted;
+    statMachines.textContent = S.machines().filter(function (m) { return S.countForMachine(m.id) > 0; }).length;
     var parts = [all.length + (all.length === 1 ? ' document' : ' documents'), catCount + (catCount === 1 ? ' category' : ' categories')];
     if (restricted) parts.push(restricted + ' with restricted visibility');
-    subtitleEl.textContent = parts.join(' · ');
+    subtitleEl.textContent = parts.join(' \u00b7 ');
 
-    if (all.length === 0) {
-      listEl.innerHTML = ''; listEl.hidden = true; noResultsEl.hidden = true; emptyEl.hidden = false;
-      return;
-    }
+    if (currentCat !== 'all' && !catSet[currentCat]) currentCat = 'all';
+    buildPills(all);
+
     var docs = filteredDocs();
     if (docs.length === 0) {
-      listEl.innerHTML = ''; listEl.hidden = true; emptyEl.hidden = true; noResultsEl.hidden = false;
+      var msg;
+      if (all.length === 0) {
+        msg = '<div class="doc-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M9 14h6M9 17h4"/></svg></div>' +
+          '<div class="doc-empty-title">No documents for this machine yet</div>' +
+          '<div class="doc-empty-desc">Upload the first document to start building this equipment\'s documentation.</div>' +
+          '<button type="button" class="btn btn-primary btn-sm" id="docEmptyUpload">Upload document</button>';
+      } else {
+        msg = '<div class="doc-empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>' +
+          '<div class="doc-empty-title">No documents match your filters</div>' +
+          '<div class="doc-empty-desc">Try a different search term, category or language.</div>';
+      }
+      tbodyEl.innerHTML = '<tr class="doc-empty-row"><td colspan="6"><div class="doc-empty">' + msg + '</div></td></tr>';
       return;
     }
-    emptyEl.hidden = true; noResultsEl.hidden = true; listEl.hidden = false;
-    var groups = S.CATEGORIES.map(function (c) {
-      return { key: c.key, label: c.label, docs: docs.filter(function (d) { return d.category === c.key; }) };
-    }).filter(function (g) { return g.docs.length > 0; });
-    listEl.innerHTML = groups.map(function (g) {
-      return '<div class="docadm-cat" data-cat="' + g.key + '">' +
-        '<div class="docadm-cat-head"><span class="docadm-cat-title">' + esc(g.label) + '</span>' +
-        '<span class="docadm-cat-count">' + g.docs.length + (g.docs.length === 1 ? ' document' : ' documents') + '</span></div>' +
-        '<div class="docadm-table">' + g.docs.map(docRowHtml).join('') + '</div>' +
-      '</div>';
-    }).join('');
+    tbodyEl.innerHTML = docs.map(docRowTr).join('');
   }
 
   // ── Modals container ──
@@ -1730,7 +1826,7 @@ document.addEventListener('click', function(e) {
 
   function openUpload() {
     upMachine.innerHTML = S.machines().map(function (m) { return '<option value="' + esc(m.id) + '"' + (m.id === currentMachine ? ' selected' : '') + '>' + esc(m.name) + '</option>'; }).join('');
-    upCategory.innerHTML = catOptions(catFilter.value !== 'all' ? catFilter.value : S.CATEGORIES[0].key, false);
+    upCategory.innerHTML = catOptions(currentCat !== 'all' ? currentCat : S.CATEGORIES[0].key, false);
     upTitle.value = ''; upType.value = ''; upVersion.value = 'R00'; upPosition.value = '';
     upLangs.innerHTML = langChecks(['en']); upVis.innerHTML = roleChecks(S.ROLES.map(function (r) { return r.key; }));
     upPicked = null; upFileBox.hidden = true; upDrop.hidden = false; upClearError();
@@ -1846,29 +1942,65 @@ document.addEventListener('click', function(e) {
     closeOverlay(remOverlay); render(); showToast('Document removed');
   });
 
-  // ── List action delegation ──
-  listEl.addEventListener('click', function (e) {
-    var btn = e.target.closest('.docadm-ic'); if (!btn) return;
-    var row = e.target.closest('.docadm-row'); if (!row) return;
-    var doc = S.get(row.getAttribute('data-id')); if (!doc) return;
-    var act = btn.getAttribute('data-act');
+  // ── Actions menu (popover único, no <body>, pra não ser cortado pela tabela) ──
+  var actMenu = document.createElement('div');
+  actMenu.className = 'doc-menu';
+  actMenu.innerHTML =
+    '<button type="button" class="doc-menu-item" data-act="version">' + icVersion + '<span data-i18n="admin.documents.newVersion">Upload new version</span></button>' +
+    '<button type="button" class="doc-menu-item" data-act="visibility">' + icEye + '<span data-i18n="admin.documents.editVisibility">Edit visibility</span></button>' +
+    '<button type="button" class="doc-menu-item danger" data-act="remove">' + icTrash + '<span data-i18n="admin.documents.remove">Remove document</span></button>';
+  document.body.appendChild(actMenu);
+  var menuDocId = null;
+  function closeMenu() { actMenu.classList.remove('open'); menuDocId = null; }
+  function openMenuFor(btn, id) {
+    menuDocId = id;
+    actMenu.classList.add('open');
+    var r = btn.getBoundingClientRect();
+    var left = r.right - actMenu.offsetWidth; if (left < 8) left = 8;
+    actMenu.style.left = left + 'px';
+    actMenu.style.top = (r.bottom + 6) + 'px';
+  }
+  actMenu.addEventListener('click', function (e) {
+    var it = e.target.closest('.doc-menu-item'); if (!it) return;
+    var doc = S.get(menuDocId), act = it.getAttribute('data-act');
+    closeMenu();
+    if (!doc) return;
     if (act === 'version') openVersion(doc);
     else if (act === 'visibility') openVisibility(doc);
     else if (act === 'remove') openRemove(doc);
   });
 
-  // ── Toolbar wiring ──
+  // ── Table interactions (delegação) ──
+  tbodyEl.addEventListener('click', function (e) {
+    if (e.target.closest('#docEmptyUpload')) { openUpload(); return; }
+    var btn = e.target.closest('.doc-actions-btn'); if (!btn) return;
+    var row = e.target.closest('tr[data-id]'); if (!row) return;
+    var id = row.getAttribute('data-id');
+    if (menuDocId === id && actMenu.classList.contains('open')) { closeMenu(); return; }
+    openMenuFor(btn, id);
+  });
+  document.addEventListener('click', function (e) {
+    if (actMenu.classList.contains('open') && !actMenu.contains(e.target) && !e.target.closest('.doc-actions-btn')) closeMenu();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+  window.addEventListener('resize', closeMenu);
+  window.addEventListener('scroll', closeMenu, true);
+
+  // ── Category pills ──
+  catPillsEl.addEventListener('click', function (e) {
+    var pill = e.target.closest('.filter-pill'); if (!pill) return;
+    currentCat = pill.getAttribute('data-cat');
+    render();
+  });
+
+  // ── Filters wiring ──
   function syncMachineSelectors() { machineSel.innerHTML = machineOptions(); }
   syncMachineSelectors();
-  catFilter.innerHTML = catOptions('all', true);
   langFilter.innerHTML = langOptions(true);
-
-  machineSel.addEventListener('change', function () { currentMachine = machineSel.value; render(); });
-  catFilter.addEventListener('change', render);
+  machineSel.addEventListener('change', function () { currentMachine = machineSel.value; currentCat = 'all'; render(); });
   langFilter.addEventListener('change', render);
   searchInput.addEventListener('input', render);
   uploadBtn.addEventListener('click', openUpload);
-  if (emptyUpload) emptyUpload.addEventListener('click', openUpload);
 
   render();
 })();
