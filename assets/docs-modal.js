@@ -45,7 +45,11 @@
     '.docs-no-results-icon svg { width:24px; height:24px; color:#9ca3af; }',
     '.docs-no-results-title { font-size:15px; font-weight:600; color:#374151; margin:0 0 4px; line-height:1.35; }',
     '.docs-no-results-desc { font-size:13px; color:#4b5563; margin:0; line-height:1.5; }',
-
+    '.docs-request-access { margin-top:16px; display:inline-flex; align-items:center; gap:8px; height:38px; padding:0 20px; border:none; border-radius:999px; background:#007167; font-family:"Inter",sans-serif; font-size:14px; font-weight:600; color:#fff; cursor:pointer; transition:background 0.15s; }',
+    '.docs-request-access:hover { background:#005f57; }',
+    '.docs-request-access svg { width:16px; height:16px; }',
+    '.docs-access-requested { margin-top:16px; display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:999px; background:rgba(0,113,103,0.08); color:#007167; font-size:13px; font-weight:600; }',
+    '.docs-access-requested svg { width:16px; height:16px; }',
     '.docs-lang-wrap { display:flex; align-items:center; gap:6px; flex-shrink:0; }',
     '.docs-lang-label { display:inline-flex; align-items:center; color:#6b6e73; flex-shrink:0; }',
     '.docs-lang-label svg { width:16px; height:16px; }',
@@ -162,11 +166,19 @@
   // Empty state — distinguish "this machine has no documents at all" from
   // "documents exist, but none are visible to the current profile" (no access).
   var totalOnMachine = DocsStore.list({ machineId: machineId }).length;
+  var accessReqKey = 'netzsch_docs_access_req_' + machineId + '_' + role;
+  var alreadyRequested = false;
+  try { alreadyRequested = !!localStorage.getItem(accessReqKey); } catch (e) {}
+  var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
+  var requestCta = alreadyRequested
+    ? '<div class="docs-access-requested">' + checkSvg + 'Access requested</div>'
+    : '<button type="button" class="docs-request-access" id="docsRequestAccess">Request access</button>';
   var emptyDocsHtml = (totalOnMachine > 0)
     ? ('<div class="docs-no-results docs-no-access" style="display:flex">' +
        '  <div class="docs-no-results-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
        '  <p class="docs-no-results-title">You don\'t have access to these documents</p>' +
-       '  <p class="docs-no-results-desc">This equipment has documentation, but none of it is available for your profile. Ask your company administrator to grant access.</p>' +
+       '  <p class="docs-no-results-desc">This equipment has documentation, but none of it is available for your profile. Request access below and your company administrator will review it.</p>' +
+       '  ' + requestCta +
        '</div>')
     : ('<div class="docs-no-results" style="display:flex">' +
        '  <div class="docs-no-results-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
@@ -215,6 +227,15 @@
     '  </div>' +
     '</div>';
   document.body.appendChild(overlay);
+
+  // ── Request access (shown in the no-access state) ──
+  var requestBtn = overlay.querySelector('#docsRequestAccess');
+  if (requestBtn) {
+    requestBtn.addEventListener('click', function () {
+      try { localStorage.setItem(accessReqKey, String(Date.now())); } catch (e) {}
+      requestBtn.outerHTML = '<div class="docs-access-requested">' + checkSvg + 'Access requested</div>';
+    });
+  }
 
   // ── Search / filter (text + language, combined) ──
   var searchInput = document.getElementById('docsSearch');
