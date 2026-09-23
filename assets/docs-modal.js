@@ -159,13 +159,20 @@
     bodyHtml += '</div></div>';
   });
 
-  // Empty state when this machine has no documents visible to the role.
-  var emptyDocsHtml =
-    '<div class="docs-no-results" style="display:flex">' +
-    '  <div class="docs-no-results-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-    '  <p class="docs-no-results-title">No documents available yet</p>' +
-    '  <p class="docs-no-results-desc">Documents for this equipment haven\'t been published for your profile yet.</p>' +
-    '</div>';
+  // Empty state — distinguish "this machine has no documents at all" from
+  // "documents exist, but none are visible to the current profile" (no access).
+  var totalOnMachine = DocsStore.list({ machineId: machineId }).length;
+  var emptyDocsHtml = (totalOnMachine > 0)
+    ? ('<div class="docs-no-results docs-no-access" style="display:flex">' +
+       '  <div class="docs-no-results-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+       '  <p class="docs-no-results-title">You don\'t have access to these documents</p>' +
+       '  <p class="docs-no-results-desc">This equipment has documentation, but none of it is available for your profile. Ask your company administrator to grant access.</p>' +
+       '</div>')
+    : ('<div class="docs-no-results" style="display:flex">' +
+       '  <div class="docs-no-results-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+       '  <p class="docs-no-results-title">No documents available yet</p>' +
+       '  <p class="docs-no-results-desc">Documents for this equipment haven\'t been published yet.</p>' +
+       '</div>');
 
   var overlay = document.createElement('div');
   overlay.className = 'docs-overlay';
