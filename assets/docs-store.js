@@ -108,6 +108,10 @@
     var d = [];
     var n = 0;
     var seedNow = Date.now();
+    // Prototype access model: the Buyer profile has no equipment-document access,
+    // so seeded documents default to every profile EXCEPT Buyer. (An Admin can
+    // still grant Buyer access per document in the documentation-team area.)
+    var SEED_DEFAULT_VIS = ALL_ROLE_KEYS.filter(function (k) { return k !== 'buyer'; });
     function doc(machineId, category, o) {
       n++;
       var createdDaysAgo = (o.createdDaysAgo != null) ? o.createdDaysAgo : 300;
@@ -127,7 +131,7 @@
         sizeLabel: o.sizeLabel || '',
         uploadedAt: o.uploadedAt || 'Jul 2026',
         uploadedBy: o.uploadedBy || 'Documentation Team',
-        visibility: o.visibility || ALL_ROLE_KEYS.slice(),
+        visibility: o.visibility || SEED_DEFAULT_VIS.slice(),
         versions: versions,
         createdTs: seedNow - createdDaysAgo * DAY,
         updatedTs: seedNow - updatedDaysAgo * DAY
@@ -176,15 +180,7 @@
     doc('prophi', 'instructions', { title: 'Operating Manual — ProPhi', fileName: '15301100-PROPHI-OM-EN-R00.pdf', docType: 'OM', sizeLabel: '2.8 MB', languages: ['en'] });
     doc('prophi', 'certificates', { title: 'CE Declaration of Conformity', fileName: 'PROPHI-CE-DECLARATION.pdf', docType: 'CE', sizeLabel: '390 KB', languages: ['en', 'de'] });
 
-    // ── ZETA 500 — has documents, but all restricted from the Buyer profile ──
-    //    (demo of the customer-side "no access" state: a Buyer sees nothing here
-    //     and is told to ask the company admin; other profiles see the docs)
-    var noBuyer = ['administrator', 'approver', 'technician'];
-    doc('zeta500', 'electrical',   { title: 'Electrical Documentation', fileName: 'KMCC24010_01.pdf', docType: 'Electrical', version: 'R01', sizeLabel: '2.0 MB', languages: ['en'], visibility: noBuyer });
-    doc('zeta500', 'suppliers',    { title: 'Drive Motor — Datasheet', fileName: '140140770 - DRIVE MOTOR - ZETA500.pdf', docType: 'Supplier', position: 'POS. 10', sizeLabel: '150 KB', languages: ['en'], visibility: noBuyer });
-    doc('zeta500', 'certificates', { title: 'Material Certificate 2.1', fileName: 'ZETA500-2.1-MATERIAL-CERT.pdf', docType: 'Material Cert', sizeLabel: '92 KB', languages: ['en'], visibility: noBuyer });
-
-    // ── ALPHA ZETA 10 — intentionally empty (empty-state demo) ──
+    // ── ZETA 500 & ALPHA ZETA 10 — intentionally empty (empty-state demo) ──
 
     return d;
   }
