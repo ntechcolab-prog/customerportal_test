@@ -308,6 +308,43 @@
     return getAll();
   }
 
+  // ── Access requests (a customer profile asks the Admin for document access) ──
+  var AR_KEY = 'netzsch_access_requests';
+  function listAccessRequests(opts) {
+    opts = opts || {};
+    var all = read(AR_KEY, []) || [];
+    return all.filter(function (r) {
+      if (opts.status && r.status !== opts.status) return false;
+      if (opts.machineId && r.machineId !== opts.machineId) return false;
+      if (opts.role && r.role !== opts.role) return false;
+      return true;
+    });
+  }
+  function addAccessRequest(machineId, role) {
+    var all = read(AR_KEY, []) || [];
+    var existing = all.filter(function (r) { return r.machineId === machineId && r.role === role && r.status === 'pending'; })[0];
+    if (existing) return existing;
+    var rec = { id: 'req-' + Date.now().toString(36) + '-' + Math.floor(Math.random() * 1e6).toString(36), machineId: machineId, role: role, ts: Date.now(), status: 'pending' };
+    all.push(rec);
+    write(AR_KEY, all);
+    return rec;
+  }
+  function resolveAccessRequest(id, grant) {
+    var all = read(AR_KEY, []) || [];
+    var rec = all.filter(function (r) { return r.id === id; })[0];
+    if (!rec) return { ok: false, err: 'notfound' };
+    rec.status = grant ? 'granted' : 'declined';
+    rec.resolvedTs = Date.now();
+    write(AR_KEY, all);
+    if (grant) {
+      // Give this role visibility to every document on the machine.
+      list({ machineId: rec.machineId }).forEach(function (d) {
+        if (d.visibility.indexOf(rec.role) === -1) setVisibility(d.id, d.visibility.concat([rec.role]));
+      });
+    }
+    return { ok: true, req: rec };
+  }
+
   window.DocsStore = {
     CATEGORIES: CATEGORIES,
     ROLES: ROLES,
@@ -325,6 +362,9 @@
     remove: remove,
     setVisibility: setVisibility,
     countForMachine: countForMachine,
+    listAccessRequests: listAccessRequests,
+    addAccessRequest: addAccessRequest,
+    resolveAccessRequest: resolveAccessRequest,
     reset: reset
   };
 })();

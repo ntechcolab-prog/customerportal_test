@@ -166,9 +166,7 @@
   // Empty state — distinguish "this machine has no documents at all" from
   // "documents exist, but none are visible to the current profile" (no access).
   var totalOnMachine = DocsStore.list({ machineId: machineId }).length;
-  var accessReqKey = 'netzsch_docs_access_req_' + machineId + '_' + role;
-  var alreadyRequested = false;
-  try { alreadyRequested = !!localStorage.getItem(accessReqKey); } catch (e) {}
+  var alreadyRequested = DocsStore.listAccessRequests({ machineId: machineId, role: role, status: 'pending' }).length > 0;
   var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
   var requestCta = alreadyRequested
     ? '<div class="docs-access-requested">' + checkSvg + 'Access requested</div>'
@@ -232,7 +230,7 @@
   var requestBtn = overlay.querySelector('#docsRequestAccess');
   if (requestBtn) {
     requestBtn.addEventListener('click', function () {
-      try { localStorage.setItem(accessReqKey, String(Date.now())); } catch (e) {}
+      DocsStore.addAccessRequest(machineId, role);
       requestBtn.outerHTML = '<div class="docs-access-requested">' + checkSvg + 'Access requested</div>';
     });
   }
