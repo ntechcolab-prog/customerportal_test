@@ -24,6 +24,10 @@
 
   var DOCS_KEY = 'netzsch_docs';
   var SEED_FLAG = 'netzsch_docs_seeded_v1';
+  var SEED_VER_KEY = 'netzsch_docs_seed_ver';
+  // Bump this string whenever seedDocs() changes so existing users auto-reseed
+  // on the next page load (no manual DocsStore.reset() needed).
+  var SEED_VERSION = 'v2-buyer-no-access';
 
   // ── The 5 real categories (stable keys, order = display order) ──
   var CATEGORIES = [
@@ -187,11 +191,13 @@
 
   function getAll() {
     var stored = read(DOCS_KEY, null);
-    if (stored) return stored;
-    // First run: seed once.
+    if (stored && read(SEED_VER_KEY, null) === SEED_VERSION) return stored;
+    // First run OR the seed changed (version bumped) → (re)seed.
+    // Prototype note: reseeding overwrites local admin edits made in a previous version.
     var seeded = seedDocs();
     write(DOCS_KEY, seeded);
     write(SEED_FLAG, true);
+    write(SEED_VER_KEY, SEED_VERSION);
     return seeded;
   }
   function saveAll(arr) { write(DOCS_KEY, arr); }
@@ -298,7 +304,7 @@
   function countForMachine(machineId) { return list({ machineId: machineId }).length; }
 
   function reset() {
-    try { localStorage.removeItem(DOCS_KEY); localStorage.removeItem(SEED_FLAG); } catch (e) {}
+    try { localStorage.removeItem(DOCS_KEY); localStorage.removeItem(SEED_FLAG); localStorage.removeItem(SEED_VER_KEY); } catch (e) {}
     return getAll();
   }
 
