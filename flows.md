@@ -1,11 +1,11 @@
 # Customer Portal — Mapa de Fluxos
 
 > **Fonte da verdade das jornadas do NETZSCH Customer Portal.**
-> A numeração `00`–`12` casa entre este documento, o Figma de mocks
+> A numeração `00`–`13` casa entre este documento, o Figma de mocks
 > (`PwX3Yv0B79GW2Thv9IMDjZ`) e o código (`pages/*.html`).
 >
-> **70 telas · 13 fluxos · 4 roles.**
-> Última atualização: 2026-08-07 (America/Sao_Paulo).
+> **73 telas · 14 fluxos · 4 roles.**
+> Última atualização: 2026-09-25 (America/Sao_Paulo).
 
 ## Legenda
 - `tela` = arquivo em `pages/<tela>.html`.
@@ -21,15 +21,16 @@
 | 01 | Login & Acesso            | 7     | Deslogado                     |
 | 02 | Registro / Onboarding     | 14    | Deslogado                     |
 | 03 | Dashboard / Home logado   | 3     | Todos (varia por role)        |
-| 04 | Máquinas & Peças          | 9     | Todos                         |
+| 04 | Máquinas & Peças          | 10    | Todos                         |
 | 05 | Loja / Shop               | 9     | Admin, Buyer, Technician¹     |
 | 06 | Carrinho & Checkout       | 6     | Admin, Buyer                  |
 | 07 | Pedidos / Orders          | 2     | Todos (varia por role)        |
 | 08 | Cotações / Quotes         | 2     | Admin, Buyer, Approver        |
 | 09 | Serviços & Contratos      | 7     | Todos (heterogêneo, ver card) |
 | 10 | Orçamento / Budget        | 1     | 🔒 Buyer                      |
-| 11 | Admin                     | 5     | 🔒 Admin                      |
+| 11 | Admin                     | 6     | 🔒 Admin                      |
 | 12 | Suporte & Ajuda           | 2     | Todos                         |
+| 13 | Documentos de equipamento | 1     | Admin (gestão) · Todos (por perfil) |
 
 ¹ Technician vê a loja mas **não tem carrinho/checkout**; Approver não acessa a loja.
 
@@ -93,11 +94,12 @@
 **Objetivo:** Consultar máquinas do cliente, peças de reposição e monitoramento.
 **Role:** Todos.
 **Entrada:** nav "Machines".
-**Telas (9):** `machines` · `machine-zeta60` · `machine-discus30` · `machine-mastermix45` · `machine-alphazeta10` · `machine-prophi` · `machine-spare-parts-results` · `machine-subset-inlet-flange` · `production-monitoring`
+**Telas (10):** `machines` · `machine-zeta60` · `machine-discus30` · `machine-mastermix45` · `machine-alphazeta10` · `machine-prophi` · `machine-zeta500` · `machine-spare-parts-results` · `machine-subset-inlet-flange` · `production-monitoring`
 **Caminho principal:** `machines` → `machine-<modelo>` → `machine-spare-parts-results` (peças) → `machine-subset-inlet-flange` (subconjunto).
 **Ramais:**
 - **Milla (IA):** "Ask Milla" a partir da máquina → busca de spare parts → `machine-spare-parts-results`.
 - **Upsell ProPhi:** `machine-prophi` → `production-monitoring` (landing + request quote).
+- **Documentos:** `machine-<modelo>` → "Documents and Manuals" (modal) → **13 Documentos de equipamento**.
 - Peça encontrada → adicionar ao carrinho (**06 Checkout**, se o role permitir).
 **Estados / edge cases:** máquina sem peças (empty) · modais de Service Request · drawing/lightbox técnico.
 **Saída:** → **06 Checkout** (peça) · **09 Serviços** (service request).
@@ -184,12 +186,12 @@
 ---
 
 ## 11 — Admin 🔒
-**Objetivo:** Administrar a conta corporativa (usuários, papéis, empresa, solicitações).
+**Objetivo:** Administrar a conta corporativa (usuários, papéis, máquinas, empresa, solicitações).
 **Role:** **Só Admin.** (Todos os outros perfis são bloqueados.)
 **Entrada:** nav "Admin" · link no dropdown de perfil (só Admin).
-**Telas (5):** `admin-users` · `admin-roles` · `admin-company` · `admin-requests` · `admin-notifications`
+**Telas (6):** `admin-users` · `admin-roles` · `admin-machines` · `admin-company` · `admin-requests` · `admin-notifications`
 **Caminho principal:** `admin-users` → `admin-roles` (gestão de usuários e papéis).
-**Ramais:** `admin-company` (dados da empresa) · `admin-requests` (solicitações de acesso) · `admin-notifications` (avisos administrativos).
+**Ramais:** `admin-machines` (gestão de máquinas e linhas de produção) · `admin-company` (dados da empresa) · `admin-requests` (solicitações de acesso) · `admin-notifications` (avisos administrativos). A área **Documents** da sidebar (`admin-documents`) é detalhada no **13 Documentos de equipamento**.
 **Estados / edge cases:** modais de criar/editar usuário · empty states · aprovação de solicitações.
 **Saída:** → **03 Dashboard**.
 
@@ -203,6 +205,23 @@
 **Caminho principal:** `help` (FAQ/central) → `contact-support` (form de ticket).
 **Estados / edge cases:** validação do form de ticket · anexos · empty (sem resultados na busca de ajuda).
 **Saída:** ticket enviado → **03 Dashboard**.
+
+---
+
+## 13 — Documentos de equipamento
+**Objetivo:** Gerir e disponibilizar a documentação técnica dos equipamentos (manuais, desenhos, listas de peças, certificados, docs de fornecedores) com **visibilidade por perfil**.
+**Role:** **Admin** na área de gestão (representa o time de documentação da NETZSCH); **Todos** no lado cliente, **filtrado pela visibilidade** que o Admin define por documento.
+**Entrada:**
+- **Admin:** nav "Admin" → sidebar **Documents** (`admin-documents`).
+- **Cliente:** página da máquina (**04**) → card **"Documents and Manuals"** (modal).
+**Telas (1):** `admin-documents` · *(o lado cliente é um modal dentro das páginas `machine-*` do fluxo 04, não uma tela separada)*
+**Caminho principal:**
+- **Admin:** `admin-documents` → selecionar máquina (accordion) → upload / nova versão / editar visibilidade / remover documento.
+- **Cliente:** `machine-<modelo>` → "Documents and Manuals" → busca + filtro por categoria/idioma → download (simulado).
+**Ramais:**
+- **Pedido de acesso:** cliente sem visibilidade → **"Request access"** → gera notificação no **sino do Admin** (em todas as páginas admin) → Admin **"Grant access"** libera os documentos da máquina para aquele perfil.
+**Estados / edge cases:** **sem acesso** (perfil sem visibilidade — com CTA de solicitar) × **sem documentos** (máquina vazia) · selos **New/Updated** · estados de upload (enviando / erro / sucesso) · grupos de máquina recolhidos por padrão.
+**Saída:** → **04 Máquinas** (cliente) · permanece na área **Admin** (gestão).
 
 ---
 
@@ -224,12 +243,15 @@ Baseada em `assets/role-guard.js` (bloqueios e menus reais).
 | 10 | Orçamento / Budget | —     | ✓     | —        | —          |
 | 11 | Admin              | ✓     | —     | —        | —          |
 | 12 | Suporte & Ajuda    | ✓     | ✓     | ✓        | ✓          |
+| 13a | Documentos (área admin) | ✓ | —     | —        | —          |
+| 13b | Documentos (modal cliente) | ✓ | ~ (por visibilidade) | ~ | ~ |
 
 **Resumo dos ajustes de navegação por role:**
 - **Admin:** tudo, **exceto Budget**.
 - **Buyer:** sem Lab Tests, sem Contratos. Tem Budget e Checkout.
 - **Approver:** sem Shop, sem Checkout, sem Budget, sem Lab Tests, sem Contratos, sem carrinho. Foco em **aprovar pedidos**.
 - **Technician:** Orders vira **"Requests"**, sem Quotes, sem Checkout, sem carrinho. Foco em **Service Requests** e **Lab Tests**.
+- **Documentos (13):** a **área de gestão** (`admin-documents`) é **só Admin**; no **cliente**, cada perfil vê apenas os documentos que o Admin tornou visíveis (por padrão o **Buyer** não vê nenhum e precisa **solicitar acesso**).
 
 ---
 
