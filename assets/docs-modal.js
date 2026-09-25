@@ -169,19 +169,19 @@
   var alreadyRequested = DocsStore.listAccessRequests({ machineId: machineId, role: role, status: 'pending' }).length > 0;
   var checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
   var requestCta = alreadyRequested
-    ? '<div class="docs-access-requested">' + checkSvg + 'Access requested</div>'
-    : '<button type="button" class="docs-request-access" id="docsRequestAccess">Request access</button>';
+    ? '<div class="docs-access-requested" data-i18n="docs.accessRequested">' + checkSvg + 'Access requested</div>'
+    : '<button type="button" class="docs-request-access" id="docsRequestAccess" data-i18n="docs.requestAccess">Request access</button>';
   var emptyDocsHtml = (totalOnMachine > 0)
     ? ('<div class="docs-no-results docs-no-access" style="display:flex">' +
        '  <div class="docs-no-results-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-       '  <p class="docs-no-results-title">You don\'t have access to these documents</p>' +
-       '  <p class="docs-no-results-desc">This equipment has documentation, but none of it is available for your profile. Request access below and your company administrator will review it.</p>' +
+       '  <p class="docs-no-results-title" data-i18n="docs.noAccessTitle">You don\'t have access to these documents</p>' +
+       '  <p class="docs-no-results-desc" data-i18n="docs.noAccessDesc">This equipment has documentation, but none of it is available for your profile. Request access below and your company administrator will review it.</p>' +
        '  ' + requestCta +
        '</div>')
     : ('<div class="docs-no-results" style="display:flex">' +
        '  <div class="docs-no-results-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-       '  <p class="docs-no-results-title">No documents available yet</p>' +
-       '  <p class="docs-no-results-desc">Documents for this equipment haven\'t been published yet.</p>' +
+       '  <p class="docs-no-results-title" data-i18n="docs.noDocsTitle">No documents available yet</p>' +
+       '  <p class="docs-no-results-desc" data-i18n="docs.noDocsDesc">Documents for this equipment haven\'t been published yet.</p>' +
        '</div>');
 
   var overlay = document.createElement('div');
@@ -225,13 +225,16 @@
     '  </div>' +
     '</div>';
   document.body.appendChild(overlay);
+  // Translate the freshly-built modal (it's created on open, after i18n loaded).
+  if (window.NetzschI18n && window.NetzschI18n.reload) window.NetzschI18n.reload();
 
   // ── Request access (shown in the no-access state) ──
   var requestBtn = overlay.querySelector('#docsRequestAccess');
   if (requestBtn) {
     requestBtn.addEventListener('click', function () {
       DocsStore.addAccessRequest(machineId, role);
-      requestBtn.outerHTML = '<div class="docs-access-requested">' + checkSvg + 'Access requested</div>';
+      var label = (window.NetzschI18n ? NetzschI18n.t('docs.accessRequested', 'Access requested') : 'Access requested');
+      requestBtn.outerHTML = '<div class="docs-access-requested">' + checkSvg + label + '</div>';
     });
   }
 

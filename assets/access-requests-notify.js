@@ -64,10 +64,10 @@
         el.innerHTML =
           '<div class="notif-item-icon service">' + lockSvg + '</div>' +
           '<div class="notif-item-content">' +
-            '<div class="notif-item-title-row"><span class="notif-item-title">' + esc(roleLabel(r.role)) + ' requested document access</span></div>' +
-            '<div class="notif-item-desc">' + esc(S.machineName(r.machineId)) + ' — Documents &amp; Manuals</div>' +
+            '<div class="notif-item-title-row"><span class="notif-item-title" data-i18n="docs.reqAccessTitle">Document access requested</span></div>' +
+            '<div class="notif-item-desc">' + esc(roleLabel(r.role)) + ' — ' + esc(S.machineName(r.machineId)) + '</div>' +
             '<div class="notif-item-time">' + relTime(r.ts) + '</div>' +
-            '<button type="button" class="notif-item-action" data-grant="' + esc(r.id) + '">Grant access</button>' +
+            '<button type="button" class="notif-item-action" data-grant="' + esc(r.id) + '" data-i18n="docs.grantAccess">Grant access</button>' +
           '</div>';
         listEl.insertBefore(el, listEl.firstChild);
       });
@@ -76,6 +76,7 @@
       var head = document.querySelector('.notif-count-badge');
       if (bell) { bell.textContent = unread; bell.style.display = unread ? '' : 'none'; }
       if (head) head.textContent = unread;
+      if (window.NetzschI18n && window.NetzschI18n.reload) window.NetzschI18n.reload();
     }
 
     notifDd.addEventListener('click', function (e) {
@@ -86,7 +87,7 @@
       render();
       // Let the current page refresh anything that depends on document visibility.
       try { window.dispatchEvent(new CustomEvent('netzsch:docs-changed')); } catch (err) {}
-      if (res && res.req) toast(roleLabel(res.req.role) + ' can now access ' + S.machineName(res.req.machineId) + ' documents');
+      if (res && res.req) toast(window.NetzschI18n ? NetzschI18n.t('docs.accessGranted', 'Access granted') : 'Access granted');
     });
 
     render();
