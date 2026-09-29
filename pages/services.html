@@ -607,7 +607,7 @@
     /* ── STAT CARDS ─── */
     .stat-cards {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 10px;
       margin-bottom: 8px;
     }
@@ -1629,7 +1629,7 @@
           </svg>
         </div>
         <div class="stat-info">
-          <span class="stat-number">8</span>
+          <span class="stat-number" id="statTotal">8</span>
           <span class="stat-label" data-i18n="services.totalServices">Total Services</span>
         </div>
       </div>
@@ -1640,7 +1640,7 @@
           </svg>
         </div>
         <div class="stat-info">
-          <span class="stat-number">2</span>
+          <span class="stat-number" id="statSubmitted">2</span>
           <span class="stat-label" data-i18n="services.submitted">Submitted</span>
         </div>
       </div>
@@ -1651,7 +1651,7 @@
           </svg>
         </div>
         <div class="stat-info">
-          <span class="stat-number">3</span>
+          <span class="stat-number" id="statInProgress">3</span>
           <span class="stat-label" data-i18n="services.inProgress">In Progress</span>
         </div>
       </div>
@@ -1662,8 +1662,19 @@
           </svg>
         </div>
         <div class="stat-info">
-          <span class="stat-number">2</span>
+          <span class="stat-number" id="statCompleted">2</span>
           <span class="stat-label" data-i18n="services.completed">Completed</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 21a9 9 0 100-18 9 9 0 000 18zM9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-number" id="statCancelled">1</span>
+          <span class="stat-label" data-i18n="services.cancelled">Cancelled</span>
         </div>
       </div>
     </div>
@@ -1714,12 +1725,12 @@
       <table class="services-table">
         <thead>
           <tr>
-            <th class="col-service"><span data-i18n="services.service">Service</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th class="col-date"><span data-i18n="common.date">Date</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th class="col-type"><span data-i18n="common.type">Type</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th class="col-status"><span data-i18n="common.status">Status</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th class="col-desc"><span data-i18n="common.description">Description</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
-            <th class="col-machine"><span data-i18n="common.machine">Machine</span> <svg class="sort-icon" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M4.5 9.5 8 13l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></th>
+            <th class="col-service"><span data-i18n="services.service">Service</span></th>
+            <th class="col-date"><span data-i18n="common.date">Date</span></th>
+            <th class="col-type"><span data-i18n="common.type">Type</span></th>
+            <th class="col-status"><span data-i18n="common.status">Status</span></th>
+            <th class="col-desc"><span data-i18n="common.description">Description</span></th>
+            <th class="col-machine"><span data-i18n="common.machine">Machine</span></th>
             <th class="col-actions">Actions</th>
           </tr>
         </thead>
@@ -1744,10 +1755,7 @@
             </td>
             <td>
               <div class="actions-cell">
-                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
-                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
-              </div></td>
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>              </div></td>
           </tr>
           <!-- Row 2: Spare Parts, In Progress -->
           <tr>
@@ -1769,10 +1777,7 @@
             </td>
             <td>
               <div class="actions-cell">
-                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
-                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
-              </div></td>
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>              </div></td>
           </tr>
           <!-- Row 3: Maintenance, Completed -->
           <tr>
@@ -1794,10 +1799,7 @@
             </td>
             <td>
               <div class="actions-cell">
-                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
-                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
-              </div></td>
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>              </div></td>
           </tr>
           <!-- Row 4: Consultation, Submitted -->
           <tr>
@@ -1819,10 +1821,7 @@
             </td>
             <td>
               <div class="actions-cell">
-                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
-                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
-              </div></td>
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>              </div></td>
           </tr>
           <!-- Row 5: Repair, Cancelled -->
           <tr>
@@ -1844,10 +1843,7 @@
             </td>
             <td>
               <div class="actions-cell">
-                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
-                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
-              </div></td>
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>              </div></td>
           </tr>
           <!-- Row 6: Maintenance, In Progress (page 2) -->
           <tr>
@@ -1869,10 +1865,7 @@
             </td>
             <td>
               <div class="actions-cell">
-                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
-                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
-              </div></td>
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>              </div></td>
           </tr>
           <!-- Row 7: Spare Parts, Completed (page 2) -->
           <tr>
@@ -1894,10 +1887,7 @@
             </td>
             <td>
               <div class="actions-cell">
-                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
-                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
-              </div></td>
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>              </div></td>
           </tr>
           <!-- Row 8: Consultation, Submitted (page 2) -->
           <tr>
@@ -1919,10 +1909,7 @@
             </td>
             <td>
               <div class="actions-cell">
-                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-                <button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>
-                <button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
-              </div></td>
+                <button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>              </div></td>
           </tr>
         </tbody>
       </table>
@@ -1970,6 +1957,82 @@ document.addEventListener('click', function(e) {
   if (dd && !dd.contains(e.target)) dd.classList.remove('open');
   if (nd && !nd.contains(e.target)) nd.classList.remove('open');
 });
+</script>
+<script src="../assets/service-requests-store.js"></script>
+<script>
+/* Services list: give every row its own detail link, surface requests created
+   through the form, and keep the stat cards + subtitle in sync with the rows.
+   Runs before the filter/pagination scripts so their counts include new rows. */
+(function () {
+  var tbody = document.querySelector('.services-table tbody');
+  if (!tbody || !window.ServiceRequestsStore) return;
+
+  var TYPE = {
+    'repair': ['type-repair', 'Repair', '../assets/icon-type-repair.svg'],
+    'spare-parts': ['type-spare-parts', 'Spare Parts', '../assets/icon-type-spare-parts.svg'],
+    'maintenance': ['type-maintenance', 'Maintenance', '../assets/icon-type-maintenance.svg'],
+    'consultation': ['type-consultation', 'Consultation', '../assets/icon-type-consultation.svg']
+  };
+  var STATUS_CLS = { 'submitted': 'status-submitted', 'in-progress': 'status-in-progress', 'completed': 'status-completed', 'cancelled': 'status-cancelled' };
+  var STATUS_KEY = { 'submitted': 'status.submitted', 'in-progress': 'status.inProgress', 'completed': 'status.completed', 'cancelled': 'status.cancelled' };
+  var STATUS_LBL = { 'submitted': 'Submitted', 'in-progress': 'In Progress', 'completed': 'Completed', 'cancelled': 'Cancelled' };
+  var viewSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function open(id) { window.location.href = 'service-request-submitted.html?id=' + id; }
+
+  // 1) Point each existing static row at its own request + wire the View button.
+  var staticIds = {};
+  Array.prototype.forEach.call(tbody.querySelectorAll('tr'), function (tr) {
+    var link = tr.querySelector('.service-link');
+    if (!link) return;
+    var num = (link.textContent || '').replace('#', '').trim();
+    if (!num) return;
+    staticIds[num] = true;
+    link.setAttribute('href', 'service-request-submitted.html?id=' + num);
+    var view = tr.querySelector('.action-btn[aria-label="View"]');
+    if (view) view.addEventListener('click', function () { open(num); });
+  });
+
+  // 2) Prepend any request created through the form (ids not already on the page).
+  var list = ServiceRequestsStore.list();
+  for (var i = list.length - 1; i >= 0; i--) {
+    var r = list[i];
+    if (staticIds[r.id]) continue;
+    var t = TYPE[r.type] || ['', r.type, ''];
+    var m = r.machine || {};
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><a class="service-link" href="service-request-submitted.html?id=' + r.id + '">#' + r.id + '</a></td>' +
+      '<td>' + esc(r.date) + '</td>' +
+      '<td><span class="type-cell"><img class="type-icon ' + t[0] + '" src="' + t[2] + '" alt="">' + esc(t[1]) + '</span></td>' +
+      '<td><span class="status-badge ' + (STATUS_CLS[r.status] || '') + '" data-i18n="' + (STATUS_KEY[r.status] || '') + '">' + (STATUS_LBL[r.status] || '') + '</span></td>' +
+      '<td class="desc-cell">' + esc(r.desc) + '</td>' +
+      '<td><div class="machine-cell"><span class="machine-name">' + esc(m.name || '') + '</span><span class="machine-serial">S/N: ' + esc(m.serial || '') + '</span></div></td>' +
+      '<td><div class="actions-cell"><button class="action-btn" aria-label="View" title="View">' + viewSvg + '</button></div></td>';
+    (function (id) {
+      tr.querySelector('.action-btn').addEventListener('click', function () { open(id); });
+    })(r.id);
+    tbody.insertBefore(tr, tbody.firstChild);
+  }
+
+  // 3) Recompute the stat cards + subtitle from the full row set.
+  var counts = { total: 0, submitted: 0, 'in-progress': 0, completed: 0, cancelled: 0 };
+  Array.prototype.forEach.call(tbody.querySelectorAll('tr'), function (tr) {
+    counts.total++;
+    var badge = tr.querySelector('.status-badge');
+    if (!badge) return;
+    var mm = badge.className.match(/status-(\S+)/g) || [];
+    for (var j = 0; j < mm.length; j++) { var s = mm[j].replace('status-', ''); if (counts[s] !== undefined) counts[s]++; }
+  });
+  function set(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+  set('statTotal', counts.total);
+  set('statSubmitted', counts.submitted);
+  set('statInProgress', counts['in-progress']);
+  set('statCompleted', counts.completed);
+  set('statCancelled', counts.cancelled);
+  var sub = document.querySelector('.page-subtitle');
+  if (sub) sub.textContent = counts.total + ' services, ' + counts['in-progress'] + ' in progress';
+})();
 </script>
   <script>
     // ── Quick filter pills + search ──

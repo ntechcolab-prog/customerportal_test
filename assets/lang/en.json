@@ -297,6 +297,7 @@
   "services.submitted": "Submitted",
   "services.inProgress": "In Progress",
   "services.completed": "Completed",
+  "services.cancelled": "Cancelled",
   "services.searchPlaceholder": "Search service, machine...",
   "services.serviceRequest": "Service Request",
   "services.service": "Service",

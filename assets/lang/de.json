@@ -297,6 +297,7 @@
   "services.submitted": "Eingereicht",
   "services.inProgress": "In Bearbeitung",
   "services.completed": "Abgeschlossen",
+  "services.cancelled": "Storniert",
   "services.searchPlaceholder": "Service, Maschine suchen...",
   "services.serviceRequest": "Serviceanfrage",
   "services.service": "Service",
