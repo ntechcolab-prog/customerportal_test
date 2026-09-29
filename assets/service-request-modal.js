@@ -19,6 +19,8 @@
   };
   // Machines offered in the picker (Services list) — same set the standalone form used.
   var PICKER_KEYS = ['discus30', 'zeta60', 'mastermix45', 'prophi'];
+  // Neutral machine icon shown in the picker thumbnail until a machine is chosen.
+  var PLACEHOLDER_THUMB = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/%3E%3Cpath d='M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12'/%3E%3C/svg%3E";
 
   var overlay = null, built = false, lockedKey = null;
 
@@ -48,7 +50,10 @@
             '<div class="sr-modal-body">' +
               '<div id="srm-machine-field" style="display:none">' +
                 '<label class="sr-field-label" for="srm-machine">Machine <span class="required">*</span></label>' +
-                '<select class="sr-input" id="srm-machine">' + pickerOptions + '</select>' +
+                '<div class="sr-machine-picker">' +
+                  '<img id="srm-machine-thumb" class="sr-machine-thumb is-placeholder" alt="" src="' + PLACEHOLDER_THUMB + '">' +
+                  '<select class="sr-input" id="srm-machine">' + pickerOptions + '</select>' +
+                '</div>' +
               '</div>' +
               '<div>' +
                 '<span class="sr-field-label">Request Type <span class="required">*</span></span>' +
@@ -105,12 +110,13 @@
       (withChange ? '<button type="button" class="sr-machine-change" id="srm-change">Change</button>' : '') +
     '</div>';
   }
-  // Picker states: "choosing" shows the select; "chosen" swaps it for the machine bar (with its image).
-  function showPickerChoosing() { q('srm-machine-field').style.display = ''; q('srm-machine-slot').innerHTML = ''; }
-  function showPickerChosen(key) {
-    var m = MACHINES[key]; if (!m) { showPickerChoosing(); return; }
-    q('srm-machine-field').style.display = 'none';
-    q('srm-machine-slot').innerHTML = machineBar(m, true);
+  // Picker thumbnail: neutral icon until a machine is chosen, then its photo.
+  function syncThumb() {
+    var sel = q('srm-machine'), thumb = q('srm-machine-thumb');
+    if (!thumb) return;
+    var m = sel && sel.value ? MACHINES[sel.value] : null;
+    if (m && m.image) { thumb.src = m.image; thumb.alt = m.name; thumb.classList.remove('is-placeholder'); }
+    else { thumb.src = PLACEHOLDER_THUMB; thumb.alt = ''; thumb.classList.add('is-placeholder'); }
   }
 
   function validate() {
@@ -131,6 +137,7 @@
     q('srm-desc').value = '';
     var sel = q('srm-machine'); if (sel) { sel.selectedIndex = 0; }
     syncSelectPlaceholder();
+    syncThumb();
     Array.prototype.forEach.call(overlay.querySelectorAll('.sr-radio-card'), function (c) { c.classList.remove('selected'); });
     Array.prototype.forEach.call(overlay.querySelectorAll('input[name="srmType"]'), function (r) { r.checked = false; });
     var file = q('srm-file'); if (file) file.value = '';
@@ -179,11 +186,7 @@
     });
     q('srm-title').addEventListener('input', validate);
     q('srm-desc').addEventListener('input', validate);
-    var sel = q('srm-machine'); if (sel) sel.addEventListener('change', function () { syncSelectPlaceholder(); if (sel.value) showPickerChosen(sel.value); validate(); });
-    // "Change" (picker) reverts the machine bar back to the select
-    q('srm-machine-slot').addEventListener('click', function (e) {
-      if (e.target && e.target.id === 'srm-change') { showPickerChoosing(); var s = q('srm-machine'); if (s) s.focus(); validate(); }
-    });
+    var sel = q('srm-machine'); if (sel) sel.addEventListener('change', function () { syncSelectPlaceholder(); syncThumb(); validate(); });
 
     var dz = q('srm-dropzone'), file = q('srm-file');
     dz.addEventListener('click', function () { file.click(); });
@@ -205,7 +208,9 @@
       q('srm-machine-slot').innerHTML = machineBar(MACHINES[lockedKey], false);
       q('srm-machine-field').style.display = 'none';
     } else {
-      showPickerChoosing();
+      q('srm-machine-slot').innerHTML = '';
+      q('srm-machine-field').style.display = '';
+      syncThumb();
     }
     validate();
     overlay.classList.add('open');
