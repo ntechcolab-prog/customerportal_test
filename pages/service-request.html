@@ -1806,9 +1806,42 @@ document.addEventListener('click', function(e) {
     requestTitle.addEventListener('input', validateForm);
     requestDesc.addEventListener('input', validateForm);
 
-    // Guard send — validate inline errors before submission
+    // Submit — validate, create the request in the store, then go to the confirmation page
     btnSend.addEventListener('click', function (e) {
-      if (!fv.validateAll()) { e.preventDefault(); btnSend.disabled = true; }
+      e.preventDefault();
+      if (!fv.validateAll()) { btnSend.disabled = true; return; }
+      var typeEl = document.querySelector('input[name="requestType"]:checked');
+      if (machineSelect.value === '' || !typeEl || !window.ServiceRequestsStore) return;
+
+      var mKey = machineSelect.value;
+      var mName = machineSelect.options[machineSelect.selectedIndex].text;
+      var md = machineData[mKey] || {};
+      var machine = ServiceRequestsStore.specs(mName, md.serial, {
+        country: md.country,
+        equipName: md.equipName,
+        commission: md.commission,
+        machineType: md.machineType,
+        figNr: md.figNr,
+        serviceBy: md.serviceBy,
+        purchaseDate: md.purchaseDate,
+        installDate: md.installDate || md.installMeta,
+        warranty: md.warranty,
+        image: md.image
+      });
+
+      var id = ServiceRequestsStore.newId();
+      ServiceRequestsStore.add({
+        id: id,
+        date: ServiceRequestsStore.todayLabel(),
+        type: typeEl.value,
+        status: 'submitted',
+        title: requestTitle.value.trim(),
+        desc: requestDesc.value.trim(),
+        files: (fileInput && fileInput.files) ? fileInput.files.length : 0,
+        machine: machine
+      });
+
+      window.location.href = 'service-request-submitted.html?id=' + id + '&new=1';
     });
   </script>
 
@@ -2176,6 +2209,7 @@ function sendFromSmallChat() {
   }
 })();
 </script>
+<script src="../assets/service-requests-store.js"></script>
 <script src="../assets/i18n.js"></script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>

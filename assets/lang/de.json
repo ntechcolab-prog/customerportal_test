@@ -593,6 +593,7 @@
   "serviceReq.stepSubmitted": "Eingereicht",
   "serviceReq.stepInProgress": "In Bearbeitung",
   "serviceReq.stepCompleted": "Abgeschlossen",
+  "serviceReq.submittedSuccess": "Ihre Serviceanfrage wurde übermittelt. Unser Team prüft sie in Kürze.",
 
   "auth.welcomeBack": "Willkommen zurück!",
   "auth.loginSubtitle": "Melden Sie sich an, um dort weiterzumachen, wo Sie aufgehört haben, und auf alle Ihre Tools zuzugreifen.",

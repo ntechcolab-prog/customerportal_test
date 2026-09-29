@@ -593,6 +593,7 @@
   "serviceReq.stepSubmitted": "Submitted",
   "serviceReq.stepInProgress": "In Progress",
   "serviceReq.stepCompleted": "Completed",
+  "serviceReq.submittedSuccess": "Your service request was submitted. Our team will review it shortly.",
 
   "auth.welcomeBack": "Welcome back!",
   "auth.loginSubtitle": "Log in to your account to continue where you left off and access all your tools.",
