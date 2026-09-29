@@ -90,6 +90,11 @@
 
   function q(id) { return overlay.querySelector('#' + id); }
 
+  function syncSelectPlaceholder() {
+    var sel = q('srm-machine');
+    if (sel) sel.classList.toggle('is-placeholder', sel.value === '');
+  }
+
   function validate() {
     var hasMachine = lockedKey ? true : (q('srm-machine').value !== '');
     var hasType = !!overlay.querySelector('input[name="srmType"]:checked');
@@ -106,7 +111,8 @@
   function reset() {
     q('srm-title').value = '';
     q('srm-desc').value = '';
-    var sel = q('srm-machine'); if (sel) sel.selectedIndex = 0;
+    var sel = q('srm-machine'); if (sel) { sel.selectedIndex = 0; }
+    syncSelectPlaceholder();
     Array.prototype.forEach.call(overlay.querySelectorAll('.sr-radio-card'), function (c) { c.classList.remove('selected'); });
     Array.prototype.forEach.call(overlay.querySelectorAll('input[name="srmType"]'), function (r) { r.checked = false; });
     var file = q('srm-file'); if (file) file.value = '';
@@ -155,7 +161,7 @@
     });
     q('srm-title').addEventListener('input', validate);
     q('srm-desc').addEventListener('input', validate);
-    var sel = q('srm-machine'); if (sel) sel.addEventListener('change', validate);
+    var sel = q('srm-machine'); if (sel) sel.addEventListener('change', function () { syncSelectPlaceholder(); validate(); });
 
     var dz = q('srm-dropzone'), file = q('srm-file');
     dz.addEventListener('click', function () { file.click(); });

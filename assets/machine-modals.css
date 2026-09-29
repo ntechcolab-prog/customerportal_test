@@ -247,6 +247,19 @@
 .sr-input::placeholder { color: #9ca3af; }
 .sr-input:focus { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 
+/* Machine picker <select> — matched to the text inputs (custom chevron, no native UI) */
+select.sr-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 38px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5l3 3 3-3' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+select.sr-input.is-placeholder { color: #9ca3af; }
+
 .sr-textarea {
   width: 100%;
   min-height: 90px;
@@ -299,3 +312,8 @@
 }
 .sr-btn-cancel:hover { background: #f9fafb; border-color: #b1b4b7; }
 .sr-modal-footer .btn { border-radius: 999px; }
+
+/* Narrow screens: request-type cards to two columns */
+@media (max-width: 560px) {
+  .sr-radio-cards { grid-template-columns: repeat(2, 1fr); }
+}
