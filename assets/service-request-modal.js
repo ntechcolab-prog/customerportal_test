@@ -14,7 +14,7 @@
     zeta60:      { name: 'Zeta 60', serial: '15202531-10', country: 'Brazil', meta: 'SN: 15202531-10 · BLACK PRODUCTION', equipName: 'Zeta 60 Advanced', commission: 'K-12346', machineType: 'Dispersing', figNr: 'FG-790', serviceBy: 'NETZSCH Service Team', purchaseDate: '02/15/2022', installDate: '03/10/2022', warranty: '02/15/2025', image: '../assets/machine-zeta60.png' },
     mastermix45: { name: 'MasterMix 45', serial: '15202531-10', country: 'Brazil', meta: 'SN: 15202531-10 · Brazil', equipName: 'MasterMix 45 Pro', commission: 'K-12347', machineType: 'Mixing', figNr: 'FG-791', serviceBy: 'NETZSCH Service Team', purchaseDate: '05/10/2023', installDate: '06/20/2023', warranty: '05/10/2026', image: '../assets/machine-mastermix45.png' },
     prophi:      { name: 'ProPhi', serial: '15202530-10', country: 'Brazil', meta: 'SN: 15202530-10 · Brazil', equipName: 'ProPhi Industrial', commission: 'K-12348', machineType: 'Wet Grinding', figNr: 'FG-792', serviceBy: 'NETZSCH Service Team', purchaseDate: '08/01/2023', installDate: '09/05/2023', warranty: '08/01/2026', image: '../assets/machine-prophi.png' },
-    alphazeta10: { name: 'Alpha Zeta 10', serial: '80204882', country: 'Brazil', meta: 'SN: 80204882 · WHITE PRODUCTION', machineType: 'Wet Grinding', image: '../assets/machine-alphazeta10.png' },
+    alphazeta10: { name: 'Alpha Zeta 10', serial: '80204882', country: 'Brazil', meta: 'SN: 80204882 · WHITE PRODUCTION', machineType: 'Wet Grinding', image: '../assets/machine-zeta60.png' },
     zeta500:     { name: 'Zeta 500', serial: '15202598-10', country: 'Brazil', meta: 'SN: 15202598-10', machineType: 'Dispersing', image: '../assets/machine-zeta60.png' }
   };
   // Machines offered in the picker (Services list) — same set the standalone form used.
@@ -95,6 +95,24 @@
     if (sel) sel.classList.toggle('is-placeholder', sel.value === '');
   }
 
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+  // Machine context bar (image + name + SN). withChange adds a "Change" button (picker only).
+  function machineBar(m, withChange) {
+    return '<div class="sr-machine-bar"><img src="' + (m.image || '') + '" alt="' + esc(m.name) + '">' +
+      '<div class="sr-machine-bar-info"><div class="sr-machine-bar-name">' + esc(m.name) + '</div>' +
+      '<div class="sr-machine-bar-meta">' + esc(m.meta || '') + '</div></div>' +
+      (withChange ? '<button type="button" class="sr-machine-change" id="srm-change">Change</button>' : '') +
+    '</div>';
+  }
+  // Picker states: "choosing" shows the select; "chosen" swaps it for the machine bar (with its image).
+  function showPickerChoosing() { q('srm-machine-field').style.display = ''; q('srm-machine-slot').innerHTML = ''; }
+  function showPickerChosen(key) {
+    var m = MACHINES[key]; if (!m) { showPickerChoosing(); return; }
+    q('srm-machine-field').style.display = 'none';
+    q('srm-machine-slot').innerHTML = machineBar(m, true);
+  }
+
   function validate() {
     var hasMachine = lockedKey ? true : (q('srm-machine').value !== '');
     var hasType = !!overlay.querySelector('input[name="srmType"]:checked');
@@ -161,7 +179,11 @@
     });
     q('srm-title').addEventListener('input', validate);
     q('srm-desc').addEventListener('input', validate);
-    var sel = q('srm-machine'); if (sel) sel.addEventListener('change', function () { syncSelectPlaceholder(); validate(); });
+    var sel = q('srm-machine'); if (sel) sel.addEventListener('change', function () { syncSelectPlaceholder(); if (sel.value) showPickerChosen(sel.value); validate(); });
+    // "Change" (picker) reverts the machine bar back to the select
+    q('srm-machine-slot').addEventListener('click', function (e) {
+      if (e.target && e.target.id === 'srm-change') { showPickerChoosing(); var s = q('srm-machine'); if (s) s.focus(); validate(); }
+    });
 
     var dz = q('srm-dropzone'), file = q('srm-file');
     dz.addEventListener('click', function () { file.click(); });
@@ -179,17 +201,11 @@
     lockedKey = opts.machineKey && MACHINES[opts.machineKey] ? opts.machineKey : null;
     reset();
 
-    var slot = q('srm-machine-slot');
-    var field = q('srm-machine-field');
     if (lockedKey) {
-      var m = MACHINES[lockedKey];
-      slot.innerHTML = '<div class="sr-machine-bar"><img src="' + (m.image || '') + '" alt="' + m.name + '">' +
-        '<div class="sr-machine-bar-info"><div class="sr-machine-bar-name">' + m.name + '</div>' +
-        '<div class="sr-machine-bar-meta">' + (m.meta || '') + '</div></div></div>';
-      field.style.display = 'none';
+      q('srm-machine-slot').innerHTML = machineBar(MACHINES[lockedKey], false);
+      q('srm-machine-field').style.display = 'none';
     } else {
-      slot.innerHTML = '';
-      field.style.display = '';
+      showPickerChoosing();
     }
     validate();
     overlay.classList.add('open');
