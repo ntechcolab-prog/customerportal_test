@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../assets/tables.css">
   <link rel="stylesheet" href="../assets/buttons.css">
   <link rel="stylesheet" href="../assets/empty-states.css">
+  <link rel="stylesheet" href="../assets/machine-modals.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1613,7 +1614,7 @@
         <h1 class="page-title" data-i18n="services.title">Services</h1>
         <span class="page-subtitle">8 services, 3 in progress</span>
       </div>
-      <a href="service-request.html" class="btn btn-primary btn-md">
+      <a href="service-request.html" class="btn btn-primary btn-md" data-sr-open>
         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
@@ -1960,6 +1961,7 @@ document.addEventListener('click', function(e) {
 });
 </script>
 <script src="../assets/service-requests-store.js"></script>
+<script src="../assets/service-request-modal.js"></script>
 <script>
 /* Services list: give every row its own detail link, surface requests created
    through the form, and keep the stat cards + subtitle in sync with the rows.
