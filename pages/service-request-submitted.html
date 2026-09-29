@@ -396,10 +396,10 @@
     /* ── MAIN ─── */
     .main {
       flex: 1;
-      padding: 24px 32px 48px;
+      padding: 20px 32px 24px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
 
     /* ── BACK LINK ─── */
@@ -420,16 +420,17 @@
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
-      padding: 24px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
     .title-bar h1 {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
       color: #1f2937;
     }
+    .title-bar-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
     /* btn-download-pdf — powered by buttons.css (.btn .btn-secondary .btn-sm) */
 
     /* ── CARD ─── */
@@ -437,8 +438,9 @@
       background: #fff;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
-      padding: 24px;
+      padding: 18px;
     }
+    .card-slim { padding: 12px 18px; }
     .card-title {
       font-size: 16px;
       font-weight: 600;
@@ -451,22 +453,23 @@
     /* ── TWO COLUMN LAYOUT ─── */
     .two-col {
       display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 16px;
+      grid-template-columns: 320px 1fr;
+      gap: 14px;
+      align-items: start;
     }
 
     /* ── MACHINE INFO CARD (LEFT) ─── */
     .machine-header {
       display: flex;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-      padding-bottom: 20px;
+      gap: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
       border-bottom: 1px solid #f3f4f6;
     }
     .machine-img {
-      width: 80px;
-      height: 80px;
+      width: 56px;
+      height: 56px;
       border-radius: 8px;
       object-fit: contain;
       background: #fafbfc;
@@ -478,7 +481,7 @@
       gap: 4px;
     }
     .machine-name {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       color: #1f2937;
     }
@@ -499,13 +502,13 @@
     .machine-details {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
     .machine-detail-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      font-size: 14px;
+      font-size: 13px;
     }
     .machine-detail-label {
       color: #6b7280;
@@ -524,8 +527,23 @@
       color: #1f2937;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
+
+    /* ── SUMMARY REDESIGN ─── */
+    .status-chip { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; line-height: 1.5; background: #eef2f5; color: #4b5563; }
+    .status-chip.status-submitted { background: rgba(0, 113, 103, 0.10); color: #007167; }
+    .status-chip.status-in-progress { background: #fef3c7; color: #92610a; }
+    .status-chip.status-completed { background: #dcfce7; color: #15803d; }
+    .status-chip.status-cancelled { background: #f3f4f6; color: #6b7280; }
+    .type-chip { display: inline-flex; align-items: center; padding: 3px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; background: rgba(0, 113, 103, 0.08); color: #007167; }
+    .sum-list { display: flex; flex-direction: column; gap: 14px; }
+    .sum-row { display: flex; align-items: baseline; gap: 12px; }
+    .sum-label { font-size: 13px; color: #6b7280; }
+    .sum-row > .sum-label { flex: 0 0 128px; }
+    .sum-value { font-size: 14px; color: #1f2937; font-weight: 500; }
+    .sum-block { display: flex; flex-direction: column; gap: 6px; }
+    .sum-desc { font-size: 14px; color: #374151; line-height: 1.55; margin: 0; }
     /* Form → ../assets/forms.css (visual normalizado: label 13px/#374151, input 42px/radius10/branco).
        Mantém o modelo de espaçamento por margin (não-flex) desta página: */
     .form-group { display: block; margin-bottom: 20px; }
@@ -1372,7 +1390,10 @@
 
     <!-- TITLE BAR -->
     <div class="title-bar">
-      <h1 id="srTitle">Service #268718</h1>
+      <div class="title-bar-left">
+        <h1 id="srTitle">Service #268718</h1>
+        <span class="status-chip status-submitted" id="srStatusChip">Submitted</span>
+      </div>
       <button class="btn btn-secondary btn-sm" aria-label="Download PDF">
         <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M15.75 11.25v3a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1425,8 +1446,7 @@
   </div>
 
     <!-- SERVICE PROGRESS -->
-    <div class="card">
-      <h2 class="card-title" data-i18n="serviceReq.serviceProgress">Service Progress</h2>
+    <div class="card card-slim">
       <div class="progress-bar" id="srProgress" role="list" aria-label="Service progress steps">
         <div class="progress-step active" role="listitem" aria-current="step" data-i18n="serviceReq.stepSubmitted">Submitted</div>
         <div class="progress-step" role="listitem" data-i18n="serviceReq.stepInProgress">In Progress</div>
@@ -1437,108 +1457,26 @@
     <!-- TWO COLUMN LAYOUT -->
     <div class="two-col">
 
-      <!-- LEFT: Machine Info -->
-      <div class="card">
+      <!-- LEFT: Machine -->
+      <div class="card sum-card">
         <div class="machine-header">
-          <img id="srMachineImg" class="machine-img" src="../assets/shop-cerabeads.png" alt="Discus 30 machine">
+          <img id="srMachineImg" class="machine-img" src="../assets/shop-cerabeads.png" alt="">
           <div class="machine-header-info">
             <div class="machine-name" id="srMachineName">Discus 30</div>
-            <div class="machine-meta" id="srMachineMeta">
-              <span><span data-i18n="machine.serialNumber">Serial Number</span>: 232345</span>
-              <span><span data-i18n="machine.country">Country</span>: Brazil</span>
-              <span><span data-i18n="machine.installDate">Install Date</span>: 2024-08-20</span>
-            </div>
+            <div class="machine-meta" id="srMachineMeta"></div>
           </div>
         </div>
-
-        <h3 class="machine-section-title" data-i18n="machine.machineInfo">Machine Information</h3>
-        <div class="machine-details" id="srMachineDetails">
-          <div class="machine-detail-row">
-            <span class="machine-detail-label" data-i18n="machine.equipmentName">Equipment Name</span>
-            <span class="machine-detail-value">Discus 30</span>
-          </div>
-          <div class="machine-detail-row">
-            <span class="machine-detail-label" data-i18n="machine.commissionNumber">Commission Number</span>
-            <span class="machine-detail-value">232345</span>
-          </div>
-          <div class="machine-detail-row">
-            <span class="machine-detail-label" data-i18n="machine.machineType">Machine Type</span>
-            <span class="machine-detail-value">Bead Mill Stirrer</span>
-          </div>
-          <div class="machine-detail-row">
-            <span class="machine-detail-label" data-i18n="machine.figNumber">Fig nr.</span>
-            <span class="machine-detail-value">12633</span>
-          </div>
-          <div class="machine-detail-row">
-            <span class="machine-detail-label" data-i18n="machine.serviceBy">Service by</span>
-            <span class="machine-detail-value">NEM</span>
-          </div>
-          <div class="machine-detail-row">
-            <span class="machine-detail-label" data-i18n="machine.purchaseDate">Purchase Date</span>
-            <span class="machine-detail-value">2024-05-12</span>
-          </div>
-          <div class="machine-detail-row">
-            <span class="machine-detail-label" data-i18n="machine.installDate">Install Date</span>
-            <span class="machine-detail-value">2024-08-20</span>
-          </div>
-          <div class="machine-detail-row">
-            <span class="machine-detail-label" data-i18n="machine.warrantyExpiration">Warranty Expiration</span>
-            <span class="machine-detail-value">2026-06-01</span>
-          </div>
-        </div>
+        <div class="machine-details" id="srMachineDetails"></div>
       </div>
 
       <!-- RIGHT: Service Details -->
-      <div class="card">
+      <div class="card sum-card">
         <h2 class="section-title-upper" data-i18n="serviceReq.detailsTitle">Service Details</h2>
-
-        <!-- Request Type -->
-        <fieldset class="form-group" style="border: none; padding: 0;">
-          <legend class="form-label"><span data-i18n="serviceReq.requestType">Request Type</span> <span class="required" aria-hidden="true">*</span></legend>
-          <div class="radio-group" id="srTypeGroup" role="radiogroup" aria-label="Request Type">
-            <div class="radio-option" role="radio" aria-checked="false" tabindex="-1">
-              <span class="radio-circle" aria-hidden="true"></span>
-              <span class="radio-label" data-i18n="serviceReq.repair">Repair</span>
-            </div>
-            <div class="radio-option" role="radio" aria-checked="false" tabindex="-1">
-              <span class="radio-circle" aria-hidden="true"></span>
-              <span class="radio-label" data-i18n="serviceReq.maintenance">Maintenance</span>
-            </div>
-            <div class="radio-option selected" role="radio" aria-checked="true" tabindex="0">
-              <span class="radio-circle" aria-hidden="true"></span>
-              <span class="radio-label" data-i18n="serviceReq.sparePartsReq">Spare Parts Request</span>
-            </div>
-            <div class="radio-option" role="radio" aria-checked="false" tabindex="-1">
-              <span class="radio-circle" aria-hidden="true"></span>
-              <span class="radio-label" data-i18n="serviceReq.consultation">Consultation</span>
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Title -->
-        <div class="form-group">
-          <label class="form-label" for="service-title"><span data-i18n="serviceReq.titleLabel">Title</span> <span class="required" aria-hidden="true">*</span></label>
-          <input type="text" id="service-title" class="form-input" value="ee" readonly aria-readonly="true">
-        </div>
-
-        <!-- Problem Description -->
-        <div class="form-group">
-          <label class="form-label" for="service-description"><span data-i18n="serviceReq.problemDesc">Problem Description</span> <span class="required" aria-hidden="true">*</span></label>
-          <textarea id="service-description" class="form-textarea" readonly aria-readonly="true">ee</textarea>
-        </div>
-
-        <!-- Attachments -->
-        <div class="form-group">
-          <span class="form-label" data-i18n="serviceReq.attachments">Attachments</span>
-          <div class="drop-zone" role="button" tabindex="0" aria-label="Drop files here or click to upload">
-            <svg class="drop-zone-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M20 28V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M13 19l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M33 28a6 6 0 0 0-3.2-10.5A9 9 0 1 0 12.1 22 6 6 0 0 0 7 28" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span class="drop-zone-text" data-i18n="serviceReq.dropzone">Drop files here or click to upload</span>
-            <span class="drop-zone-hint" data-i18n="serviceReq.dropzoneHint">Supports: PDF, JPG, PNG</span>
-          </div>
+        <div class="sum-list">
+          <div class="sum-row"><span class="sum-label" data-i18n="serviceReq.requestType">Request Type</span><span class="type-chip" id="srType">—</span></div>
+          <div class="sum-row"><span class="sum-label" data-i18n="serviceReq.titleLabel">Title</span><span class="sum-value" id="srReqTitle">—</span></div>
+          <div class="sum-block"><span class="sum-label" data-i18n="serviceReq.problemDesc">Problem Description</span><p class="sum-desc" id="srReqDesc">—</p></div>
+          <div class="sum-row" id="srAttachRow" style="display:none"><span class="sum-label" data-i18n="serviceReq.attachments">Attachments</span><span class="sum-value" id="srAttach">—</span></div>
         </div>
       </div>
 
@@ -1933,12 +1871,7 @@ function sendFromSmallChat() {
   setText(document.getElementById('srMachineName'), m.name || '—');
 
   var meta = document.getElementById('srMachineMeta');
-  if (meta) {
-    meta.innerHTML =
-      '<span><span data-i18n="machine.serialNumber">Serial Number</span>: ' + esc(m.serial || '—') + '</span>' +
-      '<span><span data-i18n="machine.country">Country</span>: ' + esc(m.country || '—') + '</span>' +
-      '<span><span data-i18n="machine.installDate">Install Date</span>: ' + esc(m.installDate || '—') + '</span>';
-  }
+  if (meta) meta.textContent = 'SN ' + (m.serial || '—') + (m.country ? ' · ' + m.country : '');
 
   var details = document.getElementById('srMachineDetails');
   if (details) {
@@ -1951,31 +1884,26 @@ function sendFromSmallChat() {
       ['machine.purchaseDate', 'Purchase Date', m.purchaseDate],
       ['machine.installDate', 'Install Date', m.installDate],
       ['machine.warrantyExpiration', 'Warranty Expiration', m.warranty]
-    ];
+    ].filter(function (r) { return r[2] && r[2] !== '—'; });
     details.innerHTML = rows.map(function (r) {
       return '<div class="machine-detail-row">' +
         '<span class="machine-detail-label" data-i18n="' + r[0] + '">' + r[1] + '</span>' +
-        '<span class="machine-detail-value">' + esc(r[2] || '—') + '</span>' +
+        '<span class="machine-detail-value">' + esc(r[2]) + '</span>' +
       '</div>';
     }).join('');
   }
 
-  var typeIndex = { 'repair': 0, 'maintenance': 1, 'spare-parts': 2, 'consultation': 3 };
-  var group = document.getElementById('srTypeGroup');
-  if (group) {
-    var sel = typeIndex[req.type];
-    Array.prototype.forEach.call(group.querySelectorAll('.radio-option'), function (opt, i) {
-      var on = (i === sel);
-      opt.classList.toggle('selected', on);
-      opt.setAttribute('aria-checked', on ? 'true' : 'false');
-      opt.setAttribute('tabindex', on ? '0' : '-1');
-    });
-  }
+  setText(document.getElementById('srType'), ServiceRequestsStore.typeLabel(req.type));
+  setText(document.getElementById('srReqTitle'), req.title || '—');
+  setText(document.getElementById('srReqDesc'), req.desc || '—');
 
-  var titleInput = document.getElementById('service-title');
-  if (titleInput) titleInput.value = req.title || '';
-  var descInput = document.getElementById('service-description');
-  if (descInput) descInput.value = req.desc || '';
+  var chip = document.getElementById('srStatusChip');
+  if (chip) { chip.textContent = ServiceRequestsStore.statusLabel(req.status); chip.className = 'status-chip status-' + req.status; }
+
+  if (req.files && req.files > 0) {
+    var arow = document.getElementById('srAttachRow');
+    if (arow) { arow.style.display = ''; setText(document.getElementById('srAttach'), req.files + (req.files === 1 ? ' file' : ' files')); }
+  }
 
   // Progress stepper — mark every step up to the current status as active (cumulative).
   var steps = { 'submitted': 1, 'in-progress': 2, 'completed': 3, 'cancelled': 1 };

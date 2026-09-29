@@ -29,7 +29,7 @@
     'Zeta 300': '../assets/machine-zeta60.png',
     'MasterMix 45': '../assets/machine-mastermix45.png',
     'ProPhi': '../assets/machine-prophi.png',
-    'Alpha Zeta 10': '../assets/machine-alphazeta10.png'
+    'Alpha Zeta 10': '../assets/machine-zeta60.png'
   };
 
   var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
