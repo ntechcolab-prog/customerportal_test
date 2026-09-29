@@ -122,8 +122,8 @@
   function validate() {
     var hasMachine = lockedKey ? true : (q('srm-machine').value !== '');
     var hasType = !!overlay.querySelector('input[name="srmType"]:checked');
-    var hasTitle = q('srm-title').value.trim().length >= 3;
-    var hasDesc = q('srm-desc').value.trim().length >= 10;
+    var hasTitle = q('srm-title').value.trim().length > 0;
+    var hasDesc = q('srm-desc').value.trim().length > 0;
     q('srm-send').disabled = !(hasMachine && hasType && hasTitle && hasDesc);
   }
 
