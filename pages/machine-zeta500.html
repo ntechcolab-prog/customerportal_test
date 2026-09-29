@@ -2240,106 +2240,6 @@
   </div><!-- /milla-modal-overlay -->
 
   <!-- SERVICE REQUEST MODAL -->
-  <div class="sr-modal-overlay" id="sr-modal-overlay">
-    <div class="sr-modal-wrapper">
-      <button type="button" class="sr-modal-close" id="sr-modal-close" aria-label="Close">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-      <div class="sr-modal">
-
-      <!-- Form state -->
-      <div id="sr-form-state">
-        <div class="sr-modal-header">
-          <div class="sr-modal-header-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          </div>
-          <div>
-            <h2>Service Request</h2>
-            <p>Schedule maintenance or report an issue</p>
-          </div>
-        </div>
-
-        <div class="sr-machine-bar">
-          <img src="../assets/machine-zeta60.png" alt="Zeta 500">
-          <div class="sr-machine-bar-info">
-            <div class="sr-machine-bar-name">Zeta 500</div>
-            <div class="sr-machine-bar-meta">SN: 15202598-10 · NOT ASSIGNED</div>
-          </div>
-        </div>
-
-        <div class="sr-modal-body">
-          <!-- Request Type -->
-          <div>
-            <span class="sr-field-label">Request Type <span class="required">*</span></span>
-            <div class="sr-radio-cards" id="sr-radio-cards">
-              <label class="sr-radio-card">
-                <input type="radio" name="srType" value="repair">
-                <div class="sr-radio-card-title">Repair</div>
-                <div class="sr-radio-card-sub">Equipment Fix</div>
-              </label>
-              <label class="sr-radio-card">
-                <input type="radio" name="srType" value="maintenance">
-                <div class="sr-radio-card-title">Maintenance</div>
-                <div class="sr-radio-card-sub">Preventive care</div>
-              </label>
-              <label class="sr-radio-card">
-                <input type="radio" name="srType" value="spare-parts">
-                <div class="sr-radio-card-title">Spare Parts</div>
-                <div class="sr-radio-card-sub">Request Parts</div>
-              </label>
-              <label class="sr-radio-card">
-                <input type="radio" name="srType" value="consultation">
-                <div class="sr-radio-card-title">Consultation</div>
-                <div class="sr-radio-card-sub">Expert Advice</div>
-              </label>
-            </div>
-          </div>
-
-          <!-- Title -->
-          <div>
-            <label class="sr-field-label" for="sr-title">Title <span class="required">*</span></label>
-            <input type="text" class="sr-input" id="sr-title" placeholder="Brief summary of the issue...">
-          </div>
-
-          <!-- Description -->
-          <div>
-            <label class="sr-field-label" for="sr-desc">Problem Description <span class="required">*</span></label>
-            <textarea class="sr-textarea" id="sr-desc" placeholder="Describe the issue in detail..."></textarea>
-          </div>
-
-          <!-- Attachments -->
-          <div>
-            <span class="sr-field-label">Attachments</span>
-            <div class="sr-dropzone" id="sr-dropzone">
-              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span class="sr-dropzone-text">Drop files here or click to upload</span>
-              <span class="sr-dropzone-hint">Supports: PDF, JPG, PNG</span>
-              <input type="file" id="sr-file-input" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none">
-            </div>
-          </div>
-
-          <div class="sr-modal-footer">
-            <button type="button" class="sr-btn-cancel" id="sr-btn-cancel">Cancel</button>
-            <button type="button" class="btn btn-primary btn-md" id="sr-btn-send" disabled>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span>Send Request</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Success state -->
-      <div class="sr-success" id="sr-success">
-        <div class="sr-success-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-        </div>
-        <h3>Request Submitted</h3>
-        <p>Your service request for <strong>Zeta 500</strong> has been submitted. Our team will contact you within 24 hours.</p>
-        <button type="button" class="btn btn-primary btn-md" id="sr-btn-done" style="margin-top:8px;">Done</button>
-      </div>
-    </div>
-    </div>
-  </div>
 
 <script>
 function toggleProfileDropdown(e) {
@@ -2794,85 +2694,6 @@ document.addEventListener('click', function(e) {
   })();
   </script>
 
-  <!-- Service Request Modal JS -->
-  <script>
-  (function() {
-    var srOverlay = document.getElementById('sr-modal-overlay');
-    var srFormState = document.getElementById('sr-form-state');
-    var srSuccess = document.getElementById('sr-success');
-    var srBtnSend = document.getElementById('sr-btn-send');
-    var srTitle = document.getElementById('sr-title');
-    var srDesc = document.getElementById('sr-desc');
-
-    // Open modal
-    document.getElementById('service-request-trigger').addEventListener('click', function() {
-      srOverlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    });
-
-    function closeSrModal() {
-      srOverlay.classList.remove('open');
-      document.body.style.overflow = '';
-      // Reset after close animation
-      setTimeout(function() {
-        srFormState.style.display = '';
-        srSuccess.classList.remove('show');
-        srBtnSend.disabled = true;
-        srTitle.value = '';
-        srDesc.value = '';
-        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
-        document.querySelectorAll('input[name="srType"]').forEach(function(r) { r.checked = false; });
-      }, 300);
-    }
-
-    // Close handlers
-    document.getElementById('sr-modal-close').addEventListener('click', closeSrModal);
-    document.getElementById('sr-btn-cancel').addEventListener('click', closeSrModal);
-    document.getElementById('sr-btn-done').addEventListener('click', closeSrModal);
-    srOverlay.addEventListener('click', function(e) {
-      if (e.target === srOverlay) closeSrModal();
-    });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && srOverlay.classList.contains('open')) closeSrModal();
-    });
-
-    // Radio card selection
-    document.querySelectorAll('.sr-radio-card').forEach(function(card) {
-      card.addEventListener('click', function() {
-        document.querySelectorAll('.sr-radio-card').forEach(function(c) { c.classList.remove('selected'); });
-        card.classList.add('selected');
-        validateSrForm();
-      });
-    });
-
-    // Form validation
-    function validateSrForm() {
-      var hasType = document.querySelector('input[name="srType"]:checked');
-      var hasTitle = srTitle.value.trim().length > 0;
-      var hasDesc = srDesc.value.trim().length > 0;
-      srBtnSend.disabled = !(hasType && hasTitle && hasDesc);
-    }
-    srTitle.addEventListener('input', validateSrForm);
-    srDesc.addEventListener('input', validateSrForm);
-
-    // Dropzone
-    var srDropzone = document.getElementById('sr-dropzone');
-    var srFileInput = document.getElementById('sr-file-input');
-    srDropzone.addEventListener('click', function() { srFileInput.click(); });
-    srFileInput.addEventListener('change', function() {
-      if (srFileInput.files.length > 0) {
-        srDropzone.querySelector('.sr-dropzone-text').textContent = srFileInput.files.length + ' file(s) selected';
-      }
-    });
-
-    // Submit → success
-    srBtnSend.addEventListener('click', function() {
-      if (srBtnSend.disabled) return;
-      srFormState.style.display = 'none';
-      srSuccess.classList.add('show');
-    });
-  })();
-  </script>
 
 <script>
 (function() {
@@ -2973,5 +2794,7 @@ document.addEventListener('click', function(e) {
 <script src="../assets/machine-lines.js"></script>
 <script src="../assets/machine-line-select.js"></script>
 <script src="../assets/skeleton-loader.js"></script>
+<script src="../assets/service-requests-store.js"></script>
+<script src="../assets/service-request-modal.js"></script>
 </body>
 </html>
