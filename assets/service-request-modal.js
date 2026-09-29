@@ -26,62 +26,62 @@
 
   function el(html) { var d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstElementChild; }
 
-  function radioCard(val, title, sub) {
+  function radioCard(val, tKey, tDef, sKey, sDef) {
     return '<label class="sr-radio-card"><input type="radio" name="srmType" value="' + val + '">' +
-      '<div class="sr-radio-card-title">' + title + '</div>' +
-      '<div class="sr-radio-card-sub">' + sub + '</div></label>';
+      '<div class="sr-radio-card-title" data-i18n="' + tKey + '">' + tDef + '</div>' +
+      '<div class="sr-radio-card-sub" data-i18n="' + sKey + '">' + sDef + '</div></label>';
   }
 
   function build() {
     if (built) return;
-    var pickerOptions = '<option value="" disabled selected>Select the machine</option>' +
+    var pickerOptions = '<option value="" disabled selected data-i18n="serviceReq.selectMachine">Select the machine</option>' +
       PICKER_KEYS.map(function (k) { return '<option value="' + k + '">' + MACHINES[k].name + '</option>'; }).join('');
 
     overlay = el(
       '<div class="sr-modal-overlay" id="srm-overlay">' +
         '<div class="sr-modal-wrapper">' +
-          '<button type="button" class="sr-modal-close" id="srm-close" aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
+          '<button type="button" class="sr-modal-close" id="srm-close" aria-label="Close" data-i18n-aria-label="common.close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
           '<div class="sr-modal">' +
             '<div class="sr-modal-header">' +
               '<div class="sr-modal-header-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>' +
-              '<div><h2>Service Request</h2><p>Schedule maintenance or report an issue</p></div>' +
+              '<div><h2 data-i18n="machine.serviceRequest">Service Request</h2><p data-i18n="serviceReq.modalSubtitle">Schedule maintenance or report an issue</p></div>' +
             '</div>' +
             '<div id="srm-machine-slot"></div>' +
             '<div class="sr-modal-body">' +
               '<div id="srm-machine-field" style="display:none">' +
-                '<label class="sr-field-label" for="srm-machine">Machine <span class="required">*</span></label>' +
+                '<label class="sr-field-label" for="srm-machine"><span data-i18n="serviceReq.machineLabel">Machine</span> <span class="required">*</span></label>' +
                 '<div class="sr-machine-picker">' +
                   '<img id="srm-machine-thumb" class="sr-machine-thumb is-placeholder" alt="" src="' + PLACEHOLDER_THUMB + '">' +
                   '<select class="sr-input" id="srm-machine">' + pickerOptions + '</select>' +
                 '</div>' +
               '</div>' +
               '<div>' +
-                '<span class="sr-field-label">Request Type <span class="required">*</span></span>' +
+                '<span class="sr-field-label"><span data-i18n="serviceReq.requestType">Request Type</span> <span class="required">*</span></span>' +
                 '<div class="sr-radio-cards" id="srm-radio-cards">' +
-                  radioCard('repair', 'Repair', 'Equipment Fix') +
-                  radioCard('maintenance', 'Maintenance', 'Preventive care') +
-                  radioCard('spare-parts', 'Spare Parts', 'Request Parts') +
-                  radioCard('consultation', 'Consultation', 'Expert Advice') +
+                  radioCard('repair', 'serviceReq.repair', 'Repair', 'serviceReq.repairDesc', 'Equipment Fix') +
+                  radioCard('maintenance', 'serviceReq.maintenance', 'Maintenance', 'serviceReq.maintenanceDesc', 'Preventive care') +
+                  radioCard('spare-parts', 'serviceReq.spareParts', 'Spare Parts', 'serviceReq.sparePartsDesc', 'Request Parts') +
+                  radioCard('consultation', 'serviceReq.consultation', 'Consultation', 'serviceReq.consultationDesc', 'Expert Advice') +
                 '</div>' +
               '</div>' +
               '<div>' +
-                '<label class="sr-field-label" for="srm-title">Title <span class="required">*</span></label>' +
-                '<input type="text" class="sr-input" id="srm-title" placeholder="Brief summary of the issue...">' +
+                '<label class="sr-field-label" for="srm-title"><span data-i18n="serviceReq.titleLabel">Title</span> <span class="required">*</span></label>' +
+                '<input type="text" class="sr-input" id="srm-title" placeholder="Brief summary of the issue..." data-i18n-placeholder="serviceReq.titlePlaceholder">' +
               '</div>' +
               '<div>' +
-                '<label class="sr-field-label" for="srm-desc">Problem Description <span class="required">*</span></label>' +
-                '<textarea class="sr-textarea" id="srm-desc" placeholder="Describe the issue in detail..."></textarea>' +
+                '<label class="sr-field-label" for="srm-desc"><span data-i18n="serviceReq.problemDesc">Problem Description</span> <span class="required">*</span></label>' +
+                '<textarea class="sr-textarea" id="srm-desc" placeholder="Describe the issue in detail..." data-i18n-placeholder="serviceReq.problemPlaceholder"></textarea>' +
               '</div>' +
               '<div>' +
-                '<span class="sr-field-label">Attachments</span>' +
+                '<span class="sr-field-label" data-i18n="serviceReq.attachments">Attachments</span>' +
                 '<div class="sr-dropzone" id="srm-dropzone"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-                  '<span class="sr-dropzone-text">Drop files here or click to upload</span>' +
-                  '<span class="sr-dropzone-hint">Supports: PDF, JPG, PNG</span>' +
+                  '<span class="sr-dropzone-text" data-i18n="serviceReq.dropzone">Drop files here or click to upload</span>' +
+                  '<span class="sr-dropzone-hint" data-i18n="serviceReq.dropzoneHint">Supports: PDF, JPG, PNG</span>' +
                   '<input type="file" id="srm-file" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none"></div>' +
               '</div>' +
               '<div class="sr-modal-footer">' +
-                '<button type="button" class="sr-btn-cancel" id="srm-cancel">Cancel</button>' +
-                '<button type="button" class="btn btn-primary btn-md" id="srm-send" disabled><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Send Request</span></button>' +
+                '<button type="button" class="sr-btn-cancel" id="srm-cancel" data-i18n="common.cancel">Cancel</button>' +
+                '<button type="button" class="btn btn-primary btn-md" id="srm-send" disabled><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="serviceReq.sendRequest">Send Request</span></button>' +
               '</div>' +
             '</div>' +
           '</div>' +
@@ -91,6 +91,8 @@
     document.body.appendChild(overlay);
     wire();
     built = true;
+    // Translate the freshly-injected modal (it is built after i18n's initial pass).
+    if (window.NetzschI18n && NetzschI18n.reload) { try { NetzschI18n.reload(); } catch (e) {} }
   }
 
   function q(id) { return overlay.querySelector('#' + id); }
