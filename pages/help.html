@@ -1465,11 +1465,11 @@
     <div class="page-header">
       <div class="page-header-left">
         <h1 class="page-title" data-i18n="help.title">Help</h1>
-        <span class="page-subtitle">Knowledge base &amp; support articles</span>
+        <span class="page-subtitle" data-i18n="help.subtitle">Knowledge base &amp; support articles</span>
       </div>
       <a href="#" class="btn btn-primary btn-sm" onclick="openMillaChat(); return false;">
         <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11 6.5 7.5 3 6l3.5-1.5L8 1z" fill="currentColor"/><path d="M12 10l.75 1.75L14.5 12.5l-1.75.75L12 15l-.75-1.75L9.5 12.5l1.75-.75L12 10z" fill="currentColor" opacity="0.6"/></svg>
-        Ask Milla
+        <span data-i18n="help.askMilla">Ask Milla</span>
       </a>
     </div>
 
@@ -1480,15 +1480,15 @@
             <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/>
             <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-          <input type="text" id="filterSearch" placeholder="Search articles..." />
+          <input type="text" id="filterSearch" placeholder="Search articles..." data-i18n-placeholder="help.searchPlaceholder" />
         </div>
         <div class="filter-divider"></div>
         <div class="filter-pills" id="filterPills">
-          <button class="filter-pill active" data-category="">All <span class="pill-count" id="countAll"></span></button>
-          <button class="filter-pill" data-category="service">Service <span class="pill-count" id="countService"></span></button>
-          <button class="filter-pill" data-category="orders">Orders <span class="pill-count" id="countOrders"></span></button>
-          <button class="filter-pill" data-category="machine">Machines <span class="pill-count" id="countMachines"></span></button>
-          <button class="filter-pill" data-category="portal">Portal <span class="pill-count" id="countPortal"></span></button>
+          <button class="filter-pill active" data-category=""><span data-i18n="help.catAll">All</span> <span class="pill-count" id="countAll"></span></button>
+          <button class="filter-pill" data-category="service"><span data-i18n="help.catService">Service</span> <span class="pill-count" id="countService"></span></button>
+          <button class="filter-pill" data-category="orders"><span data-i18n="help.catOrders">Orders</span> <span class="pill-count" id="countOrders"></span></button>
+          <button class="filter-pill" data-category="machine"><span data-i18n="help.catMachines">Machines</span> <span class="pill-count" id="countMachines"></span></button>
+          <button class="filter-pill" data-category="portal"><span data-i18n="help.catPortal">Portal</span> <span class="pill-count" id="countPortal"></span></button>
         </div>
       </div>
 
@@ -1496,10 +1496,10 @@
         <table class="articles-table">
           <thead>
             <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Category</th>
-              <th scope="col">Related Machine</th>
-              <th scope="col">Last Updated</th>
+              <th scope="col" data-i18n="help.colTitle">Title</th>
+              <th scope="col" data-i18n="common.category">Category</th>
+              <th scope="col" data-i18n="help.colMachine">Related Machine</th>
+              <th scope="col" data-i18n="help.colUpdated">Last Updated</th>
             </tr>
           </thead>
           <tbody>
