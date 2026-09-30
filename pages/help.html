@@ -1241,6 +1241,7 @@
     }
   </style>
   <link rel="stylesheet" href="../assets/tables.css">
+  <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
 
 <body>
@@ -1460,6 +1461,30 @@
 
   <!-- MAIN -->
   <main class="main">
+
+    <!-- SKELETON (shown ~1s on load, then revealed) -->
+    <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading articles">
+      <div class="skeleton skeleton-title" style="width:200px;height:28px;margin-bottom:20px"></div>
+      <div class="skel-filter-bar">
+        <div class="skeleton skel-filter-input"></div>
+        <div class="skeleton skel-filter-select"></div>
+      </div>
+      <div class="skeleton skel-table">
+        <div class="skel-table-header" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+        <div class="skel-table-row" style="grid-template-columns:1.5fr 1fr 1fr 1fr"><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div><div class="skeleton skeleton-text medium"></div><div class="skeleton skeleton-text short"></div></div>
+      </div>
+    </div>
+
+    <div class="page-content">
 
     <!-- PAGE HEADER -->
     <div class="page-header">
@@ -3236,6 +3261,8 @@
         <a href="contact-support.html" class="btn btn-primary btn-md" data-i18n="common.contactSupport">Contact Support</a>
       </div>
 
+    </div><!-- /.page-content -->
+
   </main>
 
   <!-- ARTICLE PREVIEW DRAWER -->
@@ -3795,6 +3822,7 @@ function sendFromSmallChat() {
 </script>
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
 <script src="../assets/i18n.js"></script>
 <script>
 // Article preview drawer — clicking an (otherwise inert) article opens a drawer
