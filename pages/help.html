@@ -1047,6 +1047,21 @@
 
     /* ── EMPTY STATE ─── */
     .empty-state[hidden] { display: none; }
+    /* Support CTA (path into Contact Support) */
+    .help-support-cta {
+      margin-top: 16px;
+      padding: 18px 24px;
+      background: #f0faf9;
+      border: 1px solid #b7ddc9;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .help-support-cta-title { font-size: 15px; font-weight: 600; color: #1f2937; }
+    .help-support-cta-sub { font-size: 13px; color: #6b7280; margin-top: 2px; }
     .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
 
     /* ── PAGINATION ─── */
@@ -3195,6 +3210,15 @@
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- SUPPORT CTA — path into Contact Support (Flow 12: FAQ → ticket) -->
+      <div class="help-support-cta">
+        <div>
+          <div class="help-support-cta-title" data-i18n="help.ctaTitle">Can't find what you're looking for?</div>
+          <div class="help-support-cta-sub" data-i18n="help.ctaSub">Our support team is ready to help you directly.</div>
+        </div>
+        <a href="contact-support.html" class="btn btn-primary btn-md" data-i18n="common.contactSupport">Contact Support</a>
       </div>
 
   </main>

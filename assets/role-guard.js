@@ -1386,7 +1386,7 @@
         '  <button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Request Quote</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'wishlist.html\'">My Wishlist</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'budget.html\'">View Budget</button>',
-        '  <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'contact-support.html\'">Contact Support</button>',
         '</div>',
       ].join('\n');
     }
@@ -2086,7 +2086,7 @@
         '  <button class="btn-quick-action" onclick="window.location.href=\'quotes.html\'">Review Quotes</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'machines.html\'">View Machines</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'services.html\'">View Services</button>',
-        '  <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'contact-support.html\'">Contact Support</button>',
         '</div>',
       ].join('\n');
     }
@@ -2345,7 +2345,7 @@
         '  <button class="btn-quick-action" onclick="window.location.href=\'machines.html\'">My Machines</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'services.html\'">Service Requests</button>',
         '  <button class="btn-quick-action" onclick="window.location.href=\'orders.html\'">My Requests</button>',
-        '  <button class="btn-quick-action" onclick="window.location.href=\'help.html\'">Contact Support</button>',
+        '  <button class="btn-quick-action" onclick="window.location.href=\'contact-support.html\'">Contact Support</button>',
         '</div>',
       ].join('\n');
     }
