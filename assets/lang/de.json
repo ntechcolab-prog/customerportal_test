@@ -339,6 +339,10 @@
   "help.title": "Hilfecenter",
   "help.ctaTitle": "Sie finden nicht, wonach Sie suchen?",
   "help.ctaSub": "Unser Support-Team hilft Ihnen gerne direkt weiter.",
+  "help.colMachine": "Zugehörige Maschine",
+  "help.colUpdated": "Zuletzt aktualisiert",
+  "help.askMilla": "Milla fragen",
+  "help.articlePlaceholder": "Der vollständige Artikel wird vorbereitet. Fragen Sie in der Zwischenzeit Milla oder wenden Sie sich an unser Support-Team.",
 
   "contactSupport.title": "Support kontaktieren",
   "contactSupport.subtitle": "Erstellen Sie ein Support-Ticket und unser Team meldet sich innerhalb von 1 Werktag bei Ihnen.",

@@ -1062,6 +1062,21 @@
     }
     .help-support-cta-title { font-size: 15px; font-weight: 600; color: #1f2937; }
     .help-support-cta-sub { font-size: 13px; color: #6b7280; margin-top: 2px; }
+    /* Article preview drawer */
+    .article-drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); z-index: 500; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+    .article-drawer-overlay.open { opacity: 1; pointer-events: auto; }
+    .article-drawer { position: fixed; top: 0; right: 0; height: 100%; width: 440px; max-width: 92vw; background: #fff; box-shadow: -8px 0 40px rgba(0,0,0,0.16); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); display: flex; flex-direction: column; z-index: 501; }
+    .article-drawer-overlay.open .article-drawer { transform: translateX(0); }
+    .article-drawer-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 20px 24px; border-bottom: 1px solid #eef0f2; }
+    .article-drawer-head h2 { font-size: 17px; font-weight: 700; color: #1f2937; line-height: 1.35; }
+    .article-drawer-close { flex-shrink: 0; width: 30px; height: 30px; border-radius: 8px; border: none; background: #f3f4f6; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #6b7280; transition: background 0.15s; }
+    .article-drawer-close:hover { background: #e5e7eb; }
+    .article-drawer-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+    .article-meta { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-bottom: 18px; }
+    .article-meta-item { font-size: 12px; color: #6b7280; }
+    .article-meta-item strong { display: block; color: #1f2937; font-weight: 600; font-size: 13px; margin-top: 2px; }
+    .article-placeholder { font-size: 14px; color: #374151; line-height: 1.6; padding: 16px; background: #f9fafb; border: 1px dashed #d7d9db; border-radius: 10px; }
+    .article-drawer-cta { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
     .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
 
     /* ── PAGINATION ─── */
@@ -3223,6 +3238,19 @@
 
   </main>
 
+  <!-- ARTICLE PREVIEW DRAWER -->
+  <div class="article-drawer-overlay" id="articleOverlay">
+    <div class="article-drawer" role="dialog" aria-modal="true" aria-labelledby="articleDrawerTitle">
+      <div class="article-drawer-head">
+        <h2 id="articleDrawerTitle"></h2>
+        <button type="button" class="article-drawer-close" id="articleDrawerClose" aria-label="Close" data-i18n-aria-label="common.close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="article-drawer-body" id="articleDrawerBody"></div>
+    </div>
+  </div>
+
 <script>
 function toggleProfileDropdown(e) {
   e.stopPropagation();
@@ -3768,5 +3796,48 @@ function sendFromSmallChat() {
 <script src="../assets/role-guard.js"></script>
 <script src="../assets/request-approval.js"></script>
 <script src="../assets/i18n.js"></script>
+<script>
+// Article preview drawer — clicking an (otherwise inert) article opens a drawer
+// with its metadata, a placeholder body, and a path into Contact Support / Milla.
+(function () {
+  var overlay = document.getElementById('articleOverlay');
+  if (!overlay) return;
+  var titleEl = document.getElementById('articleDrawerTitle');
+  var bodyEl = document.getElementById('articleDrawerBody');
+  function T(k, f) { return (window.NetzschI18n && NetzschI18n.t) ? NetzschI18n.t(k, f) : f; }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  function closeDrawer() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+  function openArticleDrawer(row) {
+    var link = row.querySelector('.article-link');
+    var cells = row.querySelectorAll('td');
+    var badge = row.querySelector('.cat-badge');
+    titleEl.textContent = link ? link.textContent.trim() : '';
+    bodyEl.innerHTML =
+      '<div class="article-meta">' +
+        '<div class="article-meta-item">' + T('common.category', 'Category') + '<strong>' + esc(badge ? badge.textContent.trim() : '—') + '</strong></div>' +
+        '<div class="article-meta-item">' + T('help.colMachine', 'Related Machine') + '<strong>' + esc(cells[2] ? cells[2].textContent.trim() : '—') + '</strong></div>' +
+        '<div class="article-meta-item">' + T('help.colUpdated', 'Last Updated') + '<strong>' + esc(cells[3] ? cells[3].textContent.trim() : '—') + '</strong></div>' +
+      '</div>' +
+      '<div class="article-placeholder">' + T('help.articlePlaceholder', 'The full article is being prepared. In the meantime, ask Milla or contact our support team.') + '</div>' +
+      '<div class="article-drawer-cta">' +
+        '<a href="contact-support.html" class="btn btn-primary btn-sm">' + T('common.contactSupport', 'Contact Support') + '</a>' +
+        '<button type="button" class="btn btn-secondary btn-sm" id="articleAskMilla">' + T('help.askMilla', 'Ask Milla') + '</button>' +
+      '</div>';
+    var am = document.getElementById('articleAskMilla');
+    if (am) am.addEventListener('click', function () { closeDrawer(); if (typeof openMillaChat === 'function') openMillaChat(); });
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.article-link'), function (link) {
+    link.addEventListener('click', function (e) { e.preventDefault(); openArticleDrawer(link.closest('tr')); });
+  });
+  document.getElementById('articleDrawerClose').addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeDrawer(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeDrawer(); });
+})();
+</script>
 </body>
 </html>
