@@ -2044,6 +2044,57 @@
 
   </div>
 
+<!-- SAVED QUOTES (persisted via NetzschQuotes) — injected before the filter script so they count/filter/paginate like the rest -->
+<script src="../assets/quotes-store.js"></script>
+<script>
+(function () {
+  if (!window.NetzschQuotes) return;
+  var saved = NetzschQuotes.all();
+  if (!saved.length) return;
+  var tbody = document.querySelector('.quotes-table tbody');
+  if (!tbody) return;
+
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function meta(s) {
+    if (s === 'progress') return { cls: 'status-progress', key: 'status.inProgress', txt: 'In Progress' };
+    if (s === 'placed')   return { cls: 'status-placed', key: 'status.quotePlaced', txt: 'Quote Placed' };
+    if (s === 'expired')  return { cls: 'status-expired', key: 'status.expired', txt: 'Expired' };
+    return { cls: 'status-pending', key: 'status.pendingApproval', txt: 'Pending for Approval' };
+  }
+  var actions = '<div class="actions-cell">' +
+    '<button class="action-btn" aria-label="View" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>' +
+    '<button class="action-btn" aria-label="Open" title="Open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></button>' +
+    '<button class="action-btn" aria-label="More" title="More"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>' +
+    '</div>';
+
+  var html = saved.map(function (q) {
+    var m = meta(q.status);
+    var first = (q.items && q.items[0]) || {};
+    var itemMain = esc(first.name || 'Quotation');
+    if (first.ref) itemMain += ' <span class="item-ref">Ref: ' + esc(first.ref) + '</span>';
+    if (q.items && q.items.length > 1) itemMain += ' <span class="item-ref">+' + (q.items.length - 1) + ' more</span>';
+    return '<tr>' +
+      '<td><a class="quote-link" href="quote-detail.html?id=' + encodeURIComponent(q.id) + '">#' + esc(q.id) + '</a></td>' +
+      '<td>' + esc(q.date || '') + '</td>' +
+      '<td><span class="status-badge ' + m.cls + '" data-i18n="' + m.key + '">' + m.txt + '</span></td>' +
+      '<td><div class="item-cell"><div class="item-main">' + itemMain + '</div></div></td>' +
+      '<td>' + actions + '</td>' +
+      '</tr>';
+  }).join('');
+  tbody.insertAdjacentHTML('afterbegin', html);
+
+  // Bump the stat cards to stay consistent with the newly added quotes
+  var statNums = document.querySelectorAll('.stat-cards .stat-number');
+  function bump(el, n) { if (el && n) el.textContent = (parseInt(el.textContent, 10) || 0) + n; }
+  var c = { pending: 0, progress: 0, placed: 0, expired: 0 };
+  saved.forEach(function (q) { if (c[q.status] !== undefined) c[q.status]++; });
+  bump(statNums[0], saved.length);   // Total Quotes
+  bump(statNums[1], c.pending);      // Pending Approval
+  bump(statNums[2], c.progress);     // In Progress
+  bump(statNums[3], c.expired);      // Expired
+})();
+</script>
+
 <script>
 function toggleProfileDropdown(e) {
   e.stopPropagation();

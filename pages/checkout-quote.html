@@ -1253,6 +1253,7 @@
 <body>
 <script src="../assets/i18n.js"></script>
 <script src="../assets/gate.js"></script>
+<script src="../assets/quotes-store.js"></script>
 
   <!-- TOP BAR -->
   <div class="topbar">
@@ -1478,7 +1479,7 @@
         <p data-i18n="checkout.quoteSubtitle">Our sales team will review your request and send a confirmation by email within 3 business days.</p>
       </div>
       <div class="title-bar-actions">
-        <button class="btn btn-gray-outline btn-lg">
+        <button class="btn btn-gray-outline btn-lg" id="btnDownloadQuotePdf">
           <svg viewBox="0 0 16 16" fill="none"><path d="M8 11V5M8 5l-3 3M8 5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(180 8 8)"/><path d="M2 11v2.5a.5.5 0 00.5.5h11a.5.5 0 00.5-.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span data-i18n="orderDetail.downloadPdf">Download PDF</span>
         </button>
@@ -1658,6 +1659,23 @@ document.addEventListener('click', function(e) {
   // Clear cart badge
   var cartBadge = document.querySelector('.cart-badge');
   if (cartBadge) { cartBadge.textContent = '0'; cartBadge.classList.remove('is-visible'); }
+
+  // Persist the requested quote so it shows up — for real — in the Quotes list
+  try {
+    if (window.NetzschQuotes) {
+      var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var qNow = new Date();
+      NetzschQuotes.add({
+        id: String(quoteNum),
+        date: MON[qNow.getMonth()] + ' ' + qNow.getDate() + ', ' + qNow.getFullYear(),
+        status: 'pending',
+        hasQuotation: hasQuotation,
+        items: items.map(function (it) {
+          return { name: it.name, ref: it.ref, qty: it.qty, unitPrice: it.unitPrice, quotation: !!it.quotation };
+        })
+      });
+    }
+  } catch (e) {}
 
   // Clear cart from localStorage
   localStorage.removeItem('netzsch_cart');
@@ -1997,6 +2015,33 @@ function sendFromSmallChat() {
   function toggle(){var open=nav.classList.toggle('open');btn.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':'';}
   btn.addEventListener('click',toggle);
   if(overlay)overlay.addEventListener('click',toggle);
+})();
+</script>
+<!-- DOWNLOAD TOAST -->
+<style>
+  .toast { position: fixed; top: 76px; right: 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); display: flex; align-items: flex-start; gap: 12px; z-index: 300; min-width: 280px; max-width: 360px; transform: translateX(120%); transition: transform 0.3s ease; }
+  .toast.show { transform: translateX(0); }
+  .toast-icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; color: #007167; }
+  .toast-body { flex: 1; }
+  .toast-title { font-size: 14px; font-weight: 600; color: #1f2937; }
+  @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+</style>
+<div class="toast" id="quoteDlToast" role="status" aria-live="polite"></div>
+<script>
+(function () {
+  function t(key, fb) { try { return (window.NetzschI18n && NetzschI18n.t) ? NetzschI18n.t(key, fb) : fb; } catch (e) { return fb; } }
+  var el = document.getElementById('quoteDlToast');
+  function toast(msg) {
+    if (!el) return;
+    el.innerHTML = '<svg class="toast-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4.5 8.5l2.5 2.5 4.5-4.5" stroke="#007167" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="toast-body"><div class="toast-title">' + msg + '</div></div>';
+    el.classList.add('show');
+  }
+  var btn = document.getElementById('btnDownloadQuotePdf');
+  if (btn) btn.addEventListener('click', function () {
+    toast(t('quoteDetail.downloading', 'Downloading PDF…'));
+    setTimeout(function () { toast(t('quoteDetail.downloaded', 'PDF downloaded')); }, 900);
+    setTimeout(function () { if (el) el.classList.remove('show'); }, 2600);
+  });
 })();
 </script>
 <script src="../assets/role-guard.js"></script>

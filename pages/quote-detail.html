@@ -1308,7 +1308,7 @@
     <span class="breadcrumb-sep">/</span>
     <a href="quotes.html" data-i18n="quotes.title">Quotes</a>
     <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Quotation #15098765</span>
+    <span class="breadcrumb-current" id="qdCrumb">Quotation #15098765</span>
   </div>
 
   <!-- SKELETON LOADING STATE -->
@@ -1372,8 +1372,8 @@
     <!-- TITLE BAR -->
     <div class="title-bar" data-skeleton-stagger>
       <div class="title-bar-top">
-        <h1>Quotation #15098765</h1>
-        <button class="btn btn-secondary btn-sm" aria-label="Download PDF" data-i18n="quoteDetail.download">
+        <h1 id="qdTitle">Quotation #15098765</h1>
+        <button class="btn btn-secondary btn-sm" id="btnDownloadQdPdf" aria-label="Download PDF" data-i18n="quoteDetail.download">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M9 2v9m0 0l-3-3m3 3l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M3 13v2h12v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1426,7 +1426,7 @@
 
         <!-- ORDER ITEMS -->
         <div class="card">
-          <div class="card-title">Order Items (1)</div>
+          <div class="card-title" id="qdItemsTitle">Order Items (1)</div>
           <table class="order-table">
             <thead>
               <tr>
@@ -1436,7 +1436,7 @@
                 <th data-i18n="table.total">Total</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="qdItemsBody">
               <tr>
                 <td>O-Ring <span style="color:#9ca3af; font-size:12px;">(Ref: 539256)</span></td>
                 <td>&euro;25.00</td>
@@ -1862,11 +1862,17 @@ function sendFromSmallChat() {
   }
 </style>
 <div class="toast" id="quoteToast" role="status" aria-live="polite"></div>
+<script src="../assets/quotes-store.js"></script>
 <script>
 (function () {
   function t(key, fallback) {
     try { return (window.NetzschI18n && NetzschI18n.t) ? NetzschI18n.t(key, fallback) : fallback; }
     catch (e) { return fallback; }
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function qParam(name) {
+    var m = new RegExp('[?&]' + name + '=([^&]+)').exec(window.location.search);
+    return m ? decodeURIComponent(m[1]) : null;
   }
   function showQuoteToast(variant, title, subtitle) {
     var el = document.getElementById('quoteToast');
@@ -1883,33 +1889,81 @@ function sendFromSmallChat() {
     el._hideT = setTimeout(function () { el.classList.remove('show'); }, 3200);
   }
 
+  // If opened from a saved (requested) quote, load it from the store and render it
+  var quoteId = qParam('id');
+  var quote = (quoteId && window.NetzschQuotes) ? NetzschQuotes.get(quoteId) : null;
+
+  function populate(q) {
+    var label = t('checkout.quotationPrefix', 'Quotation #') + q.id;
+    var h1 = document.getElementById('qdTitle'); if (h1) h1.textContent = label;
+    var crumb = document.getElementById('qdCrumb'); if (crumb) crumb.textContent = label;
+    document.title = label + ' — NETZSCH Customer Portal';
+    var body = document.getElementById('qdItemsBody');
+    if (body && q.items && q.items.length) {
+      body.innerHTML = q.items.map(function (it) {
+        var unit = it.quotation ? '--' : ('€' + Number(it.unitPrice || 0).toFixed(2));
+        var tot = it.quotation
+          ? '<span class="quotation-only">' + t('checkout.quotationOnly', 'Quotation Only') + '</span>'
+          : '<strong>€' + (Number(it.unitPrice || 0) * Number(it.qty || 1)).toFixed(2) + '</strong>';
+        return '<tr><td>' + esc(it.name) + ' <span style="color:#9ca3af; font-size:12px;">(' + t('checkout.ref', 'Ref:') + ' ' + esc(it.ref) + ')</span></td>' +
+          '<td>' + unit + '</td><td>' + esc(it.qty) + '</td><td>' + tot + '</td></tr>';
+      }).join('');
+    }
+    var itemsTitle = document.getElementById('qdItemsTitle');
+    if (itemsTitle && q.items) itemsTitle.textContent = t('checkout.orderItems', 'Order Items') + ' (' + q.items.length + ')';
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     var btnApprove = document.getElementById('btnApproveQuote');
     var btnDecline = document.getElementById('btnDeclineQuote');
     var btnConvert = document.getElementById('btnConvertOrder');
+    var btnDownload = document.getElementById('btnDownloadQdPdf');
     var stepApproved = document.getElementById('stepApproved');
     var stepConverted = document.getElementById('stepConverted');
-    var quoteNo = (document.querySelector('.title-bar h1') || {}).textContent || '';
+
+    if (quote) {
+      populate(quote);
+      // Reflect a status persisted from a previous visit
+      if (quote.status === 'progress') {
+        if (stepApproved) stepApproved.classList.add('active');
+        if (btnApprove) btnApprove.style.display = 'none';
+        if (btnDecline) btnDecline.style.display = 'none';
+        if (btnConvert) btnConvert.style.display = '';
+      } else if (quote.status === 'expired') {
+        if (btnApprove) btnApprove.style.display = 'none';
+        if (btnDecline) btnDecline.style.display = 'none';
+      }
+    }
+
+    var quoteNo = (document.getElementById('qdTitle') || {}).textContent || '';
 
     if (btnApprove) btnApprove.addEventListener('click', function () {
       if (stepApproved) stepApproved.classList.add('active');
       btnApprove.style.display = 'none';
       if (btnDecline) btnDecline.style.display = 'none';
       if (btnConvert) btnConvert.style.display = '';
+      if (quote && window.NetzschQuotes) NetzschQuotes.setStatus(quote.id, 'progress');
       showQuoteToast('success', t('quoteDetail.toastApproved', 'Quotation approved'), quoteNo);
     });
 
     if (btnDecline) btnDecline.addEventListener('click', function () {
       if (btnApprove) btnApprove.style.display = 'none';
       btnDecline.style.display = 'none';
+      if (quote && window.NetzschQuotes) NetzschQuotes.setStatus(quote.id, 'expired');
       showQuoteToast('error', t('quoteDetail.toastDeclined', 'Quotation declined'), quoteNo);
     });
 
     if (btnConvert) btnConvert.addEventListener('click', function () {
       if (stepConverted) stepConverted.classList.add('active');
       btnConvert.style.display = 'none';
+      if (quote && window.NetzschQuotes) NetzschQuotes.setStatus(quote.id, 'progress');
       showQuoteToast('success', t('quoteDetail.toastConverted', 'Quotation converted to order'), quoteNo);
       setTimeout(function () { window.location.href = 'orders.html'; }, 1200);
+    });
+
+    if (btnDownload) btnDownload.addEventListener('click', function () {
+      showQuoteToast('success', t('quoteDetail.downloading', 'Downloading PDF…'), quoteNo);
+      setTimeout(function () { showQuoteToast('success', t('quoteDetail.downloaded', 'PDF downloaded'), quoteNo); }, 900);
     });
   });
 })();

@@ -434,6 +434,8 @@
   "quoteDetail.approve": "Angebot annehmen",
   "quoteDetail.decline": "Angebot ablehnen",
   "quoteDetail.convertToOrder": "In Bestellung umwandeln",
+  "quoteDetail.downloading": "PDF wird heruntergeladen…",
+  "quoteDetail.downloaded": "PDF heruntergeladen",
   "quoteDetail.approvalNotice": "Dieses Angebot erfordert Ihre Genehmigung, um fortzufahren. Bitte prüfen Sie die Details und genehmigen Sie innerhalb von 30 Tagen. Nach Ablauf dieser Frist verfällt das Angebot automatisch.",
   "quoteDetail.toastApproved": "Angebot genehmigt",
   "quoteDetail.toastDeclined": "Angebot abgelehnt",
