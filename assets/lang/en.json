@@ -433,6 +433,11 @@
   "quoteDetail.download": "Download",
   "quoteDetail.approve": "Approve Quotation",
   "quoteDetail.decline": "Decline Quotation",
+  "quoteDetail.convertToOrder": "Convert to Order",
+  "quoteDetail.approvalNotice": "This quotation requires your approval to proceed. Please review the details and approve within 30 days. After this period, the quotation will expire automatically.",
+  "quoteDetail.toastApproved": "Quotation approved",
+  "quoteDetail.toastDeclined": "Quotation declined",
+  "quoteDetail.toastConverted": "Quotation converted to order",
 
   "contractDetail.statusActive": "Active",
   "contractDetail.download": "Download",

@@ -1381,33 +1381,40 @@
           Download PDF
         </button>
       </div>
-      <p class="title-bar-subtitle">
-        This quotation requires your approval to proceed. Please review the details and approve within <strong>30 days</strong>. After this period, the quotation will expire automatically.
+      <p class="title-bar-subtitle" data-i18n="quoteDetail.approvalNotice">
+        This quotation requires your approval to proceed. Please review the details and approve within 30 days. After this period, the quotation will expire automatically.
       </p>
       <div class="title-bar-actions">
-        <button class="btn btn-primary btn-sm" aria-label="Approve Quotation" data-i18n="quoteDetail.approve">
+        <button class="btn btn-primary btn-sm" id="btnApproveQuote" aria-label="Approve Quotation" data-i18n="quoteDetail.approve">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M4 9.5l3.5 3.5L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Approve Quotation
         </button>
-        <button class="btn btn-danger-outline btn-sm" aria-label="Decline Quotation" data-i18n="quoteDetail.decline">
+        <button class="btn btn-danger-outline btn-sm" id="btnDeclineQuote" aria-label="Decline Quotation" data-i18n="quoteDetail.decline">
           <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M5 5l8 8M13 5l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Decline Quotation
+        </button>
+        <button class="btn btn-primary btn-sm" id="btnConvertOrder" aria-label="Convert to Order" data-i18n="quoteDetail.convertToOrder" style="display:none;">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2.5 3h1.6l1.2 8.4a1 1 0 0 0 1 .85h6.3a1 1 0 0 0 1-.8l1-4.95H5.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="7" cy="15" r="1" fill="currentColor"/><circle cx="13" cy="15" r="1" fill="currentColor"/>
+          </svg>
+          Convert to Order
         </button>
       </div>
     </div>
 
     <!-- QUOTATION PROGRESS -->
     <div class="card" data-skeleton-stagger>
-      <div class="card-title">Quotation Progress</div>
+      <div class="card-title" data-i18n="checkout.quoteProgress">Quotation Progress</div>
       <div class="progress-bar" role="list">
-        <div class="progress-step active" role="listitem">Received</div>
-        <div class="progress-step active" role="listitem">Pending Approval</div>
-        <div class="progress-step" role="listitem">Approved</div>
-        <div class="progress-step" role="listitem">Converted to Order</div>
+        <div class="progress-step active" role="listitem" data-i18n="checkout.stepReceived">Received</div>
+        <div class="progress-step active" role="listitem" data-i18n="checkout.stepPendingApproval">Pending Approval</div>
+        <div class="progress-step" role="listitem" id="stepApproved" data-i18n="checkout.stepApproved">Approved</div>
+        <div class="progress-step" role="listitem" id="stepConverted" data-i18n="checkout.stepConverted">Converted to Order</div>
       </div>
     </div>
 
@@ -1833,6 +1840,78 @@ function sendFromSmallChat() {
   function toggle(){var open=nav.classList.toggle('open');btn.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':'';}
   btn.addEventListener('click',toggle);
   if(overlay)overlay.addEventListener('click',toggle);
+})();
+</script>
+<!-- QUOTE ACTION TOAST -->
+<style>
+  .toast {
+    position: fixed; top: 76px; right: 24px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+    padding: 16px 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    display: flex; align-items: flex-start; gap: 12px;
+    z-index: 300; min-width: 280px; max-width: 360px;
+    transform: translateX(120%); transition: transform 0.3s ease;
+  }
+  .toast.show { transform: translateX(0); }
+  .toast-icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; color: #007167; }
+  .toast-body { flex: 1; }
+  .toast-title { font-size: 14px; font-weight: 600; color: #1f2937; margin-bottom: 2px; }
+  .toast-subtitle { font-size: 12px; color: #6b7280; }
+  @media (prefers-reduced-motion: reduce) {
+    .toast { transition: none; }
+  }
+</style>
+<div class="toast" id="quoteToast" role="status" aria-live="polite"></div>
+<script>
+(function () {
+  function t(key, fallback) {
+    try { return (window.NetzschI18n && NetzschI18n.t) ? NetzschI18n.t(key, fallback) : fallback; }
+    catch (e) { return fallback; }
+  }
+  function showQuoteToast(variant, title, subtitle) {
+    var el = document.getElementById('quoteToast');
+    if (!el) return;
+    var color = variant === 'error' ? '#b42318' : '#007167';
+    var path = variant === 'error'
+      ? '<path d="M5.5 5.5l5 5m0-5l-5 5" stroke="' + color + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
+      : '<path d="M4.5 8.5l2.5 2.5 4.5-4.5" stroke="' + color + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    el.innerHTML = '<svg class="toast-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="color:' + color + '">' + path + '</svg>' +
+      '<div class="toast-body"><div class="toast-title">' + title + '</div>' +
+      (subtitle ? '<div class="toast-subtitle">' + subtitle + '</div>' : '') + '</div>';
+    el.classList.add('show');
+    clearTimeout(el._hideT);
+    el._hideT = setTimeout(function () { el.classList.remove('show'); }, 3200);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var btnApprove = document.getElementById('btnApproveQuote');
+    var btnDecline = document.getElementById('btnDeclineQuote');
+    var btnConvert = document.getElementById('btnConvertOrder');
+    var stepApproved = document.getElementById('stepApproved');
+    var stepConverted = document.getElementById('stepConverted');
+    var quoteNo = (document.querySelector('.title-bar h1') || {}).textContent || '';
+
+    if (btnApprove) btnApprove.addEventListener('click', function () {
+      if (stepApproved) stepApproved.classList.add('active');
+      btnApprove.style.display = 'none';
+      if (btnDecline) btnDecline.style.display = 'none';
+      if (btnConvert) btnConvert.style.display = '';
+      showQuoteToast('success', t('quoteDetail.toastApproved', 'Quotation approved'), quoteNo);
+    });
+
+    if (btnDecline) btnDecline.addEventListener('click', function () {
+      if (btnApprove) btnApprove.style.display = 'none';
+      btnDecline.style.display = 'none';
+      showQuoteToast('error', t('quoteDetail.toastDeclined', 'Quotation declined'), quoteNo);
+    });
+
+    if (btnConvert) btnConvert.addEventListener('click', function () {
+      if (stepConverted) stepConverted.classList.add('active');
+      btnConvert.style.display = 'none';
+      showQuoteToast('success', t('quoteDetail.toastConverted', 'Quotation converted to order'), quoteNo);
+      setTimeout(function () { window.location.href = 'orders.html'; }, 1200);
+    });
+  });
 })();
 </script>
 <script src="../assets/role-guard.js"></script>
