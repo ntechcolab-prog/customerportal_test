@@ -1076,6 +1076,13 @@
     .article-meta-item { font-size: 12px; color: #6b7280; }
     .article-meta-item strong { display: block; color: #1f2937; font-weight: 600; font-size: 13px; margin-top: 2px; }
     .article-placeholder { font-size: 14px; color: #374151; line-height: 1.6; padding: 16px; background: #f9fafb; border: 1px dashed #d7d9db; border-radius: 10px; }
+    .article-content { font-size: 14px; color: #374151; line-height: 1.65; }
+    .article-content p { margin: 0 0 12px; }
+    .article-content h3 { font-size: 14px; font-weight: 700; color: #1f2937; margin: 18px 0 8px; }
+    .article-content ol { margin: 0 0 14px; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .article-content ol li { line-height: 1.55; }
+    .article-content .article-note { margin: 4px 0 14px; padding: 12px 14px; background: #f3faf9; border: 1px solid #cfe9e5; border-radius: 10px; font-size: 13px; color: #334155; }
+    .article-content .article-content-actions { margin: 4px 0 0; }
     .article-drawer-cta { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
     .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
 
@@ -2177,7 +2184,7 @@
             <!-- Row 39 -->
             <tr style="display:none;">
               <td>
-                <a href="#" class="article-link">
+                <a href="#" class="article-link" data-article="request-quotation">
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   Requesting a quotation for spare parts
                 </a>
@@ -3837,6 +3844,29 @@ function sendFromSmallChat() {
 
   function closeDrawer() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
 
+  // Real article bodies, keyed by the row's data-article. Articles without an entry fall back to the placeholder.
+  function quoteArticle() {
+    return '<div class="article-content">' +
+      '<p>' + T('help.quoteIntro', 'Some spare parts are priced on request rather than shown with a fixed price. For those, you ask NETZSCH for a quotation — a formal price offer you can review and approve before any order is placed.') + '</p>' +
+      '<h3>' + T('help.quoteStepsTitle', 'How to request a quotation') + '</h3>' +
+      '<ol>' +
+        '<li>' + T('help.quoteStep1', 'Find the part. Browse the Shop or open a machine’s Spare Parts list. Parts priced on request show a “Quotation Only” tag instead of a price.') + '</li>' +
+        '<li>' + T('help.quoteStep2', 'Add them to your cart and go to checkout. Choose your delivery address and method, then open the checkout review.') + '</li>' +
+        '<li>' + T('help.quoteStep3', 'Click “Request Quotation for Approval”. You’ll see a confirmation with your quotation number, and the request is sent to our sales team.') + '</li>' +
+        '<li>' + T('help.quoteStep4', 'Track it under Quotes. Open your quotation to Approve or Decline it, and once approved, Convert it to an order. Our sales team usually replies within 3 business days.') + '</li>' +
+      '</ol>' +
+      '<div class="article-note">' + T('help.quoteTip', 'Prices stay hidden (shown as “--”) until our sales team confirms them on the quotation.') + '</div>' +
+      '<h3>' + T('help.quoteWhoTitle', 'Who can request and approve') + '</h3>' +
+      '<p>' + T('help.quoteWho', 'Buyers and Administrators can request quotations. Approvers can review and approve them but not create them. Technicians don’t have access to quotations.') + '</p>' +
+      '<p class="article-content-actions"><a href="shop.html" class="btn btn-primary btn-sm">' + T('help.quoteBrowseShop', 'Browse the Shop') + '</a></p>' +
+    '</div>';
+  }
+  var ARTICLES = { 'request-quotation': quoteArticle };
+  function articleBody(key) {
+    if (key && ARTICLES[key]) return ARTICLES[key]();
+    return '<div class="article-placeholder">' + T('help.articlePlaceholder', 'The full article is being prepared. In the meantime, ask Milla or contact our support team.') + '</div>';
+  }
+
   function openArticleDrawer(row) {
     var link = row.querySelector('.article-link');
     var cells = row.querySelectorAll('td');
@@ -3848,7 +3878,7 @@ function sendFromSmallChat() {
         '<div class="article-meta-item">' + T('help.colMachine', 'Related Machine') + '<strong>' + esc(cells[2] ? cells[2].textContent.trim() : '—') + '</strong></div>' +
         '<div class="article-meta-item">' + T('help.colUpdated', 'Last Updated') + '<strong>' + esc(cells[3] ? cells[3].textContent.trim() : '—') + '</strong></div>' +
       '</div>' +
-      '<div class="article-placeholder">' + T('help.articlePlaceholder', 'The full article is being prepared. In the meantime, ask Milla or contact our support team.') + '</div>' +
+      articleBody(link ? link.getAttribute('data-article') : null) +
       '<div class="article-drawer-cta">' +
         '<a href="contact-support.html" class="btn btn-primary btn-sm">' + T('common.contactSupport', 'Contact Support') + '</a>' +
         '<button type="button" class="btn btn-secondary btn-sm" id="articleAskMilla">' + T('help.askMilla', 'Ask Milla') + '</button>' +
