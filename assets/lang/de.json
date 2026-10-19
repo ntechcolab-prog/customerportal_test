@@ -450,6 +450,7 @@
   "admin.notif.system": "System",
 
   "orderDetail.trackOrder": "Bestellung verfolgen",
+  "orderDetail.orderProgress": "Bestellfortschritt",
   "orderDetail.downloadPdf": "PDF herunterladen",
   "orderDetail.orderTracking": "Sendungsverfolgung",
   "orderDetail.contactSupport": "Support kontaktieren",
