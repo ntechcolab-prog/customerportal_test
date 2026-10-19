@@ -1471,6 +1471,92 @@
     }
     .milla-results-drawing:hover img { transform: scale(1.03); }
 
+    /* CP-275 — interactive spare-parts identification (clickable callouts ↔ table) */
+    .milla-results-drawing.is-interactive {
+      max-height: none;
+      display: block;
+      padding: 0;
+      position: relative;
+      cursor: default;
+    }
+    .milla-results-drawing.is-interactive img {
+      width: 100%;
+      height: auto;
+      padding: 8px;
+      object-fit: unset;
+    }
+    .milla-results-drawing.is-interactive:hover img { transform: none; }
+    .subset-hotspot {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      margin: -15px 0 0 -15px;
+      border-radius: 50%;
+      background: rgba(0, 113, 103, 0.92);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 1px 5px rgba(0, 0, 0, 0.4);
+      color: #fff;
+      font: 700 11px/1 "Inter", system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 3;
+      transition: transform 0.12s ease, background 0.12s ease;
+    }
+    .subset-hotspot::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 113, 103, 0.65);
+      animation: subsetHotspotPulse 1.6s ease-out 3;
+    }
+    @keyframes subsetHotspotPulse {
+      0%   { transform: scale(1);   opacity: 0.9; }
+      100% { transform: scale(2.1); opacity: 0;   }
+    }
+    .subset-hotspot:hover,
+    .subset-hotspot.is-active {
+      background: #0b9c92;
+      transform: scale(1.22);
+      z-index: 5;
+    }
+    .subset-hotspot:hover::after,
+    .subset-hotspot.is-active::after { display: none; }
+    .subset-hotspot-tip {
+      position: absolute;
+      transform: translate(-50%, -115%);
+      background: #1f2426;
+      color: #fff;
+      font: 600 11px/1.3 "Inter", system-ui, sans-serif;
+      padding: 5px 9px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.12s ease;
+      z-index: 6;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+    .subset-hotspot-tip.show { opacity: 1; }
+    .milla-results-table tbody tr.is-highlighted {
+      background: rgba(0, 113, 103, 0.1) !important;
+      box-shadow: inset 3px 0 0 #007167;
+    }
+    .milla-results-hint {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: #6b6f72;
+      margin: -6px 0 12px;
+    }
+    .milla-results-hint svg { width: 14px; height: 14px; flex-shrink: 0; color: #0b9c92; }
+    @media (prefers-reduced-motion: reduce) {
+      .subset-hotspot::after { animation: none; }
+    }
+
     /* Drawing lightbox → assets/machine-modals.css (CP-627b) */
 
     /* Service Request modal → assets/machine-modals.css (CP-627b) */
@@ -2599,9 +2685,108 @@ document.addEventListener('click', function(e) {
       ]
     };
 
+    // CP-275 — per-subset technical drawing + clickable callout positions (% of the image).
+    // Subsets without an entry keep the default drawing and show no callouts.
+    var DEFAULT_DRAWING = '../assets/drawing-discus30-grinding.png';
+    var subsetDrawings = {
+      "Inlet flange complete": {
+        img: '../assets/drawing-inlet-flange.png',
+        spots: {
+          "903": { left: '28%', top: '30%' },
+          "900": { left: '44%', top: '34%' },
+          "901": { left: '46%', top: '49%' },
+          "902": { left: '46%', top: '57%' }
+        }
+      }
+    };
+    var sDrawEl = document.getElementById('subset-drawing');
+    var sDrawImg = sDrawEl ? sDrawEl.querySelector('img') : null;
+    var sLightImg = document.querySelector('#subset-drawing-lightbox img');
+
+    function clearCallouts() {
+      if (!sDrawEl) return;
+      sDrawEl.classList.remove('is-interactive');
+      sDrawEl.querySelectorAll('.subset-hotspot, .subset-hotspot-tip').forEach(function(n) { n.remove(); });
+      if (resultsBody) resultsBody.querySelectorAll('.milla-results-hint').forEach(function(n) { n.remove(); });
+      resBody.removeEventListener('mouseover', onRowOver);
+      resBody.removeEventListener('mouseout', onRowOut);
+    }
+    function applyDrawing(name) {
+      if (!sDrawEl || !sDrawImg) return;
+      clearCallouts();
+      var cfg = subsetDrawings[name];
+      var src = (cfg && cfg.img) || DEFAULT_DRAWING;
+      sDrawImg.setAttribute('src', src);
+      if (sLightImg) sLightImg.setAttribute('src', src);
+      if (!cfg || !cfg.spots) return;
+
+      sDrawEl.classList.add('is-interactive');
+      var hint = document.createElement('p');
+      hint.className = 'milla-results-hint';
+      hint.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>'
+        + '<span>Hover or tap a number on the drawing to find its spare part — and vice-versa.</span>';
+      if (sDrawEl.parentNode) sDrawEl.parentNode.insertBefore(hint, sDrawEl.nextSibling);
+      var tip = document.createElement('div');
+      tip.className = 'subset-hotspot-tip';
+      sDrawEl.appendChild(tip);
+
+      function rowFor(itm) { return resBody.querySelector('tr[data-itm="' + itm + '"]'); }
+      function highlight(itm, on) {
+        var row = rowFor(itm);
+        if (row) row.classList.toggle('is-highlighted', on);
+        var dot = sDrawEl.querySelector('.subset-hotspot[data-itm="' + itm + '"]');
+        if (dot) dot.classList.toggle('is-active', on);
+      }
+
+      Object.keys(cfg.spots).forEach(function(itm) {
+        var row = rowFor(itm);
+        if (!row) return; // only show callouts that have a matching part in the list
+        var pos = cfg.spots[itm];
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'subset-hotspot';
+        dot.setAttribute('data-itm', itm);
+        dot.style.left = pos.left;
+        dot.style.top = pos.top;
+        dot.textContent = itm;
+        var partName = row.getAttribute('data-name') || '';
+        dot.setAttribute('aria-label', 'Item ' + itm + ' — ' + partName);
+        dot.addEventListener('mouseenter', function() {
+          highlight(itm, true);
+          tip.textContent = itm + ' · ' + partName;
+          tip.style.left = pos.left; tip.style.top = pos.top;
+          tip.classList.add('show');
+        });
+        dot.addEventListener('mouseleave', function() { highlight(itm, false); tip.classList.remove('show'); });
+        dot.addEventListener('click', function(e) {
+          e.stopPropagation(); // don't open the zoom lightbox
+          highlight(itm, true);
+          if (row.scrollIntoView) row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          setTimeout(function() { highlight(itm, false); }, 1400);
+        });
+        sDrawEl.appendChild(dot);
+      });
+
+      // table row → callout
+      resBody.addEventListener('mouseover', onRowOver);
+      resBody.addEventListener('mouseout', onRowOut);
+    }
+    function onRowOver(e) {
+      var tr = e.target.closest('tr[data-itm]');
+      if (!tr || !sDrawEl) return;
+      var dot = sDrawEl.querySelector('.subset-hotspot[data-itm="' + tr.getAttribute('data-itm') + '"]');
+      if (dot) dot.classList.add('is-active');
+    }
+    function onRowOut(e) {
+      var tr = e.target.closest('tr[data-itm]');
+      if (!tr || !sDrawEl) return;
+      var dot = sDrawEl.querySelector('.subset-hotspot[data-itm="' + tr.getAttribute('data-itm') + '"]');
+      if (dot) dot.classList.remove('is-active');
+    }
+
     function rowHtml(r) {
       var priceCell = r.q ? '<td class="quotation">Quotation</td>' : '<td>€' + r.p.toFixed(2) + '</td>';
-      return '<tr data-name="' + r.d + '" data-ref="' + r.m + '" data-price="' + (r.q ? '0' : r.p) + '"' + (r.q ? ' data-quotation="true"' : '') + '>'
+      return '<tr data-itm="' + r.i + '" data-name="' + r.d + '" data-ref="' + r.m + '" data-price="' + (r.q ? '0' : r.p) + '"' + (r.q ? ' data-quotation="true"' : '') + '>'
         + '<td>' + r.i + '</td>'
         + '<td class="mono">' + r.m + '</td>'
         + '<td>' + r.d + '</td>'
@@ -2621,6 +2806,9 @@ document.addEventListener('click', function(e) {
       resultsBody.style.display = 'none';
       switchDd.classList.remove('open'); greenBar.classList.remove('open');
       switchDd.querySelectorAll('.subset-switch-option').forEach(function(o) { o.classList.remove('is-current'); });
+      clearCallouts();
+      if (sDrawImg) sDrawImg.setAttribute('src', DEFAULT_DRAWING);
+      if (sLightImg) sLightImg.setAttribute('src', DEFAULT_DRAWING);
     }
     function showResults(name) {
       var parts = subsetData[name] || [];
@@ -2630,6 +2818,7 @@ document.addEventListener('click', function(e) {
       resBody.innerHTML = parts.map(rowHtml).join('');
       emptyState.style.display = 'none';
       resultsBody.style.display = '';
+      applyDrawing(name);
     }
 
     trigger.addEventListener('click', openModal);
