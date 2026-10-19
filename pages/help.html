@@ -1448,6 +1448,10 @@
             <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
             <span data-i18n="milla.suggestDocuments">Help me find documents</span>
           </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span data-i18n="milla.suggestQuotation">How do I request a quotation?</span>
+          </button>
         </div>
         <div class="milla-suggestions-footer">
           <a href="#" data-i18n="milla.suggestSpareParts">Find spare parts by photo, description, or product code.</a>
@@ -3695,11 +3699,13 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ── MILLA CHAT STATE ──
+var millaQuotationAnswer = 'Here’s how to request a quotation for spare parts:\n\n1. Find the part — in the Shop or a machine’s Spare Parts list, items priced on request show a “Quotation Only” tag.\n2. Add them to your cart and go to checkout.\n3. Choose <strong>Request Quotation for Approval</strong> instead of placing the order.\n4. Track it under Quotes — approve, decline, or convert it to an order once our sales team replies (usually within 3 business days).\n\nTip: you can read the full guide in Help → “Requesting a quotation for spare parts”.';
 var millaResponse = {
   'Check my order status': 'I found your most recent order: <strong>Order #ORD-2026-0847</strong>\n\nStatus: In Transit\nEstimated Delivery: March 03, 2026\n\nThe order has left the distribution center in Selb, Germany and is on its way to the final destination.\nWould you like to track it in real time?',
   'Recommend products for me': 'Based on your machine fleet, I recommend checking our new grinding bead sets optimized for your Discus 30 and Zeta 60. Would you like me to show available options?',
   'Show purchase history': 'Here are your recent purchases:\n\n\u2022 Order #ORD-2026-0847 \u2014 Spare parts kit, \u20ac3,240.00\n\u2022 Order #ORD-2026-0812 \u2014 Grinding beads, \u20ac8,720.00\n\u2022 Order #ORD-2026-0798 \u2014 Inlet flange set, \u20ac1,450.00\n\nWould you like details on any of these?',
-  'Help me find documents': 'I can help you find technical documents for your machines. What are you looking for?\n\n\u2022 Operating manuals\n\u2022 Maintenance guides\n\u2022 Spare parts catalogs\n\u2022 Certificates & compliance docs'
+  'Help me find documents': 'I can help you find technical documents for your machines. What are you looking for?\n\n\u2022 Operating manuals\n\u2022 Maintenance guides\n\u2022 Spare parts catalogs\n\u2022 Certificates & compliance docs',
+  'How do I request a quotation?': millaQuotationAnswer
 };
 var millaCurrentMessages = '';
 
@@ -3792,9 +3798,11 @@ function sendMillaMessage(inputEl, bodyEl) {
   bodyEl.appendChild(botRow);
   bodyEl.scrollTop = bodyEl.scrollHeight;
   setTimeout(function() {
+    var lc = text.toLowerCase();
+    var reply = (/quot|cota[cç]/.test(lc) && typeof millaQuotationAnswer !== 'undefined') ? millaQuotationAnswer : millaGenericResponse;
     var bubble = document.createElement('div');
     bubble.className = 'milla-msg-bot-bubble';
-    bubble.innerHTML = millaGenericResponse;
+    bubble.innerHTML = reply.replace(/\n/g, '<br>');
     botRow.querySelector('.milla-typing-dots').remove();
     botRow.appendChild(bubble);
     bodyEl.scrollTop = bodyEl.scrollHeight;
@@ -3869,6 +3877,8 @@ function sendFromSmallChat() {
   var ARTICLE_CTAS = {
     'request-quotation': function () { return '<a href="shop.html" class="btn btn-primary btn-sm">' + T('help.quoteBrowseShop', 'Browse the Shop') + '</a>'; }
   };
+  // Pre-filled Milla question per article — clicking "Ask Milla" opens the chat already asking it
+  var ARTICLE_MILLA = { 'request-quotation': 'How do I request a quotation?' };
 
   function openArticleDrawer(row) {
     var link = row.querySelector('.article-link');
@@ -3891,7 +3901,11 @@ function sendFromSmallChat() {
         '<button type="button" class="btn btn-secondary btn-sm" id="articleAskMilla">' + T('help.askMilla', 'Ask Milla') + '</button>' +
       '</div>';
     var am = document.getElementById('articleAskMilla');
-    if (am) am.addEventListener('click', function () { closeDrawer(); if (typeof openMillaChat === 'function') openMillaChat(); });
+    if (am) am.addEventListener('click', function () {
+      closeDrawer();
+      var q = (key && ARTICLE_MILLA[key]) ? ARTICLE_MILLA[key] : (link ? link.textContent.trim() : '');
+      if (typeof openMillaChat === 'function') openMillaChat(q);
+    });
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
