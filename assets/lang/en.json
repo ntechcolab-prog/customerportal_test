@@ -91,6 +91,7 @@
   "profile.addrRemove": "Remove",
   "profile.addrEdit": "Edit",
   "profile.addrAdd": "Add Shipping Address",
+  "profile.addrAddBilling": "Add Billing Address",
   "profile.addrNote": "Your default shipping address is pre-selected during checkout.",
   "profile.addrToastDefault": "Default shipping address updated",
   "profile.addrToastRemoved": "Address removed",

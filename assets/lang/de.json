@@ -91,6 +91,7 @@
   "profile.addrRemove": "Entfernen",
   "profile.addrEdit": "Bearbeiten",
   "profile.addrAdd": "Lieferadresse hinzufügen",
+  "profile.addrAddBilling": "Rechnungsadresse hinzufügen",
   "profile.addrNote": "Ihre Standard-Lieferadresse wird beim Checkout vorausgewählt.",
   "profile.addrToastDefault": "Standard-Lieferadresse aktualisiert",
   "profile.addrToastRemoved": "Adresse entfernt",
