@@ -1631,36 +1631,49 @@
           <h2>Shipping Address</h2>
           <div class="address-grid">
 
-            <!-- Address 1 (default — matches the saved address book in Profile → Addresses) -->
-            <div class="address-card" data-address="warehouse" data-default role="radio" aria-checked="false" tabindex="0">
+            <!-- Address 1 -->
+            <div class="address-card" data-address="central" role="radio" aria-checked="false" tabindex="0">
               <div class="address-card-header">
                 <div class="radio-circle" aria-hidden="true"></div>
-                <span class="address-card-title">Main Warehouse</span>
+                <span class="address-card-title">Central NY</span>
               </div>
               <div class="address-card-body">
-                <span>ACME Corporation — Warehouse</span>
-                <span>Logistikweg 15</span>
-                <span>80939 Munich, Bavaria</span>
-                <span>Germany</span>
+                <span>23 Main Street, Apt 4B</span>
+                <span>New York, NY 10001</span>
+                <span>United States</span>
+                <span>Phone: +1 (555) 123-4567</span>
               </div>
             </div>
 
             <!-- Address 2 -->
-            <div class="address-card" data-address="production" role="radio" aria-checked="false" tabindex="0">
+            <div class="address-card" data-address="north" role="radio" aria-checked="false" tabindex="0">
               <div class="address-card-header">
                 <div class="radio-circle" aria-hidden="true"></div>
-                <span class="address-card-title">Production Site North</span>
+                <span class="address-card-title">North NY</span>
               </div>
               <div class="address-card-body">
-                <span>ACME Corporation — Production</span>
-                <span>Fabrikstraße 8</span>
-                <span>20457 Hamburg</span>
-                <span>Germany</span>
+                <span>123 Maple Street, Apt 45</span>
+                <span>New York, NY 10001</span>
+                <span>United States</span>
+                <span>Phone: +1 (555) 123-4567</span>
+              </div>
+            </div>
+
+            <!-- Address 3 -->
+            <div class="address-card" data-address="south" role="radio" aria-checked="false" tabindex="0">
+              <div class="address-card-header">
+                <div class="radio-circle" aria-hidden="true"></div>
+                <span class="address-card-title">South NY</span>
+              </div>
+              <div class="address-card-body">
+                <span>456 Broadway Av, Apt 12</span>
+                <span>New York, NY 10001</span>
+                <span>United States</span>
+                <span>Phone: +1 (555) 123-456</span>
               </div>
             </div>
 
           </div>
-          <a href="profile.html#section-addresses" class="address-manage-link" style="display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;font-weight:500;color:#007167;text-decoration:none;" data-i18n="checkout.manageAddresses">Manage addresses<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
 
         <!-- DELIVERY (with integrated partial shipment toggle) -->
@@ -2015,10 +2028,6 @@ document.addEventListener('click', function(e) {
       selectedAddress = card.dataset.address;
       updateCheckout();
     }
-
-    // Pre-select the default shipping address on load
-    var defaultAddressCard = document.querySelector('.address-card[data-default]');
-    if (defaultAddressCard) selectAddress(defaultAddressCard);
 
     // Delivery selection
     deliveryOptions.forEach(function(option) {
