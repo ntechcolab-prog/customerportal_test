@@ -2168,6 +2168,8 @@
           .drawing-hint { font-size: 12px; color: #6b7280; text-align: center; margin: 12px 0 0; display: inline-flex; width: 100%; align-items: center; justify-content: center; gap: 6px; }
           .drawing-hint svg { width: 14px; height: 14px; color: #007167; flex-shrink: 0; }
           .results-card .results-table tbody tr.row-highlight { background: rgba(11,156,146,0.10) !important; box-shadow: inset 3px 0 0 #007167; }
+          .drawing-modal-content { text-align: center; }
+          .drawing-modal-fig { position: relative; display: inline-block; margin: 0; max-width: 100%; }
           @media (prefers-reduced-motion: reduce) { .drawing-hotspot, .hotspot-tip { transition: none; } }
           @media (max-width: 640px) { .drawing-interactive { max-width: 100%; } }
         </style>
@@ -2175,11 +2177,11 @@
           <div class="results-drawing interactive">
             <div class="drawing-interactive" id="drawingInteractive">
               <img class="drawing-main" src="../assets/drawing-inlet-flange.png" alt="Inlet flange technical drawing — Discus 30">
-              <button type="button" class="drawing-hotspot" data-itm="903" style="left:27%;top:30%;" aria-label="Identify item 903">903</button>
-              <button type="button" class="drawing-hotspot" data-itm="904" style="left:44%;top:28%;" aria-label="Identify item 904">904</button>
-              <button type="button" class="drawing-hotspot" data-itm="900" style="left:44%;top:34.5%;" aria-label="Identify item 900">900</button>
-              <button type="button" class="drawing-hotspot" data-itm="901" style="left:45.5%;top:51%;" aria-label="Identify item 901">901</button>
-              <button type="button" class="drawing-hotspot" data-itm="902" style="left:45.5%;top:55.5%;" aria-label="Identify item 902">902</button>
+              <button type="button" class="drawing-hotspot" data-itm="903" style="left:30%;top:30%;" aria-label="Identify item 903">903</button>
+              <button type="button" class="drawing-hotspot" data-itm="904" style="left:44%;top:29.5%;" aria-label="Identify item 904">904</button>
+              <button type="button" class="drawing-hotspot" data-itm="900" style="left:44%;top:33.5%;" aria-label="Identify item 900">900</button>
+              <button type="button" class="drawing-hotspot" data-itm="901" style="left:46%;top:51%;" aria-label="Identify item 901">901</button>
+              <button type="button" class="drawing-hotspot" data-itm="902" style="left:46%;top:54.5%;" aria-label="Identify item 902">902</button>
               <div class="hotspot-tip" id="hotspotTip"></div>
               <button type="button" class="drawing-expand" id="drawing-thumb" aria-label="Open full technical drawing" title="Open full drawing">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
@@ -2345,7 +2347,15 @@
       <button type="button" class="drawing-modal-close" id="drawing-modal-close" aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      <img src="../assets/drawing-inlet-flange.png" alt="Inlet flange technical drawing — full view">
+      <figure class="drawing-modal-fig" id="drawingModalFig">
+        <img src="../assets/drawing-inlet-flange.png" alt="Inlet flange technical drawing — full view">
+        <button type="button" class="drawing-hotspot" data-itm="903" style="left:30%;top:30%;" aria-label="Identify item 903">903</button>
+        <button type="button" class="drawing-hotspot" data-itm="904" style="left:44%;top:29.5%;" aria-label="Identify item 904">904</button>
+        <button type="button" class="drawing-hotspot" data-itm="900" style="left:44%;top:33.5%;" aria-label="Identify item 900">900</button>
+        <button type="button" class="drawing-hotspot" data-itm="901" style="left:46%;top:51%;" aria-label="Identify item 901">901</button>
+        <button type="button" class="drawing-hotspot" data-itm="902" style="left:46%;top:54.5%;" aria-label="Identify item 902">902</button>
+        <div class="hotspot-tip" id="hotspotTipModal"></div>
+      </figure>
     </div>
   </div>
 
@@ -2747,45 +2757,49 @@ document.addEventListener('click', function(e) {
 <script src="../assets/hourmeter.js"></script>
 <script src="../assets/machine-line-edit.js"></script>
 <script>
-// ── Interactive parts identification (drawing hotspots ↔ parts table) ──
+// ── Interactive parts identification (drawing hotspots ↔ parts table) — inline + enlarged ──
 (function () {
-  var wrap = document.getElementById('drawingInteractive');
-  if (!wrap) return;
-  var tip = document.getElementById('hotspotTip');
-  var hotspots = wrap.querySelectorAll('.drawing-hotspot');
   var table = document.querySelector('.results-table');
   function rowFor(itm) { return table ? table.querySelector('tbody tr[data-itm="' + itm + '"]') : null; }
-  function label(row) {
-    if (!row) return '';
+  function label(itm) {
+    var row = rowFor(itm);
+    if (!row) return '#' + itm;
     var td = row.querySelectorAll('td');
     return '#' + (td[1] ? td[1].textContent.trim() : '') + ' · ' + (td[3] ? td[3].textContent.trim() : '') + ' · ' + (td[2] ? td[2].textContent.trim() : '');
   }
-  function clear() {
-    hotspots.forEach(function (h) { h.classList.remove('is-active'); });
-    if (table) table.querySelectorAll('tbody tr.row-highlight').forEach(function (r) { r.classList.remove('row-highlight'); });
-    if (tip) tip.classList.remove('show');
+  function wire(container, tip, highlightTable) {
+    if (!container) return null;
+    var spots = container.querySelectorAll('.drawing-hotspot');
+    function clear() {
+      spots.forEach(function (h) { h.classList.remove('is-active'); });
+      if (tip) tip.classList.remove('show');
+      if (highlightTable && table) table.querySelectorAll('tbody tr.row-highlight').forEach(function (r) { r.classList.remove('row-highlight'); });
+    }
+    function show(itm, doScroll) {
+      clear();
+      var hs = container.querySelector('.drawing-hotspot[data-itm="' + itm + '"]');
+      if (hs) hs.classList.add('is-active');
+      if (hs && tip) { tip.textContent = label(itm); tip.style.left = hs.style.left; tip.style.top = hs.style.top; tip.classList.add('show'); }
+      if (highlightTable) { var row = rowFor(itm); if (row) { row.classList.add('row-highlight'); if (doScroll) row.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } }
+    }
+    spots.forEach(function (hs) {
+      var itm = hs.getAttribute('data-itm');
+      hs.addEventListener('mouseenter', function () { show(itm, false); });
+      hs.addEventListener('focus', function () { show(itm, false); });
+      hs.addEventListener('click', function () { show(itm, true); });
+    });
+    container.addEventListener('mouseleave', clear);
+    return { show: show, clear: clear };
   }
-  function show(itm, doScroll) {
-    clear();
-    var hs = wrap.querySelector('.drawing-hotspot[data-itm="' + itm + '"]');
-    var row = rowFor(itm);
-    if (hs) hs.classList.add('is-active');
-    if (row) row.classList.add('row-highlight');
-    if (hs && tip) { tip.textContent = label(row); tip.style.left = hs.style.left; tip.style.top = hs.style.top; tip.classList.add('show'); }
-    if (doScroll && row) row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  }
-  hotspots.forEach(function (hs) {
-    var itm = hs.getAttribute('data-itm');
-    hs.addEventListener('mouseenter', function () { show(itm, false); });
-    hs.addEventListener('focus', function () { show(itm, false); });
-    hs.addEventListener('click', function () { show(itm, true); });
-  });
-  wrap.addEventListener('mouseleave', clear);
-  if (table) {
+
+  var inline = wire(document.getElementById('drawingInteractive'), document.getElementById('hotspotTip'), true);
+  wire(document.getElementById('drawingModalFig'), document.getElementById('hotspotTipModal'), false);
+
+  if (table && inline) {
     table.querySelectorAll('tbody tr[data-itm]').forEach(function (row) {
       var itm = row.getAttribute('data-itm');
-      row.addEventListener('mouseenter', function () { show(itm, false); });
-      row.addEventListener('mouseleave', clear);
+      row.addEventListener('mouseenter', function () { inline.show(itm, false); });
+      row.addEventListener('mouseleave', function () { inline.clear(); });
     });
   }
 })();
