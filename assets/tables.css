@@ -471,16 +471,15 @@ th.sorted.sort-asc .sort-icon {
   height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
-  animation: pulse-dot 2.5s ease-in-out infinite;
 }
-.status-placed { background: rgba(132, 204, 22, 0.1); color: #4d7c0f; }
-.status-placed::before { background: #84cc16; }
+.status-placed { background: rgba(11, 156, 146, 0.08); color: #0a6b63; }
+.status-placed::before { background: #0b9c92; }
 .status-process { background: rgba(245, 158, 11, 0.08); color: #b45309; }
 .status-process::before { background: #f59e0b; }
-.status-shipped { background: rgba(59, 130, 246, 0.07); color: #1d4ed8; }
-.status-shipped::before { background: #3b82f6; }
-.status-delivered { background: rgba(236, 72, 153, 0.08); color: #be185d; }
-.status-delivered::before { background: #ec4899; animation: none; }
+.status-shipped { background: rgba(11, 156, 146, 0.08); color: #0a6b63; }
+.status-shipped::before { background: #0b9c92; }
+.status-delivered { background: var(--nz-green-bg); color: var(--nz-green); }
+.status-delivered::before { background: var(--nz-green); }
 .status-completed { background: var(--nz-green-bg); color: var(--nz-green); }
 .status-completed::before { background: var(--nz-green); animation: none; }
 .status-active { background: var(--nz-green-bg); color: var(--nz-green); }
@@ -497,8 +496,8 @@ th.sorted.sort-asc .sort-icon {
 .status-progress::before { background: #f59e0b; }
 .status-in-progress { background: rgba(245, 158, 11, 0.08); color: #b45309; }
 .status-in-progress::before { background: #f59e0b; }
-.status-submitted { background: rgba(59, 130, 246, 0.07); color: #1d4ed8; }
-.status-submitted::before { background: #3b82f6; }
+.status-submitted { background: rgba(11, 156, 146, 0.08); color: #0a6b63; }
+.status-submitted::before { background: #0b9c92; }
 .status-approved { background: var(--nz-green-bg); color: var(--nz-green); }
 .status-approved::before { background: var(--nz-green); animation: none; }
 .status-rejected { background: rgba(239, 68, 68, 0.06); color: #dc2626; }
@@ -509,8 +508,8 @@ th.sorted.sort-asc .sort-icon {
 .status-inactive::before { background: var(--nz-text-secondary); animation: none; }
 .status-expiring { background: rgba(245, 158, 11, 0.08); color: #b45309; }
 .status-expiring::before { background: #f59e0b; }
-.status-review { background: rgba(99, 102, 241, 0.07); color: #4338ca; }
-.status-review::before { background: #6366f1; }
+.status-review { background: rgba(245, 158, 11, 0.08); color: #b45309; }
+.status-review::before { background: #f59e0b; }
 
 /* ── ACTION BUTTONS ─── */
 .actions-cell {
