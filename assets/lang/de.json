@@ -564,6 +564,7 @@
   "spareParts.materialNumber": "Materialnummer",
   "spareParts.description": "Beschreibung",
   "spareParts.pricePerUnit": "Preis pro Einheit",
+  "spareParts.identifyHint": "Discus 30 — tippen Sie auf eine Nummer in der Zeichnung, um das Teil zu identifizieren, oder fahren Sie über eine Zeile, um es zu finden.",
 
   "millaFlow.askMilla": "Milla fragen",
   "millaFlow.subtitle": "Dokumentation, Anleitungen finden und Hilfe von Milla AI erhalten",

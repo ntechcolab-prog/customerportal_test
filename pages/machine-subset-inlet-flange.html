@@ -2153,12 +2153,42 @@
           </div>
         </div>
 
-        <!-- Results card -->
+        <!-- Interactive parts identification -->
+        <style>
+          .results-drawing.interactive { display: block; }
+          .drawing-interactive { position: relative; display: block; width: 100%; max-width: 560px; margin: 0 auto; }
+          .drawing-interactive > img.drawing-main { width: 100%; height: auto; display: block; border: 1px solid #f1f3f5; border-radius: 10px; background: #fff; }
+          .drawing-hotspot { position: absolute; transform: translate(-50%, -50%); width: 22px; height: 22px; border-radius: 50%; background: #007167; color: #fff; border: 2px solid #fff; font-size: 10px; font-weight: 700; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.35); z-index: 2; transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease; }
+          .drawing-hotspot:hover, .drawing-hotspot:focus-visible, .drawing-hotspot.is-active { background: #0b9c92; transform: translate(-50%, -50%) scale(1.28); box-shadow: 0 0 0 4px rgba(11,156,146,0.25); z-index: 3; outline: none; }
+          .hotspot-tip { position: absolute; transform: translate(-50%, calc(-100% - 14px)); background: #1f2937; color: #fff; font-size: 11px; line-height: 1.35; padding: 6px 9px; border-radius: 7px; white-space: nowrap; z-index: 5; pointer-events: none; opacity: 0; transition: opacity 0.15s ease; box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
+          .hotspot-tip.show { opacity: 1; }
+          .drawing-expand { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border-radius: 8px; border: 1px solid #e5e7eb; background: rgba(255,255,255,0.92); cursor: zoom-in; display: flex; align-items: center; justify-content: center; color: #4b5563; z-index: 4; padding: 0; }
+          .drawing-expand:hover { border-color: #007167; color: #007167; }
+          .drawing-expand svg { width: 15px; height: 15px; }
+          .drawing-hint { font-size: 12px; color: #6b7280; text-align: center; margin: 12px 0 0; display: inline-flex; width: 100%; align-items: center; justify-content: center; gap: 6px; }
+          .drawing-hint svg { width: 14px; height: 14px; color: #007167; flex-shrink: 0; }
+          .results-card .results-table tbody tr.row-highlight { background: rgba(11,156,146,0.10) !important; box-shadow: inset 3px 0 0 #007167; }
+          @media (prefers-reduced-motion: reduce) { .drawing-hotspot, .hotspot-tip { transition: none; } }
+          @media (max-width: 640px) { .drawing-interactive { max-width: 100%; } }
+        </style>
         <div class="results-card">
-          <div class="results-drawing">
-            <button type="button" class="drawing-thumb" id="drawing-thumb" aria-label="Open technical drawing">
-              <img src="../assets/drawing-inlet-flange.png" alt="Inlet flange technical drawing">
-            </button>
+          <div class="results-drawing interactive">
+            <div class="drawing-interactive" id="drawingInteractive">
+              <img class="drawing-main" src="../assets/drawing-inlet-flange.png" alt="Inlet flange technical drawing — Discus 30">
+              <button type="button" class="drawing-hotspot" data-itm="903" style="left:27%;top:30%;" aria-label="Identify item 903">903</button>
+              <button type="button" class="drawing-hotspot" data-itm="904" style="left:44%;top:28%;" aria-label="Identify item 904">904</button>
+              <button type="button" class="drawing-hotspot" data-itm="900" style="left:44%;top:34.5%;" aria-label="Identify item 900">900</button>
+              <button type="button" class="drawing-hotspot" data-itm="901" style="left:45.5%;top:51%;" aria-label="Identify item 901">901</button>
+              <button type="button" class="drawing-hotspot" data-itm="902" style="left:45.5%;top:55.5%;" aria-label="Identify item 902">902</button>
+              <div class="hotspot-tip" id="hotspotTip"></div>
+              <button type="button" class="drawing-expand" id="drawing-thumb" aria-label="Open full technical drawing" title="Open full drawing">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+              </button>
+            </div>
+            <p class="drawing-hint">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M8 7.3v3.4M8 5.2v.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              <span data-i18n="spareParts.identifyHint">Discus 30 — tap a number on the drawing to identify the part, or hover a row to locate it.</span>
+            </p>
           </div>
           <table class="results-table">
             <colgroup>
@@ -2180,7 +2210,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr data-itm="900">
                 <td class="col-check"><input type="checkbox" class="row-checkbox" aria-label="Select item 900"></td>
                 <td>900</td>
                 <td class="col-mat">517225</td>
@@ -2195,7 +2225,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr data-itm="901">
                 <td class="col-check"><input type="checkbox" class="row-checkbox" aria-label="Select item 901"></td>
                 <td>901</td>
                 <td class="col-mat">535214</td>
@@ -2210,7 +2240,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr data-itm="902">
                 <td class="col-check"><input type="checkbox" class="row-checkbox" aria-label="Select item 902"></td>
                 <td>902</td>
                 <td class="col-mat">535841</td>
@@ -2225,7 +2255,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr data-itm="903">
                 <td class="col-check"><input type="checkbox" class="row-checkbox" aria-label="Select item 903"></td>
                 <td>903</td>
                 <td class="col-mat">545802</td>
@@ -2240,7 +2270,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr data-itm="904">
                 <td class="col-check"><input type="checkbox" class="row-checkbox" aria-label="Select item 904"></td>
                 <td>904</td>
                 <td class="col-mat">528256</td>
@@ -2315,7 +2345,7 @@
       <button type="button" class="drawing-modal-close" id="drawing-modal-close" aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      <img src="../assets/drawing-discus30-grinding.png" alt="Grinding chamber technical drawing — full view">
+      <img src="../assets/drawing-inlet-flange.png" alt="Inlet flange technical drawing — full view">
     </div>
   </div>
 
@@ -2716,5 +2746,49 @@ document.addEventListener('click', function(e) {
 <script src="../assets/docs-modal.js"></script>
 <script src="../assets/hourmeter.js"></script>
 <script src="../assets/machine-line-edit.js"></script>
+<script>
+// ── Interactive parts identification (drawing hotspots ↔ parts table) ──
+(function () {
+  var wrap = document.getElementById('drawingInteractive');
+  if (!wrap) return;
+  var tip = document.getElementById('hotspotTip');
+  var hotspots = wrap.querySelectorAll('.drawing-hotspot');
+  var table = document.querySelector('.results-table');
+  function rowFor(itm) { return table ? table.querySelector('tbody tr[data-itm="' + itm + '"]') : null; }
+  function label(row) {
+    if (!row) return '';
+    var td = row.querySelectorAll('td');
+    return '#' + (td[1] ? td[1].textContent.trim() : '') + ' · ' + (td[3] ? td[3].textContent.trim() : '') + ' · ' + (td[2] ? td[2].textContent.trim() : '');
+  }
+  function clear() {
+    hotspots.forEach(function (h) { h.classList.remove('is-active'); });
+    if (table) table.querySelectorAll('tbody tr.row-highlight').forEach(function (r) { r.classList.remove('row-highlight'); });
+    if (tip) tip.classList.remove('show');
+  }
+  function show(itm, doScroll) {
+    clear();
+    var hs = wrap.querySelector('.drawing-hotspot[data-itm="' + itm + '"]');
+    var row = rowFor(itm);
+    if (hs) hs.classList.add('is-active');
+    if (row) row.classList.add('row-highlight');
+    if (hs && tip) { tip.textContent = label(row); tip.style.left = hs.style.left; tip.style.top = hs.style.top; tip.classList.add('show'); }
+    if (doScroll && row) row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+  hotspots.forEach(function (hs) {
+    var itm = hs.getAttribute('data-itm');
+    hs.addEventListener('mouseenter', function () { show(itm, false); });
+    hs.addEventListener('focus', function () { show(itm, false); });
+    hs.addEventListener('click', function () { show(itm, true); });
+  });
+  wrap.addEventListener('mouseleave', clear);
+  if (table) {
+    table.querySelectorAll('tbody tr[data-itm]').forEach(function (row) {
+      var itm = row.getAttribute('data-itm');
+      row.addEventListener('mouseenter', function () { show(itm, false); });
+      row.addEventListener('mouseleave', clear);
+    });
+  }
+})();
+</script>
 </body>
 </html>

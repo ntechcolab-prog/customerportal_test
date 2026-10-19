@@ -564,6 +564,7 @@
   "spareParts.materialNumber": "Material Number",
   "spareParts.description": "Description",
   "spareParts.pricePerUnit": "Price per unit",
+  "spareParts.identifyHint": "Discus 30 — tap a number on the drawing to identify the part, or hover a row to locate it.",
 
   "millaFlow.askMilla": "Ask Milla",
   "millaFlow.subtitle": "Find documentation, tutorials and get help from Milla AI",
