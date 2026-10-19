@@ -656,6 +656,7 @@
   "checkout.orderItems": "Order Items",
   "checkout.quoteSubtitle": "Our sales team will review your request and send a confirmation by email within 3 business days.",
   "checkout.viewQuote": "View Quote",
+  "checkout.manageAddresses": "Manage addresses",
   "checkout.quoteProgress": "Quotation Progress",
   "checkout.stepReceived": "Received",
   "checkout.stepPendingApproval": "Pending Approval",

@@ -656,6 +656,7 @@
   "checkout.orderItems": "Bestellpositionen",
   "checkout.quoteSubtitle": "Unser Vertriebsteam wird Ihre Anfrage prüfen und Ihnen innerhalb von 3 Werktagen eine Bestätigung per E-Mail senden.",
   "checkout.viewQuote": "Angebot anzeigen",
+  "checkout.manageAddresses": "Adressen verwalten",
   "checkout.quoteProgress": "Angebotsfortschritt",
   "checkout.stepReceived": "Eingegangen",
   "checkout.stepPendingApproval": "Genehmigung ausstehend",
