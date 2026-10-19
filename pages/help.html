@@ -1065,7 +1065,7 @@
     /* Article preview drawer */
     .article-drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); z-index: 500; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
     .article-drawer-overlay.open { opacity: 1; pointer-events: auto; }
-    .article-drawer { position: fixed; top: 0; right: 0; height: 100%; width: 440px; max-width: 92vw; background: #fff; box-shadow: -8px 0 40px rgba(0,0,0,0.16); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); display: flex; flex-direction: column; z-index: 501; }
+    .article-drawer { position: fixed; top: 0; right: 0; height: 100%; width: 600px; max-width: 92vw; background: #fff; box-shadow: -8px 0 40px rgba(0,0,0,0.16); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.32,0.72,0,1); display: flex; flex-direction: column; z-index: 501; }
     .article-drawer-overlay.open .article-drawer { transform: translateX(0); }
     .article-drawer-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 20px 24px; border-bottom: 1px solid #eef0f2; }
     .article-drawer-head h2 { font-size: 17px; font-weight: 700; color: #1f2937; line-height: 1.35; }
@@ -1082,8 +1082,8 @@
     .article-content ol { margin: 0 0 14px; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
     .article-content ol li { line-height: 1.55; }
     .article-content .article-note { margin: 4px 0 14px; padding: 12px 14px; background: #f3faf9; border: 1px solid #cfe9e5; border-radius: 10px; font-size: 13px; color: #334155; }
-    .article-content .article-content-actions { margin: 4px 0 0; }
     .article-drawer-cta { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .article-drawer-cta .btn { flex: 1 1 0; min-width: 130px; }
     .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
 
     /* ── PAGINATION ─── */
@@ -3858,7 +3858,6 @@ function sendFromSmallChat() {
       '<div class="article-note">' + T('help.quoteTip', 'Prices stay hidden (shown as “--”) until our sales team confirms them on the quotation.') + '</div>' +
       '<h3>' + T('help.quoteWhoTitle', 'Who can request and approve') + '</h3>' +
       '<p>' + T('help.quoteWho', 'Buyers and Administrators can request quotations. Approvers can review and approve them but not create them. Technicians don’t have access to quotations.') + '</p>' +
-      '<p class="article-content-actions"><a href="shop.html" class="btn btn-primary btn-sm">' + T('help.quoteBrowseShop', 'Browse the Shop') + '</a></p>' +
     '</div>';
   }
   var ARTICLES = { 'request-quotation': quoteArticle };
@@ -3866,11 +3865,18 @@ function sendFromSmallChat() {
     if (key && ARTICLES[key]) return ARTICLES[key]();
     return '<div class="article-placeholder">' + T('help.articlePlaceholder', 'The full article is being prepared. In the meantime, ask Milla or contact our support team.') + '</div>';
   }
+  // Optional primary action per article, rendered first in the CTA row (same size as the support buttons)
+  var ARTICLE_CTAS = {
+    'request-quotation': function () { return '<a href="shop.html" class="btn btn-primary btn-sm">' + T('help.quoteBrowseShop', 'Browse the Shop') + '</a>'; }
+  };
 
   function openArticleDrawer(row) {
     var link = row.querySelector('.article-link');
     var cells = row.querySelectorAll('td');
     var badge = row.querySelector('.cat-badge');
+    var key = link ? link.getAttribute('data-article') : null;
+    var primaryCta = (key && ARTICLE_CTAS[key]) ? ARTICLE_CTAS[key]() : '';
+    var supportClass = primaryCta ? 'btn-secondary' : 'btn-primary';
     titleEl.textContent = link ? link.textContent.trim() : '';
     bodyEl.innerHTML =
       '<div class="article-meta">' +
@@ -3878,9 +3884,10 @@ function sendFromSmallChat() {
         '<div class="article-meta-item">' + T('help.colMachine', 'Related Machine') + '<strong>' + esc(cells[2] ? cells[2].textContent.trim() : '—') + '</strong></div>' +
         '<div class="article-meta-item">' + T('help.colUpdated', 'Last Updated') + '<strong>' + esc(cells[3] ? cells[3].textContent.trim() : '—') + '</strong></div>' +
       '</div>' +
-      articleBody(link ? link.getAttribute('data-article') : null) +
+      articleBody(key) +
       '<div class="article-drawer-cta">' +
-        '<a href="contact-support.html" class="btn btn-primary btn-sm">' + T('common.contactSupport', 'Contact Support') + '</a>' +
+        primaryCta +
+        '<a href="contact-support.html" class="btn ' + supportClass + ' btn-sm">' + T('common.contactSupport', 'Contact Support') + '</a>' +
         '<button type="button" class="btn btn-secondary btn-sm" id="articleAskMilla">' + T('help.askMilla', 'Ask Milla') + '</button>' +
       '</div>';
     var am = document.getElementById('articleAskMilla');
