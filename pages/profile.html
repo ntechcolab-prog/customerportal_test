@@ -2695,13 +2695,8 @@ function sendFromSmallChat() {
     });
   });
 
-  // Show only the first section by default, or the one named in the URL hash (e.g. #section-addresses)
-  var hashSection = (location.hash || '').replace('#', '');
-  if (hashSection && document.getElementById(hashSection) && document.querySelector('.account-nav-item[data-section="' + hashSection + '"]')) {
-    showSection(hashSection);
-  } else {
-    showSection('section-personal');
-  }
+  // Show only the first section by default
+  showSection('section-personal');
 })();
 </script>
 <script>
