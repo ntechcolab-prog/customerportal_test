@@ -1491,6 +1491,43 @@
       <span class="page-subtitle">24 quotes, 3 pending approval</span>
     </div>
 
+    <!-- ONBOARDING (first-run: shown only when the user has no saved quotes yet) -->
+    <style>
+      .quote-onboard { display: flex; gap: 16px; align-items: flex-start; background: #f3faf9; border: 1px solid #cfe9e5; border-radius: 12px; padding: 20px 48px 20px 22px; margin-bottom: 24px; position: relative; }
+      .quote-onboard[hidden] { display: none; }
+      .quote-onboard-icon { flex-shrink: 0; width: 44px; height: 44px; border-radius: 10px; background: #e0f2ef; color: #007167; display: flex; align-items: center; justify-content: center; }
+      .quote-onboard-icon svg { width: 24px; height: 24px; }
+      .quote-onboard-body { flex: 1; min-width: 0; }
+      .quote-onboard-title { font-size: 16px; font-weight: 600; color: #1f2937; margin: 0 0 4px; }
+      .quote-onboard-desc { font-size: 13.5px; color: #4b5563; margin: 0 0 12px; }
+      .quote-onboard-steps { margin: 0 0 16px; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+      .quote-onboard-steps li { font-size: 13.5px; color: #374151; line-height: 1.5; }
+      .quote-onboard-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+      .quote-onboard-close { position: absolute; top: 14px; right: 14px; width: 28px; height: 28px; border: none; background: none; cursor: pointer; color: #6b7280; border-radius: 6px; font-size: 15px; line-height: 1; display: flex; align-items: center; justify-content: center; transition: background 0.15s, color 0.15s; }
+      .quote-onboard-close:hover { background: #e0f2ef; color: #007167; }
+      @media (max-width: 640px) { .quote-onboard { flex-direction: column; padding-right: 22px; } }
+      @media (prefers-reduced-motion: reduce) { .quote-onboard-close { transition: none; } }
+    </style>
+    <div class="quote-onboard" id="quoteOnboard" hidden>
+      <div class="quote-onboard-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V8l-5-5H8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="quote-onboard-body">
+        <h2 class="quote-onboard-title" data-i18n="quotes.onboardTitle">Request your first quotation</h2>
+        <p class="quote-onboard-desc" data-i18n="quotes.onboardDesc">Need pricing or internal approval before ordering? Request a quotation — here's how it works:</p>
+        <ol class="quote-onboard-steps">
+          <li data-i18n="quotes.onboardStep1">Add spare parts marked “Quotation Only” to your cart — from the Shop or a machine's parts list.</li>
+          <li data-i18n="quotes.onboardStep2">At checkout, choose “Request Quotation for Approval” instead of placing the order.</li>
+          <li data-i18n="quotes.onboardStep3">Track its status right here. Our sales team replies within 3 business days.</li>
+        </ol>
+        <div class="quote-onboard-actions">
+          <a href="shop.html" class="btn btn-primary btn-sm" data-i18n="quotes.onboardCtaShop">Browse the Shop</a>
+          <a href="help.html" class="btn btn-secondary btn-sm" data-i18n="quotes.onboardCtaLearn">How it works</a>
+        </div>
+      </div>
+      <button class="quote-onboard-close" id="quoteOnboardClose" type="button" aria-label="Dismiss" data-i18n-aria-label="quotes.onboardDismiss">&#x2715;</button>
+    </div>
+
     <!-- STAT CARDS -->
     <div class="stat-cards" data-skeleton-stagger>
       <div class="stat-card">
@@ -2050,6 +2087,20 @@
 (function () {
   if (!window.NetzschQuotes) return;
   var saved = NetzschQuotes.all();
+
+  // Onboarding card — shown only to users who have not requested any quote yet (dismissible, remembered)
+  var onboard = document.getElementById('quoteOnboard');
+  if (onboard) {
+    var dismissed = false;
+    try { dismissed = localStorage.getItem('netzsch_quotes_onboard_dismissed') === '1'; } catch (e) {}
+    if (!dismissed && saved.length === 0) onboard.hidden = false;
+    var onboardClose = document.getElementById('quoteOnboardClose');
+    if (onboardClose) onboardClose.addEventListener('click', function () {
+      onboard.hidden = true;
+      try { localStorage.setItem('netzsch_quotes_onboard_dismissed', '1'); } catch (e) {}
+    });
+  }
+
   if (!saved.length) return;
   var tbody = document.querySelector('.quotes-table tbody');
   if (!tbody) return;
