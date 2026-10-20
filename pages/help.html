@@ -519,6 +519,23 @@
     .filter-pill.active .pill-count {
       opacity: 0.7;
     }
+    .filter-pills-sep {
+      display: inline-block;
+      width: 1px;
+      height: 18px;
+      background: #e5e7eb;
+      margin: 0 6px;
+      vertical-align: middle;
+      align-self: center;
+    }
+    .filter-pill-mine svg { width: 13px; height: 13px; margin-right: 2px; vertical-align: -2px; color: currentColor; }
+    .machine-link {
+      color: #007167;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+    .machine-link:hover { border-bottom-color: #007167; }
 
     /* ── TABLE WRAP (connected to filter-bar) ─── */
     .articles-table-wrap {
@@ -1535,6 +1552,11 @@
           <button class="filter-pill" data-category="orders"><span data-i18n="help.catOrders">Orders</span> <span class="pill-count" id="countOrders"></span></button>
           <button class="filter-pill" data-category="machine"><span data-i18n="help.catMachines">Machines</span> <span class="pill-count" id="countMachines"></span></button>
           <button class="filter-pill" data-category="portal"><span data-i18n="help.catPortal">Portal</span> <span class="pill-count" id="countPortal"></span></button>
+          <span class="filter-pills-sep" aria-hidden="true"></span>
+          <button class="filter-pill filter-pill-mine" data-category="mine">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="5" height="8" rx="0.5"/><rect x="9" y="3" width="5" height="11" rx="0.5"/><path d="M4.5 9h.01M4.5 11h.01M11.5 6h.01M11.5 8h.01M11.5 10h.01"/></svg>
+            <span data-i18n="help.catMyMachines">My machines</span> <span class="pill-count" id="countMine"></span>
+          </button>
         </div>
       </div>
 
@@ -3348,6 +3370,10 @@ document.addEventListener('click', function(e) {
       document.getElementById('countOrders').textContent = counts.orders;
       document.getElementById('countMachines').textContent = counts.machine;
       document.getElementById('countPortal').textContent = counts.portal;
+      var mine = 0;
+      rows.forEach(function(row) { if (rowMatchesFleet(row)) mine++; });
+      var cm = document.getElementById('countMine');
+      if (cm) cm.textContent = mine;
     }
 
     function getFilteredRows() {
@@ -3358,7 +3384,8 @@ document.addEventListener('click', function(e) {
         var rowCat = getRowCategory(row);
         var rowText = row.textContent.toLowerCase();
         var show = true;
-        if (activeCategory && rowCat !== activeCategory) show = false;
+        if (activeCategory === 'mine') { if (!rowMatchesFleet(row)) show = false; }
+        else if (activeCategory && rowCat !== activeCategory) show = false;
         if (searchVal && rowText.indexOf(searchVal) === -1) show = false;
         if (show) filtered.push(row);
       });
@@ -3490,6 +3517,42 @@ document.addEventListener('click', function(e) {
       applyFilters();
     });
 
+    // CP-278 #2 — make 'Related Machine' cells link to the machine pages
+    var MACHINE_PAGES = {
+      'discus 30': 'machine-discus30.html',
+      'zeta 60': 'machine-zeta60.html',
+      'zeta 500': 'machine-zeta500.html',
+      'alpha zeta 10': 'machine-alphazeta10.html',
+      'mastermix 45': 'machine-mastermix45.html',
+      'prophi': 'machine-prophi.html'
+    };
+    function linkifyMachines() {
+      document.querySelectorAll('.articles-table tbody tr').forEach(function(row) {
+        var cell = row.querySelectorAll('td')[2];
+        if (!cell || cell.querySelector('a')) return;
+        var raw = cell.textContent.trim();
+        if (!raw || raw === '—' || raw === '-') return;
+        var html = raw.split(',').map(function(s) {
+          var name = s.trim();
+          var key = name.toLowerCase();
+          if (key === 'all machines') return '<a href="machines.html" class="machine-link">' + name + '</a>';
+          if (MACHINE_PAGES[key]) return '<a href="' + MACHINE_PAGES[key] + '" class="machine-link">' + name + '</a>';
+          return name;
+        }).join(', ');
+        cell.innerHTML = html;
+      });
+    }
+
+    // CP-278 #4 — 'My machines' quick filter (user fleet, mirrors machines.html)
+    var FLEET = ['discus 30', 'zeta 60', 'zeta 500', 'alpha zeta 10', 'mastermix 45', 'prophi'];
+    function rowMatchesFleet(row) {
+      var cell = row.querySelectorAll('td')[2];
+      if (!cell) return false;
+      return cell.textContent.split(',').map(function(s) { return s.trim().toLowerCase(); })
+        .some(function(p) { return p === 'all machines' || FLEET.indexOf(p) !== -1; });
+    }
+
+    linkifyMachines();
     countByCategory();
     applyFilters();
   </script>
