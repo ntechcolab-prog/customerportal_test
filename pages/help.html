@@ -546,6 +546,16 @@
       color: #007167;
     }
 
+    /* CP-278 #1 — fixed-layout column widths so long titles wrap instead of
+       overflowing into the Category column */
+    .articles-table th:nth-child(1), .articles-table td:nth-child(1) { width: 42%; }
+    .articles-table th:nth-child(2), .articles-table td:nth-child(2) { width: 22%; }
+    .articles-table th:nth-child(3), .articles-table td:nth-child(3) { width: 21%; }
+    .articles-table th:nth-child(4), .articles-table td:nth-child(4) { width: 15%; }
+    .articles-table td { vertical-align: top; }
+    .article-link { display: inline; }        /* let the title wrap within its cell */
+    .article-link svg { vertical-align: -2px; margin-right: 6px; }
+
     /* Date with clock icon */
     .date-cell {
       display: inline-flex;
