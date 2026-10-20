@@ -3247,6 +3247,13 @@
           </div>
           <p class="empty-state-title" data-i18n="common.noResults">No results found</p>
           <p class="empty-state-desc" data-i18n="common.noResultsDesc">Try adjusting your search or filters</p>
+          <div class="empty-state-cta" style="display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap;">
+            <button type="button" class="btn btn-primary btn-sm" id="emptyAskMilla">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11 6.5 7.5 3 6l3.5-1.5L8 1z" fill="currentColor"/></svg>
+              <span data-i18n="help.askMilla">Ask Milla</span>
+            </button>
+            <a href="contact-support.html" class="btn btn-secondary btn-sm" data-i18n="common.contactSupport">Contact Support</a>
+          </div>
         </div>
         <!-- Pagination -->
         <div class="pagination" id="articlesPagination">
@@ -3916,6 +3923,13 @@ function sendFromSmallChat() {
   document.getElementById('articleDrawerClose').addEventListener('click', closeDrawer);
   overlay.addEventListener('click', function (e) { if (e.target === overlay) closeDrawer(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) closeDrawer(); });
+  // No-results empty state → don't dead-end: Ask Milla with the current query
+  var emptyMilla = document.getElementById('emptyAskMilla');
+  if (emptyMilla) emptyMilla.addEventListener('click', function () {
+    var si = document.getElementById('filterSearch');
+    var q = (si && si.value.trim()) ? si.value.trim() : '';
+    if (typeof openMillaChat === 'function') openMillaChat(q);
+  });
 })();
 </script>
 </body>
