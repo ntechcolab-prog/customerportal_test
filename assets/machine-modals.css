@@ -320,6 +320,9 @@ select.sr-input.is-placeholder { color: #9ca3af; }
   transition: border-color 0.15s, background 0.15s;
 }
 .sr-dropzone:hover { border-color: #007167; background: #f0faf9; }
+.sr-dropzone:focus-visible { outline: none; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
+/* Active drag-over state (see B2 drag-and-drop wiring) */
+.sr-dropzone.is-dragover { border-color: #007167; background: #e6f4f3; }
 .sr-dropzone-text { font-size: 13px; color: #374151; }
 .sr-dropzone-hint { font-size: 11px; color: #9ca3af; }
 

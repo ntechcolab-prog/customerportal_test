@@ -74,7 +74,7 @@
               '</div>' +
               '<div>' +
                 '<span class="sr-field-label" data-i18n="serviceReq.attachments">Attachments</span>' +
-                '<div class="sr-dropzone" id="srm-dropzone"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+                '<div class="sr-dropzone" id="srm-dropzone" role="button" tabindex="0"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 20V8m0 0l-5 5m5-5l5 5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 22v2a2 2 0 002 2h16a2 2 0 002-2v-2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
                   '<span class="sr-dropzone-text" data-i18n="serviceReq.dropzone">Drop files here or click to upload</span>' +
                   '<span class="sr-dropzone-hint" data-i18n="serviceReq.dropzoneHint">Supports: PDF, JPG, PNG</span>' +
                   '<input type="file" id="srm-file" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none"></div>' +
@@ -198,6 +198,10 @@
 
     var dz = q('srm-dropzone'), file = q('srm-file');
     dz.addEventListener('click', function () { file.click(); });
+    // A div[role=button] does not synthesize a click from Enter/Space — do it here.
+    dz.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); file.click(); }
+    });
     file.addEventListener('change', function () {
       if (file.files.length > 0) dz.querySelector('.sr-dropzone-text').textContent = file.files.length + ' file(s) selected';
     });
