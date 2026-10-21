@@ -121,6 +121,15 @@
     else { thumb.src = PLACEHOLDER_THUMB; thumb.alt = ''; thumb.classList.add('is-placeholder'); }
   }
 
+  // Reflect the checked radio onto the cards. Driven by the radios' "change"
+  // event so it fires for both mouse (label click) and keyboard (arrow keys).
+  function syncRadioCards() {
+    Array.prototype.forEach.call(overlay.querySelectorAll('.sr-radio-card'), function (c) {
+      var r = c.querySelector('input[type="radio"]');
+      c.classList.toggle('selected', !!(r && r.checked));
+    });
+  }
+
   function validate() {
     var hasMachine = lockedKey ? true : (q('srm-machine').value !== '');
     var hasType = !!overlay.querySelector('input[name="srmType"]:checked');
@@ -178,13 +187,10 @@
     overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) close(); });
 
-    Array.prototype.forEach.call(overlay.querySelectorAll('.sr-radio-card'), function (card) {
-      card.addEventListener('click', function () {
-        Array.prototype.forEach.call(overlay.querySelectorAll('.sr-radio-card'), function (c) { c.classList.remove('selected'); });
-        card.classList.add('selected');
-        card.querySelector('input[type="radio"]').checked = true;
-        validate();
-      });
+    // Keyboard + mouse: listen on the radios' change (fires on label click AND
+    // on arrow-key navigation within the group), then mirror onto the cards.
+    Array.prototype.forEach.call(overlay.querySelectorAll('input[name="srmType"]'), function (radio) {
+      radio.addEventListener('change', function () { syncRadioCards(); validate(); });
     });
     q('srm-title').addEventListener('input', validate);
     q('srm-desc').addEventListener('input', validate);

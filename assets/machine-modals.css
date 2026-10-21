@@ -224,6 +224,8 @@
   text-align: center;
 }
 .sr-radio-card:hover { border-color: #b1b4b7; }
+/* Visible keyboard focus — the real radio is 0×0/opacity:0, so surface focus on the card */
+.sr-radio-card:focus-within { border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
 .sr-radio-card.selected {
   border-color: #007167;
   border-width: 2px;
