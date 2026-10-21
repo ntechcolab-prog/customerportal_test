@@ -326,6 +326,17 @@ select.sr-input.is-placeholder { color: #9ca3af; }
 .sr-dropzone-text { font-size: 13px; color: #374151; }
 .sr-dropzone-hint { font-size: 11px; color: #9ca3af; }
 
+/* Selected attachments — removable list below the dropzone (B1) */
+.sr-file-list { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.sr-file-list:empty { display: none; }
+.sr-file-item { display: flex; align-items: center; gap: 10px; padding: 6px 6px 6px 12px; border: 1px solid #e5e7eb; border-radius: 10px; background: #f9fafb; }
+.sr-file-glyph { color: #007167; flex-shrink: 0; }
+.sr-file-name { flex: 1 1 auto; min-width: 0; font-size: 13px; color: #1f2937; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sr-file-size { font-size: 12px; color: #9ca3af; flex-shrink: 0; }
+.sr-file-remove { flex-shrink: 0; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border: none; background: transparent; color: #8b8e91; border-radius: 8px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+.sr-file-remove:hover { background: #fde8e3; color: #c73e20; }
+.sr-file-remove:focus-visible { outline: none; color: #c73e20; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.15); }
+
 .sr-modal-footer {
   padding: 8px 0 0;
   display: flex;

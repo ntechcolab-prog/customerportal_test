@@ -23,6 +23,10 @@
   var PLACEHOLDER_THUMB = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/%3E%3Cpath d='M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12'/%3E%3C/svg%3E";
 
   var overlay = null, built = false, lockedKey = null, lastFocused = null;
+  // Our own attachment list — the native input.files is read-only, so we can't
+  // remove a single file from it. We track files here and show count on submit.
+  var attachments = [];
+  var ACCEPT_RE = /\.(pdf|jpe?g|png)$/i; // honors the "Supports: PDF, JPG, PNG" hint for drag-drop too
 
   function el(html) { var d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstElementChild; }
 
@@ -78,6 +82,7 @@
                   '<span class="sr-dropzone-text" data-i18n="serviceReq.dropzone">Drop files here or click to upload</span>' +
                   '<span class="sr-dropzone-hint" data-i18n="serviceReq.dropzoneHint">Supports: PDF, JPG, PNG</span>' +
                   '<input type="file" id="srm-file" multiple accept=".pdf,.jpg,.jpeg,.png" style="display:none"></div>' +
+                '<ul class="sr-file-list" id="srm-file-list" aria-live="polite"></ul>' +
               '</div>' +
               '<div class="sr-modal-footer">' +
                 '<button type="button" class="sr-btn-cancel" id="srm-cancel" data-i18n="common.cancel">Cancel</button>' +
@@ -103,6 +108,44 @@
   }
 
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+  function t(key, fb) { return (window.NetzschI18n && NetzschI18n.t) ? NetzschI18n.t(key, fb) : fb; }
+
+  function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  var FILE_GLYPH = '<svg class="sr-file-glyph" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
+
+  // Render the chosen attachments as a removable list below the dropzone.
+  function renderFiles() {
+    var list = q('srm-file-list');
+    if (!list) return;
+    list.innerHTML = attachments.map(function (f, i) {
+      var label = esc(t('serviceReq.removeFile', 'Remove file') + ': ' + f.name);
+      return '<li class="sr-file-item">' + FILE_GLYPH +
+        '<span class="sr-file-name">' + esc(f.name) + '</span>' +
+        '<span class="sr-file-size">' + formatSize(f.size) + '</span>' +
+        '<button type="button" class="sr-file-remove" data-i="' + i + '" aria-label="' + label + '">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+        '</button></li>';
+    }).join('');
+  }
+
+  // Add files from the input or a drop, filtering to the accepted types and de-duping.
+  function addFiles(fileList) {
+    if (!fileList) return;
+    Array.prototype.forEach.call(fileList, function (f) {
+      if (!ACCEPT_RE.test(f.name)) return;
+      var dup = attachments.some(function (a) { return a.name === f.name && a.size === f.size; });
+      if (!dup) attachments.push(f);
+    });
+    renderFiles();
+  }
+
+  function removeFile(i) { attachments.splice(i, 1); renderFiles(); }
 
   // Machine context bar (image + name + SN). withChange adds a "Change" button (picker only).
   function machineBar(m, withChange) {
@@ -155,7 +198,8 @@
     Array.prototype.forEach.call(overlay.querySelectorAll('.sr-radio-card'), function (c) { c.classList.remove('selected'); });
     Array.prototype.forEach.call(overlay.querySelectorAll('input[name="srmType"]'), function (r) { r.checked = false; });
     var file = q('srm-file'); if (file) file.value = '';
-    q('srm-dropzone').querySelector('.sr-dropzone-text').textContent = 'Drop files here or click to upload';
+    attachments = [];
+    renderFiles();
     q('srm-send').disabled = true;
   }
 
@@ -169,7 +213,6 @@
       machineType: md.machineType, figNr: md.figNr, serviceBy: md.serviceBy,
       purchaseDate: md.purchaseDate, installDate: md.installDate, warranty: md.warranty, image: md.image
     });
-    var file = q('srm-file');
     var id = ServiceRequestsStore.newId();
     ServiceRequestsStore.add({
       id: id,
@@ -178,7 +221,7 @@
       status: 'submitted',
       title: q('srm-title').value.trim(),
       desc: q('srm-desc').value.trim(),
-      files: (file && file.files) ? file.files.length : 0,
+      files: attachments.length,
       machine: machine
     });
     window.location.href = 'service-request-submitted.html?id=' + id + '&new=1';
@@ -223,7 +266,23 @@
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); file.click(); }
     });
     file.addEventListener('change', function () {
-      if (file.files.length > 0) dz.querySelector('.sr-dropzone-text').textContent = file.files.length + ' file(s) selected';
+      addFiles(file.files);
+      file.value = ''; // clear so re-picking the same file still fires change
+    });
+
+    // B2 — real drag-and-drop (the dropzone text promised it; only click worked before).
+    dz.addEventListener('dragover', function (e) { e.preventDefault(); dz.classList.add('is-dragover'); });
+    dz.addEventListener('dragleave', function (e) { if (e.target === dz) dz.classList.remove('is-dragover'); });
+    dz.addEventListener('drop', function (e) {
+      e.preventDefault();
+      dz.classList.remove('is-dragover');
+      if (e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files);
+    });
+
+    // B1 — remove a single attachment (event delegation on the list).
+    q('srm-file-list').addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('.sr-file-remove') : null;
+      if (btn) removeFile(parseInt(btn.getAttribute('data-i'), 10));
     });
 
     q('srm-send').addEventListener('click', submit);

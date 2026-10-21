@@ -683,6 +683,7 @@
   "serviceReq.attachments": "Anhänge",
   "serviceReq.dropzone": "Dateien hier ablegen oder klicken zum Hochladen",
   "serviceReq.dropzoneHint": "Unterstützt: PDF, JPG, PNG",
+  "serviceReq.removeFile": "Datei entfernen",
   "serviceReq.sendRequest": "Anfrage senden",
   "serviceReq.modalSubtitle": "Wartung planen oder ein Problem melden",
   "serviceReq.machineLabel": "Maschine",
