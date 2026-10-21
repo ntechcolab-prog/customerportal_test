@@ -22,7 +22,7 @@
   // Neutral machine icon shown in the picker thumbnail until a machine is chosen.
   var PLACEHOLDER_THUMB = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/%3E%3Cpath d='M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12'/%3E%3C/svg%3E";
 
-  var overlay = null, built = false, lockedKey = null;
+  var overlay = null, built = false, lockedKey = null, lastFocused = null;
 
   function el(html) { var d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstElementChild; }
 
@@ -38,13 +38,13 @@
       PICKER_KEYS.map(function (k) { return '<option value="' + k + '">' + MACHINES[k].name + '</option>'; }).join('');
 
     overlay = el(
-      '<div class="sr-modal-overlay" id="srm-overlay">' +
-        '<div class="sr-modal-wrapper">' +
+      '<div class="sr-modal-overlay" id="srm-overlay" inert>' +
+        '<div class="sr-modal-wrapper" role="dialog" aria-modal="true" aria-labelledby="srm-heading" tabindex="-1">' +
           '<button type="button" class="sr-modal-close" id="srm-close" aria-label="Close" data-i18n-aria-label="common.close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
           '<div class="sr-modal">' +
             '<div class="sr-modal-header">' +
               '<div class="sr-modal-header-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>' +
-              '<div><h2 data-i18n="machine.serviceRequest">Service Request</h2><p data-i18n="serviceReq.modalSubtitle">Schedule maintenance or report an issue</p></div>' +
+              '<div><h2 id="srm-heading" data-i18n="machine.serviceRequest">Service Request</h2><p data-i18n="serviceReq.modalSubtitle">Schedule maintenance or report an issue</p></div>' +
             '</div>' +
             '<div id="srm-machine-slot"></div>' +
             '<div class="sr-modal-body">' +
@@ -140,7 +140,10 @@
 
   function close() {
     overlay.classList.remove('open');
+    overlay.setAttribute('inert', '');
     document.body.style.overflow = '';
+    // Return focus to whatever opened the modal.
+    if (lastFocused && typeof lastFocused.focus === 'function') { try { lastFocused.focus(); } catch (e) {} }
   }
 
   function reset() {
@@ -181,11 +184,28 @@
     window.location.href = 'service-request-submitted.html?id=' + id + '&new=1';
   }
 
+  // Currently focusable controls inside the dialog (skips hidden/disabled/locked fields).
+  function focusables() {
+    return Array.prototype.filter.call(
+      overlay.querySelectorAll('button, input, select, textarea, [role="button"], [href]'),
+      function (n) { return !n.disabled && n.offsetParent !== null && n.getAttribute('tabindex') !== '-1'; }
+    );
+  }
+
   function wire() {
     q('srm-close').addEventListener('click', close);
     q('srm-cancel').addEventListener('click', close);
     overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('open')) close(); });
+    // Focus trap: keep Tab/Shift+Tab cycling within the dialog.
+    overlay.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var f = focusables();
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
 
     // Keyboard + mouse: listen on the radios' change (fires on label click AND
     // on arrow-key navigation within the group), then mirror onto the cards.
@@ -212,6 +232,8 @@
   // opts.machineKey → locked mode (machine fixed); otherwise picker mode.
   function open(opts) {
     build();
+    lastFocused = document.activeElement;
+    overlay.removeAttribute('inert');
     opts = opts || {};
     lockedKey = opts.machineKey && MACHINES[opts.machineKey] ? opts.machineKey : null;
     reset();
@@ -227,6 +249,9 @@
     validate();
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    // Move focus into the dialog so it is announced and the trap has an anchor.
+    var wrap = overlay.querySelector('.sr-modal-wrapper');
+    if (wrap) wrap.focus();
   }
 
   window.openServiceRequestModal = open;
