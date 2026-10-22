@@ -93,6 +93,8 @@
   "tour.nav.body": "Jump between the portal's sections from here: machines, shop, orders, quotes, services and more.",
   "tour.machines.title": "Your machines",
   "tour.machines.body": "See your fleet, machine details, documents and service history in one place.",
+  "tour.shop.title": "Shop spare parts",
+  "tour.shop.body": "Browse and order genuine NETZSCH spare parts and grinding beads, with pricing and quotations.",
   "tour.orders.title": "Orders",
   "tour.orders.body": "Track every order and its status, from submission to delivery.",
   "tour.milla.title": "Search with Milla",
