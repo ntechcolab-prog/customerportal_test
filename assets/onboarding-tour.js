@@ -34,7 +34,18 @@
       b: 'Quotes, approvals and order updates land here so nothing slips by.' },
     { key: 'help', selector: '.header-nav a[href="help.html"]',
       t: 'Help is always here',
-      b: 'Browse the FAQ and knowledge base, or contact support. You can replay this tour anytime from your profile menu.' }
+      b: 'Browse the FAQ and knowledge base, or contact support whenever you need a hand.' },
+    { key: 'finish', center: true, finish: true,
+      t: "You're all set",
+      b: 'Jump in wherever you like — you can reopen this tour anytime from your profile menu.' }
+  ];
+
+  // Finish-step CTAs. First two whose nav tab is visible are shown, so they are
+  // always role-valid (e.g. Approver has no Shop → falls back to machines/orders).
+  var FINISH_CTAS = [
+    { href: 'shop.html',     key: 'tour.cta.shop',     fb: 'Browse the shop',   sel: '.header-nav a[href="shop.html"]' },
+    { href: 'machines.html', key: 'tour.cta.machines', fb: 'View my machines',  sel: '.header-nav a[href="machines.html"]' },
+    { href: 'orders.html',   key: 'tour.cta.orders',   fb: 'View my orders',    sel: '.header-nav a[href="orders.html"]' }
   ];
 
   var root = null, steps = [], i = 0, lastFocused = null, built = false;
@@ -60,6 +71,7 @@
         '<div class="tour-progress" aria-hidden="true"></div>' +
         '<h3 id="tour-title"></h3>' +
         '<p class="tour-body"></p>' +
+        '<div class="tour-cta"></div>' +
         '<div class="tour-actions">' +
           '<button type="button" class="tour-skip" data-i18n="tour.skip">Skip tour</button>' +
           '<span class="tour-count"></span>' +
@@ -75,6 +87,10 @@
       if (i >= steps.length - 1) end(true); else go(i + 1);
     });
     root.querySelector('.tour-blocker').addEventListener('click', function (e) { e.stopPropagation(); });
+    root.querySelector('.tour-cta').addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.tour-cta-btn') : null;
+      if (b) { markSeen(); window.location.href = b.getAttribute('data-href'); }
+    });
     document.addEventListener('keydown', onKey);
     window.addEventListener('resize', reposition);
     built = true;
@@ -144,12 +160,25 @@
     var last = (i === steps.length - 1);
     next.setAttribute('data-i18n', last ? 'tour.done' : 'tour.next');
     next.textContent = t(last ? 'tour.done' : 'tour.next', last ? 'Done' : 'Next');
+    // Finish step: show role-valid CTAs and drop the (now redundant) Skip.
+    var cta = root.querySelector('.tour-cta'), skip = root.querySelector('.tour-skip');
+    if (step.finish) {
+      var picks = FINISH_CTAS.filter(function (c) { return isVisible(document.querySelector(c.sel)); }).slice(0, 2);
+      cta.innerHTML = picks.map(function (c) {
+        return '<button type="button" class="tour-cta-btn" data-href="' + c.href + '" data-i18n="' + c.key + '">' + c.fb + '</button>';
+      }).join('');
+      skip.hidden = true;
+    } else {
+      cta.innerHTML = '';
+      skip.hidden = false;
+    }
     // Let i18n translate the freshly-set keys (handles DE + late-loaded dict).
     if (window.NetzschI18n && NetzschI18n.reload) { try { NetzschI18n.reload(); } catch (e) {} }
     card.classList.add('is-in');
     reposition();
     requestAnimationFrame(reposition); // re-place once text/size settles
-    next.focus();
+    var firstCta = cta.querySelector('.tour-cta-btn');
+    (firstCta || next).focus();
   }
 
   function markSeen() { try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) {} }
