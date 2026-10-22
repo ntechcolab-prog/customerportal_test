@@ -164,8 +164,9 @@
     var cta = root.querySelector('.tour-cta'), skip = root.querySelector('.tour-skip');
     if (step.finish) {
       var picks = FINISH_CTAS.filter(function (c) { return isVisible(document.querySelector(c.sel)); }).slice(0, 2);
-      cta.innerHTML = picks.map(function (c) {
-        return '<button type="button" class="tour-cta-btn" data-href="' + c.href + '" data-i18n="' + c.key + '">' + c.fb + '</button>';
+      cta.innerHTML = picks.map(function (c, idx) {
+        var variant = idx === 0 ? 'btn-primary' : 'btn-secondary';
+        return '<button type="button" class="btn ' + variant + ' btn-md tour-cta-btn" data-href="' + c.href + '" data-i18n="' + c.key + '">' + c.fb + '</button>';
       }).join('');
       skip.hidden = true;
     } else {

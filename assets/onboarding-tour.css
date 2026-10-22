@@ -46,18 +46,11 @@
 }
 .tour-body { margin: 0; font-size: 13.5px; line-height: 1.55; color: #5c5f62; }
 
-/* Finish-step call-to-action buttons (first = primary, filled) */
+/* Finish-step CTAs use the portal's standard .btn (primary + secondary);
+   here we only stack them and make them fill the card width. */
 .tour-cta { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
 .tour-cta:empty { display: none; }
-.tour-cta-btn {
-  height: 40px; border-radius: 10px; border: 1px solid #007167;
-  background: #fff; color: #007167;
-  font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 600;
-  cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-.tour-cta-btn:first-child { background: #007167; color: #fff; }
-.tour-cta-btn:hover { background: #0b9c92; color: #fff; border-color: #0b9c92; }
-.tour-cta-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.25); }
+.tour-cta .btn { width: 100%; }
 
 .tour-skip[hidden] { display: none; }
 
