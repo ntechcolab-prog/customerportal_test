@@ -1,0 +1,84 @@
+/* Onboarding Tour — a lightweight, dependency-free coach-mark tour (CP-589).
+   Spotlight = a transparent box with a huge dark box-shadow that dims the rest
+   of the page while letting the highlighted element show through. */
+
+.tour-root { position: fixed; inset: 0; z-index: 1000; }
+.tour-root[hidden] { display: none; }
+
+/* Captures clicks so the page is not interactive during the tour. */
+.tour-blocker { position: fixed; inset: 0; z-index: 1; cursor: default; }
+
+/* The spotlight sits above the blocker, purely visual (never blocks pointer). */
+.tour-spotlight {
+  position: fixed;
+  z-index: 2;
+  border-radius: 10px;
+  box-shadow: 0 0 0 9999px rgba(13, 24, 23, 0.58);
+  pointer-events: none;
+  transition: top 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              left 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              width 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.tour-card {
+  position: fixed;
+  z-index: 3;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, top 0.3s cubic-bezier(0.32, 0.72, 0, 1), left 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.tour-card.is-in { opacity: 1; transform: translateY(0); }
+
+.tour-card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.35;
+}
+.tour-body { margin: 0; font-size: 13.5px; line-height: 1.55; color: #5c5f62; }
+
+.tour-progress { display: flex; gap: 6px; margin-bottom: 12px; }
+.tour-dot { width: 7px; height: 7px; border-radius: 50%; background: #d7d9db; transition: background 0.2s, width 0.2s; }
+.tour-dot.is-active { background: #007167; width: 18px; border-radius: 4px; }
+
+.tour-actions { display: flex; align-items: center; gap: 8px; margin-top: 18px; }
+.tour-count { font-size: 12px; color: #9ca3af; font-variant-numeric: tabular-nums; }
+.tour-actions .tour-skip { margin-right: auto; }
+
+.tour-skip, .tour-back {
+  height: 36px; padding: 0 14px; border-radius: 999px;
+  border: 1px solid #d7d9db; background: #fff;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: #5c5f62;
+  cursor: pointer; transition: background 0.15s, border-color 0.15s;
+}
+.tour-skip { border-color: transparent; }
+.tour-skip:hover { background: #f3f4f6; }
+.tour-back:hover { background: #f9fafb; border-color: #b1b4b7; }
+.tour-back[hidden] { display: none; }
+
+.tour-next {
+  height: 36px; padding: 0 18px; border-radius: 999px; border: none;
+  background: #007167; color: #fff;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.tour-next:hover { background: #0b9c92; }
+
+/* Visible keyboard focus on every control (AAA). */
+.tour-skip:focus-visible, .tour-back:focus-visible, .tour-next:focus-visible {
+  outline: none; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-spotlight, .tour-card, .tour-dot { transition: none; }
+  .tour-card { transform: none; }
+}
