@@ -1,4 +1,6 @@
 {
+  "fb.clearSel": "Clear selection",
+  "fb.hint": "Drag to capture a specific area — or just send for the full page.",
   "fb.tab": "Feedback",
   "fb.greeting": "Hi, please share your thoughts",
   "fb.namePh": "Your name",
@@ -15,7 +17,7 @@
   "fb.capturing": "Capturing…",
   "fb.recordNA": "Screen recording isn't available in the prototype.",
   "fb.toolbar": "Annotation tools",
-  "fb.toolSelect": "Select",
+  "fb.toolSelect": "Capture area",
   "fb.toolPen": "Pen",
   "fb.toolLine": "Line",
   "fb.toolArrow": "Arrow",

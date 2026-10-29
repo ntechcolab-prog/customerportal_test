@@ -1,4 +1,6 @@
 {
+  "fb.clearSel": "Auswahl löschen",
+  "fb.hint": "Ziehen Sie, um einen Bereich zu erfassen — oder senden Sie für die ganze Seite.",
   "fb.tab": "Feedback",
   "fb.greeting": "Hallo, teilen Sie uns Ihre Gedanken mit",
   "fb.namePh": "Ihr Name",
@@ -15,7 +17,7 @@
   "fb.capturing": "Wird erfasst…",
   "fb.recordNA": "Bildschirmaufnahme ist im Prototyp nicht verfügbar.",
   "fb.toolbar": "Anmerkungswerkzeuge",
-  "fb.toolSelect": "Auswählen",
+  "fb.toolSelect": "Bereich erfassen",
   "fb.toolPen": "Stift",
   "fb.toolLine": "Linie",
   "fb.toolArrow": "Pfeil",

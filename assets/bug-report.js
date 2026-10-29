@@ -141,6 +141,12 @@
     '.nfb-textedit{position:fixed;z-index:3004;border:1px dashed ' + INK_ANNOT + ';background:rgba(255,255,255,.9);color:' + INK_ANNOT + ';',
       'font-family:Inter,sans-serif;font-size:16px;font-weight:700;padding:2px 5px;outline:none;min-width:60px;border-radius:3px;}',
 
+    '.nfb-sel{position:fixed;z-index:3001;border:2px solid #fff;border-radius:2px;box-shadow:0 0 0 100vmax rgba(17,24,23,.42);pointer-events:none;}',
+    '.nfb-sel-clear{position:absolute;top:-13px;right:-13px;width:27px;height:27px;border-radius:50%;border:none;background:#1f2937;color:#fff;cursor:pointer;',
+      'pointer-events:auto;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);}',
+    '.nfb-sel-clear:hover{background:#374151;}',
+    '.nfb-sel-clear svg{width:13px;height:13px;}',
+
     '@media(max-width:560px){.nfb-panel{right:12px;left:auto;top:64px;}}',
     '@media(prefers-reduced-motion:reduce){.nfb-tab,.nfb-tool,.nfb-send,.nfb-switch,.nfb-switch::after,.nfb-input,.nfb-ta,.nfb-hbtn{transition:none!important;}}'
   ].join('');
@@ -161,9 +167,10 @@
   syncTab();
 
   /* ── State ─── */
-  var open = false, tool = 'select';
+  var open = false, tool = 'region';
   var shapes = [], drawing = false, start = null, cur = null, penPts = null;
   var canvas, ctx, toolbar, panel, textInput = null;
+  var region = null, selEl = null;   /* screenshot capture area */
   var lastFocus = null;
 
   /* ── Annotation canvas ─── */
@@ -203,19 +210,45 @@
     }
   }
   function onDown(e) {
-    if (tool === 'select' || tool === 'record') return;
+    if (tool === 'record') return;
+    if (tool === 'region') { drawing = true; start = p(e); cur = start; updateSel(); try { if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId); } catch (err) {} return; }
     if (tool === 'text') { placeText(p(e)); return; }
     drawing = true; start = p(e); cur = start;
     if (tool === 'pen') penPts = [start];
     try { if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId); } catch (err) {}
   }
-  function onMove(e) { if (!drawing) return; cur = p(e); if (tool === 'pen') penPts.push(cur); redraw(); }
+  function onMove(e) {
+    if (!drawing) return; cur = p(e);
+    if (tool === 'region') { updateSel(); return; }
+    if (tool === 'pen') penPts.push(cur); redraw();
+  }
   function onUp() {
     if (!drawing) return; drawing = false;
+    if (tool === 'region') { finalizeSel(); cur = null; return; }
     if (tool === 'pen') { if (penPts.length > 1) shapes.push({ t: 'pen', pts: penPts.slice() }); penPts = null; }
     else if (cur && (Math.abs(cur.x - start.x) > 3 || Math.abs(cur.y - start.y) > 3)) shapes.push({ t: tool, a: start, b: cur });
     cur = null; redraw();
   }
+
+  /* Capture-area selection */
+  function rectFrom(a, b) { return { x: Math.min(a.x, b.x), y: Math.min(a.y, b.y), w: Math.abs(b.x - a.x), h: Math.abs(b.y - a.y) }; }
+  function ensureSel() {
+    if (selEl) return;
+    selEl = document.createElement('div'); selEl.className = 'nfb-sel';
+    var clr = document.createElement('button');
+    clr.type = 'button'; clr.className = 'nfb-sel-clear'; clr.innerHTML = I.close;
+    clr.setAttribute('aria-label', T('fb.clearSel', 'Clear selection'));
+    clr.addEventListener('click', function (ev) { ev.stopPropagation(); clearSel(); });
+    selEl.appendChild(clr);
+    document.body.appendChild(selEl);
+  }
+  function updateSel() {
+    ensureSel(); var r = rectFrom(start, cur); region = r;
+    selEl.style.left = r.x + 'px'; selEl.style.top = r.y + 'px';
+    selEl.style.width = r.w + 'px'; selEl.style.height = r.h + 'px';
+  }
+  function finalizeSel() { if (!region || region.w < 8 || region.h < 8) clearSel(); }
+  function clearSel() { region = null; if (selEl) { selEl.parentNode && selEl.parentNode.removeChild(selEl); selEl = null; } }
   function placeText(at) {
     if (textInput) commitText();
     textInput = document.createElement('input');
@@ -240,9 +273,9 @@
     tool = t;
     var btns = toolbar.querySelectorAll('.nfb-tool');
     for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('active', btns[i].getAttribute('data-tool') === t);
-    var drawMode = (t !== 'select' && t !== 'record');
-    canvas.style.pointerEvents = drawMode ? 'auto' : 'none';
-    canvas.style.cursor = t === 'text' ? 'text' : (drawMode ? 'crosshair' : 'default');
+    var interactive = (t !== 'record');
+    canvas.style.pointerEvents = interactive ? 'auto' : 'none';
+    canvas.style.cursor = t === 'text' ? 'text' : (interactive ? 'crosshair' : 'default');
   }
 
   /* ── Toolbar ─── */
@@ -252,7 +285,7 @@
     toolbar.setAttribute('role', 'toolbar');
     toolbar.setAttribute('aria-label', T('fb.toolbar', 'Annotation tools'));
     var tools = [
-      ['select', I.select, T('fb.toolSelect', 'Select')],
+      ['region', I.select, T('fb.toolSelect', 'Capture area')],
       ['pen', I.pen, T('fb.toolPen', 'Pen')],
       ['line', I.line, T('fb.toolLine', 'Line')],
       ['arrow', I.arrow, T('fb.toolArrow', 'Arrow')],
@@ -261,7 +294,7 @@
     ];
     var html = '';
     for (var i = 0; i < tools.length; i++) {
-      html += '<button type="button" class="nfb-tool' + (tools[i][0] === 'select' ? ' active' : '') +
+      html += '<button type="button" class="nfb-tool' + (tools[i][0] === 'region' ? ' active' : '') +
         '" data-tool="' + tools[i][0] + '" aria-label="' + esc(tools[i][2]) + '" title="' + esc(tools[i][2]) + '">' + tools[i][1] + '</button>';
     }
     html += '<span class="nfb-tool-sep"></span>' +
@@ -370,21 +403,27 @@
   function capture(cb) {
     loadH2C(function () {
       if (!window.html2canvas) { cb(null); return; }
-      var hidden = [toolbar, panel];
+      var hidden = [toolbar, panel, selEl];
+      function show() { for (var n = 0; n < hidden.length; n++) if (hidden[n]) hidden[n].style.visibility = ''; }
       for (var i = 0; i < hidden.length; i++) if (hidden[i]) hidden[i].style.visibility = 'hidden';
       try {
         window.html2canvas(document.body, { logging: false, useCORS: true, backgroundColor: '#ffffff', scale: 1 }).then(function (cv) {
-          for (var j = 0; j < hidden.length; j++) if (hidden[j]) hidden[j].style.visibility = '';
-          var url = null; try { url = cv.toDataURL('image/png'); } catch (e) { url = null; }
+          show();
+          var out = cv;
+          if (region) {
+            try {
+              var dpr = cv.width / Math.max(1, document.body.scrollWidth);
+              var sx = (window.scrollX + region.x) * dpr, sy = (window.scrollY + region.y) * dpr;
+              var sw = Math.max(1, Math.round(region.w * dpr)), sh = Math.max(1, Math.round(region.h * dpr));
+              var crop = document.createElement('canvas'); crop.width = sw; crop.height = sh;
+              crop.getContext('2d').drawImage(cv, sx, sy, sw, sh, 0, 0, sw, sh);
+              out = crop;
+            } catch (e2) { out = cv; }
+          }
+          var url = null; try { url = out.toDataURL('image/png'); } catch (e) { url = null; }
           cb(url);
-        })['catch'](function () {
-          for (var k = 0; k < hidden.length; k++) if (hidden[k]) hidden[k].style.visibility = '';
-          cb(null);
-        });
-      } catch (e) {
-        for (var m = 0; m < hidden.length; m++) if (hidden[m]) hidden[m].style.visibility = '';
-        cb(null);
-      }
+        })['catch'](function () { show(); cb(null); });
+      } catch (e) { show(); cb(null); }
     });
   }
 
@@ -400,9 +439,15 @@
     window.addEventListener('resize', resize);
     buildToolbar(); document.body.appendChild(toolbar);
     buildPanel(); document.body.appendChild(panel);
-    setTool('select');
+    setTool('region');
     tab.style.display = 'none';
     document.addEventListener('keydown', onKeydown);
+    try {
+      if (!sessionStorage.getItem('nfb_hint')) {
+        sessionStorage.setItem('nfb_hint', '1');
+        toast(T('fb.hint', 'Drag to capture a specific area — or just send for the full page.'));
+      }
+    } catch (e) {}
     var c = panel.querySelector('#nfb-comment'); if (c) c.focus();
   }
   function close() {
@@ -411,9 +456,9 @@
     window.removeEventListener('pointerup', onUp);
     window.removeEventListener('resize', resize);
     document.removeEventListener('keydown', onKeydown);
-    [canvas, toolbar, panel].forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
-    canvas = ctx = toolbar = panel = null;
-    shapes = []; drawing = false;
+    [canvas, toolbar, panel, selEl].forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
+    canvas = ctx = toolbar = panel = selEl = null;
+    shapes = []; drawing = false; region = null;
     tab.style.display = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
