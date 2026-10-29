@@ -544,7 +544,7 @@
 
     /* Popular articles — quick entry points above the full list.
        Hidden once the user searches or picks a specific category. */
-    .popular-section { margin-bottom: 22px; }
+    .popular-section { margin-bottom: 20px; }
     .popular-section[hidden] { display: none; }
     .popular-head {
       display: flex;
@@ -553,35 +553,34 @@
       margin: 0 0 10px 2px;
     }
     .popular-title {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #5c5f62;
+      color: #8b8e91;
     }
-    .popular-hint { font-size: 12px; color: #8b8e91; }
+    .popular-hint { font-size: 12px; color: #a8abae; }
     .popular-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 8px;
     }
     .popular-card {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       text-align: left;
-      padding: 14px 16px;
+      padding: 12px 14px;
       background: #fff;
       border: 1px solid #e3e5e7;
-      border-radius: 10px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+      transition: border-color 0.12s, background 0.12s;
       font: inherit;
     }
     .popular-card:hover {
-      border-color: #0b9c92;
-      box-shadow: 0 2px 10px rgba(0,113,103,0.08);
-      transform: translateY(-1px);
+      border-color: #c4c7ca;
+      background: #fafbfb;
     }
     .popular-card:focus-visible {
       outline: 2px solid #007167;
@@ -591,12 +590,14 @@
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
       color: #3d4246;
       line-height: 1.4;
     }
-    .popular-card-title svg { width: 15px; height: 15px; flex-shrink: 0; color: #007167; margin-top: 1px; }
+    .popular-card:hover .popular-card-title { color: #005f57; }
+    .popular-card-title svg { width: 14px; height: 14px; flex-shrink: 0; color: #8b8e91; margin-top: 1px; }
+    .popular-card:hover .popular-card-title svg { color: #007167; }
     .popular-card .cat-badge { align-self: flex-start; }
     @media (max-width: 900px) { .popular-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 560px) { .popular-grid { grid-template-columns: 1fr; } }
