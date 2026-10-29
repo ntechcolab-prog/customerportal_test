@@ -17,9 +17,9 @@
   if (window.__nfbInit) return;
   window.__nfbInit = true;
 
-  var ACCENT = '#ec8043';        /* Userback-style orange */
-  var ACCENT_DK = '#d96e2e';
-  var INK_ANNOT = '#e8402c';     /* annotation colour */
+  var ACCENT = '#007167';        /* NETZSCH green (design system) */
+  var ACCENT_DK = '#005f57';
+  var INK_ANNOT = '#e8402c';     /* annotation colour (red highlight) */
 
   var personas = {
     administrator: { name: 'Marcus Weber',  email: 'marcus.weber@acme-corp.com' },
@@ -62,14 +62,14 @@
 
   /* ── Styles ─── */
   var css = [
-    '.nfb-tab{position:fixed;left:0;top:44%;z-index:2000;display:flex;flex-direction:column;align-items:center;gap:7px;',
-      'padding:15px 7px;border:none;border-radius:0 9px 9px 0;background:' + ACCENT + ';color:#fff;cursor:pointer;',
-      'font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:2px 3px 14px rgba(0,0,0,.18);',
+    '.nfb-tab{position:fixed;right:0;left:auto;top:44%;z-index:2000;display:flex;flex-direction:column;align-items:center;gap:7px;',
+      'padding:15px 7px;border:none;border-radius:9px 0 0 9px;background:' + ACCENT + ';color:#fff;cursor:pointer;',
+      'font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:-2px 3px 14px rgba(0,0,0,.18);',
       'transition:background .15s,transform .15s,box-shadow .15s;}',
-    '.nfb-tab:hover{background:' + ACCENT_DK + ';transform:translateX(3px);box-shadow:4px 4px 20px rgba(0,0,0,.22);}',
+    '.nfb-tab:hover{background:' + ACCENT_DK + ';transform:translateX(-3px);box-shadow:-4px 4px 20px rgba(0,0,0,.22);}',
     '.nfb-tab:focus-visible{outline:3px solid #fff;outline-offset:-4px;}',
     '.nfb-tab svg{width:16px;height:16px;}',
-    '.nfb-tab .t{writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;font-weight:600;letter-spacing:.04em;}',
+    '.nfb-tab .t{writing-mode:vertical-rl;font-size:12px;font-weight:600;letter-spacing:.04em;}',
 
     '.nfb-canvas{position:fixed;inset:0;z-index:3000;}',
 
@@ -84,7 +84,7 @@
     '.nfb-tool svg{width:20px;height:20px;}',
     '.nfb-tool-sep{width:1px;height:22px;background:#e5e7eb;margin:0 3px;}',
 
-    '.nfb-panel{position:fixed;top:70px;left:64px;z-index:3002;width:368px;max-width:calc(100vw - 32px);max-height:calc(100vh - 90px);',
+    '.nfb-panel{position:fixed;top:70px;right:64px;left:auto;z-index:3002;width:368px;max-width:calc(100vw - 32px);max-height:calc(100vh - 90px);',
       'overflow-y:auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.26);',
       'font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#2d2e33;}',
     '.nfb-head{background:' + ACCENT + ';color:#fff;padding:20px 22px 24px;position:relative;}',
@@ -101,7 +101,7 @@
     '.nfb-input,.nfb-ta{width:100%;border:1px solid #d7dadd;border-radius:10px;padding:12px 14px;font-family:inherit;font-size:14px;',
       'color:#2d2e33;outline:none;transition:border-color .15s,box-shadow .15s;}',
     '.nfb-ta{min-height:112px;resize:vertical;line-height:1.5;}',
-    '.nfb-input:focus,.nfb-ta:focus{border-color:' + ACCENT + ';box-shadow:0 0 0 3px rgba(236,128,67,.16);}',
+    '.nfb-input:focus,.nfb-ta:focus{border-color:' + ACCENT + ';box-shadow:0 0 0 3px rgba(0,113,103,.16);}',
     '.nfb-ta.nfb-err{border-color:#c73e20;}',
     '.nfb-errmsg{display:none;font-size:12px;color:#c73e20;margin:-4px 0 0;}',
     '.nfb-errmsg.show{display:block;}',
@@ -123,11 +123,11 @@
     '.nfb-credit{text-align:center;font-size:11.5px;color:#aeb4b8;padding:0 0 14px;}',
 
     '.nfb-success{padding:34px 26px 28px;text-align:center;}',
-    '.nfb-success-ico{width:56px;height:56px;border-radius:50%;background:#fbede3;color:' + ACCENT_DK + ';display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}',
+    '.nfb-success-ico{width:56px;height:56px;border-radius:50%;background:#e4efed;color:' + ACCENT_DK + ';display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}',
     '.nfb-success-ico svg{width:28px;height:28px;}',
     '.nfb-success h3{font-size:18px;font-weight:800;color:#1f2937;margin:0 0 6px;}',
     '.nfb-success p{font-size:14px;color:#6b7280;margin:0;line-height:1.5;}',
-    '.nfb-ref{display:inline-block;margin:10px 0 16px;font-family:ui-monospace,Menlo,monospace;font-size:15px;font-weight:700;color:' + ACCENT_DK + ';background:#fbede3;border-radius:8px;padding:6px 13px;}',
+    '.nfb-ref{display:inline-block;margin:10px 0 16px;font-family:ui-monospace,Menlo,monospace;font-size:15px;font-weight:700;color:' + ACCENT_DK + ';background:#e4efed;border-radius:8px;padding:6px 13px;}',
     '.nfb-thumb{display:block;max-width:100%;border:1px solid #e5e7eb;border-radius:8px;margin:0 auto 18px;}',
     '.nfb-success-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}',
     '.nfb-btn{height:40px;padding:0 18px;border-radius:999px;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;}',
@@ -141,7 +141,7 @@
     '.nfb-textedit{position:fixed;z-index:3004;border:1px dashed ' + INK_ANNOT + ';background:rgba(255,255,255,.9);color:' + INK_ANNOT + ';',
       'font-family:Inter,sans-serif;font-size:16px;font-weight:700;padding:2px 5px;outline:none;min-width:60px;border-radius:3px;}',
 
-    '@media(max-width:560px){.nfb-panel{left:12px;top:64px;}}',
+    '@media(max-width:560px){.nfb-panel{right:12px;left:auto;top:64px;}}',
     '@media(prefers-reduced-motion:reduce){.nfb-tab,.nfb-tool,.nfb-send,.nfb-switch,.nfb-switch::after,.nfb-input,.nfb-ta,.nfb-hbtn{transition:none!important;}}'
   ].join('');
   var style = document.createElement('style');
@@ -303,7 +303,7 @@
         '<div class="nfb-shot on" id="nfb-shot" role="switch" aria-checked="true" tabindex="0">' + I.cam +
           '<span class="lbl">' + esc(T('fb.screenshot', 'Screenshot')) + '</span><span class="nfb-switch"></span></div>' +
       '</div>' +
-      '<div class="nfb-foot"><button type="button" class="nfb-send" id="nfb-send">' + esc(T('fb.send', 'Send feedback')) + '</button></div>' +
+      '<div class="nfb-foot"><button type="button" class="btn btn-primary btn-lg" style="width:100%" id="nfb-send">' + esc(T('fb.send', 'Send feedback')) + '</button></div>' +
       '<div class="nfb-credit">' + esc(T('fb.credit', 'NETZSCH Customer Portal')) + '</div>';
   }
 
@@ -361,8 +361,8 @@
         '<span class="nfb-ref">' + esc(ref) + '</span>' +
         (dataUrl ? '<img class="nfb-thumb" alt="Captured screenshot" src="' + dataUrl + '">' : '') +
         '<div class="nfb-success-cta">' +
-          '<button type="button" class="nfb-btn nfb-btn-ghost" id="nfb-again">' + esc(T('fb.another', 'Send another')) + '</button>' +
-          '<button type="button" class="nfb-btn nfb-btn-primary" id="nfb-done">' + esc(T('fb.close', 'Close')) + '</button>' +
+          '<button type="button" class="btn btn-secondary btn-sm" id="nfb-again">' + esc(T('fb.another', 'Send another')) + '</button>' +
+          '<button type="button" class="btn btn-primary btn-sm" id="nfb-done">' + esc(T('fb.close', 'Close')) + '</button>' +
         '</div>' +
       '</div>';
     panel.querySelector('#nfb-done').addEventListener('click', close);
