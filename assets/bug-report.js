@@ -76,6 +76,7 @@
     '.nfb-tab svg{width:16px;height:16px;}',
     '.nfb-tab .t{writing-mode:vertical-rl;font-size:12px;font-weight:600;letter-spacing:.04em;}',
 
+    '.nfb-scrim{position:fixed;inset:0;z-index:2990;background:rgba(17,24,23,.34);pointer-events:none;opacity:1;transition:opacity .18s ease;}',
     '.nfb-canvas{position:fixed;inset:0;z-index:3000;}',
 
     '.nfb-toolbar{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:3002;display:flex;align-items:center;gap:3px;',
@@ -100,7 +101,7 @@
     '.nfb-hbtn:hover{background:rgba(255,255,255,.28);}',
     '.nfb-hbtn:focus-visible{outline:3px solid #fff;outline-offset:2px;}',
     '.nfb-hbtn svg{width:15px;height:15px;}',
-    '.nfb-greet{font-size:21px;font-weight:800;line-height:1.25;letter-spacing:-.01em;margin:14px 0 0;}',
+    '.nfb-greet{font-size:20px;font-weight:700;line-height:1.3;letter-spacing:-.01em;margin:14px 0 0;}',
 
     '.nfb-body{padding:20px 22px 8px;display:flex;flex-direction:column;gap:12px;}',
     '.nfb-input,.nfb-ta{width:100%;border:1px solid #d7dadd;border-radius:10px;padding:12px 14px;font-family:inherit;font-size:14px;',
@@ -156,7 +157,7 @@
     '.nfb-success{padding:34px 26px 28px;text-align:center;}',
     '.nfb-success-ico{width:56px;height:56px;border-radius:50%;background:#e4efed;color:' + ACCENT_DK + ';display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}',
     '.nfb-success-ico svg{width:28px;height:28px;}',
-    '.nfb-success h3{font-size:18px;font-weight:800;color:#1f2937;margin:0 0 6px;}',
+    '.nfb-success h3{font-size:18px;font-weight:700;color:#1f2937;margin:0 0 6px;}',
     '.nfb-success p{font-size:14px;color:#6b7280;margin:0;line-height:1.5;}',
     '.nfb-ref{display:inline-block;margin:10px 0 16px;font-family:ui-monospace,Menlo,monospace;font-size:15px;font-weight:700;color:' + ACCENT_DK + ';background:#e4efed;border-radius:8px;padding:6px 13px;}',
     '.nfb-thumb{display:block;max-width:100%;border:1px solid #e5e7eb;border-radius:8px;margin:0 auto 18px;}',
@@ -179,7 +180,7 @@
     '.nfb-sel-clear svg{width:13px;height:13px;}',
 
     '@media(max-width:560px){.nfb-panel{right:12px;left:auto;top:64px;}}',
-    '@media(prefers-reduced-motion:reduce){.nfb-tab,.nfb-tool,.nfb-send,.nfb-switch,.nfb-switch::after,.nfb-input,.nfb-ta,.nfb-hbtn{transition:none!important;}}'
+    '@media(prefers-reduced-motion:reduce){.nfb-tab,.nfb-tool,.nfb-send,.nfb-switch,.nfb-switch::after,.nfb-input,.nfb-ta,.nfb-hbtn,.nfb-scrim{transition:none!important;}}'
   ].join('');
   var style = document.createElement('style');
   style.id = 'nfb-style';
@@ -200,7 +201,7 @@
   /* ── State ─── */
   var open = false, tool = 'region';
   var shapes = [], drawing = false, start = null, cur = null, penPts = null;
-  var canvas, ctx, toolbar, panel, textInput = null;
+  var canvas, ctx, toolbar, panel, textInput = null, scrim = null;
   var region = null, selEl = null;   /* screenshot capture area */
   var lastFocus = null;
   var fbType = null;                 /* 'bug' | 'feature' | 'other' (CP-337 / CP-338) */
@@ -287,9 +288,10 @@
     ensureSel(); var r = rectFrom(start, cur); region = r;
     selEl.style.left = r.x + 'px'; selEl.style.top = r.y + 'px';
     selEl.style.width = r.w + 'px'; selEl.style.height = r.h + 'px';
+    if (scrim) scrim.style.opacity = '0';   /* let the crop dim take over */
   }
   function finalizeSel() { if (!region || region.w < 8 || region.h < 8) clearSel(); }
-  function clearSel() { region = null; if (selEl) { selEl.parentNode && selEl.parentNode.removeChild(selEl); selEl = null; } }
+  function clearSel() { region = null; if (selEl) { selEl.parentNode && selEl.parentNode.removeChild(selEl); selEl = null; } if (scrim) scrim.style.opacity = ''; }
   function placeText(at) {
     if (textInput) commitText();
     textInput = document.createElement('input');
@@ -525,7 +527,7 @@
   function capture(cb) {
     loadH2C(function () {
       if (!window.html2canvas) { cb(null); return; }
-      var hidden = [toolbar, panel, selEl];
+      var hidden = [scrim, toolbar, panel, selEl];
       function show() { for (var n = 0; n < hidden.length; n++) if (hidden[n]) hidden[n].style.visibility = ''; }
       for (var i = 0; i < hidden.length; i++) if (hidden[i]) hidden[i].style.visibility = 'hidden';
       try {
@@ -553,6 +555,8 @@
   function openWidget() {
     if (open) return; open = true;
     lastFocus = document.activeElement;
+    scrim = document.createElement('div'); scrim.className = 'nfb-scrim';
+    document.body.appendChild(scrim);
     canvas = document.createElement('canvas'); canvas.className = 'nfb-canvas';
     document.body.appendChild(canvas); ctx = canvas.getContext('2d'); resize();
     canvas.addEventListener('pointerdown', onDown);
@@ -578,8 +582,8 @@
     window.removeEventListener('pointerup', onUp);
     window.removeEventListener('resize', resize);
     document.removeEventListener('keydown', onKeydown);
-    [canvas, toolbar, panel, selEl].forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
-    canvas = ctx = toolbar = panel = selEl = null;
+    [scrim, canvas, toolbar, panel, selEl].forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
+    scrim = canvas = ctx = toolbar = panel = selEl = null;
     shapes = []; drawing = false; region = null; fbType = null;
     tab.style.display = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
