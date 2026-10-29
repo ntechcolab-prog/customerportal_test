@@ -1129,5 +1129,18 @@
   "gate.showPassword": "Show password",
   "gate.hidePassword": "Hide password",
   "gate.errorMessage": "Incorrect password. Please try again.",
-  "gate.accessButton": "Access Portal"
+  "gate.accessButton": "Access Portal",
+
+  "help.popularTitle": "Popular articles",
+  "help.popularHint": "Most-read guides across the portal",
+  "help.pop1": "How to request maintenance",
+  "help.pop2": "Tracking your shipment in real-time",
+  "help.pop3": "Getting started with the customer portal",
+  "help.pop4": "Machine error codes explained",
+  "help.pop5": "How to download a service report",
+  "help.pop6": "Understanding your invoice",
+  "help.catServiceFull": "Service & Maintenance",
+  "help.catOrdersFull": "Orders & Invoices",
+  "help.catMachinesFull": "Machine Documentation",
+  "help.catPortalFull": "Customer Portal Guides"
 }

@@ -1129,5 +1129,18 @@
   "gate.showPassword": "Passwort anzeigen",
   "gate.hidePassword": "Passwort ausblenden",
   "gate.errorMessage": "Falsches Passwort. Bitte versuchen Sie es erneut.",
-  "gate.accessButton": "Portal öffnen"
+  "gate.accessButton": "Portal öffnen",
+
+  "help.popularTitle": "Beliebte Artikel",
+  "help.popularHint": "Meistgelesene Anleitungen im Portal",
+  "help.pop1": "So fordern Sie Wartung an",
+  "help.pop2": "Sendungsverfolgung in Echtzeit",
+  "help.pop3": "Erste Schritte im Kundenportal",
+  "help.pop4": "Maschinen-Fehlercodes erklärt",
+  "help.pop5": "So laden Sie einen Servicebericht herunter",
+  "help.pop6": "Ihre Rechnung verstehen",
+  "help.catServiceFull": "Service & Wartung",
+  "help.catOrdersFull": "Bestellungen & Rechnungen",
+  "help.catMachinesFull": "Maschinendokumentation",
+  "help.catPortalFull": "Kundenportal-Anleitungen"
 }
