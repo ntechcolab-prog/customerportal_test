@@ -5,9 +5,10 @@
  *  - Left-edge "Feedback" tab launcher.
  *  - Top annotation toolbar: select, pen, line, arrow, rectangle, text, record.
  *  - On-screen drawing on a full-viewport canvas overlay (functional).
- *  - Feedback panel: name + email (prefilled from role persona), comment,
- *    attach-screenshot toggle, Send feedback → confirmation with reference.
- *  - Real screenshot capture via vendored html2canvas (lazy-loaded).
+ *  - Feedback panel: feedback type (bug / feature suggestion / other — CP-337 & CP-338),
+ *    name + email (prefilled from role persona), comment, Send feedback →
+ *    confirmation with a type-prefixed reference (BUG-/IDEA-/FB-).
+ *  - Real screenshot capture via vendored html2canvas (lazy-loaded), always on send.
  *
  * Self-contained: injects its own scoped styles (.nfb-*). i18n via NetzschI18n.
  * Deep link: open directly with #feedback (or #report-bug).
@@ -57,7 +58,11 @@
     text: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14M12 6v13"/></svg>',
     record: '<svg viewBox="0 0 24 24" fill="#e8402c" aria-hidden="true"><circle cx="12" cy="12" r="7"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>',
-    cam: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h3l1.3-2h5.4L16 6h1a2 2 0 012 2v7a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2z"/><circle cx="10" cy="11" r="3"/></svg>'
+    cam: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h3l1.3-2h5.4L16 6h1a2 2 0 012 2v7a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2z"/><circle cx="10" cy="11" r="3"/></svg>',
+    chev: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>',
+    bug: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="7" width="8" height="12" rx="4"/><path d="M12 7V5M9.5 8L7.5 6M14.5 8l2-2M8 12H4M20 12h-4M8 16H4.5M19.5 16H16M9 19l-2 2M15 19l2 2"/></svg>',
+    idea: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 18h5M10.5 21h3M12 3a6 6 0 00-3.8 10.6c.5.5.8 1.1.9 1.8v.1h5.8v-.1c.1-.7.4-1.3.9-1.8A6 6 0 0012 3z"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8 8 0 01-11.6 7.1L4 20l1.4-5.4A8 8 0 1121 11.5z"/></svg>'
   };
 
   /* ── Styles ─── */
@@ -113,6 +118,32 @@
     '.nfb-switch::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.25);}',
     '.nfb-shot.on .nfb-switch{background:' + ACCENT + ';}',
     '.nfb-shot.on .nfb-switch::after{transform:translateX(16px);}',
+
+    '.nfb-group{display:flex;flex-direction:column;gap:6px;}',
+    '.nfb-field-label{font-size:13px;font-weight:600;color:#3d4246;}',
+    '.nfb-combo{position:relative;}',
+    '.nfb-combo-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #d7dadd;border-radius:10px;',
+      'padding:12px 14px;background:#fff;font-family:inherit;font-size:14px;color:#2d2e33;cursor:pointer;text-align:left;transition:border-color .15s,box-shadow .15s;}',
+    '.nfb-combo-btn.placeholder .nfb-combo-val{color:#8b8e91;}',
+    '.nfb-combo-btn:hover{border-color:#b8bcc0;}',
+    '.nfb-combo-btn:focus-visible{outline:none;border-color:' + ACCENT + ';box-shadow:0 0 0 3px rgba(0,113,103,.16);}',
+    '.nfb-combo-btn.nfb-err{border-color:#c73e20;}',
+    '.nfb-combo.open .nfb-combo-btn{border-color:' + ACCENT + ';box-shadow:0 0 0 3px rgba(0,113,103,.16);}',
+    '.nfb-combo-val{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
+    '.nfb-chev{width:16px;height:16px;flex-shrink:0;color:#8b8e91;transition:transform .15s;}',
+    '.nfb-combo.open .nfb-chev{transform:rotate(180deg);}',
+    '.nfb-combo-list{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:5;background:#fff;border:1px solid #e3e6e8;border-radius:10px;',
+      'box-shadow:0 12px 30px rgba(0,0,0,.14);padding:5px;display:none;}',
+    '.nfb-combo.open .nfb-combo-list{display:block;}',
+    '.nfb-opt{display:flex;align-items:flex-start;gap:10px;width:100%;border:none;background:none;border-radius:7px;padding:9px 10px;',
+      'font-family:inherit;font-size:14px;color:#2d2e33;cursor:pointer;text-align:left;}',
+    '.nfb-opt:hover,.nfb-opt:focus{background:#f1f2f3;outline:none;}',
+    '.nfb-opt[aria-selected="true"]{background:#e4efed;color:' + ACCENT_DK + ';}',
+    '.nfb-opt .oi{width:18px;height:18px;flex-shrink:0;margin-top:1px;color:#5c5f62;}',
+    '.nfb-opt[aria-selected="true"] .oi{color:' + ACCENT_DK + ';}',
+    '.nfb-opt .ot{display:flex;flex-direction:column;gap:1px;min-width:0;}',
+    '.nfb-opt .otl{font-weight:600;}',
+    '.nfb-opt .od{font-size:12px;color:#8b8e91;font-weight:400;}',
 
     '.nfb-foot{padding:6px 22px 18px;}',
     '.nfb-send{width:100%;height:48px;border:none;border-radius:999px;background:' + ACCENT + ';color:#fff;font-family:inherit;',
@@ -172,6 +203,16 @@
   var canvas, ctx, toolbar, panel, textInput = null;
   var region = null, selEl = null;   /* screenshot capture area */
   var lastFocus = null;
+  var fbType = null;                 /* 'bug' | 'feature' | 'other' (CP-337 / CP-338) */
+
+  function types() {
+    return [
+      { id: 'bug',     icon: I.bug,  label: T('fb.typeBug', 'Report a bug'),        desc: T('fb.typeBugDesc', "Something isn't working"),        prefix: 'BUG',  ph: T('fb.commentPhBug', 'What went wrong? Steps to reproduce help.') },
+      { id: 'feature', icon: I.idea, label: T('fb.typeFeature', 'Suggest a feature'), desc: T('fb.typeFeatureDesc', 'An idea to improve the portal'), prefix: 'IDEA', ph: T('fb.commentPhFeature', 'What would make the portal better?') },
+      { id: 'other',   icon: I.chat, label: T('fb.typeOther', 'Something else'),      desc: T('fb.typeOtherDesc', 'A question or general comment'),   prefix: 'FB',   ph: T('fb.commentPh', 'Leave us your comment') }
+    ];
+  }
+  function typeById(id) { var a = types(); for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i]; return null; }
 
   /* ── Annotation canvas ─── */
   function p(e) { return { x: e.clientX, y: e.clientY }; }
@@ -317,6 +358,17 @@
   }
 
   /* ── Panel ─── */
+  function typeOptionsHTML() {
+    var a = types(), html = '';
+    for (var i = 0; i < a.length; i++) {
+      html += '<button type="button" class="nfb-opt" role="option" data-type="' + a[i].id + '" aria-selected="' + (fbType === a[i].id ? 'true' : 'false') + '">' +
+        '<span class="oi">' + a[i].icon + '</span>' +
+        '<span class="ot"><span class="otl">' + esc(a[i].label) + '</span><span class="od">' + esc(a[i].desc) + '</span></span>' +
+      '</button>';
+    }
+    return html;
+  }
+
   function panelFormHTML() {
     var u = me();
     return '' +
@@ -329,9 +381,20 @@
         '<h2 class="nfb-greet" id="nfb-greet">' + esc(T('fb.greeting', 'Hi, please share your thoughts')) + '</h2>' +
       '</div>' +
       '<div class="nfb-body">' +
+        '<div class="nfb-group">' +
+          '<label class="nfb-field-label" id="nfb-type-lbl">' + esc(T('fb.typeLabel', 'What kind of feedback?')) + '</label>' +
+          '<div class="nfb-combo" id="nfb-type">' +
+            '<button type="button" class="nfb-combo-btn' + (fbType ? '' : ' placeholder') + '" id="nfb-type-btn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="nfb-type-lbl nfb-type-btn" aria-describedby="nfb-terr">' +
+              '<span class="nfb-combo-val">' + esc(fbType ? typeById(fbType).label : T('fb.typePlaceholder', 'Select a type')) + '</span>' +
+              '<span class="nfb-chev">' + I.chev + '</span>' +
+            '</button>' +
+            '<div class="nfb-combo-list" role="listbox" aria-labelledby="nfb-type-lbl" tabindex="-1">' + typeOptionsHTML() + '</div>' +
+          '</div>' +
+          '<span class="nfb-errmsg" id="nfb-terr">' + esc(T('fb.typeErr', 'Please choose a type.')) + '</span>' +
+        '</div>' +
         '<input type="text" class="nfb-input" id="nfb-name" value="' + esc(u.name) + '" placeholder="' + esc(T('fb.namePh', 'Your name')) + '" aria-label="' + esc(T('fb.namePh', 'Your name')) + '">' +
         '<input type="email" class="nfb-input" id="nfb-email" value="' + esc(u.email) + '" placeholder="' + esc(T('fb.emailPh', 'Your email')) + '" aria-label="' + esc(T('fb.emailPh', 'Your email')) + '">' +
-        '<textarea class="nfb-ta" id="nfb-comment" aria-describedby="nfb-cerr" placeholder="' + esc(T('fb.commentPh', 'Leave us your comment')) + '"></textarea>' +
+        '<textarea class="nfb-ta" id="nfb-comment" aria-describedby="nfb-cerr" placeholder="' + esc(fbType ? typeById(fbType).ph : T('fb.commentPh', 'Leave us your comment')) + '"></textarea>' +
         '<span class="nfb-errmsg" id="nfb-cerr">' + esc(T('fb.err', 'Please leave a comment.')) + '</span>' +
       '</div>' +
       '<div class="nfb-foot"><button type="button" class="btn btn-primary btn-lg" style="width:100%" id="nfb-send">' + esc(T('fb.send', 'Send feedback')) + '</button></div>' +
@@ -352,8 +415,12 @@
     panel.querySelector('[data-act="close"]').addEventListener('click', close);
     panel.querySelector('[data-act="back"]').addEventListener('click', close);
     var comment = panel.querySelector('#nfb-comment'), cerr = panel.querySelector('#nfb-cerr');
+    var terr = panel.querySelector('#nfb-terr');
+    wireCombo();
     comment.addEventListener('input', function () { if (comment.value.trim()) { comment.classList.remove('nfb-err'); cerr.classList.remove('show'); } });
     panel.querySelector('#nfb-send').addEventListener('click', function () {
+      var typeBtn = panel.querySelector('#nfb-type-btn');
+      if (!fbType) { typeBtn.classList.add('nfb-err'); terr.classList.add('show'); typeBtn.focus(); return; }
       if (!comment.value.trim()) { comment.classList.add('nfb-err'); cerr.classList.add('show'); comment.focus(); return; }
       var sendBtn = panel.querySelector('#nfb-send');
       /* Screenshot is captured automatically on every send. */
@@ -362,11 +429,66 @@
     });
   }
 
+  /* Type combobox (design-system select pattern, keyboard-accessible) */
+  function wireCombo() {
+    var wrap = panel.querySelector('#nfb-type'), btn = panel.querySelector('#nfb-type-btn');
+    var list = wrap.querySelector('.nfb-combo-list'), val = wrap.querySelector('.nfb-combo-val');
+    var terr = panel.querySelector('#nfb-terr');
+    var opts = function () { return Array.prototype.slice.call(wrap.querySelectorAll('.nfb-opt')); };
+
+    function openC() {
+      wrap.classList.add('open'); btn.setAttribute('aria-expanded', 'true');
+      var o = opts(), sel = o.filter(function (x) { return x.getAttribute('aria-selected') === 'true'; })[0];
+      (sel || o[0]).focus();
+      document.addEventListener('pointerdown', outside, true);
+    }
+    function closeC(focusBtn) {
+      wrap.classList.remove('open'); btn.setAttribute('aria-expanded', 'false');
+      document.removeEventListener('pointerdown', outside, true);
+      if (focusBtn) btn.focus();
+    }
+    function outside(e) { if (!wrap.contains(e.target)) closeC(false); }
+    function choose(id) {
+      var t = typeById(id); if (!t) return;
+      fbType = id;
+      val.textContent = t.label; btn.classList.remove('placeholder', 'nfb-err');
+      terr.classList.remove('show');
+      opts().forEach(function (x) { x.setAttribute('aria-selected', x.getAttribute('data-type') === id ? 'true' : 'false'); });
+      var c = panel.querySelector('#nfb-comment'); if (c) c.setAttribute('placeholder', t.ph);
+      closeC(true);
+    }
+    function move(dir) {
+      var o = opts(), i = o.indexOf(document.activeElement);
+      var n = i < 0 ? 0 : (i + dir + o.length) % o.length;
+      o[n].focus();
+    }
+
+    btn.addEventListener('click', function () { wrap.classList.contains('open') ? closeC(true) : openC(); });
+    btn.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); openC(); }
+    });
+    list.addEventListener('click', function (e) {
+      var o = e.target.closest ? e.target.closest('.nfb-opt') : null;
+      if (o) choose(o.getAttribute('data-type'));
+    });
+    list.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+      else if (e.key === 'Home') { e.preventDefault(); opts()[0].focus(); }
+      else if (e.key === 'End') { e.preventDefault(); var o = opts(); o[o.length - 1].focus(); }
+      else if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); var a = document.activeElement; if (a && a.getAttribute('data-type')) choose(a.getAttribute('data-type')); }
+      else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeC(true); }
+      else if (e.key === 'Tab') { closeC(false); }
+    });
+  }
+
   function makeRef() {
+    var tp = typeById(fbType);
+    var prefix = tp ? tp.prefix : 'FB';
     var t = Date.now().toString(36).toUpperCase().slice(-4);
     var r = Math.floor(Math.random() * 46656).toString(36).toUpperCase();
     while (r.length < 3) r = '0' + r;
-    return 'FB-' + t + r;
+    return prefix + '-' + t + r;
   }
 
   function showSuccess(dataUrl) {
@@ -385,8 +507,8 @@
       '</div>';
     panel.querySelector('#nfb-done').addEventListener('click', close);
     panel.querySelector('#nfb-again').addEventListener('click', function () {
-      shapes = []; redraw(); panel.innerHTML = panelFormHTML(); wirePanel();
-      var c = panel.querySelector('#nfb-comment'); if (c) c.focus();
+      shapes = []; fbType = null; redraw(); panel.innerHTML = panelFormHTML(); wirePanel();
+      var tb = panel.querySelector('#nfb-type-btn'); if (tb) tb.focus();
     });
     var d = panel.querySelector('#nfb-done'); if (d) d.focus();
   }
@@ -448,7 +570,7 @@
         toast(T('fb.hint', 'Drag to capture a specific area — or just send for the full page.'));
       }
     } catch (e) {}
-    var c = panel.querySelector('#nfb-comment'); if (c) c.focus();
+    var tb = panel.querySelector('#nfb-type-btn'); if (tb) tb.focus();
   }
   function close() {
     if (!open) return; open = false;
@@ -458,7 +580,7 @@
     document.removeEventListener('keydown', onKeydown);
     [canvas, toolbar, panel, selEl].forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
     canvas = ctx = toolbar = panel = selEl = null;
-    shapes = []; drawing = false; region = null;
+    shapes = []; drawing = false; region = null; fbType = null;
     tab.style.display = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
