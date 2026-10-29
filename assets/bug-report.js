@@ -300,8 +300,6 @@
         '<input type="email" class="nfb-input" id="nfb-email" value="' + esc(u.email) + '" placeholder="' + esc(T('fb.emailPh', 'Your email')) + '" aria-label="' + esc(T('fb.emailPh', 'Your email')) + '">' +
         '<textarea class="nfb-ta" id="nfb-comment" aria-describedby="nfb-cerr" placeholder="' + esc(T('fb.commentPh', 'Leave us your comment')) + '"></textarea>' +
         '<span class="nfb-errmsg" id="nfb-cerr">' + esc(T('fb.err', 'Please leave a comment.')) + '</span>' +
-        '<div class="nfb-shot on" id="nfb-shot" role="switch" aria-checked="true" tabindex="0">' + I.cam +
-          '<span class="lbl">' + esc(T('fb.screenshot', 'Screenshot')) + '</span><span class="nfb-switch"></span></div>' +
       '</div>' +
       '<div class="nfb-foot"><button type="button" class="btn btn-primary btn-lg" style="width:100%" id="nfb-send">' + esc(T('fb.send', 'Send feedback')) + '</button></div>' +
       '<div class="nfb-credit">' + esc(T('fb.credit', 'NETZSCH Customer Portal')) + '</div>';
@@ -320,27 +318,14 @@
   function wirePanel() {
     panel.querySelector('[data-act="close"]').addEventListener('click', close);
     panel.querySelector('[data-act="back"]').addEventListener('click', close);
-    var shot = panel.querySelector('#nfb-shot');
-    if (shot) {
-      var toggle = function () {
-        var on = shot.classList.toggle('on');
-        shot.setAttribute('aria-checked', on ? 'true' : 'false');
-      };
-      shot.addEventListener('click', toggle);
-      shot.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); } });
-    }
     var comment = panel.querySelector('#nfb-comment'), cerr = panel.querySelector('#nfb-cerr');
     comment.addEventListener('input', function () { if (comment.value.trim()) { comment.classList.remove('nfb-err'); cerr.classList.remove('show'); } });
     panel.querySelector('#nfb-send').addEventListener('click', function () {
       if (!comment.value.trim()) { comment.classList.add('nfb-err'); cerr.classList.add('show'); comment.focus(); return; }
-      var wantShot = panel.querySelector('#nfb-shot').classList.contains('on');
       var sendBtn = panel.querySelector('#nfb-send');
-      if (wantShot) {
-        sendBtn.disabled = true; sendBtn.textContent = T('fb.capturing', 'Capturing…');
-        capture(function (dataUrl) { showSuccess(dataUrl); });
-      } else {
-        showSuccess(null);
-      }
+      /* Screenshot is captured automatically on every send. */
+      sendBtn.disabled = true; sendBtn.textContent = T('fb.capturing', 'Capturing…');
+      capture(function (dataUrl) { showSuccess(dataUrl); });
     });
   }
 
