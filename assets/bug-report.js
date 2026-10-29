@@ -1,378 +1,452 @@
 /**
- * NETZSCH Customer Portal — Help Desk: Report a Bug (CP-337)
+ * NETZSCH Customer Portal — Feedback widget (CP-337)
  *
- * Global floating widget available across the authenticated app.
- * - Bottom-right FAB opens a modal with a bug-report form.
- * - Auto-captures context (page, role, browser, screen size).
- * - Fields: what went wrong (required), steps to reproduce, severity, screenshot.
- * - Submit shows an in-modal confirmation with a reference code.
+ * Userback-style feedback experience, available across the authenticated app:
+ *  - Left-edge "Feedback" tab launcher.
+ *  - Top annotation toolbar: select, pen, line, arrow, rectangle, text, record.
+ *  - On-screen drawing on a full-viewport canvas overlay (functional).
+ *  - Feedback panel: name + email (prefilled from role persona), comment,
+ *    attach-screenshot toggle, Send feedback → confirmation with reference.
+ *  - Real screenshot capture via vendored html2canvas (lazy-loaded).
  *
- * Self-contained: injects its own scoped styles (.nbug-*) so it looks the same
- * on every page regardless of that page's local CSS. i18n via window.NetzschI18n.
- * Deep link: open directly with the URL hash #report-bug.
+ * Self-contained: injects its own scoped styles (.nfb-*). i18n via NetzschI18n.
+ * Deep link: open directly with #feedback (or #report-bug).
  */
 (function () {
   'use strict';
-  if (window.__nbugInit) return;
-  window.__nbugInit = true;
+  if (window.__nfbInit) return;
+  window.__nfbInit = true;
 
-  /* ── i18n helper (safe before i18n.js has loaded) ─── */
-  function T(key, fallback) {
-    return (window.NetzschI18n && NetzschI18n.t) ? NetzschI18n.t(key, fallback) : fallback;
+  var ACCENT = '#ec8043';        /* Userback-style orange */
+  var ACCENT_DK = '#d96e2e';
+  var INK_ANNOT = '#e8402c';     /* annotation colour */
+
+  var personas = {
+    administrator: { name: 'Marcus Weber',  email: 'marcus.weber@acme-corp.com' },
+    buyer:         { name: 'Sarah Mitchell', email: 'sarah.mitchell@acme-corp.com' },
+    technician:    { name: 'Carlos Andrade', email: 'carlos.andrade@acme-corp.com' },
+    approver:      { name: 'Daniel Costa',   email: 'daniel.costa@acme-corp.com' }
+  };
+  function me() {
+    var r = localStorage.getItem('netzsch_user_role') || 'administrator';
+    return personas[r] || personas.administrator;
   }
 
-  /* ── Scoped styles ─── */
-  var css = [
-    /* Right-edge vertical launcher tab (Userback-style position, NETZSCH green) */
-    '.nbug-fab{position:fixed;right:0;left:auto;top:42%;z-index:2000;display:flex;flex-direction:column;align-items:center;gap:8px;',
-      'padding:15px 7px;border:none;border-radius:11px 0 0 11px;background:#007167;color:#fff;',
-      'font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;',
-      'cursor:pointer;box-shadow:-2px 3px 16px rgba(0,0,0,0.18);transition:background .16s ease,transform .16s ease,box-shadow .16s ease;}',
-    '.nbug-fab:hover{background:#005f57;transform:translateX(-4px);box-shadow:-5px 4px 22px rgba(0,0,0,0.24);}',
-    '.nbug-fab:active{transform:translateX(-2px);}',
-    '.nbug-fab:focus-visible{outline:3px solid #0b9c92;outline-offset:3px;}',
-    '.nbug-fab svg{width:17px;height:17px;flex-shrink:0;}',
-    '.nbug-fab .nbug-fab-txt{writing-mode:vertical-rl;font-size:12.5px;font-weight:600;letter-spacing:.04em;}',
-    '@media(max-width:560px){.nbug-fab{padding:12px 5px;}.nbug-fab .nbug-fab-txt{font-size:11.5px;}}',
-
-    '.nbug-overlay{position:fixed;inset:0;z-index:3000;background:rgba(17,24,23,0.46);',
-      '-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;',
-      'padding:20px;opacity:0;pointer-events:none;transition:opacity .2s ease;}',
-    '.nbug-overlay.open{opacity:1;pointer-events:auto;}',
-    '.nbug-panel{width:100%;max-width:524px;max-height:90vh;overflow-y:auto;background:#fff;border-radius:16px;',
-      'box-shadow:0 20px 60px rgba(0,0,0,0.28);transform:translateY(12px) scale(.98);transition:transform .22s cubic-bezier(.32,.72,0,1);',
-      'font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#2d2e33;}',
-    '.nbug-overlay.open .nbug-panel{transform:none;}',
-
-    '.nbug-head{display:flex;align-items:flex-start;gap:12px;padding:22px 24px 16px;border-bottom:1px solid #eef0f2;}',
-    '.nbug-head-ico{flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:#e4efed;color:#007167;display:flex;align-items:center;justify-content:center;}',
-    '.nbug-head-ico svg{width:20px;height:20px;}',
-    '.nbug-head-txt{flex:1;min-width:0;}',
-    '.nbug-title{font-size:17px;font-weight:700;color:#1f2937;margin:0;letter-spacing:-.01em;}',
-    '.nbug-subtitle{font-size:13px;color:#6b7280;margin:3px 0 0;line-height:1.4;}',
-    '.nbug-close{flex:0 0 auto;width:32px;height:32px;border:none;border-radius:8px;background:#f3f4f6;color:#6b7280;',
-      'cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}',
-    '.nbug-close:hover{background:#e5e7eb;color:#374151;}',
-    '.nbug-close:focus-visible{outline:3px solid #0b9c92;outline-offset:2px;}',
-
-    '.nbug-body{padding:18px 24px 4px;}',
-    '.nbug-ctx-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#9ca3af;margin:0 0 9px;}',
-    '.nbug-ctx{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px;}',
-    '.nbug-chip{display:inline-flex;align-items:baseline;gap:5px;background:#f4f6f6;border:1px solid #e6e9e8;border-radius:7px;padding:4px 9px;font-size:12px;color:#4c4d57;max-width:100%;}',
-    '.nbug-chip b{color:#9ca3af;font-weight:600;}',
-    '.nbug-chip .v{font-weight:600;color:#2d2e33;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
-
-    '.nbug-field{margin-bottom:17px;}',
-    '.nbug-flabel{display:block;font-size:13px;font-weight:600;color:#4c4d57;margin-bottom:6px;}',
-    '.nbug-req{color:#c73e20;margin-left:2px;}',
-    '.nbug-opt{color:#9ca3af;font-weight:400;margin-left:4px;}',
-    '.nbug-textarea{width:100%;min-height:84px;resize:vertical;border:1px solid #c7cbce;border-radius:10px;padding:10px 12px;',
-      'font-family:inherit;font-size:14px;color:#2d2e33;line-height:1.5;outline:none;transition:border-color .15s,box-shadow .15s;}',
-    '.nbug-textarea:focus{border-color:#007167;box-shadow:0 0 0 3px rgba(0,113,103,.14);}',
-    '.nbug-textarea.nbug-err{border-color:#c73e20;}',
-    '.nbug-errmsg{display:none;font-size:12px;color:#c73e20;margin-top:6px;}',
-    '.nbug-errmsg.show{display:block;}',
-
-    '.nbug-sev{display:flex;gap:8px;}',
-    '.nbug-sev label{flex:1;position:relative;cursor:pointer;}',
-    '.nbug-sev input{position:absolute;opacity:0;width:0;height:0;}',
-    '.nbug-sev .pill{display:block;text-align:center;padding:9px 6px;border:1px solid #c7cbce;border-radius:9px;',
-      'font-size:13px;font-weight:600;color:#4c4d57;transition:all .13s;}',
-    '.nbug-sev label:hover .pill{border-color:#9aa0a3;}',
-    '.nbug-sev input:checked + .pill{background:#007167;border-color:#007167;color:#fff;}',
-    '.nbug-sev input:focus-visible + .pill{outline:3px solid #0b9c92;outline-offset:2px;}',
-
-    '.nbug-drop{display:flex;align-items:center;gap:10px;width:100%;border:1px dashed #c7cbce;border-radius:10px;',
-      'padding:12px 14px;background:#fafbfb;cursor:pointer;color:#6b7280;font-size:13px;font-family:inherit;text-align:left;transition:border-color .15s,background .15s;}',
-    '.nbug-drop:hover{border-color:#007167;background:#f4f8f7;}',
-    '.nbug-drop:focus-visible{outline:3px solid #0b9c92;outline-offset:2px;}',
-    '.nbug-drop svg{width:18px;height:18px;flex-shrink:0;color:#9ca3af;}',
-    '.nbug-drop .hint{color:#9ca3af;margin-left:auto;font-size:12px;}',
-    '.nbug-file{display:none;align-items:center;gap:8px;margin-top:9px;font-size:13px;color:#2d2e33;}',
-    '.nbug-file.show{display:flex;}',
-    '.nbug-file .name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
-    '.nbug-file button{border:none;background:#f3f4f6;color:#6b7280;border-radius:6px;width:22px;height:22px;cursor:pointer;flex-shrink:0;}',
-    '.nbug-file button:hover{background:#e5e7eb;}',
-
-    '.nbug-foot{display:flex;gap:10px;justify-content:flex-end;padding:16px 24px 22px;border-top:1px solid #eef0f2;margin-top:6px;}',
-    '.nbug-btn{height:42px;padding:0 20px;border-radius:999px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s;}',
-    '.nbug-btn:focus-visible{outline:3px solid #0b9c92;outline-offset:2px;}',
-    '.nbug-btn-ghost{background:#fff;border:1px solid #c7cbce;color:#4c4d57;}',
-    '.nbug-btn-ghost:hover{background:#f4f6f6;border-color:#9aa0a3;}',
-    '.nbug-btn-primary{background:#007167;border:1px solid #007167;color:#fff;}',
-    '.nbug-btn-primary:hover{background:#005f57;border-color:#005f57;}',
-
-    '.nbug-success{padding:36px 28px 32px;text-align:center;}',
-    '.nbug-success-ico{width:58px;height:58px;border-radius:50%;background:#e4efed;color:#007167;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}',
-    '.nbug-success-ico svg{width:30px;height:30px;}',
-    '.nbug-success h3{font-size:18px;font-weight:700;color:#1f2937;margin:0 0 7px;}',
-    '.nbug-success p{font-size:14px;color:#6b7280;margin:0 0 4px;line-height:1.5;}',
-    '.nbug-ref{display:inline-block;margin:10px 0 22px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;font-weight:700;color:#007167;background:#f4f8f7;border:1px solid #d9e6e3;border-radius:8px;padding:7px 14px;letter-spacing:.02em;}',
-    '.nbug-success-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}',
-
-    '@media(prefers-reduced-motion:reduce){.nbug-fab,.nbug-overlay,.nbug-panel,.nbug-btn,.nbug-sev .pill,.nbug-drop,.nbug-textarea,.nbug-close{transition:none!important;}}'
-  ].join('');
-
-  var style = document.createElement('style');
-  style.id = 'nbug-style';
-  style.textContent = css;
-  document.head.appendChild(style);
-
-  /* ── Icons ─── */
-  var BUG_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="6" width="8" height="12" rx="4"/><path d="M12 6V4m-4 4L5 6m3 6H3m5 4-3 2m11-12 3-2m-3 6h5m-5 4 3 2"/></svg>';
-  var CLOSE_SVG = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg>';
-  var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>';
-  var IMG_SVG = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2"/><circle cx="7" cy="8" r="1.5"/><path d="M3 14l4-3 3 2 4-3 3 3"/></svg>';
-
-  /* ── Context capture ─── */
-  function roleLabel() {
-    var r = (localStorage.getItem('netzsch_user_role') || 'administrator');
-    return r.charAt(0).toUpperCase() + r.slice(1);
-  }
-  function pageLabel() {
-    var file = (location.pathname.split('/').pop() || '').replace(/\.html$/, '');
-    return file || (document.title || 'portal');
-  }
-  function browserLabel() {
-    var ua = navigator.userAgent, b = 'Browser';
-    if (/Edg\//.test(ua)) b = 'Edge';
-    else if (/OPR\//.test(ua)) b = 'Opera';
-    else if (/Chrome\//.test(ua)) b = 'Chrome';
-    else if (/Firefox\//.test(ua)) b = 'Firefox';
-    else if (/Safari\//.test(ua)) b = 'Safari';
-    var os = /Macintosh/.test(ua) ? 'macOS' : /Windows/.test(ua) ? 'Windows' : /Linux/.test(ua) ? 'Linux' :
-             /Android/.test(ua) ? 'Android' : /iPhone|iPad/.test(ua) ? 'iOS' : '';
-    return os ? b + ' · ' + os : b;
-  }
-  function screenLabel() {
-    return window.innerWidth + '×' + window.innerHeight;
-  }
-
-  /* ── Build FAB ─── */
-  var fab = document.createElement('button');
-  fab.type = 'button';
-  fab.className = 'nbug-fab';
-  fab.setAttribute('aria-haspopup', 'dialog');
-  fab.innerHTML = BUG_SVG + '<span class="nbug-fab-txt"></span>';
-  function syncFabText() {
-    fab.querySelector('.nbug-fab-txt').textContent = T('bug.fabLabel', 'Report a bug');
-    fab.setAttribute('aria-label', T('bug.fabLabel', 'Report a bug'));
-  }
-  syncFabText();
-
-  /* ── Build overlay + panel (lazily populated on first open) ─── */
-  var overlay = document.createElement('div');
-  overlay.className = 'nbug-overlay';
-  overlay.setAttribute('role', 'presentation');
-  var panel = document.createElement('div');
-  panel.className = 'nbug-panel';
-  panel.setAttribute('role', 'dialog');
-  panel.setAttribute('aria-modal', 'true');
-  panel.setAttribute('aria-labelledby', 'nbug-title');
-  overlay.appendChild(panel);
-
-  var lastFocus = null;
-  var built = false;
-
+  function T(k, f) { return (window.NetzschI18n && NetzschI18n.t) ? NetzschI18n.t(k, f) : f; }
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
     });
   }
+  function scriptBase() {
+    var sc = document.querySelector('script[src*="bug-report.js"]');
+    if (sc) { var src = sc.getAttribute('src'); return src.substring(0, src.lastIndexOf('/') + 1); }
+    return '../assets/';
+  }
 
-  function formMarkup() {
+  /* ── Icons ─── */
+  var I = {
+    nav: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l8.5 18.5-8.5-4.6-8.5 4.6z"/></svg>',
+    back: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>',
+    close: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg>',
+    select: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3"/></svg>',
+    pen: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4l5 5L9 20l-5 1 1-5z"/></svg>',
+    line: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M5 19L19 5"/></svg>',
+    arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19L19 5M11 5h8v8"/></svg>',
+    rect: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"/></svg>',
+    text: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14M12 6v13"/></svg>',
+    record: '<svg viewBox="0 0 24 24" fill="#e8402c" aria-hidden="true"><circle cx="12" cy="12" r="7"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>',
+    cam: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h3l1.3-2h5.4L16 6h1a2 2 0 012 2v7a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2z"/><circle cx="10" cy="11" r="3"/></svg>'
+  };
+
+  /* ── Styles ─── */
+  var css = [
+    '.nfb-tab{position:fixed;left:0;top:44%;z-index:2000;display:flex;flex-direction:column;align-items:center;gap:7px;',
+      'padding:15px 7px;border:none;border-radius:0 9px 9px 0;background:' + ACCENT + ';color:#fff;cursor:pointer;',
+      'font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-shadow:2px 3px 14px rgba(0,0,0,.18);',
+      'transition:background .15s,transform .15s,box-shadow .15s;}',
+    '.nfb-tab:hover{background:' + ACCENT_DK + ';transform:translateX(3px);box-shadow:4px 4px 20px rgba(0,0,0,.22);}',
+    '.nfb-tab:focus-visible{outline:3px solid #fff;outline-offset:-4px;}',
+    '.nfb-tab svg{width:16px;height:16px;}',
+    '.nfb-tab .t{writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;font-weight:600;letter-spacing:.04em;}',
+
+    '.nfb-canvas{position:fixed;inset:0;z-index:3000;}',
+
+    '.nfb-toolbar{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:3002;display:flex;align-items:center;gap:3px;',
+      'background:#fff;border-radius:999px;padding:7px 9px;box-shadow:0 8px 28px rgba(0,0,0,.2);',
+      'font-family:Inter,sans-serif;}',
+    '.nfb-tool{width:38px;height:38px;border:none;background:none;border-radius:50%;color:#3d4246;cursor:pointer;',
+      'display:flex;align-items:center;justify-content:center;transition:background .13s;}',
+    '.nfb-tool:hover{background:#f1f2f3;}',
+    '.nfb-tool.active{background:#edeef0;color:#1f2937;}',
+    '.nfb-tool:focus-visible{outline:3px solid ' + ACCENT + ';outline-offset:2px;}',
+    '.nfb-tool svg{width:20px;height:20px;}',
+    '.nfb-tool-sep{width:1px;height:22px;background:#e5e7eb;margin:0 3px;}',
+
+    '.nfb-panel{position:fixed;top:70px;left:64px;z-index:3002;width:368px;max-width:calc(100vw - 32px);max-height:calc(100vh - 90px);',
+      'overflow-y:auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.26);',
+      'font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#2d2e33;}',
+    '.nfb-head{background:' + ACCENT + ';color:#fff;padding:20px 22px 24px;position:relative;}',
+    '.nfb-logo{width:30px;height:30px;}',
+    '.nfb-head-btns{position:absolute;top:16px;right:14px;display:flex;gap:4px;}',
+    '.nfb-hbtn{width:30px;height:30px;border:none;background:rgba(255,255,255,.16);color:#fff;border-radius:7px;cursor:pointer;',
+      'display:flex;align-items:center;justify-content:center;transition:background .13s;}',
+    '.nfb-hbtn:hover{background:rgba(255,255,255,.28);}',
+    '.nfb-hbtn:focus-visible{outline:3px solid #fff;outline-offset:2px;}',
+    '.nfb-hbtn svg{width:15px;height:15px;}',
+    '.nfb-greet{font-size:21px;font-weight:800;line-height:1.25;letter-spacing:-.01em;margin:14px 0 0;}',
+
+    '.nfb-body{padding:20px 22px 8px;display:flex;flex-direction:column;gap:12px;}',
+    '.nfb-input,.nfb-ta{width:100%;border:1px solid #d7dadd;border-radius:10px;padding:12px 14px;font-family:inherit;font-size:14px;',
+      'color:#2d2e33;outline:none;transition:border-color .15s,box-shadow .15s;}',
+    '.nfb-ta{min-height:112px;resize:vertical;line-height:1.5;}',
+    '.nfb-input:focus,.nfb-ta:focus{border-color:' + ACCENT + ';box-shadow:0 0 0 3px rgba(236,128,67,.16);}',
+    '.nfb-ta.nfb-err{border-color:#c73e20;}',
+    '.nfb-errmsg{display:none;font-size:12px;color:#c73e20;margin:-4px 0 0;}',
+    '.nfb-errmsg.show{display:block;}',
+    '.nfb-shot{display:flex;align-items:center;gap:10px;border:1px solid #e3e6e8;border-radius:10px;padding:11px 14px;cursor:pointer;color:#4c4d57;font-size:13.5px;}',
+    '.nfb-shot:hover{background:#fafbfb;}',
+    '.nfb-shot svg{width:18px;height:18px;color:#9ca3af;flex-shrink:0;}',
+    '.nfb-shot .lbl{flex:1;font-weight:500;}',
+    '.nfb-switch{position:relative;width:38px;height:22px;flex-shrink:0;border-radius:999px;background:#cfd3d6;transition:background .15s;}',
+    '.nfb-switch::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.25);}',
+    '.nfb-shot.on .nfb-switch{background:' + ACCENT + ';}',
+    '.nfb-shot.on .nfb-switch::after{transform:translateX(16px);}',
+
+    '.nfb-foot{padding:6px 22px 18px;}',
+    '.nfb-send{width:100%;height:48px;border:none;border-radius:999px;background:' + ACCENT + ';color:#fff;font-family:inherit;',
+      'font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;}',
+    '.nfb-send:hover{background:' + ACCENT_DK + ';}',
+    '.nfb-send:disabled{opacity:.7;cursor:default;}',
+    '.nfb-send:focus-visible{outline:3px solid ' + ACCENT_DK + ';outline-offset:2px;}',
+    '.nfb-credit{text-align:center;font-size:11.5px;color:#aeb4b8;padding:0 0 14px;}',
+
+    '.nfb-success{padding:34px 26px 28px;text-align:center;}',
+    '.nfb-success-ico{width:56px;height:56px;border-radius:50%;background:#fbede3;color:' + ACCENT_DK + ';display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}',
+    '.nfb-success-ico svg{width:28px;height:28px;}',
+    '.nfb-success h3{font-size:18px;font-weight:800;color:#1f2937;margin:0 0 6px;}',
+    '.nfb-success p{font-size:14px;color:#6b7280;margin:0;line-height:1.5;}',
+    '.nfb-ref{display:inline-block;margin:10px 0 16px;font-family:ui-monospace,Menlo,monospace;font-size:15px;font-weight:700;color:' + ACCENT_DK + ';background:#fbede3;border-radius:8px;padding:6px 13px;}',
+    '.nfb-thumb{display:block;max-width:100%;border:1px solid #e5e7eb;border-radius:8px;margin:0 auto 18px;}',
+    '.nfb-success-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}',
+    '.nfb-btn{height:40px;padding:0 18px;border-radius:999px;font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;}',
+    '.nfb-btn-ghost{background:#fff;border:1px solid #d7dadd;color:#4c4d57;}',
+    '.nfb-btn-ghost:hover{background:#f4f6f6;}',
+    '.nfb-btn-primary{background:' + ACCENT + ';border:1px solid ' + ACCENT + ';color:#fff;}',
+    '.nfb-btn-primary:hover{background:' + ACCENT_DK + ';}',
+
+    '.nfb-toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:3006;background:#1f2937;color:#fff;',
+      'font-family:Inter,sans-serif;font-size:13.5px;padding:11px 18px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.3);}',
+    '.nfb-textedit{position:fixed;z-index:3004;border:1px dashed ' + INK_ANNOT + ';background:rgba(255,255,255,.9);color:' + INK_ANNOT + ';',
+      'font-family:Inter,sans-serif;font-size:16px;font-weight:700;padding:2px 5px;outline:none;min-width:60px;border-radius:3px;}',
+
+    '@media(max-width:560px){.nfb-panel{left:12px;top:64px;}}',
+    '@media(prefers-reduced-motion:reduce){.nfb-tab,.nfb-tool,.nfb-send,.nfb-switch,.nfb-switch::after,.nfb-input,.nfb-ta,.nfb-hbtn{transition:none!important;}}'
+  ].join('');
+  var style = document.createElement('style');
+  style.id = 'nfb-style';
+  style.textContent = css;
+  document.head.appendChild(style);
+
+  /* ── Launcher tab ─── */
+  var tab = document.createElement('button');
+  tab.type = 'button';
+  tab.className = 'nfb-tab';
+  tab.innerHTML = I.nav + '<span class="t"></span>';
+  function syncTab() {
+    tab.querySelector('.t').textContent = T('fb.tab', 'Feedback');
+    tab.setAttribute('aria-label', T('fb.tab', 'Feedback'));
+  }
+  syncTab();
+
+  /* ── State ─── */
+  var open = false, tool = 'select';
+  var shapes = [], drawing = false, start = null, cur = null, penPts = null;
+  var canvas, ctx, toolbar, panel, textInput = null;
+  var lastFocus = null;
+
+  /* ── Annotation canvas ─── */
+  function p(e) { return { x: e.clientX, y: e.clientY }; }
+  function resize() { if (!canvas) return; canvas.width = window.innerWidth; canvas.height = window.innerHeight; redraw(); }
+  function drawShape(s) {
+    ctx.strokeStyle = INK_ANNOT; ctx.fillStyle = INK_ANNOT; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    if (s.t === 'pen') {
+      if (!s.pts.length) return;
+      ctx.beginPath(); ctx.moveTo(s.pts[0].x, s.pts[0].y);
+      for (var i = 1; i < s.pts.length; i++) ctx.lineTo(s.pts[i].x, s.pts[i].y);
+      ctx.stroke();
+    } else if (s.t === 'line' || s.t === 'arrow') {
+      ctx.beginPath(); ctx.moveTo(s.a.x, s.a.y); ctx.lineTo(s.b.x, s.b.y); ctx.stroke();
+      if (s.t === 'arrow') {
+        var ang = Math.atan2(s.b.y - s.a.y, s.b.x - s.a.x), h = 13;
+        ctx.beginPath(); ctx.moveTo(s.b.x, s.b.y);
+        ctx.lineTo(s.b.x - h * Math.cos(ang - Math.PI / 7), s.b.y - h * Math.sin(ang - Math.PI / 7));
+        ctx.moveTo(s.b.x, s.b.y);
+        ctx.lineTo(s.b.x - h * Math.cos(ang + Math.PI / 7), s.b.y - h * Math.sin(ang + Math.PI / 7));
+        ctx.stroke();
+      }
+    } else if (s.t === 'rect') {
+      ctx.strokeRect(Math.min(s.a.x, s.b.x), Math.min(s.a.y, s.b.y), Math.abs(s.b.x - s.a.x), Math.abs(s.b.y - s.a.y));
+    } else if (s.t === 'text') {
+      ctx.font = '700 16px Inter, sans-serif'; ctx.textBaseline = 'top';
+      ctx.fillText(s.text, s.a.x, s.a.y);
+    }
+  }
+  function redraw() {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < shapes.length; i++) drawShape(shapes[i]);
+    if (drawing) {
+      if (tool === 'pen') drawShape({ t: 'pen', pts: penPts });
+      else if (cur) drawShape({ t: tool, a: start, b: cur });
+    }
+  }
+  function onDown(e) {
+    if (tool === 'select' || tool === 'record') return;
+    if (tool === 'text') { placeText(p(e)); return; }
+    drawing = true; start = p(e); cur = start;
+    if (tool === 'pen') penPts = [start];
+    try { if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId); } catch (err) {}
+  }
+  function onMove(e) { if (!drawing) return; cur = p(e); if (tool === 'pen') penPts.push(cur); redraw(); }
+  function onUp() {
+    if (!drawing) return; drawing = false;
+    if (tool === 'pen') { if (penPts.length > 1) shapes.push({ t: 'pen', pts: penPts.slice() }); penPts = null; }
+    else if (cur && (Math.abs(cur.x - start.x) > 3 || Math.abs(cur.y - start.y) > 3)) shapes.push({ t: tool, a: start, b: cur });
+    cur = null; redraw();
+  }
+  function placeText(at) {
+    if (textInput) commitText();
+    textInput = document.createElement('input');
+    textInput.type = 'text'; textInput.className = 'nfb-textedit';
+    textInput.style.left = at.x + 'px'; textInput.style.top = at.y + 'px';
+    textInput._at = at;
+    document.body.appendChild(textInput); textInput.focus();
+    textInput.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter') { ev.preventDefault(); commitText(); }
+      else if (ev.key === 'Escape') { ev.stopPropagation(); if (textInput) { textInput.remove(); textInput = null; } }
+    });
+    textInput.addEventListener('blur', commitText);
+  }
+  function commitText() {
+    if (!textInput) return;
+    var v = textInput.value.trim(), at = textInput._at;
+    textInput.remove(); textInput = null;
+    if (v) { shapes.push({ t: 'text', a: at, text: v }); redraw(); }
+  }
+
+  function setTool(t) {
+    tool = t;
+    var btns = toolbar.querySelectorAll('.nfb-tool');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('active', btns[i].getAttribute('data-tool') === t);
+    var drawMode = (t !== 'select' && t !== 'record');
+    canvas.style.pointerEvents = drawMode ? 'auto' : 'none';
+    canvas.style.cursor = t === 'text' ? 'text' : (drawMode ? 'crosshair' : 'default');
+  }
+
+  /* ── Toolbar ─── */
+  function buildToolbar() {
+    toolbar = document.createElement('div');
+    toolbar.className = 'nfb-toolbar';
+    toolbar.setAttribute('role', 'toolbar');
+    toolbar.setAttribute('aria-label', T('fb.toolbar', 'Annotation tools'));
+    var tools = [
+      ['select', I.select, T('fb.toolSelect', 'Select')],
+      ['pen', I.pen, T('fb.toolPen', 'Pen')],
+      ['line', I.line, T('fb.toolLine', 'Line')],
+      ['arrow', I.arrow, T('fb.toolArrow', 'Arrow')],
+      ['rect', I.rect, T('fb.toolRect', 'Rectangle')],
+      ['text', I.text, T('fb.toolText', 'Text')]
+    ];
+    var html = '';
+    for (var i = 0; i < tools.length; i++) {
+      html += '<button type="button" class="nfb-tool' + (tools[i][0] === 'select' ? ' active' : '') +
+        '" data-tool="' + tools[i][0] + '" aria-label="' + esc(tools[i][2]) + '" title="' + esc(tools[i][2]) + '">' + tools[i][1] + '</button>';
+    }
+    html += '<span class="nfb-tool-sep"></span>' +
+      '<button type="button" class="nfb-tool" data-tool="record" aria-label="' + esc(T('fb.toolRecord', 'Record')) + '" title="' + esc(T('fb.toolRecord', 'Record')) + '">' + I.record + '</button>';
+    toolbar.innerHTML = html;
+    toolbar.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.nfb-tool') : null;
+      if (!b) return;
+      var t = b.getAttribute('data-tool');
+      if (t === 'record') { toast(T('fb.recordNA', "Screen recording isn't available in the prototype.")); return; }
+      setTool(t);
+    });
+  }
+
+  function toast(msg) {
+    var el = document.createElement('div');
+    el.className = 'nfb-toast'; el.textContent = msg; el.setAttribute('role', 'status');
+    document.body.appendChild(el);
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 2600);
+  }
+
+  /* ── Panel ─── */
+  function panelFormHTML() {
+    var u = me();
     return '' +
-      '<div class="nbug-head">' +
-        '<div class="nbug-head-ico">' + BUG_SVG + '</div>' +
-        '<div class="nbug-head-txt">' +
-          '<h2 class="nbug-title" id="nbug-title">' + esc(T('bug.title', 'Report a bug')) + '</h2>' +
-          '<p class="nbug-subtitle">' + esc(T('bug.subtitle', 'Spotted something off? Tell us what happened.')) + '</p>' +
+      '<div class="nfb-head">' +
+        '<div class="nfb-logo">' + I.nav + '</div>' +
+        '<div class="nfb-head-btns">' +
+          '<button type="button" class="nfb-hbtn" data-act="back" aria-label="' + esc(T('fb.close', 'Close')) + '">' + I.back + '</button>' +
+          '<button type="button" class="nfb-hbtn" data-act="close" aria-label="' + esc(T('fb.close', 'Close')) + '">' + I.close + '</button>' +
         '</div>' +
-        '<button type="button" class="nbug-close" aria-label="' + esc(T('bug.close', 'Close')) + '">' + CLOSE_SVG + '</button>' +
+        '<h2 class="nfb-greet" id="nfb-greet">' + esc(T('fb.greeting', 'Hi, please share your thoughts')) + '</h2>' +
       '</div>' +
-      '<div class="nbug-body">' +
-        '<p class="nbug-ctx-label">' + esc(T('bug.contextTitle', 'Captured automatically')) + '</p>' +
-        '<div class="nbug-ctx">' +
-          '<span class="nbug-chip"><b>' + esc(T('bug.ctxPage', 'Page')) + '</b><span class="v" data-ctx="page"></span></span>' +
-          '<span class="nbug-chip"><b>' + esc(T('bug.ctxRole', 'Role')) + '</b><span class="v" data-ctx="role"></span></span>' +
-          '<span class="nbug-chip"><b>' + esc(T('bug.ctxBrowser', 'Browser')) + '</b><span class="v" data-ctx="browser"></span></span>' +
-          '<span class="nbug-chip"><b>' + esc(T('bug.ctxScreen', 'Screen')) + '</b><span class="v" data-ctx="screen"></span></span>' +
-        '</div>' +
-
-        '<div class="nbug-field">' +
-          '<label class="nbug-flabel" for="nbug-what">' + esc(T('bug.whatLabel', 'What went wrong?')) +
-            '<span class="nbug-req" aria-label="' + esc(T('bug.required', 'required')) + '">*</span></label>' +
-          '<textarea class="nbug-textarea" id="nbug-what" aria-describedby="nbug-what-err" ' +
-            'placeholder="' + esc(T('bug.whatPlaceholder', 'Describe what you expected and what actually happened…')) + '"></textarea>' +
-          '<span class="nbug-errmsg" id="nbug-what-err">' + esc(T('bug.errWhat', 'Please describe what went wrong.')) + '</span>' +
-        '</div>' +
-
-        '<div class="nbug-field">' +
-          '<label class="nbug-flabel" for="nbug-steps">' + esc(T('bug.stepsLabel', 'Steps to reproduce')) +
-            '<span class="nbug-opt">' + esc(T('bug.optional', '(optional)')) + '</span></label>' +
-          '<textarea class="nbug-textarea" id="nbug-steps" style="min-height:66px" ' +
-            'placeholder="' + esc(T('bug.stepsPlaceholder', '1. Go to…  2. Click…  3. See…')) + '"></textarea>' +
-        '</div>' +
-
-        '<div class="nbug-field">' +
-          '<span class="nbug-flabel">' + esc(T('bug.severityLabel', 'Severity')) + '</span>' +
-          '<div class="nbug-sev" role="radiogroup" aria-label="' + esc(T('bug.severityLabel', 'Severity')) + '">' +
-            '<label><input type="radio" name="nbug-sev" value="low"><span class="pill">' + esc(T('bug.sevLow', 'Low')) + '</span></label>' +
-            '<label><input type="radio" name="nbug-sev" value="medium" checked><span class="pill">' + esc(T('bug.sevMedium', 'Medium')) + '</span></label>' +
-            '<label><input type="radio" name="nbug-sev" value="high"><span class="pill">' + esc(T('bug.sevHigh', 'High')) + '</span></label>' +
-          '</div>' +
-        '</div>' +
-
-        '<div class="nbug-field">' +
-          '<span class="nbug-flabel">' + esc(T('bug.attachLabel', 'Screenshot')) +
-            '<span class="nbug-opt">' + esc(T('bug.optional', '(optional)')) + '</span></span>' +
-          '<button type="button" class="nbug-drop" id="nbug-drop">' + IMG_SVG +
-            '<span>' + esc(T('bug.attachCta', 'Add a screenshot')) + '</span>' +
-            '<span class="hint">' + esc(T('bug.attachHint', 'PNG or JPG')) + '</span></button>' +
-          '<input type="file" id="nbug-file" accept="image/png,image/jpeg" hidden>' +
-          '<div class="nbug-file" id="nbug-filebox"><span class="name"></span>' +
-            '<button type="button" aria-label="' + esc(T('bug.close', 'Remove')) + '">' + CLOSE_SVG + '</button></div>' +
-        '</div>' +
+      '<div class="nfb-body">' +
+        '<input type="text" class="nfb-input" id="nfb-name" value="' + esc(u.name) + '" placeholder="' + esc(T('fb.namePh', 'Your name')) + '" aria-label="' + esc(T('fb.namePh', 'Your name')) + '">' +
+        '<input type="email" class="nfb-input" id="nfb-email" value="' + esc(u.email) + '" placeholder="' + esc(T('fb.emailPh', 'Your email')) + '" aria-label="' + esc(T('fb.emailPh', 'Your email')) + '">' +
+        '<textarea class="nfb-ta" id="nfb-comment" aria-describedby="nfb-cerr" placeholder="' + esc(T('fb.commentPh', 'Leave us your comment')) + '"></textarea>' +
+        '<span class="nfb-errmsg" id="nfb-cerr">' + esc(T('fb.err', 'Please leave a comment.')) + '</span>' +
+        '<div class="nfb-shot on" id="nfb-shot" role="switch" aria-checked="true" tabindex="0">' + I.cam +
+          '<span class="lbl">' + esc(T('fb.screenshot', 'Screenshot')) + '</span><span class="nfb-switch"></span></div>' +
       '</div>' +
-      '<div class="nbug-foot">' +
-        '<button type="button" class="nbug-btn nbug-btn-ghost" id="nbug-cancel">' + esc(T('bug.cancel', 'Cancel')) + '</button>' +
-        '<button type="button" class="nbug-btn nbug-btn-primary" id="nbug-submit">' + esc(T('bug.submit', 'Send report')) + '</button>' +
-      '</div>';
+      '<div class="nfb-foot"><button type="button" class="nfb-send" id="nfb-send">' + esc(T('fb.send', 'Send feedback')) + '</button></div>' +
+      '<div class="nfb-credit">' + esc(T('fb.credit', 'NETZSCH Customer Portal')) + '</div>';
+  }
+
+  function buildPanel() {
+    panel = document.createElement('div');
+    panel.className = 'nfb-panel';
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'false');
+    panel.setAttribute('aria-labelledby', 'nfb-greet');
+    panel.innerHTML = panelFormHTML();
+    wirePanel();
+  }
+
+  function wirePanel() {
+    panel.querySelector('[data-act="close"]').addEventListener('click', close);
+    panel.querySelector('[data-act="back"]').addEventListener('click', close);
+    var shot = panel.querySelector('#nfb-shot');
+    if (shot) {
+      var toggle = function () {
+        var on = shot.classList.toggle('on');
+        shot.setAttribute('aria-checked', on ? 'true' : 'false');
+      };
+      shot.addEventListener('click', toggle);
+      shot.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); } });
+    }
+    var comment = panel.querySelector('#nfb-comment'), cerr = panel.querySelector('#nfb-cerr');
+    comment.addEventListener('input', function () { if (comment.value.trim()) { comment.classList.remove('nfb-err'); cerr.classList.remove('show'); } });
+    panel.querySelector('#nfb-send').addEventListener('click', function () {
+      if (!comment.value.trim()) { comment.classList.add('nfb-err'); cerr.classList.add('show'); comment.focus(); return; }
+      var wantShot = panel.querySelector('#nfb-shot').classList.contains('on');
+      var sendBtn = panel.querySelector('#nfb-send');
+      if (wantShot) {
+        sendBtn.disabled = true; sendBtn.textContent = T('fb.capturing', 'Capturing…');
+        capture(function (dataUrl) { showSuccess(dataUrl); });
+      } else {
+        showSuccess(null);
+      }
+    });
   }
 
   function makeRef() {
     var t = Date.now().toString(36).toUpperCase().slice(-4);
     var r = Math.floor(Math.random() * 46656).toString(36).toUpperCase();
     while (r.length < 3) r = '0' + r;
-    return 'BUG-' + t + r;
+    return 'FB-' + t + r;
   }
 
-  function successMarkup(ref) {
-    return '' +
-      '<div class="nbug-success">' +
-        '<div class="nbug-success-ico">' + CHECK_SVG + '</div>' +
-        '<h3>' + esc(T('bug.successTitle', 'Thanks — report sent')) + '</h3>' +
-        '<p>' + esc(T('bug.successDesc', 'Our team will look into it. Your reference:')) + '</p>' +
-        '<span class="nbug-ref">' + esc(ref) + '</span>' +
-        '<div class="nbug-success-cta">' +
-          '<button type="button" class="nbug-btn nbug-btn-ghost" id="nbug-another">' + esc(T('bug.another', 'Report another')) + '</button>' +
-          '<button type="button" class="nbug-btn nbug-btn-primary" id="nbug-done">' + esc(T('bug.close', 'Close')) + '</button>' +
+  function showSuccess(dataUrl) {
+    var ref = makeRef();
+    panel.innerHTML =
+      '<div class="nfb-success">' +
+        '<div class="nfb-success-ico">' + I.check + '</div>' +
+        '<h3>' + esc(T('fb.successTitle', 'Thanks for your feedback!')) + '</h3>' +
+        '<p>' + esc(T('fb.successDesc', "We've received it. Reference:")) + '</p>' +
+        '<span class="nfb-ref">' + esc(ref) + '</span>' +
+        (dataUrl ? '<img class="nfb-thumb" alt="Captured screenshot" src="' + dataUrl + '">' : '') +
+        '<div class="nfb-success-cta">' +
+          '<button type="button" class="nfb-btn nfb-btn-ghost" id="nfb-again">' + esc(T('fb.another', 'Send another')) + '</button>' +
+          '<button type="button" class="nfb-btn nfb-btn-primary" id="nfb-done">' + esc(T('fb.close', 'Close')) + '</button>' +
         '</div>' +
       '</div>';
-  }
-
-  function fillContext() {
-    var map = { page: pageLabel(), role: roleLabel(), browser: browserLabel(), screen: screenLabel() };
-    var vs = panel.querySelectorAll('[data-ctx]');
-    for (var i = 0; i < vs.length; i++) {
-      vs[i].textContent = map[vs[i].getAttribute('data-ctx')] || '';
-    }
-  }
-
-  function wireForm() {
-    var closeBtn = panel.querySelector('.nbug-close');
-    var cancel = panel.querySelector('#nbug-cancel');
-    var submit = panel.querySelector('#nbug-submit');
-    var what = panel.querySelector('#nbug-what');
-    var err = panel.querySelector('#nbug-what-err');
-    var drop = panel.querySelector('#nbug-drop');
-    var file = panel.querySelector('#nbug-file');
-    var filebox = panel.querySelector('#nbug-filebox');
-
-    closeBtn.addEventListener('click', close);
-    cancel.addEventListener('click', close);
-
-    what.addEventListener('input', function () {
-      if (what.value.trim()) { what.classList.remove('nbug-err'); err.classList.remove('show'); }
+    panel.querySelector('#nfb-done').addEventListener('click', close);
+    panel.querySelector('#nfb-again').addEventListener('click', function () {
+      shapes = []; redraw(); panel.innerHTML = panelFormHTML(); wirePanel();
+      var c = panel.querySelector('#nfb-comment'); if (c) c.focus();
     });
+    var d = panel.querySelector('#nfb-done'); if (d) d.focus();
+  }
 
-    drop.addEventListener('click', function () { file.click(); });
-    file.addEventListener('change', function () {
-      if (file.files && file.files[0]) {
-        filebox.querySelector('.name').textContent = file.files[0].name;
-        filebox.classList.add('show');
+  /* ── Screenshot capture (lazy html2canvas) ─── */
+  function loadH2C(cb) {
+    if (window.html2canvas) { cb(); return; }
+    var s = document.createElement('script');
+    s.src = scriptBase() + 'vendor/html2canvas.min.js';
+    s.onload = function () { cb(); };
+    s.onerror = function () { cb(); };
+    document.head.appendChild(s);
+  }
+  function capture(cb) {
+    loadH2C(function () {
+      if (!window.html2canvas) { cb(null); return; }
+      var hidden = [toolbar, panel];
+      for (var i = 0; i < hidden.length; i++) if (hidden[i]) hidden[i].style.visibility = 'hidden';
+      try {
+        window.html2canvas(document.body, { logging: false, useCORS: true, backgroundColor: '#ffffff', scale: 1 }).then(function (cv) {
+          for (var j = 0; j < hidden.length; j++) if (hidden[j]) hidden[j].style.visibility = '';
+          var url = null; try { url = cv.toDataURL('image/png'); } catch (e) { url = null; }
+          cb(url);
+        })['catch'](function () {
+          for (var k = 0; k < hidden.length; k++) if (hidden[k]) hidden[k].style.visibility = '';
+          cb(null);
+        });
+      } catch (e) {
+        for (var m = 0; m < hidden.length; m++) if (hidden[m]) hidden[m].style.visibility = '';
+        cb(null);
       }
     });
-    filebox.querySelector('button').addEventListener('click', function () {
-      file.value = ''; filebox.classList.remove('show');
-    });
-
-    submit.addEventListener('click', function () {
-      if (!what.value.trim()) {
-        what.classList.add('nbug-err'); err.classList.add('show'); what.focus();
-        return;
-      }
-      /* Prototype: no backend — show confirmation with a generated reference. */
-      panel.innerHTML = successMarkup(makeRef());
-      panel.querySelector('#nbug-done').addEventListener('click', close);
-      panel.querySelector('#nbug-another').addEventListener('click', function () {
-        render(); fillContext();
-        var w = panel.querySelector('#nbug-what'); if (w) w.focus();
-      });
-      var done = panel.querySelector('#nbug-done'); if (done) done.focus();
-    });
-  }
-
-  function render() {
-    panel.innerHTML = formMarkup();
-    wireForm();
-    built = true;
   }
 
   /* ── Open / close ─── */
-  function open() {
+  function openWidget() {
+    if (open) return; open = true;
     lastFocus = document.activeElement;
-    render();
-    fillContext();
-    document.body.appendChild(overlay);
-    /* force reflow so the transition runs */
-    void overlay.offsetWidth;
-    overlay.classList.add('open');
-    document.documentElement.style.overflow = 'hidden';
-    var w = panel.querySelector('#nbug-what');
-    if (w) w.focus();
+    canvas = document.createElement('canvas'); canvas.className = 'nfb-canvas';
+    document.body.appendChild(canvas); ctx = canvas.getContext('2d'); resize();
+    canvas.addEventListener('pointerdown', onDown);
+    canvas.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('resize', resize);
+    buildToolbar(); document.body.appendChild(toolbar);
+    buildPanel(); document.body.appendChild(panel);
+    setTool('select');
+    tab.style.display = 'none';
     document.addEventListener('keydown', onKeydown);
+    var c = panel.querySelector('#nfb-comment'); if (c) c.focus();
   }
-
   function close() {
-    overlay.classList.remove('open');
-    document.documentElement.style.overflow = '';
+    if (!open) return; open = false;
+    if (textInput) { textInput.remove(); textInput = null; }
+    window.removeEventListener('pointerup', onUp);
+    window.removeEventListener('resize', resize);
     document.removeEventListener('keydown', onKeydown);
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-    var remove = function () { if (overlay.parentNode) overlay.parentNode.removeChild(overlay); };
-    if (reduce) remove(); else setTimeout(remove, 220);
+    [canvas, toolbar, panel].forEach(function (el) { if (el && el.parentNode) el.parentNode.removeChild(el); });
+    canvas = ctx = toolbar = panel = null;
+    shapes = []; drawing = false;
+    tab.style.display = '';
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
-
   function onKeydown(e) {
-    if (e.key === 'Escape') { close(); return; }
-    if (e.key === 'Tab') {
-      /* simple focus trap */
-      var f = panel.querySelectorAll('button, textarea, input, [href], [tabindex]:not([tabindex="-1"])');
-      var list = [];
-      for (var i = 0; i < f.length; i++) { if (f[i].offsetParent !== null || f[i].type === 'radio') list.push(f[i]); }
-      if (!list.length) return;
-      var first = list[0], last = list[list.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
+    if (e.key === 'Escape') { if (textInput) return; close(); }
   }
 
-  overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
-  fab.addEventListener('click', open);
+  tab.addEventListener('click', function () { open ? close() : openWidget(); });
 
   /* ── Mount ─── */
   function mount() {
-    if (!document.body.contains(fab)) document.body.appendChild(fab);
-    syncFabText();
-    if (location.hash === '#report-bug') open();
+    if (!document.body.contains(tab)) document.body.appendChild(tab);
+    syncTab();
+    if (location.hash === '#feedback' || location.hash === '#report-bug') openWidget();
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', mount);
-  } else {
-    mount();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
 
-  /* expose a tiny API (e.g. a "Report a bug" link elsewhere can call it) */
-  window.NetzschBugReport = { open: open, close: close };
+  window.NetzschFeedback = { open: openWidget, close: close };
+  window.NetzschBugReport = window.NetzschFeedback;
 })();
