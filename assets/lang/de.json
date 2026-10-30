@@ -74,9 +74,7 @@
   "pricechange.note": "Wir konnten den aktuellen Preis für diese Artikel nicht bestätigen, daher werden sie aus Ihrem Warenkorb entfernt. Bitte kontaktieren Sie uns, falls Sie sie weiterhin benötigen.",
   "pricechange.unavailable": "Preis nicht verfügbar",
   "pricechange.update": "Warenkorb aktualisieren",
-
   "topbar.portal": "Mahlen & Dispergieren Kundenportal",
-
   "nav.home": "Startseite",
   "nav.machines": "Maschinen",
   "nav.shop": "Shop",
@@ -85,12 +83,10 @@
   "nav.services": "Service",
   "nav.labTests": "Labortests",
   "nav.help": "Hilfe",
-
   "notif.title": "Benachrichtigungen",
   "notif.markRead": "Alle als gelesen markieren",
   "notif.viewAll": "Alle Benachrichtigungen anzeigen",
   "notif.actionReviewApprove": "Prüfen & Genehmigen",
-
   "status.orderPlaced": "Bestellt",
   "status.inProcess": "In Bearbeitung",
   "status.shipped": "Versendet",
@@ -106,7 +102,6 @@
   "status.cancelled": "Storniert",
   "status.inactive": "Inaktiv",
   "status.pendingInvitation": "Einladung ausstehend",
-
   "nc.title": "Benachrichtigungen",
   "nc.markAll": "Alle als gelesen markieren",
   "nc.filterAll": "Alle",
@@ -135,12 +130,10 @@
   "nc.toastCleared": "Benachrichtigungen gelöscht",
   "nc.caughtUpTitle": "Alles erledigt",
   "nc.caughtUpDesc": "Sie haben derzeit keine Benachrichtigungen.",
-
   "cart.title": "Warenkorb",
   "cart.subtotal": "Zwischensumme",
   "cart.viewCart": "Warenkorb anzeigen",
   "cart.empty": "Ihr Warenkorb ist leer",
-
   "profile.profile": "Profil",
   "profile.admin": "Verwaltung",
   "profile.wishlist": "Meine Wunschliste",
@@ -233,7 +226,6 @@
   "profile.fieldCurrency": "Währung",
   "profile.fieldDateFormat": "Datumsformat",
   "profile.valEnabled": "Aktiviert",
-
   "admin.sidebar.title": "Verwaltung",
   "admin.sidebar.users": "Benutzerverwaltung",
   "admin.sidebar.roles": "Zugriff & Rollen",
@@ -302,11 +294,8 @@
   "admin.sidebar.helpTitle": "Brauchen Sie Hilfe?",
   "admin.sidebar.helpText": "Wenden Sie sich an Ihren NETZSCH-Ansprechpartner für Unterstützung bei den Verwaltungseinstellungen.",
   "admin.sidebar.helpBtn": "Support kontaktieren",
-
   "milla.placeholder": "Fragen Sie Milla AI...",
-
   "breadcrumb.home": "Startseite",
-
   "common.filters": "Filter",
   "common.sortBy": "Sortieren",
   "common.status": "Status",
@@ -346,7 +335,6 @@
   "common.requestQuote": "Angebot anfordern",
   "common.viewAll": "Alle anzeigen",
   "common.contactSupport": "Support kontaktieren",
-
   "dash.welcome": "Guten Tag, Marcus",
   "dash.askMilla": "Milla fragen",
   "dash.activeOrders": "Aktive Bestellungen",
@@ -379,13 +367,11 @@
   "dash.inProcess": "In Bearbeitung",
   "dash.shipped": "Versendet",
   "dash.delivered": "Geliefert",
-
   "orderDrawer.quickView": "Schnellansicht",
   "orderDrawer.items": "Artikel",
   "orderDrawer.tracking": "Sendungsverfolgung",
   "orderDrawer.viewFull": "Vollständige Details anzeigen",
   "orderDrawer.notShipped": "Noch nicht versandt",
-
   "orders.title": "Bestellungen",
   "orders.totalOrders": "Alle Bestellungen",
   "orders.placed": "Bestellt",
@@ -397,7 +383,6 @@
   "orders.status": "Status",
   "orders.total": "Gesamt",
   "orders.items": "Artikel",
-
   "quotes.title": "Angebote",
   "quotes.totalQuotes": "Alle Angebote",
   "quotes.pending": "Ausstehend",
@@ -409,7 +394,6 @@
   "quotes.status": "Status",
   "quotes.total": "Gesamt",
   "quotes.validUntil": "Gültig bis",
-
   "contracts.title": "Verträge",
   "contracts.totalContracts": "Alle Verträge",
   "contracts.active": "Aktiv",
@@ -421,7 +405,6 @@
   "contracts.startDate": "Ausrüstung / Umfang",
   "contracts.endDate": "Gültigkeit",
   "contracts.status": "Status",
-
   "machines.title": "Meine Maschinen",
   "machines.totalMachines": "Alle Maschinen",
   "machines.operational": "In Betrieb",
@@ -437,12 +420,10 @@
   "machines.viewDetails": "Details anzeigen",
   "machines.spareParts": "Ersatzteile",
   "machines.serialNum": "S/N",
-
   "shop.title": "Shop",
   "shop.totalProducts": "Alle Produkte",
   "shop.categories": "Kategorien",
   "shop.searchPlaceholder": "Produkt, Referenz suchen...",
-
   "services.title": "Service",
   "services.totalServices": "Alle Services",
   "services.submitted": "Eingereicht",
@@ -452,7 +433,6 @@
   "services.searchPlaceholder": "Service, Maschine suchen...",
   "services.serviceRequest": "Serviceanfrage",
   "services.service": "Service",
-
   "budget.title": "Monatsbudget",
   "budget.spent": "Ausgegeben",
   "budget.remaining": "Verbleibend",
@@ -464,7 +444,6 @@
   "budget.orders": "Bestellungen",
   "budget.avgOrder": "Ø Bestellung",
   "budget.ofSpending": "der Ausgaben",
-
   "labTests.title": "Labortests",
   "labTests.searchPlaceholder": "Test, Material, Maschine suchen...",
   "labTests.testId": "Test-ID",
@@ -476,7 +455,6 @@
   "labTests.completed": "Abgeschlossen",
   "labTests.inProgress": "In Bearbeitung",
   "labTests.pendingReview": "Prüfung ausstehend",
-
   "wishlist.title": "Meine Wunschliste",
   "wishlist.totalItems": "Alle Artikel",
   "wishlist.inStock": "Auf Lager",
@@ -486,7 +464,6 @@
   "wishlist.product": "Produkt",
   "wishlist.ref": "Ref.",
   "wishlist.addedOn": "Hinzugefügt am",
-
   "help.title": "Hilfecenter",
   "help.ctaTitle": "Sie finden nicht, wonach Sie suchen?",
   "help.ctaSub": "Unser Support-Team hilft Ihnen gerne direkt weiter.",
@@ -513,7 +490,6 @@
   "help.catPortal": "Portal",
   "help.catMyMachines": "Meine Maschinen",
   "help.colTitle": "Titel",
-
   "contactSupport.title": "Support kontaktieren",
   "contactSupport.subtitle": "Erstellen Sie ein Support-Ticket und unser Team meldet sich innerhalb von 1 Werktag bei Ihnen.",
   "contactSupport.subject": "Betreff",
@@ -524,7 +500,6 @@
   "contactSupport.submitTicket": "Ticket absenden",
   "contactSupport.supportInfo": "Support-Info",
   "contactSupport.quickLinks": "Schnelllinks",
-
   "prodMonitor.title": "Produktionsüberwachung für ProPhi",
   "prodMonitor.subtitle": "Echtzeit-Leistungsüberwachung, vorausschauende Wartung und Produktionsanalysen — alles in einer integrierten Plattform.",
   "prodMonitor.requestQuote": "Angebot anfordern",
@@ -533,7 +508,6 @@
   "prodMonitor.benefits": "Vorteile",
   "prodMonitor.requestQuoteTitle": "Angebot anfordern",
   "prodMonitor.requestQuoteSubtitle": "Ein NETZSCH-Spezialist wird Sie innerhalb von 2 Werktagen kontaktieren.",
-
   "checkout.title": "Warenkorb",
   "checkout.products": "Produkte",
   "checkout.paymentDetails": "Zahlungsdetails",
@@ -549,7 +523,6 @@
   "checkout.deliveryDays": "15 – 20 Tage",
   "checkout.emptyCart": "Ihr Warenkorb ist leer.",
   "checkout.browseShop": "Shop durchsuchen",
-
   "admin.users.title": "Benutzerverwaltung",
   "admin.users.searchPlaceholder": "Benutzer, E-Mail suchen...",
   "admin.users.user": "Benutzer",
@@ -557,10 +530,8 @@
   "admin.users.role": "Rolle",
   "admin.users.status": "Status",
   "admin.users.lastActive": "Zuletzt aktiv",
-
   "admin.roles.title": "Zugriff & Rollen",
   "admin.roles.permissions": "Berechtigungen",
-
   "admin.requests.title": "Anfragen",
   "admin.requests.searchPlaceholder": "Anfrage suchen...",
   "admin.requests.request": "Anfrage",
@@ -569,14 +540,12 @@
   "admin.requests.priority": "Priorität",
   "admin.requests.status": "Status",
   "admin.requests.amount": "Betrag",
-
   "admin.company.title": "Firmenprofil",
   "admin.company.companyInfo": "Firmeninformationen",
   "admin.company.billingAddress": "Rechnungsadresse",
   "admin.company.shippingAddresses": "Lieferadressen",
   "admin.company.taxInfo": "Steuerinformationen",
   "admin.company.creditPayment": "Kredit & Zahlungsbedingungen",
-
   "admin.notif.title": "Benachrichtigungseinstellungen",
   "admin.notif.preferences": "Benachrichtigungspräferenzen",
   "admin.notif.orders": "Bestellungen",
@@ -586,13 +555,11 @@
   "admin.notif.labTests": "Labortests",
   "admin.notif.usersAccess": "Benutzer & Zugriff",
   "admin.notif.system": "System",
-
   "orderDetail.trackOrder": "Bestellung verfolgen",
   "orderDetail.orderProgress": "Bestellfortschritt",
   "orderDetail.downloadPdf": "PDF herunterladen",
   "orderDetail.orderTracking": "Sendungsverfolgung",
   "orderDetail.contactSupport": "Support kontaktieren",
-
   "quoteDetail.download": "Herunterladen",
   "quoteDetail.approve": "Angebot annehmen",
   "quoteDetail.decline": "Angebot ablehnen",
@@ -603,10 +570,8 @@
   "quoteDetail.toastApproved": "Angebot genehmigt",
   "quoteDetail.toastDeclined": "Angebot abgelehnt",
   "quoteDetail.toastConverted": "Angebot in Bestellung umgewandelt",
-
   "contractDetail.statusActive": "Aktiv",
   "contractDetail.download": "Herunterladen",
-
   "contractParts.searchPlaceholder": "Nach Teilename oder Code suchen",
   "contractParts.filterAll": "Alle",
   "contractParts.code": "Code",
@@ -615,7 +580,6 @@
   "contractParts.days": "Tage",
   "contractParts.onRequest": "Auf Anfrage",
   "contractParts.selectSubset": "Baugruppe auswählen",
-
   "contractService.included": "Enthalten",
   "contractService.notIncluded": "Nicht enthalten",
   "contractService.type": "Typ",
@@ -624,13 +588,11 @@
   "contractService.afterHours": "Außerhalb (+50%)",
   "contractService.weekendHolidays": "Wochenende/Feiertage (+100%)",
   "contractService.travelHours": "Reisestunden",
-
   "table.product": "Produkt",
   "table.unitPrice": "Einzelpreis",
   "table.quantity": "Menge",
   "table.unit": "Einheit",
   "table.total": "Gesamt",
-
   "machine.editMachine": "Maschine bearbeiten",
   "machine.serialNumber": "Seriennummer",
   "machine.country": "Land",
@@ -651,12 +613,10 @@
   "machine.materialShaft": "Material Mahlwelle",
   "machine.sealingMaterial": "Dichtungsmaterial",
   "machine.selectSubset": "Baugruppe auswählen",
-
   "spareParts.materialNumber": "Materialnummer",
   "spareParts.description": "Beschreibung",
   "spareParts.pricePerUnit": "Preis pro Einheit",
   "spareParts.identifyHint": "Discus 30 — tippen Sie auf eine Nummer in der Zeichnung, um das Teil zu identifizieren, oder fahren Sie über eine Zeile, um es zu finden.",
-
   "millaFlow.askMilla": "Milla fragen",
   "millaFlow.subtitle": "Dokumentation, Anleitungen finden und Hilfe von Milla AI erhalten",
   "millaFlow.howSearch": "Wie möchten Sie suchen?",
@@ -675,7 +635,6 @@
   "millaFlow.recommendations": "Empfehlungen",
   "millaFlow.send": "Senden",
   "millaFlow.openAssistant": "Milla KI-Assistent öffnen",
-
   "shopDetail.productDescription": "Produktbeschreibung",
   "shopDetail.selectSize": "Größe auswählen",
   "shopDetail.quantity": "Menge",
@@ -686,10 +645,8 @@
   "shopDetail.specifications": "Spezifikationen",
   "shopDetail.documents": "Dokumente",
   "shopDetail.relatedProducts": "Ähnliche Produkte",
-
   "breadcrumb.shop": "Shop",
   "breadcrumb.services": "Service",
-
   "shopDetail.mechanicalSpecs": "Mechanische Daten",
   "shopDetail.applications": "Anwendungen",
   "shopDetail.bulkDensity": "Schüttdichte",
@@ -707,7 +664,6 @@
   "shopDetail.bulkPricingKg": "Preis/kg",
   "shopDetail.addedToWishlist": "Zur Wunschliste hinzugefügt",
   "shopDetail.viewWishlist": "Wunschliste anzeigen",
-
   "checkout.checkoutLabel": "Kasse",
   "checkout.orderConfirmation": "Bestellbestätigung",
   "checkout.quoteConfirmation": "Angebotsbestätigung",
@@ -753,7 +709,6 @@
   "checkout.stepPendingApproval": "Genehmigung ausstehend",
   "checkout.stepApproved": "Genehmigt",
   "checkout.stepConverted": "In Bestellung umgewandelt",
-
   "serviceReq.subtitle": "Reichen Sie Ihre Serviceanfrage mit detaillierten Informationen für eine schnelle Bearbeitung ein.",
   "serviceReq.selectMachine": "Maschine auswählen",
   "serviceReq.detailsTitle": "Servicedetails",
@@ -784,7 +739,6 @@
   "serviceReq.stepInProgress": "In Bearbeitung",
   "serviceReq.stepCompleted": "Abgeschlossen",
   "serviceReq.submittedSuccess": "Ihre Serviceanfrage wurde übermittelt. Unser Team prüft sie in Kürze.",
-
   "auth.welcomeBack": "Willkommen zurück!",
   "auth.loginSubtitle": "Melden Sie sich an, um dort weiterzumachen, wo Sie aufgehört haben, und auf alle Ihre Tools zuzugreifen.",
   "auth.portalBadge": "M&D Kundenportal",
@@ -832,7 +786,6 @@
   "auth.passwordUpdated": "Passwort erfolgreich aktualisiert",
   "auth.createTitle": "Konto erstellen",
   "auth.createSubtitle": "Registrieren Sie sich, um auf alle Ihre Tools zuzugreifen und Ihre Abläufe effizient zu verwalten.",
-
   "register.accountInfo": "Kontoinformationen",
   "register.accountInfoSubtitle": "Bitte geben Sie Ihre Daten ein, um den Registrierungsprozess zu starten.",
   "register.sapNumber": "SAP-Nummer oder CNPJ*",
@@ -873,7 +826,6 @@
   "register.submittedTitle": "Ihre Registrierung wurde eingereicht",
   "register.submittedText": "Wir haben Ihre Informationen erhalten. Innerhalb von 72 Stunden erhalten Sie eine E-Mail mit der Bestätigung und einem Link zur Passworterstellung.",
   "register.returnHome": "Zurück zur Startseite",
-
   "home.login": "Anmelden",
   "home.register": "Registrieren",
   "home.heroTitle": "Ihr All-in-One Kundenportal",
@@ -937,7 +889,6 @@
   "home.footerCol4Title": "Kontakt",
   "home.footerContact": "Unser Team kontaktieren",
   "home.copyright": "© 2026 NETZSCH. ALLE RECHTE VORBEHALTEN.",
-
   "checkout.free": "Kostenlos",
   "checkout.ref": "Ref.:",
   "checkout.kg": "kg",
@@ -952,7 +903,6 @@
   "checkout.deliveryExpressDetail": "5–7 Werktage",
   "checkout.deliveryPickupDetail": "Verfügbar innerhalb von 2 Werktagen",
   "checkout.and": "und",
-
   "checkout.partialTitle": "Versandverfügbarkeit",
   "checkout.partialAlertTitle": "Teilweise verfügbar",
   "checkout.partialRequested": "Angefordert",
@@ -968,7 +918,6 @@
   "checkout.shipment": "Lieferung",
   "checkout.willArriveBy": "Ankunft bis",
   "checkout.allItems": "Alle",
-
   "milla.aiSuggestions": "KI-Vorschläge",
   "milla.suggestOrderStatus": "Bestellstatus prüfen",
   "milla.suggestRecommend": "Produkte für mich empfehlen",
@@ -983,15 +932,12 @@
   "milla.tabDocuments": "Dokumente",
   "milla.tabRecommendations": "Empfehlungen",
   "milla.chatPlaceholder": "Fragen Sie Milla...",
-
   "checkout.processing": "Wird verarbeitet...",
   "checkout.orderPlaced": "Bestellung erfolgreich aufgegeben!",
   "checkout.orderPlacedDesc": "Weiterleitung zur Bestellbestätigung...",
-
   "nav.requests": "Anfragen",
   "technician.requests": "Anfragen",
   "approver.orderApprovals": "Bestellfreigaben",
-
   "filter.sortBy": "Sortieren",
   "filter.dateNewest": "Datum (neueste)",
   "filter.dateOldest": "Datum (älteste)",
@@ -1032,13 +978,11 @@
   "filter.clearFilters": "Filter zurücksetzen",
   "filter.partsContract": "Teilevertrag",
   "filter.serviceContract": "Servicevertrag",
-
   "machine.hours": "Stunden",
   "machine.productFamily": "Produktfamilie",
   "machine.lastService": "Letzter Service",
   "machine.tableCommission": "Kommissions-Nr.",
   "machine.tableFamily": "Familie",
-
   "orderTracking.trackingNumber": "Sendungsnummer:",
   "orderTracking.orderPlaced": "Bestellt",
   "orderTracking.dispatched": "Versandt",
@@ -1053,7 +997,6 @@
   "orderTracking.carrierInfo": "Spediteur-Informationen",
   "orderTracking.warehouse": "Lager",
   "orderTracking.yourLocation": "Ihr Standort",
-
   "contractDrawer.partsContract": "Teilevertrag",
   "contractDrawer.serviceContract": "Servicevertrag",
   "contractDrawer.equipmentScope": "Geräteumfang",
@@ -1086,7 +1029,6 @@
   "contractDrawer.downloadPdf": "Vertrag als PDF herunterladen",
   "contractDrawer.requestRenewal": "Verlängerung anfordern",
   "contractDrawer.contractDetails": "Vertragsdetails",
-
   "contactSupport.ticketDetails": "Ticket-Details",
   "contactSupport.selectSubject": "Betreff auswählen",
   "contactSupport.ordersDeliveries": "Bestellungen & Lieferungen",
@@ -1121,7 +1063,6 @@
   "contactSupport.confirmationEmailValue": "An Ihre E-Mail-Adresse gesendet",
   "contactSupport.teamAssignment": "Teamzuweisung",
   "contactSupport.teamAssignmentValue": "Ein Spezialist wird innerhalb von 24 Std. zugewiesen",
-
   "gate.title": "Kundenportal",
   "gate.subtitle": "Geben Sie das Zugangspasswort ein, um fortzufahren.",
   "gate.passwordLabel": "Passwort",
@@ -1130,7 +1071,6 @@
   "gate.hidePassword": "Passwort ausblenden",
   "gate.errorMessage": "Falsches Passwort. Bitte versuchen Sie es erneut.",
   "gate.accessButton": "Portal öffnen",
-
   "help.popularTitle": "Beliebte Artikel",
   "help.popularHint": "Meistgelesene Anleitungen im Portal",
   "help.pop1": "So fordern Sie Wartung an",
@@ -1142,5 +1082,63 @@
   "help.catServiceFull": "Service & Wartung",
   "help.catOrdersFull": "Bestellungen & Rechnungen",
   "help.catMachinesFull": "Maschinendokumentation",
-  "help.catPortalFull": "Kundenportal-Anleitungen"
+  "help.catPortalFull": "Kundenportal-Anleitungen",
+  "help.maintIntro": "Mit einer Serviceanfrage bitten Sie NETZSCH um Hilfe bei einer Maschine — Reparatur, geplante Wartung, ein Ersatzteil oder technische Beratung. Jede Anfrage wird erfasst und an unser Serviceteam weitergeleitet.",
+  "help.maintStepsTitle": "So stellen Sie eine Serviceanfrage",
+  "help.maintStep1": "Anfrage starten. Öffnen Sie Services und klicken Sie auf „Service Request“, oder öffnen Sie eine Maschine und nutzen Sie deren Aktion „Service Request“.",
+  "help.maintStep2": "Wählen Sie die Maschine aus dem Dropdown. Ihre Details werden unter Machine Information automatisch ausgefüllt.",
+  "help.maintStep3": "Wählen Sie den Request Type: Repair, Maintenance, Spare Parts Request oder Consultation.",
+  "help.maintStep4": "Fügen Sie einen Titel und eine Problembeschreibung hinzu. Hängen Sie Fotos oder Dokumente an (PDF, JPG, PNG), wenn sie das Problem verdeutlichen.",
+  "help.maintStep5": "Klicken Sie auf „Send Request“. Sie erhalten eine Bestätigung mit Ihrer Anfragenummer, und unser Serviceteam übernimmt den Rest.",
+  "help.maintTip": "Die Schaltfläche „Send Request“ bleibt deaktiviert, bis eine Maschine, ein Request Type sowie ein gültiger Titel und eine gültige Beschreibung ausgefüllt sind.",
+  "help.maintWhoTitle": "Wer anfragen kann",
+  "help.maintWho": "Alle Rollen können eine Serviceanfrage stellen. Für Techniker ist dies der zentrale Arbeitsablauf, um Probleme aus dem Feld zu melden.",
+  "help.maintCta": "Serviceanfrage stellen",
+  "help.trackIntro": "Jede Bestellung zeigt ihren Fortschritt in Echtzeit — vom Aufgeben bis zur Lieferung. Sie können sie verfolgen, ohne den Support zu kontaktieren.",
+  "help.trackStepsTitle": "So verfolgen Sie eine Bestellung",
+  "help.trackStep1": "Öffnen Sie Bestellungen und wählen Sie die Bestellung aus, die Sie verfolgen möchten.",
+  "help.trackStep2": "Prüfen Sie die Fortschrittsanzeige: Order Placed → In Process → Shipped → Delivered.",
+  "help.trackStep3": "Klicken Sie auf „Track Order“, um das Tracking-Panel zu öffnen.",
+  "help.trackStep4": "Sehen Sie den vollständigen Verlauf, die Sendungsnummer, das voraussichtliche Lieferdatum, die Lieferadresse und den Spediteur.",
+  "help.trackTip": "Das voraussichtliche Lieferdatum und die Spediteurdaten stammen direkt aus der Sendung und werden aktualisiert, während die Bestellung unterwegs ist.",
+  "help.trackWhoTitle": "Wer verfolgen kann",
+  "help.trackWho": "Alle Rollen können Bestellungen und Tracking einsehen. Für Techniker erscheint „Bestellungen“ als „Requests“ und Preise sind ausgeblendet, das Tracking bleibt jedoch verfügbar.",
+  "help.trackCta": "Bestellungen ansehen",
+  "help.startIntro": "Das Kundenportal bündelt Ihre NETZSCH-Maschinen, Bestellungen, Angebote, Services und Dokumente an einem Ort. So finden Sie sich zurecht.",
+  "help.startStepsTitle": "Die Grundlagen",
+  "help.startStep1": "Anmelden. Nutzen Sie E-Mail und Passwort oder das Single Sign-on Ihres Unternehmens. Nach der Anmeldung landen Sie auf Home, Ihrem Dashboard.",
+  "help.startStep2": "Nutzen Sie die obere Navigation: Home, Machines, Shop, Orders, Quotes, Services, Lab Tests und Help sind immer nur einen Klick entfernt.",
+  "help.startStep3": "Öffnen Sie das Profilmenü für Ihr Profil, die Wishlist, Contracts, Admin-Werkzeuge und zum Abmelden.",
+  "help.startStep4": "Überfliegen Sie Ihr Dashboard. Statistik- und Insight-Karten zeigen, was Aufmerksamkeit braucht — etwa offene Rechnungen oder diese Woche fällige Posten.",
+  "help.startTip": "Ask Milla, der KI-Assistent des Portals, ist auf jeder Seite verfügbar, falls Sie etwas nicht finden.",
+  "help.startWhoTitle": "Was Sie sehen, hängt von Ihrer Rolle ab",
+  "help.startWho": "Administratoren haben vollen Zugriff. Einkäufer konzentrieren sich auf Bestellungen und Genehmigungen. Genehmiger prüfen und genehmigen, ohne zu kaufen. Techniker arbeiten mit Service- und Maschinenwerkzeugen, Preise und Checkout sind ausgeblendet.",
+  "help.startCta": "Zum Dashboard",
+  "help.errIntro": "Wenn eine Maschine einen Fehler- oder Störungscode anzeigt, ist der schnellste Weg zur Lösung, ihn über das Portal mit Code und Kontext zu melden. Unser Serviceteam kann dann mit der richtigen Diagnose reagieren.",
+  "help.errStepsTitle": "Was tun bei einem Code",
+  "help.errStep1": "Notieren Sie den genauen Code und was die Maschine tat, als er auftrat.",
+  "help.errStep2": "Prüfen Sie die „Documents and Manuals“ der Maschine — das Betriebshandbuch listet oft Codes und erste Schritte auf.",
+  "help.errStep3": "Ist das Problem nicht gelöst, stellen Sie eine Serviceanfrage mit Request Type „Repair“ und geben Sie den Code in der Beschreibung an.",
+  "help.errStep4": "Bei ProPhi-Maschinen mit Production Monitoring werden Warnungen automatisch ausgelöst und für Sie nachverfolgt.",
+  "help.errTip": "Ein Foto der Anzeige mit dem Code hilft unserem Team, ihn schneller zu diagnostizieren.",
+  "help.errWhoTitle": "Wer eine Störung melden kann",
+  "help.errWho": "Alle Rollen können eine Reparaturanfrage stellen. Techniker melden Codes in der Regel direkt aus dem Feld.",
+  "help.errCta": "Störung melden",
+  "help.reportIntro": "Maschinendokumente, Handbücher und Prüfberichte können Sie direkt im Portal herunterladen — ganz ohne Anfrage per E-Mail.",
+  "help.reportStepsTitle": "Wo Sie Berichte finden und herunterladen",
+  "help.reportStep1": "Für Maschinendokumente: Öffnen Sie eine Maschine und klicken Sie auf „Documents and Manuals“.",
+  "help.reportStep2": "Wählen Sie eine Kategorie — Drawings & Part List, Instructions Manual, Electrical oder Certificates.",
+  "help.reportStep3": "Laden Sie eine einzelne Datei herunter oder nutzen Sie „Download all“ für den gesamten Satz.",
+  "help.reportStep4": "Für Analyseberichte: Öffnen Sie Lab Tests, wählen Sie einen Test und klicken Sie auf „Download Report“ im zugehörigen Panel.",
+  "help.reportTip": "Documents and Manuals stehen allen Rollen offen. Lab Tests sind für Administratoren und Techniker verfügbar.",
+  "help.reportCta": "Zu Ihren Maschinen",
+  "help.invIntro": "Ihre Rechnung ist die Kostenaufstellung einer Bestellung. Das Portal zeigt sie direkt bei der Bestellung an, sodass die Beträge stets zu Ihrer Bestellung passen.",
+  "help.invStepsTitle": "Wo Sie Rechnungsdetails finden",
+  "help.invStep1": "Öffnen Sie Bestellungen und wählen Sie eine Bestellung aus.",
+  "help.invStep2": "Suchen Sie die Karte „Payment Details“ — sie listet Subtotal, Tax, Shipping, einen etwaigen Coupon und den Order Total auf.",
+  "help.invStep3": "Auf Ihrem Dashboard kennzeichnen die Karte „Pending Invoices“ und der Insight „Invoices Due“, was zu zahlen ist.",
+  "help.invTip": "Als „Free“ angezeigte Versandkosten und ein etwaiger Coupon sind bereits im Order Total berücksichtigt.",
+  "help.invWhoTitle": "Wer Beträge sehen kann",
+  "help.invWho": "Administratoren, Einkäufer und Genehmiger sehen vollständige Rechnungsbeträge. Für Techniker sind Preise und die Zahlungsaufstellung ausgeblendet.",
+  "help.invCta": "Bestellungen ansehen"
 }

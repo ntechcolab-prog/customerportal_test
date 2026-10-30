@@ -1664,7 +1664,7 @@
             <!-- Row 1 -->
             <tr>
               <td>
-                <a href="#" class="article-link">
+                <a href="#" class="article-link" data-article="service-report">
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   How to download a service report
                 </a>
@@ -1681,7 +1681,7 @@
             <!-- Row 2 -->
             <tr>
               <td>
-                <a href="#" class="article-link">
+                <a href="#" class="article-link" data-article="understand-invoice">
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   Understanding your invoice
                 </a>
@@ -1698,7 +1698,7 @@
             <!-- Row 3 -->
             <tr>
               <td>
-                <a href="#" class="article-link">
+                <a href="#" class="article-link" data-article="error-codes">
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   Machine error codes explained
                 </a>
@@ -1715,7 +1715,7 @@
             <!-- Row 4 -->
             <tr>
               <td>
-                <a href="#" class="article-link">
+                <a href="#" class="article-link" data-article="request-maintenance">
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   How to request maintenance
                 </a>
@@ -1766,7 +1766,7 @@
             <!-- Row 7 -->
             <tr>
               <td>
-                <a href="#" class="article-link">
+                <a href="#" class="article-link" data-article="track-shipment">
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   Tracking your shipment in real-time
                 </a>
@@ -1800,7 +1800,7 @@
             <!-- Row 9 -->
             <tr>
               <td>
-                <a href="#" class="article-link">
+                <a href="#" class="article-link" data-article="getting-started">
                   <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 1.5h5.5l3 3V13a1.5 1.5 0 01-1.5 1.5H4A1.5 1.5 0 012.5 13V3A1.5 1.5 0 014 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 1.5v3h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   Getting started with the customer portal
                 </a>
@@ -4036,17 +4036,127 @@ function sendFromSmallChat() {
       '<p>' + T('help.quoteWho', 'Buyers and Administrators can request quotations. Approvers can review and approve them but not create them. Technicians don’t have access to quotations.') + '</p>' +
     '</div>';
   }
-  var ARTICLES = { 'request-quotation': quoteArticle };
+  function maintenanceArticle() {
+    return '<div class="article-content">' +
+      '<p>' + T('help.maintIntro', 'A service request is how you ask NETZSCH for help with a machine — a repair, scheduled maintenance, a spare part, or technical advice. Every request is logged and routed to our service team.') + '</p>' +
+      '<h3>' + T('help.maintStepsTitle', 'How to open a service request') + '</h3>' +
+      '<ol>' +
+        '<li>' + T('help.maintStep1', 'Start the request. Open Services and click “Service Request”, or open any machine and use its “Service Request” action.') + '</li>' +
+        '<li>' + T('help.maintStep2', 'Select the machine from the dropdown. Its details fill in automatically under Machine Information.') + '</li>' +
+        '<li>' + T('help.maintStep3', 'Choose the Request Type: Repair, Maintenance, Spare Parts Request, or Consultation.') + '</li>' +
+        '<li>' + T('help.maintStep4', 'Add a Title and a Problem Description. Attach photos or documents (PDF, JPG, PNG) if they help explain the issue.') + '</li>' +
+        '<li>' + T('help.maintStep5', 'Click “Send Request”. You’ll get a confirmation with your request number, and our service team takes it from there.') + '</li>' +
+      '</ol>' +
+      '<div class="article-note">' + T('help.maintTip', 'The Send button stays disabled until a machine, a request type, and a valid title and description are filled in.') + '</div>' +
+      '<h3>' + T('help.maintWhoTitle', 'Who can request') + '</h3>' +
+      '<p>' + T('help.maintWho', 'All roles can open a service request. For Technicians it is the main workflow for reporting issues from the field.') + '</p>' +
+    '</div>';
+  }
+  function trackArticle() {
+    return '<div class="article-content">' +
+      '<p>' + T('help.trackIntro', 'Every order shows its progress in real time, from the moment it is placed until it arrives. You can follow it without contacting support.') + '</p>' +
+      '<h3>' + T('help.trackStepsTitle', 'How to track an order') + '</h3>' +
+      '<ol>' +
+        '<li>' + T('help.trackStep1', 'Open Orders and select the order you want to follow.') + '</li>' +
+        '<li>' + T('help.trackStep2', 'Check the progress bar: Order Placed → In Process → Shipped → Delivered.') + '</li>' +
+        '<li>' + T('help.trackStep3', 'Click “Track Order” to open the tracking panel.') + '</li>' +
+        '<li>' + T('help.trackStep4', 'See the full timeline, tracking number, estimated delivery, delivery address and carrier.') + '</li>' +
+      '</ol>' +
+      '<div class="article-note">' + T('help.trackTip', 'The estimated delivery date and carrier details come directly from the shipment, so they update as the order moves.') + '</div>' +
+      '<h3>' + T('help.trackWhoTitle', 'Who can track') + '</h3>' +
+      '<p>' + T('help.trackWho', 'All roles can view orders and tracking. For Technicians, Orders appears as “Requests” and prices are hidden, but tracking stays available.') + '</p>' +
+    '</div>';
+  }
+  function gettingStartedArticle() {
+    return '<div class="article-content">' +
+      '<p>' + T('help.startIntro', 'The customer portal brings your NETZSCH machines, orders, quotes, services and documents into one place. Here is how to find your way around.') + '</p>' +
+      '<h3>' + T('help.startStepsTitle', 'The basics') + '</h3>' +
+      '<ol>' +
+        '<li>' + T('help.startStep1', 'Sign in. Use your email and password, or your company’s single sign-on. After signing in you land on Home, your dashboard.') + '</li>' +
+        '<li>' + T('help.startStep2', 'Use the top navigation: Home, Machines, Shop, Orders, Quotes, Services, Lab Tests and Help are always one click away.') + '</li>' +
+        '<li>' + T('help.startStep3', 'Open the profile menu for your Profile, Wishlist, Contracts, admin tools and to log out.') + '</li>' +
+        '<li>' + T('help.startStep4', 'Scan your dashboard. Stat and insight cards surface what needs attention — such as pending invoices or items due this week.') + '</li>' +
+      '</ol>' +
+      '<div class="article-note">' + T('help.startTip', 'Ask Milla, the portal’s AI assistant, is available on every page if you can’t find something.') + '</div>' +
+      '<h3>' + T('help.startWhoTitle', 'What you see depends on your role') + '</h3>' +
+      '<p>' + T('help.startWho', 'Administrators have full access. Buyers focus on ordering and approvals. Approvers review and approve without buying. Technicians work from service and machine tools, with prices and checkout hidden.') + '</p>' +
+    '</div>';
+  }
+  function errorCodesArticle() {
+    return '<div class="article-content">' +
+      '<p>' + T('help.errIntro', 'When a machine shows an error or fault code, the fastest path to a fix is to report it through the portal with the code and some context. Our service team can then respond with the right diagnosis.') + '</p>' +
+      '<h3>' + T('help.errStepsTitle', 'What to do when you see a code') + '</h3>' +
+      '<ol>' +
+        '<li>' + T('help.errStep1', 'Note the exact code and what the machine was doing when it appeared.') + '</li>' +
+        '<li>' + T('help.errStep2', 'Check the machine’s “Documents and Manuals” — the operating manual often lists codes and first steps.') + '</li>' +
+        '<li>' + T('help.errStep3', 'If it isn’t resolved, open a service request with Request Type “Repair” and include the code in the description.') + '</li>' +
+        '<li>' + T('help.errStep4', 'For ProPhi machines with Production Monitoring, alerts are raised automatically and tracked for you.') + '</li>' +
+      '</ol>' +
+      '<div class="article-note">' + T('help.errTip', 'Attaching a photo of the display with the code helps our team diagnose it faster.') + '</div>' +
+      '<h3>' + T('help.errWhoTitle', 'Who can report a fault') + '</h3>' +
+      '<p>' + T('help.errWho', 'All roles can open a repair request. Technicians typically report codes directly from the field.') + '</p>' +
+    '</div>';
+  }
+  function serviceReportArticle() {
+    return '<div class="article-content">' +
+      '<p>' + T('help.reportIntro', 'Machine documents, manuals and test reports are available to download directly from the portal — no need to request them by email.') + '</p>' +
+      '<h3>' + T('help.reportStepsTitle', 'Where to find and download reports') + '</h3>' +
+      '<ol>' +
+        '<li>' + T('help.reportStep1', 'For machine documents: open a machine and click “Documents and Manuals”.') + '</li>' +
+        '<li>' + T('help.reportStep2', 'Pick a category — Drawings & Part List, Instructions Manual, Electrical or Certificates.') + '</li>' +
+        '<li>' + T('help.reportStep3', 'Download a single file, or use “Download all” to get the whole set.') + '</li>' +
+        '<li>' + T('help.reportStep4', 'For analysis reports: open Lab Tests, select a test, and click “Download Report” in its panel.') + '</li>' +
+      '</ol>' +
+      '<div class="article-note">' + T('help.reportTip', 'Documents and Manuals are open to all roles. Lab Tests are available to Administrators and Technicians.') + '</div>' +
+    '</div>';
+  }
+  function invoiceArticle() {
+    return '<div class="article-content">' +
+      '<p>' + T('help.invIntro', 'Your invoice is the cost breakdown for an order. The portal shows it alongside the order itself, so amounts always match what you placed.') + '</p>' +
+      '<h3>' + T('help.invStepsTitle', 'Where to find invoice details') + '</h3>' +
+      '<ol>' +
+        '<li>' + T('help.invStep1', 'Open Orders and select an order.') + '</li>' +
+        '<li>' + T('help.invStep2', 'Find the “Payment Details” card — it lists Subtotal, Tax, Shipping, any coupon, and the Order Total.') + '</li>' +
+        '<li>' + T('help.invStep3', 'On your dashboard, the “Pending Invoices” card and the “Invoices Due” insight flag what needs paying.') + '</li>' +
+      '</ol>' +
+      '<div class="article-note">' + T('help.invTip', 'Shipping shown as “Free” and any coupon are already reflected in the Order Total.') + '</div>' +
+      '<h3>' + T('help.invWhoTitle', 'Who can see amounts') + '</h3>' +
+      '<p>' + T('help.invWho', 'Administrators, Buyers and Approvers see full invoice amounts. For Technicians, prices and the payment breakdown are hidden.') + '</p>' +
+    '</div>';
+  }
+  var ARTICLES = {
+    'request-quotation': quoteArticle,
+    'request-maintenance': maintenanceArticle,
+    'track-shipment': trackArticle,
+    'getting-started': gettingStartedArticle,
+    'error-codes': errorCodesArticle,
+    'service-report': serviceReportArticle,
+    'understand-invoice': invoiceArticle
+  };
   function articleBody(key) {
     if (key && ARTICLES[key]) return ARTICLES[key]();
     return '<div class="article-placeholder">' + T('help.articlePlaceholder', 'The full article is being prepared. In the meantime, ask Milla or contact our support team.') + '</div>';
   }
   // Optional primary action per article, rendered first in the CTA row (same size as the support buttons)
   var ARTICLE_CTAS = {
-    'request-quotation': function () { return '<a href="shop.html" class="btn btn-primary btn-sm">' + T('help.quoteBrowseShop', 'Browse the Shop') + '</a>'; }
+    'request-quotation': function () { return '<a href="shop.html" class="btn btn-primary btn-sm">' + T('help.quoteBrowseShop', 'Browse the Shop') + '</a>'; },
+    'request-maintenance': function () { return '<a href="service-request.html" class="btn btn-primary btn-sm">' + T('help.maintCta', 'Open a service request') + '</a>'; },
+    'track-shipment': function () { return '<a href="orders.html" class="btn btn-primary btn-sm">' + T('help.trackCta', 'View your orders') + '</a>'; },
+    'getting-started': function () { return '<a href="dashboard.html" class="btn btn-primary btn-sm">' + T('help.startCta', 'Go to your dashboard') + '</a>'; },
+    'error-codes': function () { return '<a href="service-request.html" class="btn btn-primary btn-sm">' + T('help.errCta', 'Report a fault') + '</a>'; },
+    'service-report': function () { return '<a href="machines.html" class="btn btn-primary btn-sm">' + T('help.reportCta', 'Go to your machines') + '</a>'; },
+    'understand-invoice': function () { return '<a href="orders.html" class="btn btn-primary btn-sm">' + T('help.invCta', 'View your orders') + '</a>'; }
   };
   // Pre-filled Milla question per article — clicking "Ask Milla" opens the chat already asking it
-  var ARTICLE_MILLA = { 'request-quotation': 'How do I request a quotation?' };
+  var ARTICLE_MILLA = {
+    'request-quotation': 'How do I request a quotation?',
+    'request-maintenance': 'How do I request maintenance?',
+    'track-shipment': 'How do I track my shipment?',
+    'getting-started': 'How do I get started with the customer portal?',
+    'error-codes': 'What should I do about a machine error code?',
+    'service-report': 'How do I download a service report?',
+    'understand-invoice': 'How do I understand my invoice?'
+  };
 
   function openArticleDrawer(row) {
     var link = row.querySelector('.article-link');
