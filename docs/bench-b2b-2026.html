@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bench Portais B2B — NETZSCH Customer Portal</title>
+<style>
+  :root{
+    --green-dark:#007167; --green:#0b9c92;
+    --ink:#2a2f33; --ink-soft:#5c5f62; --ink-faint:#8b8e91;
+    --line:#e3e5e7; --bg:#ffffff; --bg-soft:#f6f7f8;
+    --ok:#0b7a5e; --mid:#b8860b; --gap:#9a3b3b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    color:var(--ink); background:var(--bg-soft); line-height:1.6;
+    font-size:15px; padding:32px 16px;
+  }
+  .page{
+    max-width:880px; margin:0 auto; background:var(--bg);
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  header.cover{
+    background:linear-gradient(135deg,var(--green-dark),var(--green));
+    color:#fff; padding:44px 48px 40px;
+  }
+  header.cover .kicker{
+    text-transform:uppercase; letter-spacing:.12em; font-size:12px;
+    font-weight:600; opacity:.85; margin-bottom:14px;
+  }
+  header.cover h1{font-size:30px; line-height:1.2; font-weight:700; margin-bottom:10px}
+  header.cover p.sub{font-size:16px; opacity:.92; max-width:640px}
+  header.cover .meta{
+    margin-top:24px; display:flex; gap:28px; flex-wrap:wrap;
+    font-size:13px; opacity:.9; border-top:1px solid rgba(255,255,255,.25); padding-top:18px;
+  }
+  header.cover .meta b{display:block; font-size:15px; font-weight:600; opacity:1}
+  .body{padding:40px 48px 48px}
+  section{margin-bottom:38px}
+  section:last-child{margin-bottom:0}
+  h2{
+    font-size:20px; font-weight:700; color:var(--green-dark);
+    margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--line);
+  }
+  h3{font-size:16px; font-weight:600; margin:20px 0 8px}
+  p{margin-bottom:12px; color:var(--ink-soft)}
+  p strong{color:var(--ink)}
+  .verdict{
+    background:var(--bg-soft); border-left:4px solid var(--green);
+    padding:20px 24px; border-radius:0 10px 10px 0; margin-bottom:8px;
+  }
+  .verdict p{margin:0; font-size:16px; color:var(--ink)}
+  .verdict p strong{color:var(--green-dark)}
+  .stats{display:flex; gap:16px; flex-wrap:wrap; margin:22px 0 4px}
+  .stat{
+    flex:1 1 150px; background:var(--bg); border:1px solid var(--line);
+    border-radius:10px; padding:18px 20px;
+  }
+  .stat .n{font-size:28px; font-weight:700; line-height:1}
+  .stat .n.ok{color:var(--ok)} .stat .n.mid{color:var(--mid)} .stat .n.gap{color:var(--gap)}
+  .stat .l{font-size:13px; color:var(--ink-faint); margin-top:6px}
+  table{width:100%; border-collapse:collapse; font-size:14px; margin-top:6px}
+  th{
+    text-align:left; font-weight:600; color:var(--ink-faint); font-size:12px;
+    text-transform:uppercase; letter-spacing:.04em; padding:10px 12px; border-bottom:2px solid var(--line);
+  }
+  td{padding:11px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft)}
+  td:first-child{color:var(--ink); font-weight:500}
+  tr:last-child td{border-bottom:none}
+  .tag{
+    display:inline-block; font-size:12px; font-weight:600; padding:3px 10px;
+    border-radius:999px; white-space:nowrap;
+  }
+  .tag.ok{background:#e4f3ee; color:var(--ok)}
+  .tag.mid{background:#fbf2dd; color:var(--mid)}
+  .tag.gap{background:#f7e6e6; color:var(--gap)}
+  .recs{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px}
+  .rec{
+    border:1px solid var(--line); border-radius:12px; padding:20px 22px;
+    position:relative; background:var(--bg);
+  }
+  .rec .pri{
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+    padding:3px 9px; border-radius:6px; display:inline-block; margin-bottom:12px;
+  }
+  .rec.go .pri{background:#e4f3ee; color:var(--ok)}
+  .rec.eval .pri{background:#fbf2dd; color:var(--mid)}
+  .rec h4{font-size:16px; font-weight:600; margin-bottom:8px; color:var(--ink)}
+  .rec p{font-size:14px; margin:0}
+  .rec .fit{
+    margin-top:12px; font-size:12.5px; color:var(--green-dark);
+    border-top:1px dashed var(--line); padding-top:10px;
+  }
+  .no-go{
+    margin-top:18px; background:var(--bg-soft); border:1px solid var(--line);
+    border-radius:10px; padding:16px 22px;
+  }
+  .no-go h4{font-size:14px; color:var(--gap); margin-bottom:6px; font-weight:600}
+  .no-go p{font-size:13.5px; margin:0}
+  footer{
+    padding:22px 48px 30px; border-top:1px solid var(--line);
+    font-size:12px; color:var(--ink-faint);
+  }
+  footer .src{margin-top:6px}
+  footer a{color:var(--green-dark); text-decoration:none}
+  @media (max-width:640px){
+    .body,header.cover,footer{padding-left:24px;padding-right:24px}
+    .recs{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff;padding:0}.page{border:none;box-shadow:none;border-radius:0}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="cover">
+    <div class="kicker">Relatório de Benchmarking · Produto Digital</div>
+    <h1>Tendências de Portais B2B 2025/2026<br>vs. NETZSCH Customer Portal</h1>
+    <p class="sub">Varredura das tendências de mercado em portais de autoatendimento B2B, cruzada com o estado atual do nosso portal, com recomendação de próximos passos.</p>
+    <div class="meta">
+      <div><span>Data</span><b>30 de outubro de 2026</b></div>
+      <div><span>Escopo</span><b>NETZSCH Customer Portal (G&amp;D)</b></div>
+      <div><span>Fontes</span><b>BigCommerce · Salesforce · Zoovu</b></div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <section>
+      <h2>Resumo executivo</h2>
+      <div class="verdict">
+        <p><strong>O portal não está atrás do mercado — está acima da média.</strong> As tendências consideradas "obrigatórias" em 2025/2026 (assistente de IA, reorder, rastreamento em tempo real, cotação self-service, multi-idioma e gestão de aprovação por perfil) já estão implementadas e, em vários pontos, mais maduras do que o benchmark. A oportunidade real está concentrada em <strong>duas frentes de inovação</strong> aderentes ao nosso contexto industrial.</p>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="n ok">8</div><div class="l">tendências já cobertas</div></div>
+        <div class="stat"><div class="n mid">3</div><div class="l">parciais / a expandir</div></div>
+        <div class="stat"><div class="n gap">4</div><div class="l">lacunas reais</div></div>
+        <div class="stat"><div class="n">2</div><div class="l">frentes recomendadas agora</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>O que o mercado está priorizando</h2>
+      <p>As três fontes convergem em cinco blocos de tendência: <strong>IA conversacional e agentic</strong>, <strong>autoatendimento completo</strong> (recompra, rastreamento, cotação), <strong>personalização por conta/segmento</strong>, <strong>mobile-first</strong> para o comprador em campo e <strong>gestão de conta e hierarquia</strong> (comprar em nome de locais, preço contratual, permissões). O pano de fundo: 7 em cada 10 compradores B2B preferem comprar online, e o perfil de comprador está cada vez mais jovem e habituado à experiência de consumo B2C.</p>
+    </section>
+
+    <section>
+      <h2>Mapa de aderência — tendência × nosso portal</h2>
+      <table>
+        <thead><tr><th>Tendência de mercado</th><th>Nosso portal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Assistente de IA 24/7 na jornada</td><td>Milla em todas as páginas, busca de peças</td><td><span class="tag ok">Temos — à frente</span></td></tr>
+          <tr><td>Recompra rápida (reorder)</td><td>Reorder funcional + Send list</td><td><span class="tag ok">Temos</span></td></tr>
+          <tr><td>Rastreamento em tempo real</td><td>Timeline por status, entrega parcial, painel de tracking</td><td><span class="tag ok">Temos — forte</span></td></tr>
+          <tr><td>Cotação self-service</td><td>Quotes + request quotation</td><td><span class="tag ok">Temos</span></td></tr>
+          <tr><td>Gestão de conta / aprovação / orçamento</td><td>4 perfis, Order Approval, Budget, fluxo Approver</td><td><span class="tag ok">Temos — raro</span></td></tr>
+          <tr><td>Documentos e manuais self-service</td><td>Documents &amp; Manuals por máquina, Lab Tests, acesso por perfil</td><td><span class="tag ok">Temos</span></td></tr>
+          <tr><td>Multi-idioma / localização</td><td>EN/DE completo (i18n)</td><td><span class="tag ok">Temos</span></td></tr>
+          <tr><td>Base de ajuda / artigos self-service</td><td>Help com artigos fiéis ao portal (EN/DE)</td><td><span class="tag ok">Temos</span></td></tr>
+          <tr><td>Mobile para uso em campo</td><td>Companion em protótipo (não publicado)</td><td><span class="tag mid">Parcial</span></td></tr>
+          <tr><td>Monitoramento proativo / alertas</td><td>Production Monitoring (ProPhi), notificações</td><td><span class="tag mid">Semente</span></td></tr>
+          <tr><td>Personalização por conta/segmento</td><td>Dashboard por perfil (não por histórico/indústria)</td><td><span class="tag mid">Leve</span></td></tr>
+          <tr><td>Recompra conversacional (foto / linguagem natural)</td><td>Milla ainda não recompra por foto/NL</td><td><span class="tag gap">Lacuna</span></td></tr>
+          <tr><td>Multi-account / multi-planta</td><td>Não existe</td><td><span class="tag gap">Lacuna</span></td></tr>
+          <tr><td>Insights / analytics para o cliente</td><td>Cards de dashboard, sem insight preditivo</td><td><span class="tag gap">Lacuna</span></td></tr>
+          <tr><td>Preço contratual visível no checkout</td><td>Contracts existe; preço não puxa pro checkout</td><td><span class="tag gap">Lacuna</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Recomendação — o que vale implementar</h2>
+      <h3 style="margin-top:4px">Prioridade alta · começar agora</h3>
+      <div class="recs">
+        <div class="rec go">
+          <span class="pri">Vale muito</span>
+          <h4>1 · Recompra preditiva de peças</h4>
+          <p>Milla ou um card do dashboard sugere a recompra de peças de desgaste com base no horímetro da máquina e no histórico de pedidos.</p>
+          <div class="fit">Encaixa no que já existe: horímetro editável, linhas de produção e Milla. Baixo esforço incremental.</div>
+        </div>
+        <div class="rec go">
+          <span class="pri">Vale muito</span>
+          <h4>2 · Insights de consumo por máquina</h4>
+          <p>Dashboard com "peças mais trocadas", "custo por máquina" e "próxima manutenção prevista", a partir dos dados já modelados.</p>
+          <div class="fit">Transforma dado que já temos em valor visível para o cliente. Diferencial competitivo real.</div>
+        </div>
+      </div>
+
+      <h3>Avaliar · depende de decisão de produto</h3>
+      <div class="recs">
+        <div class="rec eval">
+          <span class="pri">Avaliar</span>
+          <h4>3 · Publicar o mobile companion</h4>
+          <p>O protótipo já existe. É a tendência mais citada (comprador/técnico em campo). Decisão de produto, não técnica.</p>
+        </div>
+        <div class="rec eval">
+          <span class="pri">Avaliar</span>
+          <h4>4 · Multi-account / multi-planta</h4>
+          <p>Comprar e visualizar em nome de vários locais sob um mesmo login. Faz sentido apenas se houver clientes multi-planta.</p>
+        </div>
+      </div>
+
+      <div class="no-go">
+        <h4>Não recomendamos seguir</h4>
+        <p>Marketplace de terceiros, social commerce, D2C e gamificação. Nosso usuário é procurement industrial recorrente — busca precisão, não vitrine. Essas tendências contrariam o princípio de produto "precisão antes de delight" e diluiriam a identidade do portal.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Conclusão</h2>
+      <p>Em vez de "correr atrás" de tendências, o portal deve <strong>capitalizar a base sólida que já tem</strong> e investir nas duas frentes de inovação (recompra preditiva e insights por máquina) que são, ao mesmo tempo, aderentes ao contexto industrial da NETZSCH e construíveis sobre dados que já existem. As demais frentes são decisões de roadmap de produto, não requisitos de paridade de mercado.</p>
+    </section>
+
+  </div>
+
+  <footer>
+    Relatório interno de benchmarking · NETZSCH G&amp;D Customer Portal.
+    <div class="src">Fontes consultadas: BigCommerce — B2B Ecommerce Trends · Salesforce — B2B Commerce · Zoovu — B2B Ecommerce Trends.</div>
+  </footer>
+</div>
+</body>
+</html>

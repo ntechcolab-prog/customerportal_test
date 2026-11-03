@@ -828,6 +828,8 @@
   "register.returnHome": "Zurück zur Startseite",
   "home.login": "Anmelden",
   "home.register": "Registrieren",
+  "home.createAccount": "Konto erstellen",
+  "home.loginCta": "Anmelden",
   "home.heroTitle": "Ihr All-in-One Kundenportal",
   "home.heroSubtitle": "Vereinfachen Sie die Verwaltung von Bestellungen, Lieferverfolgung und den Zugriff auf wichtige Informationen — alles an einem Ort, für Geschwindigkeit und Genauigkeit konzipiert.",
   "home.featuresTitle": "Maximieren Sie die Leistung mit dem NETZSCH Kundenportal",

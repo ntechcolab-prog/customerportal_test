@@ -189,48 +189,7 @@
       margin-top: 8px;
     }
 
-    .hero-btn-login {
-      background: #fff;
-      color: #007167;
-      border: none;
-      border-radius: 999px;
-      padding: 14px 32px;
-      font-size: 16px;
-      font-weight: 600;
-      line-height: 24px;
-      letter-spacing: -0.2px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 180px;
-      text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    .hero-btn-login:hover { transform: scale(1.03); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); }
-    .hero-btn-login:active { transform: scale(0.98); }
-
-    .hero-btn-register {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-      border: 1.5px solid rgba(255, 255, 255, 0.4);
-      border-radius: 999px;
-      padding: 14px 32px;
-      font-size: 16px;
-      font-weight: 600;
-      line-height: 24px;
-      letter-spacing: -0.2px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 180px;
-      text-decoration: none;
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-      transition: transform 0.15s, background 0.15s;
-    }
-    .hero-btn-register:hover { background: rgba(255, 255, 255, 0.25); transform: scale(1.03); }
-    .hero-btn-register:active { transform: scale(0.98); }
+    /* Hero/CTA buttons use the design-system .btn classes (buttons.css) */
 
     /* ── SECTION WRAPPER ─────────────────────────────────────── */
     .section {
@@ -871,45 +830,7 @@
       gap: 12px;
       margin-top: 8px;
     }
-    .cta-btn-primary {
-      background: #fff;
-      color: #007167;
-      border: none;
-      border-radius: 999px;
-      padding: 14px 36px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    .cta-btn-primary:hover { transform: scale(1.03); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); }
-    .cta-btn-primary:active { transform: scale(0.98); }
-    .cta-btn-secondary {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
-      border: 1.5px solid rgba(255, 255, 255, 0.3);
-      border-radius: 999px;
-      padding: 14px 36px;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
-      transition: transform 0.15s, background 0.15s;
-    }
-    .cta-btn-secondary:hover { background: rgba(255, 255, 255, 0.22); transform: scale(1.03); }
-    .cta-btn-secondary:active { transform: scale(0.98); }
+    /* CTA buttons use the design-system .btn classes (buttons.css) */
 
     /* ── PARALLAX HERO (8) ─────────────────────────────────── */
     .hero-bg {
@@ -963,8 +884,8 @@
         <p class="hero-subtitle" data-i18n="home.heroSubtitle">Simplify how you manage orders, track deliveries, and access key information — everything in one place, designed for speed and accuracy.</p>
       </div>
       <div class="hero-buttons">
-        <a href="login.html" class="hero-btn-login" data-i18n="home.login">Log in</a>
-        <a href="register-confirm-email.html" class="hero-btn-register" data-i18n="home.register">Register</a>
+        <a href="login.html" class="btn btn-secondary btn-lg" data-i18n="home.login">Log in</a>
+        <a href="register-confirm-email.html" class="btn btn-outline-light btn-lg" data-i18n="home.register">Register</a>
       </div>
     </div>
   </section>
@@ -1188,8 +1109,8 @@
       <h2 class="cta-title">Ready to get started?</h2>
       <p class="cta-subtitle">Join thousands of companies managing their NETZSCH equipment more efficiently.</p>
       <div class="cta-buttons">
-        <a href="register-account-information.html" class="cta-btn-primary">Create Account</a>
-        <a href="login.html" class="cta-btn-secondary">Log In</a>
+        <a href="register-account-information.html" class="btn btn-secondary btn-lg" data-i18n="home.createAccount">Create Account</a>
+        <a href="login.html" class="btn btn-outline-light btn-lg" data-i18n="home.loginCta">Log In</a>
       </div>
     </div>
   </section>

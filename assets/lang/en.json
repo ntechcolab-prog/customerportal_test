@@ -828,6 +828,8 @@
   "register.returnHome": "Return to Homepage",
   "home.login": "Log in",
   "home.register": "Register",
+  "home.createAccount": "Create Account",
+  "home.loginCta": "Log In",
   "home.heroTitle": "Your All-in-One Customer Portal",
   "home.heroSubtitle": "Simplify how you manage orders, track deliveries, and access key information — everything in one place, designed for speed and accuracy.",
   "home.featuresTitle": "Maximize Performance with the NETZSCH Customer Portal",
