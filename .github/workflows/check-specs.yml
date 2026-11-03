@@ -1,0 +1,16 @@
+name: Check specs
+on:
+  pull_request:
+    paths: ['specs/**', 'scripts/check-spec.mjs']
+  push:
+    branches: [main]
+    paths: ['specs/**', 'scripts/check-spec.mjs']
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-spec.mjs
