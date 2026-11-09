@@ -31,8 +31,8 @@
 
   // O companion tem endereço próprio; o portal de produção não o serve na mesma
   // origem. Em local e em preview os dois saem do mesmo deploy.
-  var APP_HOST = 'https://m-customerportal.vercel.app';
-  var PORTAL_HOSTS = ['customerportal-test.vercel.app'];
+  var APP_HOST = 'https://dev.cp-m.ntechcolab.com';
+  var PORTAL_HOSTS = ['dev.cp.ntechcolab.com'];
 
   function token() {
     var bytes = new Uint8Array(8);
