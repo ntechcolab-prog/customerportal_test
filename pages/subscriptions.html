@@ -1283,105 +1283,61 @@
   </style>
   <style>
     /* ── SUBSCRIPTIONS (CP-732) ─── */
-    .page-header-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .page-header-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
     .page-header-row .page-header { margin-bottom: 0; }
+    .iris-link[hidden] { display: none; }
 
-    .sub-section-title { font-size: 15px; font-weight: 600; color: #1d1d1f; margin: 16px 0 2px; }
-    .sub-section-desc { font-size: 13px; color: #4b5563; margin-bottom: 4px; }
-
-    /* Notice (renewal) */
-    .sub-notice {
-      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-      background: #fff; border: 1px solid #d7d9db; border-left: 4px solid #007167;
-      border-radius: 10px; padding: 14px 18px;
-    }
-    .sub-notice.is-expired { border-left-color: #b42318; }
-    .sub-notice-icon { width: 20px; height: 20px; color: #007167; flex-shrink: 0; }
-    .sub-notice.is-expired .sub-notice-icon { color: #b42318; }
-    .sub-notice-text { flex: 1; min-width: 220px; font-size: 14px; color: #1d1d1f; }
-    .sub-notice-text strong { font-weight: 600; }
-    .sub-notice-text span { display: block; font-size: 13px; color: #4b5563; margin-top: 2px; }
-
-    /* IRIS Cloud access */
-    .iris-card {
-      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-      background: #007167; color: #fff; border-radius: 12px; padding: 20px 24px;
-    }
-    .iris-card[hidden] { display: none; }
-    .iris-mark { width: 44px; height: 44px; border-radius: 10px; background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .iris-mark svg { width: 24px; height: 24px; }
-    .iris-text { flex: 1; min-width: 220px; }
-    .iris-title { font-size: 16px; font-weight: 600; }
-    .iris-desc { font-size: 13px; color: #e6f4f2; margin-top: 2px; }
-    .iris-btn {
-      display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 20px;
-      background: #fff; color: #00544c; border-radius: 8px; font: 600 14px/1 Inter, sans-serif;
-      text-decoration: none; transition: background .2s ease;
-    }
-    .iris-btn:hover { background: #e6f4f2; }
-    .iris-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
-    .iris-btn svg { width: 14px; height: 14px; }
-
-    /* Product cards */
-    .plan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .plan-card {
+    /* Tiles */
+    .tile-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .tile {
       background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 12px; padding: 20px;
-      display: flex; flex-direction: column; gap: 14px; box-shadow: 0 1px 2px rgba(0,0,0,.03);
+      display: flex; flex-direction: column; gap: 16px; min-height: 200px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.03);
     }
-    .plan-card.is-none { background: #fafafa; }
-    .plan-card-head { display: flex; align-items: flex-start; gap: 12px; }
-    .plan-icon { width: 40px; height: 40px; border-radius: 10px; background: #f0faf9; color: #007167; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .plan-icon svg { width: 20px; height: 20px; }
-    .plan-name-wrap { flex: 1; min-width: 0; }
-    .plan-name { font-size: 15px; font-weight: 600; color: #1d1d1f; }
-    .plan-model { font-size: 12px; color: #4b5563; margin-top: 2px; }
-    .plan-desc { font-size: 13px; color: #4b5563; line-height: 1.5; }
-    .plan-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; padding: 12px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; }
-    .plan-meta-label { font-size: 12px; color: #4b5563; }
-    .plan-meta-value { font-size: 14px; font-weight: 500; color: #1d1d1f; margin-top: 2px; }
-    .plan-meta-value.is-warn { color: #b42318; }
-    .plan-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-    .plan-chip { font-size: 12px; color: #3d4246; background: #f3f4f6; border-radius: 999px; padding: 4px 10px; }
-    .plan-price { font-size: 13px; color: #4b5563; }
-    .plan-price strong { font-size: 18px; font-weight: 700; color: #1d1d1f; }
-    .plan-actions { display: flex; gap: 8px; margin-top: auto; flex-wrap: wrap; }
+    .tile-icon { width: 40px; height: 40px; border-radius: 10px; background: #f0faf9; color: #007167; display: flex; align-items: center; justify-content: center; }
+    .tile.is-none .tile-icon { background: #f3f4f6; color: #5c5f62; }
+    .tile-icon svg { width: 20px; height: 20px; }
+    .tile-name { font-size: 16px; font-weight: 600; color: #1d1d1f; line-height: 1.3; }
+    .tile-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #3d4246; margin-top: 6px; }
+    .tile-dot { width: 8px; height: 8px; border-radius: 50%; background: #007167; flex-shrink: 0; }
+    .tile-status.is-expiring .tile-dot { background: #b54708; }
+    .tile-status.is-expired .tile-dot { background: #b42318; }
+    .tile-status.is-none { color: #4b5563; }
+    .tile-status.is-none .tile-dot { display: none; }
+    .tile-action { margin-top: auto; }
+    .tile-action .btn { width: 100%; justify-content: center; }
 
-    /* How pricing works */
-    .pricing-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 12px; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .pricing-block h3 { font-size: 14px; font-weight: 600; color: #1d1d1f; margin-bottom: 4px; }
-    .pricing-block p { font-size: 13px; color: #4b5563; margin-bottom: 10px; }
-    .tier-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .tier-table th { text-align: left; font-weight: 500; color: #4b5563; padding: 8px 0; border-bottom: 1px solid #eaeaea; }
-    .tier-table td { padding: 8px 0; color: #1d1d1f; border-bottom: 1px solid #f3f4f6; }
-    .tier-table td:last-child, .tier-table th:last-child { text-align: right; }
-    .pricing-note { grid-column: 1 / -1; font-size: 12px; color: #4b5563; }
+    .sub-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+    .sub-hint { font-size: 13px; color: #4b5563; }
+    .text-link { background: none; border: none; padding: 0 4px; min-height: 44px; color: #007167; font: 500 14px Inter, sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .text-link:hover { text-decoration: underline; }
+    .text-link:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 4px; }
 
-    /* Manage drawer */
-    .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; }
+    /* Drawer content */
+    .d-rows { list-style: none; margin: 0 0 16px; border-top: 1px solid #eaeaea; }
+    .d-rows li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #eaeaea; font-size: 14px; color: #4b5563; }
+    .d-rows li strong { font-weight: 500; color: #1d1d1f; text-align: right; }
+    .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 4px 0 16px; }
     .switch-label { font-size: 14px; font-weight: 500; color: #1d1d1f; }
     .switch-hint { font-size: 12px; color: #4b5563; margin-top: 2px; }
-    .switch {
-      position: relative; width: 44px; height: 26px; border-radius: 999px; border: none; cursor: pointer;
-      background: #8b8e91; flex-shrink: 0; transition: background .2s ease;
-    }
+    .switch { position: relative; width: 44px; height: 26px; border-radius: 999px; border: none; cursor: pointer; background: #8b8e91; flex-shrink: 0; transition: background .2s ease; }
     .switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .2s ease; }
     .switch[aria-checked="true"] { background: #007167; }
     .switch[aria-checked="true"]::after { transform: translateX(18px); }
     .switch:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
-    .drawer-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .drawer-actions { display: flex; flex-direction: column; gap: 8px; }
     .cancel-confirm { background: #fef3f2; border: 1px solid #fecdca; border-radius: 10px; padding: 14px; font-size: 13px; color: #1d1d1f; }
     .cancel-confirm p { margin-bottom: 10px; }
+    .inv-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eaeaea; font-size: 14px; color: #1d1d1f; }
+    .inv-row small { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
 
-    .demo-switch { font-size: 12px; color: #4b5563; text-align: right; }
+    .demo-switch { font-size: 12px; color: #4b5563; text-align: right; margin-top: 24px; }
     .demo-switch a { color: #007167; }
 
-    @media (max-width: 900px) {
-      .plan-grid, .pricing-card { grid-template-columns: 1fr; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .switch, .switch::after, .iris-btn { transition: none; }
-    }
-    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    @media (max-width: 1100px) { .tile-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px)  { .tile-grid { grid-template-columns: 1fr; } .tile { min-height: 0; } }
+    @media (prefers-reduced-motion: reduce) { .switch, .switch::after { transition: none; } }
   </style>
   <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
@@ -1630,93 +1586,34 @@
     <!-- SKELETON LOADING STATE -->
     <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading subscriptions">
       <div class="skeleton skel-page-title"></div>
-      <div class="skeleton" style="height:84px;border-radius:12px"></div>
-      <div class="plan-grid">
-        <div class="skeleton" style="height:220px;border-radius:12px"></div>
-        <div class="skeleton" style="height:220px;border-radius:12px"></div>
-        <div class="skeleton" style="height:220px;border-radius:12px"></div>
-        <div class="skeleton" style="height:220px;border-radius:12px"></div>
+      <div class="tile-grid">
+        <div class="skeleton" style="height:200px;border-radius:12px"></div>
+        <div class="skeleton" style="height:200px;border-radius:12px"></div>
+        <div class="skeleton" style="height:200px;border-radius:12px"></div>
+        <div class="skeleton" style="height:200px;border-radius:12px"></div>
       </div>
     </div>
 
     <div class="page-content">
 
-    <!-- PAGE HEADER -->
     <div class="page-header-row">
       <div class="page-header">
         <h1 class="page-title" data-i18n="subs.title">Subscriptions</h1>
         <span class="page-subtitle" data-i18n="subs.subtitle">G&amp;D Digital Products</span>
       </div>
-      <a class="btn btn-primary btn-md" href="subscriptions-checkout.html" id="addProductsBtn" data-i18n="subs.addProducts">Add products</a>
-    </div>
-
-    <!-- RENEWAL NOTICES -->
-    <div id="noticeArea" data-skeleton-stagger></div>
-
-    <!-- IRIS CLOUD ACCESS (only with an active license) -->
-    <section class="iris-card" id="irisCard" aria-labelledby="irisTitle" hidden data-skeleton-stagger>
-      <div class="iris-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
-      </div>
-      <div class="iris-text">
-        <h2 class="iris-title" id="irisTitle" data-i18n="subs.irisTitle">IRIS Cloud</h2>
-        <p class="iris-desc" data-i18n="subs.irisDesc">Your dashboards, alerts and reports for your active digital products.</p>
-      </div>
-      <a class="iris-btn" id="irisLink" href="#" target="_blank" rel="noopener">
+      <a class="btn btn-secondary btn-md iris-link" id="irisLink" href="#" target="_blank" rel="noopener" hidden>
         <span data-i18n="subs.irisOpen">Open IRIS Cloud</span>
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h7v7"/><path d="M13 3 4 12"/></svg>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h7v7"/><path d="M13 3 4 12"/></svg>
         <span class="visually-hidden" data-i18n="common.newTab">(opens in a new tab)</span>
       </a>
-    </section>
+    </div>
 
-    <!-- YOUR PLAN -->
-    <section aria-labelledby="planTitle">
-      <h2 class="sub-section-title" id="planTitle" data-i18n="subs.yourPlan">Your plan</h2>
-      <p class="sub-section-desc" data-i18n="subs.yourPlanDesc">Licenses renew for all the machines and products listed below.</p>
-      <div class="plan-grid" id="planGrid" data-skeleton-stagger></div>
-    </section>
+    <div class="tile-grid" id="tileGrid" role="list" data-skeleton-stagger></div>
 
-    <!-- HOW PRICING WORKS -->
-    <section aria-labelledby="pricingTitle">
-      <h2 class="sub-section-title" id="pricingTitle" data-i18n="subs.pricingTitle">How pricing works</h2>
-      <div class="pricing-card" data-skeleton-stagger>
-        <div class="pricing-block">
-          <h3 data-i18n="subs.volumeTitle">Production Monitoring — volume price</h3>
-          <p data-i18n="subs.volumeDesc">One license per machine. The more machines, the lower the price per machine.</p>
-          <table class="tier-table" id="tierTable">
-            <thead><tr><th scope="col" data-i18n="subs.machines">Machines</th><th scope="col" data-i18n="subs.pricePerMachine">Price per machine / year</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div class="pricing-block">
-          <h3 data-i18n="subs.bundleTitle">Combined products — bundle discount</h3>
-          <p data-i18n="subs.bundleDesc">Performance Tracking, Bead Wear Detection and Maintenance Tool cover all your machines. Combine products to save on the whole plan.</p>
-          <table class="tier-table" id="bundleTable">
-            <thead><tr><th scope="col" data-i18n="subs.products">Products in plan</th><th scope="col" data-i18n="subs.discount">Discount</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <p class="pricing-note" data-i18n="subs.pricingNote">Prices exclude VAT. Monthly billing costs 1/10 of the yearly price per month, so yearly billing gives you 2 months free.</p>
-      </div>
-    </section>
-
-    <!-- BILLING HISTORY -->
-    <section aria-labelledby="billingTitle">
-      <h2 class="sub-section-title" id="billingTitle" data-i18n="subs.billingTitle">Billing history</h2>
-      <div class="orders-table-wrap" data-skeleton-stagger>
-        <table class="orders-table" aria-labelledby="billingTitle">
-          <thead>
-            <tr>
-              <th scope="col" data-i18n="subs.invoice">Invoice</th>
-              <th scope="col" data-i18n="subs.date">Date</th>
-              <th scope="col" data-i18n="subs.items">Products</th>
-              <th scope="col" data-i18n="subs.total">Total</th>
-            </tr>
-          </thead>
-          <tbody id="invoiceBody"></tbody>
-        </table>
-      </div>
-    </section>
+    <div class="sub-foot">
+      <p class="sub-hint" id="subHint"></p>
+      <button class="text-link" id="billingBtn"><span data-i18n="subs.billingTitle">Billing history</span> <span aria-hidden="true">→</span></button>
+    </div>
 
     <p class="demo-switch">Prototype: <a href="?demo=reset">sample licenses</a> · <a href="?demo=none">no licenses</a></p>
 
@@ -1727,10 +1624,10 @@
   <!-- DRAWER OVERLAY -->
   <div class="drawer-overlay" id="drawerOverlay"></div>
 
-  <!-- MANAGE SUBSCRIPTION DRAWER -->
+  <!-- DRAWER (manage subscription / billing history) -->
   <div class="tracking-drawer" id="manageDrawer" role="dialog" aria-modal="true" aria-labelledby="manageTitle">
     <div class="drawer-header">
-      <span class="drawer-title" id="manageTitle" data-i18n="subs.manage">Manage subscription</span>
+      <span class="drawer-title" id="manageTitle"></span>
       <button class="drawer-close" id="drawerClose" aria-label="Close" data-i18n-aria-label="common.close">&#x2715;</button>
     </div>
     <div class="drawer-body" id="drawerBody"></div>
@@ -1770,181 +1667,99 @@ document.addEventListener('click', function(e) {
     bw: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>',
     mt: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>'
   };
-  var STATUS = {
-    active:   { cls: 'status-active',   key: 'status.active',       label: 'Active' },
-    expiring: { cls: 'status-expiring', key: 'status.expiringSoon', label: 'Expiring Soon' },
-    expired:  { cls: 'status-expired',  key: 'status.expired',      label: 'Expired' }
-  };
 
   function machineName(id) {
     var list = window.MachineLines ? MachineLines.getMachines() : [];
     for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i].name;
     return id;
   }
-
   function productName(p) { return t('subs.p.' + p.id, p.name); }
+  function per() { return L.get().cycle === 'month' ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year'); }
+  function div() { return L.get().cycle === 'month' ? 10 : 1; }
 
-  function renderNotices(state) {
-    var html = '';
-    L.PRODUCTS.forEach(function (p) {
-      var st = L.statusOf(p.id);
-      if (st !== 'expiring' && st !== 'expired') return;
-      var sub = state.subs[p.id];
-      var days = L.daysUntil(sub.renewsOn);
-      var expired = st === 'expired';
-      var head = expired
-        ? fill(t('subs.noticeExpired', '{name} expired on {date}.'), { name: productName(p), date: L.formatDate(sub.renewsOn) })
-        : fill(t('subs.noticeExpiring', '{name} expires in {days} days.'), { name: productName(p), days: days });
-      var sub2 = expired
-        ? t('subs.noticeExpiredHint', 'Data collection is paused. Renew to resume access in IRIS Cloud.')
-        : t('subs.noticeExpiringHint', 'Auto-renew is off. Renew now to keep monitoring without interruption.');
-      html += '<div class="sub-notice' + (expired ? ' is-expired' : '') + '" role="status">' +
-        '<svg class="sub-notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>' +
-        '<p class="sub-notice-text"><strong>' + head + '</strong><span>' + sub2 + '</span></p>' +
-        '<a class="btn btn-primary btn-sm" href="subscriptions-checkout.html?mode=renew&product=' + p.id + '">' + t('subs.renewNow', 'Renew now') + '</a>' +
-        '</div>';
-    });
-    var area = document.getElementById('noticeArea');
-    area.innerHTML = html;
-    area.style.display = html ? 'flex' : 'none';
-    area.style.flexDirection = 'column';
-    area.style.gap = '8px';
-  }
-
-  function renderIris() {
-    var card = document.getElementById('irisCard');
-    card.hidden = !L.hasActive();
-    document.getElementById('irisLink').href = L.IRIS_URL;
-  }
-
-  function priceLine(p, sub) {
-    var cycle = L.get().cycle === 'month' ? 'month' : 'year';
-    var per = cycle === 'month' ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year');
-    var div = cycle === 'month' ? 10 : 1;
-    if (p.model === 'machine') {
-      if (sub) {
-        var n = sub.machines.length;
-        var unit = L.pmUnitPrice(n);
-        return '<strong>' + L.money(unit * n / div) + '</strong> ' + per + ' · ' + fill(t('subs.machinesTimes', '{n} × {price}'), { n: n, price: L.money(unit / div) });
-      }
-      return fill(t('subs.fromPerMachine', 'From {price} per machine'), { price: '<strong>' + L.money(L.PM_TIERS[L.PM_TIERS.length - 1].price) + '</strong>' }) + ' ' + t('subs.perYear', '/ year');
+  function statusText(p, st, sub) {
+    if (st === 'none') return t('subs.notSubscribed', 'Not subscribed');
+    if (st === 'expired') return t('status.expired', 'Expired');
+    if (st === 'expiring') {
+      var d = L.daysUntil(sub.renewsOn);
+      return d === 1 ? t('subs.expiresTomorrow', 'Expires tomorrow') : fill(t('subs.expiresInDays', 'Expires in {days} days'), { days: d });
     }
-    return '<strong>' + L.money(p.price / div) + '</strong> ' + per;
+    return t('status.active', 'Active');
   }
 
-  function renderPlans(state) {
+  function renderTiles() {
+    var state = L.get();
     var html = '';
     L.PRODUCTS.forEach(function (p) {
       var st = L.statusOf(p.id);
       var sub = state.subs[p.id];
-      var model = p.model === 'machine' ? t('subs.modelMachine', 'One license per machine') : t('subs.modelFleet', 'One license for all your machines');
-      var badge = st !== 'none' ? '<span class="status-badge ' + STATUS[st].cls + '">' + t(STATUS[st].key, STATUS[st].label) + '</span>' : '';
-      var body = '', actions = '';
+      var name = productName(p);
+      var action;
+      if (st === 'none') action = '<a class="btn btn-secondary btn-sm" href="subscriptions-checkout.html?add=' + p.id + '" aria-label="' + t('subs.add', 'Add') + ': ' + name + '">' + t('subs.add', 'Add') + '</a>';
+      else if (st === 'active') action = '<button class="btn btn-ghost btn-sm" data-manage="' + p.id + '" aria-label="' + t('subs.manageShort', 'Manage') + ': ' + name + '">' + t('subs.manageShort', 'Manage') + '</button>';
+      else action = '<a class="btn btn-primary btn-sm" href="subscriptions-checkout.html?mode=renew&product=' + p.id + '" aria-label="' + t('subs.renew', 'Renew') + ': ' + name + '">' + t('subs.renew', 'Renew') + '</a>';
 
-      if (st === 'none') {
-        body = '<p class="plan-desc">' + t('subs.d.' + p.id, p.desc) + '</p>';
-        actions = '<a class="btn btn-primary btn-sm" href="subscriptions-checkout.html?add=' + p.id + '" aria-label="' + t('subs.subscribe', 'Subscribe') + ': ' + productName(p) + '">' + t('subs.subscribe', 'Subscribe') + '</a>';
-      } else {
-        var dateLabel = st === 'expired' ? t('subs.expiredOn', 'Expired on')
-          : (sub.autoRenew ? t('subs.renewsOn', 'Renews on') : t('subs.expiresOn', 'Expires on'));
-        var autoTxt = sub.autoRenew ? t('subs.on', 'On') : t('subs.off', 'Off');
-        body = '<div class="plan-meta">' +
-          '<div><div class="plan-meta-label">' + dateLabel + '</div><div class="plan-meta-value' + (st !== 'active' ? ' is-warn' : '') + '">' + L.formatDate(sub.renewsOn) + '</div></div>' +
-          '<div><div class="plan-meta-label">' + t('subs.autoRenew', 'Auto-renew') + '</div><div class="plan-meta-value">' + (st === 'expired' ? '—' : autoTxt) + '</div></div>' +
-          '</div>';
-        if (p.model === 'machine') {
-          body += '<div class="plan-chips" aria-label="' + t('subs.licensedMachines', 'Licensed machines') + '">' +
-            sub.machines.map(function (m) { return '<span class="plan-chip">' + machineName(m) + '</span>'; }).join('') + '</div>';
-        } else {
-          body += '<div class="plan-chips"><span class="plan-chip">' + t('subs.allMachines', 'All machines') + '</span></div>';
-        }
-        if (st === 'active') {
-          actions = '<button class="btn btn-secondary btn-sm" data-manage="' + p.id + '" aria-label="' + t('subs.manage', 'Manage subscription') + ': ' + productName(p) + '">' + t('subs.manageShort', 'Manage') + '</button>';
-          if (p.model === 'machine') actions += '<a class="btn btn-ghost btn-sm" href="subscriptions-checkout.html?mode=add&product=pm">' + t('subs.addMachines', 'Add machines') + '</a>';
-        } else {
-          actions = '<a class="btn btn-primary btn-sm" href="subscriptions-checkout.html?mode=renew&product=' + p.id + '">' + t('subs.renew', 'Renew') + '</a>';
-          if (st === 'expiring') actions += '<button class="btn btn-secondary btn-sm" data-manage="' + p.id + '">' + t('subs.manageShort', 'Manage') + '</button>';
-        }
-      }
-
-      html += '<article class="plan-card' + (st === 'none' ? ' is-none' : '') + '" aria-labelledby="plan-' + p.id + '">' +
-        '<div class="plan-card-head">' +
-          '<div class="plan-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + ICONS[p.id] + '</svg></div>' +
-          '<div class="plan-name-wrap"><h3 class="plan-name" id="plan-' + p.id + '">' + productName(p) + '</h3><div class="plan-model">' + model + '</div></div>' +
-          badge +
-        '</div>' +
-        body +
-        '<div class="plan-price">' + priceLine(p, st === 'none' ? null : sub) + '</div>' +
-        '<div class="plan-actions">' + actions + '</div>' +
+      html += '<article class="tile' + (st === 'none' ? ' is-none' : '') + '" role="listitem" aria-labelledby="tile-' + p.id + '">' +
+        '<div class="tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + ICONS[p.id] + '</svg></div>' +
+        '<div><h2 class="tile-name" id="tile-' + p.id + '">' + name + '</h2>' +
+        '<p class="tile-status is-' + st + '"><span class="tile-dot" aria-hidden="true"></span>' + statusText(p, st, sub) + '</p></div>' +
+        '<div class="tile-action">' + action + '</div>' +
         '</article>';
     });
-    document.getElementById('planGrid').innerHTML = html;
-    var none = L.PRODUCTS.every(function (p) { return L.statusOf(p.id) === 'none'; });
-    document.getElementById('addProductsBtn').textContent = none ? t('subs.choosePlan', 'Choose a plan') : t('subs.addProducts', 'Add products');
+    document.getElementById('tileGrid').innerHTML = html;
   }
 
-  function renderPricing() {
-    var tiers = L.PM_TIERS;
-    document.querySelector('#tierTable tbody').innerHTML = tiers.map(function (tr, i) {
-      var next = tiers[i + 1];
-      var range = next ? (next.min - 1 === tr.min ? String(tr.min) : tr.min + '–' + (next.min - 1)) : tr.min + '+';
-      return '<tr><td>' + range + '</td><td>' + L.money(tr.price) + '</td></tr>';
-    }).join('');
-    document.querySelector('#bundleTable tbody').innerHTML = [1, 2, 3, 4].map(function (n) {
-      var r = L.BUNDLE[n];
-      return '<tr><td>' + n + '</td><td>' + (r ? '−' + Math.round(r * 100) + '%' : '—') + '</td></tr>';
-    }).join('');
+  function renderHeader() {
+    var link = document.getElementById('irisLink');
+    link.hidden = !L.hasActive();
+    link.href = L.IRIS_URL;
+    document.getElementById('subHint').textContent = t('subs.hint', 'Combine products and save up to 20% on your plan.');
   }
 
-  function renderInvoices(state) {
-    var body = document.getElementById('invoiceBody');
-    if (!state.invoices.length) {
-      body.innerHTML = '<tr><td colspan="4"><div class="empty-state empty-state--compact"><p class="empty-state-title">' + t('subs.noInvoices', 'No invoices yet') + '</p><p class="empty-state-desc">' + t('subs.noInvoicesDesc', 'Invoices appear here after your first purchase.') + '</p></div></td></tr>';
-      return;
-    }
-    body.innerHTML = state.invoices.map(function (inv) {
-      return '<tr><td><span class="order-link">' + inv.id + '</span></td><td>' + L.formatDate(inv.date) + '</td><td>' + inv.items + '</td><td>' + L.money(inv.total) + '</td></tr>';
-    }).join('');
-  }
-
-  /* Manage drawer */
+  /* Drawer */
   var overlay = document.getElementById('drawerOverlay');
   var drawer = document.getElementById('manageDrawer');
   var drawerBody = document.getElementById('drawerBody');
+  var drawerTitle = document.getElementById('manageTitle');
   var lastTrigger = null;
+
+  function openDrawer() {
+    overlay.classList.add('show');
+    drawer.classList.add('show');
+    document.getElementById('drawerClose').focus();
+  }
+  function closeDrawer() {
+    overlay.classList.remove('show');
+    drawer.classList.remove('show');
+    if (lastTrigger) lastTrigger.focus();
+  }
 
   function openManage(id) {
     var p = L.product(id);
     var sub = L.get().subs[id];
     var on = !!sub.autoRenew;
-    var machines = p.model === 'machine'
-      ? sub.machines.map(machineName).join(', ')
-      : t('subs.allMachines', 'All machines');
+    var coverage = p.model === 'machine' ? sub.machines.map(machineName).join(', ') : t('subs.allMachines', 'All machines');
+    var price = p.model === 'machine' ? L.pmUnitPrice(sub.machines.length) * sub.machines.length : p.price;
+    drawerTitle.textContent = productName(p);
     drawerBody.innerHTML =
-      '<div class="drawer-section">' +
-        '<div class="drawer-section-title">' + productName(p) + '</div>' +
-        '<div class="drawer-meta-grid">' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('subs.coverage', 'Coverage') + '</div><div class="drawer-meta-value">' + machines + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + t('subs.since', 'Customer since') + '</div><div class="drawer-meta-value">' + L.formatDate(sub.since) + '</div></div>' +
-          '<div class="drawer-meta-item"><div class="drawer-meta-label">' + (on ? t('subs.renewsOn', 'Renews on') : t('subs.expiresOn', 'Expires on')) + '</div><div class="drawer-meta-value">' + L.formatDate(sub.renewsOn) + '</div></div>' +
-        '</div>' +
-      '</div>' +
-      '<div class="drawer-section">' +
-        '<div class="switch-row">' +
-          '<div><div class="switch-label" id="arLabel">' + t('subs.autoRenew', 'Auto-renew') + '</div><div class="switch-hint" id="arHint">' + t('subs.autoRenewHint', 'Renews automatically with the payment method on file. We remind you 30 days before.') + '</div></div>' +
-          '<button class="switch" role="switch" id="arSwitch" aria-checked="' + on + '" aria-labelledby="arLabel" aria-describedby="arHint"></button>' +
-        '</div>' +
+      '<ul class="d-rows">' +
+        '<li>' + t('subs.coverage', 'Coverage') + '<strong>' + coverage + '</strong></li>' +
+        '<li>' + t('subs.price', 'Price') + '<strong>' + L.money(price / div()) + ' ' + per() + '</strong></li>' +
+        '<li>' + (on ? t('subs.renewsOn', 'Renews on') : t('subs.expiresOn', 'Expires on')) + '<strong>' + L.formatDate(sub.renewsOn) + '</strong></li>' +
+      '</ul>' +
+      '<div class="switch-row">' +
+        '<div><div class="switch-label" id="arLabel">' + t('subs.autoRenew', 'Auto-renew') + '</div><div class="switch-hint" id="arHint">' + t('subs.autoRenewHint', 'Renews automatically with the payment method on file. We remind you 30 days before.') + '</div></div>' +
+        '<button class="switch" role="switch" id="arSwitch" aria-checked="' + on + '" aria-labelledby="arLabel" aria-describedby="arHint"></button>' +
       '</div>' +
       '<div class="drawer-actions">' +
-        '<a class="btn btn-primary btn-md btn-full" href="subscriptions-checkout.html?mode=renew&product=' + id + '">' + t('subs.renewEarly', 'Renew now') + '</a>' +
-        (p.model === 'machine' ? '<a class="btn btn-secondary btn-md btn-full" href="subscriptions-checkout.html?mode=add&product=pm">' + t('subs.addMachines', 'Add machines') + '</a>' : '') +
-        (on ? '<button class="btn btn-danger-outline btn-md btn-full" id="cancelBtn">' + t('subs.cancel', 'Cancel subscription') + '</button>' : '') +
+        (p.model === 'machine' ? '<a class="btn btn-primary btn-md btn-full" href="subscriptions-checkout.html?mode=add&product=pm">' + t('subs.addMachines', 'Add machines') + '</a>' : '') +
+        '<a class="btn btn-secondary btn-md btn-full" href="subscriptions-checkout.html?mode=renew&product=' + id + '">' + t('subs.renewEarly', 'Renew now') + '</a>' +
+        (on ? '<button class="btn btn-ghost btn-md btn-full" id="cancelBtn">' + t('subs.cancel', 'Cancel subscription') + '</button>' : '') +
         '<div id="cancelArea"></div>' +
       '</div>';
 
     document.getElementById('arSwitch').addEventListener('click', function () {
-      var next = this.getAttribute('aria-checked') !== 'true';
-      L.setAutoRenew(id, next);
+      L.setAutoRenew(id, this.getAttribute('aria-checked') !== 'true');
       render();
       openManage(id);
       document.getElementById('arSwitch').focus();
@@ -1962,36 +1777,32 @@ document.addEventListener('click', function(e) {
       document.getElementById('cancelYes').addEventListener('click', function () { L.cancel(id); render(); openManage(id); });
       document.getElementById('cancelNo').addEventListener('click', function () { openManage(id); });
     });
-
-    overlay.classList.add('show');
-    drawer.classList.add('show');
-    document.getElementById('drawerClose').focus();
+    openDrawer();
   }
 
-  function closeDrawer() {
-    overlay.classList.remove('show');
-    drawer.classList.remove('show');
-    if (lastTrigger) lastTrigger.focus();
+  function openBilling() {
+    var inv = L.get().invoices;
+    drawerTitle.textContent = t('subs.billingTitle', 'Billing history');
+    drawerBody.innerHTML = inv.length
+      ? inv.map(function (i) {
+          return '<div class="inv-row"><span>' + i.id + '<small>' + L.formatDate(i.date) + ' · ' + i.items + '</small></span><strong>' + L.money(i.total) + '</strong></div>';
+        }).join('')
+      : '<div class="empty-state empty-state--compact"><p class="empty-state-title">' + t('subs.noInvoices', 'No invoices yet') + '</p><p class="empty-state-desc">' + t('subs.noInvoicesDesc', 'Invoices appear here after your first purchase.') + '</p></div>';
+    openDrawer();
   }
+
   document.getElementById('drawerClose').addEventListener('click', closeDrawer);
   overlay.addEventListener('click', closeDrawer);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && drawer.classList.contains('show')) closeDrawer(); });
-  document.getElementById('planGrid').addEventListener('click', function (e) {
+  document.getElementById('tileGrid').addEventListener('click', function (e) {
     var b = e.target.closest('[data-manage]');
     if (!b) return;
     lastTrigger = b;
     openManage(b.getAttribute('data-manage'));
   });
+  document.getElementById('billingBtn').addEventListener('click', function () { lastTrigger = this; openBilling(); });
 
-  function render() {
-    var state = L.get();
-    renderNotices(state);
-    renderIris();
-    renderPlans(state);
-    renderPricing();
-    renderInvoices(state);
-  }
-
+  function render() { renderHeader(); renderTiles(); }
   render();
   document.addEventListener('netzsch:i18n-applied', render);
 })();

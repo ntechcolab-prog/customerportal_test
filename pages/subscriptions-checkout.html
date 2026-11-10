@@ -1293,63 +1293,53 @@
     .co-card-title { font-size: 15px; font-weight: 600; color: #1d1d1f; margin-bottom: 4px; }
     .co-card-desc { font-size: 13px; color: #4b5563; margin-bottom: 14px; }
 
-    /* Billing cycle segmented control */
-    .cycle-group { display: inline-flex; background: #f3f4f6; border-radius: 10px; padding: 4px; gap: 4px; border: none; }
-    .cycle-group legend { margin-bottom: 8px; }
-    .cycle-opt { position: relative; }
+    /* Billing cycle (compact, in summary) */
+    .cycle-group { display: flex; background: #f3f4f6; border-radius: 10px; padding: 4px; gap: 4px; border: none; margin-bottom: 16px; }
+    .cycle-opt { position: relative; flex: 1; }
     .cycle-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
-    .cycle-opt label { display: flex; flex-direction: column; justify-content: center; min-height: 44px; padding: 6px 18px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #3d4246; cursor: pointer; }
-    .cycle-opt label small { font-size: 12px; font-weight: 400; color: #4b5563; }
-    .cycle-opt input:checked + label { background: #fff; color: #00544c; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .cycle-opt label { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 10px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #3d4246; cursor: pointer; text-align: center; }
+    .cycle-opt label small { font-size: 12px; font-weight: 400; color: #00544c; }
+    .cycle-opt input:checked + label { background: #fff; color: #1d1d1f; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
     .cycle-opt input:focus-visible + label { outline: 3px solid #007167; outline-offset: 2px; }
 
-    /* Product option */
-    .prod-opt { border: 1px solid #d7d9db; border-radius: 12px; transition: border-color .2s ease, box-shadow .2s ease; }
-    .prod-opt.is-on { border-color: #007167; box-shadow: 0 0 0 1px #007167; }
-    .prod-head { display: flex; align-items: flex-start; gap: 14px; padding: 16px 18px; cursor: pointer; }
-    .prod-head input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; accent-color: #007167; flex-shrink: 0; cursor: pointer; }
+    /* Product rows */
+    .prod-list { border-top: 1px solid #eaeaea; margin-top: 12px; }
+    .prod-row { border-bottom: 1px solid #eaeaea; }
+    .prod-head { display: flex; align-items: center; gap: 14px; min-height: 64px; cursor: pointer; }
+    .prod-head input[type="checkbox"] { width: 20px; height: 20px; accent-color: #007167; flex-shrink: 0; cursor: pointer; }
     .prod-head input[type="checkbox"]:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
-    .prod-info { flex: 1; min-width: 0; }
-    .prod-name { display: block; font-size: 15px; font-weight: 600; color: #1d1d1f; }
-    .prod-model { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
-    .prod-desc { font-size: 13px; color: #4b5563; margin-top: 6px; line-height: 1.5; }
-    .prod-current { display: inline-block; font-size: 12px; color: #00544c; background: #f0faf9; border-radius: 999px; padding: 3px 10px; margin-top: 8px; }
-    .prod-current.is-warn { color: #b42318; background: #fef3f2; }
-    .prod-price { text-align: right; font-size: 13px; color: #4b5563; white-space: nowrap; }
-    .prod-price strong { display: block; font-size: 16px; font-weight: 700; color: #1d1d1f; }
+    .prod-name { flex: 1; font-size: 15px; font-weight: 500; color: #1d1d1f; }
+    .prod-price { text-align: right; font-size: 15px; font-weight: 600; color: #1d1d1f; white-space: nowrap; }
+    .prod-price small { display: block; font-size: 12px; font-weight: 400; color: #4b5563; }
+    .prod-sub { display: flex; align-items: center; gap: 8px; padding: 0 0 12px 34px; margin-top: -8px; font-size: 13px; color: #4b5563; }
 
     /* Machine picker */
-    .machine-picker { border-top: 1px solid #eaeaea; padding: 14px 18px 16px 52px; }
+    .machine-picker { padding: 0 0 16px 34px; }
     .machine-picker[hidden] { display: none; }
-    .mp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
-    .mp-title { font-size: 13px; font-weight: 600; color: #1d1d1f; }
-    .mp-all { background: none; border: none; color: #007167; font: 500 13px Inter, sans-serif; cursor: pointer; min-height: 44px; padding: 0 4px; }
-    .mp-all:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 4px; }
-    .mp-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
-    .mp-item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 12px; border: 1px solid #eaeaea; border-radius: 8px; cursor: pointer; font-size: 14px; color: #1d1d1f; }
+    .mp-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .mp-item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px; border: 1px solid #eaeaea; border-radius: 8px; cursor: pointer; font-size: 14px; color: #1d1d1f; }
     .mp-item:has(input:checked) { background: #f0faf9; border-color: #b9dfdb; }
+    .mp-item:has(input:disabled) { color: #4b5563; }
     .mp-item input { width: 18px; height: 18px; accent-color: #007167; }
     .mp-item input:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
-    .mp-line { margin-left: auto; font-size: 12px; color: #4b5563; }
-    .mp-tag { font-size: 11px; color: #00544c; background: #e0f2f0; border-radius: 999px; padding: 2px 8px; }
     .tier-hint { margin-top: 10px; font-size: 13px; color: #00544c; }
-    .tier-track { display: flex; gap: 4px; margin-top: 10px; }
-    .tier-step { flex: 1; font-size: 12px; color: #4b5563; border-top: 3px solid #d7d9db; padding-top: 6px; }
-    .tier-step.is-on { border-top-color: #007167; color: #00544c; font-weight: 600; }
+    .link-btn { background: none; border: none; padding: 0; min-height: 44px; color: #007167; font: 500 13px Inter, sans-serif; cursor: pointer; }
+    .link-btn:hover { text-decoration: underline; }
+    .link-btn:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 4px; }
 
-    .bundle-hint { margin-bottom: 12px; font-size: 13px; color: #00544c; background: #f0faf9; border-radius: 10px; padding: 12px 16px; }
+    .bundle-hint { font-size: 13px; color: #4b5563; margin-top: 14px; }
 
     /* Summary */
     .co-summary { position: sticky; top: 16px; }
-    .sum-line { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: #1d1d1f; padding: 6px 0; }
+    .sum-line { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: #3d4246; padding: 5px 0; }
     .sum-line small { display: block; font-size: 12px; color: #4b5563; }
     .sum-line.is-discount { color: #00544c; }
-    .sum-sep { border: none; border-top: 1px solid #eaeaea; margin: 8px 0; }
-    .sum-total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 4px; }
+    .sum-sep { border: none; border-top: 1px solid #eaeaea; margin: 10px 0; }
+    .sum-total { display: flex; justify-content: space-between; align-items: baseline; }
     .sum-total span { font-size: 14px; font-weight: 600; color: #1d1d1f; }
-    .sum-total strong { font-size: 24px; font-weight: 700; color: #1d1d1f; }
-    .sum-note { font-size: 12px; color: #4b5563; margin: 6px 0 14px; }
-    .sum-empty { font-size: 13px; color: #4b5563; padding: 8px 0 14px; }
+    .sum-total strong { font-size: 26px; font-weight: 700; color: #1d1d1f; }
+    .sum-note { font-size: 12px; color: #4b5563; margin: 4px 0 16px; }
+    .sum-empty { font-size: 13px; color: #4b5563; padding: 4px 0 16px; }
 
     /* Review */
     .pay-opt { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 1px solid #d7d9db; border-radius: 10px; cursor: pointer; margin-bottom: 8px; }
@@ -1383,11 +1373,9 @@
       .co-summary { position: static; }
     }
     @media (max-width: 600px) {
-      .mp-list, .done-meta { grid-template-columns: 1fr; }
-      .machine-picker { padding-left: 18px; }
+      .mp-list { grid-template-columns: 1fr 1fr; } .done-meta { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) {
-      .prod-opt { transition: none; }
     }
   </style>
   <link rel="stylesheet" href="../assets/skeleton.css">
@@ -1651,27 +1639,20 @@
     <!-- STEP 1 · CONFIGURE -->
     <div class="co-layout" data-step="1">
       <div class="co-main">
-        <section class="co-card" aria-labelledby="cycleTitle">
-          <h2 class="co-card-title" id="cycleTitle" data-i18n="subs.billingCycle">Billing cycle</h2>
-          <p class="co-card-desc" data-i18n="subs.billingCycleDesc">All products in this plan share the same cycle and renewal date.</p>
-          <fieldset class="cycle-group">
-            <legend class="visually-hidden" data-i18n="subs.billingCycle">Billing cycle</legend>
-            <div class="cycle-opt"><input type="radio" name="cycle" id="cycYear" value="year" checked><label for="cycYear"><span data-i18n="subs.yearly">Yearly</span><small data-i18n="subs.yearlyHint">2 months free</small></label></div>
-            <div class="cycle-opt"><input type="radio" name="cycle" id="cycMonth" value="month"><label for="cycMonth"><span data-i18n="subs.monthly">Monthly</span><small data-i18n="subs.monthlyHint">Cancel any month</small></label></div>
-          </fieldset>
-        </section>
-
         <section class="co-card" aria-labelledby="prodTitle">
           <h2 class="co-card-title" id="prodTitle" data-i18n="subs.chooseProducts">Products</h2>
-          <p class="co-card-desc" data-i18n="subs.chooseProductsDesc">Combine products to get a bundle discount on the whole plan.</p>
+          <div id="prodList" class="prod-list"></div>
           <p class="bundle-hint" id="bundleHint" role="status" aria-live="polite"></p>
-          <div id="prodList" style="display:flex;flex-direction:column;gap:10px"></div>
         </section>
-
       </div>
 
       <aside class="co-card co-summary" aria-labelledby="sumTitle">
-        <h2 class="co-card-title" id="sumTitle" data-i18n="subs.summary">Summary</h2>
+        <h2 class="visually-hidden" id="sumTitle" data-i18n="subs.summary">Summary</h2>
+        <fieldset class="cycle-group">
+          <legend class="visually-hidden" data-i18n="subs.billingCycle">Billing cycle</legend>
+          <div class="cycle-opt"><input type="radio" name="cycle" id="cycYear" value="year" checked><label for="cycYear"><span data-i18n="subs.yearly">Yearly</span> <small data-i18n="subs.yearlyHint">2 months free</small></label></div>
+          <div class="cycle-opt"><input type="radio" name="cycle" id="cycMonth" value="month"><label for="cycMonth" data-i18n="subs.monthly">Monthly</label></div>
+        </fieldset>
         <div id="sumBody" aria-live="polite"></div>
         <button class="btn btn-primary btn-md btn-full" id="toReview" data-i18n="subs.continue">Continue</button>
       </aside>
@@ -1795,50 +1776,48 @@ document.addEventListener('click', function(e) {
     document.title = title + ' — NETZSCH Customer Portal';
   }
 
-  function currentTag(id) {
-    var st = L.statusOf(id);
-    var sub = state.subs[id];
-    if (st === 'none') return '';
-    if (st === 'expired') return '<span class="prod-current is-warn">' + fill(t('subs.tagExpired', 'Expired on {date}'), { date: L.formatDate(sub.renewsOn) }) + '</span>';
-    return '<span class="prod-current' + (st === 'expiring' ? ' is-warn' : '') + '">' + fill(t('subs.tagActive', 'Active until {date}'), { date: L.formatDate(sub.renewsOn) }) + '</span>';
-  }
-
   /* Step 1 — products */
+  var mpExpanded = mode === 'add' || (pmOpen && plan.pm.length === 0);
+
   function renderProducts() {
     var html = '';
     L.PRODUCTS.forEach(function (p) {
       if (mode === 'add' && p.id !== 'pm') return;
-      var on = p.id === 'pm' ? (plan.pm.length > 0 || pmOpen) : plan[p.id];
-      var model = p.model === 'machine' ? t('subs.modelMachine', 'One license per machine') : t('subs.modelFleet', 'One license for all your machines');
+      var on = p.id === 'pm' ? pmOpen : plan[p.id];
       var price;
       if (p.model === 'machine') {
-        var n = plan.pm.length;
-        var unit = L.pmUnitPrice(Math.max(1, n + licensed.length));
-        price = '<strong>' + L.money(unit / div()) + '</strong>' + t('subs.perMachine', 'per machine') + ' ' + per();
+        var unit = L.pmUnitPrice(Math.max(1, plan.pm.length + licensed.length));
+        price = L.money(unit / div()) + '<small>' + t('subs.perMachine', 'per machine') + ' ' + per() + '</small>';
       } else {
-        price = '<strong>' + L.money(p.price / div()) + '</strong>' + per();
+        price = L.money(p.price / div()) + '<small>' + t('subs.allMachinesLc', 'all machines') + ' ' + per() + '</small>';
       }
-      html += '<div class="prod-opt' + (on ? ' is-on' : '') + '">' +
+      html += '<div class="prod-row">' +
         '<label class="prod-head" for="chk-' + p.id + '">' +
-          '<input type="checkbox" id="chk-' + p.id + '" data-prod="' + p.id + '"' + (on ? ' checked' : '') + (mode === 'add' ? ' disabled' : '') + (p.id === 'pm' ? ' aria-controls="mp-pm"' : '') + '>' +
-          '<span class="prod-info"><span class="prod-name">' + productName(p.id) + '</span><span class="prod-model">' + model + '</span>' +
-          '<span class="prod-desc" style="display:block">' + t('subs.d.' + p.id, p.desc) + '</span>' + currentTag(p.id) + '</span>' +
+          '<input type="checkbox" id="chk-' + p.id + '" data-prod="' + p.id + '"' + (on ? ' checked' : '') + (mode === 'add' ? ' disabled' : '') + '>' +
+          '<span class="prod-name">' + productName(p.id) + '</span>' +
           '<span class="prod-price">' + price + '</span>' +
         '</label>' +
-        (p.id === 'pm' ? machinePicker(on) : '') +
+        (p.id === 'pm' && on ? machineSummary() + machinePicker() : '') +
       '</div>';
     });
     document.getElementById('prodList').innerHTML = html;
   }
 
-  function machinePicker(open) {
+  function machineSummary() {
+    var n = plan.pm.length + licensed.length;
+    var label = n === 0 ? t('subs.noMachines', 'No machines selected')
+      : n === 1 ? t('subs.oneMachine', '1 machine') : fill(t('subs.nMachines', '{n} machines'), { n: n });
+    return '<div class="prod-sub"><span>' + label + '</span><span aria-hidden="true">·</span>' +
+      '<button type="button" class="link-btn" id="mpToggle" aria-expanded="' + mpExpanded + '" aria-controls="mp-pm">' +
+      (mpExpanded ? t('subs.done', 'Done') : t('subs.editMachines', 'Edit machines')) + '</button></div>';
+  }
+
+  function machinePicker() {
     var items = fleet().map(function (m) {
       var isLicensed = licensed.indexOf(m.id) >= 0;
       var checked = isLicensed || plan.pm.indexOf(m.id) >= 0;
       return '<label class="mp-item"><input type="checkbox" data-machine="' + m.id + '"' + (checked ? ' checked' : '') + (isLicensed ? ' disabled' : '') + '>' +
-        '<span>' + m.name + '</span>' +
-        (isLicensed ? '<span class="mp-tag">' + t('subs.licensed', 'Licensed') + '</span>' : '<span class="mp-line">' + (m.line || '') + '</span>') +
-        '</label>';
+        '<span>' + m.name + (isLicensed ? ' <span class="visually-hidden">(' + t('subs.licensed', 'Licensed') + ')</span>' : '') + '</span></label>';
     }).join('');
     var total = plan.pm.length + licensed.length;
     var next = null;
@@ -1846,19 +1825,8 @@ document.addEventListener('click', function(e) {
     var hint = total === 0 ? t('subs.tierStart', 'Select the machines you want to monitor.')
       : next ? fill(plural(next.min - total, t('subs.tierNextOne', 'Add 1 more machine to pay {price} per machine.'), t('subs.tierNext', 'Add {n} more machines to pay {price} per machine.')), { n: next.min - total, price: L.money(next.price / div()) })
       : t('subs.tierBest', 'You get the best price per machine.');
-    var track = L.PM_TIERS.map(function (tr, i) {
-      var nx = L.PM_TIERS[i + 1];
-      var range = nx ? (nx.min - 1 === tr.min ? tr.min : tr.min + '–' + (nx.min - 1)) : tr.min + '+';
-      var isOn = total >= tr.min && (!nx || total < nx.min);
-      return '<div class="tier-step' + (isOn ? ' is-on' : '') + '">' + range + ' · ' + L.money(tr.price / div()) + '</div>';
-    }).join('');
-    var selectable = fleet().filter(function (m) { return licensed.indexOf(m.id) < 0; }).length;
-    var allOn = plan.pm.length === selectable;
-    return '<div class="machine-picker" id="mp-pm"' + (open ? '' : ' hidden') + '>' +
-      '<div class="mp-head"><span class="mp-title" id="mpTitle">' + fill(t('subs.mpTitle', 'Machines ({n} of {total} selected)'), { n: total, total: fleet().length }) + '</span>' +
-      '<button type="button" class="mp-all" id="mpAll">' + (allOn ? t('subs.clearAll', 'Clear selection') : t('subs.selectAll', 'Select all machines')) + '</button></div>' +
-      '<div class="mp-list" role="group" aria-labelledby="mpTitle">' + items + '</div>' +
-      '<div class="tier-track" aria-hidden="true">' + track + '</div>' +
+    return '<div class="machine-picker" id="mp-pm"' + (mpExpanded ? '' : ' hidden') + '>' +
+      '<div class="mp-list" role="group" aria-label="' + t('subs.machines', 'Machines') + '">' + items + '</div>' +
       '<p class="tier-hint">' + hint + '</p>' +
     '</div>';
   }
@@ -1868,29 +1836,27 @@ document.addEventListener('click', function(e) {
     var el = document.getElementById('bundleHint');
     if (mode === 'add') { el.hidden = true; return; }
     el.hidden = false;
-    if (n === 0) { el.textContent = t('subs.bundle0', 'Combine 2 or more products to get a bundle discount of up to 20%.'); return; }
-    var nextRate = L.BUNDLE[n + 1];
-    el.textContent = nextRate
-      ? fill(t('subs.bundleNext', 'Add 1 more product to save {pct}% on the whole plan.'), { pct: Math.round(nextRate * 100) })
-      : fill(t('subs.bundleMax', 'You get the maximum bundle discount: {pct}% on the whole plan.'), { pct: Math.round(L.BUNDLE[n] * 100) });
+    var nextRate = L.BUNDLE[Math.max(2, n + 1)];
+    el.textContent = !nextRate
+      ? fill(t('subs.bundleMax', 'You get the maximum bundle discount: {pct}% on the whole plan.'), { pct: Math.round(L.BUNDLE[n] * 100) })
+      : n === 0 ? t('subs.bundle0', 'Combine 2 or more products to get a bundle discount of up to 20%.')
+      : fill(t('subs.bundleNext', 'Add 1 more product to save {pct}% on the whole plan.'), { pct: Math.round(nextRate * 100) });
   }
 
   function summaryHtml(q) {
     if (!q.lines.length) return '<p class="sum-empty" id="sumEmpty">' + t('subs.sumEmpty', 'Select at least one product to see your price.') + '</p>';
-    var html = q.lines.map(function (ln) {
-      var detail = ln.id === 'pm'
-        ? fill(plural(ln.qty, t('subs.sumMachinesOne', '1 machine × {price}'), t('subs.sumMachines', '{n} machines × {price}')), { n: ln.qty, price: L.money(ln.listUnit) })
-        : t('subs.allMachines', 'All machines');
-      return '<div class="sum-line"><span>' + productName(ln.id) + '<small>' + detail + '</small></span><span>' + L.money(ln.listUnit * ln.qty) + '</span></div>';
-    }).join('');
+    var save = q.volumeDiscount + q.bundleDiscount;
+    var html = '<div class="sum-line"><span>' + t('subs.subtotal', 'Subtotal') + '</span><span>' + L.money(q.list) + '</span></div>';
+    if (save) {
+      var parts = [];
+      if (q.volumeDiscount) parts.push(fill(t('subs.saveVolume', '{amount} volume'), { amount: L.money(q.volumeDiscount) }));
+      if (q.bundleDiscount) parts.push(fill(t('subs.saveBundle', '{amount} bundle ({pct}%)'), { amount: L.money(q.bundleDiscount), pct: Math.round(q.bundleRate * 100) }));
+      html += '<div class="sum-line is-discount"><span>' + t('subs.youSave', 'You save') + '<small>' + parts.join(' · ') + '</small></span><span>−' + L.money(save) + '</span></div>';
+    }
     html += '<hr class="sum-sep">';
-    if (q.volumeDiscount) html += '<div class="sum-line is-discount"><span>' + t('subs.volumeDiscount', 'Volume discount') + '<small>' + fill(t('subs.volumeDetail', '{price} per machine for {n} machines'), { price: L.money(q.lines[0].unit), n: q.lines[0].tierQty }) + '</small></span><span>−' + L.money(q.volumeDiscount) + '</span></div>';
-    if (q.bundleDiscount) html += '<div class="sum-line is-discount"><span>' + fill(t('subs.bundleDiscount', 'Bundle discount ({pct}%)'), { pct: Math.round(q.bundleRate * 100) }) + '<small>' + fill(t('subs.bundleDetail', '{n} products combined'), { n: q.productCount }) + '</small></span><span>−' + L.money(q.bundleDiscount) + '</span></div>';
-    html += '<div class="sum-total"><span>' + t('subs.total', 'Total') + ' ' + per() + '</span><strong>' + L.money(q.total) + '</strong></div>';
-    var note = plan.cycle === 'year'
-      ? fill(t('subs.sumYearNote', 'Excl. VAT. You save {save} compared to monthly billing.'), { save: L.money(q.yearlySaving) })
-      : t('subs.sumMonthNote', 'Excl. VAT. Billed every month.');
-    if (mode === 'add') note = t('subs.sumAddNote', 'Excl. VAT. New machines join your current license and renew on the same date.');
+    html += '<div class="sum-total"><span>' + t('subs.total', 'Total') + '</span><strong>' + L.money(q.total) + '</strong></div>';
+    var note = mode === 'add' ? t('subs.sumAddNote', 'Excl. VAT. New machines join your current license and renew on the same date.')
+      : plan.cycle === 'year' ? t('subs.sumYearShort', 'Per year, excl. VAT.') : t('subs.sumMonthShort', 'Per month, excl. VAT.');
     html += '<p class="sum-note">' + note + '</p>';
     return html;
   }
@@ -1953,6 +1919,7 @@ document.addEventListener('click', function(e) {
       if (id === 'pm') {
         pmOpen = el.checked;
         if (!el.checked) plan.pm = [];
+        else if (!plan.pm.length) mpExpanded = true;
       } else plan[id] = el.checked;
     }
     if (el.hasAttribute('data-machine')) {
@@ -1967,11 +1934,10 @@ document.addEventListener('click', function(e) {
   });
 
   document.getElementById('prodList').addEventListener('click', function (e) {
-    if (e.target.id !== 'mpAll') return;
-    var selectable = fleet().filter(function (m) { return licensed.indexOf(m.id) < 0; }).map(function (m) { return m.id; });
-    plan.pm = plan.pm.length === selectable.length ? [] : selectable;
+    if (e.target.id !== 'mpToggle') return;
+    mpExpanded = !mpExpanded;
     render();
-    document.getElementById('mpAll').focus();
+    document.getElementById('mpToggle').focus();
   });
 
   document.getElementById('toReview').addEventListener('click', function () {
