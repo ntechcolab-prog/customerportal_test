@@ -25,13 +25,15 @@
       'budget.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html', 'admin-machines.html',
-      'admin-documents.html'
+      'admin-documents.html',
+      'subscriptions.html', 'subscriptions-checkout.html'
     ],
     buyer: [
       'lab-tests.html', 'contracts.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html', 'admin-machines.html',
-      'admin-documents.html'
+      'admin-documents.html',
+      'subscriptions.html', 'subscriptions-checkout.html'
     ],
     administrator: [
       'budget.html'
@@ -47,7 +49,8 @@
       'lab-tests.html', 'contracts.html',
       'admin-company.html', 'admin-users.html', 'admin-roles.html',
       'admin-requests.html', 'admin-notifications.html', 'admin-machines.html',
-      'admin-documents.html'
+      'admin-documents.html',
+      'subscriptions.html', 'subscriptions-checkout.html'
     ]
   };
 
@@ -89,6 +92,38 @@
         item.closest('li').style.display = 'none';
       }
     });
+  }
+
+  // 3b. Digital Products (CP-732) — admin only: "Subscriptions" after Contracts,
+  //     plus "IRIS Cloud" only when the customer has an active license
+  if (role === 'administrator') {
+    var contractsLink = document.querySelector('.profile-dropdown-item[data-i18n="profile.contracts"]');
+    if (contractsLink && !document.querySelector('[data-i18n="profile.subscriptions"]')) {
+      var subLi = document.createElement('li');
+      subLi.innerHTML = '<a class="profile-dropdown-item" href="subscriptions.html" data-i18n="profile.subscriptions">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 14h3"/></svg>Subscriptions</a>';
+      contractsLink.closest('li').after(subLi);
+
+      var hasLicense = false;
+      try {
+        var lic = JSON.parse(localStorage.getItem('netzsch_licenses') || 'null');
+        if (lic && lic.subs) {
+          var today = new Date().toISOString().slice(0, 10);
+          Object.keys(lic.subs).forEach(function (k) {
+            var s = lic.subs[k];
+            if (s.status === 'active' && s.renewsOn >= today) hasLicense = true;
+          });
+        } else if (!lic) {
+          hasLicense = true; // sample state seeds active licenses on first visit
+        }
+      } catch (e) {}
+      if (hasLicense) {
+        var irisLi = document.createElement('li');
+        irisLi.innerHTML = '<a class="profile-dropdown-item" href="https://iris.netzsch.com" target="_blank" rel="noopener" data-i18n="profile.irisCloud">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>IRIS Cloud ↗</a>';
+        subLi.after(irisLi);
+      }
+    }
   }
 
   // 4. Hide cart icon for technician and approver (no shop access)

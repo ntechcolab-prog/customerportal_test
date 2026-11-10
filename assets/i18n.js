@@ -107,6 +107,9 @@
     var html = document.documentElement;
     var lang = getLang();
     html.setAttribute('lang', lang);
+
+    /* Let pages re-render JS-built content in the active language */
+    document.dispatchEvent(new CustomEvent('netzsch:i18n-applied'));
   }
 
   /* ── Lang switcher ─── */
