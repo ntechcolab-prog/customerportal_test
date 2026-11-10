@@ -1,0 +1,2368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose your plan — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/tables.css">
+  <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/empty-states.css">
+  <link rel="stylesheet" href="../assets/modals.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 170;
+      position: sticky;
+      top: 0;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      height: 60px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 160;
+      position: sticky;
+      top: 40px;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: rgba(0, 0, 0, 0.08); margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 6px 14px;
+      height: auto;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b6e73;
+      text-decoration: none;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-tab:hover { background: rgba(0, 113, 103, 0.06); color: #374151; }
+    .nav-tab.active { color: #007167; background: rgba(0, 113, 103, 0.08); font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 6px; }
+    .header-divider-v {
+      width: 1px;
+      height: 24px;
+      background: #e5e7eb;
+      margin: 0 4px;
+      flex-shrink: 0;
+    }
+    .header-icon-btn {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; cursor: pointer; position: relative;
+      background: none; border: none;
+      transition: background 0.15s;
+    }
+    .header-icon-btn:hover { background: rgba(0, 113, 103, 0.06); }
+    .header-icon-btn img { width: 18px; height: 18px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 2px; right: 2px;
+      background: #c73e20; color: #fff;
+      font-size: 9px; font-weight: 700;
+      border-radius: 50%; width: 14px; height: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      display: none;
+    }
+    .user-initials {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+    .user-avatar-wrapper {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* ── PROFILE DROPDOWN ─── */
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 238px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .profile-dropdown.open { display: block; }
+    .profile-dropdown-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #f5f5f7;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .profile-dropdown-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      object-fit: cover;
+    }
+    .profile-dropdown-info { display: flex; flex-direction: column; }
+    .profile-dropdown-name {
+      font-size: 13px; font-weight: 600; color: #1f2937;
+      letter-spacing: -0.08px; line-height: 19.5px;
+    }
+    .profile-dropdown-email {
+      font-size: 11px; font-weight: 400; color: #9ca3af;
+      letter-spacing: 0.06px; line-height: 16.5px;
+    }
+    .profile-dropdown-menu {
+      padding: 6px 0 0 0;
+      list-style: none;
+    }
+    .profile-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      letter-spacing: -0.08px;
+      cursor: pointer;
+    }
+    .profile-dropdown-item:hover { background: #f3f4f6; }
+    .profile-dropdown-item img { width: 15px; height: 15px; }
+    .profile-dropdown-divider {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 0;
+      padding-top: 1px;
+    }
+    .profile-dropdown-item.logout { color: #ef4444; }
+
+    /* ── NOTIFICATIONS DROPDOWN ─── */
+    .notif-wrapper { position: relative; display: flex; align-items: center; }
+    .notif-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 378px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .notif-dropdown.open { display: block; }
+    .notif-dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 57px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .notif-dropdown-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notif-dropdown-title > span:first-child {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.31px;
+    }
+    .notif-count-badge {
+      background: #c73e20;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .notif-mark-read {
+      font-size: 12px;
+      font-weight: 500;
+      color: #007167;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .notif-mark-read:hover { text-decoration: underline; }
+    .notif-list { max-height: 360px; overflow-y: auto; }
+    .notif-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #f3f3f3;
+    }
+    .notif-item.unread { background: #f8fbfa; }
+    .notif-item-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notif-item-icon img { width: 16px; height: 16px; }
+    .notif-item-icon.quote { background: #fff3d6; }
+    .notif-item-icon.order { background: #e0f2ee; }
+    .notif-item-icon.service { background: #e8e0f4; }
+    .notif-item-icon.contract { background: #e0f2ee; }
+    .notif-item-content { flex: 1; min-width: 0; }
+    .notif-item-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .notif-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.08px;
+      line-height: 18px;
+    }
+    .notif-item.unread .notif-item-title { font-weight: 600; }
+    .notif-item:not(.unread) .notif-item-title { font-weight: 400; }
+    .notif-unread-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #007167;
+      flex-shrink: 0;
+    }
+    .notif-item-desc {
+      font-size: 12px;
+      color: #6b6e73;
+      line-height: 16px;
+      margin-top: 2px;
+    }
+    .notif-item-time {
+      font-size: 11px;
+      color: #9ca0a5;
+      line-height: 16.5px;
+      margin-top: 2px;
+    }
+    .notif-item-action {
+      display: inline-block;
+      margin-top: 8px;
+      background: #007167;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      height: 23px;
+      line-height: 16.5px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .notif-item-action:hover { background: #005f57; }
+    .notif-dropdown-footer {
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .notif-view-all {
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      letter-spacing: -0.08px;
+    }
+    .notif-view-all:hover { text-decoration: underline; }
+
+
+    .lang-switcher {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      user-select: none;
+      background: none;
+      border: none;
+      padding: 0 4px;
+    }
+    .lang-switcher .lang-globe { width: 16px; height: 16px; flex-shrink: 0; }
+    .lang-switcher .lang-chevron { width: 10px; height: 10px; transition: transform 0.2s; }
+    .lang-switcher.open .lang-chevron { transform: rotate(180deg); }
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      min-width: 80px;
+      overflow: hidden;
+      z-index: 300;
+    }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-option {
+      padding: 8px 16px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #3d4246;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .lang-option:hover { background: #f0faf9; }
+    .lang-option.active { color: #007167; background: #e6f4f3; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #6b7280;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #6b7280; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── PAGE HEADER ─── */
+    .page-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
+    }
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #86868b;
+    }
+
+    /* ── FILTER BAR (integrated toolbar above table) ─── */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    }
+    .filter-search {
+      position: relative;
+      width: 220px;
+      flex-shrink: 0;
+    }
+    .filter-search input {
+      width: 100%;
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 0 12px 0 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #1d1d1f;
+      background: #fafbfc;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .filter-search input::placeholder { color: #86868b; }
+    .filter-search input:focus {
+      outline: none;
+      border-color: #007167;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
+    }
+    .filter-search svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 13px;
+      height: 13px;
+      color: #86868b;
+      pointer-events: none;
+    }
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 30px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .filter-pill:hover {
+      color: #007167;
+      background: rgba(0, 113, 103, 0.05);
+    }
+    .filter-pill.active {
+      background: rgba(0, 113, 103, 0.1);
+      color: #007167;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
+    }
+    .filter-pill .pill-count {
+      font-weight: 600;
+      opacity: 0.5;
+      font-size: 11px;
+    }
+    .filter-pill.active .pill-count {
+      opacity: 0.7;
+    }
+
+    /* ── STAT CARDS ─── */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .stat-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.4s ease, transform 0.25s ease, border-color 0.4s ease;
+      cursor: default;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 11px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
+    }
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
+      transform: translateY(-2px);
+    }
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0faf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .stat-card:hover .stat-icon {
+      background: #e0f2f0;
+      transform: scale(1.08);
+    }
+    .stat-icon svg {
+      width: 18px;
+      height: 18px;
+      color: #007167;
+    }
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .stat-number {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1d1d1f;
+      line-height: 1.2;
+      letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #86868b;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .stat-card:hover .stat-label {
+      color: #6b7280;
+    }
+
+    /* ── TABLE WRAP (connected to filter-bar) ─── */
+    .orders-table-wrap {
+      border-radius: 0 0 10px 10px;
+      border-top: none;
+    }
+
+    /* ── CONTRACT TABS ─── */
+
+    /* ── TABLE COLUMN WIDTHS ─── */
+    .orders-table .col-contract { width: 15%; }
+    .orders-table .col-type { width: 13%; }
+    .orders-table .col-scope { width: 22%; }
+    .orders-table .col-validity { width: 22%; }
+    .orders-table .col-status { width: 13%; }
+    .orders-table .col-actions { width: 80px; cursor: default; text-align: left; }
+    .orders-table .col-actions:hover { color: #6b7280; background: transparent; }
+    .orders-table .actions-cell { justify-content: flex-start; }
+
+    /* ── EMPTY STATE ─── */
+    .empty-state[hidden] { display: none; }
+    .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
+
+    /* ── CONTRACT DETAILS DRAWER ─── */
+    /* Drawer chrome → ../assets/modals.css (componente). Só a largura diverge: */
+    .tracking-drawer { width: 420px; }
+
+    /* Drawer sections */
+    .drawer-section {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    .drawer-section:first-child {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
+    }
+    .drawer-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .drawer-section-text {
+      font-size: 14px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .drawer-section-text strong {
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .drawer-contract-id {
+      font-size: 16px;
+      font-weight: 700;
+      color: #007167;
+      margin-bottom: 4px;
+    }
+    .drawer-contract-type {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+    .drawer-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 0;
+    }
+    .drawer-meta-item {}
+    .drawer-meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .drawer-meta-value {
+      font-size: 14px;
+      color: #1f2937;
+      font-weight: 500;
+    }
+    .drawer-contact-info {
+      font-size: 14px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .drawer-contact-info a {
+      color: #007167;
+      text-decoration: none;
+    }
+    .drawer-contact-info a:hover { text-decoration: underline; }
+    .drawer-key-terms {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    /* btn-download-contract, btn-request-renewal — powered by buttons.css */
+
+    /* ── CART DROPDOWN ─── */
+    :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .cart-dropdown-anchor { position: relative; display: flex; align-items: center; }
+    .cart-dropdown {
+      position: absolute; top: calc(100% + 2px); right: -8px; width: 366px;
+      background: #fff; border: 1px solid #efefef; border-radius: 14px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25); padding: 24px;
+      opacity: 0; transform: translateY(-8px) scale(0.96); pointer-events: none;
+      transition: opacity 0.3s var(--ease-apple), transform 0.4s var(--ease-spring); z-index: 200;
+    }
+    .cart-dropdown.is-open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .cart-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .cart-title { font-size: 16px; font-weight: 500; color: #000; letter-spacing: -0.31px; line-height: 24px; }
+    .cart-close { width: 16px; height: 16px; background: none; border: none; color: #6b7280; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: color 0.15s; }
+    .cart-close:hover { color: #000; }
+    .cart-close svg { width: 16px; height: 16px; }
+    .cart-items { max-height: 300px; overflow-y: auto; }
+    .cart-empty { font-size: 13px; color: #9ca3af; text-align: center; padding: 24px 0; }
+    .cart-item { display: flex; gap: 10px; align-items: flex-start; padding-bottom: 16px; }
+    .cart-item + .cart-item { padding-top: 16px; }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-name { font-size: 12px; font-weight: 400; color: #6b7280; line-height: 16px; }
+    .cart-item-mat { font-size: 10px; font-weight: 400; color: #6b7280; letter-spacing: 0.12px; line-height: 14px; margin-top: 8px; }
+    .cart-item-price { text-align: right; flex-shrink: 0; }
+    .cart-item-price-label { font-size: 12px; font-weight: 700; color: #c3c5c7; text-transform: uppercase; line-height: 20px; }
+    .cart-item-price-value { font-size: 16px; font-weight: 700; color: #6b7280; margin-top: 0; letter-spacing: -0.31px; line-height: 24px; }
+    .cart-quantity { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #e8e8e8; }
+    .cart-quantity-label { font-size: 14px; font-weight: 500; color: #6b7280; letter-spacing: -0.15px; line-height: 20px; }
+    .cart-quantity-controls { display: flex; align-items: center; gap: 12px; }
+    .qty-btn { width: 24px; height: 24px; background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #6b7280; border-radius: 4px; transition: background 0.15s, color 0.15s; }
+    .qty-btn:hover { background: #f3f4f6; color: #1f2937; }
+    .qty-btn.delete { color: #c73e20; }
+    .qty-btn.delete:hover { background: #fdf2f0; }
+    .qty-btn.minus { color: #6b7280; }
+    .qty-btn svg { width: 16px; height: 16px; }
+    .qty-value { font-size: 14px; font-weight: 400; color: #6b7280; min-width: 32px; text-align: center; font-variant-numeric: tabular-nums; letter-spacing: -0.15px; line-height: 20px; }
+    .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
+    .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
+    .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
+    /* btn-view-cart — powered by buttons.css */
+    .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
+    .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
+    .cart-item-placeholder svg { width: 18px; height: 18px; }
+    .cart-badge { position: absolute; top: 4px; right: 4px; background: #c73e20; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 999px; display: none; align-items: center; justify-content: center; padding: 0 3px; letter-spacing: 0.12px; line-height: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1); }
+    .cart-badge.is-visible { display: flex; }
+
+    /* ── MILLA SEARCH ─── */
+    .milla-search-wrapper {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 200;
+      display: none;
+    }
+    .milla-search-wrapper.open {
+      display: block;
+    }
+    .milla-searchbar {
+      width: 0;
+      height: 44px;
+      background: #fff;
+      border: 1.5px solid transparent;
+      border-radius: 9999px;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+      overflow: hidden;
+      transition:
+        width 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        padding 0.3s ease,
+        gap 0.3s ease;
+    }
+    .milla-searchbar.open {
+      width: 520px;
+      border-color: #007167;
+      box-shadow: 0 4px 24px rgba(0, 113, 103, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+      padding: 0 16px;
+      gap: 12px;
+    }
+    .milla-searchbar img.sparkle {
+      width: 22px; height: 22px; flex-shrink: 0;
+      opacity: 0; transform: scale(0.5);
+      transition: opacity 0.25s ease 0.15s, transform 0.25s ease 0.15s;
+    }
+    .milla-searchbar.open img.sparkle {
+      opacity: 1; transform: scale(1);
+    }
+    .milla-searchbar input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: #2d2e33;
+      background: transparent;
+      opacity: 0;
+      transition: opacity 0.2s ease 0.2s;
+    }
+    .milla-searchbar.open input {
+      opacity: 1;
+    }
+    .milla-searchbar input::placeholder { color: #9ca0a5; }
+    .milla-searchbar .milla-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; background: none; border: none; padding: 0; flex-shrink: 0;
+      opacity: 0; transform: scale(0.5);
+      transition: opacity 0.2s ease 0.2s, transform 0.2s ease 0.2s;
+    }
+    .milla-searchbar.open .milla-close {
+      opacity: 1; transform: scale(1);
+    }
+    .milla-searchbar .milla-close img { width: 16px; height: 16px; }
+
+    .milla-dropdown-anchor {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+    }
+    .milla-suggestions {
+      width: 520px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+    }
+    .milla-suggestions.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .milla-suggestions-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 24px 12px 24px;
+    }
+    .milla-suggestions-header img { width: 18px; height: 18px; flex-shrink: 0; }
+    .milla-suggestions-header span {
+      font-size: 13px;
+      font-weight: 700;
+      color: #007167;
+      text-transform: uppercase;
+      letter-spacing: 0.57px;
+      line-height: 19.5px;
+    }
+    .milla-suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+    }
+    .milla-suggestion-item:not(:first-child) {
+      border-top: 1px solid #f0f1f2;
+    }
+    .milla-suggestion-item:hover {
+      background: #f5f5f7;
+    }
+    .milla-suggestion-item .arrow-wrap {
+      width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.6; flex-shrink: 0;
+    }
+    .milla-suggestion-item .arrow-wrap img { width: 16px; height: 16px; }
+    .milla-suggestion-item span {
+      font-size: 15px;
+      font-weight: 500;
+      color: #2d2e33;
+      letter-spacing: -0.23px;
+      line-height: 22.5px;
+    }
+    .milla-suggestions-footer {
+      border-top: 1px solid #f0f1f2;
+      padding: 15px 24px;
+      text-align: center;
+    }
+    .milla-suggestions-footer a {
+      font-size: 13px;
+      font-style: italic;
+      color: #007167;
+      text-decoration: none;
+      letter-spacing: -0.08px;
+      line-height: 19.5px;
+    }
+    .milla-suggestions-footer a:hover { text-decoration: underline; }
+
+    /* ── MILLA CHAT MODAL ─── */
+    .milla-chat-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 30, 27, 0.45);
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .milla-chat-overlay.open { opacity: 1; pointer-events: auto; }
+
+    .milla-chat {
+      width: 680px;
+      max-height: 80vh;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.95) translateY(10px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .milla-chat-overlay.open .milla-chat {
+      transform: scale(1) translateY(0);
+    }
+    .milla-chat-header {
+      background: linear-gradient(176deg, #007167 0%, #0b9c92 60%, #048a7f 100%);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .milla-chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .milla-chat-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .milla-chat-avatar img { width: 18px; height: 18px; }
+    .milla-chat-info { display: flex; flex-direction: column; }
+    .milla-chat-name {
+      font-size: 15px; font-weight: 600; color: #fff;
+      letter-spacing: -0.38px; line-height: 22.5px;
+    }
+    .milla-chat-status {
+      font-size: 12px; font-weight: 400; color: #7ee8dc;
+      line-height: 18px;
+    }
+    .milla-chat-header-actions {
+      display: flex; align-items: center; gap: 2px;
+    }
+    .milla-chat-header-btn {
+      width: 32px; height: 32px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .milla-chat-header-btn:hover { background: rgba(255,255,255,0.15); }
+    .milla-chat-header-btn img { width: 16px; height: 16px; }
+
+    .milla-chat-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .milla-chat-tab {
+      padding: 8px 16px;
+      text-align: center;
+      border-radius: 14px;
+      border: 1px solid #d4d6d8;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #2d2e33;
+      letter-spacing: -0.08px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .milla-chat-tab:hover { background: #f5f5f7; }
+    .milla-chat-tab.active { background: #007167; color: #fff; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
+
+    .milla-chat-body {
+      flex: 1;
+      padding: 16px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 300px;
+    }
+    .milla-msg-user {
+      align-self: flex-end;
+      background: #007167;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 16px 16px 6px 16px;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: -0.15px;
+      max-width: 70%;
+    }
+    .milla-msg-bot {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .milla-msg-bot-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .milla-msg-bot-avatar img { width: 14px; height: 14px; }
+    .milla-msg-bot-bubble {
+      background: #f2f3f5;
+      padding: 14px 20px;
+      border-radius: 6px 16px 16px 16px;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: -0.15px;
+      color: #2d2e33;
+      max-width: 70%;
+    }
+    .milla-typing-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+    }
+    .milla-typing-dots span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #0b9c92;
+      animation: millaDot 1.4s ease-in-out infinite;
+    }
+    .milla-typing-dots span:nth-child(1) { opacity: 0.5; animation-delay: 0s; }
+    .milla-typing-dots span:nth-child(2) { opacity: 0.73; animation-delay: 0.2s; }
+    .milla-typing-dots span:nth-child(3) { opacity: 1; animation-delay: 0.4s; }
+    @keyframes millaDot {
+      0%, 80%, 100% { transform: scale(1); }
+      40% { transform: scale(1.3); }
+    }
+
+    .milla-chat-footer {
+      padding: 16px 20px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .milla-chat-input-wrap {
+      flex: 1;
+      height: 46px;
+      background: #f2f3f5;
+      border: 1px solid #e8eaeb;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+    }
+    .milla-chat-input-wrap input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #2d2e33;
+      letter-spacing: -0.15px;
+    }
+    .milla-chat-input-wrap input::placeholder { color: #a0a3a8; }
+    .milla-chat-send {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #e0e2e4;
+      display: flex; align-items: center; justify-content: center;
+      border: none; cursor: pointer; flex-shrink: 0;
+      transition: background 0.15s ease;
+      pointer-events: auto;
+      position: relative;
+      z-index: 10;
+    }
+    .milla-chat-send.active { background: #007167; }
+    .milla-chat-send img { width: 18px; height: 18px; }
+
+    /* ── MILLA CHAT SMALLER (bottom-right) ─── */
+    .milla-chat-small {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 400px;
+      height: 580px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 400;
+      transform: scale(0.4) translateY(40px);
+      transform-origin: bottom right;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.25s ease;
+    }
+    .milla-chat-small.open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .milla-chat-small .milla-chat-header { padding: 10px 16px; }
+    .milla-chat-small .milla-chat-avatar { width: 34px; height: 34px; }
+    .milla-chat-small .milla-chat-avatar img { width: 16px; height: 16px; }
+    .milla-chat-small .milla-chat-name { font-size: 14px; }
+    .milla-chat-small .milla-chat-status { font-size: 11px; }
+    .milla-chat-small .milla-chat-tabs { padding: 10px 16px; gap: 6px; }
+    .milla-chat-small .milla-chat-tab { padding: 7px 12px; font-size: 12px; }
+    .milla-chat-small .milla-chat-body { padding: 12px 16px; min-height: 200px; }
+    .milla-chat-small .milla-chat-footer { padding: 12px 16px; }
+    .milla-chat-small .milla-msg-user,
+    .milla-chat-small .milla-msg-bot-bubble { font-size: 13px; line-height: 20px; max-width: 85%; }
+
+    /* ── MILLA FAB (minimized) ─── */
+    .milla-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      box-shadow: 0 8px 24px rgba(0, 113, 103, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      z-index: 400;
+      transform: scale(0);
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s ease, box-shadow 0.2s ease;
+    }
+    .milla-fab.open {
+      transform: scale(1);
+      opacity: 1;
+    }
+    .milla-fab:hover {
+      box-shadow: 0 12px 32px rgba(0, 113, 103, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05);
+    }
+    .milla-fab img { width: 28px; height: 28px; }
+
+    .milla-backdrop {
+      position: fixed;
+      top: 100px;
+      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      background: rgba(0, 30, 27, 0.45);
+      z-index: 150;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .milla-backdrop.open { opacity: 1; pointer-events: auto; }
+    #btn-milla-search { transition: opacity 0.15s ease, width 0.15s ease, padding 0.15s ease; }
+    #btn-milla-search.hidden { opacity: 0; pointer-events: none; width: 0; overflow: hidden; padding: 0; }
+
+
+    /* ── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .topbar { padding: 0 16px; }
+      .app-header { padding: 0 16px; height: 56px; }
+      .breadcrumb { padding: 0 16px; }
+      .main { padding: 16px; }
+      .stat-cards { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar { flex-wrap: wrap; padding: 10px 14px; }
+      .filter-search { width: 100%; }
+      .filter-divider { display: none; }
+      .filter-pills { gap: 4px; width: 100%; }
+
+      .page-title { font-size: 20px; }
+    }
+    @media (max-width: 480px) {
+      .topbar { padding: 0 12px; }
+      .app-header { padding: 0 12px; }
+      .breadcrumb { padding: 0 12px; white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .main { padding: 12px; }
+      .stat-cards { grid-template-columns: 1fr; }
+      .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
+      .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
+      .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
+
+      .page-title { font-size: 18px; }
+    }
+
+    /* ── HAMBURGER MENU ─── */
+    .hamburger-btn { display: none; }
+
+    .mobile-nav-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      z-index: 150; opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .mobile-nav-drawer {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 280px;
+      background: #fff; z-index: 151; padding: 80px 0 24px;
+      transform: translateX(-100%); transition: transform 0.25s ease;
+      overflow-y: auto; box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+    }
+    .mobile-nav.open .mobile-nav-overlay { opacity: 1; pointer-events: auto; }
+    .mobile-nav.open .mobile-nav-drawer { transform: translateX(0); }
+    .mobile-nav-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 24px; font-size: 16px; color: #374151;
+      text-decoration: none; min-height: 48px;
+    }
+    .mobile-nav-link.active { color: #007167; font-weight: 600; background: #f0faf9; }
+    .mobile-nav-link:hover { background: #f3f4f6; }
+
+    @media (max-width: 768px) {
+      .hamburger-btn {
+        display: flex; flex-direction: column; justify-content: center;
+        gap: 5px; width: 44px; height: 44px; padding: 10px;
+        background: none; border: none; cursor: pointer; margin-right: 8px;
+      }
+      .hamburger-line {
+        display: block; width: 20px; height: 2px;
+        background: #374151; border-radius: 1px;
+        transition: transform 0.2s, opacity 0.2s;
+      }
+      .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(2) { opacity: 0; }
+      .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .header-nav { display: none; }
+      .header-divider { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-nav-overlay,
+      .mobile-nav-drawer,
+      .hamburger-line { transition: none; }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/forms.css">
+  <link rel="stylesheet" href="../assets/steppers.css">
+  <style>
+    /* ── SUBSCRIPTIONS CHECKOUT (CP-732) ─── */
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .co-stepper { max-width: 640px; margin-bottom: 8px; }
+    .co-layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
+    .co-main { display: flex; flex-direction: column; gap: 12px; }
+    .co-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 12px; padding: 20px; }
+    .co-card-title { font-size: 15px; font-weight: 600; color: #1d1d1f; margin-bottom: 4px; }
+    .co-card-desc { font-size: 13px; color: #4b5563; margin-bottom: 14px; }
+
+    /* Billing cycle segmented control */
+    .cycle-group { display: inline-flex; background: #f3f4f6; border-radius: 10px; padding: 4px; gap: 4px; border: none; }
+    .cycle-group legend { margin-bottom: 8px; }
+    .cycle-opt { position: relative; }
+    .cycle-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+    .cycle-opt label { display: flex; flex-direction: column; justify-content: center; min-height: 44px; padding: 6px 18px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #3d4246; cursor: pointer; }
+    .cycle-opt label small { font-size: 12px; font-weight: 400; color: #4b5563; }
+    .cycle-opt input:checked + label { background: #fff; color: #00544c; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .cycle-opt input:focus-visible + label { outline: 3px solid #007167; outline-offset: 2px; }
+
+    /* Product option */
+    .prod-opt { border: 1px solid #d7d9db; border-radius: 12px; transition: border-color .2s ease, box-shadow .2s ease; }
+    .prod-opt.is-on { border-color: #007167; box-shadow: 0 0 0 1px #007167; }
+    .prod-head { display: flex; align-items: flex-start; gap: 14px; padding: 16px 18px; cursor: pointer; }
+    .prod-head input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; accent-color: #007167; flex-shrink: 0; cursor: pointer; }
+    .prod-head input[type="checkbox"]:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .prod-info { flex: 1; min-width: 0; }
+    .prod-name { display: block; font-size: 15px; font-weight: 600; color: #1d1d1f; }
+    .prod-model { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
+    .prod-desc { font-size: 13px; color: #4b5563; margin-top: 6px; line-height: 1.5; }
+    .prod-current { display: inline-block; font-size: 12px; color: #00544c; background: #f0faf9; border-radius: 999px; padding: 3px 10px; margin-top: 8px; }
+    .prod-current.is-warn { color: #b42318; background: #fef3f2; }
+    .prod-price { text-align: right; font-size: 13px; color: #4b5563; white-space: nowrap; }
+    .prod-price strong { display: block; font-size: 16px; font-weight: 700; color: #1d1d1f; }
+
+    /* Machine picker */
+    .machine-picker { border-top: 1px solid #eaeaea; padding: 14px 18px 16px 52px; }
+    .machine-picker[hidden] { display: none; }
+    .mp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+    .mp-title { font-size: 13px; font-weight: 600; color: #1d1d1f; }
+    .mp-all { background: none; border: none; color: #007167; font: 500 13px Inter, sans-serif; cursor: pointer; min-height: 44px; padding: 0 4px; }
+    .mp-all:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 4px; }
+    .mp-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .mp-item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 12px; border: 1px solid #eaeaea; border-radius: 8px; cursor: pointer; font-size: 14px; color: #1d1d1f; }
+    .mp-item:has(input:checked) { background: #f0faf9; border-color: #b9dfdb; }
+    .mp-item input { width: 18px; height: 18px; accent-color: #007167; }
+    .mp-item input:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .mp-line { margin-left: auto; font-size: 12px; color: #4b5563; }
+    .mp-tag { font-size: 11px; color: #00544c; background: #e0f2f0; border-radius: 999px; padding: 2px 8px; }
+    .tier-hint { margin-top: 10px; font-size: 13px; color: #00544c; }
+    .tier-track { display: flex; gap: 4px; margin-top: 10px; }
+    .tier-step { flex: 1; font-size: 12px; color: #4b5563; border-top: 3px solid #d7d9db; padding-top: 6px; }
+    .tier-step.is-on { border-top-color: #007167; color: #00544c; font-weight: 600; }
+
+    .bundle-hint { margin-bottom: 12px; font-size: 13px; color: #00544c; background: #f0faf9; border-radius: 10px; padding: 12px 16px; }
+
+    /* Summary */
+    .co-summary { position: sticky; top: 16px; }
+    .sum-line { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: #1d1d1f; padding: 6px 0; }
+    .sum-line small { display: block; font-size: 12px; color: #4b5563; }
+    .sum-line.is-discount { color: #00544c; }
+    .sum-sep { border: none; border-top: 1px solid #eaeaea; margin: 8px 0; }
+    .sum-total { display: flex; justify-content: space-between; align-items: baseline; padding-top: 4px; }
+    .sum-total span { font-size: 14px; font-weight: 600; color: #1d1d1f; }
+    .sum-total strong { font-size: 24px; font-weight: 700; color: #1d1d1f; }
+    .sum-note { font-size: 12px; color: #4b5563; margin: 6px 0 14px; }
+    .sum-empty { font-size: 13px; color: #4b5563; padding: 8px 0 14px; }
+
+    /* Review */
+    .pay-opt { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 1px solid #d7d9db; border-radius: 10px; cursor: pointer; margin-bottom: 8px; }
+    .pay-opt:has(input:checked) { border-color: #007167; box-shadow: 0 0 0 1px #007167; }
+    .pay-opt input { width: 18px; height: 18px; accent-color: #007167; margin-top: 2px; }
+    .pay-opt input:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .pay-name { display: block; font-size: 14px; font-weight: 500; color: #1d1d1f; }
+    .pay-desc { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
+    .check-row { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #1d1d1f; margin-top: 12px; cursor: pointer; }
+    .check-row input { width: 18px; height: 18px; accent-color: #007167; margin-top: 1px; flex-shrink: 0; }
+    .check-row input:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .review-list { list-style: none; }
+    .review-list li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #1d1d1f; }
+    .review-list li small { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
+
+    /* Confirmation */
+    .done-card { max-width: 640px; margin: 24px auto; text-align: center; padding: 40px 32px; }
+    .done-icon { width: 56px; height: 56px; border-radius: 50%; background: #f0faf9; color: #007167; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+    .done-icon svg { width: 28px; height: 28px; }
+    .done-title { font-size: 22px; font-weight: 700; color: #1d1d1f; }
+    .done-desc { font-size: 14px; color: #4b5563; margin: 8px 0 20px; }
+    .done-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: left; background: #fafafa; border-radius: 10px; padding: 16px; margin-bottom: 24px; }
+    .done-meta div { font-size: 12px; color: #4b5563; }
+    .done-meta strong { display: block; font-size: 14px; color: #1d1d1f; margin-top: 2px; }
+    .done-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+    [data-step][hidden] { display: none !important; }
+
+    @media (max-width: 1000px) {
+      .co-layout { grid-template-columns: 1fr; }
+      .co-summary { position: static; }
+    }
+    @media (max-width: 600px) {
+      .mp-list, .done-meta { grid-template-columns: 1fr; }
+      .machine-picker { padding-left: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .prod-opt { transition: none; }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/skeleton.css">
+</head>
+<body>
+<script src="../assets/gate.js"></script>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label" data-i18n="topbar.portal">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <button class="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab" data-i18n="nav.home">Home</a>
+        <a href="machines.html" class="nav-tab" data-i18n="nav.machines">Machines</a>
+        <a href="shop.html" class="nav-tab" data-i18n="nav.shop">Shop</a>
+        <a href="orders.html" class="nav-tab" data-i18n="nav.orders">Orders</a>
+        <a href="quotes.html" class="nav-tab" data-i18n="nav.quotes">Quotes</a>
+        <a href="services.html" class="nav-tab" data-i18n="nav.services">Services</a>
+        <a href="lab-tests.html" class="nav-tab" data-i18n="nav.labTests">Lab Tests</a>
+        <a href="help.html" class="nav-tab" data-i18n="nav.help">Help</a>
+      </nav>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Main navigation">
+      <div class="mobile-nav-overlay"></div>
+      <div class="mobile-nav-drawer">
+        <a href="dashboard.html" class="mobile-nav-link" data-i18n="nav.home">Home</a>
+        <a href="machines.html" class="mobile-nav-link" data-i18n="nav.machines">Machines</a>
+        <a href="shop.html" class="mobile-nav-link" data-i18n="nav.shop">Shop</a>
+        <a href="orders.html" class="mobile-nav-link active" data-i18n="nav.orders">Orders</a>
+        <a href="quotes.html" class="mobile-nav-link" data-i18n="nav.quotes">Quotes</a>
+        <a href="services.html" class="mobile-nav-link" data-i18n="nav.services">Services</a>
+        <a href="lab-tests.html" class="mobile-nav-link" data-i18n="nav.labTests">Lab Tests</a>
+        <a href="help.html" class="mobile-nav-link" data-i18n="nav.help">Help</a>
+      </div>
+    </nav>
+    <div class="app-header-right">
+      <button class="header-icon-btn" id="btn-milla-search" onclick="toggleMillaSearch(event)">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <div class="notif-wrapper">
+        <button class="header-icon-btn" onclick="toggleNotifDropdown(event)">
+          <img src="../assets/icon-bell.svg" alt="Notifications">
+          <span class="notif-badge">2</span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-dropdown-header">
+            <div class="notif-dropdown-title">
+              <span data-i18n="notif.title">Notifications</span>
+              <span class="notif-count-badge">2</span>
+            </div>
+            <button class="notif-mark-read" data-i18n="notif.markRead">Mark all as read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item unread">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <div class="notif-item-title-row">
+                  <span class="notif-item-title">Quote #QT-2026-0042 ready for approval</span>
+                  <span class="notif-unread-dot"></span>
+                </div>
+                <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — €12,450.00</div>
+                <div class="notif-item-time">5 min ago</div>
+                <a href="quote-detail.html" class="notif-item-action" data-i18n="notif.actionReviewApprove">Review &amp; Approve</a>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Quote #QT-2026-0039 awaiting your decision</span>
+                <div class="notif-item-desc">Grinding beads bundle for Zeta 60 — €8,720.00</div>
+                <div class="notif-item-time">2 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon order"><img src="../assets/icon-notif-order.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Order #ORD-78234 shipped</span>
+                <div class="notif-item-desc">Your order has been dispatched and is on the way.</div>
+                <div class="notif-item-time">1 day ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon service"><img src="../assets/icon-notif-service.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Service Request #SR-1192 updated</span>
+                <div class="notif-item-desc">Technician assigned — scheduled for Mar 20, 2026.</div>
+                <div class="notif-item-time">2 days ago</div>
+              </div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-item-icon contract">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="notif-item-content">
+                <div class="notif-item-title-row">
+                  <span class="notif-item-title">Contract CTR-S-2025-002 expiring soon</span>
+                  <span class="notif-unread-dot"></span>
+                </div>
+                <div class="notif-item-desc">Service contract for Epsilon + PMD expires on Jul 31, 2026. Review and renew.</div>
+                <div class="notif-item-time">3 days ago</div>
+                <a href="contracts.html" class="notif-item-action">View Contract</a>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon contract">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Service visit scheduled — CTR-S-2026-001</span>
+                <div class="notif-item-desc">Preventive maintenance visit confirmed for Jul 15–17, 2026. NEOS 10 (3 units).</div>
+                <div class="notif-item-time">5 days ago</div>
+              </div>
+            </div>
+          </div>
+          <div class="notif-dropdown-footer">
+            <a href="notifications.html" class="notif-view-all" data-i18n="notif.viewAll">View all notifications</a>
+          </div>
+        </div>
+      </div>
+      <div class="cart-dropdown-anchor">
+        <button class="header-icon-btn" id="btn-cart">
+          <img src="../assets/icon-cart.svg" alt="Cart">
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <div class="cart-dropdown" id="cart-dropdown" role="dialog" aria-label="Shopping cart">
+          <div class="cart-head">
+            <h3 class="cart-title" data-i18n="cart.title">Shopping Cart</h3>
+            <button type="button" class="cart-close" id="cart-close" aria-label="Close cart">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="cart-items" id="cart-items"></div>
+          <div class="cart-subtotal" id="cart-subtotal-row" style="display:none;">
+            <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
+            <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
+          </div>
+          <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
+        </div>
+      </div>
+      <div class="user-avatar-wrapper">
+        <span class="user-initials" onclick="toggleProfileDropdown(event)">MW</span>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="profile-dropdown-header">
+            <img class="profile-dropdown-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+            <div class="profile-dropdown-info">
+              <span class="profile-dropdown-name">John Doe</span>
+              <span class="profile-dropdown-email">john.doe@acme-corp.com</span>
+            </div>
+          </div>
+          <ul class="profile-dropdown-menu">
+            <li><a class="profile-dropdown-item" href="profile.html" data-i18n="profile.profile"><img src="../assets/icon-profile-user.svg" alt="">Profile</a></li>
+            <li><a class="profile-dropdown-item" href="admin-users.html" data-i18n="profile.admin"><img src="../assets/icon-admin-settings.svg" alt="">Admin</a></li>
+            <li><a class="profile-dropdown-item" href="wishlist.html" data-i18n="profile.wishlist"><img src="../assets/icon-wishlist-heart.svg" alt="">My Wishlist</a></li>
+            <li><a class="profile-dropdown-item" href="contracts.html" data-i18n="profile.contracts"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Contracts</a></li>
+          </ul>
+          <div class="profile-dropdown-divider">
+            <a class="profile-dropdown-item logout" href="../index.html" data-i18n="profile.logout"><img src="../assets/icon-logout.svg" alt="">Log out</a>
+          </div>
+        </div>
+      </div>
+      <div class="header-divider-v" aria-hidden="true"></div>
+      <div class="lang-switcher" aria-label="Language selector">
+        <svg class="lang-globe" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.2"/>
+          <ellipse cx="8" cy="8" rx="2.6" ry="6.5" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="1.5" y1="6" x2="14.5" y2="6" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="1.5" y1="10" x2="14.5" y2="10" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        <span class="lang-label">EN</span>
+        <svg class="lang-chevron" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="lang-dropdown">
+          <div class="lang-option" data-lang="EN">EN</div>
+          <div class="lang-option" data-lang="DE">DE</div>
+        </div>
+      </div>
+
+    <!-- MILLA SEARCH (inline, expande do icone) -->
+    <div class="milla-search-wrapper" id="millaWrapper">
+      <div class="milla-searchbar" id="millaSearchbar">
+        <img class="sparkle" src="../assets/sparkle-icon-teal.svg" alt="" aria-hidden="true">
+        <input type="text" placeholder="Ask Milla AI..." id="millaInput" data-i18n-placeholder="milla.placeholder" autocomplete="off">
+        <button class="milla-close" onclick="closeMillaSearch()" aria-label="Close search">
+          <img src="../assets/close-icon-gray.svg" alt="">
+        </button>
+      </div>
+      <div class="milla-dropdown-anchor">
+        <div class="milla-suggestions" id="millaSuggestions">
+        <div class="milla-suggestions-header">
+          <img src="../assets/sparkle-icon-green.svg" alt="" aria-hidden="true">
+          <span data-i18n="milla.aiSuggestions">AI Suggestions</span>
+        </div>
+        <div class="milla-suggestions-list">
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span data-i18n="milla.suggestOrderStatus">Check my order status</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span data-i18n="milla.suggestRecommend">Recommend products for me</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span data-i18n="milla.suggestHistory">Show purchase history</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span data-i18n="milla.suggestDocuments">Help me find documents</span>
+          </button>
+        </div>
+        <div class="milla-suggestions-footer">
+          <a href="#" data-i18n="milla.suggestSpareParts">Find spare parts by photo, description, or product code.</a>
+        </div>
+      </div>
+    </div>
+    </div><!-- /milla-search-wrapper -->
+
+  </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="subscriptions.html" data-i18n="subs.title">Subscriptions</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current" id="crumbCurrent">Choose your plan</span>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="page-content">
+
+    <div class="page-header">
+      <h1 class="page-title" id="coTitle" tabindex="-1">Choose your plan</h1>
+      <span class="page-subtitle" data-i18n="subs.subtitle">G&amp;D Digital Products</span>
+    </div>
+
+    <div class="progress-bar co-stepper" role="list" aria-label="Checkout progress">
+      <div class="progress-step active" role="listitem" id="stp1" data-i18n="subs.stepConfigure">Configure</div>
+      <div class="progress-step" role="listitem" id="stp2" data-i18n="subs.stepReview">Review &amp; pay</div>
+      <div class="progress-step" role="listitem" id="stp3" data-i18n="subs.stepDone">Confirmation</div>
+    </div>
+
+    <!-- STEP 1 · CONFIGURE -->
+    <div class="co-layout" data-step="1">
+      <div class="co-main">
+        <section class="co-card" aria-labelledby="cycleTitle">
+          <h2 class="co-card-title" id="cycleTitle" data-i18n="subs.billingCycle">Billing cycle</h2>
+          <p class="co-card-desc" data-i18n="subs.billingCycleDesc">All products in this plan share the same cycle and renewal date.</p>
+          <fieldset class="cycle-group">
+            <legend class="visually-hidden" data-i18n="subs.billingCycle">Billing cycle</legend>
+            <div class="cycle-opt"><input type="radio" name="cycle" id="cycYear" value="year" checked><label for="cycYear"><span data-i18n="subs.yearly">Yearly</span><small data-i18n="subs.yearlyHint">2 months free</small></label></div>
+            <div class="cycle-opt"><input type="radio" name="cycle" id="cycMonth" value="month"><label for="cycMonth"><span data-i18n="subs.monthly">Monthly</span><small data-i18n="subs.monthlyHint">Cancel any month</small></label></div>
+          </fieldset>
+        </section>
+
+        <section class="co-card" aria-labelledby="prodTitle">
+          <h2 class="co-card-title" id="prodTitle" data-i18n="subs.chooseProducts">Products</h2>
+          <p class="co-card-desc" data-i18n="subs.chooseProductsDesc">Combine products to get a bundle discount on the whole plan.</p>
+          <p class="bundle-hint" id="bundleHint" role="status" aria-live="polite"></p>
+          <div id="prodList" style="display:flex;flex-direction:column;gap:10px"></div>
+        </section>
+
+      </div>
+
+      <aside class="co-card co-summary" aria-labelledby="sumTitle">
+        <h2 class="co-card-title" id="sumTitle" data-i18n="subs.summary">Summary</h2>
+        <div id="sumBody" aria-live="polite"></div>
+        <button class="btn btn-primary btn-md btn-full" id="toReview" data-i18n="subs.continue">Continue</button>
+      </aside>
+    </div>
+
+    <!-- STEP 2 · REVIEW & PAY -->
+    <div class="co-layout" data-step="2" hidden>
+      <div class="co-main">
+        <section class="co-card" aria-labelledby="revTitle">
+          <h2 class="co-card-title" id="revTitle" data-i18n="subs.yourOrder">Your plan</h2>
+          <ul class="review-list" id="reviewList"></ul>
+          <button class="btn btn-ghost btn-sm" id="backToConfig" style="margin-top:8px" data-i18n="subs.edit">Edit plan</button>
+        </section>
+
+        <section class="co-card" aria-labelledby="payTitle">
+          <h2 class="co-card-title" id="payTitle" data-i18n="subs.payment">Payment</h2>
+          <p class="co-card-desc" data-i18n="subs.paymentDesc">Choose how NETZSCH bills this plan.</p>
+          <div role="radiogroup" aria-labelledby="payTitle">
+            <label class="pay-opt"><input type="radio" name="pay" value="invoice" checked><span><span class="pay-name" data-i18n="subs.payInvoice">Invoice (bank transfer)</span><span class="pay-desc" data-i18n="subs.payInvoiceDesc">30 days net, sent to the billing address of ACME Corp.</span></span></label>
+            <label class="pay-opt"><input type="radio" name="pay" value="card"><span><span class="pay-name" data-i18n="subs.payCard">Company card ending 4821</span><span class="pay-desc" data-i18n="subs.payCardDesc">Charged today and on each renewal.</span></span></label>
+          </div>
+          <div class="field-group" style="margin-top:12px">
+            <label class="field-label" for="poNumber"><span data-i18n="subs.po">Purchase order number</span> <span class="optional" data-i18n="common.optional">(optional)</span></label>
+            <input class="form-input" id="poNumber" type="text" autocomplete="off" placeholder="PO-2026-0000">
+          </div>
+          <label class="check-row"><input type="checkbox" id="autoRenewChk" checked><span data-i18n="subs.autoRenewCheck">Renew automatically. You can turn this off at any time in Subscriptions.</span></label>
+          <label class="check-row"><input type="checkbox" id="termsChk" aria-describedby="termsErr"><span data-i18n="subs.terms">I accept the G&amp;D Digital Products license terms.</span></label>
+          <p class="field-error" id="termsErr" data-i18n="subs.termsErr">Accept the license terms to continue.</p>
+        </section>
+      </div>
+
+      <aside class="co-card co-summary" aria-labelledby="sumTitle2">
+        <h2 class="co-card-title" id="sumTitle2" data-i18n="subs.summary">Summary</h2>
+        <div id="sumBody2"></div>
+        <button class="btn btn-primary btn-md btn-full" id="confirmBtn" data-i18n="subs.confirmPay">Confirm and pay</button>
+      </aside>
+    </div>
+
+    <!-- STEP 3 · CONFIRMATION -->
+    <section class="co-card done-card" data-step="3" hidden aria-labelledby="doneTitle">
+      <div class="done-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h2 class="done-title" id="doneTitle" tabindex="-1" data-i18n="subs.doneTitle">Your licenses are active</h2>
+      <p class="done-desc" id="doneDesc"></p>
+      <div class="done-meta" id="doneMeta"></div>
+      <div class="done-actions">
+        <a class="btn btn-primary btn-md" id="doneIris" href="#" target="_blank" rel="noopener"><span data-i18n="subs.irisOpen">Open IRIS Cloud</span> ↗</a>
+        <a class="btn btn-secondary btn-md" href="subscriptions.html" data-i18n="subs.backToSubs">Back to Subscriptions</a>
+      </div>
+    </section>
+
+    </div><!-- /page-content -->
+  </main>
+
+<script>
+function toggleProfileDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('notifDropdown').classList.remove('open');
+  document.getElementById('profileDropdown').classList.toggle('open');
+}
+function toggleNotifDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('profileDropdown').classList.remove('open');
+  document.getElementById('notifDropdown').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('profileDropdown');
+  var nd = document.getElementById('notifDropdown');
+  if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  if (nd && !nd.contains(e.target)) nd.classList.remove('open');
+});
+</script>
+
+<script src="../assets/machine-lines.js"></script>
+<script src="../assets/licenses-store.js"></script>
+<script>
+/* ── SUBSCRIPTIONS CHECKOUT (CP-732) ── */
+(function () {
+  var L = window.Licenses;
+  function t(k, f) { return window.NetzschI18n ? NetzschI18n.t(k, f) : f; }
+  function plural(n, one, other) { return n === 1 ? one : other; }
+  function fill(str, vars) { return str.replace(/\{(\w+)\}/g, function (_, k) { return vars[k]; }); }
+
+  var params = new URLSearchParams(location.search);
+  var mode = params.get('mode') || 'buy';      // buy | renew | add
+  var focusProduct = params.get('product') || params.get('add');
+  var state = L.get();
+  var step = 1;
+  var result = null;
+
+  // Initial plan from the entry point
+  var plan = { pm: [], pt: false, bw: false, mt: false, cycle: state.cycle || 'year' };
+  var licensed = []; // machines already licensed (add mode only)
+  if (mode === 'add' && state.subs.pm) {
+    licensed = state.subs.pm.machines.slice();
+  } else if (mode === 'renew') {
+    var targets = focusProduct ? [focusProduct] : L.PRODUCTS.filter(function (p) {
+      var st = L.statusOf(p.id); return st === 'expiring' || st === 'expired';
+    }).map(function (p) { return p.id; });
+    targets.forEach(function (id) {
+      if (id === 'pm' && state.subs.pm) plan.pm = state.subs.pm.machines.slice();
+      else if (id !== 'pm') plan[id] = true;
+    });
+  } else if (focusProduct && focusProduct !== 'pm') {
+    plan[focusProduct] = true;
+  }
+  var pmOpen = mode === 'add' || plan.pm.length > 0 || focusProduct === 'pm';
+
+  function fleet() { return window.MachineLines ? MachineLines.getMachines() : []; }
+  function machineName(id) { var f = fleet(); for (var i = 0; i < f.length; i++) if (f[i].id === id) return f[i].name; return id; }
+  function productName(id) { return t('subs.p.' + id, L.product(id).name); }
+  function per() { return plan.cycle === 'month' ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year'); }
+  function div() { return plan.cycle === 'month' ? 10 : 1; }
+  function currentQuote() { return L.quote({ pm: plan.pm, pt: plan.pt, bw: plan.bw, mt: plan.mt, cycle: plan.cycle, pmLicensed: licensed.length }); }
+
+  function titles() {
+    var title = mode === 'renew' ? t('subs.titleRenew', 'Renew your plan')
+      : mode === 'add' ? t('subs.titleAdd', 'Add machines to Production Monitoring')
+      : t('subs.titleBuy', 'Choose your plan');
+    document.getElementById('coTitle').textContent = title;
+    document.getElementById('crumbCurrent').textContent = title;
+    document.title = title + ' — NETZSCH Customer Portal';
+  }
+
+  function currentTag(id) {
+    var st = L.statusOf(id);
+    var sub = state.subs[id];
+    if (st === 'none') return '';
+    if (st === 'expired') return '<span class="prod-current is-warn">' + fill(t('subs.tagExpired', 'Expired on {date}'), { date: L.formatDate(sub.renewsOn) }) + '</span>';
+    return '<span class="prod-current' + (st === 'expiring' ? ' is-warn' : '') + '">' + fill(t('subs.tagActive', 'Active until {date}'), { date: L.formatDate(sub.renewsOn) }) + '</span>';
+  }
+
+  /* Step 1 — products */
+  function renderProducts() {
+    var html = '';
+    L.PRODUCTS.forEach(function (p) {
+      if (mode === 'add' && p.id !== 'pm') return;
+      var on = p.id === 'pm' ? (plan.pm.length > 0 || pmOpen) : plan[p.id];
+      var model = p.model === 'machine' ? t('subs.modelMachine', 'One license per machine') : t('subs.modelFleet', 'One license for all your machines');
+      var price;
+      if (p.model === 'machine') {
+        var n = plan.pm.length;
+        var unit = L.pmUnitPrice(Math.max(1, n + licensed.length));
+        price = '<strong>' + L.money(unit / div()) + '</strong>' + t('subs.perMachine', 'per machine') + ' ' + per();
+      } else {
+        price = '<strong>' + L.money(p.price / div()) + '</strong>' + per();
+      }
+      html += '<div class="prod-opt' + (on ? ' is-on' : '') + '">' +
+        '<label class="prod-head" for="chk-' + p.id + '">' +
+          '<input type="checkbox" id="chk-' + p.id + '" data-prod="' + p.id + '"' + (on ? ' checked' : '') + (mode === 'add' ? ' disabled' : '') + (p.id === 'pm' ? ' aria-controls="mp-pm"' : '') + '>' +
+          '<span class="prod-info"><span class="prod-name">' + productName(p.id) + '</span><span class="prod-model">' + model + '</span>' +
+          '<span class="prod-desc" style="display:block">' + t('subs.d.' + p.id, p.desc) + '</span>' + currentTag(p.id) + '</span>' +
+          '<span class="prod-price">' + price + '</span>' +
+        '</label>' +
+        (p.id === 'pm' ? machinePicker(on) : '') +
+      '</div>';
+    });
+    document.getElementById('prodList').innerHTML = html;
+  }
+
+  function machinePicker(open) {
+    var items = fleet().map(function (m) {
+      var isLicensed = licensed.indexOf(m.id) >= 0;
+      var checked = isLicensed || plan.pm.indexOf(m.id) >= 0;
+      return '<label class="mp-item"><input type="checkbox" data-machine="' + m.id + '"' + (checked ? ' checked' : '') + (isLicensed ? ' disabled' : '') + '>' +
+        '<span>' + m.name + '</span>' +
+        (isLicensed ? '<span class="mp-tag">' + t('subs.licensed', 'Licensed') + '</span>' : '<span class="mp-line">' + (m.line || '') + '</span>') +
+        '</label>';
+    }).join('');
+    var total = plan.pm.length + licensed.length;
+    var next = null;
+    L.PM_TIERS.forEach(function (tr) { if (!next && tr.min > total) next = tr; });
+    var hint = total === 0 ? t('subs.tierStart', 'Select the machines you want to monitor.')
+      : next ? fill(plural(next.min - total, t('subs.tierNextOne', 'Add 1 more machine to pay {price} per machine.'), t('subs.tierNext', 'Add {n} more machines to pay {price} per machine.')), { n: next.min - total, price: L.money(next.price / div()) })
+      : t('subs.tierBest', 'You get the best price per machine.');
+    var track = L.PM_TIERS.map(function (tr, i) {
+      var nx = L.PM_TIERS[i + 1];
+      var range = nx ? (nx.min - 1 === tr.min ? tr.min : tr.min + '–' + (nx.min - 1)) : tr.min + '+';
+      var isOn = total >= tr.min && (!nx || total < nx.min);
+      return '<div class="tier-step' + (isOn ? ' is-on' : '') + '">' + range + ' · ' + L.money(tr.price / div()) + '</div>';
+    }).join('');
+    var selectable = fleet().filter(function (m) { return licensed.indexOf(m.id) < 0; }).length;
+    var allOn = plan.pm.length === selectable;
+    return '<div class="machine-picker" id="mp-pm"' + (open ? '' : ' hidden') + '>' +
+      '<div class="mp-head"><span class="mp-title" id="mpTitle">' + fill(t('subs.mpTitle', 'Machines ({n} of {total} selected)'), { n: total, total: fleet().length }) + '</span>' +
+      '<button type="button" class="mp-all" id="mpAll">' + (allOn ? t('subs.clearAll', 'Clear selection') : t('subs.selectAll', 'Select all machines')) + '</button></div>' +
+      '<div class="mp-list" role="group" aria-labelledby="mpTitle">' + items + '</div>' +
+      '<div class="tier-track" aria-hidden="true">' + track + '</div>' +
+      '<p class="tier-hint">' + hint + '</p>' +
+    '</div>';
+  }
+
+  function renderBundleHint() {
+    var n = currentQuote().productCount;
+    var el = document.getElementById('bundleHint');
+    if (mode === 'add') { el.hidden = true; return; }
+    el.hidden = false;
+    if (n === 0) { el.textContent = t('subs.bundle0', 'Combine 2 or more products to get a bundle discount of up to 20%.'); return; }
+    var nextRate = L.BUNDLE[n + 1];
+    el.textContent = nextRate
+      ? fill(t('subs.bundleNext', 'Add 1 more product to save {pct}% on the whole plan.'), { pct: Math.round(nextRate * 100) })
+      : fill(t('subs.bundleMax', 'You get the maximum bundle discount: {pct}% on the whole plan.'), { pct: Math.round(L.BUNDLE[n] * 100) });
+  }
+
+  function summaryHtml(q) {
+    if (!q.lines.length) return '<p class="sum-empty" id="sumEmpty">' + t('subs.sumEmpty', 'Select at least one product to see your price.') + '</p>';
+    var html = q.lines.map(function (ln) {
+      var detail = ln.id === 'pm'
+        ? fill(plural(ln.qty, t('subs.sumMachinesOne', '1 machine × {price}'), t('subs.sumMachines', '{n} machines × {price}')), { n: ln.qty, price: L.money(ln.listUnit) })
+        : t('subs.allMachines', 'All machines');
+      return '<div class="sum-line"><span>' + productName(ln.id) + '<small>' + detail + '</small></span><span>' + L.money(ln.listUnit * ln.qty) + '</span></div>';
+    }).join('');
+    html += '<hr class="sum-sep">';
+    if (q.volumeDiscount) html += '<div class="sum-line is-discount"><span>' + t('subs.volumeDiscount', 'Volume discount') + '<small>' + fill(t('subs.volumeDetail', '{price} per machine for {n} machines'), { price: L.money(q.lines[0].unit), n: q.lines[0].tierQty }) + '</small></span><span>−' + L.money(q.volumeDiscount) + '</span></div>';
+    if (q.bundleDiscount) html += '<div class="sum-line is-discount"><span>' + fill(t('subs.bundleDiscount', 'Bundle discount ({pct}%)'), { pct: Math.round(q.bundleRate * 100) }) + '<small>' + fill(t('subs.bundleDetail', '{n} products combined'), { n: q.productCount }) + '</small></span><span>−' + L.money(q.bundleDiscount) + '</span></div>';
+    html += '<div class="sum-total"><span>' + t('subs.total', 'Total') + ' ' + per() + '</span><strong>' + L.money(q.total) + '</strong></div>';
+    var note = plan.cycle === 'year'
+      ? fill(t('subs.sumYearNote', 'Excl. VAT. You save {save} compared to monthly billing.'), { save: L.money(q.yearlySaving) })
+      : t('subs.sumMonthNote', 'Excl. VAT. Billed every month.');
+    if (mode === 'add') note = t('subs.sumAddNote', 'Excl. VAT. New machines join your current license and renew on the same date.');
+    html += '<p class="sum-note">' + note + '</p>';
+    return html;
+  }
+
+  function renderSummary() {
+    var q = currentQuote();
+    document.getElementById('sumBody').innerHTML = summaryHtml(q);
+    document.getElementById('sumBody2').innerHTML = summaryHtml(q);
+    var err = document.getElementById('toReview');
+    err.setAttribute('aria-describedby', q.lines.length ? '' : 'sumEmpty');
+  }
+
+  function renderReview() {
+    var q = currentQuote();
+    document.getElementById('reviewList').innerHTML = q.lines.map(function (ln) {
+      var detail = ln.id === 'pm' ? plan.pm.map(machineName).join(', ') : t('subs.allMachines', 'All machines');
+      return '<li><span>' + productName(ln.id) + '<small>' + detail + '</small></span><span>' + L.money(ln.total) + ' ' + per() + '</span></li>';
+    }).join('');
+  }
+
+  function renderDone() {
+    document.getElementById('doneDesc').textContent = t('subs.doneDesc', 'Data starts flowing to IRIS Cloud within 24 hours. We sent the invoice to marcus.weber@acme-corp.com.');
+    document.getElementById('doneMeta').innerHTML =
+      '<div>' + t('subs.invoice', 'Invoice') + '<strong>' + result.invoice + '</strong></div>' +
+      '<div>' + t('subs.total', 'Total') + '<strong>' + L.money(result.total) + ' ' + per() + '</strong></div>' +
+      '<div>' + t('subs.renewsOn', 'Renews on') + '<strong>' + L.formatDate(result.renewsOn) + '</strong></div>';
+    document.getElementById('doneIris').href = L.IRIS_URL;
+  }
+
+  function goTo(n) {
+    step = n;
+    document.querySelectorAll('[data-step]').forEach(function (el) { el.hidden = +el.getAttribute('data-step') !== n; });
+    [1, 2, 3].forEach(function (i) { document.getElementById('stp' + i).classList.toggle('active', i <= n); });
+    document.getElementById('stp' + n).setAttribute('aria-current', 'step');
+    [1, 2, 3].forEach(function (i) { if (i !== n) document.getElementById('stp' + i).removeAttribute('aria-current'); });
+    window.scrollTo(0, 0);
+    if (n === 2) renderReview();
+    if (n === 3) { renderDone(); document.getElementById('doneTitle').focus(); }
+    else document.getElementById('coTitle').focus();
+  }
+
+  function render() {
+    titles();
+    if (step === 1) { renderProducts(); renderBundleHint(); }
+    renderSummary();
+    if (step === 2) renderReview();
+    if (step === 3) renderDone();
+  }
+
+  /* Events */
+  document.querySelectorAll('input[name="cycle"]').forEach(function (r) {
+    r.checked = r.value === plan.cycle;
+    r.addEventListener('change', function () { plan.cycle = this.value; render(); });
+  });
+
+  document.getElementById('prodList').addEventListener('change', function (e) {
+    var el = e.target;
+    if (el.hasAttribute('data-prod')) {
+      var id = el.getAttribute('data-prod');
+      if (id === 'pm') {
+        pmOpen = el.checked;
+        if (!el.checked) plan.pm = [];
+      } else plan[id] = el.checked;
+    }
+    if (el.hasAttribute('data-machine')) {
+      var m = el.getAttribute('data-machine');
+      if (el.checked) { if (plan.pm.indexOf(m) < 0) plan.pm.push(m); }
+      else plan.pm = plan.pm.filter(function (x) { return x !== m; });
+    }
+    var focusId = el.id || (el.hasAttribute('data-machine') ? 'm:' + el.getAttribute('data-machine') : '');
+    render();
+    var back = focusId.indexOf('m:') === 0 ? document.querySelector('[data-machine="' + focusId.slice(2) + '"]') : document.getElementById(focusId);
+    if (back) back.focus();
+  });
+
+  document.getElementById('prodList').addEventListener('click', function (e) {
+    if (e.target.id !== 'mpAll') return;
+    var selectable = fleet().filter(function (m) { return licensed.indexOf(m.id) < 0; }).map(function (m) { return m.id; });
+    plan.pm = plan.pm.length === selectable.length ? [] : selectable;
+    render();
+    document.getElementById('mpAll').focus();
+  });
+
+  document.getElementById('toReview').addEventListener('click', function () {
+    if (!currentQuote().lines.length) {
+      document.getElementById('sumEmpty').setAttribute('role', 'alert');
+      return;
+    }
+    goTo(2);
+  });
+  document.getElementById('backToConfig').addEventListener('click', function () { goTo(1); render(); });
+
+  document.getElementById('confirmBtn').addEventListener('click', function () {
+    var terms = document.getElementById('termsChk');
+    var err = document.getElementById('termsErr');
+    if (!terms.checked) {
+      err.classList.add('visible');
+      terms.setAttribute('aria-invalid', 'true');
+      terms.focus();
+      return;
+    }
+    result = L.applyPlan({
+      pm: plan.pm, pt: plan.pt, bw: plan.bw, mt: plan.mt, cycle: plan.cycle,
+      pmLicensed: licensed.length, autoRenew: document.getElementById('autoRenewChk').checked
+    });
+    state = L.get();
+    goTo(3);
+  });
+  document.getElementById('termsChk').addEventListener('change', function () {
+    if (this.checked) { document.getElementById('termsErr').classList.remove('visible'); this.removeAttribute('aria-invalid'); }
+  });
+
+  render();
+  document.addEventListener('netzsch:i18n-applied', render);
+})();
+</script>
+
+<script>
+(function() {
+  var cartDropdown = document.getElementById('cart-dropdown');
+  var cartDdItems = document.getElementById('cart-items');
+  var cartDdSubtotal = document.getElementById('cart-subtotal');
+  var cartBadge = document.getElementById('cart-badge');
+  if (!cartDropdown) return;
+
+  function getCart() { try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; } }
+  function getCartItems() { return getCart().items || []; }
+  function saveCart(items) { var c = getCart(); c.items = items; localStorage.setItem('netzsch_cart', JSON.stringify(c)); }
+  function formatPrice(num) { var f = num.toFixed(2).split('.'); return f[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + f[1] + ' \u20ac'; }
+
+  var svgTrash = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
+  var svgMinus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  var svgPlus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  var svgPlaceholder = '<div class="cart-item-placeholder"><svg viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+
+  function renderCartDropdown() {
+    var cartItems = getCartItems();
+    var html = '';
+    var subtotal = 0;
+    var subtotalRow = document.getElementById('cart-subtotal-row');
+    var hasQuotation = cartItems.some(function(item) { return item.quotation; });
+    cartItems.forEach(function(item, i) {
+      var lineTotal = item.unitPrice * item.qty;
+      subtotal += lineTotal;
+      var leftBtn = '<button class="qty-btn minus" data-action="minus" data-index="' + i + '">' + svgMinus + '</button>';
+      var imgHtml = item.img
+        ? '<img class="cart-item-img" src="' + item.img + '" alt="' + item.name + '">'
+        : svgPlaceholder;
+      html += '<div class="cart-item">' + imgHtml +
+        '<div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div><div class="cart-item-mat">' + NetzschI18n.t("checkout.ref", "Ref:") + ' ' + item.ref + '</div></div>' +
+        '<div class="cart-item-price"><div class="cart-item-price-label">' + NetzschI18n.t("shopDetail.totalPrice", "Total price") + '</div><div class="cart-item-price-value">' + (hasQuotation ? NetzschI18n.t("checkout.quotation", "Quotation") : formatPrice(lineTotal)) + '</div></div></div>' +
+        '<div class="cart-quantity"><span class="cart-quantity-label">' + NetzschI18n.t("common.quantity", "Quantity") + '</span><div class="cart-quantity-controls">' + leftBtn +
+        '<span class="qty-value">' + item.qty + '</span>' +
+        '<button class="qty-btn" data-action="plus" data-index="' + i + '">' + svgPlus + '</button></div></div>';
+    });
+    if (cartItems.length === 0) {
+      html = '<div class="cart-empty">' + NetzschI18n.t("checkout.emptyCart", "Your cart is empty.") + '</div>';
+      if (subtotalRow) subtotalRow.style.display = 'none';
+    } else {
+      if (subtotalRow) subtotalRow.style.display = '';
+    }
+    cartDdItems.innerHTML = html;
+    cartDdSubtotal.textContent = hasQuotation ? '--' : formatPrice(subtotal);
+    var total = cartItems.reduce(function(s, i) { return s + 1; }, 0);
+    cartBadge.textContent = total;
+    cartBadge.classList.toggle('is-visible', total > 0);
+    cartDdItems.querySelectorAll('.qty-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var idx = parseInt(btn.dataset.index);
+        var action = btn.dataset.action;
+        var items = getCartItems();
+        if (action === 'plus') { items[idx].qty++; }
+        else if (action === 'minus') { items[idx].qty--; if (items[idx].qty <= 0) items.splice(idx, 1); }
+        else if (action === 'remove') { items.splice(idx, 1); }
+        saveCart(items);
+        renderCartDropdown();
+        if (items.length === 0) cartDropdown.classList.remove('is-open');
+      });
+    });
+  }
+
+  renderCartDropdown();
+  document.getElementById('btn-cart').addEventListener('click', function(e) { e.stopPropagation(); cartDropdown.classList.toggle('is-open'); });
+  document.getElementById('cart-close').addEventListener('click', function(e) { e.stopPropagation(); cartDropdown.classList.remove('is-open'); });
+  document.addEventListener('click', function(e) { if (!e.target.closest('#btn-cart') && !e.target.closest('#cart-dropdown')) cartDropdown.classList.remove('is-open'); });
+})();
+</script>
+
+
+<!-- ── MILLA BACKDROP ─── -->
+<div class="milla-backdrop" id="millaBackdrop"></div>
+
+<!-- ── MILLA CHAT MODAL ─── -->
+<div class="milla-chat-overlay" id="millaChatOverlay">
+  <div class="milla-chat">
+    <div class="milla-chat-header">
+      <div class="milla-chat-header-left">
+        <div class="milla-chat-avatar">
+          <img src="../assets/milla-sparkle-white.svg" alt="" aria-hidden="true">
+        </div>
+        <div class="milla-chat-info">
+          <span class="milla-chat-name" data-i18n="milla.assistantName">Milla AI Assistant</span>
+          <span class="milla-chat-status" data-i18n="milla.statusOnline">Online — Ready to help</span>
+        </div>
+      </div>
+      <div class="milla-chat-header-actions">
+        <button class="milla-chat-header-btn" aria-label="Expand" title="Expand">
+          <img src="../assets/milla-icon-expand.svg" alt="">
+        </button>
+        <button class="milla-chat-header-btn" aria-label="Minimize" title="Minimize">
+          <img src="../assets/milla-icon-minimize.svg" alt="">
+        </button>
+        <button class="milla-chat-header-btn" aria-label="Close" title="Close" onclick="closeMillaChat()">
+          <img src="../assets/milla-icon-close-white.svg" alt="">
+        </button>
+      </div>
+    </div>
+    <div class="milla-chat-tabs">
+      <button class="milla-chat-tab" data-i18n="milla.tabSpareParts">Spare parts</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabOrderStatus">Order status</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabDocuments">Documents</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabRecommendations">Recommendations</button>
+    </div>
+    <div class="milla-chat-body" id="millaChatBody">
+      <!-- Messages injected by JS -->
+    </div>
+    <div class="milla-chat-footer">
+      <div class="milla-chat-input-wrap">
+        <input type="text" placeholder="Ask Milla anything..." data-i18n-placeholder="milla.chatPlaceholder" id="millaChatInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromBigChat();}">
+      </div>
+      <button class="milla-chat-send active" id="millaChatSend" onclick="sendFromBigChat()">
+        <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MILLA CHAT SMALLER ─── -->
+<div class="milla-chat-small" id="millaChatSmall">
+  <div class="milla-chat-header">
+    <div class="milla-chat-header-left">
+      <div class="milla-chat-avatar">
+        <img src="../assets/milla-sparkle-white.svg" alt="" aria-hidden="true">
+      </div>
+      <div class="milla-chat-info">
+        <span class="milla-chat-name" data-i18n="milla.assistantName">Milla AI Assistant</span>
+        <span class="milla-chat-status" data-i18n="milla.statusOnline">Online — Ready to help</span>
+      </div>
+    </div>
+    <div class="milla-chat-header-actions">
+      <button class="milla-chat-header-btn" aria-label="Expand" title="Expand" onclick="expandMillaChat()">
+        <img src="../assets/milla-icon-expand.svg" alt="">
+      </button>
+      <button class="milla-chat-header-btn" aria-label="Minimize" title="Minimize" onclick="minimizeMillaChat()">
+        <img src="../assets/milla-icon-minimize.svg" alt="">
+      </button>
+      <button class="milla-chat-header-btn" aria-label="Close" title="Close" onclick="closeMillaChat()">
+        <img src="../assets/milla-icon-close-white.svg" alt="">
+      </button>
+    </div>
+  </div>
+  <div class="milla-chat-tabs">
+    <button class="milla-chat-tab" data-i18n="milla.tabSpareParts">Spare parts</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabOrderStatus">Order status</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabDocuments">Documents</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabRecommendations">Recommendations</button>
+  </div>
+  <div class="milla-chat-body" id="millaChatSmallBody"></div>
+  <div class="milla-chat-footer">
+    <div class="milla-chat-input-wrap">
+      <input type="text" placeholder="Ask Milla anything..." id="millaChatSmallInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromSmallChat();}">
+    </div>
+    <button class="milla-chat-send active" id="millaChatSmallSend" onclick="sendFromSmallChat()">
+      <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
+    </button>
+  </div>
+</div>
+
+<!-- ── MILLA FAB ─── -->
+<button class="milla-fab" id="millaFab" onclick="openMillaChatSmall()" aria-label="Open Milla AI Assistant">
+  <img src="../assets/milla-fab.svg" alt="">
+</button>
+
+<script>
+// ── MILLA SEARCH ──
+function toggleMillaSearch(e) {
+  e.stopPropagation();
+  var bar = document.getElementById('millaSearchbar');
+  var isOpen = bar.classList.contains('open');
+  if (isOpen) { closeMillaSearch(); } else { openMillaSearch(); }
+}
+function openMillaSearch() {
+  var wrapper = document.getElementById('millaWrapper');
+  var bar = document.getElementById('millaSearchbar');
+  var btn = document.getElementById('btn-milla-search');
+  var suggestions = document.getElementById('millaSuggestions');
+  var backdrop = document.getElementById('millaBackdrop');
+  btn.classList.add('hidden');
+  wrapper.classList.add('open');
+  bar.classList.add('open');
+  backdrop.classList.add('open');
+  setTimeout(function() {
+    suggestions.classList.add('open');
+    document.getElementById('millaInput').focus();
+  }, 200);
+}
+function closeMillaSearch() {
+  var wrapper = document.getElementById('millaWrapper');
+  var bar = document.getElementById('millaSearchbar');
+  var btn = document.getElementById('btn-milla-search');
+  var suggestions = document.getElementById('millaSuggestions');
+  var backdrop = document.getElementById('millaBackdrop');
+  suggestions.classList.remove('open');
+  setTimeout(function() {
+    bar.classList.remove('open');
+    wrapper.classList.remove('open');
+    backdrop.classList.remove('open');
+    btn.classList.remove('hidden');
+  }, 150);
+  document.getElementById('millaInput').value = '';
+}
+document.getElementById('millaBackdrop').addEventListener('click', closeMillaSearch);
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (document.getElementById('millaChatOverlay').classList.contains('open')) {
+      shrinkMillaChat();
+    } else if (document.getElementById('millaChatSmall').classList.contains('open')) {
+      minimizeMillaChat();
+    } else {
+      closeMillaSearch();
+    }
+  }
+});
+
+// ── MILLA CHAT STATE ──
+var millaResponse = {
+  'Check my order status': 'I found your most recent order: <strong>Order #ORD-2026-0847</strong>\n\nStatus: In Transit\nEstimated Delivery: March 03, 2026\n\nThe order has left the distribution center in Selb, Germany and is on its way to the final destination.\nWould you like to track it in real time?',
+  'Recommend products for me': 'Based on your machine fleet, I recommend checking our new grinding bead sets optimized for your Discus 30 and Zeta 60. Would you like me to show available options?',
+  'Show purchase history': 'Here are your recent purchases:\n\n\u2022 Order #ORD-2026-0847 \u2014 Spare parts kit, \u20ac3,240.00\n\u2022 Order #ORD-2026-0812 \u2014 Grinding beads, \u20ac8,720.00\n\u2022 Order #ORD-2026-0798 \u2014 Inlet flange set, \u20ac1,450.00\n\nWould you like details on any of these?',
+  'Help me find documents': 'I can help you find technical documents for your machines. What are you looking for?\n\n\u2022 Operating manuals\n\u2022 Maintenance guides\n\u2022 Spare parts catalogs\n\u2022 Certificates & compliance docs'
+};
+var millaCurrentMessages = '';
+
+document.querySelectorAll('.milla-suggestion-item').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var text = btn.querySelector('span:last-child').textContent;
+    closeMillaSearch();
+    setTimeout(function() { openMillaChat(text); }, 200);
+  });
+});
+
+function openMillaChat(userMessage) {
+  var overlay = document.getElementById('millaChatOverlay');
+  var body = document.getElementById('millaChatBody');
+  body.innerHTML = '';
+  var userDiv = document.createElement('div');
+  userDiv.className = 'milla-msg-user';
+  userDiv.textContent = userMessage;
+  body.appendChild(userDiv);
+  var botRow = document.createElement('div');
+  botRow.className = 'milla-msg-bot';
+  botRow.innerHTML = '<div class="milla-msg-bot-avatar"><img src="../assets/milla-sparkle-small.svg" alt="" aria-hidden="true"></div><div class="milla-typing-dots"><span></span><span></span><span></span></div>';
+  body.appendChild(botRow);
+  document.getElementById('millaFab').classList.remove('open');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  overlay.classList.add('open');
+  setTimeout(function() {
+    var responseText = millaResponse[userMessage] || 'I can help you with that. Let me look into it...';
+    var bubble = document.createElement('div');
+    bubble.className = 'milla-msg-bot-bubble';
+    bubble.innerHTML = responseText.replace(/\n/g, '<br>');
+    botRow.querySelector('.milla-typing-dots').remove();
+    botRow.appendChild(bubble);
+    body.scrollTop = body.scrollHeight;
+    millaCurrentMessages = body.innerHTML;
+  }, 1500);
+}
+
+function syncMessages(fromId, toId) {
+  var from = document.getElementById(fromId);
+  var to = document.getElementById(toId);
+  to.innerHTML = from.innerHTML;
+  to.scrollTop = to.scrollHeight;
+}
+function shrinkMillaChat() {
+  syncMessages('millaChatBody', 'millaChatSmallBody');
+  document.getElementById('millaChatOverlay').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaChatSmall').classList.add('open'); }, 150);
+}
+function minimizeMillaChat() {
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaFab').classList.add('open'); }, 200);
+}
+function expandMillaChat() {
+  syncMessages('millaChatSmallBody', 'millaChatBody');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaChatOverlay').classList.add('open'); }, 150);
+}
+function openMillaChatSmall() {
+  document.getElementById('millaFab').classList.remove('open');
+  var smallBody = document.getElementById('millaChatSmallBody');
+  if (!smallBody.innerHTML.trim() && millaCurrentMessages) { smallBody.innerHTML = millaCurrentMessages; }
+  setTimeout(function() { document.getElementById('millaChatSmall').classList.add('open'); }, 100);
+}
+function closeMillaChat() {
+  document.getElementById('millaChatOverlay').classList.remove('open');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaFab').classList.add('open'); }, 200);
+}
+document.querySelector('#millaChatOverlay .milla-chat-header-btn[aria-label="Minimize"]').addEventListener('click', shrinkMillaChat);
+document.getElementById('millaChatOverlay').addEventListener('click', function(e) { if (e.target === this) shrinkMillaChat(); });
+</script>
+
+<script>
+// ── MILLA CHAT INPUT — standalone script ──
+var millaGenericResponse = 'Thank you for your message. I\'m currently processing your request. In the meantime, feel free to explore our product catalog or check your order status using the tabs above.';
+
+function sendMillaMessage(inputEl, bodyEl) {
+  var text = inputEl.value.trim();
+  if (!text) return;
+  inputEl.value = '';
+  var userDiv = document.createElement('div');
+  userDiv.className = 'milla-msg-user';
+  userDiv.textContent = text;
+  bodyEl.appendChild(userDiv);
+  bodyEl.scrollTop = bodyEl.scrollHeight;
+  var botRow = document.createElement('div');
+  botRow.className = 'milla-msg-bot';
+  botRow.innerHTML = '<div class="milla-msg-bot-avatar"><img src="../assets/milla-sparkle-small.svg" alt="" aria-hidden="true"></div><div class="milla-typing-dots"><span></span><span></span><span></span></div>';
+  bodyEl.appendChild(botRow);
+  bodyEl.scrollTop = bodyEl.scrollHeight;
+  setTimeout(function() {
+    var bubble = document.createElement('div');
+    bubble.className = 'milla-msg-bot-bubble';
+    bubble.innerHTML = millaGenericResponse;
+    botRow.querySelector('.milla-typing-dots').remove();
+    botRow.appendChild(bubble);
+    bodyEl.scrollTop = bodyEl.scrollHeight;
+    if (typeof millaCurrentMessages !== 'undefined') {
+      millaCurrentMessages = document.getElementById('millaChatBody').innerHTML || document.getElementById('millaChatSmallBody').innerHTML;
+    }
+  }, 1500);
+}
+function sendFromBigChat() {
+  sendMillaMessage(document.getElementById('millaChatInput'), document.getElementById('millaChatBody'));
+}
+function sendFromSmallChat() {
+  sendMillaMessage(document.getElementById('millaChatSmallInput'), document.getElementById('millaChatSmallBody'));
+}
+</script>
+
+<script>
+  window.Userback = window.Userback || {};
+  Userback.access_token = "A-B6EEL5g9k8aTvbyNklnvym0W3";
+  (function(d) {
+    var s = d.createElement("script");s.async = true;s.src = "https://static.userback.io/widget/v1.js";(d.head || d.body).appendChild(s);
+  })(document);
+</script>
+<script>
+(function(){
+  var btn=document.querySelector('.hamburger-btn'),nav=document.querySelector('.mobile-nav'),overlay=document.querySelector('.mobile-nav-overlay');
+  if(!btn||!nav)return;
+  function toggle(){var open=nav.classList.toggle('open');btn.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':'';}
+  btn.addEventListener('click',toggle);
+  if(overlay)overlay.addEventListener('click',toggle);
+})();
+</script>
+<script src="../assets/role-guard.js"></script>
+<script src="../assets/request-approval.js"></script>
+<script src="../assets/i18n.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
+  <script src="../assets/bug-report.js"></script>
+</body>
+</html>

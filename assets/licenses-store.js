@@ -128,11 +128,12 @@
     var list = 0, volume = 0;
 
     var qty = (plan.pm || []).length;
+    var licensed = plan.pmLicensed || 0; // machines already licensed (add-machines flow)
     if (qty > 0) {
-      var unit = pmUnitPrice(qty);
+      var unit = pmUnitPrice(qty + licensed);
       list += 1000 * qty;
       volume += (1000 - unit) * qty;
-      lines.push({ id: 'pm', name: 'Production Monitoring', qty: qty, unit: unit / div, listUnit: 1000 / div, total: unit * qty / div });
+      lines.push({ id: 'pm', name: 'Production Monitoring', qty: qty, tierQty: qty + licensed, unit: unit / div, listUnit: 1000 / div, total: unit * qty / div });
     }
     ['pt', 'bw', 'mt'].forEach(function (id) {
       if (!plan[id]) return;
@@ -175,20 +176,27 @@
     var q = quote(plan);
     var renews = iso(plan.cycle === 'month' ? 30 : 365);
     var names = [];
+    var autoRenew = plan.autoRenew !== false;
     if ((plan.pm || []).length) {
-      state.subs.pm = { status: 'active', machines: plan.pm.slice(), renewsOn: renews, autoRenew: true, since: (state.subs.pm && state.subs.pm.since) || iso(0) };
+      var old = state.subs.pm;
+      if (plan.pmLicensed && old) {
+        // Add machines: join the existing license and keep its renewal date
+        old.machines = old.machines.concat(plan.pm.filter(function (m) { return old.machines.indexOf(m) < 0; }));
+      } else {
+        state.subs.pm = { status: 'active', machines: plan.pm.slice(), renewsOn: renews, autoRenew: autoRenew, since: (old && old.since) || iso(0) };
+      }
       names.push('Production Monitoring ×' + plan.pm.length);
     }
     ['pt', 'bw', 'mt'].forEach(function (id) {
       if (!plan[id]) return;
-      state.subs[id] = { status: 'active', renewsOn: renews, autoRenew: true, since: (state.subs[id] && state.subs[id].since) || iso(0) };
+      state.subs[id] = { status: 'active', renewsOn: renews, autoRenew: autoRenew, since: (state.subs[id] && state.subs[id].since) || iso(0) };
       names.push(product(id).name);
     });
     state.cycle = plan.cycle;
     var id = 'INV-DP-' + new Date().getFullYear() + '-' + String(Math.floor(100 + Math.random() * 900));
     state.invoices.unshift({ id: id, date: iso(0), items: names.join(', '), total: q.total });
     save(state);
-    return { invoice: id, total: q.total, renewsOn: renews };
+    return { invoice: id, total: q.total, renewsOn: plan.pmLicensed && state.subs.pm ? state.subs.pm.renewsOn : renews };
   }
 
   function setAutoRenew(id, on) {
