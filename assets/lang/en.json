@@ -1330,5 +1330,7 @@
   "subs.pricePerMachine": "Price per machine",
   "subs.volumePricing": "The more machines, the lower the price per machine",
   "subs.crossSell": "Add {name} for {price} and save {pct}% on the whole plan.",
-  "subs.remove": "Remove"
+  "subs.remove": "Remove",
+  "subs.crossAdded": "{name} added · {pct}% bundle discount applied",
+  "subs.crossSell3": "Add {name} (+{price}) · save {pct}%"
 }

@@ -1296,7 +1296,10 @@
     .switch[aria-checked="true"] { background: #007167; }
     .switch[aria-checked="true"]::after { transform: translateX(18px); }
     .switch:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
-    .drawer-actions { display: flex; flex-direction: column; gap: 8px; }
+    .mg-box { width: min(520px, calc(100vw - 32px)); }
+    .drawer-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+    .drawer-actions .mg-cancel { margin-right: auto; }
+    #cancelArea:not(:empty) { margin-bottom: 12px; }
     .cancel-confirm { background: #fef3f2; border: 1px solid #fecdca; border-radius: 10px; padding: 14px; font-size: 13px; color: #1d1d1f; }
     .cancel-confirm p { margin-bottom: 10px; }
     .inv-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eaeaea; font-size: 14px; color: #1d1d1f; }
@@ -1337,13 +1340,6 @@
     @media (max-width: 560px) { .v2-head, .v2-row { padding-left: 18px; padding-right: 18px; } }
     @media (prefers-reduced-motion: reduce) { .switch, .switch::after { transition: none; } }
     /* Toolbar: billing cycle */
-    .cycle-group { display: inline-flex; align-items: center; background: #fafbfc; border: 1px solid rgba(0,0,0,.08); border-radius: 8px; overflow: hidden; padding: 0; }
-    .cycle-opt { position: relative; }
-    .cycle-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
-    .cycle-opt label { display: flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 16px; font-size: 14px; font-weight: 500; color: #4b5563; cursor: pointer; white-space: nowrap; }
-    .cycle-opt label small { font-size: 12px; font-weight: 500; color: #00544c; }
-    .cycle-opt input:checked + label { background: rgba(0,113,103,.1); color: #007167; }
-    .cycle-opt input:focus-visible + label { outline: 2px solid #007167; outline-offset: -2px; }
 
     /* Plans: one card, one column per product */
     .link-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; padding: 0; min-height: 44px; margin-top: 4px; color: #007167; font: 600 13px Inter, sans-serif; cursor: pointer; }
@@ -1409,21 +1405,21 @@
     /* ── Plans modal (CP-732) ─── */
     .pm-box { width: min(1080px, calc(100vw - 32px)); max-height: calc(100vh - 48px); display: flex; flex-direction: column; overflow: hidden; }
     .pm-box[data-view="machines"] { width: min(720px, calc(100vw - 32px)); }
-    .pm-box[data-view="review"] { width: min(880px, calc(100vw - 32px)); }
+    .pm-box[data-view="review"] { width: min(1000px, calc(100vw - 32px)); }
     .pm-box[data-view="done"] { width: min(560px, calc(100vw - 32px)); }
     .pm-header { align-items: center; gap: 16px; flex-wrap: wrap; }
     .pm-header .modal-title { margin: 0; }
     .pm-head-left, .pm-head-right { display: flex; align-items: center; gap: 12px; }
     .pm-head-right { margin-left: auto; }
     .pm-title:focus, #pmTitle:focus { outline: none; }
-    .cycle-group[hidden], .pm-foot[hidden], [data-pv][hidden], #pmBack[hidden], #doneIris[hidden], .co-bar-hint[hidden] { display: none !important; }
+    #cycleGroup[hidden], .pm-foot[hidden], [data-pv][hidden], #pmBack[hidden], #doneIris[hidden], .co-bar-hint[hidden] { display: none !important; }
     .pm-body { flex: 1; overflow-y: auto; padding-top: 20px; }
     .pm-foot { justify-content: space-between; flex-wrap: wrap; padding-top: 16px; }
     .pm-foot .btn-group { margin-left: auto; }
     .mp-grid { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 32px; align-items: start; }
     .mp-side .price-rows { border-top: 1px solid #eaeaea; padding-top: 6px; }
     .mp-side .tier-hint { margin-top: 12px; line-height: 1.45; }
-    .pm-review { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+    .pm-review { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: start; }
     .pm-sum { margin-top: 16px; }
     .done-card { text-align: center; padding: 8px 0 4px; }
     .done-desc { font-size: 14px; color: #4b5563; margin: 0 0 20px; }
@@ -1444,8 +1440,11 @@
     @media (prefers-reduced-motion: reduce) { .plan-col { transition: none; } }
     /* Review: billing cycle + one bundle suggestion */
     .review-list .link-btn { min-height: 32px; margin-top: 0; display: flex; }
-    #cycleGroup { margin-top: 16px; }
     .cross-sell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: #eef6f5; font-size: 13px; color: #00514a; line-height: 1.45; }
+    .cross-sell.is-added { background: #f9fafb; color: #1f2937; }
+    .cycle-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+    .cycle-opts .pay-opt { margin-bottom: 0; }
+    .cycle-save { font-size: 12px; font-weight: 600; color: #00544c; margin-left: 4px; white-space: nowrap; }
     .cross-sell .link-btn { flex: none; min-height: 32px; margin-top: 0; }
     /* Free trial */
     .v2-info .link-btn { margin-top: 2px; min-height: 32px; }
@@ -1744,12 +1743,15 @@
             <h3 class="card-title" id="revTitle" data-i18n="subs.yourOrder">Your plan</h3>
             <ul class="review-list" id="reviewList"></ul>
             <div id="crossSell"></div>
-            <fieldset class="cycle-group" id="cycleGroup">
-            <legend class="visually-hidden" data-i18n="subs.billingCycle">Billing cycle</legend>
-            <div class="cycle-opt"><input type="radio" name="cycle" id="cycYear" value="year" checked><label for="cycYear"><span data-i18n="subs.yearly">Yearly</span> <small data-i18n="subs.yearlyHint">2 months free</small></label></div>
-            <div class="cycle-opt"><input type="radio" name="cycle" id="cycMonth" value="month"><label for="cycMonth" data-i18n="subs.monthly">Monthly</label></div>
-          </fieldset>
             <div id="sumBody2" class="pm-sum"></div>
+          </section>
+          <div class="pm-review-side">
+          <section aria-labelledby="cycTitle" id="cycleGroup">
+            <h3 class="card-title" id="cycTitle" data-i18n="subs.billingCycle">Billing cycle</h3>
+            <div class="cycle-opts" role="radiogroup" aria-labelledby="cycTitle">
+              <label class="pay-opt"><input type="radio" name="cycle" value="year" checked><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name"><span data-i18n="subs.yearly">Yearly</span> <small class="cycle-save" data-i18n="subs.yearlyHint">2 months free</small></span><span class="pay-desc" id="cycYearDesc"></span></span></label>
+              <label class="pay-opt"><input type="radio" name="cycle" value="month"><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name" data-i18n="subs.monthly">Monthly</span><span class="pay-desc" id="cycMonthDesc"></span></span></label>
+            </div>
           </section>
           <section aria-labelledby="payTitle">
             <h3 class="card-title" id="payTitle" data-i18n="subs.payment">Payment</h3>
@@ -1765,6 +1767,7 @@
             <label class="terms-row"><input type="checkbox" class="terms-checkbox" id="termsChk" aria-describedby="termsErr"><span class="terms-text"><span data-i18n="subs.termsPre">I accept the</span> <a href="#" data-i18n="subs.termsLink">G&amp;D Digital Products license terms</a>.</span></label>
             <p class="field-error" id="termsErr" data-i18n="subs.termsErr">Accept the license terms to continue.</p>
           </section>
+          </div>
         </div>
 
         <!-- View: done -->
@@ -1788,16 +1791,15 @@
     </div>
   </div>
 
-  <!-- DRAWER OVERLAY -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-
-  <!-- DRAWER (manage subscription / billing) -->
-  <div class="tracking-drawer" id="manageDrawer" role="dialog" aria-modal="true" aria-labelledby="manageTitle">
-    <div class="drawer-header">
-      <span class="drawer-title" id="manageTitle"></span>
-      <button class="drawer-close" id="drawerClose" aria-label="Close" data-i18n-aria-label="common.close">&#x2715;</button>
+  <!-- MANAGE / BILLING MODAL -->
+  <div class="modal-overlay" id="manageModal">
+    <div class="modal-box mg-box" role="dialog" aria-modal="true" aria-labelledby="manageTitle">
+      <div class="modal-header">
+        <h2 class="modal-title" id="manageTitle" tabindex="-1"></h2>
+        <button type="button" class="modal-close" id="drawerClose" aria-label="Close" data-i18n-aria-label="common.close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="modal-body" id="drawerBody"></div>
     </div>
-    <div class="drawer-body" id="drawerBody"></div>
   </div>
 
 <script>
@@ -1844,15 +1846,15 @@ document.addEventListener('click', function(e) {
     return n === 1 ? t('subs.oneMachine', '1 machine') : fill(t('subs.nMachines', '{n} machines'), { n: n });
   }
 
-  /* Drawer */
-  var overlay = document.getElementById('drawerOverlay');
-  var drawer = document.getElementById('manageDrawer');
+  /* Manage / billing modal */
+  var drawer = document.getElementById('manageModal');
   var drawerBody = document.getElementById('drawerBody');
   var drawerTitle = document.getElementById('manageTitle');
   var lastTrigger = null;
 
-  function openDrawer() { overlay.classList.add('show'); drawer.classList.add('show'); document.getElementById('drawerClose').focus(); }
-  function closeDrawer() { overlay.classList.remove('show'); drawer.classList.remove('show'); if (lastTrigger) lastTrigger.focus(); }
+  function openDrawer() { drawer.classList.add('open'); document.body.style.overflow = 'hidden'; drawerTitle.focus(); }
+  function hideDrawer() { drawer.classList.remove('open'); document.body.style.overflow = ''; }
+  function closeDrawer() { hideDrawer(); if (lastTrigger) lastTrigger.focus(); }
 
   function openManage(id) {
     var p = L.product(id);
@@ -1870,11 +1872,11 @@ document.addEventListener('click', function(e) {
         '<div><div class="switch-label" id="arLabel">' + t('subs.autoRenew', 'Auto-renew') + '</div><div class="switch-hint" id="arHint">' + t('subs.autoRenewHint', 'Renews automatically with the payment method on file. We remind you 30 days before.') + '</div></div>' +
         '<button class="switch" role="switch" id="arSwitch" aria-checked="' + on + '" aria-labelledby="arLabel" aria-describedby="arHint"></button>' +
       '</div>' +
+      '<div id="cancelArea"></div>' +
       '<div class="drawer-actions">' +
-        (p.model === 'machine' ? '<button class="btn btn-primary btn-md btn-full" data-plan="add" data-product="pm">' + t('subs.addMachines', 'Add machines') + '</button>' : '') +
-        '<button class="btn btn-secondary btn-md btn-full" data-plan="renew" data-product="' + id + '">' + t('subs.renewEarly', 'Renew now') + '</button>' +
-        (on ? '<button class="btn btn-ghost btn-md btn-full" id="cancelBtn">' + t('subs.cancel', 'Cancel subscription') + '</button>' : '') +
-        '<div id="cancelArea"></div>' +
+        (on ? '<button class="btn btn-ghost btn-md mg-cancel" id="cancelBtn">' + t('subs.cancel', 'Cancel subscription') + '</button>' : '') +
+        '<button class="btn btn-secondary btn-md" data-plan="renew" data-product="' + id + '">' + t('subs.renewEarly', 'Renew now') + '</button>' +
+        (p.model === 'machine' ? '<button class="btn btn-primary btn-md" data-plan="add" data-product="pm">' + t('subs.addMachines', 'Add machines') + '</button>' : '') +
       '</div>';
 
     document.getElementById('arSwitch').addEventListener('click', function () {
@@ -2010,8 +2012,8 @@ document.addEventListener('click', function(e) {
   }
 
   document.getElementById('drawerClose').addEventListener('click', closeDrawer);
-  overlay.addEventListener('click', closeDrawer);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && drawer.classList.contains('show')) closeDrawer(); });
+  drawer.addEventListener('click', function (e) { if (e.target === drawer) closeDrawer(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer(); });
   document.querySelector('.page-content').addEventListener('click', function (e) {
     var b = e.target.closest('[data-manage]');
     if (b) { lastTrigger = b; openManage(b.getAttribute('data-manage')); return; }
@@ -2025,7 +2027,7 @@ document.addEventListener('click', function(e) {
   drawerBody.addEventListener('click', function (e) {
     var pl = e.target.closest('[data-plan]');
     if (!pl) return;
-    overlay.classList.remove('show'); drawer.classList.remove('show');
+    hideDrawer();
     openPlan(pl.getAttribute('data-plan'), pl.getAttribute('data-product'), lastTrigger);
   });
 
@@ -2039,7 +2041,7 @@ document.addEventListener('click', function(e) {
   var pOpen = false, pTrigger = null;
   var mode = 'buy', focusProduct = null, view = 'review', result = null, state = L.get();
   var plan = { pm: [], pt: false, bw: false, mt: false, cycle: 'year' };
-  var licensed = [], machinesFrom = null;
+  var licensed = [], machinesFrom = null, crossAdded = null;
   var trialId = null, trialMachine = null;
   var LOCK = '<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="4.5" y="8" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
 
@@ -2054,7 +2056,7 @@ document.addEventListener('click', function(e) {
   function setup(m, prod) {
     state = L.get(); mode = m || 'buy'; focusProduct = prod || null; result = null;
     plan = { pm: [], pt: false, bw: false, mt: false, cycle: state.cycle || 'year' };
-    licensed = []; machinesFrom = null; trialId = null; trialMachine = null;
+    licensed = []; machinesFrom = null; crossAdded = null; trialId = null; trialMachine = null;
     if (mode === 'trial') {
       trialId = focusProduct; view = 'trial';
     } else if (mode === 'add') {
@@ -2149,9 +2151,13 @@ document.addEventListener('click', function(e) {
       : plan.cycle === 'year' ? t('subs.sumYearShort', 'Per year, excl. VAT.') : t('subs.sumMonthShort', 'Per month, excl. VAT.');
     return html + '<p class="sum-note">' + note + '</p>';
   }
-  // One bundle suggestion at most: the next product that would raise the discount
+  // One bundle suggestion at most; once added it stays here with Remove
   function crossSell(q) {
     if (mode === 'add') return '';
+    if (crossAdded && plan[crossAdded]) {
+      return '<div class="cross-sell is-added"><span>' + fill(t('subs.crossAdded', '{name} added · {pct}% bundle discount applied'), { name: pName(crossAdded), pct: Math.round(q.bundleRate * 100) }) + '</span>' +
+        '<button type="button" class="link-btn" data-remove="' + crossAdded + '" aria-label="' + t('subs.remove', 'Remove') + ': ' + pName(crossAdded) + '">' + t('subs.remove', 'Remove') + '</button></div>';
+    }
     var rate = L.BUNDLE[q.lines.length + 1];
     if (!rate) return '';
     var cand = null;
@@ -2160,19 +2166,21 @@ document.addEventListener('click', function(e) {
       if (!cand && !plan[id] && (st === 'none' || st === 'expired' || st === 'trial')) cand = id;
     });
     if (!cand) return '';
-    return '<div class="cross-sell"><span>' + fill(t('subs.crossSell', 'Add {name} for {price} and save {pct}% on the whole plan.'), { name: pName(cand), price: L.money(L.product(cand).price / pDiv()) + ' ' + pPer(), pct: Math.round(rate * 100) }) + '</span>' +
+    return '<div class="cross-sell"><span>' + fill(t('subs.crossSell3', 'Add {name} (+{price}) · save {pct}%'), { name: pName(cand), price: L.money(L.product(cand).price / pDiv()) + ' ' + pPer(), pct: Math.round(rate * 100) }) + '</span>' +
       '<button type="button" class="link-btn" data-cross="' + cand + '" aria-label="' + t('subs.add', 'Add') + ': ' + pName(cand) + '">' + t('subs.add', 'Add') + '</button></div>';
   }
   function renderReview() {
     var q = quote();
     document.getElementById('reviewList').innerHTML = q.lines.map(function (ln) {
       var detail = ln.id === 'pm' ? plan.pm.map(machineName).join(', ') : t('subs.allMachines', 'All machines');
-      var act = ln.id === 'pm' && mode !== 'add' ? '<button type="button" class="link-btn" data-edit-machines>' + t('subs.editMachines', 'Edit machines') + '</button>'
-        : ln.id !== focusProduct && mode !== 'renew' ? '<button type="button" class="link-btn" data-remove="' + ln.id + '" aria-label="' + t('subs.remove', 'Remove') + ': ' + pName(ln.id) + '">' + t('subs.remove', 'Remove') + '</button>' : '';
+      var act = ln.id === 'pm' && mode !== 'add' ? '<button type="button" class="link-btn" data-edit-machines>' + t('subs.editMachines', 'Edit machines') + '</button>' : '';
       return '<li><span>' + pName(ln.id) + '<small>' + detail + '</small>' + act + '</span><span>' + L.money(ln.total) + ' ' + pPer() + '</span></li>';
     }).join('');
     document.getElementById('crossSell').innerHTML = crossSell(q);
     document.getElementById('cycleGroup').hidden = mode === 'add';
+    var yq = L.quote({ pm: plan.pm, pt: plan.pt, bw: plan.bw, mt: plan.mt, cycle: 'year' });
+    document.getElementById('cycYearDesc').textContent = L.money(yq.total) + ' ' + t('subs.perYear', '/ year');
+    document.getElementById('cycMonthDesc').textContent = L.money(yq.total / 10) + ' ' + t('subs.perMonth', '/ month');
     document.getElementById('sumBody2').innerHTML = summaryHtml(q);
   }
 
@@ -2281,8 +2289,10 @@ document.addEventListener('click', function(e) {
     if (!c && !r) return;
     var id = (c || r).getAttribute(c ? 'data-cross' : 'data-remove');
     plan[id] = !!c;
+    crossAdded = c ? id : null;
     renderPlan();
-    document.getElementById('revTitle').focus();
+    var next = document.querySelector('#crossSell .link-btn');
+    (next || document.getElementById('revTitle')).focus();
   });
   document.getElementById('trialBody').addEventListener('change', function (e) {
     if (e.target.id !== 'trialMachine') return;
