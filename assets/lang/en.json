@@ -1299,7 +1299,6 @@
   "subs.addEmpty": "Select the machines you want to add.",
   "subs.fromBest": "From {price} with {n}+ machines",
   "subs.chooseMachines": "Choose machines",
-  "subs.volumePricing": "The more machines, the lower the price per machine",
   "subs.mpTitle": "Production Monitoring machines",
   "subs.reviewTitle": "Review and pay",
   "subs.volumeDiscount": "Volume discount",
@@ -1327,5 +1326,7 @@
   "subs.trialPickErr": "Choose the machine you want to try.",
   "subs.trialIntro": "{days} days of full access, no payment details. Ends on its own on {date}, nothing is charged.",
   "subs.machine": "Machine",
-  "subs.trialCoversAll": "Covers all your machines. They must be connected to IRIS Cloud."
+  "subs.trialCoversAll": "Covers all your machines. They must be connected to IRIS Cloud.",
+  "subs.pricePerMachine": "Price per machine",
+  "subs.volumePricing": "The more machines, the lower the price per machine"
 }

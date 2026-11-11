@@ -1299,7 +1299,6 @@
   "subs.addEmpty": "Wählen Sie die Maschinen, die Sie hinzufügen möchten.",
   "subs.fromBest": "Ab {price} bei {n}+ Maschinen",
   "subs.chooseMachines": "Maschinen auswählen",
-  "subs.volumePricing": "Je mehr Maschinen, desto günstiger pro Maschine",
   "subs.mpTitle": "Maschinen für Production Monitoring",
   "subs.reviewTitle": "Prüfen und bezahlen",
   "subs.volumeDiscount": "Mengenrabatt",
@@ -1327,5 +1326,7 @@
   "subs.trialPickErr": "Wählen Sie die Maschine, die Sie testen möchten.",
   "subs.trialIntro": "{days} Tage voller Zugriff, keine Zahlungsdaten. Endet automatisch am {date}, es fallen keine Kosten an.",
   "subs.machine": "Maschine",
-  "subs.trialCoversAll": "Gilt für alle Ihre Maschinen. Sie müssen mit IRIS Cloud verbunden sein."
+  "subs.trialCoversAll": "Gilt für alle Ihre Maschinen. Sie müssen mit IRIS Cloud verbunden sein.",
+  "subs.pricePerMachine": "Preis pro Maschine",
+  "subs.volumePricing": "Je mehr Maschinen, desto günstiger pro Maschine"
 }

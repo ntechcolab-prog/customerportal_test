@@ -1375,8 +1375,7 @@
     .order-total-value { font-size: 24px; font-weight: 700; color: #1f2937; font-variant-numeric: tabular-nums; }
     .card-title { font-size: 16px; font-weight: 700; color: #1f2937; letter-spacing: -.2px; margin-bottom: 12px; }
     .mp-list { border-top: 1px solid #eaeaea; }
-    .mp-row { display: grid; grid-template-columns: 32px 44px minmax(0,1fr) auto; align-items: center; gap: 12px; min-height: 60px; padding: 8px 4px; border-bottom: 1px solid #eaeaea; cursor: pointer; }
-    .mp-row .row-checkbox { justify-self: center; }
+    .mp-row { display: grid; grid-template-columns: 16px 40px minmax(0,1fr) auto; align-items: center; gap: 14px; min-height: 60px; padding: 8px 0; border-bottom: 1px solid #eaeaea; cursor: pointer; }
     .mp-row.is-licensed { cursor: default; }
     .mp-row .row-checkbox:disabled { cursor: default; background: #b1b4b7; border-color: #b1b4b7; box-shadow: none; }
     .mp-thumb { width: 40px; height: 40px; border-radius: 8px; background: #f5f6f7; object-fit: contain; padding: 2px; }
@@ -1431,7 +1430,9 @@
     .pm-body { flex: 1; overflow-y: auto; padding-top: 20px; }
     .pm-foot { justify-content: space-between; flex-wrap: wrap; padding-top: 16px; }
     .pm-foot .btn-group { margin-left: auto; }
-    .mp-grid { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 28px; align-items: start; }
+    .mp-grid { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 40px; align-items: start; }
+    .mp-side .price-rows { border-top: 1px solid #eaeaea; padding-top: 6px; }
+    .mp-side .tier-hint { margin-top: 12px; line-height: 1.45; }
     .pm-review { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
     .pm-sum { margin-top: 16px; }
     .done-card { text-align: center; padding: 8px 0 4px; }
@@ -2162,11 +2163,11 @@ document.addEventListener('click', function(e) {
       : t('subs.tierBest', 'You get the best price per machine.');
     document.getElementById('mpBody').innerHTML =
       '<div class="mp-grid"><div>' +
-        '<p class="card-title">' + t('subs.volumePricing', 'The more machines, the lower the price per machine') + '</p>' +
-        '<ul class="price-rows">' + tiers + '</ul>' +
-      '</div><div>' +
         '<p class="card-title" id="mpLabel">' + t('subs.machines', 'Machines') + '</p>' +
         '<div class="mp-list" role="group" aria-labelledby="mpLabel">' + items + '</div>' +
+      '</div><div class="mp-side">' +
+        '<p class="card-title">' + t('subs.pricePerMachine', 'Price per machine') + '</p>' +
+        '<ul class="price-rows">' + tiers + '</ul>' +
         '<p class="tier-hint" aria-live="polite">' + hint + '</p>' +
       '</div></div>';
   }
