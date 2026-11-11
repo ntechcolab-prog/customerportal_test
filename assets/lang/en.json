@@ -1337,5 +1337,11 @@
   "subs.billedYearly": "Billed {amount} once a year.",
   "subs.billedMonthly": "Billed {amount} every month.",
   "subs.pickOneMachine": "Select at least one machine.",
-  "subs.autoRenewShort": "Renew automatically. Turn it off anytime in Subscriptions."
+  "subs.autoRenewShort": "Renew automatically. Turn it off anytime in Subscriptions.",
+  "subs.endsAuto": "ends automatically",
+  "subs.cost": "Cost",
+  "subs.noPayment": "no payment details",
+  "subs.afterTrial": "After the trial",
+  "subs.ifSubscribe": "{price} if you subscribe",
+  "subs.trialConnectedAll2": "Your machines must be connected to IRIS Cloud."
 }

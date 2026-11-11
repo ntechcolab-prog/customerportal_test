@@ -1337,5 +1337,11 @@
   "subs.billedYearly": "{amount} einmal im Jahr abgerechnet.",
   "subs.billedMonthly": "{amount} jeden Monat abgerechnet.",
   "subs.pickOneMachine": "Wählen Sie mindestens eine Maschine.",
-  "subs.autoRenewShort": "Automatisch verlängern. Jederzeit in Abonnements abschaltbar."
+  "subs.autoRenewShort": "Automatisch verlängern. Jederzeit in Abonnements abschaltbar.",
+  "subs.endsAuto": "endet automatisch",
+  "subs.cost": "Kosten",
+  "subs.noPayment": "keine Zahlungsdaten",
+  "subs.afterTrial": "Nach dem Test",
+  "subs.ifSubscribe": "{price} im Abo",
+  "subs.trialConnectedAll2": "Ihre Maschinen müssen mit IRIS Cloud verbunden sein."
 }

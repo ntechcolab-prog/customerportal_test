@@ -1518,8 +1518,13 @@
     /* Free trial */
     .v2-info .link-btn { margin-top: 2px; min-height: 32px; }
     .pm-box[data-view="trial"] { width: min(520px, calc(100vw - 32px)); }
-    .trial-intro { font-size: 14px; color: #374151; line-height: 1.5; margin: 0 0 20px; }
-    .trial-note { font-size: 13px; color: #4b5563; margin: 8px 0 0; }
+    .trial-desc { font-size: 14px; color: #4b5563; margin: -8px 0 20px; }
+    .trial-field { margin-bottom: 16px; }
+    .trial-rows { border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; padding: 6px 0; }
+    .trial-rows .payment-row { padding: 9px 0; }
+    .trial-rows .payment-row .value { white-space: nowrap; }
+    .trial-note { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #4b5563; margin: 12px 0 0; }
+    .trial-note svg { flex: none; color: #007167; }
   </style>
   <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
@@ -2203,20 +2208,29 @@ document.addEventListener('click', function(e) {
   /* View: free trial */
   function trialEnds() { var d = new Date(); d.setDate(d.getDate() + L.TRIAL_DAYS); return d.toISOString().slice(0, 10); }
   function renderTrial() {
-    var p = L.product(trialId);
-    var intro = '<p class="trial-intro">' + fill(t('subs.trialIntro', '{days} days of full access, no payment details. Ends on its own on {date}, nothing is charged.'), { days: L.TRIAL_DAYS, date: L.formatDate(trialEnds()) }) + '</p>';
-    var field = p.model === 'machine'
-      ? '<div class="field-group">' +
+    var p = L.product(trialId), pm = p.model === 'machine';
+    var after = pm ? L.money(L.pmUnitPrice(1) / pDiv()) + ' ' + t('subs.perMachineUnit', '/ machine') + ' ' + pPer() : L.money(p.price / pDiv()) + ' ' + pPer();
+    function row(label, value) { return '<div class="payment-row"><span class="label">' + label + '</span><span class="value">' + value + '</span></div>'; }
+    var field = pm
+      ? '<div class="field-group trial-field">' +
           '<label class="field-label" for="trialMachine">' + t('subs.machine', 'Machine') + '</label>' +
-          '<select class="form-select" id="trialMachine" aria-describedby="trNote trErr">' +
+          '<select class="form-select" id="trialMachine" aria-describedby="trErr">' +
             '<option value="" disabled' + (trialMachine ? '' : ' selected') + '>' + t('subs.trialPick', 'Choose 1 machine') + '</option>' +
             fleet().map(function (m) { return '<option value="' + m.id + '"' + (trialMachine === m.id ? ' selected' : '') + '>' + m.name + '</option>'; }).join('') +
           '</select>' +
           '<p class="field-error" id="trErr">' + t('subs.trialPickErr', 'Choose the machine you want to try.') + '</p>' +
-          '<p class="trial-note" id="trNote">' + t('subs.trialConnected', 'The machine must be connected to IRIS Cloud.') + '</p>' +
-        '</div>'
-      : '<p class="trial-note">' + t('subs.trialCoversAll', 'Covers all your machines. They must be connected to IRIS Cloud.') + '</p>';
-    document.getElementById('trialBody').innerHTML = intro + field;
+        '</div>' : '';
+    document.getElementById('trialBody').innerHTML =
+      '<p class="trial-desc">' + t('subs.d.' + p.id, p.desc) + '</p>' +
+      field +
+      '<div class="trial-rows">' +
+        (pm ? '' : row(t('subs.coverage', 'Coverage'), t('subs.allMachines', 'All machines'))) +
+        row(t('subs.trialEndsOn', 'Free until'), L.formatDate(trialEnds()) + ' · ' + t('subs.endsAuto', 'ends automatically')) +
+        row(t('subs.cost', 'Cost'), L.money(0) + ' · ' + t('subs.noPayment', 'no payment details')) +
+        row(t('subs.afterTrial', 'After the trial'), fill(t('subs.ifSubscribe', '{price} if you subscribe'), { price: after })) +
+      '</div>' +
+      '<p class="trial-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
+        (pm ? t('subs.trialConnected', 'The machine must be connected to IRIS Cloud.') : t('subs.trialConnectedAll2', 'Your machines must be connected to IRIS Cloud.')) + '</p>';
   }
 
   /* View: review & pay */
@@ -2299,10 +2313,7 @@ document.addEventListener('click', function(e) {
     hintEl.textContent = ''; hintEl.hidden = true;
     document.getElementById('doneIris').hidden = view !== 'done';
     if (view === 'trial') {
-      var tp = L.product(trialId);
-      var after = tp.model === 'machine' ? L.money(L.pmUnitPrice(1) / pDiv()) + ' ' + t('subs.perMachine', 'per machine') + ' ' + pPer() : L.money(tp.price / pDiv()) + ' ' + pPer();
-      total.innerHTML = '<span class="co-bar-total"><strong>' + L.money(0) + '</strong> ' + fill(t('subs.trialFor', 'for {days} days'), { days: L.TRIAL_DAYS }) + '</span>';
-      hintEl.textContent = fill(t('subs.trialAfter', 'Then {price} if you subscribe.'), { price: after }); hintEl.hidden = false;
+      total.innerHTML = '';
       primary.className = 'btn btn-primary btn-md';
       primary.textContent = t('subs.trialStart', 'Start free trial');
       return;
