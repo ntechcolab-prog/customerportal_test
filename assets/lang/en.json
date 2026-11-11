@@ -1300,5 +1300,6 @@
   "subs.fromBest": "From {price} with {n}+ machines",
   "subs.chooseMachines": "Choose machines",
   "subs.volumePricing": "The more machines, the lower the price per machine",
-  "subs.mpTitle": "Production Monitoring machines"
+  "subs.mpTitle": "Production Monitoring machines",
+  "subs.reviewTitle": "Review and pay"
 }
