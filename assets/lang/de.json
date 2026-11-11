@@ -1328,5 +1328,7 @@
   "subs.machine": "Maschine",
   "subs.trialCoversAll": "Gilt für alle Ihre Maschinen. Sie müssen mit IRIS Cloud verbunden sein.",
   "subs.pricePerMachine": "Preis pro Maschine",
-  "subs.volumePricing": "Je mehr Maschinen, desto günstiger pro Maschine"
+  "subs.volumePricing": "Je mehr Maschinen, desto günstiger pro Maschine",
+  "subs.crossSell": "{name} für {price} hinzufügen und {pct}% auf den ganzen Plan sparen.",
+  "subs.remove": "Entfernen"
 }

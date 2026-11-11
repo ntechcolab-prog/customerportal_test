@@ -1328,5 +1328,7 @@
   "subs.machine": "Machine",
   "subs.trialCoversAll": "Covers all your machines. They must be connected to IRIS Cloud.",
   "subs.pricePerMachine": "Price per machine",
-  "subs.volumePricing": "The more machines, the lower the price per machine"
+  "subs.volumePricing": "The more machines, the lower the price per machine",
+  "subs.crossSell": "Add {name} for {price} and save {pct}% on the whole plan.",
+  "subs.remove": "Remove"
 }

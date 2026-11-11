@@ -1346,18 +1346,6 @@
     .cycle-opt input:focus-visible + label { outline: 2px solid #007167; outline-offset: -2px; }
 
     /* Plans: one card, one column per product */
-    .plans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-    .plan-col { display: flex; flex-direction: column; padding: 20px; background: #fff; border: 2px solid #e5e7eb; border-radius: 12px; transition: border-color .15s, box-shadow .15s; }
-    .plan-col.is-on { border-color: #007167; box-shadow: 0 0 0 3px rgba(0,113,103,.1); }
-    .plan-name { font-size: 17px; font-weight: 700; color: #1f2937; letter-spacing: -.2px; }
-    .plan-desc { font-size: 13px; color: #4b5563; line-height: 1.5; margin-top: 4px; min-height: 40px; }
-    .plan-price { margin-top: 20px; font-size: 13px; color: #4b5563; }
-    .plan-price strong { font-size: 28px; font-weight: 700; color: #1f2937; letter-spacing: -.6px; font-variant-numeric: tabular-nums; }
-    .plan-sub { font-size: 13px; color: #4b5563; margin-top: 4px; min-height: 44px; display: flex; align-items: center; }
-    .plan-cta { margin-top: auto; padding-top: 16px; min-height: 86px; display: flex; flex-direction: column; }
-    .plan-cta .btn { width: 100%; justify-content: center; gap: 6px; }
-    .plan-cta .btn[disabled] { opacity: 1; background: #f9fafb; border-color: #e5e7eb; color: #4b5563; cursor: default; }
-    .plan-note { font-size: 12px; color: #4b5563; text-align: center; margin-top: 8px; }
     .link-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; padding: 0; min-height: 44px; margin-top: 4px; color: #007167; font: 600 13px Inter, sans-serif; cursor: pointer; }
     .link-btn:hover { text-decoration: underline; }
     .link-btn:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 4px; }
@@ -1444,21 +1432,23 @@
     .done-meta strong { display: block; font-size: 14px; color: #1d1d1f; margin-top: 2px; }
 
     @media (max-width: 1000px) {
-      .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 720px) {
       .mp-grid, .pm-review { grid-template-columns: 1fr; gap: 20px; }
     }
     @media (max-width: 600px) {
       .pm-box { max-height: calc(100vh - 16px); }
-      .plans { grid-template-columns: 1fr; }
       .pm-foot .btn-group, .pm-foot .btn { width: 100%; }
       .done-meta { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) { .plan-col { transition: none; } }
+    /* Review: billing cycle + one bundle suggestion */
+    .review-list .link-btn { min-height: 32px; margin-top: 0; display: flex; }
+    #cycleGroup { margin-top: 16px; }
+    .cross-sell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: #eef6f5; font-size: 13px; color: #00514a; line-height: 1.45; }
+    .cross-sell .link-btn { flex: none; min-height: 32px; margin-top: 0; }
     /* Free trial */
     .v2-info .link-btn { margin-top: 2px; min-height: 32px; }
-    .plan-trial { align-self: center; }
     .pm-box[data-view="trial"] { width: min(520px, calc(100vw - 32px)); }
     .trial-intro { font-size: 14px; color: #374151; line-height: 1.5; margin: 0 0 20px; }
     .trial-note { font-size: 13px; color: #4b5563; margin: 8px 0 0; }
@@ -1737,19 +1727,11 @@
           <h2 class="modal-title" id="pmTitle" tabindex="-1">Choose your plan</h2>
         </div>
         <div class="pm-head-right">
-          <fieldset class="cycle-group" id="cycleGroup">
-            <legend class="visually-hidden" data-i18n="subs.billingCycle">Billing cycle</legend>
-            <div class="cycle-opt"><input type="radio" name="cycle" id="cycYear" value="year" checked><label for="cycYear"><span data-i18n="subs.yearly">Yearly</span> <small data-i18n="subs.yearlyHint">2 months free</small></label></div>
-            <div class="cycle-opt"><input type="radio" name="cycle" id="cycMonth" value="month"><label for="cycMonth" data-i18n="subs.monthly">Monthly</label></div>
-          </fieldset>
           <button type="button" class="modal-close" id="pmClose" aria-label="Close" data-i18n-aria-label="common.close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
         </div>
       </div>
 
       <div class="modal-body pm-body">
-        <!-- View: plans -->
-        <div data-pv="plans"><div id="prodList" class="plans"></div></div>
-
         <!-- View: machines (Production Monitoring) -->
         <div data-pv="machines" hidden id="mpBody"></div>
 
@@ -1761,6 +1743,12 @@
           <section aria-labelledby="revTitle">
             <h3 class="card-title" id="revTitle" data-i18n="subs.yourOrder">Your plan</h3>
             <ul class="review-list" id="reviewList"></ul>
+            <div id="crossSell"></div>
+            <fieldset class="cycle-group" id="cycleGroup">
+            <legend class="visually-hidden" data-i18n="subs.billingCycle">Billing cycle</legend>
+            <div class="cycle-opt"><input type="radio" name="cycle" id="cycYear" value="year" checked><label for="cycYear"><span data-i18n="subs.yearly">Yearly</span> <small data-i18n="subs.yearlyHint">2 months free</small></label></div>
+            <div class="cycle-opt"><input type="radio" name="cycle" id="cycMonth" value="month"><label for="cycMonth" data-i18n="subs.monthly">Monthly</label></div>
+          </fieldset>
             <div id="sumBody2" class="pm-sum"></div>
           </section>
           <section aria-labelledby="payTitle">
@@ -2000,8 +1988,7 @@ document.addEventListener('click', function(e) {
       ? '<a class="alt-link" href="' + L.IRIS_URL + '" target="_blank" rel="noopener">' + t('subs.irisOpen', 'Open IRIS Cloud') + ' ↗<span class="visually-hidden"> ' + t('common.newTab', '(opens in a new tab)') + '</span></a>'
       : '';
     return '<div class="alt-links">' + iris +
-      '<button class="alt-link" data-billing>' + t('subs.billingPayment', 'Billing & payment') + '</button>' +
-      '<button class="alt-link" data-plan="buy">' + t('subs.plansAddons', 'Plans & add-ons') + '</button></div>';
+      '<button class="alt-link" data-billing>' + t('subs.billingPayment', 'Billing & payment') + '</button></div>';
   }
 
   /* Plan list */
@@ -2046,16 +2033,15 @@ document.addEventListener('click', function(e) {
     document.getElementById('view').innerHTML = renderV2();
   }
 
-  /* ── Plans modal: the whole buy / renew / add-machines journey ── */
+  /* ── Purchase modal: one product per journey, started from its row.
+     Buy fleet product / renew → review & pay. Production Monitoring → machines → review & pay. ── */
   var pModal = document.getElementById('planModal');
   var pOpen = false, pTrigger = null;
-  var mode = 'buy', focusProduct = null, view = 'plans', result = null, state = L.get();
+  var mode = 'buy', focusProduct = null, view = 'review', result = null, state = L.get();
   var plan = { pm: [], pt: false, bw: false, mt: false, cycle: 'year' };
-  var licensed = [], pmOpen = false;
-  var trialId = null, trialMachine = null, trialFrom = null;
-  var CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+  var licensed = [], machinesFrom = null;
+  var trialId = null, trialMachine = null;
   var LOCK = '<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="4.5" y="8" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
-  var PEN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
 
   function fleet() { return window.MachineLines ? MachineLines.getMachines() : []; }
   function pName(id) { return t('subs.p.' + id, L.product(id).name); }
@@ -2068,75 +2054,34 @@ document.addEventListener('click', function(e) {
   function setup(m, prod) {
     state = L.get(); mode = m || 'buy'; focusProduct = prod || null; result = null;
     plan = { pm: [], pt: false, bw: false, mt: false, cycle: state.cycle || 'year' };
-    licensed = []; trialId = null; trialMachine = null; trialFrom = null;
+    licensed = []; machinesFrom = null; trialId = null; trialMachine = null;
     if (mode === 'trial') {
-      trialId = focusProduct;
-    } else if (mode === 'add' && state.subs.pm) {
-      licensed = state.subs.pm.machines.slice();
+      trialId = focusProduct; view = 'trial';
+    } else if (mode === 'add') {
+      licensed = state.subs.pm ? state.subs.pm.machines.slice() : [];
+      view = 'machines';
     } else if (mode === 'renew') {
       var targets = focusProduct ? [focusProduct] : L.PRODUCTS.filter(function (p) {
         var st = L.statusOf(p.id); return st === 'expiring' || st === 'expired';
       }).map(function (p) { return p.id; });
       targets.forEach(function (id) {
-        if (L.statusOf(id) === 'trial') return;
         if (id === 'pm' && state.subs.pm) plan.pm = state.subs.pm.machines.slice();
         else if (id !== 'pm') plan[id] = true;
       });
-    } else if (focusProduct && focusProduct !== 'pm') {
+      view = 'review';
+    } else if (focusProduct === 'pm') {
+      if (L.statusOf('pm') === 'trial') plan.pm = state.subs.pm.machines.slice(); // subscribing keeps the trial machine
+      view = 'machines';
+    } else {
       plan[focusProduct] = true;
-    } else if (focusProduct === 'pm' && L.statusOf('pm') === 'trial') {
-      plan.pm = state.subs.pm.machines.slice(); // subscribing keeps the trial machine
+      view = 'review';
     }
-    pmOpen = mode === 'add' || plan.pm.length > 0;
-    view = mode === 'trial' ? 'trial' : mode === 'add' || (mode === 'buy' && focusProduct === 'pm') ? 'machines' : 'plans';
     document.querySelectorAll('#planModal input[name="cycle"]').forEach(function (r) { r.checked = r.value === plan.cycle; });
     var terms = document.getElementById('termsChk');
     terms.checked = false; terms.removeAttribute('aria-invalid');
     document.getElementById('termsErr').classList.remove('visible');
     document.getElementById('autoRenewChk').checked = true;
     document.getElementById('poNumber').value = '';
-  }
-
-  /* View: plans — one column per product, one price each */
-  function ctaHtml(p, on) {
-    var st = L.statusOf(p.id);
-    var sub = state.subs[p.id];
-    var isCurrent = st === 'active' && !(mode === 'renew' && focusProduct === p.id);
-    if (isCurrent && p.id === 'pm') return '<button type="button" class="btn btn-secondary btn-md" data-go-add>' + t('subs.addMachines', 'Add machines') + '</button>';
-    if (isCurrent) return '<button type="button" class="btn btn-secondary btn-md" disabled>' + t('status.active', 'Active') + '</button>';
-    var note = st === 'expired' ? t('subs.expiredOn', 'Expired on') + ' ' + L.formatDate(sub.renewsOn)
-      : st === 'expiring' ? t('subs.expiresOn', 'Expires on') + ' ' + L.formatDate(sub.renewsOn)
-      : st === 'trial' ? t('subs.trialEndsOn', 'Free until') + ' ' + L.formatDate(sub.renewsOn) : '';
-    var trial = mode !== 'renew' && L.canTrial(p.id)
-      ? '<button type="button" class="link-btn plan-trial" data-trial="' + p.id + '" aria-label="' + fill(t('subs.tryFreeFor', 'Try {name} free for 30 days'), { name: pName(p.id) }) + '">' + t('subs.tryFree', 'Try free for 30 days') + '</button>' : '';
-    return '<button type="button" class="btn ' + (on ? 'btn-primary' : 'btn-secondary') + ' btn-md" data-select="' + p.id + '" aria-pressed="' + !!on + '" aria-label="' + (on ? t('subs.selected', 'Selected') : t('subs.select', 'Select')) + ': ' + pName(p.id) + '">' +
-      (on ? CHECK + ' ' + t('subs.selected', 'Selected') : t('subs.select', 'Select')) + '</button>' +
-      (note ? '<p class="plan-note">' + note + '</p>' : '') + trial;
-  }
-
-  function priceBlock(p, on) {
-    if (p.model !== 'machine') {
-      return '<p class="plan-price"><strong>' + L.money(p.price / pDiv()) + '</strong> <span>' + pPer() + '</span></p>' +
-        '<p class="plan-sub">' + t('subs.allMachines', 'All machines') + '</p>';
-    }
-    var n = pmCount();
-    var best = L.PM_TIERS[L.PM_TIERS.length - 1];
-    var sub = on && n
-      ? '<button type="button" class="link-btn" data-machines>' + machinesLabel(n) + ' ' + PEN + '</button>'
-      : '<p class="plan-sub">' + fill(t('subs.fromBest', 'From {price} with {n}+ machines'), { price: L.money(best.price / pDiv()), n: best.min }) + '</p>';
-    return '<p class="plan-price"><strong>' + L.money(L.pmUnitPrice(Math.max(1, n)) / pDiv()) + '</strong> <span>' + t('subs.perMachine', 'per machine') + ' ' + pPer() + '</span></p>' + sub;
-  }
-
-  function renderPlans() {
-    document.getElementById('prodList').innerHTML = L.PRODUCTS.map(function (p) {
-      var on = p.id === 'pm' ? pmOpen : plan[p.id];
-      return '<article class="plan-col' + (on ? ' is-on' : '') + '" aria-labelledby="po-' + p.id + '">' +
-        '<h3 class="plan-name" id="po-' + p.id + '">' + pName(p.id) + '</h3>' +
-        '<p class="plan-desc">' + t('subs.d.' + p.id, L.product(p.id).desc) + '</p>' +
-        priceBlock(p, on) +
-        '<div class="plan-cta">' + ctaHtml(p, on) + '</div>' +
-      '</article>';
-    }).join('');
   }
 
   /* View: machines (Production Monitoring) */
@@ -2204,12 +2149,30 @@ document.addEventListener('click', function(e) {
       : plan.cycle === 'year' ? t('subs.sumYearShort', 'Per year, excl. VAT.') : t('subs.sumMonthShort', 'Per month, excl. VAT.');
     return html + '<p class="sum-note">' + note + '</p>';
   }
+  // One bundle suggestion at most: the next product that would raise the discount
+  function crossSell(q) {
+    if (mode === 'add') return '';
+    var rate = L.BUNDLE[q.lines.length + 1];
+    if (!rate) return '';
+    var cand = null;
+    ['pt', 'bw', 'mt'].forEach(function (id) {
+      var st = L.statusOf(id);
+      if (!cand && !plan[id] && (st === 'none' || st === 'expired' || st === 'trial')) cand = id;
+    });
+    if (!cand) return '';
+    return '<div class="cross-sell"><span>' + fill(t('subs.crossSell', 'Add {name} for {price} and save {pct}% on the whole plan.'), { name: pName(cand), price: L.money(L.product(cand).price / pDiv()) + ' ' + pPer(), pct: Math.round(rate * 100) }) + '</span>' +
+      '<button type="button" class="link-btn" data-cross="' + cand + '" aria-label="' + t('subs.add', 'Add') + ': ' + pName(cand) + '">' + t('subs.add', 'Add') + '</button></div>';
+  }
   function renderReview() {
     var q = quote();
     document.getElementById('reviewList').innerHTML = q.lines.map(function (ln) {
       var detail = ln.id === 'pm' ? plan.pm.map(machineName).join(', ') : t('subs.allMachines', 'All machines');
-      return '<li><span>' + pName(ln.id) + '<small>' + detail + '</small></span><span>' + L.money(ln.total) + ' ' + pPer() + '</span></li>';
+      var act = ln.id === 'pm' && mode !== 'add' ? '<button type="button" class="link-btn" data-edit-machines>' + t('subs.editMachines', 'Edit machines') + '</button>'
+        : ln.id !== focusProduct && mode !== 'renew' ? '<button type="button" class="link-btn" data-remove="' + ln.id + '" aria-label="' + t('subs.remove', 'Remove') + ': ' + pName(ln.id) + '">' + t('subs.remove', 'Remove') + '</button>' : '';
+      return '<li><span>' + pName(ln.id) + '<small>' + detail + '</small>' + act + '</span><span>' + L.money(ln.total) + ' ' + pPer() + '</span></li>';
     }).join('');
+    document.getElementById('crossSell').innerHTML = crossSell(q);
+    document.getElementById('cycleGroup').hidden = mode === 'add';
     document.getElementById('sumBody2').innerHTML = summaryHtml(q);
   }
 
@@ -2232,20 +2195,13 @@ document.addEventListener('click', function(e) {
     document.getElementById('doneIris').href = L.IRIS_URL;
   }
 
-  function bundleHint(n) {
-    if (mode === 'add') return '';
-    var nextRate = L.BUNDLE[Math.max(2, n + 1)];
-    if (!nextRate) return '';
-    return n === 0 ? t('subs.bundle0', 'Combine 2 or more products to get a bundle discount of up to 20%.')
-      : fill(t('subs.bundleNext', 'Add 1 more product to save {pct}% on the whole plan.'), { pct: Math.round(nextRate * 100) });
-  }
-
   function renderFoot() {
-    var q = quote(), n = q.lines.length, save = q.volumeDiscount + q.bundleDiscount;
+    var q = quote(), save = q.volumeDiscount + q.bundleDiscount;
     var total = document.getElementById('barTotal'), hintEl = document.getElementById('barHint');
     var primary = document.getElementById('pmPrimary');
-    var unit = mode === 'add' ? t('subs.sumAddShort', 'Excl. VAT · same renewal date') : pPer();
     total.removeAttribute('role');
+    hintEl.textContent = ''; hintEl.hidden = true;
+    document.getElementById('doneIris').hidden = view !== 'done';
     if (view === 'trial') {
       var tp = L.product(trialId);
       var after = tp.model === 'machine' ? L.money(L.pmUnitPrice(1) / pDiv()) + ' ' + t('subs.perMachine', 'per machine') + ' ' + pPer() : L.money(tp.price / pDiv()) + ' ' + pPer();
@@ -2253,43 +2209,30 @@ document.addEventListener('click', function(e) {
       hintEl.textContent = fill(t('subs.trialAfter', 'Then {price} if you subscribe.'), { price: after }); hintEl.hidden = false;
       primary.className = 'btn btn-primary btn-md';
       primary.textContent = t('subs.trialStart', 'Start free trial');
-      document.getElementById('doneIris').hidden = true;
-      document.querySelector('.pm-foot').hidden = false;
       return;
     }
-    total.innerHTML = view === 'review' || view === 'done' ? ''
-      : n ? '<span class="co-bar-total"><strong>' + L.money(q.total) + '</strong> ' + unit + (save ? ' · <span class="co-bar-save">' + fill(t('subs.youSaveAmt', 'You save {amount}'), { amount: L.money(save) }) + '</span>' : '') + '</span>'
-      : '<span class="co-bar-total">' + (mode === 'add' ? t('subs.addEmpty', 'Select the machines you want to add.') : t('subs.sumEmpty', 'Select at least one product to see your price.')) + '</span>';
-    var hint = view === 'plans' ? bundleHint(n) : '';
-    hintEl.textContent = hint; hintEl.hidden = !hint;
+    var unit = mode === 'add' ? t('subs.sumAddShort', 'Excl. VAT · same renewal date') : pPer();
+    total.innerHTML = view !== 'machines' ? ''
+      : q.lines.length ? '<span class="co-bar-total"><strong>' + L.money(q.total) + '</strong> ' + unit + (save ? ' · <span class="co-bar-save">' + fill(t('subs.youSaveAmt', 'You save {amount}'), { amount: L.money(save) }) + '</span>' : '') + '</span>'
+      : '<span class="co-bar-total">' + (mode === 'add' ? t('subs.addEmpty', 'Select the machines you want to add.') : t('subs.tierStart', 'Select the machines you want to monitor.')) + '</span>';
     primary.className = view === 'review' ? 'btn btn-cta btn-lg' : 'btn btn-primary btn-md';
     primary.innerHTML = view === 'review' ? LOCK + '<span>' + t('subs.confirmPay', 'Confirm and pay') + '</span>'
-      : view === 'done' ? t('subs.done', 'Done')
-      : view === 'machines' && mode !== 'add' ? t('subs.done', 'Done')
-      : t('subs.continue', 'Continue');
-    document.getElementById('doneIris').hidden = view !== 'done';
-    // Every product already current → nothing to buy, no footer
-    document.querySelector('.pm-foot').hidden = view === 'plans' && !n && !document.querySelector('#prodList [data-select]');
+      : view === 'done' ? t('subs.done', 'Done') : t('subs.continue', 'Continue');
   }
 
   function renderPlan() {
-    var title = view === 'machines' && mode !== 'add' ? t('subs.mpTitle', 'Production Monitoring machines')
-      : view === 'review' ? t('subs.reviewTitle', 'Review and pay')
+    var title = view === 'machines' ? (mode === 'add' ? t('subs.titleAdd', 'Add machines to Production Monitoring') : t('subs.mpTitle', 'Production Monitoring machines'))
       : view === 'trial' ? fill(t('subs.trialTitle', 'Try {name} free'), { name: pName(trialId) })
-      : view === 'done' && result && result.trial ? t('subs.trialDoneTitle', 'Your free trial is active')
-      : view === 'done' ? t('subs.doneTitle', 'Your licenses are active')
-      : mode === 'renew' ? t('subs.titleRenew', 'Renew your plan')
-      : mode === 'add' ? t('subs.titleAdd', 'Add machines to Production Monitoring')
-      : t('subs.titleBuy', 'Choose your plan');
+      : view === 'review' ? (mode === 'renew' ? t('subs.titleRenew', 'Renew your plan') : t('subs.reviewTitle', 'Review and pay'))
+      : result && result.trial ? t('subs.trialDoneTitle', 'Your free trial is active')
+      : t('subs.doneTitle', 'Your licenses are active');
     document.getElementById('pmTitle').textContent = title;
     document.querySelectorAll('#planModal [data-pv]').forEach(function (el) { el.hidden = el.getAttribute('data-pv') !== view; });
     pModal.querySelector('.pm-box').setAttribute('data-view', view);
-    document.getElementById('cycleGroup').hidden = view !== 'plans';
-    document.getElementById('pmBack').hidden = !(view === 'review' || (view === 'machines' && mode !== 'add') || (view === 'trial' && trialFrom));
-    if (view === 'plans') renderPlans();
+    document.getElementById('pmBack').hidden = !((view === 'review' && plan.pm.length && mode !== 'renew') || (view === 'machines' && machinesFrom));
     if (view === 'machines') renderMachines();
-    if (view === 'review') renderReview();
     if (view === 'trial') renderTrial();
+    if (view === 'review') renderReview();
     if (view === 'done') renderDone();
     renderFoot();
   }
@@ -2300,14 +2243,9 @@ document.addEventListener('click', function(e) {
     pModal.querySelector('.pm-body').scrollTop = 0;
     document.getElementById('pmTitle').focus();
   }
-  function leaveMachines() {
-    if (!plan.pm.length) pmOpen = false;
-    goView('plans');
-    var back = document.querySelector('#prodList [data-machines], #prodList [data-select="pm"]');
-    if (back) back.focus();
-  }
 
   function openPlan(m, prod, trigger) {
+    if (m !== 'renew' && !prod) return;
     pTrigger = trigger;
     setup(m, prod);
     pOpen = true;
@@ -2327,25 +2265,6 @@ document.addEventListener('click', function(e) {
   document.querySelectorAll('#planModal input[name="cycle"]').forEach(function (r) {
     r.addEventListener('change', function () { plan.cycle = this.value; renderPlan(); });
   });
-  document.getElementById('prodList').addEventListener('click', function (e) {
-    if (e.target.closest('[data-go-add]')) { setup('add', 'pm'); goView('machines'); return; }
-    if (e.target.closest('[data-machines]')) { pmOpen = true; goView('machines'); return; }
-    var tr = e.target.closest('[data-trial]');
-    if (tr) { trialId = tr.getAttribute('data-trial'); trialMachine = null; trialFrom = { mode: mode, focus: focusProduct }; goView('trial'); return; }
-    var b = e.target.closest('[data-select]');
-    if (!b) return;
-    var id = b.getAttribute('data-select');
-    var on = b.getAttribute('aria-pressed') !== 'true';
-    if (id === 'pm') {
-      if (on && !plan.pm.length && L.statusOf('pm') === 'trial') plan.pm = state.subs.pm.machines.slice();
-      if (on && !plan.pm.length) { pmOpen = true; goView('machines'); return; }
-      pmOpen = on;
-      if (!on) plan.pm = [];
-    } else plan[id] = on;
-    renderPlan();
-    var back = document.querySelector('#prodList [data-select="' + id + '"]');
-    if (back) back.focus();
-  });
   document.getElementById('mpBody').addEventListener('change', function (e) {
     var el = e.target;
     if (!el.hasAttribute('data-machine')) return;
@@ -2355,6 +2274,15 @@ document.addEventListener('click', function(e) {
     renderPlan();
     var back = document.querySelector('#mpBody [data-machine="' + m + '"]');
     if (back) back.focus();
+  });
+  document.querySelector('#planModal [data-pv="review"]').addEventListener('click', function (e) {
+    if (e.target.closest('[data-edit-machines]')) { machinesFrom = 'review'; goView('machines'); return; }
+    var c = e.target.closest('[data-cross]'), r = e.target.closest('[data-remove]');
+    if (!c && !r) return;
+    var id = (c || r).getAttribute(c ? 'data-cross' : 'data-remove');
+    plan[id] = !!c;
+    renderPlan();
+    document.getElementById('revTitle').focus();
   });
   document.getElementById('trialBody').addEventListener('change', function (e) {
     if (e.target.id !== 'trialMachine') return;
@@ -2379,34 +2307,30 @@ document.addEventListener('click', function(e) {
       goView('done');
       return;
     }
-    if (view === 'machines' && mode !== 'add') { leaveMachines(); return; }
-    if (view === 'review') {
-      var terms = document.getElementById('termsChk');
-      if (!terms.checked) {
-        document.getElementById('termsErr').classList.add('visible');
-        terms.setAttribute('aria-invalid', 'true');
-        terms.focus();
-        return;
-      }
-      result = L.applyPlan({
-        pm: plan.pm, pt: plan.pt, bw: plan.bw, mt: plan.mt, cycle: plan.cycle,
-        pmLicensed: licensed.length, autoRenew: document.getElementById('autoRenewChk').checked
-      });
-      state = L.get();
-      render();
-      goView('done');
+    if (view === 'machines') {
+      if (!quote().lines.length) { document.getElementById('barTotal').setAttribute('role', 'alert'); return; }
+      machinesFrom = null;
+      goView('review');
       return;
     }
-    if (!quote().lines.length) { document.getElementById('barTotal').setAttribute('role', 'alert'); return; }
-    goView('review');
+    var terms = document.getElementById('termsChk');
+    if (!terms.checked) {
+      document.getElementById('termsErr').classList.add('visible');
+      terms.setAttribute('aria-invalid', 'true');
+      terms.focus();
+      return;
+    }
+    result = L.applyPlan({
+      pm: plan.pm, pt: plan.pt, bw: plan.bw, mt: plan.mt, cycle: plan.cycle,
+      pmLicensed: licensed.length, autoRenew: document.getElementById('autoRenewChk').checked
+    });
+    state = L.get();
+    render();
+    goView('done');
   });
   document.getElementById('pmBack').addEventListener('click', function () {
-    if (view === 'machines') leaveMachines();
-    else if (view === 'trial') {
-      var back = trialId; trialId = null; goView('plans');
-      var el = document.querySelector('#prodList [data-trial="' + back + '"]'); if (el) el.focus();
-    }
-    else goView(mode === 'add' ? 'machines' : 'plans');
+    if (view === 'machines') { machinesFrom = null; goView('review'); }
+    else goView('machines');
   });
   document.querySelector('#planModal .terms-text a').addEventListener('click', function (e) { e.preventDefault(); });
   document.getElementById('termsChk').addEventListener('change', function () {
@@ -2418,7 +2342,7 @@ document.addEventListener('click', function(e) {
 
   render();
   document.addEventListener('netzsch:i18n-applied', function () { render(); if (pOpen) renderPlan(); });
-  // Deep link: subscriptions.html?plan=buy|renew|add&product=pm
+  // Deep link: subscriptions.html?plan=buy|renew|add|trial&product=pm
   var qp = new URLSearchParams(location.search);
   if (qp.get('plan')) openPlan(qp.get('plan'), qp.get('product'), null);
 })();
