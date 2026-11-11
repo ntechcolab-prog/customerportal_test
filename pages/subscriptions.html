@@ -1442,7 +1442,8 @@
     .review-list .link-btn { min-height: 32px; margin-top: 0; display: flex; }
     .cross-sell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: #eef6f5; font-size: 13px; color: #00514a; line-height: 1.45; }
     .cross-sell.is-added { background: #f9fafb; color: #1f2937; }
-    .cycle-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+    .cycle-block { margin-top: 24px; }
+    .cycle-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
     .cycle-opts .pay-opt { margin-bottom: 0; }
     .cycle-save { font-size: 12px; font-weight: 600; color: #00544c; margin-left: 4px; white-space: nowrap; }
     .cross-sell .link-btn { flex: none; min-height: 32px; margin-top: 0; }
@@ -1743,16 +1744,16 @@
             <h3 class="card-title" id="revTitle" data-i18n="subs.yourOrder">Your plan</h3>
             <ul class="review-list" id="reviewList"></ul>
             <div id="crossSell"></div>
+            <div class="cycle-block" id="cycleGroup">
+              <h3 class="card-title" id="cycTitle" data-i18n="subs.billingCycle">Billing cycle</h3>
+              <div class="cycle-opts" role="radiogroup" aria-labelledby="cycTitle">
+                <label class="pay-opt"><input type="radio" name="cycle" value="year" checked><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name"><span data-i18n="subs.yearly">Yearly</span> <small class="cycle-save" data-i18n="subs.yearlyHint">2 months free</small></span><span class="pay-desc" id="cycYearDesc"></span></span></label>
+                <label class="pay-opt"><input type="radio" name="cycle" value="month"><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name" data-i18n="subs.monthly">Monthly</span><span class="pay-desc" id="cycMonthDesc"></span></span></label>
+              </div>
+            </div>
             <div id="sumBody2" class="pm-sum"></div>
           </section>
           <div class="pm-review-side">
-          <section aria-labelledby="cycTitle" id="cycleGroup">
-            <h3 class="card-title" id="cycTitle" data-i18n="subs.billingCycle">Billing cycle</h3>
-            <div class="cycle-opts" role="radiogroup" aria-labelledby="cycTitle">
-              <label class="pay-opt"><input type="radio" name="cycle" value="year" checked><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name"><span data-i18n="subs.yearly">Yearly</span> <small class="cycle-save" data-i18n="subs.yearlyHint">2 months free</small></span><span class="pay-desc" id="cycYearDesc"></span></span></label>
-              <label class="pay-opt"><input type="radio" name="cycle" value="month"><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name" data-i18n="subs.monthly">Monthly</span><span class="pay-desc" id="cycMonthDesc"></span></span></label>
-            </div>
-          </section>
           <section aria-labelledby="payTitle">
             <h3 class="card-title" id="payTitle" data-i18n="subs.payment">Payment</h3>
             <div role="radiogroup" aria-labelledby="payTitle">
