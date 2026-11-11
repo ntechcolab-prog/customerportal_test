@@ -9,16 +9,21 @@
  *    covers all the customer's machines (fleet-wide).
  *  - Bundle: progressive discount by number of distinct products in the plan.
  *  - Billing: yearly (base price) or monthly (yearly / 10 → yearly = 2 months free).
+ *  - Free trial: 30 days per product, once per customer, no payment. Production
+ *    Monitoring trials cover one machine. Trials end on their own (no charge).
  *
  * Demo helpers: ?demo=reset restores the sample state (all products active),
- * ?demo=renewal loads expiring/expired licenses (renewal flow), ?demo=none
- * clears all licenses (empty state, IRIS Cloud access hidden).
+ * ?demo=renewal loads expiring/expired licenses (renewal flow), ?demo=trial
+ * loads a running trial and an ended one, ?demo=none clears all licenses
+ * (empty state, IRIS Cloud access hidden).
  */
 (function () {
   'use strict';
 
   var KEY = 'netzsch_licenses';
   var IRIS_URL = 'https://iris.netzsch.com';
+  var TRIAL_DAYS = 30;
+  var TRIAL_REMIND = 7; // days before the end when the trial asks for attention
 
   var PRODUCTS = [
     { id: 'pm', name: 'Production Monitoring', model: 'machine', price: 1000,
@@ -87,10 +92,34 @@
     };
   }
 
+  function trialSample() {
+    return {
+      cycle: 'year',
+      subs: {
+        pm: { status: 'active', machines: ['discus30', 'zeta60'], renewsOn: iso(142), autoRenew: true, since: iso(-223) },
+        bw: { status: 'trial', renewsOn: iso(5), autoRenew: false, since: iso(-25) }
+      },
+      trials: { bw: { startedOn: iso(-25), endsOn: iso(5) }, mt: { startedOn: iso(-60), endsOn: iso(-30) } },
+      invoices: [
+        { id: 'INV-DP-2026-009', date: iso(-223), items: 'Production Monitoring ×2', total: 1600 }
+      ]
+    };
+  }
+
+  // Ended trials leave the plan; the trials record keeps them from restarting
+  function normalize(state) {
+    state.trials = state.trials || {};
+    Object.keys(state.subs).forEach(function (id) {
+      var s = state.subs[id];
+      if (s.status === 'trial' && daysUntil(s.renewsOn) < 0) delete state.subs[id];
+    });
+    return state;
+  }
+
   function load() {
     try {
       var raw = localStorage.getItem(KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) return normalize(JSON.parse(raw));
     } catch (e) {}
     var s = sample();
     save(s);
@@ -103,10 +132,11 @@
 
   // Demo switches via query string
   (function () {
-    var m = /[?&]demo=(reset|renewal|none)/.exec(location.search);
+    var m = /[?&]demo=(reset|renewal|trial|none)/.exec(location.search);
     if (!m) return;
     if (m[1] === 'reset') save(sample());
     else if (m[1] === 'renewal') save(renewalSample());
+    else if (m[1] === 'trial') save(trialSample());
     else save({ cycle: 'year', subs: {}, invoices: [] });
   })();
 
@@ -127,10 +157,11 @@
     return Math.round((d - today) / 86400000);
   }
 
-  // Effective status: active | expiring (≤ 30 days, no auto-renew) | expired | none
+  // Effective status: active | expiring (≤ 30 days, no auto-renew) | expired | trial | none
   function statusOf(id) {
     var s = load().subs[id];
     if (!s) return 'none';
+    if (s.status === 'trial') return 'trial';
     if (s.status === 'expired' || daysUntil(s.renewsOn) < 0) return 'expired';
     if (!s.autoRenew && daysUntil(s.renewsOn) <= 30) return 'expiring';
     return 'active';
@@ -139,8 +170,26 @@
   function hasActive() {
     return PRODUCTS.some(function (p) {
       var st = statusOf(p.id);
-      return st === 'active' || st === 'expiring';
+      return st === 'active' || st === 'expiring' || st === 'trial';
     });
+  }
+
+  // A product can be tried once, while the customer has never licensed it
+  function canTrial(id) {
+    var state = load();
+    return !state.subs[id] && !state.trials[id];
+  }
+
+  // Start a free trial. Production Monitoring needs one machine.
+  function startTrial(id, machine) {
+    var state = load();
+    if (!canTrial(id)) return null;
+    var ends = iso(TRIAL_DAYS);
+    state.subs[id] = { status: 'trial', renewsOn: ends, autoRenew: false, since: iso(0) };
+    if (id === 'pm') state.subs[id].machines = [machine];
+    state.trials[id] = { startedOn: iso(0), endsOn: ends };
+    save(state);
+    return { endsOn: ends };
   }
 
   /**
@@ -206,7 +255,7 @@
     var autoRenew = plan.autoRenew !== false;
     if ((plan.pm || []).length) {
       var old = state.subs.pm;
-      if (plan.pmLicensed && old) {
+      if (plan.pmLicensed && old && old.status !== 'trial') {
         // Add machines: join the existing license and keep its renewal date
         old.machines = old.machines.concat(plan.pm.filter(function (m) { return old.machines.indexOf(m) < 0; }));
       } else {
@@ -251,6 +300,8 @@
 
   window.Licenses = {
     IRIS_URL: IRIS_URL,
+    TRIAL_DAYS: TRIAL_DAYS,
+    TRIAL_REMIND: TRIAL_REMIND,
     PRODUCTS: PRODUCTS,
     LOOK: LOOK,
     PM_TIERS: PM_TIERS,
@@ -259,6 +310,8 @@
     product: product,
     statusOf: statusOf,
     hasActive: hasActive,
+    canTrial: canTrial,
+    startTrial: startTrial,
     daysUntil: daysUntil,
     pmUnitPrice: pmUnitPrice,
     quote: quote,

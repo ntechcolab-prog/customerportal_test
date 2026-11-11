@@ -111,7 +111,7 @@
           var today = new Date().toISOString().slice(0, 10);
           Object.keys(lic.subs).forEach(function (k) {
             var s = lic.subs[k];
-            if (s.status === 'active' && s.renewsOn >= today) hasLicense = true;
+            if ((s.status === 'active' || s.status === 'trial') && s.renewsOn >= today) hasLicense = true;
           });
         } else if (!lic) {
           hasLicense = true; // sample state seeds active licenses on first visit

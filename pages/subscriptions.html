@@ -1455,6 +1455,14 @@
       .done-meta { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) { .plan-col { transition: none; } }
+    /* Free trial */
+    .v2-info .link-btn { margin-top: 2px; min-height: 32px; }
+    .plan-trial { align-self: center; }
+    .trial-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+    .trial-points li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: #1f2937; line-height: 1.45; }
+    .trial-points svg { flex: none; margin-top: 2px; color: #007167; }
+    .trial-cover { font-size: 14px; font-weight: 600; color: #1f2937; margin: 0; }
+    .tier-hint.is-error { color: #b91c1c; font-weight: 600; }
   </style>
   <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
@@ -1715,7 +1723,7 @@
 
     <div id="view" data-skeleton-stagger></div>
 
-    <p class="demo-switch">Prototype: <a href="?demo=reset">all active</a> · <a href="?demo=renewal">renewal due</a> · <a href="?demo=none">no licenses</a></p>
+    <p class="demo-switch">Prototype: <a href="?demo=reset">all active</a> · <a href="?demo=renewal">renewal due</a> · <a href="?demo=trial">trial</a> · <a href="?demo=none">no licenses</a></p>
 
     </div><!-- /page-content -->
 
@@ -1745,6 +1753,9 @@
 
         <!-- View: machines (Production Monitoring) -->
         <div data-pv="machines" hidden id="mpBody"></div>
+
+        <!-- View: free trial -->
+        <div data-pv="trial" hidden id="trialBody"></div>
 
         <!-- View: review & pay -->
         <div data-pv="review" hidden class="pm-review">
@@ -1913,8 +1924,14 @@ document.addEventListener('click', function(e) {
     openDrawer();
   }
 
+  function trialLeft(sub) { return L.daysUntil(sub.renewsOn); }
   function statusText(st, sub) {
     if (st === 'none') return t('subs.notSubscribed', 'Not subscribed');
+    if (st === 'trial') {
+      var left = trialLeft(sub);
+      return left <= 0 ? t('subs.trialLastDay', 'Trial · last day')
+        : left === 1 ? t('subs.trialOneDay', 'Trial · 1 day left') : fill(t('subs.trialDaysLeft', 'Trial · {days} days left'), { days: left });
+    }
     if (st === 'expired') return t('status.expired', 'Expired');
     if (st === 'expiring') {
       var d = L.daysUntil(sub.renewsOn);
@@ -1927,8 +1944,15 @@ document.addEventListener('click', function(e) {
     var st = L.statusOf(p.id);
     var sub = L.get().subs[p.id];
     var d = { p: p, st: st, sub: sub, name: productName(p) };
-    if (st === 'none') {
-      d.meta = t('subs.d.' + p.id, p.desc);
+    var trials = L.get().trials || {};
+    if (st === 'trial') {
+      d.meta = coverage(p, sub) + ' · ' + t('subs.trialEndsOn', 'Free until') + ' ' + L.formatDate(sub.renewsOn);
+      d.price = t('subs.freeTrial', 'Free trial');
+      d.plan = 'buy'; d.label = t('subs.subscribe', 'Subscribe');
+      d.kind = trialLeft(sub) <= L.TRIAL_REMIND ? 'renew' : 'subscribe';
+    } else if (st === 'none') {
+      d.meta = trials[p.id] ? t('subs.trialEndedOn', 'Free trial ended on') + ' ' + L.formatDate(trials[p.id].endsOn) : t('subs.d.' + p.id, p.desc);
+      d.trial = L.canTrial(p.id);
       d.price = p.model === 'machine'
         ? fill(t('subs.fromPerMachine', 'From {price} per machine'), { price: L.money(L.PM_TIERS[L.PM_TIERS.length - 1].price / div()) })
         : L.money(p.price / div()) + ' ' + per();
@@ -1951,7 +1975,13 @@ document.addEventListener('click', function(e) {
       ? '<button class="' + cls + '" data-manage="' + d.p.id + '"' + aria + '>' + d.label + '</button>'
       : '<button class="' + cls + '" data-plan="' + d.plan + '" data-product="' + d.p.id + '"' + aria + '>' + d.label + '</button>';
   }
-  function pill(d) { return '<span class="status-badge status-' + (d.st === 'none' ? 'draft' : d.st) + '">' + d.status + '</span>'; }
+  function pill(d) {
+    var cls = d.st === 'none' ? 'draft' : d.st === 'trial' ? (d.kind === 'renew' ? 'expiring' : 'submitted') : d.st;
+    return '<span class="status-badge status-' + cls + '">' + d.status + '</span>';
+  }
+  function trialLink(id) {
+    return '<button type="button" class="link-btn" data-trial="' + id + '" aria-label="' + fill(t('subs.tryFreeFor', 'Try {name} free for 30 days'), { name: productName(L.product(id)) }) + '">' + t('subs.tryFree', 'Try free for 30 days') + '</button>';
+  }
 
   function planTotals() {
     var total = 0, next = null, n = 0;
@@ -1985,7 +2015,7 @@ document.addEventListener('click', function(e) {
       var d = tileData(p);
       return '<li class="v2-row is-' + d.st + '">' +
         '<span class="v2-icon">' + icon(p.id) + '</span>' +
-        '<span class="v2-info"><span class="v2-name">' + d.name + '</span><span class="v2-meta">' + d.meta + '</span></span>' +
+        '<span class="v2-info"><span class="v2-name">' + d.name + '</span><span class="v2-meta">' + d.meta + '</span>' + (d.trial ? trialLink(p.id) : '') + '</span>' +
         pill(d) +
         '<span class="v2-price">' + d.price + '</span>' +
         actionEl(d, 'btn btn-md ' + (d.kind === 'renew' ? 'btn-primary' : 'btn-secondary') + ' v2-action') +
@@ -2001,6 +2031,8 @@ document.addEventListener('click', function(e) {
     if (b) { lastTrigger = b; openManage(b.getAttribute('data-manage')); return; }
     var bill = e.target.closest('[data-billing]');
     if (bill) { lastTrigger = bill; openBilling(); return; }
+    var tr = e.target.closest('[data-trial]');
+    if (tr) { openPlan('trial', tr.getAttribute('data-trial'), tr); return; }
     var pl = e.target.closest('[data-plan]');
     if (pl) openPlan(pl.getAttribute('data-plan'), pl.getAttribute('data-product'), pl);
   });
@@ -2021,6 +2053,7 @@ document.addEventListener('click', function(e) {
   var mode = 'buy', focusProduct = null, view = 'plans', result = null, state = L.get();
   var plan = { pm: [], pt: false, bw: false, mt: false, cycle: 'year' };
   var licensed = [], pmOpen = false;
+  var trialId = null, trialMachine = null, trialFrom = null;
   var CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
   var LOCK = '<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="4.5" y="8" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
   var PEN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
@@ -2036,22 +2069,27 @@ document.addEventListener('click', function(e) {
   function setup(m, prod) {
     state = L.get(); mode = m || 'buy'; focusProduct = prod || null; result = null;
     plan = { pm: [], pt: false, bw: false, mt: false, cycle: state.cycle || 'year' };
-    licensed = [];
-    if (mode === 'add' && state.subs.pm) {
+    licensed = []; trialId = null; trialMachine = null; trialFrom = null;
+    if (mode === 'trial') {
+      trialId = focusProduct;
+    } else if (mode === 'add' && state.subs.pm) {
       licensed = state.subs.pm.machines.slice();
     } else if (mode === 'renew') {
       var targets = focusProduct ? [focusProduct] : L.PRODUCTS.filter(function (p) {
         var st = L.statusOf(p.id); return st === 'expiring' || st === 'expired';
       }).map(function (p) { return p.id; });
       targets.forEach(function (id) {
+        if (L.statusOf(id) === 'trial') return;
         if (id === 'pm' && state.subs.pm) plan.pm = state.subs.pm.machines.slice();
         else if (id !== 'pm') plan[id] = true;
       });
     } else if (focusProduct && focusProduct !== 'pm') {
       plan[focusProduct] = true;
+    } else if (focusProduct === 'pm' && L.statusOf('pm') === 'trial') {
+      plan.pm = state.subs.pm.machines.slice(); // subscribing keeps the trial machine
     }
     pmOpen = mode === 'add' || plan.pm.length > 0;
-    view = mode === 'add' || (mode === 'buy' && focusProduct === 'pm') ? 'machines' : 'plans';
+    view = mode === 'trial' ? 'trial' : mode === 'add' || (mode === 'buy' && focusProduct === 'pm') ? 'machines' : 'plans';
     document.querySelectorAll('#planModal input[name="cycle"]').forEach(function (r) { r.checked = r.value === plan.cycle; });
     var terms = document.getElementById('termsChk');
     terms.checked = false; terms.removeAttribute('aria-invalid');
@@ -2068,10 +2106,13 @@ document.addEventListener('click', function(e) {
     if (isCurrent && p.id === 'pm') return '<button type="button" class="btn btn-secondary btn-md" data-go-add>' + t('subs.addMachines', 'Add machines') + '</button>';
     if (isCurrent) return '<button type="button" class="btn btn-secondary btn-md" disabled>' + t('status.active', 'Active') + '</button>';
     var note = st === 'expired' ? t('subs.expiredOn', 'Expired on') + ' ' + L.formatDate(sub.renewsOn)
-      : st === 'expiring' ? t('subs.expiresOn', 'Expires on') + ' ' + L.formatDate(sub.renewsOn) : '';
+      : st === 'expiring' ? t('subs.expiresOn', 'Expires on') + ' ' + L.formatDate(sub.renewsOn)
+      : st === 'trial' ? t('subs.trialEndsOn', 'Free until') + ' ' + L.formatDate(sub.renewsOn) : '';
+    var trial = mode !== 'renew' && L.canTrial(p.id)
+      ? '<button type="button" class="link-btn plan-trial" data-trial="' + p.id + '" aria-label="' + fill(t('subs.tryFreeFor', 'Try {name} free for 30 days'), { name: pName(p.id) }) + '">' + t('subs.tryFree', 'Try free for 30 days') + '</button>' : '';
     return '<button type="button" class="btn ' + (on ? 'btn-primary' : 'btn-secondary') + ' btn-md" data-select="' + p.id + '" aria-pressed="' + !!on + '" aria-label="' + (on ? t('subs.selected', 'Selected') : t('subs.select', 'Select')) + ': ' + pName(p.id) + '">' +
       (on ? CHECK + ' ' + t('subs.selected', 'Selected') : t('subs.select', 'Select')) + '</button>' +
-      (note ? '<p class="plan-note">' + note + '</p>' : '');
+      (note ? '<p class="plan-note">' + note + '</p>' : '') + trial;
   }
 
   function priceBlock(p, on) {
@@ -2132,6 +2173,35 @@ document.addEventListener('click', function(e) {
       '</div></div>';
   }
 
+  /* View: free trial */
+  function trialEnds() { var d = new Date(); d.setDate(d.getDate() + L.TRIAL_DAYS); return d.toISOString().slice(0, 10); }
+  function renderTrial() {
+    var p = L.product(trialId);
+    var points = [
+      fill(t('subs.trialP1', 'Full access to {name} for {days} days'), { name: pName(trialId), days: L.TRIAL_DAYS }),
+      t('subs.trialP2', 'No payment details needed'),
+      fill(t('subs.trialP3', 'Ends on its own on {date}. Nothing is charged.'), { date: L.formatDate(trialEnds()) }),
+      t('subs.trialP4', 'Subscribe before it ends and keep your data.')
+    ].map(function (x) { return '<li>' + CHECK + '<span>' + x + '</span></li>'; }).join('');
+    var right;
+    if (p.model === 'machine') {
+      right = '<p class="card-title" id="trLabel">' + t('subs.trialPick', 'Choose 1 machine') + '</p>' +
+        '<div class="mp-list" role="radiogroup" aria-labelledby="trLabel" aria-describedby="trHint">' + fleet().map(function (m) {
+          return '<label class="mp-item"><input type="radio" name="trialMachine" value="' + m.id + '"' + (trialMachine === m.id ? ' checked' : '') + '><span>' + m.name + '</span></label>';
+        }).join('') + '</div>' +
+        '<p class="tier-hint" id="trHint">' + t('subs.trialConnected', 'The machine must be connected to IRIS Cloud.') + '</p>';
+    } else {
+      right = '<p class="card-title">' + t('subs.coverage', 'Coverage') + '</p>' +
+        '<p class="trial-cover">' + t('subs.allMachines', 'All machines') + '</p>' +
+        '<p class="tier-hint">' + t('subs.trialConnectedAll', 'Your machines must be connected to IRIS Cloud.') + '</p>';
+    }
+    document.getElementById('trialBody').innerHTML =
+      '<div class="mp-grid"><div>' +
+        '<p class="card-title">' + t('subs.trialIncluded', 'What you get') + '</p>' +
+        '<ul class="trial-points">' + points + '</ul>' +
+      '</div><div>' + right + '</div></div>';
+  }
+
   /* View: review & pay */
   function summaryHtml(q) {
     var html = '<div class="payment-row"><span class="label">' + t('subs.subtotal', 'Subtotal') + '</span><span class="value">' + L.money(q.list) + '</span></div>';
@@ -2154,6 +2224,15 @@ document.addEventListener('click', function(e) {
 
   /* View: done */
   function renderDone() {
+    if (result.trial) {
+      document.getElementById('doneDesc').textContent = t('subs.trialDoneDesc', 'Data starts flowing to IRIS Cloud within 24 hours. We remind you 7 days before the trial ends. Nothing is charged.');
+      document.getElementById('doneMeta').innerHTML =
+        '<div>' + t('subs.product', 'Product') + '<strong>' + pName(trialId) + '</strong></div>' +
+        '<div>' + t('subs.coverage', 'Coverage') + '<strong>' + (trialMachine ? machineName(trialMachine) : t('subs.allMachines', 'All machines')) + '</strong></div>' +
+        '<div>' + t('subs.trialEndsOn', 'Free until') + '<strong>' + L.formatDate(result.endsOn) + '</strong></div>';
+      document.getElementById('doneIris').href = L.IRIS_URL;
+      return;
+    }
     document.getElementById('doneDesc').textContent = t('subs.doneDesc', 'Data starts flowing to IRIS Cloud within 24 hours. We sent the invoice to marcus.weber@acme-corp.com.');
     document.getElementById('doneMeta').innerHTML =
       '<div>' + t('subs.invoice', 'Invoice') + '<strong>' + result.invoice + '</strong></div>' +
@@ -2176,6 +2255,17 @@ document.addEventListener('click', function(e) {
     var primary = document.getElementById('pmPrimary');
     var unit = mode === 'add' ? t('subs.sumAddShort', 'Excl. VAT · same renewal date') : pPer();
     total.removeAttribute('role');
+    if (view === 'trial') {
+      var tp = L.product(trialId);
+      var after = tp.model === 'machine' ? L.money(L.pmUnitPrice(1) / pDiv()) + ' ' + t('subs.perMachine', 'per machine') + ' ' + pPer() : L.money(tp.price / pDiv()) + ' ' + pPer();
+      total.innerHTML = '<span class="co-bar-total"><strong>' + L.money(0) + '</strong> ' + fill(t('subs.trialFor', 'for {days} days'), { days: L.TRIAL_DAYS }) + '</span>';
+      hintEl.textContent = fill(t('subs.trialAfter', 'Then {price} if you subscribe.'), { price: after }); hintEl.hidden = false;
+      primary.className = 'btn btn-primary btn-md';
+      primary.textContent = t('subs.trialStart', 'Start free trial');
+      document.getElementById('doneIris').hidden = true;
+      document.querySelector('.pm-foot').hidden = false;
+      return;
+    }
     total.innerHTML = view === 'review' || view === 'done' ? ''
       : n ? '<span class="co-bar-total"><strong>' + L.money(q.total) + '</strong> ' + unit + (save ? ' · <span class="co-bar-save">' + fill(t('subs.youSaveAmt', 'You save {amount}'), { amount: L.money(save) }) + '</span>' : '') + '</span>'
       : '<span class="co-bar-total">' + (mode === 'add' ? t('subs.addEmpty', 'Select the machines you want to add.') : t('subs.sumEmpty', 'Select at least one product to see your price.')) + '</span>';
@@ -2194,6 +2284,8 @@ document.addEventListener('click', function(e) {
   function renderPlan() {
     var title = view === 'machines' && mode !== 'add' ? t('subs.mpTitle', 'Production Monitoring machines')
       : view === 'review' ? t('subs.reviewTitle', 'Review and pay')
+      : view === 'trial' ? fill(t('subs.trialTitle', 'Try {name} free'), { name: pName(trialId) })
+      : view === 'done' && result && result.trial ? t('subs.trialDoneTitle', 'Your free trial is active')
       : view === 'done' ? t('subs.doneTitle', 'Your licenses are active')
       : mode === 'renew' ? t('subs.titleRenew', 'Renew your plan')
       : mode === 'add' ? t('subs.titleAdd', 'Add machines to Production Monitoring')
@@ -2202,10 +2294,11 @@ document.addEventListener('click', function(e) {
     document.querySelectorAll('#planModal [data-pv]').forEach(function (el) { el.hidden = el.getAttribute('data-pv') !== view; });
     pModal.querySelector('.pm-box').setAttribute('data-view', view);
     document.getElementById('cycleGroup').hidden = view !== 'plans';
-    document.getElementById('pmBack').hidden = !(view === 'review' || (view === 'machines' && mode !== 'add'));
+    document.getElementById('pmBack').hidden = !(view === 'review' || (view === 'machines' && mode !== 'add') || (view === 'trial' && trialFrom));
     if (view === 'plans') renderPlans();
     if (view === 'machines') renderMachines();
     if (view === 'review') renderReview();
+    if (view === 'trial') renderTrial();
     if (view === 'done') renderDone();
     renderFoot();
   }
@@ -2246,11 +2339,14 @@ document.addEventListener('click', function(e) {
   document.getElementById('prodList').addEventListener('click', function (e) {
     if (e.target.closest('[data-go-add]')) { setup('add', 'pm'); goView('machines'); return; }
     if (e.target.closest('[data-machines]')) { pmOpen = true; goView('machines'); return; }
+    var tr = e.target.closest('[data-trial]');
+    if (tr) { trialId = tr.getAttribute('data-trial'); trialMachine = null; trialFrom = { mode: mode, focus: focusProduct }; goView('trial'); return; }
     var b = e.target.closest('[data-select]');
     if (!b) return;
     var id = b.getAttribute('data-select');
     var on = b.getAttribute('aria-pressed') !== 'true';
     if (id === 'pm') {
+      if (on && !plan.pm.length && L.statusOf('pm') === 'trial') plan.pm = state.subs.pm.machines.slice();
       if (on && !plan.pm.length) { pmOpen = true; goView('machines'); return; }
       pmOpen = on;
       if (!on) plan.pm = [];
@@ -2269,8 +2365,29 @@ document.addEventListener('click', function(e) {
     var back = document.querySelector('#mpBody [data-machine="' + m + '"]');
     if (back) back.focus();
   });
+  document.getElementById('trialBody').addEventListener('change', function (e) {
+    if (e.target.name !== 'trialMachine') return;
+    trialMachine = e.target.value;
+    document.getElementById('trHint').removeAttribute('role');
+    document.getElementById('trHint').classList.remove('is-error');
+  });
   document.getElementById('pmPrimary').addEventListener('click', function () {
     if (view === 'done') { closePlan(); return; }
+    if (view === 'trial') {
+      if (L.product(trialId).model === 'machine' && !trialMachine) {
+        var h = document.getElementById('trHint');
+        h.textContent = t('subs.trialPickErr', 'Choose the machine you want to try.');
+        h.classList.add('is-error'); h.setAttribute('role', 'alert');
+        document.querySelector('#trialBody input[name="trialMachine"]').focus();
+        return;
+      }
+      var r = L.startTrial(trialId, trialMachine);
+      result = { trial: true, endsOn: r.endsOn };
+      state = L.get();
+      render();
+      goView('done');
+      return;
+    }
     if (view === 'machines' && mode !== 'add') { leaveMachines(); return; }
     if (view === 'review') {
       var terms = document.getElementById('termsChk');
@@ -2294,6 +2411,10 @@ document.addEventListener('click', function(e) {
   });
   document.getElementById('pmBack').addEventListener('click', function () {
     if (view === 'machines') leaveMachines();
+    else if (view === 'trial') {
+      var back = trialId; trialId = null; goView('plans');
+      var el = document.querySelector('#prodList [data-trial="' + back + '"]'); if (el) el.focus();
+    }
     else goView(mode === 'add' ? 'machines' : 'plans');
   });
   document.querySelector('#planModal .terms-text a').addEventListener('click', function (e) { e.preventDefault(); });
