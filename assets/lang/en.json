@@ -1301,5 +1301,9 @@
   "subs.chooseMachines": "Choose machines",
   "subs.volumePricing": "The more machines, the lower the price per machine",
   "subs.mpTitle": "Production Monitoring machines",
-  "subs.reviewTitle": "Review and pay"
+  "subs.reviewTitle": "Review and pay",
+  "subs.volumeDiscount": "Volume discount",
+  "subs.bundleDiscount": "Bundle discount ({pct}%)",
+  "subs.termsPre": "I accept the",
+  "subs.termsLink": "G&D Digital Products license terms"
 }

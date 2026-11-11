@@ -1306,12 +1306,6 @@
     .pay-current small { display: block; font-size: 12px; color: #4b5563; }
     .demo-switch { font-size: 12px; color: #4b5563; text-align: right; margin-top: 24px; }
     .demo-switch a { color: #007167; }
-    .v-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; white-space: nowrap; background: #e6f4f2; color: #00544c; }
-    .v-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-    .v-pill.is-expiring { background: #fef0e1; color: #93370d; }
-    .v-pill.is-expired { background: #fde8e7; color: #a01b12; }
-    .v-pill.is-none { background: #f1f2f3; color: #4b5563; }
-    .v-pill.is-none::before { display: none; }
     .tile-dot { width: 8px; height: 8px; border-radius: 50%; background: #007167; flex-shrink: 0; }
     .v2-card { background: #fff; border-radius: 16px; box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06); overflow: hidden; }
     .v2-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding: 24px 28px; border-bottom: 1px solid #eef0f1; flex-wrap: wrap; }
@@ -1332,34 +1326,29 @@
     .v2-meta { font-size: 13px; color: #4b5563; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .v2-price { font-size: 14px; font-weight: 600; color: #1d1d1f; text-align: right; }
     .v2-row.is-none .v2-price { font-weight: 500; color: #4b5563; font-size: 13px; }
-    .v2-action { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; border-radius: 999px; font: 600 13px Inter, sans-serif; text-decoration: none; cursor: pointer; border: 1px solid #d7d9db; background: #fff; color: #1d1d1f; }
-    .v2-action:hover { border-color: #007167; }
-    .v2-action.is-renew { background: #007167; border-color: #007167; color: #fff; }
-    .v2-action.is-add { color: #00544c; border-color: #b9dfdb; }
     .alt-links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 16px; }
-    .alt-link { display: inline-flex; align-items: center; min-height: 44px; background: none; border: none; padding: 0; color: #007167; font: 600 14px Inter, sans-serif; text-decoration: none; cursor: pointer; }
+    .alt-link { display: inline-flex; align-items: center; min-height: 44px; background: none; border: none; padding: 0; color: #007167; font: 500 14px Inter, sans-serif; text-decoration: none; cursor: pointer; }
     .alt-link:hover { text-decoration: underline; }
     .demo-switch a[aria-current] { font-weight: 700; color: #1d1d1f; text-decoration: none; }
 
-    .v2-action:focus-visible, .alt-link:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .alt-link:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
 
-    @media (max-width: 1100px) { .v2-row { grid-template-columns: 48px minmax(0,1fr) auto; } .v2-row .v-pill { display: none; } .v2-price { grid-column: 2; text-align: left; } .v2-action { grid-column: 3; grid-row: 1; } }
+    @media (max-width: 1100px) { .v2-row { grid-template-columns: 48px minmax(0,1fr) auto; } .v2-row .status-badge { display: none; } .v2-price { grid-column: 2; text-align: left; } .v2-action { grid-column: 3; grid-row: 1; } }
     @media (max-width: 560px) { .v2-head, .v2-row { padding-left: 18px; padding-right: 18px; } }
     @media (prefers-reduced-motion: reduce) { .switch, .switch::after { transition: none; } }
     /* Toolbar: billing cycle */
-    .cycle-group { display: inline-flex; background: #f3f4f6; border-radius: 10px; padding: 4px; gap: 4px; border: none; }
+    .cycle-group { display: inline-flex; align-items: center; background: #fafbfc; border: 1px solid rgba(0,0,0,.08); border-radius: 8px; overflow: hidden; padding: 0; }
     .cycle-opt { position: relative; }
     .cycle-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
-    .cycle-opt label { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 0 16px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #3d4246; cursor: pointer; white-space: nowrap; }
+    .cycle-opt label { display: flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 16px; font-size: 14px; font-weight: 500; color: #4b5563; cursor: pointer; white-space: nowrap; }
     .cycle-opt label small { font-size: 12px; font-weight: 500; color: #00544c; }
-    .cycle-opt input:checked + label { background: #fff; color: #1f2937; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
-    .cycle-opt input:focus-visible + label { outline: 3px solid #007167; outline-offset: 2px; }
+    .cycle-opt input:checked + label { background: rgba(0,113,103,.1); color: #007167; }
+    .cycle-opt input:focus-visible + label { outline: 2px solid #007167; outline-offset: -2px; }
 
     /* Plans: one card, one column per product */
-    .plans { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; overflow: hidden; }
-    .plan-col { display: flex; flex-direction: column; padding: 24px; border-left: 1px solid #e5e7eb; transition: background .2s ease; }
-    .plan-col:first-child { border-left: none; }
-    .plan-col.is-on { background: #f7fbfa; box-shadow: inset 0 3px 0 #007167; }
+    .plans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .plan-col { display: flex; flex-direction: column; padding: 20px; background: #fff; border: 2px solid #e5e7eb; border-radius: 12px; transition: border-color .15s, box-shadow .15s; }
+    .plan-col.is-on { border-color: #007167; box-shadow: 0 0 0 3px rgba(0,113,103,.1); }
     .plan-name { font-size: 17px; font-weight: 700; color: #1f2937; letter-spacing: -.2px; }
     .plan-desc { font-size: 13px; color: #4b5563; line-height: 1.5; margin-top: 4px; min-height: 40px; }
     .plan-price { margin-top: 20px; font-size: 13px; color: #4b5563; }
@@ -1367,26 +1356,32 @@
     .plan-sub { font-size: 13px; color: #4b5563; margin-top: 4px; min-height: 44px; display: flex; align-items: center; }
     .plan-cta { margin-top: auto; padding-top: 16px; min-height: 86px; display: flex; flex-direction: column; }
     .plan-cta .btn { width: 100%; justify-content: center; gap: 6px; }
-    .plan-cta .btn[disabled] { opacity: 1; background: #f3f4f6; border-color: #f3f4f6; color: #4b5563; cursor: default; }
+    .plan-cta .btn[disabled] { opacity: 1; background: #f9fafb; border-color: #e5e7eb; color: #4b5563; cursor: default; }
     .plan-note { font-size: 12px; color: #4b5563; text-align: center; margin-top: 8px; }
     .link-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; padding: 0; min-height: 44px; margin-top: 4px; color: #007167; font: 600 13px Inter, sans-serif; cursor: pointer; }
     .link-btn:hover { text-decoration: underline; }
     .link-btn:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 4px; }
 
     .mp-label { font-size: 13px; font-weight: 600; color: #1f2937; margin-bottom: 8px; }
-    .price-rows { list-style: none; margin-bottom: 20px; background: #fafbfc; border: 1px solid #f0f1f2; border-radius: 10px; padding: 4px 14px; }
-    .price-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-top: 1px solid #f0f1f2; font-size: 13px; color: #4b5563; }
-    .price-row:first-child { border-top: none; }
-    .price-row strong { font-size: 15px; font-weight: 700; color: #1f2937; font-variant-numeric: tabular-nums; }
-    .price-row strong small { font-size: 12px; font-weight: 500; color: #4b5563; }
-    .price-row.is-current, .price-row.is-current strong { color: #007167; font-weight: 700; }
+    .price-rows { list-style: none; }
+    .payment-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px; padding: 6px 0; }
+    .payment-row .label { color: #4b5563; }
+    .payment-row .value { color: #1f2937; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .payment-row.is-current .label, .payment-row.is-current .value { color: #007167; font-weight: 700; }
+    .payment-row.is-discount .label, .payment-row.is-discount .value { color: #00544c; }
+    .payment-separator { border: none; border-top: 1px solid #e5e7eb; margin: 10px 0; }
+    .order-total-row { display: flex; justify-content: space-between; align-items: baseline; }
+    .order-total-label { font-size: 16px; font-weight: 700; color: #1f2937; }
+    .order-total-value { font-size: 24px; font-weight: 700; color: #1f2937; font-variant-numeric: tabular-nums; }
+    .card-title { font-size: 16px; font-weight: 700; color: #1f2937; letter-spacing: -.2px; margin-bottom: 12px; }
     .mp-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-    .mp-item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; cursor: pointer; font-size: 14px; color: #1f2937; }
+    .mp-item { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 14px; border: 2px solid #e5e7eb; border-radius: 12px; background: #fff; cursor: pointer; font-size: 14px; color: #1f2937; transition: border-color .15s, box-shadow .15s; }
+    .mp-item:hover { border-color: #b1b4b7; }
     .mp-item small { font-size: 12px; color: #4b5563; margin-left: 4px; }
-    .mp-item:has(input:checked) { background: #f0faf9; border-color: #b9dfdb; }
-    .mp-item:has(input:disabled) { cursor: default; }
+    .mp-item:has(input:checked) { border-color: #007167; box-shadow: 0 0 0 3px rgba(0,113,103,.1); }
+    .mp-item:has(input:disabled) { cursor: default; border-color: #e5e7eb; box-shadow: none; background: #f9fafb; }
     .mp-item input { width: 18px; height: 18px; accent-color: #007167; }
-    .mp-item input:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .mp-item input:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
     .tier-hint { margin-top: 10px; font-size: 13px; color: #00544c; }
 
     .co-bar-total { font-size: 14px; color: #4b5563; }
@@ -1394,24 +1389,23 @@
     .co-bar-save { color: #00544c; font-weight: 600; }
     .co-bar-hint { font-size: 13px; color: #4b5563; margin-top: 2px; }
 
-    .sum-line { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: #3d4246; padding: 5px 0; }
-    .sum-line small { display: block; font-size: 12px; color: #4b5563; }
-    .sum-line.is-discount { color: #00544c; }
-    .sum-sep { border: none; border-top: 1px solid #eaeaea; margin: 10px 0; }
-    .sum-total { display: flex; justify-content: space-between; align-items: baseline; }
-    .sum-total span { font-size: 14px; font-weight: 600; color: #1d1d1f; }
-    .sum-total strong { font-size: 26px; font-weight: 700; color: #1d1d1f; }
-    .sum-note { font-size: 12px; color: #4b5563; margin: 4px 0 16px; }
+    .sum-note { font-size: 12px; color: #4b5563; margin-top: 6px; }
     /* Review */
-    .pay-opt { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border: 1px solid #d7d9db; border-radius: 10px; cursor: pointer; margin-bottom: 8px; }
-    .pay-opt:has(input:checked) { border-color: #007167; box-shadow: 0 0 0 1px #007167; }
-    .pay-opt input { width: 18px; height: 18px; accent-color: #007167; margin-top: 2px; }
-    .pay-opt input:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .pay-opt { position: relative; display: flex; align-items: flex-start; gap: 10px; padding: 16px; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; margin-bottom: 10px; transition: border-color .15s, box-shadow .15s; }
+    .pay-opt:hover { border-color: #b1b4b7; }
+    .pay-opt:has(input:checked) { border-color: #007167; box-shadow: 0 0 0 3px rgba(0,113,103,.1); }
+    .pay-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .pay-opt:has(input:focus-visible) { outline: 2px solid #007167; outline-offset: 2px; }
+    .radio-circle { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #d1d5db; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color .15s; }
+    .radio-circle::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: transparent; transition: background .15s; }
+    .pay-opt:has(input:checked) .radio-circle { border-color: #007167; box-shadow: 0 0 0 3px rgba(0,113,103,.1); }
+    .pay-opt:has(input:checked) .radio-circle::after { background: #007167; }
     .pay-name { display: block; font-size: 14px; font-weight: 500; color: #1d1d1f; }
     .pay-desc { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
-    .check-row { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #1d1d1f; margin-top: 12px; cursor: pointer; }
-    .check-row input { width: 18px; height: 18px; accent-color: #007167; margin-top: 1px; flex-shrink: 0; }
-    .check-row input:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .terms-row { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; font-size: 13px; color: #374151; line-height: 1.5; cursor: pointer; }
+    .terms-checkbox { width: 18px; height: 18px; flex-shrink: 0; cursor: pointer; accent-color: #007167; margin-top: 1px; }
+    .terms-checkbox:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
+    .terms-text a { color: #007167; font-weight: 500; }
     .review-list { list-style: none; }
     .review-list li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #1d1d1f; }
     .review-list li small { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
@@ -1429,19 +1423,18 @@
     .pm-box[data-view="machines"] { width: min(820px, calc(100vw - 32px)); }
     .pm-box[data-view="review"] { width: min(880px, calc(100vw - 32px)); }
     .pm-box[data-view="done"] { width: min(560px, calc(100vw - 32px)); }
-    .pm-header { align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid #eef0f1; flex-wrap: wrap; }
+    .pm-header { align-items: center; gap: 16px; flex-wrap: wrap; }
     .pm-header .modal-title { margin: 0; }
     .pm-head-left, .pm-head-right { display: flex; align-items: center; gap: 12px; }
     .pm-head-right { margin-left: auto; }
     .pm-title:focus, #pmTitle:focus { outline: none; }
     .cycle-group[hidden], .pm-foot[hidden], [data-pv][hidden], #pmBack[hidden], #doneIris[hidden], .co-bar-hint[hidden] { display: none !important; }
     .pm-body { flex: 1; overflow-y: auto; padding-top: 20px; }
-    .pm-foot { justify-content: space-between; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid #eef0f1; }
+    .pm-foot { justify-content: space-between; flex-wrap: wrap; padding-top: 16px; }
     .pm-foot .btn-group { margin-left: auto; }
     .mp-grid { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 28px; align-items: start; }
     .pm-review { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
-    .pm-sec { font-size: 14px; font-weight: 600; color: #1f2937; margin-bottom: 8px; }
-    .pm-sum { margin-top: 16px; background: #fafbfc; border: 1px solid #f0f1f2; border-radius: 10px; padding: 12px 16px 4px; }
+    .pm-sum { margin-top: 16px; }
     .done-card { text-align: center; padding: 8px 0 4px; }
     .done-desc { font-size: 14px; color: #4b5563; margin: 0 0 20px; }
     .done-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: left; background: #fafafa; border-radius: 10px; padding: 16px; }
@@ -1450,8 +1443,6 @@
 
     @media (max-width: 1000px) {
       .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .plan-col:nth-child(odd) { border-left: none; }
-      .plan-col:nth-child(n+3) { border-top: 1px solid #e5e7eb; }
     }
     @media (max-width: 720px) {
       .mp-grid, .pm-review { grid-template-columns: 1fr; gap: 20px; }
@@ -1459,8 +1450,6 @@
     @media (max-width: 600px) {
       .pm-box { max-height: calc(100vh - 16px); }
       .plans { grid-template-columns: 1fr; }
-      .plan-col { border-left: none; }
-      .plan-col + .plan-col { border-top: 1px solid #e5e7eb; }
       .mp-list { grid-template-columns: 1fr; }
       .pm-foot .btn-group, .pm-foot .btn { width: 100%; }
       .done-meta { grid-template-columns: 1fr; }
@@ -1760,22 +1749,22 @@
         <!-- View: review & pay -->
         <div data-pv="review" hidden class="pm-review">
           <section aria-labelledby="revTitle">
-            <h3 class="pm-sec" id="revTitle" data-i18n="subs.yourOrder">Your plan</h3>
+            <h3 class="card-title" id="revTitle" data-i18n="subs.yourOrder">Your plan</h3>
             <ul class="review-list" id="reviewList"></ul>
             <div id="sumBody2" class="pm-sum"></div>
           </section>
           <section aria-labelledby="payTitle">
-            <h3 class="pm-sec" id="payTitle" data-i18n="subs.payment">Payment</h3>
+            <h3 class="card-title" id="payTitle" data-i18n="subs.payment">Payment</h3>
             <div role="radiogroup" aria-labelledby="payTitle">
-              <label class="pay-opt"><input type="radio" name="pay" value="invoice" checked><span><span class="pay-name" data-i18n="subs.payInvoice">Invoice (bank transfer)</span><span class="pay-desc" data-i18n="subs.payInvoiceDesc">30 days net, sent to the billing address of ACME Corp.</span></span></label>
-              <label class="pay-opt"><input type="radio" name="pay" value="card"><span><span class="pay-name" data-i18n="subs.payCard">Company card ending 4821</span><span class="pay-desc" data-i18n="subs.payCardDesc">Charged today and on each renewal.</span></span></label>
+              <label class="pay-opt"><input type="radio" name="pay" value="invoice" checked><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name" data-i18n="subs.payInvoice">Invoice (bank transfer)</span><span class="pay-desc" data-i18n="subs.payInvoiceDesc">30 days net, sent to the billing address of ACME Corp.</span></span></label>
+              <label class="pay-opt"><input type="radio" name="pay" value="card"><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name" data-i18n="subs.payCard">Company card ending 4821</span><span class="pay-desc" data-i18n="subs.payCardDesc">Charged today and on each renewal.</span></span></label>
             </div>
             <div class="field-group" style="margin-top:12px">
               <label class="field-label" for="poNumber"><span data-i18n="subs.po">Purchase order number</span> <span class="optional" data-i18n="common.optional">(optional)</span></label>
               <input class="form-input" id="poNumber" type="text" autocomplete="off" placeholder="PO-2026-0000">
             </div>
-            <label class="check-row"><input type="checkbox" id="autoRenewChk" checked><span data-i18n="subs.autoRenewCheck">Renew automatically. You can turn this off at any time in Subscriptions.</span></label>
-            <label class="check-row"><input type="checkbox" id="termsChk" aria-describedby="termsErr"><span data-i18n="subs.terms">I accept the G&amp;D Digital Products license terms.</span></label>
+            <label class="terms-row"><input type="checkbox" class="terms-checkbox" id="autoRenewChk" checked><span data-i18n="subs.autoRenewCheck">Renew automatically. You can turn this off at any time in Subscriptions.</span></label>
+            <label class="terms-row"><input type="checkbox" class="terms-checkbox" id="termsChk" aria-describedby="termsErr"><span class="terms-text"><span data-i18n="subs.termsPre">I accept the</span> <a href="#" data-i18n="subs.termsLink">G&amp;D Digital Products license terms</a>.</span></label>
             <p class="field-error" id="termsErr" data-i18n="subs.termsErr">Accept the license terms to continue.</p>
           </section>
         </div>
@@ -1962,7 +1951,7 @@ document.addEventListener('click', function(e) {
       ? '<button class="' + cls + '" data-manage="' + d.p.id + '"' + aria + '>' + d.label + '</button>'
       : '<button class="' + cls + '" data-plan="' + d.plan + '" data-product="' + d.p.id + '"' + aria + '>' + d.label + '</button>';
   }
-  function pill(d) { return '<span class="v-pill is-' + d.st + '">' + d.status + '</span>'; }
+  function pill(d) { return '<span class="status-badge status-' + (d.st === 'none' ? 'draft' : d.st) + '">' + d.status + '</span>'; }
 
   function planTotals() {
     var total = 0, next = null, n = 0;
@@ -1999,7 +1988,7 @@ document.addEventListener('click', function(e) {
         '<span class="v2-info"><span class="v2-name">' + d.name + '</span><span class="v2-meta">' + d.meta + '</span></span>' +
         pill(d) +
         '<span class="v2-price">' + d.price + '</span>' +
-        actionEl(d, 'v2-action is-' + d.kind) +
+        actionEl(d, 'btn btn-md ' + (d.kind === 'renew' ? 'btn-primary' : 'btn-secondary') + ' v2-action') +
       '</li>';
     }).join('') + '</ul></section>' + altLinks();
   }
@@ -2033,6 +2022,7 @@ document.addEventListener('click', function(e) {
   var plan = { pm: [], pt: false, bw: false, mt: false, cycle: 'year' };
   var licensed = [], pmOpen = false;
   var CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+  var LOCK = '<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="4.5" y="8" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
   var PEN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
 
   function fleet() { return window.MachineLines ? MachineLines.getMachines() : []; }
@@ -2118,7 +2108,7 @@ document.addEventListener('click', function(e) {
         : next.min - tr.min === 1 ? machinesLabel(tr.min)
         : fill(t('subs.rangeMachines', '{a}–{b} machines'), { a: tr.min, b: next.min - 1 });
       var cur = count > 0 && count >= tr.min && (!next || count < next.min);
-      return '<li class="price-row' + (cur ? ' is-current' : '') + '"><span>' + label + '</span><strong>' + L.money(tr.price / pDiv()) + ' <small>' + t('subs.perMachineUnit', '/ machine') + '</small></strong></li>';
+      return '<li class="payment-row' + (cur ? ' is-current' : '') + '"><span class="label">' + label + '</span><span class="value">' + L.money(tr.price / pDiv()) + ' ' + t('subs.perMachineUnit', '/ machine') + '</span></li>';
     }).join('');
     var items = fleet().map(function (m) {
       var isLicensed = licensed.indexOf(m.id) >= 0;
@@ -2133,10 +2123,10 @@ document.addEventListener('click', function(e) {
       : t('subs.tierBest', 'You get the best price per machine.');
     document.getElementById('mpBody').innerHTML =
       '<div class="mp-grid"><div>' +
-        '<p class="mp-label">' + t('subs.volumePricing', 'The more machines, the lower the price per machine') + '</p>' +
+        '<p class="card-title">' + t('subs.volumePricing', 'The more machines, the lower the price per machine') + '</p>' +
         '<ul class="price-rows">' + tiers + '</ul>' +
       '</div><div>' +
-        '<p class="mp-label" id="mpLabel">' + t('subs.machines', 'Machines') + '</p>' +
+        '<p class="card-title" id="mpLabel">' + t('subs.machines', 'Machines') + '</p>' +
         '<div class="mp-list" role="group" aria-labelledby="mpLabel">' + items + '</div>' +
         '<p class="tier-hint" aria-live="polite">' + hint + '</p>' +
       '</div></div>';
@@ -2144,16 +2134,11 @@ document.addEventListener('click', function(e) {
 
   /* View: review & pay */
   function summaryHtml(q) {
-    var save = q.volumeDiscount + q.bundleDiscount;
-    var html = '<div class="sum-line"><span>' + t('subs.subtotal', 'Subtotal') + '</span><span>' + L.money(q.list) + '</span></div>';
-    if (save) {
-      var parts = [];
-      if (q.volumeDiscount) parts.push(fill(t('subs.saveVolume', '{amount} volume'), { amount: L.money(q.volumeDiscount) }));
-      if (q.bundleDiscount) parts.push(fill(t('subs.saveBundle', '{amount} bundle ({pct}%)'), { amount: L.money(q.bundleDiscount), pct: Math.round(q.bundleRate * 100) }));
-      html += '<div class="sum-line is-discount"><span>' + t('subs.youSave', 'You save') + '<small>' + parts.join(' · ') + '</small></span><span>−' + L.money(save) + '</span></div>';
-    }
-    html += '<hr class="sum-sep">';
-    html += '<div class="sum-total"><span>' + t('subs.total', 'Total') + '</span><strong>' + L.money(q.total) + '</strong></div>';
+    var html = '<div class="payment-row"><span class="label">' + t('subs.subtotal', 'Subtotal') + '</span><span class="value">' + L.money(q.list) + '</span></div>';
+    if (q.volumeDiscount) html += '<div class="payment-row is-discount"><span class="label">' + t('subs.volumeDiscount', 'Volume discount') + '</span><span class="value">−' + L.money(q.volumeDiscount) + '</span></div>';
+    if (q.bundleDiscount) html += '<div class="payment-row is-discount"><span class="label">' + fill(t('subs.bundleDiscount', 'Bundle discount ({pct}%)'), { pct: Math.round(q.bundleRate * 100) }) + '</span><span class="value">−' + L.money(q.bundleDiscount) + '</span></div>';
+    html += '<hr class="payment-separator">';
+    html += '<div class="order-total-row"><span class="order-total-label">' + t('subs.total', 'Total') + '</span><span class="order-total-value">' + L.money(q.total) + '</span></div>';
     var note = mode === 'add' ? t('subs.sumAddNote', 'Excl. VAT. New machines join your current license and renew on the same date.')
       : plan.cycle === 'year' ? t('subs.sumYearShort', 'Per year, excl. VAT.') : t('subs.sumMonthShort', 'Per month, excl. VAT.');
     return html + '<p class="sum-note">' + note + '</p>';
@@ -2196,7 +2181,8 @@ document.addEventListener('click', function(e) {
       : '<span class="co-bar-total">' + (mode === 'add' ? t('subs.addEmpty', 'Select the machines you want to add.') : t('subs.sumEmpty', 'Select at least one product to see your price.')) + '</span>';
     var hint = view === 'plans' ? bundleHint(n) : '';
     hintEl.textContent = hint; hintEl.hidden = !hint;
-    primary.textContent = view === 'review' ? t('subs.confirmPay', 'Confirm and pay')
+    primary.className = view === 'review' ? 'btn btn-cta btn-lg' : 'btn btn-primary btn-md';
+    primary.innerHTML = view === 'review' ? LOCK + '<span>' + t('subs.confirmPay', 'Confirm and pay') + '</span>'
       : view === 'done' ? t('subs.done', 'Done')
       : view === 'machines' && mode !== 'add' ? t('subs.done', 'Done')
       : t('subs.continue', 'Continue');
@@ -2310,6 +2296,7 @@ document.addEventListener('click', function(e) {
     if (view === 'machines') leaveMachines();
     else goView(mode === 'add' ? 'machines' : 'plans');
   });
+  document.querySelector('#planModal .terms-text a').addEventListener('click', function (e) { e.preventDefault(); });
   document.getElementById('termsChk').addEventListener('change', function () {
     if (this.checked) { document.getElementById('termsErr').classList.remove('visible'); this.removeAttribute('aria-invalid'); }
   });
