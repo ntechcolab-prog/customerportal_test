@@ -1443,7 +1443,16 @@
     .cross-sell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: #eef6f5; font-size: 13px; color: #00514a; line-height: 1.45; }
     .review-list .rl-end { display: flex; align-items: flex-start; gap: 4px; white-space: nowrap; }
     .review-list .rl-end .action-btn, .review-list .rl-slot { width: 28px; min-width: 28px; height: 28px; margin-top: -4px; }
-    .cycle-switch { padding: 0 0 20px; margin-bottom: 4px; border-bottom: 1px solid #f3f4f6; }
+    .cycle-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding-bottom: 20px; margin-bottom: 4px; border-bottom: 1px solid #f3f4f6; }
+    .seg { display: inline-flex; padding: 3px; background: #f1f2f3; border-radius: 10px; }
+    .seg-opt { position: relative; }
+    .seg-opt input { position: absolute; inset: 0; opacity: 0; cursor: pointer; margin: 0; }
+    .seg-opt > span { display: flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 18px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #4b5563; white-space: nowrap; transition: background .15s, color .15s, box-shadow .15s; }
+    .seg-opt:hover > span { color: #1f2937; }
+    .seg-opt input:checked + span { background: #fff; color: #007167; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.06); }
+    .seg-opt input:focus-visible + span { outline: 2px solid #007167; outline-offset: 2px; }
+    .cycle-hint { font-size: 13px; color: #4b5563; margin: 0; }
+    @media (prefers-reduced-motion: reduce) { .seg-opt > span { transition: none; } }
     .cycle-save { font-size: 12px; font-weight: 600; color: #00544c; margin-left: 4px; white-space: nowrap; }
     .cross-sell .link-btn { flex: none; min-height: 32px; margin-top: 0; }
     /* Free trial */
@@ -1740,9 +1749,12 @@
         <!-- View: review & pay -->
         <div data-pv="review" hidden class="pm-review">
           <section aria-labelledby="revTitle">
-            <div class="switch-row cycle-switch" id="cycleGroup">
-              <div><div class="switch-label" id="cycLabel"><span data-i18n="subs.payYearly">Pay yearly</span> <small class="cycle-save" data-i18n="subs.yearlyHint">2 months free</small></div><div class="switch-hint" id="cycHint"></div></div>
-              <button type="button" class="switch" role="switch" id="cycSwitch" aria-checked="true" aria-labelledby="cycLabel" aria-describedby="cycHint"></button>
+            <div class="cycle-row" id="cycleGroup">
+              <div class="seg" role="radiogroup" aria-label="Billing cycle" data-i18n-aria-label="subs.billingCycle">
+                <label class="seg-opt"><input type="radio" name="cycle" value="year" checked><span><span data-i18n="subs.yearly">Yearly</span> <small class="cycle-save" data-i18n="subs.yearlyHint">2 months free</small></span></label>
+                <label class="seg-opt"><input type="radio" name="cycle" value="month"><span data-i18n="subs.monthly">Monthly</span></label>
+              </div>
+              <p class="cycle-hint" id="cycHint" aria-live="polite"></p>
             </div>
             <h3 class="card-title" id="revTitle" data-i18n="subs.yourOrder">Your plan</h3>
             <ul class="review-list" id="reviewList"></ul>
@@ -2170,7 +2182,7 @@ document.addEventListener('click', function(e) {
     document.getElementById('crossSell').innerHTML = crossSell(q);
     document.getElementById('cycleGroup').hidden = mode === 'add';
     var yearly = plan.cycle === 'year';
-    document.getElementById('cycSwitch').setAttribute('aria-checked', yearly);
+    document.querySelectorAll('#cycleGroup input[name="cycle"]').forEach(function (r) { r.checked = r.value === plan.cycle; });
     document.getElementById('cycHint').textContent = fill(yearly ? t('subs.billedYearly', 'Billed {amount} once a year.') : t('subs.billedMonthly', 'Billed {amount} every month.'), { amount: L.money(quote().total) });
     document.getElementById('sumBody2').innerHTML = summaryHtml(q);
   }
@@ -2261,10 +2273,8 @@ document.addEventListener('click', function(e) {
   }
 
   /* Events */
-  document.getElementById('cycSwitch').addEventListener('click', function () {
-    plan.cycle = plan.cycle === 'year' ? 'month' : 'year';
-    renderPlan();
-    this.focus();
+  document.querySelectorAll('#cycleGroup input[name="cycle"]').forEach(function (r) {
+    r.addEventListener('change', function () { plan.cycle = this.value; renderPlan(); this.focus(); });
   });
   document.getElementById('mpBody').addEventListener('change', function (e) {
     var el = e.target;
