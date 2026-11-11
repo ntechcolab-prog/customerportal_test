@@ -1275,5 +1275,14 @@
   "subs.expiresInDays": "Expires in {days} days",
   "subs.expiresTomorrow": "Expires tomorrow",
   "subs.fromPerMachine": "From {price} per machine",
-  "subs.expiredOn": "Expired on"
+  "subs.expiredOn": "Expired on",
+  "subs.billedBy": "Billed by invoice (bank transfer)",
+  "subs.quickAccess": "Quick access",
+  "subs.kpiActive": "Active products",
+  "subs.kpiYearly": "Yearly total",
+  "subs.kpiMonthly": "Monthly total",
+  "subs.colProduct": "Product",
+  "subs.colRenewal": "Renewal",
+  "subs.colActions": "Actions",
+  "subs.machinesTitle": "Licensed machines"
 }

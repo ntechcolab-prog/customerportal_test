@@ -1282,162 +1282,103 @@
     }
   </style>
   <style>
-    /* ── SUBSCRIPTIONS (CP-732) — account view ─── */
-    :root {
-      --dp-pm: #8fd5cb; --dp-pm-ink: #00302b;
-      --dp-pt: #c4e6c1; --dp-pt-ink: #12331a;
-      --dp-bw: #c6d5e0; --dp-bw-ink: #182b3a;
-      --dp-mt: #e8dcc5; --dp-mt-ink: #3a2c12;
-    }
+    /* ── SUBSCRIPTIONS (CP-732) ───
+       Built from portal components: page-header, stat-cards, orders-table,
+       status-badge, action-btn, tracking-drawer + drawer-meta-grid, btn.
+       Card surface follows budget-current / budget-table-card. */
     .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
-    .acct-top { display: grid; grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr); gap: 16px; }
-    .acct-card { background: #fff; border-radius: 14px; box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06); }
+    .subs-header { justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .subs-heading { display: flex; align-items: baseline; gap: 12px; }
+    .subs-header .btn-group { flex-wrap: wrap; }
+    .subs-header .btn-group[hidden], .subs-header .btn[hidden] { display: none; }
 
-    /* Your plan */
-    .plan-card { position: relative; padding: 64px 32px 32px; overflow: hidden; }
-    .plan-tab { position: absolute; top: 0; left: 0; background: #eef0f1; color: #1d1d1f; font-size: 14px; font-weight: 700; padding: 10px 20px; border-radius: 14px 0 12px 0; }
-    .plan-brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: #1d1d1f; }
-    .plan-brand img { height: 14px; }
-    .plan-headline { font-size: 44px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.05; color: #007167; margin: 14px 0 12px; }
-    .plan-line { font-size: 17px; color: #3d4246; line-height: 1.5; }
-    .plan-line strong { color: #1d1d1f; font-weight: 600; }
-    .plan-line.is-warn { color: #93370d; }
-    .plan-line.is-muted { color: #4b5563; font-size: 15px; margin-top: 6px; }
-    .plan-line .inline-link { color: #007167; font-weight: 600; margin-left: 6px; }
-    .plan-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-    .plan-chip { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; padding: 6px 12px 6px 6px; border-radius: 999px; }
-    .plan-chip svg { width: 26px; height: 26px; padding: 5px; border-radius: 50%; background: rgba(255,255,255,.55); }
+    /* Card surface (same as budget-current) */
+    .subs-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px 32px; }
+    .subs-card-title { font-size: 15px; font-weight: 700; color: #1f2937; margin-bottom: 8px; }
+    .subs-eyebrow { font-size: 12px; font-weight: 500; color: #4b5563; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+    .subs-amount { font-size: 36px; font-weight: 700; color: #1f2937; letter-spacing: -1px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .subs-amount span { font-size: 16px; font-weight: 500; color: #4b5563; letter-spacing: 0; }
+    .subs-next { text-align: right; }
+    .subs-next-label { font-size: 12px; color: #4b5563; margin-bottom: 2px; }
+    .subs-next-value { font-size: 22px; font-weight: 700; color: #007167; letter-spacing: -.5px; }
+    .subs-plan-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+    .subs-plan-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; border-top: 1px solid #f0f0f0; margin-top: 24px; padding-top: 12px; font-size: 13px; color: #4b5563; }
+    .subs-notice { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 20px; padding: 10px 10px 10px 16px; border-radius: 10px; background: rgba(245, 158, 11, .08); color: #92400e; font-size: 13px; font-weight: 500; }
 
-    /* Shortcut cards */
-    .acct-side { display: grid; grid-template-rows: 1fr 1fr; gap: 16px; }
-    .shortcut { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; text-decoration: none; color: #1d1d1f; font: 700 16px Inter, sans-serif; border: none; cursor: pointer; transition: box-shadow .2s ease, transform .2s ease; }
-    .shortcut:hover { box-shadow: 0 8px 24px rgba(0,84,76,.12); transform: translateY(-2px); }
-    .shortcut:focus-visible, .nav-row:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
-    .shortcut svg { width: 34px; height: 34px; color: #007167; }
-    .shortcut small { display: block; font-size: 13px; font-weight: 400; color: #4b5563; margin-top: -6px; }
-    .shortcut[hidden] { display: none; }
+    /* Plan breakdown (budget-breakdown pattern) */
+    .subs-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 24px; }
+    .subs-breakdown-item { background: #fafbfc; border: 1px solid #f0f1f2; border-radius: 10px; padding: 14px 16px; }
+    .subs-breakdown-label { font-size: 12px; color: #4b5563; margin-bottom: 4px; }
+    .subs-breakdown-value { font-size: 17px; font-weight: 700; color: #1f2937; letter-spacing: -.3px; font-variant-numeric: tabular-nums; }
 
-    /* Your products list */
-    .list-card { padding: 28px 32px 12px; margin-top: 16px; }
-    .list-title { font-size: 26px; font-weight: 800; letter-spacing: -.6px; color: #1d1d1f; margin-bottom: 12px; }
-    .nav-list { list-style: none; }
-    .nav-row { width: 100%; display: flex; align-items: center; gap: 18px; padding: 14px 8px; margin: 0 -8px; border-radius: 10px; background: none; border: none; text-align: left; text-decoration: none; cursor: pointer; font-family: Inter, sans-serif; }
-    .nav-row:hover { background: #f6f7f7; }
-    .nav-icon { width: 52px; height: 52px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .nav-icon svg { width: 24px; height: 24px; }
-    .nav-icon.is-neutral { background: #eef0f1; color: #3d4246; }
-    .nav-text { flex: 1; min-width: 0; }
-    .nav-label { display: block; font-size: 17px; font-weight: 600; color: #1d1d1f; }
-    .nav-meta { display: block; font-size: 13px; color: #4b5563; margin-top: 3px; }
-    .nav-meta.is-warn { color: #93370d; font-weight: 500; }
-    .nav-meta.is-expired { color: #a01b12; font-weight: 500; }
-    .nav-chev { width: 22px; height: 22px; color: #3d4246; flex-shrink: 0; }
-    .nav-sep { height: 1px; background: #eef0f1; margin: 4px 0; }
+    /* Option 1 · account */
+    .subs-top { display: grid; grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr); gap: 16px; margin-bottom: 16px; }
+    .subs-top .subs-card:last-child { padding-top: 20px; padding-bottom: 12px; }
+    .sub-list { list-style: none; }
+    .sub-list li + li { border-top: 1px solid #f3f4f6; }
+    .sub-row { width: 100%; display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 12px 0; background: none; border: none; text-align: left; text-decoration: none; font-family: inherit; cursor: pointer; color: inherit; }
+    .sub-row:hover .sub-row-name { color: #007167; }
+    .sub-row:focus-visible, .prod-card:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 8px; }
+    .sub-row-text { flex: 1; min-width: 0; }
+    .sub-row-name { display: block; font-size: 14px; font-weight: 600; color: #1f2937; transition: color .2s; }
+    .sub-row-meta { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
+    .sub-row-price { font-size: 13px; font-weight: 600; color: #1f2937; white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 110px; text-align: right; }
+    .sub-chev { width: 16px; height: 16px; color: #6b7280; flex-shrink: 0; }
 
-    /* Drawer content */
-    .d-rows { list-style: none; margin: 0 0 16px; border-top: 1px solid #eaeaea; }
-    .d-rows li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #eaeaea; font-size: 14px; color: #4b5563; }
-    .d-rows li strong { font-weight: 500; color: #1d1d1f; text-align: right; }
-    .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 4px 0 16px; }
-    .switch-label { font-size: 14px; font-weight: 500; color: #1d1d1f; }
-    .switch-hint { font-size: 12px; color: #4b5563; margin-top: 2px; }
+    /* Option 2 · list (contracts pattern) */
+    .subs-kpis { margin-bottom: 16px; }
+    .subs-table-wrap { border-radius: 10px; }
+    .prod-cell { display: flex; align-items: center; gap: 12px; font-weight: 600; color: #1f2937; }
+    .prod-cell .stat-icon { width: 32px; height: 32px; }
+    .prod-cell .stat-icon svg { width: 16px; height: 16px; }
+
+    /* Option 3 · summary + product cards (stat-card surface) */
+    .subs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px; }
+    .prod-card { display: flex; flex-direction: column; gap: 14px; padding: 18px; min-height: 176px; background: #fff; border: 1px solid rgba(0,0,0,.06); border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.03); text-align: left; font-family: inherit; color: inherit; text-decoration: none; cursor: pointer; transition: box-shadow .4s ease, transform .25s ease; }
+    .prod-card:hover { box-shadow: 0 4px 16px rgba(0,113,103,.1), 0 0 0 1px rgba(0,113,103,.06); transform: translateY(-2px); }
+    .prod-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .prod-card-name { display: block; font-size: 14px; font-weight: 600; color: #1f2937; }
+    .prod-card-meta { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
+    .prod-card-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; border-top: 1px solid #f3f4f6; padding-top: 12px; font-size: 13px; }
+    .prod-card-price { font-weight: 600; color: #1f2937; font-variant-numeric: tabular-nums; }
+    .prod-card-link { color: #007167; font-weight: 600; }
+
+    /* Drawer content (drawer-section / drawer-meta-grid from contracts) */
+    .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .switch-label { font-size: 14px; font-weight: 500; color: #1f2937; }
+    .switch-hint { font-size: 12px; color: #4b5563; margin-top: 2px; line-height: 1.5; }
     .switch { position: relative; width: 44px; height: 26px; border-radius: 999px; border: none; cursor: pointer; background: #8b8e91; flex-shrink: 0; transition: background .2s ease; }
     .switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .2s ease; }
     .switch[aria-checked="true"] { background: #007167; }
     .switch[aria-checked="true"]::after { transform: translateX(18px); }
     .switch:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
-    .drawer-actions { display: flex; flex-direction: column; gap: 8px; }
-    .cancel-confirm { background: #fef3f2; border: 1px solid #fecdca; border-radius: 10px; padding: 14px; font-size: 13px; color: #1d1d1f; }
-    .cancel-confirm p { margin-bottom: 10px; }
-    .inv-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eaeaea; font-size: 14px; color: #1d1d1f; }
+    .machine-list { list-style: none; font-size: 14px; color: #1f2937; }
+    .machine-list li { padding: 6px 0; }
+    .cancel-confirm { background: #fef3f2; border: 1px solid #fecdca; border-radius: 10px; padding: 14px; font-size: 13px; color: #1f2937; margin-top: 8px; }
+    .cancel-confirm p { margin-bottom: 10px; line-height: 1.5; }
+    .inv-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #1f2937; }
+    .inv-row:last-child { border-bottom: none; }
     .inv-row small { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
-    .d-sub { font-size: 13px; font-weight: 600; color: #1d1d1f; margin: 20px 0 4px; }
-    .pay-current { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid #eaeaea; border-radius: 10px; font-size: 14px; color: #1d1d1f; }
-    .pay-current small { display: block; font-size: 12px; color: #4b5563; }
 
-    .demo-switch { font-size: 12px; color: #4b5563; text-align: right; margin-top: 24px; }
+    .demo-switch { font-size: 12px; color: #4b5563; text-align: right; margin-top: 24px; line-height: 1.8; }
     .demo-switch a { color: #007167; }
+    .demo-switch a[aria-current] { font-weight: 700; color: #1f2937; text-decoration: none; }
 
+    @media (max-width: 1100px) {
+      .subs-grid { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 900px) {
-      .acct-top { grid-template-columns: 1fr; }
-      .acct-side { grid-template-rows: none; grid-template-columns: 1fr 1fr; }
-      .plan-headline { font-size: 34px; }
+      .subs-top { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {
-      .plan-card, .list-card { padding-left: 20px; padding-right: 20px; }
-      .acct-side { grid-template-columns: 1fr; }
-      .plan-line { font-size: 15px; }
+      .subs-card { padding: 20px; }
+      .subs-grid { grid-template-columns: 1fr; }
+      .subs-next { text-align: left; }
+      .sub-row-price { display: none; }
+      .subs-amount { font-size: 30px; }
     }
-    @media (prefers-reduced-motion: reduce) { .shortcut, .switch, .switch::after { transition: none; } .shortcut:hover { transform: none; } }
-    /* ── Option 2 / 3 (layout review) ─── */
-    .v-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; white-space: nowrap; background: #e6f4f2; color: #00544c; }
-    .v-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-    .v-pill.is-expiring { background: #fef0e1; color: #93370d; }
-    .v-pill.is-expired { background: #fde8e7; color: #a01b12; }
-    .v-pill.is-none { background: #f1f2f3; color: #4b5563; }
-    .v-pill.is-none::before { display: none; }
-    .tile-dot { width: 8px; height: 8px; border-radius: 50%; background: #007167; flex-shrink: 0; }
-
-    /* Option 2 — plan list */
-    .v2-card { background: #fff; border-radius: 16px; box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06); overflow: hidden; }
-    .v2-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding: 24px 28px; border-bottom: 1px solid #eef0f1; flex-wrap: wrap; }
-    .v2-eyebrow, .v3-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: #4b5563; }
-    .v2-total { font-size: 30px; font-weight: 700; color: #1d1d1f; letter-spacing: -.6px; margin-top: 4px; }
-    .v2-total span { font-size: 15px; font-weight: 500; color: #4b5563; letter-spacing: 0; }
-    .v2-next { font-size: 13px; color: #4b5563; text-align: right; }
-    .v2-next strong { display: block; font-size: 15px; color: #1d1d1f; font-weight: 600; margin-top: 2px; }
-    .v2-list { list-style: none; }
-    .v2-row { display: grid; grid-template-columns: 48px minmax(0,1fr) auto 150px 104px; align-items: center; gap: 18px; padding: 18px 28px; border-bottom: 1px solid #f3f4f6; }
-    .v2-row:last-child { border-bottom: none; }
-    .v2-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #007167; color: #fff; }
-    .v2-icon svg, .v3-icon svg { width: 22px; height: 22px; }
-    .v2-row.is-expired .v2-icon { background: #3d4246; }
-    .v2-row.is-none .v2-icon { background: #f1f2f3; color: #5c5f62; }
-    .v2-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-    .v2-name { font-size: 15px; font-weight: 600; color: #1d1d1f; }
-    .v2-meta { font-size: 13px; color: #4b5563; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .v2-price { font-size: 14px; font-weight: 600; color: #1d1d1f; text-align: right; }
-    .v2-row.is-none .v2-price { font-weight: 500; color: #4b5563; font-size: 13px; }
-    .v2-action { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; border-radius: 999px; font: 600 13px Inter, sans-serif; text-decoration: none; cursor: pointer; border: 1px solid #d7d9db; background: #fff; color: #1d1d1f; }
-    .v2-action:hover { border-color: #007167; }
-    .v2-action.is-renew { background: #007167; border-color: #007167; color: #fff; }
-    .v2-action.is-add { color: #00544c; border-color: #b9dfdb; }
-
-    /* Option 3 — summary + compact tiles */
-    .v3-hero { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 28px 32px; border-radius: 16px; color: #fff;
-      background-color: #00544c;
-      background-image: radial-gradient(ellipse at 100% 0%, rgba(255,255,255,.12) 0, rgba(255,255,255,0) 60%); margin-bottom: 16px; }
-    .v3-eyebrow { color: #cfe9e5; }
-    .v3-total { font-size: 34px; font-weight: 700; letter-spacing: -.8px; margin-top: 4px; }
-    .v3-total span { font-size: 16px; font-weight: 500; color: #cfe9e5; letter-spacing: 0; }
-    .v3-sub { font-size: 14px; color: #e6f4f2; margin-top: 6px; }
-    .v3-cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; background: #fff; color: #00544c; font: 600 14px Inter, sans-serif; text-decoration: none; }
-    .v3-cta:hover { background: #e6f4f2; }
-    .v3-cta:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
-    .v3-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-    .v3-tile { position: relative; width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; padding: 20px; min-height: 148px; border-radius: 14px; background: #fff; border: 1px solid #e5e7e8; text-decoration: none; cursor: pointer; font-family: Inter, sans-serif; transition: border-color .2s ease, box-shadow .2s ease; }
-    .v3-tile:hover { border-color: #007167; box-shadow: 0 6px 18px rgba(0,84,76,.10); }
-    .v3-tile:focus-visible, .v2-action:focus-visible, .alt-link:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
-    .v3-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #e6f4f2; color: #00544c; }
-    .v3-tile.is-none .v3-icon { background: #f1f2f3; color: #5c5f62; }
-    .v3-tile.is-expired .v3-icon { background: #fde8e7; color: #a01b12; }
-    .v3-name { font-size: 15px; font-weight: 600; color: #1d1d1f; margin-top: auto; }
-    .v3-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #3d4246; }
-    .v3-status.is-expiring .tile-dot { background: #b54708; }
-    .v3-status.is-expired .tile-dot { background: #b42318; }
-    .v3-status.is-none { color: #4b5563; }
-    .v3-status.is-none .tile-dot { display: none; }
-    .v3-go { position: absolute; top: 18px; right: 18px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #00544c; background: #f0faf9; font-size: 15px; }
-
-    .alt-links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 16px; }
-    .alt-link { display: inline-flex; align-items: center; min-height: 44px; background: none; border: none; padding: 0; color: #007167; font: 600 14px Inter, sans-serif; text-decoration: none; cursor: pointer; }
-    .alt-link:hover { text-decoration: underline; }
-    .demo-switch a[aria-current] { font-weight: 700; color: #1d1d1f; text-decoration: none; }
-
-    @media (max-width: 1100px) { .v3-grid { grid-template-columns: repeat(2, 1fr); } .v2-row { grid-template-columns: 48px minmax(0,1fr) auto; } .v2-row .v-pill { display: none; } .v2-price { grid-column: 2; text-align: left; } .v2-action { grid-column: 3; grid-row: 1; } }
-    @media (max-width: 560px) { .v3-grid { grid-template-columns: 1fr; } .v2-head, .v2-row { padding-left: 18px; padding-right: 18px; } .v3-hero { padding: 24px 20px; } }
-    @media (prefers-reduced-motion: reduce) { .v3-tile { transition: none; } }
+    @media (prefers-reduced-motion: reduce) { .prod-card, .switch, .switch::after, .sub-row-name { transition: none; } .prod-card:hover { transform: none; } }
   </style>
   <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
@@ -1686,54 +1627,27 @@
     <!-- SKELETON LOADING STATE -->
     <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading subscriptions">
       <div class="skeleton skel-page-title"></div>
-      <div class="acct-top">
-        <div class="skeleton" style="height:300px;border-radius:14px"></div>
-        <div class="skeleton" style="height:300px;border-radius:14px"></div>
-      </div>
-      <div class="skeleton" style="height:320px;border-radius:14px;margin-top:16px"></div>
+      <div class="skeleton" style="height:180px;border-radius:14px;margin-bottom:16px"></div>
+      <div class="skeleton" style="height:320px;border-radius:14px"></div>
     </div>
 
     <div class="page-content">
 
-    <div class="page-header">
-      <h1 class="page-title" data-i18n="subs.title">Subscriptions</h1>
-    </div>
-
-    <div id="viewAccount">
-    <div class="acct-top" data-skeleton-stagger>
-      <section class="acct-card plan-card" aria-labelledby="planTab">
-        <h2 class="plan-tab" id="planTab" data-i18n="subs.yourPlan">Your plan</h2>
-        <div class="plan-brand"><img src="../assets/netzsch-mark.svg" alt="" aria-hidden="true"><span data-i18n="subs.subtitle">G&amp;D Digital Products</span></div>
-        <p class="plan-headline" id="planHeadline"></p>
-        <div id="planLines"></div>
-        <div class="plan-chips" id="planChips"></div>
-      </section>
-
-      <div class="acct-side">
-        <a class="acct-card shortcut" id="irisLink" href="#" target="_blank" rel="noopener" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
-          <span><span data-i18n="subs.irisOpen">Open IRIS Cloud</span> ↗</span>
-          <small data-i18n="subs.irisShort">Dashboards and alerts</small>
-          <span class="visually-hidden" data-i18n="common.newTab">(opens in a new tab)</span>
-        </a>
-        <button class="acct-card shortcut" id="billingBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/><path d="M6.5 15h4"/></svg>
-          <span data-i18n="subs.billingPayment">Billing &amp; payment</span>
-          <small data-i18n="subs.billingShort">Invoices and payment method</small>
-        </button>
+    <div class="page-header subs-header">
+      <div class="subs-heading">
+        <h1 class="page-title" data-i18n="subs.title">Subscriptions</h1>
+        <span class="page-subtitle" id="subsSubtitle">G&amp;D Digital Products</span>
+      </div>
+      <div class="btn-group" id="headerActions" hidden>
+        <a class="btn btn-secondary btn-sm" id="irisHeader" href="#" target="_blank" rel="noopener" hidden><span data-i18n="subs.irisOpen">Open IRIS Cloud</span> ↗<span class="visually-hidden" data-i18n="common.newTab">(opens in a new tab)</span></a>
+        <button class="btn btn-secondary btn-sm" data-billing data-i18n="subs.billingPayment">Billing &amp; payment</button>
+        <a class="btn btn-primary btn-sm" href="subscriptions-checkout.html" data-i18n="subs.plansAddons">Plans &amp; add-ons</a>
       </div>
     </div>
 
-    <section class="acct-card list-card" aria-labelledby="listTitle" data-skeleton-stagger>
-      <h2 class="list-title" id="listTitle" data-i18n="subs.yourProducts">Your products</h2>
-      <ul class="nav-list" id="navList"></ul>
-    </section>
-    </div>
+    <div id="view" data-skeleton-stagger></div>
 
-    <!-- Alternative layouts (?v=2 list · ?v=3 summary) -->
-    <div id="viewAlt" class="v-wrap" data-skeleton-stagger hidden></div>
-
-    <p class="demo-switch" id="demoSwitch">Layout: <a href="?v=1" data-v="1">Account (Spotify)</a> · <a href="?v=2" data-v="2">Option 2 · list</a> · <a href="?v=3" data-v="3">Option 3 · summary</a><br>Prototype: <a href="?demo=reset" data-demo="reset">sample licenses</a> · <a href="?demo=none" data-demo="none">no licenses</a></p>
+    <p class="demo-switch" id="demoSwitch">Layout: <a href="?v=1" data-v="1">Option 1 · account</a> · <a href="?v=2" data-v="2">Option 2 · list</a> · <a href="?v=3" data-v="3">Option 3 · summary</a><br>Prototype: <a href="?demo=reset" data-demo="reset">all active</a> · <a href="?demo=renewal" data-demo="renewal">renewal due</a> · <a href="?demo=none" data-demo="none">no licenses</a></p>
 
     </div><!-- /page-content -->
 
@@ -1773,13 +1687,19 @@ document.addEventListener('click', function(e) {
 <script src="../assets/machine-lines.js"></script>
 <script src="../assets/licenses-store.js"></script>
 <script>
-/* ── SUBSCRIPTIONS (CP-732) — account view ── */
+/* ── SUBSCRIPTIONS (CP-732) — layout options ?v=1 account · ?v=2 list · ?v=3 summary ── */
 (function () {
   var L = window.Licenses;
+  var VARIANT = (/[?&]v=([123])/.exec(location.search) || [])[1] || '1';
   function t(k, f) { return window.NetzschI18n ? NetzschI18n.t(k, f) : f; }
   function fill(str, vars) { return str.replace(/\{(\w+)\}/g, function (_, k) { return vars[k]; }); }
-  function icon(id) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + L.LOOK[id].icon + '</svg>'; }
-  var CHEV = '<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+  function svg(paths) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>'; }
+  function icon(id) { return '<span class="stat-icon">' + svg(L.LOOK[id].icon) + '</span>'; }
+  var CHEV = '<svg class="sub-chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 3.5 4.5 4.5L6 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var EYE = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/></svg>';
+  var ICON_IRIS = '<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>';
+  var ICON_CARD = '<rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/><path d="M6.5 15h4"/>';
+  var ICON_PLUS = '<path d="M12 5v14"/><path d="M5 12h14"/>';
 
   function machineName(id) {
     var list = window.MachineLines ? MachineLines.getMachines() : [];
@@ -1795,81 +1715,134 @@ document.addEventListener('click', function(e) {
     var n = sub.machines.length;
     return n === 1 ? t('subs.oneMachine', '1 machine') : fill(t('subs.nMachines', '{n} machines'), { n: n });
   }
-
-  /* Your plan card */
-  function renderPlan() {
-    var state = L.get();
-    var active = L.PRODUCTS.filter(function (p) { var st = L.statusOf(p.id); return st === 'active' || st === 'expiring'; });
-    var headline = document.getElementById('planHeadline');
-    var lines = '';
-
-    if (!active.length) {
-      headline.textContent = t('subs.noPlan', 'No active products');
-      lines = '<p class="plan-line">' + t('subs.noPlanDesc', 'Pick the digital products for your machines. Combine them and save up to 20%.') + '</p>' +
-        '<p class="plan-line" style="margin-top:16px"><a class="btn btn-primary btn-md" href="subscriptions-checkout.html">' + t('subs.seePlans', 'See plans') + '</a></p>';
-    } else {
-      headline.textContent = active.length === 1 ? productName(active[0]) : fill(t('subs.activeCount', '{n} active products'), { n: active.length });
-
-      // Next invoice = earliest renewal among auto-renewing products
-      var next = null, amount = 0;
-      active.forEach(function (p) {
-        var sub = state.subs[p.id];
-        if (!sub.autoRenew) return;
-        if (!next || sub.renewsOn < next) { next = sub.renewsOn; amount = 0; }
-        if (sub.renewsOn === next) amount += amountOf(p, sub);
-      });
-      if (next) lines += '<p class="plan-line">' + fill(t('subs.nextInvoice', 'Your next invoice is {amount} and will be issued on {date}.'), { amount: '<strong>' + L.money(amount) + '</strong>', date: '<strong>' + L.formatDate(next) + '</strong>' }) + '</p>';
-
-      var urgent = L.PRODUCTS.filter(function (p) { var st = L.statusOf(p.id); return st === 'expiring' || st === 'expired'; });
-      if (urgent.length === 1) {
-        var up = urgent[0], us = state.subs[up.id];
-        var msg = L.statusOf(up.id) === 'expiring'
-          ? fill(t('subs.lineExpiring', '{name} expires on {date}.'), { name: productName(up), date: L.formatDate(us.renewsOn) })
-          : fill(t('subs.lineExpired', '{name} expired on {date}.'), { name: productName(up), date: L.formatDate(us.renewsOn) });
-        lines += '<p class="plan-line is-warn">' + msg + '<a class="inline-link" href="subscriptions-checkout.html?mode=renew&product=' + up.id + '">' + t('subs.renew', 'Renew') + '</a></p>';
-      } else if (urgent.length > 1) {
-        lines += '<p class="plan-line is-warn">' + fill(t('subs.lineNeedRenewal', '{n} products need renewal.'), { n: urgent.length }) + '<a class="inline-link" href="subscriptions-checkout.html?mode=renew">' + t('subs.renew', 'Renew') + '</a></p>';
-      }
-      lines += '<p class="plan-line is-muted">' + t('subs.payInvoice', 'Invoice (bank transfer)') + '</p>';
+  function badge(st, sub) {
+    if (st === 'expired') return '<span class="status-badge status-expired">' + t('status.expired', 'Expired') + '</span>';
+    if (st === 'expiring') {
+      var d = L.daysUntil(sub.renewsOn);
+      return '<span class="status-badge status-expiring">' + (d === 1 ? t('subs.expiresTomorrow', 'Expires tomorrow') : fill(t('subs.expiresInDays', 'Expires in {days} days'), { days: d })) + '</span>';
     }
-    document.getElementById('planLines').innerHTML = lines;
-    document.getElementById('planChips').innerHTML = active.map(function (p) {
-      var look = L.LOOK[p.id];
-      return '<span class="plan-chip" style="background:' + look.bg + ';color:' + look.ink + '">' + icon(p.id) + productName(p) + '</span>';
-    }).join('');
-
-    var iris = document.getElementById('irisLink');
-    iris.hidden = !L.hasActive();
-    iris.href = L.IRIS_URL;
+    return '<span class="status-badge status-active">' + t('status.active', 'Active') + '</span>';
+  }
+  function whenLabel(st, sub) {
+    return st === 'expired' ? t('subs.expiredOn', 'Expired on') : (sub.autoRenew ? t('subs.renewsOn', 'Renews on') : t('subs.expiresOn', 'Expires on'));
   }
 
-  /* Your products list */
-  function renderList() {
-    var state = L.get();
-    var rows = '';
-    L.PRODUCTS.forEach(function (p) {
-      var st = L.statusOf(p.id);
-      if (st === 'none') return;
-      var sub = state.subs[p.id];
-      var look = L.LOOK[p.id];
-      var meta, metaCls = '';
-      if (st === 'expired') { meta = fill(t('subs.metaExpired', 'Expired on {date} · Renew to resume'), { date: L.formatDate(sub.renewsOn) }); metaCls = ' is-expired'; }
-      else if (st === 'expiring') { meta = fill(t('subs.metaExpiring', '{cov} · Expires in {days} days'), { cov: coverage(p, sub), days: L.daysUntil(sub.renewsOn) }); metaCls = ' is-warn'; }
-      else meta = coverage(p, sub) + ' · ' + L.money(amountOf(p, sub)) + ' ' + per() + ' · ' + t('subs.renewsOn', 'Renews on') + ' ' + L.formatDate(sub.renewsOn);
-      var inner = '<span class="nav-icon" style="background:' + look.bg + ';color:' + look.ink + '">' + icon(p.id) + '</span>' +
-        '<span class="nav-text"><span class="nav-label">' + productName(p) + '</span><span class="nav-meta' + metaCls + '">' + meta + '</span></span>' + CHEV;
-      rows += '<li>' + (st === 'expired'
-        ? '<a class="nav-row" href="subscriptions-checkout.html?mode=renew&product=' + p.id + '">' + inner + '</a>'
-        : '<button class="nav-row" data-manage="' + p.id + '">' + inner + '</button>') + '</li>';
+  // Subscribed products (active, expiring or expired) — the page only lists these
+  function owned() {
+    var subs = L.get().subs;
+    return L.PRODUCTS.filter(function (p) { return L.statusOf(p.id) !== 'none'; }).map(function (p) {
+      var st = L.statusOf(p.id), sub = subs[p.id];
+      return { p: p, st: st, sub: sub, name: productName(p), amount: amountOf(p, sub),
+        renewHref: 'subscriptions-checkout.html?mode=renew&product=' + p.id };
     });
-    if (rows) rows += '<li class="nav-sep" aria-hidden="true"></li>';
-    var missing = L.PRODUCTS.filter(function (p) { return L.statusOf(p.id) === 'none'; }).length;
-    rows += '<li><a class="nav-row" href="subscriptions-checkout.html">' +
-      '<span class="nav-icon is-neutral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/><path d="m12 21-4-12 4-6 4 6z"/></svg></span>' +
-      '<span class="nav-text"><span class="nav-label">' + t('subs.plansAddons', 'Plans & add-ons') + '</span><span class="nav-meta">' +
-      (missing ? fill(missing === 1 ? t('subs.plansMetaOne', '1 more product available · Save up to 20% when you combine') : t('subs.plansMeta', '{n} more products available · Save up to 20% when you combine'), { n: missing }) : t('subs.plansMetaAll', 'Add machines or change your billing cycle')) +
-      '</span></span>' + CHEV + '</a></li>';
-    document.getElementById('navList').innerHTML = rows;
+  }
+  function totals(items) {
+    var live = items.filter(function (i) { return i.st !== 'expired'; });
+    var total = 0, next = null;
+    live.forEach(function (i) { total += i.amount; if (!next || i.sub.renewsOn < next) next = i.sub.renewsOn; });
+    return { count: live.length, total: total, next: next,
+      urgent: items.filter(function (i) { return i.st !== 'active'; }) };
+  }
+  // Row/card trigger: active → manage drawer, expired → renew checkout
+  function trigger(i, cls, inner) {
+    return i.st === 'expired'
+      ? '<a class="' + cls + '" href="' + i.renewHref + '">' + inner + '</a>'
+      : '<button class="' + cls + '" data-manage="' + i.p.id + '">' + inner + '</button>';
+  }
+
+  /* Shared blocks */
+  function planHead(tot) {
+    return '<div class="subs-plan-head">' +
+      '<div><p class="subs-eyebrow">' + t('subs.yourPlan', 'Your plan') + '</p>' +
+      '<p class="subs-amount">' + L.money(tot.total) + ' <span>' + per() + '</span></p></div>' +
+      (tot.next ? '<div class="subs-next"><p class="subs-next-label">' + t('subs.nextRenewal', 'Next renewal') + '</p><p class="subs-next-value">' + L.formatDate(tot.next) + '</p></div>' : '') +
+    '</div>';
+  }
+  function breakdown(items) {
+    return '<div class="subs-breakdown">' + items.filter(function (i) { return i.st !== 'expired'; }).map(function (i) {
+      return '<div class="subs-breakdown-item"><p class="subs-breakdown-label">' + i.name + '</p><p class="subs-breakdown-value">' + L.money(i.amount) + '</p></div>';
+    }).join('') + '</div>';
+  }
+  function notice(tot) {
+    if (!tot.urgent.length) return '';
+    var msg = tot.urgent.length === 1
+      ? fill(t(tot.urgent[0].st === 'expired' ? 'subs.lineExpired' : 'subs.lineExpiring', tot.urgent[0].st === 'expired' ? '{name} expired on {date}.' : '{name} expires on {date}.'), { name: tot.urgent[0].name, date: L.formatDate(tot.urgent[0].sub.renewsOn) })
+      : fill(t('subs.lineNeedRenewal', '{n} products need renewal.'), { n: tot.urgent.length });
+    var href = tot.urgent.length === 1 ? tot.urgent[0].renewHref : 'subscriptions-checkout.html?mode=renew';
+    return '<div class="subs-notice" role="status"><span>' + msg + '</span><a class="btn btn-primary btn-sm" href="' + href + '">' + t('subs.renew', 'Renew') + '</a></div>';
+  }
+  function emptyState() {
+    return '<div class="empty-state empty-state--page">' +
+      '<div class="empty-state-icon">' + svg(ICON_CARD) + '</div>' +
+      '<p class="empty-state-title">' + t('subs.noPlan', 'No active products') + '</p>' +
+      '<p class="empty-state-desc">' + t('subs.noPlanDesc', 'Pick the digital products for your machines. Combine them and save up to 20%.') + '</p>' +
+      '<div class="empty-state-actions"><a class="btn btn-primary btn-md" href="subscriptions-checkout.html">' + t('subs.seePlans', 'See plans') + '</a></div>' +
+    '</div>';
+  }
+
+  /* Option 1 · account (plan + quick access + product list) */
+  function renderV1(items, tot) {
+    var quick = (L.hasActive()
+        ? '<li><a class="sub-row" href="' + L.IRIS_URL + '" target="_blank" rel="noopener"><span class="stat-icon">' + svg(ICON_IRIS) + '</span><span class="sub-row-text"><span class="sub-row-name">' + t('subs.irisOpen', 'Open IRIS Cloud') + ' ↗</span><span class="sub-row-meta">' + t('subs.irisShort', 'Dashboards and alerts') + '</span></span><span class="visually-hidden">' + t('common.newTab', '(opens in a new tab)') + '</span></a></li>'
+        : '') +
+      '<li><button class="sub-row" data-billing><span class="stat-icon">' + svg(ICON_CARD) + '</span><span class="sub-row-text"><span class="sub-row-name">' + t('subs.billingPayment', 'Billing & payment') + '</span><span class="sub-row-meta">' + t('subs.billingShort', 'Invoices and payment method') + '</span></span>' + CHEV + '</button></li>' +
+      '<li><a class="sub-row" href="subscriptions-checkout.html"><span class="stat-icon">' + svg(ICON_PLUS) + '</span><span class="sub-row-text"><span class="sub-row-name">' + t('subs.plansAddons', 'Plans & add-ons') + '</span><span class="sub-row-meta">' + t('subs.plansMetaAll', 'Add machines or change your billing cycle') + '</span></span>' + CHEV + '</a></li>';
+    var rows = items.map(function (i) {
+      return '<li>' + trigger(i, 'sub-row', icon(i.p.id) +
+        '<span class="sub-row-text"><span class="sub-row-name">' + i.name + '</span><span class="sub-row-meta">' + coverage(i.p, i.sub) + ' · ' + whenLabel(i.st, i.sub) + ' ' + L.formatDate(i.sub.renewsOn) + '</span></span>' +
+        badge(i.st, i.sub) + '<span class="sub-row-price">' + L.money(i.amount) + ' ' + per() + '</span>' + CHEV) + '</li>';
+    }).join('');
+    return '<div class="subs-top">' +
+        '<section class="subs-card">' + planHead(tot) + (tot.urgent.length ? notice(tot) : breakdown(items)) +
+          '<div class="subs-plan-foot"><span>' + t('subs.billedBy', 'Billed by invoice (bank transfer)') + '</span></div>' +
+        '</section>' +
+        '<section class="subs-card" aria-labelledby="quickTitle"><h2 class="subs-card-title" id="quickTitle">' + t('subs.quickAccess', 'Quick access') + '</h2><ul class="sub-list">' + quick + '</ul></section>' +
+      '</div>' +
+      '<section class="subs-card" aria-labelledby="prodTitle"><h2 class="subs-card-title" id="prodTitle">' + t('subs.yourProducts', 'Your products') + '</h2><ul class="sub-list">' + rows + '</ul></section>';
+  }
+
+  /* Option 2 · list (stat-cards + orders-table, as in Contracts) */
+  function renderV2(items, tot) {
+    function stat(ic, num, label) {
+      return '<div class="stat-card"><div class="stat-icon">' + svg(ic) + '</div><div class="stat-info"><span class="stat-number">' + num + '</span><span class="stat-label">' + label + '</span></div></div>';
+    }
+    var kpis = '<div class="stat-cards subs-kpis">' +
+      stat('<path d="M20 6 9 17l-5-5"/>', tot.count, t('subs.kpiActive', 'Active products')) +
+      stat(ICON_CARD, L.money(tot.total), L.get().cycle === 'month' ? t('subs.kpiMonthly', 'Monthly total') : t('subs.kpiYearly', 'Yearly total')) +
+      stat('<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>', tot.next ? L.formatDate(tot.next) : '—', t('subs.nextRenewal', 'Next renewal')) +
+    '</div>';
+    var rows = items.map(function (i) {
+      var action = i.st === 'expired'
+        ? '<a class="btn btn-primary btn-sm" href="' + i.renewHref + '">' + t('subs.renew', 'Renew') + '</a>'
+        : '<button class="action-btn" data-manage="' + i.p.id + '" title="' + t('subs.manageShort', 'Manage') + '" aria-label="' + t('subs.manageShort', 'Manage') + ': ' + i.name + '">' + EYE + '</button>';
+      return '<tr>' +
+        '<td><span class="prod-cell">' + icon(i.p.id) + i.name + '</span></td>' +
+        '<td>' + coverage(i.p, i.sub) + '</td>' +
+        '<td>' + L.money(i.amount) + ' ' + per() + '</td>' +
+        '<td>' + L.formatDate(i.sub.renewsOn) + '</td>' +
+        '<td>' + badge(i.st, i.sub) + '</td>' +
+        '<td><div class="actions-cell">' + action + '</div></td>' +
+      '</tr>';
+    }).join('');
+    return kpis + notice(tot) +
+      '<div class="orders-table-wrap subs-table-wrap" style="margin-top:16px"><table class="orders-table" aria-label="' + t('subs.yourProducts', 'Your products') + '"><thead><tr>' +
+        '<th>' + t('subs.colProduct', 'Product') + '</th><th>' + t('subs.coverage', 'Coverage') + '</th><th>' + t('subs.price', 'Price') + '</th>' +
+        '<th>' + t('subs.colRenewal', 'Renewal') + '</th><th>' + t('contracts.status', 'Status') + '</th><th>' + t('subs.colActions', 'Actions') + '</th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+  }
+
+  /* Option 3 · summary (plan hero + product cards) */
+  function renderV3(items, tot) {
+    var cards = items.map(function (i) {
+      return trigger(i, 'prod-card',
+        '<span class="prod-card-top">' + icon(i.p.id) + badge(i.st, i.sub) + '</span>' +
+        '<span><span class="prod-card-name">' + i.name + '</span><span class="prod-card-meta">' + coverage(i.p, i.sub) + '</span>' +
+        '<span class="prod-card-meta">' + whenLabel(i.st, i.sub) + ' ' + L.formatDate(i.sub.renewsOn) + '</span></span>' +
+        '<span class="prod-card-foot"><span class="prod-card-price">' + L.money(i.amount) + ' ' + per() + '</span>' +
+        '<span class="prod-card-link">' + (i.st === 'expired' ? t('subs.renew', 'Renew') : t('subs.manageShort', 'Manage')) + ' →</span></span>');
+    }).join('');
+    return '<section class="subs-card">' + planHead(tot) + notice(tot) + '</section>' +
+      '<div class="subs-grid">' + cards + '</div>';
   }
 
   /* Drawer */
@@ -1880,30 +1853,34 @@ document.addEventListener('click', function(e) {
   var lastTrigger = null;
 
   function openDrawer() { overlay.classList.add('show'); drawer.classList.add('show'); document.getElementById('drawerClose').focus(); }
-  function closeDrawer() { overlay.classList.remove('show'); drawer.classList.remove('show'); if (lastTrigger) lastTrigger.focus(); }
+  function closeDrawer() { overlay.classList.remove('show'); drawer.classList.remove('show'); if (lastTrigger && document.body.contains(lastTrigger)) lastTrigger.focus(); }
+  function meta(label, value) { return '<div class="drawer-meta-item"><div class="drawer-meta-label">' + label + '</div><div class="drawer-meta-value">' + value + '</div></div>'; }
 
   function openManage(id) {
     var p = L.product(id);
     var sub = L.get().subs[id];
+    var st = L.statusOf(id);
     var on = !!sub.autoRenew;
-    var cov = p.model === 'machine' ? sub.machines.map(machineName).join(', ') : t('subs.allMachines', 'All machines');
     drawerTitle.textContent = productName(p);
     drawerBody.innerHTML =
-      '<ul class="d-rows">' +
-        '<li>' + t('subs.coverage', 'Coverage') + '<strong>' + cov + '</strong></li>' +
-        '<li>' + t('subs.price', 'Price') + '<strong>' + L.money(amountOf(p, sub)) + ' ' + per() + '</strong></li>' +
-        '<li>' + (on ? t('subs.renewsOn', 'Renews on') : t('subs.expiresOn', 'Expires on')) + '<strong>' + L.formatDate(sub.renewsOn) + '</strong></li>' +
-      '</ul>' +
-      '<div class="switch-row">' +
+      '<div class="drawer-section"><div class="drawer-meta-grid">' +
+        meta(t('contracts.status', 'Status'), badge(st, sub)) +
+        meta(t('subs.price', 'Price'), L.money(amountOf(p, sub)) + ' ' + per()) +
+        meta(t('subs.coverage', 'Coverage'), coverage(p, sub)) +
+        meta(on ? t('subs.renewsOn', 'Renews on') : t('subs.expiresOn', 'Expires on'), L.formatDate(sub.renewsOn)) +
+      '</div></div>' +
+      (p.model === 'machine'
+        ? '<div class="drawer-section"><div class="drawer-section-title">' + t('subs.machinesTitle', 'Licensed machines') + '</div><ul class="machine-list">' + sub.machines.map(function (m) { return '<li>' + machineName(m) + '</li>'; }).join('') + '</ul></div>'
+        : '') +
+      '<div class="drawer-section"><div class="switch-row">' +
         '<div><div class="switch-label" id="arLabel">' + t('subs.autoRenew', 'Auto-renew') + '</div><div class="switch-hint" id="arHint">' + t('subs.autoRenewHint', 'Renews automatically with the payment method on file. We remind you 30 days before.') + '</div></div>' +
         '<button class="switch" role="switch" id="arSwitch" aria-checked="' + on + '" aria-labelledby="arLabel" aria-describedby="arHint"></button>' +
-      '</div>' +
-      '<div class="drawer-actions">' +
+      '</div></div>' +
+      '<div class="drawer-section"><div class="btn-group btn-group-vertical">' +
         (p.model === 'machine' ? '<a class="btn btn-primary btn-md btn-full" href="subscriptions-checkout.html?mode=add&product=pm">' + t('subs.addMachines', 'Add machines') + '</a>' : '') +
         '<a class="btn btn-secondary btn-md btn-full" href="subscriptions-checkout.html?mode=renew&product=' + id + '">' + t('subs.renewEarly', 'Renew now') + '</a>' +
         (on ? '<button class="btn btn-ghost btn-md btn-full" id="cancelBtn">' + t('subs.cancel', 'Cancel subscription') + '</button>' : '') +
-        '<div id="cancelArea"></div>' +
-      '</div>';
+      '</div><div id="cancelArea"></div></div>';
 
     document.getElementById('arSwitch').addEventListener('click', function () {
       L.setAutoRenew(id, this.getAttribute('aria-checked') !== 'true');
@@ -1930,132 +1907,15 @@ document.addEventListener('click', function(e) {
     var inv = L.get().invoices;
     drawerTitle.textContent = t('subs.billingPayment', 'Billing & payment');
     drawerBody.innerHTML =
-      '<p class="d-sub" style="margin-top:0">' + t('subs.paymentMethod', 'Payment method') + '</p>' +
-      '<div class="pay-current"><span>' + t('subs.payInvoice', 'Invoice (bank transfer)') + '<small>' + t('subs.payInvoiceDesc', '30 days net, sent to the billing address of ACME Corp.') + '</small></span></div>' +
-      '<p class="d-sub">' + t('subs.billingTitle', 'Billing history') + '</p>' +
+      '<div class="drawer-section"><div class="drawer-section-title">' + t('subs.paymentMethod', 'Payment method') + '</div>' +
+        '<p class="drawer-section-text"><strong>' + t('subs.payInvoice', 'Invoice (bank transfer)') + '</strong><br>' + t('subs.payInvoiceDesc', '30 days net, sent to the billing address of ACME Corp.') + '</p></div>' +
+      '<div class="drawer-section"><div class="drawer-section-title">' + t('subs.billingTitle', 'Billing history') + '</div>' +
       (inv.length
         ? inv.map(function (i) { return '<div class="inv-row"><span>' + i.id + '<small>' + L.formatDate(i.date) + ' · ' + i.items + '</small></span><strong>' + L.money(i.total) + '</strong></div>'; }).join('')
-        : '<div class="empty-state empty-state--compact"><p class="empty-state-title">' + t('subs.noInvoices', 'No invoices yet') + '</p><p class="empty-state-desc">' + t('subs.noInvoicesDesc', 'Invoices appear here after your first purchase.') + '</p></div>');
+        : '<div class="empty-state empty-state--compact"><p class="empty-state-title">' + t('subs.noInvoices', 'No invoices yet') + '</p><p class="empty-state-desc">' + t('subs.noInvoicesDesc', 'Invoices appear here after your first purchase.') + '</p></div>') +
+      '</div>';
     openDrawer();
   }
-
-  /* ── Layout options (?v=1 account · ?v=2 list · ?v=3 summary) ── */
-  var VARIANT = (/[?&]v=([123])/.exec(location.search) || [])[1] || '1';
-
-  function statusText(st, sub) {
-    if (st === 'none') return t('subs.notSubscribed', 'Not subscribed');
-    if (st === 'expired') return t('status.expired', 'Expired');
-    if (st === 'expiring') {
-      var d = L.daysUntil(sub.renewsOn);
-      return d === 1 ? t('subs.expiresTomorrow', 'Expires tomorrow') : fill(t('subs.expiresInDays', 'Expires in {days} days'), { days: d });
-    }
-    return t('status.active', 'Active');
-  }
-
-  function tileData(p) {
-    var st = L.statusOf(p.id);
-    var sub = L.get().subs[p.id];
-    var d = { p: p, st: st, sub: sub, name: productName(p) };
-    if (st === 'none') {
-      d.meta = t('subs.d.' + p.id, p.desc);
-      d.price = p.model === 'machine'
-        ? fill(t('subs.fromPerMachine', 'From {price} per machine'), { price: L.money(L.PM_TIERS[L.PM_TIERS.length - 1].price / div()) })
-        : L.money(p.price / div()) + ' ' + per();
-      d.href = 'subscriptions-checkout.html?add=' + p.id; d.label = t('subs.add', 'Add'); d.kind = 'add';
-    } else {
-      var when = st === 'expired' ? t('subs.expiredOn', 'Expired on') : (sub.autoRenew ? t('subs.renewsOn', 'Renews on') : t('subs.expiresOn', 'Expires on'));
-      d.meta = coverage(p, sub) + ' · ' + when + ' ' + L.formatDate(sub.renewsOn);
-      d.amount = amountOf(p, sub);
-      d.price = L.money(d.amount) + ' ' + per();
-      if (st === 'active') { d.manage = true; d.label = t('subs.manageShort', 'Manage'); d.kind = 'manage'; }
-      else { d.href = 'subscriptions-checkout.html?mode=renew&product=' + p.id; d.label = t('subs.renew', 'Renew'); d.kind = 'renew'; }
-    }
-    d.status = statusText(st, sub);
-    return d;
-  }
-
-  function actionEl(d, cls) {
-    var aria = ' aria-label="' + d.label + ': ' + d.name + '"';
-    return d.manage
-      ? '<button class="' + cls + '" data-manage="' + d.p.id + '"' + aria + '>' + d.label + '</button>'
-      : '<a class="' + cls + '" href="' + d.href + '"' + aria + '>' + d.label + '</a>';
-  }
-  function pill(d) { return '<span class="v-pill is-' + d.st + '">' + d.status + '</span>'; }
-
-  function planTotals() {
-    var total = 0, next = null, n = 0;
-    L.PRODUCTS.forEach(function (p) {
-      var d = tileData(p);
-      if (d.st === 'active' || d.st === 'expiring') {
-        n++; total += d.amount;
-        if (!next || d.sub.renewsOn < next) next = d.sub.renewsOn;
-      }
-    });
-    return { total: total, next: next, count: n };
-  }
-
-  // Shortcuts shown under options 2 and 3 (IRIS only with an active license)
-  function altLinks() {
-    var iris = L.hasActive()
-      ? '<a class="alt-link" href="' + L.IRIS_URL + '" target="_blank" rel="noopener">' + t('subs.irisOpen', 'Open IRIS Cloud') + ' ↗<span class="visually-hidden"> ' + t('common.newTab', '(opens in a new tab)') + '</span></a>'
-      : '';
-    return '<div class="alt-links">' + iris +
-      '<button class="alt-link" data-billing>' + t('subs.billingPayment', 'Billing & payment') + '</button>' +
-      '<a class="alt-link" href="subscriptions-checkout.html">' + t('subs.plansAddons', 'Plans & add-ons') + '</a></div>';
-  }
-
-  // Option 2 — plan list
-  function renderV2() {
-    var tot = planTotals();
-    var head = '<div class="v2-head"><div><p class="v2-eyebrow">' + t('subs.yourPlan', 'Your plan') + '</p><p class="v2-total">' +
-      (tot.count ? L.money(tot.total) + ' <span>' + per() + '</span>' : t('subs.noPlan', 'No active products')) + '</p></div>' +
-      (tot.count ? '<p class="v2-next">' + t('subs.nextRenewal', 'Next renewal') + '<strong>' + L.formatDate(tot.next) + '</strong></p>' : '') + '</div>';
-    return '<section class="v2-card">' + head + '<ul class="v2-list">' + L.PRODUCTS.map(function (p) {
-      var d = tileData(p);
-      return '<li class="v2-row is-' + d.st + '">' +
-        '<span class="v2-icon">' + icon(p.id) + '</span>' +
-        '<span class="v2-info"><span class="v2-name">' + d.name + '</span><span class="v2-meta">' + d.meta + '</span></span>' +
-        pill(d) +
-        '<span class="v2-price">' + d.price + '</span>' +
-        actionEl(d, 'v2-action is-' + d.kind) +
-      '</li>';
-    }).join('') + '</ul></section>' + altLinks();
-  }
-
-  // Option 3 — summary + compact tiles
-  function renderV3() {
-    var tot = planTotals();
-    var urgent = L.PRODUCTS.filter(function (p) { var st = L.statusOf(p.id); return st === 'expiring' || st === 'expired'; });
-    var hero = '<section class="v3-hero">' +
-      '<div><p class="v3-eyebrow">' + t('subs.yourPlan', 'Your plan') + '</p>' +
-      '<p class="v3-total">' + (tot.count ? L.money(tot.total) + ' <span>' + per() + '</span>' : t('subs.noPlan', 'No active products')) + '</p>' +
-      (tot.next ? '<p class="v3-sub">' + fill(t('subs.activeCount', '{n} active products'), { n: tot.count }) + ' · ' + t('subs.nextRenewal', 'Next renewal') + ' ' + L.formatDate(tot.next) + '</p>' : '') + '</div>' +
-      (urgent.length ? '<a class="v3-cta" href="subscriptions-checkout.html?mode=renew">' + fill(t('subs.renewN', 'Renew {n} products'), { n: urgent.length }) + '</a>' : '') +
-      '</section>';
-    var tiles = '<div class="v3-grid" role="list">' + L.PRODUCTS.map(function (p) {
-      var d = tileData(p);
-      var inner = '<span class="v3-icon">' + icon(p.id) + '</span>' +
-        '<span class="v3-name">' + d.name + '</span>' +
-        '<span class="v3-status is-' + d.st + '"><span class="tile-dot" aria-hidden="true"></span>' + d.status + '</span>' +
-        '<span class="v3-go" aria-hidden="true">' + (d.kind === 'add' ? '+' : '→') + '</span>';
-      return '<div role="listitem">' + (d.manage
-        ? '<button class="v3-tile is-' + d.st + '" data-manage="' + p.id + '">' + inner + '</button>'
-        : '<a class="v3-tile is-' + d.st + '" href="' + d.href + '">' + inner + '</a>') + '</div>';
-    }).join('') + '</div>';
-    return hero + tiles + altLinks();
-  }
-
-  // Layout switcher keeps the other query param
-  (function () {
-    var demo = (/[?&]demo=(\w+)/.exec(location.search) || [])[1];
-    document.querySelectorAll('#demoSwitch [data-v]').forEach(function (a) {
-      var v = a.getAttribute('data-v');
-      if (v === VARIANT) { a.setAttribute('aria-current', 'page'); }
-    });
-    document.querySelectorAll('#demoSwitch [data-demo]').forEach(function (a) {
-      a.href = '?demo=' + a.getAttribute('data-demo') + '&v=' + VARIANT;
-    });
-  })();
 
   document.getElementById('drawerClose').addEventListener('click', closeDrawer);
   overlay.addEventListener('click', closeDrawer);
@@ -2066,14 +1926,28 @@ document.addEventListener('click', function(e) {
     var bill = e.target.closest('[data-billing]');
     if (bill) { lastTrigger = bill; openBilling(); }
   });
-  document.getElementById('billingBtn').addEventListener('click', function () { lastTrigger = this; openBilling(); });
+
+  // Layout switcher keeps the demo scenario and vice versa
+  document.querySelectorAll('#demoSwitch [data-v]').forEach(function (a) {
+    if (a.getAttribute('data-v') === VARIANT) a.setAttribute('aria-current', 'page');
+  });
+  document.querySelectorAll('#demoSwitch [data-demo]').forEach(function (a) {
+    a.href = '?demo=' + a.getAttribute('data-demo') + '&v=' + VARIANT;
+  });
 
   function render() {
-    var alt = document.getElementById('viewAlt');
-    if (VARIANT === '1') { renderPlan(); renderList(); return; }
-    document.getElementById('viewAccount').hidden = true;
-    alt.hidden = false;
-    alt.innerHTML = VARIANT === '2' ? renderV2() : renderV3();
+    var items = owned();
+    var tot = totals(items);
+    var view = document.getElementById('view');
+    document.getElementById('subsSubtitle').textContent = t('subs.subtitle', 'G&D Digital Products') +
+      (tot.count ? ' · ' + fill(t('subs.activeCount', '{n} active products'), { n: tot.count }) : '');
+    // Options 2 and 3 carry the shortcuts in the page header; option 1 has its own card
+    document.getElementById('headerActions').hidden = VARIANT === '1' || !items.length;
+    var iris = document.getElementById('irisHeader');
+    iris.hidden = !L.hasActive();
+    iris.href = L.IRIS_URL;
+    if (!items.length) { view.innerHTML = emptyState(); return; }
+    view.innerHTML = VARIANT === '2' ? renderV2(items, tot) : VARIANT === '3' ? renderV3(items, tot) : renderV1(items, tot);
   }
   render();
   document.addEventListener('netzsch:i18n-applied', render);

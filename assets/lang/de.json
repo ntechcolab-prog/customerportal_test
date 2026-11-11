@@ -1275,5 +1275,14 @@
   "subs.expiresInDays": "Läuft in {days} Tagen ab",
   "subs.expiresTomorrow": "Läuft morgen ab",
   "subs.fromPerMachine": "Ab {price} pro Maschine",
-  "subs.expiredOn": "Abgelaufen am"
+  "subs.expiredOn": "Abgelaufen am",
+  "subs.billedBy": "Abrechnung per Rechnung (Überweisung)",
+  "subs.quickAccess": "Schnellzugriff",
+  "subs.kpiActive": "Aktive Produkte",
+  "subs.kpiYearly": "Jahressumme",
+  "subs.kpiMonthly": "Monatssumme",
+  "subs.colProduct": "Produkt",
+  "subs.colRenewal": "Verlängerung",
+  "subs.colActions": "Aktionen",
+  "subs.machinesTitle": "Lizenzierte Maschinen"
 }

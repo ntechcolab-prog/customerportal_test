@@ -10,8 +10,9 @@
  *  - Bundle: progressive discount by number of distinct products in the plan.
  *  - Billing: yearly (base price) or monthly (yearly / 10 → yearly = 2 months free).
  *
- * Demo helpers: ?demo=reset restores the sample state, ?demo=none clears all
- * licenses (empty state, IRIS Cloud access hidden).
+ * Demo helpers: ?demo=reset restores the sample state (all products active),
+ * ?demo=renewal loads expiring/expired licenses (renewal flow), ?demo=none
+ * clears all licenses (empty state, IRIS Cloud access hidden).
  */
 (function () {
   'use strict';
@@ -58,6 +59,23 @@
     return {
       cycle: 'year',
       subs: {
+        pm: { status: 'active', machines: ['discus30', 'zeta60', 'mastermix45'], renewsOn: iso(142), autoRenew: true, since: iso(-223) },
+        pt: { status: 'active', renewsOn: iso(142), autoRenew: true, since: iso(-223) },
+        bw: { status: 'active', renewsOn: iso(217), autoRenew: true, since: iso(-148) },
+        mt: { status: 'active', renewsOn: iso(96), autoRenew: true, since: iso(-269) }
+      },
+      invoices: [
+        { id: 'INV-DP-2026-021', date: iso(-148), items: 'Bead Wear Detection', total: 1620 },
+        { id: 'INV-DP-2026-009', date: iso(-223), items: 'Production Monitoring ×3, Performance Tracking', total: 4080 },
+        { id: 'INV-DP-2026-003', date: iso(-269), items: 'Maintenance Tool', total: 1200 }
+      ]
+    };
+  }
+
+  function renewalSample() {
+    return {
+      cycle: 'year',
+      subs: {
         pm: { status: 'active', machines: ['discus30', 'zeta60'], renewsOn: iso(18), autoRenew: false, since: iso(-347) },
         bw: { status: 'active', renewsOn: iso(217), autoRenew: true, since: iso(-148) },
         mt: { status: 'expired', renewsOn: iso(-41), autoRenew: false, since: iso(-406) }
@@ -85,9 +103,10 @@
 
   // Demo switches via query string
   (function () {
-    var m = /[?&]demo=(reset|none)/.exec(location.search);
+    var m = /[?&]demo=(reset|renewal|none)/.exec(location.search);
     if (!m) return;
     if (m[1] === 'reset') save(sample());
+    else if (m[1] === 'renewal') save(renewalSample());
     else save({ cycle: 'year', subs: {}, invoices: [] });
   })();
 
