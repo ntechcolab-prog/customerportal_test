@@ -1388,5 +1388,9 @@
   "cat.added": "Added",
   "cat.addName": "Add {name} to selection",
   "cat.removeName": "Remove {name} from selection",
-  "cat.perMachineOr": "per machine · or {price} / year"
+  "cat.perMachineOr": "per machine · or {price} / year",
+  "cat.yourPlan": "Your subscription",
+  "cat.status": "Status",
+  "cat.endsOn": "Ends on",
+  "cat.manage": "Manage subscription"
 }

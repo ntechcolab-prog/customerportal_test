@@ -1544,7 +1544,6 @@
     .card-pick { position: absolute; top: 12px; left: 12px; display: none; }
     .cat-grid.is-batch .card-pick { display: block; }
     .cat-grid.is-batch .product-card-chevron { visibility: hidden; }
-    .product-card.is-owned { cursor: default; }
     .cat-grid.is-batch .product-card.is-owned { opacity: .6; }
     .batch-bar { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 140%); display: flex; align-items: center; gap: 20px; padding: 12px 12px 12px 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; box-shadow: 0 8px 28px rgba(0,0,0,.12); transition: transform .25s cubic-bezier(.2,.8,.2,1); z-index: 50; white-space: nowrap; }
     .batch-bar.show { transform: translate(-50%, 0); }
@@ -1979,8 +1978,7 @@ document.addEventListener('click', function(e) {
   }
   function onCard(card) {
     var id = card.getAttribute('data-product');
-    if (owned(id)) { location.href = 'subscriptions.html'; return; }
-    open('single', [id], card);
+    open(owned(id) ? 'owned' : 'single', [id], card);
   }
   grid.addEventListener('click', function (e) {
     var add = e.target.closest('[data-add]');
@@ -2010,7 +2008,7 @@ document.addEventListener('click', function(e) {
   function pmShort() { return ids.indexOf('pm') >= 0 && !machines.length; }
 
   function open(m, list, from) {
-    mode = m; ids = list; cycle = 'month'; view = 'form'; result = null; trigger = from;
+    mode = m; ids = list; cycle = 'month'; view = m === 'owned' ? 'owned' : 'form'; result = null; trigger = from;
     var pm = L.get().subs.pm;
     machines = pm && pm.status === 'trial' ? pm.machines.slice() : [];
     render();
@@ -2078,12 +2076,25 @@ document.addEventListener('click', function(e) {
         row(month ? t('cat.nextCharge', 'Next charge') : t('subs.renewsOn', 'Renews on'), L.formatDate(result.renewsOn)) +
       '</div><p class="trial-note">' + MAIL + (month ? fill(t('cat.cardNote', 'Receipt for {inv} sent to marcus.weber@acme-corp.com'), { inv: result.invoice }) : fill(t('subs.invoiceSent', 'Invoice sent to {email}'), { email: 'marcus.weber@acme-corp.com' })) + '</p>';
   }
+  function renderOwned() {
+    var id = ids[0], st = L.get(), sub = st.subs[id], month = st.cycle === 'month';
+    function row(l, v) { return '<div class="payment-row"><span class="label">' + l + '</span><span class="value">' + v + '</span></div>'; }
+    title.textContent = pName(id);
+    body.innerHTML = '<div class="pd-img">' + art(id) + '</div><p class="pd-desc">' + pDesc(id) + '</p>' +
+      '<ul class="pd-feats">' + feats(id).map(function (f) { return '<li>' + CHECK + f + '</li>'; }).join('') + '</ul>' +
+      '<div class="trial-rows">' +
+        row(t('cat.status', 'Status'), badge(id)) +
+        row(t('subs.coverage', 'Coverage'), id === 'pm' ? (sub.machines.length === 1 ? t('subs.oneMachine', '1 machine') : fill(t('subs.nMachines', '{n} machines'), { n: sub.machines.length })) : t('subs.allMachines', 'All machines')) +
+        row(t('cat.billing', 'Billing'), month ? t('cat.monthly', 'Monthly · recurring') : t('cat.yearly', 'Yearly · invoice')) +
+        row(sub.autoRenew ? t('subs.renewsOn', 'Renews on') : t('cat.endsOn', 'Ends on'), L.formatDate(sub.renewsOn)) +
+      '</div>';
+  }
   function renderFoot() {
-    var done = view === 'done';
+    var done = view === 'done' || view === 'owned';
     document.getElementById('pdIris').hidden = !done;
     document.getElementById('pdIris').href = L.IRIS_URL;
     var pr = document.getElementById('pdPrimary');
-    pr.textContent = done ? t('subs.done', 'Done') : t('subs.subscribe', 'Subscribe');
+    pr.textContent = view === 'owned' ? t('cat.manage', 'Manage subscription') : done ? t('subs.done', 'Done') : t('subs.subscribe', 'Subscribe');
     var tot = document.getElementById('pdTotal');
     if (done || pmShort()) { tot.innerHTML = ''; return; }
     var qq = q(cycle);
@@ -2091,7 +2102,7 @@ document.addEventListener('click', function(e) {
   }
   function render() {
     box.setAttribute('data-view', view);
-    if (view === 'done') renderDone(); else renderForm();
+    if (view === 'done') renderDone(); else if (view === 'owned') renderOwned(); else renderForm();
     renderFoot();
   }
 
@@ -2109,6 +2120,7 @@ document.addEventListener('click', function(e) {
   });
   body.addEventListener('click', function (e) { if (e.target.closest('.terms-text a')) e.preventDefault(); });
   document.getElementById('pdPrimary').addEventListener('click', function () {
+    if (view === 'owned') { location.href = 'subscriptions.html'; return; }
     if (view === 'done') { close(); return; }
     if (pmShort()) { var h = document.getElementById('pdHint'); h.textContent = t('subs.pickOneMachine', 'Select at least one machine.'); h.classList.add('is-error'); h.scrollIntoView({ block: 'nearest' }); return; }
     var terms = document.getElementById('pdTerms');

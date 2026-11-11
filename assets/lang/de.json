@@ -1388,5 +1388,9 @@
   "cat.added": "Gewählt",
   "cat.addName": "{name} zur Auswahl hinzufügen",
   "cat.removeName": "{name} aus der Auswahl entfernen",
-  "cat.perMachineOr": "pro Maschine · oder {price} / Jahr"
+  "cat.perMachineOr": "pro Maschine · oder {price} / Jahr",
+  "cat.yourPlan": "Ihr Abonnement",
+  "cat.status": "Status",
+  "cat.endsOn": "Endet am",
+  "cat.manage": "Abo verwalten"
 }
