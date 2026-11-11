@@ -1237,5 +1237,9 @@
   "subs.saveBundle": "{amount} bundle ({pct}%)",
   "subs.sumYearShort": "Per year, excl. VAT.",
   "subs.sumMonthShort": "Per month, excl. VAT.",
-  "subs.allMachinesLc": "all machines"
+  "subs.allMachinesLc": "all machines",
+  "subs.nextRenewal": "Next renewal",
+  "subs.noPlan": "No active products",
+  "subs.activeCount": "{n} active products",
+  "subs.renewN": "Renew {n} products"
 }

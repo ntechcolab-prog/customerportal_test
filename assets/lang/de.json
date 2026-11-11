@@ -1237,5 +1237,9 @@
   "subs.saveBundle": "{amount} Paket ({pct} %)",
   "subs.sumYearShort": "Pro Jahr, zzgl. MwSt.",
   "subs.sumMonthShort": "Pro Monat, zzgl. MwSt.",
-  "subs.allMachinesLc": "alle Maschinen"
+  "subs.allMachinesLc": "alle Maschinen",
+  "subs.nextRenewal": "Nächste Verlängerung",
+  "subs.noPlan": "Keine aktiven Produkte",
+  "subs.activeCount": "{n} aktive Produkte",
+  "subs.renewN": "{n} Produkte verlängern"
 }
