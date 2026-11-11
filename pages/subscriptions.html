@@ -1441,7 +1441,8 @@
     /* Review: billing cycle + one bundle suggestion */
     .review-list .link-btn { min-height: 32px; margin-top: 0; display: flex; }
     .cross-sell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: #eef6f5; font-size: 13px; color: #00514a; line-height: 1.45; }
-    .cross-sell.is-added { background: #f9fafb; color: #1f2937; }
+    .review-list .rl-end { display: flex; align-items: flex-start; gap: 4px; white-space: nowrap; }
+    .review-list .rl-end .action-btn, .review-list .rl-slot { width: 28px; min-width: 28px; height: 28px; margin-top: -4px; }
     .cycle-block { margin-top: 24px; }
     .cycle-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
     .cycle-opts .pay-opt { margin-bottom: 0; }
@@ -2042,8 +2043,9 @@ document.addEventListener('click', function(e) {
   var pOpen = false, pTrigger = null;
   var mode = 'buy', focusProduct = null, view = 'review', result = null, state = L.get();
   var plan = { pm: [], pt: false, bw: false, mt: false, cycle: 'year' };
-  var licensed = [], machinesFrom = null, crossAdded = null;
+  var licensed = [], machinesFrom = null, crossAdded = [];
   var trialId = null, trialMachine = null;
+  var TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
   var LOCK = '<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="4.5" y="8" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
 
   function fleet() { return window.MachineLines ? MachineLines.getMachines() : []; }
@@ -2057,7 +2059,7 @@ document.addEventListener('click', function(e) {
   function setup(m, prod) {
     state = L.get(); mode = m || 'buy'; focusProduct = prod || null; result = null;
     plan = { pm: [], pt: false, bw: false, mt: false, cycle: state.cycle || 'year' };
-    licensed = []; machinesFrom = null; crossAdded = null; trialId = null; trialMachine = null;
+    licensed = []; machinesFrom = null; crossAdded = []; trialId = null; trialMachine = null;
     if (mode === 'trial') {
       trialId = focusProduct; view = 'trial';
     } else if (mode === 'add') {
@@ -2152,13 +2154,9 @@ document.addEventListener('click', function(e) {
       : plan.cycle === 'year' ? t('subs.sumYearShort', 'Per year, excl. VAT.') : t('subs.sumMonthShort', 'Per month, excl. VAT.');
     return html + '<p class="sum-note">' + note + '</p>';
   }
-  // One bundle suggestion at most; once added it stays here with Remove
+  // One bundle suggestion at a time: the next product that would raise the discount
   function crossSell(q) {
     if (mode === 'add') return '';
-    if (crossAdded && plan[crossAdded]) {
-      return '<div class="cross-sell is-added"><span>' + fill(t('subs.crossAdded', '{name} added · {pct}% bundle discount applied'), { name: pName(crossAdded), pct: Math.round(q.bundleRate * 100) }) + '</span>' +
-        '<button type="button" class="link-btn" data-remove="' + crossAdded + '" aria-label="' + t('subs.remove', 'Remove') + ': ' + pName(crossAdded) + '">' + t('subs.remove', 'Remove') + '</button></div>';
-    }
     var rate = L.BUNDLE[q.lines.length + 1];
     if (!rate) return '';
     var cand = null;
@@ -2175,7 +2173,10 @@ document.addEventListener('click', function(e) {
     document.getElementById('reviewList').innerHTML = q.lines.map(function (ln) {
       var detail = ln.id === 'pm' ? plan.pm.map(machineName).join(', ') : t('subs.allMachines', 'All machines');
       var act = ln.id === 'pm' && mode !== 'add' ? '<button type="button" class="link-btn" data-edit-machines>' + t('subs.editMachines', 'Edit machines') + '</button>' : '';
-      return '<li><span>' + pName(ln.id) + '<small>' + detail + '</small>' + act + '</span><span>' + L.money(ln.total) + ' ' + pPer() + '</span></li>';
+      var del = crossAdded.indexOf(ln.id) >= 0
+        ? '<button type="button" class="action-btn" data-remove="' + ln.id + '" aria-label="' + t('subs.remove', 'Remove') + ': ' + pName(ln.id) + '" title="' + t('subs.remove', 'Remove') + '">' + TRASH + '</button>'
+        : crossAdded.length ? '<span class="rl-slot" aria-hidden="true"></span>' : '';
+      return '<li><span>' + pName(ln.id) + '<small>' + detail + '</small>' + act + '</span><span class="rl-end"><span>' + L.money(ln.total) + ' ' + pPer() + '</span>' + del + '</span></li>';
     }).join('');
     document.getElementById('crossSell').innerHTML = crossSell(q);
     document.getElementById('cycleGroup').hidden = mode === 'add';
@@ -2290,9 +2291,10 @@ document.addEventListener('click', function(e) {
     if (!c && !r) return;
     var id = (c || r).getAttribute(c ? 'data-cross' : 'data-remove');
     plan[id] = !!c;
-    crossAdded = c ? id : null;
+    crossAdded = crossAdded.filter(function (x) { return x !== id; });
+    if (c) crossAdded.push(id);
     renderPlan();
-    var next = document.querySelector('#crossSell .link-btn');
+    var next = c ? document.querySelector('#reviewList [data-remove="' + id + '"]') : document.querySelector('#crossSell .link-btn');
     (next || document.getElementById('revTitle')).focus();
   });
   document.getElementById('trialBody').addEventListener('change', function (e) {
