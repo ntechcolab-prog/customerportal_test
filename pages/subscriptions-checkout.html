@@ -1282,11 +1282,9 @@
     }
   </style>
   <link rel="stylesheet" href="../assets/forms.css">
-  <link rel="stylesheet" href="../assets/steppers.css">
   <style>
     /* ── SUBSCRIPTIONS CHECKOUT (CP-732) ─── */
     .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-    .co-stepper { max-width: 640px; margin-bottom: 8px; }
     .co-layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 20px; align-items: start; }
     .co-main { display: flex; flex-direction: column; gap: 12px; }
     .co-card { background: #fff; border: 1px solid rgba(0,0,0,.08); border-radius: 12px; padding: 20px; }
@@ -1660,12 +1658,6 @@
       <span class="page-subtitle" data-i18n="subs.subtitle">G&amp;D Digital Products</span>
     </div>
 
-    <div class="progress-bar co-stepper" role="list" aria-label="Checkout progress">
-      <div class="progress-step active" role="listitem" id="stp1" data-i18n="subs.stepConfigure">Configure</div>
-      <div class="progress-step" role="listitem" id="stp2" data-i18n="subs.stepReview">Review &amp; pay</div>
-      <div class="progress-step" role="listitem" id="stp3" data-i18n="subs.stepDone">Confirmation</div>
-    </div>
-
     <!-- STEP 1 · CHOOSE PLAN -->
     <div data-step="1">
       <div class="plans-toolbar">
@@ -1961,9 +1953,6 @@ document.addEventListener('click', function(e) {
   function goTo(n) {
     step = n;
     document.querySelectorAll('[data-step]').forEach(function (el) { el.hidden = +el.getAttribute('data-step') !== n; });
-    [1, 2, 3].forEach(function (i) { document.getElementById('stp' + i).classList.toggle('active', i <= n); });
-    document.getElementById('stp' + n).setAttribute('aria-current', 'step');
-    [1, 2, 3].forEach(function (i) { if (i !== n) document.getElementById('stp' + i).removeAttribute('aria-current'); });
     window.scrollTo(0, 0);
     if (n === 2) renderReview();
     if (n === 3) { renderDone(); document.getElementById('doneTitle').focus(); }
