@@ -1443,17 +1443,69 @@
     .cross-sell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: #eef6f5; font-size: 13px; color: #00514a; line-height: 1.45; }
     .review-list .rl-end { display: flex; align-items: flex-start; gap: 4px; white-space: nowrap; }
     .review-list .rl-end .action-btn, .review-list .rl-slot { width: 28px; min-width: 28px; height: 28px; margin-top: -4px; }
-    .cycle-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding-bottom: 20px; margin-bottom: 4px; border-bottom: 1px solid #f3f4f6; }
-    .seg { display: inline-flex; padding: 3px; background: #f1f2f3; border-radius: 10px; }
-    .seg-opt { position: relative; }
-    .seg-opt input { position: absolute; inset: 0; opacity: 0; cursor: pointer; margin: 0; }
-    .seg-opt > span { display: flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 18px; border-radius: 8px; font-size: 14px; font-weight: 500; color: #4b5563; white-space: nowrap; transition: background .15s, color .15s, box-shadow .15s; }
-    .seg-opt:hover > span { color: #1f2937; }
-    .seg-opt input:checked + span { background: #fff; color: #007167; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.06); }
-    .seg-opt input:focus-visible + span { outline: 2px solid #007167; outline-offset: 2px; }
-    .cycle-hint { font-size: 13px; color: #4b5563; margin: 0; }
-    @media (prefers-reduced-motion: reduce) { .seg-opt > span { transition: none; } }
-    .cycle-save { font-size: 12px; font-weight: 600; color: #00544c; margin-left: 4px; white-space: nowrap; }
+    /* Billing cycle: SegmentedControl do DS (.shipment-toggle, de checkout.html) */
+    .shipment-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 5px;
+      gap: 5px;
+      position: relative;
+    }
+    .shipment-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1.5px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      text-align: left;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .shipment-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .shipment-toggle-btn.active {
+      background: rgba(255, 255, 255, 0.85);
+      border-color: rgba(0, 113, 103, 0.2);
+      box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 4px 12px rgba(0, 113, 103, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+    .shipment-toggle-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .shipment-toggle-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #007167;
+      transition: color 0.25s;
+    }
+    .shipment-toggle-btn.active .shipment-toggle-title {
+      color: #1f2937;
+    }
+    .shipment-toggle-sub {
+      font-size: 12px;
+      font-weight: 400;
+      color: #0b9c92;
+      transition: color 0.25s;
+    }
+    .shipment-toggle-btn.active .shipment-toggle-sub {
+      color: #007167;
+    }
+    .cycle-row { padding-bottom: 20px; margin-bottom: 4px; border-bottom: 1px solid #f3f4f6; }
+    .cycle-row .shipment-toggle-btn { padding: 10px 16px; }
     .cross-sell .link-btn { flex: none; min-height: 32px; margin-top: 0; }
     /* Free trial */
     .v2-info .link-btn { margin-top: 2px; min-height: 32px; }
@@ -1750,11 +1802,20 @@
         <div data-pv="review" hidden class="pm-review">
           <section aria-labelledby="revTitle">
             <div class="cycle-row" id="cycleGroup">
-              <div class="seg" role="radiogroup" aria-label="Billing cycle" data-i18n-aria-label="subs.billingCycle">
-                <label class="seg-opt"><input type="radio" name="cycle" value="year" checked><span><span data-i18n="subs.yearly">Yearly</span> <small class="cycle-save" data-i18n="subs.yearlyHint">2 months free</small></span></label>
-                <label class="seg-opt"><input type="radio" name="cycle" value="month"><span data-i18n="subs.monthly">Monthly</span></label>
+              <div class="shipment-toggle" role="radiogroup" aria-label="Billing cycle" data-i18n-aria-label="subs.billingCycle">
+                <button type="button" class="shipment-toggle-btn active" data-cycle="year" aria-pressed="true">
+                  <div class="shipment-toggle-text">
+                    <span class="shipment-toggle-title" data-i18n="subs.yearly">Yearly</span>
+                    <span class="shipment-toggle-sub" id="cycYearSub"></span>
+                  </div>
+                </button>
+                <button type="button" class="shipment-toggle-btn" data-cycle="month" aria-pressed="false">
+                  <div class="shipment-toggle-text">
+                    <span class="shipment-toggle-title" data-i18n="subs.monthly">Monthly</span>
+                    <span class="shipment-toggle-sub" id="cycMonthSub"></span>
+                  </div>
+                </button>
               </div>
-              <p class="cycle-hint" id="cycHint" aria-live="polite"></p>
             </div>
             <h3 class="card-title" id="revTitle" data-i18n="subs.yourOrder">Your plan</h3>
             <ul class="review-list" id="reviewList"></ul>
@@ -2181,9 +2242,13 @@ document.addEventListener('click', function(e) {
     }).join('');
     document.getElementById('crossSell').innerHTML = crossSell(q);
     document.getElementById('cycleGroup').hidden = mode === 'add';
-    var yearly = plan.cycle === 'year';
-    document.querySelectorAll('#cycleGroup input[name="cycle"]').forEach(function (r) { r.checked = r.value === plan.cycle; });
-    document.getElementById('cycHint').textContent = fill(yearly ? t('subs.billedYearly', 'Billed {amount} once a year.') : t('subs.billedMonthly', 'Billed {amount} every month.'), { amount: L.money(quote().total) });
+    document.querySelectorAll('#cycleGroup [data-cycle]').forEach(function (b) {
+      var on = b.getAttribute('data-cycle') === plan.cycle;
+      b.classList.toggle('active', on); b.setAttribute('aria-pressed', on);
+    });
+    var yq = L.quote({ pm: plan.pm, pt: plan.pt, bw: plan.bw, mt: plan.mt, cycle: 'year', pmLicensed: licensed.length });
+    document.getElementById('cycYearSub').textContent = L.money(yq.total) + ' ' + t('subs.perYear', '/ year') + ' · ' + t('subs.yearlyHint', '2 months free');
+    document.getElementById('cycMonthSub').textContent = L.money(yq.total / 10) + ' ' + t('subs.perMonth', '/ month');
     document.getElementById('sumBody2').innerHTML = summaryHtml(q);
   }
 
@@ -2273,8 +2338,8 @@ document.addEventListener('click', function(e) {
   }
 
   /* Events */
-  document.querySelectorAll('#cycleGroup input[name="cycle"]').forEach(function (r) {
-    r.addEventListener('change', function () { plan.cycle = this.value; renderPlan(); this.focus(); });
+  document.querySelectorAll('#cycleGroup [data-cycle]').forEach(function (b) {
+    b.addEventListener('click', function () { plan.cycle = this.getAttribute('data-cycle'); renderPlan(); this.focus(); });
   });
   document.getElementById('mpBody').addEventListener('change', function (e) {
     var el = e.target;
