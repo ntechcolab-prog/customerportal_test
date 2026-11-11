@@ -1,0 +1,2484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital products — NETZSCH Customer Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/tables.css">
+  <link rel="stylesheet" href="../assets/buttons.css">
+  <link rel="stylesheet" href="../assets/empty-states.css">
+  <link rel="stylesheet" href="../assets/modals.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ─── */
+    .topbar {
+      background: #007167;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 170;
+      position: sticky;
+      top: 0;
+    }
+    .topbar-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .topbar-icon { width: 16px; height: 16px; object-fit: contain; }
+    .topbar-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.3); }
+    .topbar-label { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.31px; white-space: nowrap; }
+
+    /* ── APP HEADER ─── */
+    .app-header {
+      background: rgba(255, 255, 255, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      height: 60px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 160;
+      position: sticky;
+      top: 40px;
+    }
+    .app-header-left { display: flex; align-items: center; gap: 0; }
+    .netzsch-logo { height: 22px; object-fit: contain; }
+    .header-divider { width: 1px; height: 24px; background: rgba(0, 0, 0, 0.08); margin: 0 16px; }
+    .header-nav { display: flex; align-items: center; }
+    .nav-tab {
+      padding: 6px 14px;
+      height: auto;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b6e73;
+      text-decoration: none;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-tab:hover { background: rgba(0, 113, 103, 0.06); color: #374151; }
+    .nav-tab.active { color: #007167; background: rgba(0, 113, 103, 0.08); font-weight: 600; }
+    .app-header-right { display: flex; align-items: center; gap: 6px; }
+    .header-divider-v {
+      width: 1px;
+      height: 24px;
+      background: #e5e7eb;
+      margin: 0 4px;
+      flex-shrink: 0;
+    }
+    .header-icon-btn {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; cursor: pointer; position: relative;
+      background: none; border: none;
+      transition: background 0.15s;
+    }
+    .header-icon-btn:hover { background: rgba(0, 113, 103, 0.06); }
+    .header-icon-btn img { width: 18px; height: 18px; object-fit: contain; }
+    .notif-badge {
+      position: absolute; top: 2px; right: 2px;
+      background: #c73e20; color: #fff;
+      font-size: 9px; font-weight: 700;
+      border-radius: 50%; width: 14px; height: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .user-avatar {
+      display: none;
+    }
+    .user-initials {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+    .user-avatar-wrapper {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* ── PROFILE DROPDOWN ─── */
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 238px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .profile-dropdown.open { display: block; }
+    .profile-dropdown-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #f5f5f7;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .profile-dropdown-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      object-fit: cover;
+    }
+    .profile-dropdown-info { display: flex; flex-direction: column; }
+    .profile-dropdown-name {
+      font-size: 13px; font-weight: 600; color: #1f2937;
+      letter-spacing: -0.08px; line-height: 19.5px;
+    }
+    .profile-dropdown-email {
+      font-size: 11px; font-weight: 400; color: #9ca3af;
+      letter-spacing: 0.06px; line-height: 16.5px;
+    }
+    .profile-dropdown-menu {
+      padding: 6px 0 0 0;
+      list-style: none;
+    }
+    .profile-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      letter-spacing: -0.08px;
+      cursor: pointer;
+    }
+    .profile-dropdown-item:hover { background: #f3f4f6; }
+    .profile-dropdown-item img { width: 15px; height: 15px; }
+    .profile-dropdown-divider {
+      border-top: 1px solid #e5e7eb;
+      margin-top: 0;
+      padding-top: 1px;
+    }
+    .profile-dropdown-item.logout { color: #ef4444; }
+
+    /* ── NOTIFICATIONS DROPDOWN ─── */
+    .notif-wrapper { position: relative; display: flex; align-items: center; }
+    .notif-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 378px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .notif-dropdown.open { display: block; }
+    .notif-dropdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 57px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .notif-dropdown-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notif-dropdown-title > span:first-child {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.31px;
+    }
+    .notif-count-badge {
+      background: #c73e20;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .notif-mark-read {
+      font-size: 12px;
+      font-weight: 500;
+      color: #007167;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .notif-mark-read:hover { text-decoration: underline; }
+    .notif-list { max-height: 360px; overflow-y: auto; }
+    .notif-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #f3f3f3;
+    }
+    .notif-item.unread { background: #f8fbfa; }
+    .notif-item-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .notif-item-icon img { width: 16px; height: 16px; }
+    .notif-item-icon.quote { background: #fff3d6; }
+    .notif-item-icon.order { background: #e0f2ee; }
+    .notif-item-icon.service { background: #e8e0f4; }
+    .notif-item-icon.contract { background: #e0f2ee; }
+    .notif-item-content { flex: 1; min-width: 0; }
+    .notif-item-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .notif-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: -0.08px;
+      line-height: 18px;
+    }
+    .notif-item.unread .notif-item-title { font-weight: 600; }
+    .notif-item:not(.unread) .notif-item-title { font-weight: 400; }
+    .notif-unread-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #007167;
+      flex-shrink: 0;
+    }
+    .notif-item-desc {
+      font-size: 12px;
+      color: #6b6e73;
+      line-height: 16px;
+      margin-top: 2px;
+    }
+    .notif-item-time {
+      font-size: 11px;
+      color: #9ca0a5;
+      line-height: 16.5px;
+      margin-top: 2px;
+    }
+    .notif-item-action {
+      display: inline-block;
+      margin-top: 8px;
+      background: #007167;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      height: 23px;
+      line-height: 16.5px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .notif-item-action:hover { background: #005f57; }
+    .notif-dropdown-footer {
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .notif-view-all {
+      font-size: 13px;
+      font-weight: 500;
+      color: #007167;
+      text-decoration: none;
+      letter-spacing: -0.08px;
+    }
+    .notif-view-all:hover { text-decoration: underline; }
+
+
+    .lang-switcher {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #007167;
+      cursor: pointer;
+      user-select: none;
+      background: none;
+      border: none;
+      padding: 0 4px;
+    }
+    .lang-switcher .lang-globe { width: 16px; height: 16px; flex-shrink: 0; }
+    .lang-switcher .lang-chevron { width: 10px; height: 10px; transition: transform 0.2s; }
+    .lang-switcher.open .lang-chevron { transform: rotate(180deg); }
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      min-width: 80px;
+      overflow: hidden;
+      z-index: 300;
+    }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-option {
+      padding: 8px 16px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: #3d4246;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .lang-option:hover { background: #f0faf9; }
+    .lang-option.active { color: #007167; background: #e6f4f3; }
+
+    /* ── BREADCRUMB ─── */
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      height: 33px;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      font-size: 12px;
+      color: #6b7280;
+      gap: 8px;
+    }
+    .breadcrumb a { color: #007167; text-decoration: none; }
+    .breadcrumb-sep { color: #c3c5c7; }
+    .breadcrumb-current { color: #6b7280; }
+
+    /* ── MAIN ─── */
+    .main {
+      flex: 1;
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ── PAGE HEADER ─── */
+    .page-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .page-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1d1d1f;
+      letter-spacing: -0.5px;
+    }
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #86868b;
+    }
+
+    /* ── FILTER BAR (integrated toolbar above table) ─── */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+    }
+    .filter-search {
+      position: relative;
+      width: 220px;
+      flex-shrink: 0;
+    }
+    .filter-search input {
+      width: 100%;
+      height: 32px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      padding: 0 12px 0 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #1d1d1f;
+      background: #fafbfc;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .filter-search input::placeholder { color: #86868b; }
+    .filter-search input:focus {
+      outline: none;
+      border-color: #007167;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1);
+    }
+    .filter-search svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 13px;
+      height: 13px;
+      color: #86868b;
+      pointer-events: none;
+    }
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+    }
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 30px;
+      padding: 0 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .filter-pill:hover {
+      color: #007167;
+      background: rgba(0, 113, 103, 0.05);
+    }
+    .filter-pill.active {
+      background: rgba(0, 113, 103, 0.1);
+      color: #007167;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(0, 113, 103, 0.15), 0 0 4px rgba(0, 113, 103, 0.1);
+    }
+    .filter-pill .pill-count {
+      font-weight: 600;
+      opacity: 0.5;
+      font-size: 11px;
+    }
+    .filter-pill.active .pill-count {
+      opacity: 0.7;
+    }
+
+    /* ── STAT CARDS ─── */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .stat-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.9);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.4s ease, transform 0.25s ease, border-color 0.4s ease;
+      cursor: default;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 11px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.0), rgba(0, 113, 103, 0.0));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      transition: background 0.4s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      background: linear-gradient(135deg, rgba(0, 113, 103, 0.4), rgba(0, 113, 103, 0.08));
+    }
+    .stat-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 113, 103, 0.1), 0 0 0 1px rgba(0, 113, 103, 0.06);
+      transform: translateY(-2px);
+    }
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0faf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .stat-card:hover .stat-icon {
+      background: #e0f2f0;
+      transform: scale(1.08);
+    }
+    .stat-icon svg {
+      width: 18px;
+      height: 18px;
+      color: #007167;
+    }
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .stat-number {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1d1d1f;
+      line-height: 1.2;
+      letter-spacing: -0.3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #86868b;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .stat-card:hover .stat-label {
+      color: #6b7280;
+    }
+
+    /* ── TABLE WRAP (connected to filter-bar) ─── */
+    .orders-table-wrap {
+      border-radius: 0 0 10px 10px;
+      border-top: none;
+    }
+
+    /* ── CONTRACT TABS ─── */
+
+    /* ── TABLE COLUMN WIDTHS ─── */
+    .orders-table .col-contract { width: 15%; }
+    .orders-table .col-type { width: 13%; }
+    .orders-table .col-scope { width: 22%; }
+    .orders-table .col-validity { width: 22%; }
+    .orders-table .col-status { width: 13%; }
+    .orders-table .col-actions { width: 80px; cursor: default; text-align: left; }
+    .orders-table .col-actions:hover { color: #6b7280; background: transparent; }
+    .orders-table .actions-cell { justify-content: flex-start; }
+
+    /* ── EMPTY STATE ─── */
+    .empty-state[hidden] { display: none; }
+    .empty-state-icon svg { width: 24px; height: 24px; color: #9ca3af; }
+
+    /* ── CONTRACT DETAILS DRAWER ─── */
+    /* Drawer chrome → ../assets/modals.css (componente). Só a largura diverge: */
+    .tracking-drawer { width: 420px; }
+
+    /* Drawer sections */
+    .drawer-section {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    .drawer-section:first-child {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
+    }
+    .drawer-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .drawer-section-text {
+      font-size: 14px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .drawer-section-text strong {
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .drawer-contract-id {
+      font-size: 16px;
+      font-weight: 700;
+      color: #007167;
+      margin-bottom: 4px;
+    }
+    .drawer-contract-type {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+    .drawer-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 0;
+    }
+    .drawer-meta-item {}
+    .drawer-meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .drawer-meta-value {
+      font-size: 14px;
+      color: #1f2937;
+      font-weight: 500;
+    }
+    .drawer-contact-info {
+      font-size: 14px;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .drawer-contact-info a {
+      color: #007167;
+      text-decoration: none;
+    }
+    .drawer-contact-info a:hover { text-decoration: underline; }
+    .drawer-key-terms {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
+    }
+    /* btn-download-contract, btn-request-renewal — powered by buttons.css */
+
+    /* ── CART DROPDOWN ─── */
+    :root { --ease-apple: cubic-bezier(0.32, 0.72, 0, 1); --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .cart-dropdown-anchor { position: relative; display: flex; align-items: center; }
+    .cart-dropdown {
+      position: absolute; top: calc(100% + 2px); right: -8px; width: 366px;
+      background: #fff; border: 1px solid #efefef; border-radius: 14px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25); padding: 24px;
+      opacity: 0; transform: translateY(-8px) scale(0.96); pointer-events: none;
+      transition: opacity 0.3s var(--ease-apple), transform 0.4s var(--ease-spring); z-index: 200;
+    }
+    .cart-dropdown.is-open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .cart-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .cart-title { font-size: 16px; font-weight: 500; color: #000; letter-spacing: -0.31px; line-height: 24px; }
+    .cart-close { width: 16px; height: 16px; background: none; border: none; color: #6b7280; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; transition: color 0.15s; }
+    .cart-close:hover { color: #000; }
+    .cart-close svg { width: 16px; height: 16px; }
+    .cart-items { max-height: 300px; overflow-y: auto; }
+    .cart-empty { font-size: 13px; color: #9ca3af; text-align: center; padding: 24px 0; }
+    .cart-item { display: flex; gap: 10px; align-items: flex-start; padding-bottom: 16px; }
+    .cart-item + .cart-item { padding-top: 16px; }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-name { font-size: 12px; font-weight: 400; color: #6b7280; line-height: 16px; }
+    .cart-item-mat { font-size: 10px; font-weight: 400; color: #6b7280; letter-spacing: 0.12px; line-height: 14px; margin-top: 8px; }
+    .cart-item-price { text-align: right; flex-shrink: 0; }
+    .cart-item-price-label { font-size: 12px; font-weight: 700; color: #c3c5c7; text-transform: uppercase; line-height: 20px; }
+    .cart-item-price-value { font-size: 16px; font-weight: 700; color: #6b7280; margin-top: 0; letter-spacing: -0.31px; line-height: 24px; }
+    .cart-quantity { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #e8e8e8; }
+    .cart-quantity-label { font-size: 14px; font-weight: 500; color: #6b7280; letter-spacing: -0.15px; line-height: 20px; }
+    .cart-quantity-controls { display: flex; align-items: center; gap: 12px; }
+    .qty-btn { width: 24px; height: 24px; background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #6b7280; border-radius: 4px; transition: background 0.15s, color 0.15s; }
+    .qty-btn:hover { background: #f3f4f6; color: #1f2937; }
+    .qty-btn.delete { color: #c73e20; }
+    .qty-btn.delete:hover { background: #fdf2f0; }
+    .qty-btn.minus { color: #6b7280; }
+    .qty-btn svg { width: 16px; height: 16px; }
+    .qty-value { font-size: 14px; font-weight: 400; color: #6b7280; min-width: 32px; text-align: center; font-variant-numeric: tabular-nums; letter-spacing: -0.15px; line-height: 20px; }
+    .cart-subtotal { display: flex; justify-content: space-between; align-items: center; padding: 17px 0 16px; border-top: 1px solid #e8e8e8; }
+    .cart-subtotal-label { font-size: 16px; font-weight: 700; color: #6b7280; letter-spacing: -0.31px; line-height: 24px; }
+    .cart-subtotal-value { font-size: 16px; font-weight: 700; color: #6b7280; font-variant-numeric: tabular-nums; letter-spacing: -0.31px; line-height: 24px; }
+    /* btn-view-cart — powered by buttons.css */
+    .cart-item-img { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: #fafbfc; flex-shrink: 0; }
+    .cart-item-placeholder { width: 40px; height: 40px; border-radius: 6px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #9ca3af; }
+    .cart-item-placeholder svg { width: 18px; height: 18px; }
+    .cart-badge { position: absolute; top: 4px; right: 4px; background: #c73e20; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 999px; display: none; align-items: center; justify-content: center; padding: 0 3px; letter-spacing: 0.12px; line-height: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1); }
+    .cart-badge.is-visible { display: flex; }
+
+    /* ── MILLA SEARCH ─── */
+    .milla-search-wrapper {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 200;
+      display: none;
+    }
+    .milla-search-wrapper.open {
+      display: block;
+    }
+    .milla-searchbar {
+      width: 0;
+      height: 44px;
+      background: #fff;
+      border: 1.5px solid transparent;
+      border-radius: 9999px;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+      overflow: hidden;
+      transition:
+        width 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        padding 0.3s ease,
+        gap 0.3s ease;
+    }
+    .milla-searchbar.open {
+      width: 520px;
+      border-color: #007167;
+      box-shadow: 0 4px 24px rgba(0, 113, 103, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+      padding: 0 16px;
+      gap: 12px;
+    }
+    .milla-searchbar img.sparkle {
+      width: 22px; height: 22px; flex-shrink: 0;
+      opacity: 0; transform: scale(0.5);
+      transition: opacity 0.25s ease 0.15s, transform 0.25s ease 0.15s;
+    }
+    .milla-searchbar.open img.sparkle {
+      opacity: 1; transform: scale(1);
+    }
+    .milla-searchbar input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: #2d2e33;
+      background: transparent;
+      opacity: 0;
+      transition: opacity 0.2s ease 0.2s;
+    }
+    .milla-searchbar.open input {
+      opacity: 1;
+    }
+    .milla-searchbar input::placeholder { color: #9ca0a5; }
+    .milla-searchbar .milla-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; background: none; border: none; padding: 0; flex-shrink: 0;
+      opacity: 0; transform: scale(0.5);
+      transition: opacity 0.2s ease 0.2s, transform 0.2s ease 0.2s;
+    }
+    .milla-searchbar.open .milla-close {
+      opacity: 1; transform: scale(1);
+    }
+    .milla-searchbar .milla-close img { width: 16px; height: 16px; }
+
+    .milla-dropdown-anchor {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+    }
+    .milla-suggestions {
+      width: 520px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+    }
+    .milla-suggestions.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .milla-suggestions-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 24px 12px 24px;
+    }
+    .milla-suggestions-header img { width: 18px; height: 18px; flex-shrink: 0; }
+    .milla-suggestions-header span {
+      font-size: 13px;
+      font-weight: 700;
+      color: #007167;
+      text-transform: uppercase;
+      letter-spacing: 0.57px;
+      line-height: 19.5px;
+    }
+    .milla-suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+    }
+    .milla-suggestion-item:not(:first-child) {
+      border-top: 1px solid #f0f1f2;
+    }
+    .milla-suggestion-item:hover {
+      background: #f5f5f7;
+    }
+    .milla-suggestion-item .arrow-wrap {
+      width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.6; flex-shrink: 0;
+    }
+    .milla-suggestion-item .arrow-wrap img { width: 16px; height: 16px; }
+    .milla-suggestion-item span {
+      font-size: 15px;
+      font-weight: 500;
+      color: #2d2e33;
+      letter-spacing: -0.23px;
+      line-height: 22.5px;
+    }
+    .milla-suggestions-footer {
+      border-top: 1px solid #f0f1f2;
+      padding: 15px 24px;
+      text-align: center;
+    }
+    .milla-suggestions-footer a {
+      font-size: 13px;
+      font-style: italic;
+      color: #007167;
+      text-decoration: none;
+      letter-spacing: -0.08px;
+      line-height: 19.5px;
+    }
+    .milla-suggestions-footer a:hover { text-decoration: underline; }
+
+    /* ── MILLA CHAT MODAL ─── */
+    .milla-chat-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 30, 27, 0.45);
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .milla-chat-overlay.open { opacity: 1; pointer-events: auto; }
+
+    .milla-chat {
+      width: 680px;
+      max-height: 80vh;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.95) translateY(10px);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .milla-chat-overlay.open .milla-chat {
+      transform: scale(1) translateY(0);
+    }
+    .milla-chat-header {
+      background: linear-gradient(176deg, #007167 0%, #0b9c92 60%, #048a7f 100%);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .milla-chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .milla-chat-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .milla-chat-avatar img { width: 18px; height: 18px; }
+    .milla-chat-info { display: flex; flex-direction: column; }
+    .milla-chat-name {
+      font-size: 15px; font-weight: 600; color: #fff;
+      letter-spacing: -0.38px; line-height: 22.5px;
+    }
+    .milla-chat-status {
+      font-size: 12px; font-weight: 400; color: #7ee8dc;
+      line-height: 18px;
+    }
+    .milla-chat-header-actions {
+      display: flex; align-items: center; gap: 2px;
+    }
+    .milla-chat-header-btn {
+      width: 32px; height: 32px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .milla-chat-header-btn:hover { background: rgba(255,255,255,0.15); }
+    .milla-chat-header-btn img { width: 16px; height: 16px; }
+
+    .milla-chat-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .milla-chat-tab {
+      padding: 8px 16px;
+      text-align: center;
+      border-radius: 14px;
+      border: 1px solid #d4d6d8;
+      background: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #2d2e33;
+      letter-spacing: -0.08px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .milla-chat-tab:hover { background: #f5f5f7; }
+    .milla-chat-tab.active { background: #007167; color: #fff; border-color: #007167; box-shadow: 0 0 0 3px rgba(0, 113, 103, 0.1); }
+
+    .milla-chat-body {
+      flex: 1;
+      padding: 16px 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 300px;
+    }
+    .milla-msg-user {
+      align-self: flex-end;
+      background: #007167;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 16px 16px 6px 16px;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: -0.15px;
+      max-width: 70%;
+    }
+    .milla-msg-bot {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .milla-msg-bot-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .milla-msg-bot-avatar img { width: 14px; height: 14px; }
+    .milla-msg-bot-bubble {
+      background: #f2f3f5;
+      padding: 14px 20px;
+      border-radius: 6px 16px 16px 16px;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: -0.15px;
+      color: #2d2e33;
+      max-width: 70%;
+    }
+    .milla-typing-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+    }
+    .milla-typing-dots span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #0b9c92;
+      animation: millaDot 1.4s ease-in-out infinite;
+    }
+    .milla-typing-dots span:nth-child(1) { opacity: 0.5; animation-delay: 0s; }
+    .milla-typing-dots span:nth-child(2) { opacity: 0.73; animation-delay: 0.2s; }
+    .milla-typing-dots span:nth-child(3) { opacity: 1; animation-delay: 0.4s; }
+    @keyframes millaDot {
+      0%, 80%, 100% { transform: scale(1); }
+      40% { transform: scale(1.3); }
+    }
+
+    .milla-chat-footer {
+      padding: 16px 20px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .milla-chat-input-wrap {
+      flex: 1;
+      height: 46px;
+      background: #f2f3f5;
+      border: 1px solid #e8eaeb;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+    }
+    .milla-chat-input-wrap input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #2d2e33;
+      letter-spacing: -0.15px;
+    }
+    .milla-chat-input-wrap input::placeholder { color: #a0a3a8; }
+    .milla-chat-send {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #e0e2e4;
+      display: flex; align-items: center; justify-content: center;
+      border: none; cursor: pointer; flex-shrink: 0;
+      transition: background 0.15s ease;
+      pointer-events: auto;
+      position: relative;
+      z-index: 10;
+    }
+    .milla-chat-send.active { background: #007167; }
+    .milla-chat-send img { width: 18px; height: 18px; }
+
+    /* ── MILLA CHAT SMALLER (bottom-right) ─── */
+    .milla-chat-small {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 400px;
+      height: 580px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 400;
+      transform: scale(0.4) translateY(40px);
+      transform-origin: bottom right;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.25s ease;
+    }
+    .milla-chat-small.open {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .milla-chat-small .milla-chat-header { padding: 10px 16px; }
+    .milla-chat-small .milla-chat-avatar { width: 34px; height: 34px; }
+    .milla-chat-small .milla-chat-avatar img { width: 16px; height: 16px; }
+    .milla-chat-small .milla-chat-name { font-size: 14px; }
+    .milla-chat-small .milla-chat-status { font-size: 11px; }
+    .milla-chat-small .milla-chat-tabs { padding: 10px 16px; gap: 6px; }
+    .milla-chat-small .milla-chat-tab { padding: 7px 12px; font-size: 12px; }
+    .milla-chat-small .milla-chat-body { padding: 12px 16px; min-height: 200px; }
+    .milla-chat-small .milla-chat-footer { padding: 12px 16px; }
+    .milla-chat-small .milla-msg-user,
+    .milla-chat-small .milla-msg-bot-bubble { font-size: 13px; line-height: 20px; max-width: 85%; }
+
+    /* ── MILLA FAB (minimized) ─── */
+    .milla-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007167 0%, #0b9c92 100%);
+      box-shadow: 0 8px 24px rgba(0, 113, 103, 0.3), 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      z-index: 400;
+      transform: scale(0);
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s ease, box-shadow 0.2s ease;
+    }
+    .milla-fab.open {
+      transform: scale(1);
+      opacity: 1;
+    }
+    .milla-fab:hover {
+      box-shadow: 0 12px 32px rgba(0, 113, 103, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05);
+    }
+    .milla-fab img { width: 28px; height: 28px; }
+
+    .milla-backdrop {
+      position: fixed;
+      top: 100px;
+      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      background: rgba(0, 30, 27, 0.45);
+      z-index: 150;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .milla-backdrop.open { opacity: 1; pointer-events: auto; }
+    #btn-milla-search { transition: opacity 0.15s ease, width 0.15s ease, padding 0.15s ease; }
+    #btn-milla-search.hidden { opacity: 0; pointer-events: none; width: 0; overflow: hidden; padding: 0; }
+
+
+    /* ── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .topbar { padding: 0 16px; }
+      .app-header { padding: 0 16px; height: 56px; }
+      .breadcrumb { padding: 0 16px; }
+      .main { padding: 16px; }
+      .stat-cards { grid-template-columns: repeat(2, 1fr); }
+      .filter-bar { flex-wrap: wrap; padding: 10px 14px; }
+      .filter-search { width: 100%; }
+      .filter-divider { display: none; }
+      .filter-pills { gap: 4px; width: 100%; }
+
+      .page-title { font-size: 20px; }
+    }
+    @media (max-width: 480px) {
+      .topbar { padding: 0 12px; }
+      .app-header { padding: 0 12px; }
+      .breadcrumb { padding: 0 12px; white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .main { padding: 12px; }
+      .stat-cards { grid-template-columns: 1fr; }
+      .notif-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; max-height: 100vh; border-radius: 0; }
+      .cart-dropdown { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100% !important; border-radius: 0; }
+      .profile-dropdown { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; border-radius: 14px 14px 0 0; top: auto; }
+
+      .page-title { font-size: 18px; }
+    }
+
+    /* ── HAMBURGER MENU ─── */
+    .hamburger-btn { display: none; }
+
+    .mobile-nav-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      z-index: 150; opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .mobile-nav-drawer {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 280px;
+      background: #fff; z-index: 151; padding: 80px 0 24px;
+      transform: translateX(-100%); transition: transform 0.25s ease;
+      overflow-y: auto; box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+    }
+    .mobile-nav.open .mobile-nav-overlay { opacity: 1; pointer-events: auto; }
+    .mobile-nav.open .mobile-nav-drawer { transform: translateX(0); }
+    .mobile-nav-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 24px; font-size: 16px; color: #374151;
+      text-decoration: none; min-height: 48px;
+    }
+    .mobile-nav-link.active { color: #007167; font-weight: 600; background: #f0faf9; }
+    .mobile-nav-link:hover { background: #f3f4f6; }
+
+    @media (max-width: 768px) {
+      .hamburger-btn {
+        display: flex; flex-direction: column; justify-content: center;
+        gap: 5px; width: 44px; height: 44px; padding: 10px;
+        background: none; border: none; cursor: pointer; margin-right: 8px;
+      }
+      .hamburger-line {
+        display: block; width: 20px; height: 2px;
+        background: #374151; border-radius: 1px;
+        transition: transform 0.2s, opacity 0.2s;
+      }
+      .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(2) { opacity: 0; }
+      .hamburger-btn[aria-expanded="true"] .hamburger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .header-nav { display: none; }
+      .header-divider { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mobile-nav-overlay,
+      .mobile-nav-drawer,
+      .hamburger-line { transition: none; }
+    }
+  </style>
+  <link rel="stylesheet" href="../assets/forms.css">
+  <style>
+    /* ── SUBSCRIPTIONS (CP-732) — plan list ─── */
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .d-rows { list-style: none; margin: 0 0 16px; border-top: 1px solid #eaeaea; }
+    .d-rows li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #eaeaea; font-size: 14px; color: #4b5563; }
+    .d-rows li strong { font-weight: 500; color: #1d1d1f; text-align: right; }
+    .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 4px 0 16px; }
+    .switch-label { font-size: 14px; font-weight: 500; color: #1d1d1f; }
+    .switch-hint { font-size: 12px; color: #4b5563; margin-top: 2px; }
+    .switch { position: relative; width: 44px; height: 26px; border-radius: 999px; border: none; cursor: pointer; background: #8b8e91; flex-shrink: 0; transition: background .2s ease; }
+    .switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .2s ease; }
+    .switch[aria-checked="true"] { background: #007167; }
+    .switch[aria-checked="true"]::after { transform: translateX(18px); }
+    .switch:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .mg-box { width: min(520px, calc(100vw - 32px)); }
+    .drawer-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+    .drawer-actions .mg-cancel { margin-right: auto; }
+    #cancelArea:not(:empty) { margin-bottom: 12px; }
+    .cancel-confirm { background: #fef3f2; border: 1px solid #fecdca; border-radius: 10px; padding: 14px; font-size: 13px; color: #1d1d1f; }
+    .cancel-confirm p { margin-bottom: 10px; }
+    .inv-row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eaeaea; font-size: 14px; color: #1d1d1f; }
+    .inv-row small { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
+    .d-sub { font-size: 13px; font-weight: 600; color: #1d1d1f; margin: 20px 0 4px; }
+    .pay-current { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid #eaeaea; border-radius: 10px; font-size: 14px; color: #1d1d1f; }
+    .pay-current small { display: block; font-size: 12px; color: #4b5563; }
+    .demo-switch { font-size: 12px; color: #4b5563; text-align: right; margin-top: 24px; }
+    .demo-switch a { color: #007167; }
+    .tile-dot { width: 8px; height: 8px; border-radius: 50%; background: #007167; flex-shrink: 0; }
+    .v2-card { background: #fff; border-radius: 16px; box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06); overflow: hidden; }
+    .v2-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding: 24px 28px; border-bottom: 1px solid #eef0f1; flex-wrap: wrap; }
+    .v2-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: #4b5563; }
+    .v2-total { font-size: 30px; font-weight: 700; color: #1d1d1f; letter-spacing: -.6px; margin-top: 4px; }
+    .v2-total span { font-size: 15px; font-weight: 500; color: #4b5563; letter-spacing: 0; }
+    .v2-next { font-size: 13px; color: #4b5563; text-align: right; }
+    .v2-next strong { display: block; font-size: 15px; color: #1d1d1f; font-weight: 600; margin-top: 2px; }
+    .v2-list { list-style: none; }
+    .v2-row { display: grid; grid-template-columns: 48px minmax(0,1fr) auto 150px 104px; align-items: center; gap: 18px; padding: 18px 28px; border-bottom: 1px solid #f3f4f6; }
+    .v2-row:last-child { border-bottom: none; }
+    .v2-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #007167; color: #fff; }
+    .v2-icon svg { width: 22px; height: 22px; }
+    .v2-row.is-expired .v2-icon { background: #3d4246; }
+    .v2-row.is-none .v2-icon { background: #f1f2f3; color: #5c5f62; }
+    .v2-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .v2-name { font-size: 15px; font-weight: 600; color: #1d1d1f; }
+    .v2-meta { font-size: 13px; color: #4b5563; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .v2-price { font-size: 14px; font-weight: 600; color: #1d1d1f; text-align: right; }
+    .v2-row.is-none .v2-price { font-weight: 500; color: #4b5563; font-size: 13px; }
+    .alt-links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 16px; }
+    .alt-link { display: inline-flex; align-items: center; min-height: 44px; background: none; border: none; padding: 0; color: #007167; font: 500 14px Inter, sans-serif; text-decoration: none; cursor: pointer; }
+    .alt-link:hover { text-decoration: underline; }
+    .demo-switch a[aria-current] { font-weight: 700; color: #1d1d1f; text-decoration: none; }
+
+    .alt-link:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+
+    @media (max-width: 1100px) { .v2-row { grid-template-columns: 48px minmax(0,1fr) auto; } .v2-row .status-badge { display: none; } .v2-price { grid-column: 2; text-align: left; } .v2-action { grid-column: 3; grid-row: 1; } }
+    @media (max-width: 560px) { .v2-head, .v2-row { padding-left: 18px; padding-right: 18px; } }
+    @media (prefers-reduced-motion: reduce) { .switch, .switch::after { transition: none; } }
+    /* Toolbar: billing cycle */
+
+    /* Plans: one card, one column per product */
+    .link-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; padding: 0; min-height: 44px; margin-top: 4px; color: #007167; font: 600 13px Inter, sans-serif; cursor: pointer; }
+    .link-btn:hover { text-decoration: underline; }
+    .link-btn:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 4px; }
+
+    .mp-label { font-size: 13px; font-weight: 600; color: #1f2937; margin-bottom: 8px; }
+    .price-rows { list-style: none; }
+    .payment-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px; padding: 6px 0; }
+    .payment-row .label { color: #4b5563; }
+    .payment-row .value { color: #1f2937; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .payment-row.is-current .label, .payment-row.is-current .value { color: #007167; font-weight: 700; }
+    .payment-row.is-discount .label, .payment-row.is-discount .value { color: #00544c; }
+    .payment-separator { border: none; border-top: 1px solid #e5e7eb; margin: 10px 0; }
+    .order-total-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0 0; }
+    .order-total-label { font-size: 16px; font-weight: 700; color: #1f2937; }
+    .order-total-value { font-size: 24px; font-weight: 700; color: #1f2937; font-variant-numeric: tabular-nums; }
+    .card-title { font-size: 16px; font-weight: 700; color: #1f2937; letter-spacing: -.2px; margin-bottom: 12px; }
+    /* 4.5 rows (60px each) visible: the half row signals that the list scrolls */
+    .mp-list { border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; max-height: 270px; overflow-y: auto; overscroll-behavior: contain; padding-right: 8px; }
+    .mp-list .mp-row:last-child { border-bottom: none; }
+    .mp-row { display: grid; grid-template-columns: 16px 40px minmax(0,1fr) auto; align-items: center; gap: 14px; min-height: 60px; padding: 8px 0; border-bottom: 1px solid #eaeaea; cursor: pointer; }
+    .mp-row.is-licensed { cursor: default; }
+    .mp-row .row-checkbox:disabled { cursor: default; background: #b1b4b7; border-color: #b1b4b7; box-shadow: none; }
+    .mp-thumb { width: 40px; height: 40px; border-radius: 8px; background: #f5f6f7; object-fit: contain; padding: 2px; }
+    .mp-name { font-size: 14px; font-weight: 600; color: #1d1d1f; }
+    .tier-hint { margin-top: 10px; font-size: 13px; color: #00544c; }
+
+    .co-bar-total { font-size: 14px; color: #4b5563; }
+    .co-bar-total strong { font-size: 24px; font-weight: 700; color: #1f2937; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
+    .co-bar-save { color: #00544c; font-weight: 600; }
+    .co-bar-hint { font-size: 13px; color: #4b5563; margin-top: 2px; }
+
+    .sum-note { font-size: 12px; color: #4b5563; margin-top: 2px; text-align: right; }
+    /* Review */
+    .pay-opt { position: relative; display: flex; align-items: flex-start; gap: 10px; padding: 16px; border: 2px solid #e5e7eb; border-radius: 12px; cursor: pointer; margin-bottom: 10px; transition: border-color .15s, box-shadow .15s; }
+    .pay-opt:hover { border-color: #b1b4b7; }
+    .pay-opt:has(input:checked) { border-color: #007167; box-shadow: 0 0 0 3px rgba(0,113,103,.1); }
+    .pay-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .pay-opt:has(input:focus-visible) { outline: 2px solid #007167; outline-offset: 2px; }
+    .radio-circle { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #d1d5db; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color .15s; }
+    .radio-circle::after { content: ''; width: 10px; height: 10px; border-radius: 50%; background: transparent; transition: background .15s; }
+    .pay-opt:has(input:checked) .radio-circle { border-color: #007167; box-shadow: 0 0 0 3px rgba(0,113,103,.1); }
+    .pay-opt:has(input:checked) .radio-circle::after { background: #007167; }
+    .pay-name { display: block; font-size: 14px; font-weight: 500; color: #1d1d1f; }
+    .pay-desc { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
+    .terms-row { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; font-size: 13px; color: #374151; line-height: 1.5; cursor: pointer; }
+    .terms-text { font-size: 12px; color: #6b7280; line-height: 1.6; }
+    .terms-row .row-checkbox { flex-shrink: 0; margin: 2px 0 0; }
+    .pay-divider { margin: 18px 0 4px; }
+    .terms-row .row-checkbox[aria-invalid="true"] { border-color: #dc2626; }
+    .terms-text a { color: #007167; font-weight: 500; }
+    .review-list { list-style: none; }
+    .review-list li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #1d1d1f; }
+    .review-list li small { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
+
+
+    /* ── Plans modal (CP-732) ─── */
+    .pm-box { width: min(1080px, calc(100vw - 32px)); max-height: calc(100vh - 48px); display: flex; flex-direction: column; overflow: hidden; }
+    .pm-box[data-view="machines"] { width: min(720px, calc(100vw - 32px)); }
+    .pm-box[data-view="review"] { width: min(1000px, calc(100vw - 32px)); }
+    .pm-box[data-view="done"] { width: min(520px, calc(100vw - 32px)); }
+    .pm-header { align-items: center; gap: 16px; flex-wrap: wrap; }
+    .pm-header .modal-title { margin: 0; }
+    .pm-head-left, .pm-head-right { display: flex; align-items: center; gap: 12px; }
+    .pm-head-right { margin-left: auto; }
+    .pm-title:focus, #pmTitle:focus { outline: none; }
+    #cycleGroup[hidden], .pm-foot[hidden], [data-pv][hidden], #pmBack[hidden], #doneIris[hidden], .co-bar-hint[hidden] { display: none !important; }
+    .pm-body { flex: 1; overflow-y: auto; padding-top: 20px; }
+    .pm-foot { justify-content: space-between; flex-wrap: wrap; padding-top: 16px; }
+    .pm-foot .btn-group { margin-left: auto; }
+    .mp-grid { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 32px; align-items: start; }
+    .mp-side .price-rows { border-top: 1px solid #eaeaea; padding-top: 6px; }
+    .mp-side .tier-hint { margin-top: 12px; line-height: 1.45; }
+    .pm-review { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+    .pm-sum { margin-top: 16px; }
+
+    @media (max-width: 1000px) {
+    }
+    @media (max-width: 720px) {
+      .mp-grid, .pm-review { grid-template-columns: 1fr; gap: 20px; }
+    }
+    @media (max-width: 600px) {
+      .pm-box { max-height: calc(100vh - 16px); }
+      .pm-foot .btn-group, .pm-foot .btn { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { .plan-col { transition: none; } }
+    /* Review: billing cycle + one bundle suggestion */
+    .review-list .link-btn { min-height: 32px; margin-top: 0; display: flex; }
+    .cross-sell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: #eef6f5; font-size: 13px; color: #00514a; line-height: 1.45; }
+    .review-list li.rl-edit { display: block; padding: 0 0 12px; }
+    .review-list .rl-edit .mp-list { max-height: 210px; }
+    .review-list .rl-edit .mp-row { min-height: 52px; }
+    .review-list .rl-edit .mp-thumb { width: 32px; height: 32px; }
+    .tier-hint.is-error { color: #b91c1c; font-weight: 600; }
+    .review-list .rl-end { display: flex; align-items: flex-start; gap: 4px; white-space: nowrap; }
+    .review-list .rl-end .action-btn, .review-list .rl-slot { width: 28px; min-width: 28px; height: 28px; margin-top: -4px; }
+    /* Billing cycle: SegmentedControl do DS (.shipment-toggle, de checkout.html) */
+    .shipment-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 5px;
+      gap: 5px;
+      position: relative;
+    }
+    .shipment-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1.5px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      text-align: left;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .shipment-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .shipment-toggle-btn.active {
+      background: rgba(255, 255, 255, 0.85);
+      border-color: rgba(0, 113, 103, 0.2);
+      box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 4px 12px rgba(0, 113, 103, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+    .shipment-toggle-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .shipment-toggle-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #007167;
+      transition: color 0.25s;
+    }
+    .shipment-toggle-btn.active .shipment-toggle-title {
+      color: #1f2937;
+    }
+    .shipment-toggle-sub {
+      font-size: 12px;
+      font-weight: 400;
+      color: #0b9c92;
+      transition: color 0.25s;
+    }
+    .shipment-toggle-btn.active .shipment-toggle-sub {
+      color: #007167;
+    }
+    .cycle-row { padding-bottom: 20px; margin-bottom: 4px; border-bottom: 1px solid #f3f4f6; }
+    .cycle-row .shipment-toggle-btn { padding: 10px 16px; }
+    .cycle-row .shipment-toggle-sub, .cycle-row .shipment-toggle-btn.active .shipment-toggle-sub { color: #4b5563; } /* teal claro do DS falha contraste em 12px */
+    .cross-sell .link-btn { flex: none; min-height: 32px; margin-top: 0; }
+    /* Free trial */
+    .v2-info .link-btn { align-self: flex-start; min-height: 0; padding: 0; margin-top: 3px; font-size: 13px; font-weight: 600; line-height: 18px; }
+    .pm-box[data-view="trial"] { width: min(520px, calc(100vw - 32px)); }
+    .done-lead { display: flex; align-items: center; gap: 12px; margin: -4px 0 20px; }
+    .done-lead p { font-size: 14px; color: #4b5563; margin: 0; }
+    .done-icon { flex: none; width: 32px; height: 32px; border-radius: 50%; background: #e6f4f3; color: #007167; display: flex; align-items: center; justify-content: center; }
+    .done-icon svg { width: 16px; height: 16px; }
+    .trial-desc { font-size: 14px; color: #4b5563; margin: -8px 0 20px; }
+    .trial-field { margin-bottom: 16px; }
+    .trial-rows { border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; padding: 6px 0; }
+    .trial-rows .payment-row { padding: 9px 0; }
+    .trial-rows .payment-row .value { white-space: nowrap; }
+    .trial-note { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #4b5563; margin: 12px 0 0; }
+    .trial-note svg { flex: none; color: #007167; }
+    /* ── CATALOG (teste Gabriel) ── */
+    .cat-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+    .cat-toolbar p { margin: 0; font-size: 14px; color: #4b5563; }
+    .batch-toggle { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: #1f2937; cursor: pointer; white-space: nowrap; }
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .cat-grid .product-card { position: relative; background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; transition: box-shadow .15s, border-color .15s; text-align: left; padding: 0; font: inherit; color: inherit; }
+    .cat-grid .product-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+    .cat-grid .product-card:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
+    .cat-grid .product-card.is-selected { border-color: #007167; box-shadow: 0 0 0 3px rgba(0,113,103,.1); }
+    .product-card-img { background: #fafbfc; height: 168px; display: flex; align-items: center; justify-content: center; }
+    .product-card-img svg { width: 100%; height: 100%; }
+    .product-card-body { padding: 16px; border-top: 1px solid #f3f4f6; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .product-card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .product-card-name { font-size: 15px; font-weight: 600; color: #1f2937; letter-spacing: -.23px; line-height: 22px; }
+    .product-card-chevron { width: 16px; height: 16px; color: #9ca3af; flex-shrink: 0; }
+    .product-card-desc { font-size: 13px; color: #4b5563; line-height: 19px; min-height: 38px; }
+    #pdIris[hidden] { display: none; }
+    body.pd-open .batch-bar { visibility: hidden; }
+    .product-card-footer { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; border-top: 1px solid #f3f4f6; padding-top: 12px; margin-top: auto; }
+    .product-card-body .product-card-footer { margin-top: 12px; }
+    .product-card-price { font-size: 15px; font-weight: 700; color: #1f2937; letter-spacing: -.23px; white-space: nowrap; }
+    .product-card-price small { font-size: 12px; font-weight: 500; color: #6b7280; }
+    .product-card-alt { font-size: 12px; color: #6b7280; white-space: nowrap; }
+    .card-pick { position: absolute; top: 12px; left: 12px; display: none; }
+    .cat-grid.is-batch .card-pick { display: block; }
+    .cat-grid.is-batch .product-card-chevron { visibility: hidden; }
+    .product-card.is-owned { cursor: default; }
+    .cat-grid.is-batch .product-card.is-owned { opacity: .6; }
+    .batch-bar { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 140%); display: flex; align-items: center; gap: 20px; padding: 12px 12px 12px 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; box-shadow: 0 8px 28px rgba(0,0,0,.12); transition: transform .25s cubic-bezier(.2,.8,.2,1); z-index: 50; white-space: nowrap; }
+    .batch-bar.show { transform: translate(-50%, 0); }
+    .batch-bar-info { font-size: 14px; color: #4b5563; }
+    .batch-bar-info strong { color: #1f2937; }
+    .batch-bar .btn-group { display: flex; gap: 8px; }
+    .pd-box { width: min(640px, calc(100vw - 32px)); }
+    .pd-box[data-view="done"] { width: min(520px, calc(100vw - 32px)); }
+    .pd-img { background: #fafbfc; border: 1px solid #f3f4f6; border-radius: 12px; height: 180px; overflow: hidden; margin-bottom: 18px; }
+    .pd-img svg { width: 100%; height: 100%; }
+    .pd-desc { font-size: 14px; color: #4b5563; margin: 0 0 12px; }
+    .pd-feats { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 8px; }
+    .pd-feats li { display: flex; gap: 10px; align-items: center; font-size: 14px; color: #1f2937; }
+    .pd-feats svg { width: 16px; height: 16px; color: #007167; flex: none; }
+    .pd-label { display: block; font-size: 13px; font-weight: 600; color: #1f2937; margin: 0 0 10px; }
+    .pd-section + .pd-section { margin-top: 20px; }
+    .pay-opt .pay-main { flex: 1; min-width: 0; }
+    .pay-price { margin-left: auto; font-size: 14px; font-weight: 700; color: #1f2937; white-space: nowrap; }
+    .pay-price small { display: block; text-align: right; font-size: 12px; font-weight: 500; color: #6b7280; }
+    .batch-lines { list-style: none; margin: 0 0 4px; padding: 0; border-top: 1px solid #f3f4f6; }
+    .batch-lines > li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #1f2937; }
+    .batch-lines > li.bl-machines { display: block; padding-top: 0; }
+    .batch-lines .v2-icon { width: 32px; height: 32px; border-radius: 8px; }
+    .batch-lines .v2-icon svg { width: 16px; height: 16px; }
+    .batch-lines .bl-name { flex: 1; font-weight: 500; }
+    .batch-lines .bl-price { font-weight: 600; white-space: nowrap; }
+    .pd-box .mp-list { max-height: 196px; }
+    .pd-total { font-size: 14px; color: #4b5563; white-space: nowrap; }
+    .pd-total strong { font-size: 18px; color: #1f2937; margin-right: 4px; }
+    @media (max-width: 640px) { .cat-toolbar { flex-direction: column; align-items: flex-start; } .batch-bar { left: 16px; right: 16px; transform: translateY(140%); } .batch-bar.show { transform: none; } }
+  </style>
+  <link rel="stylesheet" href="../assets/skeleton.css">
+</head>
+<body>
+<script src="../assets/gate.js"></script>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="#" class="topbar-link">
+      <img class="topbar-icon" src="../assets/gd-logo-white.svg" alt="">
+      <div class="topbar-divider"></div>
+      <span class="topbar-label" data-i18n="topbar.portal">Grinding &amp; Dispersing Customer Portal</span>
+    </a>
+  </div>
+
+  <!-- APP HEADER -->
+  <div class="app-header">
+    <div class="app-header-left">
+      <button class="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <img class="netzsch-logo" src="../assets/logo-netzsch.svg" alt="NETZSCH">
+      <div class="header-divider"></div>
+      <nav class="header-nav">
+        <a href="dashboard.html" class="nav-tab" data-i18n="nav.home">Home</a>
+        <a href="machines.html" class="nav-tab" data-i18n="nav.machines">Machines</a>
+        <a href="shop.html" class="nav-tab" data-i18n="nav.shop">Shop</a>
+        <a href="orders.html" class="nav-tab" data-i18n="nav.orders">Orders</a>
+        <a href="quotes.html" class="nav-tab" data-i18n="nav.quotes">Quotes</a>
+        <a href="services.html" class="nav-tab" data-i18n="nav.services">Services</a>
+        <a href="lab-tests.html" class="nav-tab" data-i18n="nav.labTests">Lab Tests</a>
+        <a href="help.html" class="nav-tab" data-i18n="nav.help">Help</a>
+      </nav>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Main navigation">
+      <div class="mobile-nav-overlay"></div>
+      <div class="mobile-nav-drawer">
+        <a href="dashboard.html" class="mobile-nav-link" data-i18n="nav.home">Home</a>
+        <a href="machines.html" class="mobile-nav-link" data-i18n="nav.machines">Machines</a>
+        <a href="shop.html" class="mobile-nav-link" data-i18n="nav.shop">Shop</a>
+        <a href="orders.html" class="mobile-nav-link active" data-i18n="nav.orders">Orders</a>
+        <a href="quotes.html" class="mobile-nav-link" data-i18n="nav.quotes">Quotes</a>
+        <a href="services.html" class="mobile-nav-link" data-i18n="nav.services">Services</a>
+        <a href="lab-tests.html" class="mobile-nav-link" data-i18n="nav.labTests">Lab Tests</a>
+        <a href="help.html" class="mobile-nav-link" data-i18n="nav.help">Help</a>
+      </div>
+    </nav>
+    <div class="app-header-right">
+      <button class="header-icon-btn" id="btn-milla-search" onclick="toggleMillaSearch(event)">
+        <img src="../assets/icon-search.svg" alt="Search">
+      </button>
+      <div class="notif-wrapper">
+        <button class="header-icon-btn" onclick="toggleNotifDropdown(event)">
+          <img src="../assets/icon-bell.svg" alt="Notifications">
+          <span class="notif-badge">2</span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-dropdown-header">
+            <div class="notif-dropdown-title">
+              <span data-i18n="notif.title">Notifications</span>
+              <span class="notif-count-badge">2</span>
+            </div>
+            <button class="notif-mark-read" data-i18n="notif.markRead">Mark all as read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item unread">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <div class="notif-item-title-row">
+                  <span class="notif-item-title">Quote #QT-2026-0042 ready for approval</span>
+                  <span class="notif-unread-dot"></span>
+                </div>
+                <div class="notif-item-desc">Spare parts for Alpha Zeta 10 — €12,450.00</div>
+                <div class="notif-item-time">5 min ago</div>
+                <a href="quote-detail.html" class="notif-item-action" data-i18n="notif.actionReviewApprove">Review &amp; Approve</a>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon quote"><img src="../assets/icon-notif-quote.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Quote #QT-2026-0039 awaiting your decision</span>
+                <div class="notif-item-desc">Grinding beads bundle for Zeta 60 — €8,720.00</div>
+                <div class="notif-item-time">2 hours ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon order"><img src="../assets/icon-notif-order.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Order #ORD-78234 shipped</span>
+                <div class="notif-item-desc">Your order has been dispatched and is on the way.</div>
+                <div class="notif-item-time">1 day ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon service"><img src="../assets/icon-notif-service.svg" alt=""></div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Service Request #SR-1192 updated</span>
+                <div class="notif-item-desc">Technician assigned — scheduled for Mar 20, 2026.</div>
+                <div class="notif-item-time">2 days ago</div>
+              </div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-item-icon contract">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="notif-item-content">
+                <div class="notif-item-title-row">
+                  <span class="notif-item-title">Contract CTR-S-2025-002 expiring soon</span>
+                  <span class="notif-unread-dot"></span>
+                </div>
+                <div class="notif-item-desc">Service contract for Epsilon + PMD expires on Jul 31, 2026. Review and renew.</div>
+                <div class="notif-item-time">3 days ago</div>
+                <a href="contracts.html" class="notif-item-action">View Contract</a>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon contract">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="notif-item-content">
+                <span class="notif-item-title">Service visit scheduled — CTR-S-2026-001</span>
+                <div class="notif-item-desc">Preventive maintenance visit confirmed for Jul 15–17, 2026. NEOS 10 (3 units).</div>
+                <div class="notif-item-time">5 days ago</div>
+              </div>
+            </div>
+          </div>
+          <div class="notif-dropdown-footer">
+            <a href="notifications.html" class="notif-view-all" data-i18n="notif.viewAll">View all notifications</a>
+          </div>
+        </div>
+      </div>
+      <div class="cart-dropdown-anchor">
+        <button class="header-icon-btn" id="btn-cart">
+          <img src="../assets/icon-cart.svg" alt="Cart">
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+        <div class="cart-dropdown" id="cart-dropdown" role="dialog" aria-label="Shopping cart">
+          <div class="cart-head">
+            <h3 class="cart-title" data-i18n="cart.title">Shopping Cart</h3>
+            <button type="button" class="cart-close" id="cart-close" aria-label="Close cart">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="cart-items" id="cart-items"></div>
+          <div class="cart-subtotal" id="cart-subtotal-row" style="display:none;">
+            <span class="cart-subtotal-label" data-i18n="cart.subtotal">Subtotal</span>
+            <span class="cart-subtotal-value" id="cart-subtotal">0,00 €</span>
+          </div>
+          <a href="checkout-cart.html" class="btn btn-primary btn-lg btn-full" data-i18n="cart.viewCart">View Cart</a>
+        </div>
+      </div>
+      <div class="user-avatar-wrapper">
+        <span class="user-initials" onclick="toggleProfileDropdown(event)">MW</span>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="profile-dropdown-header">
+            <img class="profile-dropdown-avatar" src="../assets/avatar-marcus.jpg" alt="Marcus">
+            <div class="profile-dropdown-info">
+              <span class="profile-dropdown-name">John Doe</span>
+              <span class="profile-dropdown-email">john.doe@acme-corp.com</span>
+            </div>
+          </div>
+          <ul class="profile-dropdown-menu">
+            <li><a class="profile-dropdown-item" href="profile.html" data-i18n="profile.profile"><img src="../assets/icon-profile-user.svg" alt="">Profile</a></li>
+            <li><a class="profile-dropdown-item" href="admin-users.html" data-i18n="profile.admin"><img src="../assets/icon-admin-settings.svg" alt="">Admin</a></li>
+            <li><a class="profile-dropdown-item" href="wishlist.html" data-i18n="profile.wishlist"><img src="../assets/icon-wishlist-heart.svg" alt="">My Wishlist</a></li>
+            <li><a class="profile-dropdown-item" href="contracts.html" data-i18n="profile.contracts"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Contracts</a></li>
+          </ul>
+          <div class="profile-dropdown-divider">
+            <a class="profile-dropdown-item logout" href="../index.html" data-i18n="profile.logout"><img src="../assets/icon-logout.svg" alt="">Log out</a>
+          </div>
+        </div>
+      </div>
+      <div class="header-divider-v" aria-hidden="true"></div>
+      <div class="lang-switcher" aria-label="Language selector">
+        <svg class="lang-globe" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.2"/>
+          <ellipse cx="8" cy="8" rx="2.6" ry="6.5" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="1.5" y1="6" x2="14.5" y2="6" stroke="currentColor" stroke-width="1.2"/>
+          <line x1="1.5" y1="10" x2="14.5" y2="10" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        <span class="lang-label">EN</span>
+        <svg class="lang-chevron" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="lang-dropdown">
+          <div class="lang-option" data-lang="EN">EN</div>
+          <div class="lang-option" data-lang="DE">DE</div>
+        </div>
+      </div>
+
+    <!-- MILLA SEARCH (inline, expande do icone) -->
+    <div class="milla-search-wrapper" id="millaWrapper">
+      <div class="milla-searchbar" id="millaSearchbar">
+        <img class="sparkle" src="../assets/sparkle-icon-teal.svg" alt="" aria-hidden="true">
+        <input type="text" placeholder="Ask Milla AI..." id="millaInput" data-i18n-placeholder="milla.placeholder" autocomplete="off">
+        <button class="milla-close" onclick="closeMillaSearch()" aria-label="Close search">
+          <img src="../assets/close-icon-gray.svg" alt="">
+        </button>
+      </div>
+      <div class="milla-dropdown-anchor">
+        <div class="milla-suggestions" id="millaSuggestions">
+        <div class="milla-suggestions-header">
+          <img src="../assets/sparkle-icon-green.svg" alt="" aria-hidden="true">
+          <span data-i18n="milla.aiSuggestions">AI Suggestions</span>
+        </div>
+        <div class="milla-suggestions-list">
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span data-i18n="milla.suggestOrderStatus">Check my order status</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span data-i18n="milla.suggestRecommend">Recommend products for me</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span data-i18n="milla.suggestHistory">Show purchase history</span>
+          </button>
+          <button class="milla-suggestion-item">
+            <span class="arrow-wrap"><img src="../assets/arrow-icon-right.svg" alt="" aria-hidden="true"></span>
+            <span data-i18n="milla.suggestDocuments">Help me find documents</span>
+          </button>
+        </div>
+        <div class="milla-suggestions-footer">
+          <a href="#" data-i18n="milla.suggestSpareParts">Find spare parts by photo, description, or product code.</a>
+        </div>
+      </div>
+    </div>
+    </div><!-- /milla-search-wrapper -->
+
+  </div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="dashboard.html" data-i18n="breadcrumb.home">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="subscriptions.html" data-i18n="subs.title">Subscriptions</a>
+    <span class="breadcrumb-sep">/</span>
+    <span class="breadcrumb-current" data-i18n="cat.title">Digital products</span>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="skeleton-wrapper" aria-hidden="false" role="status" aria-label="Loading products">
+      <div class="skeleton skel-page-title"></div>
+      <div class="skeleton" style="height:360px;border-radius:16px"></div>
+    </div>
+
+    <div class="page-content">
+
+    <div class="page-header">
+      <h1 class="page-title" data-i18n="cat.title">Digital products</h1>
+      <span class="page-subtitle" data-i18n="subs.subtitle">G&amp;D Digital Products</span>
+    </div>
+
+    <div class="cat-toolbar">
+      <p data-i18n="cat.intro">Pick a product to see what it does and how to pay.</p>
+      <label class="batch-toggle"><input type="checkbox" class="row-checkbox" id="batchChk"><span data-i18n="cat.batch">Batch subscription</span></label>
+    </div>
+
+    <div class="cat-grid" id="catGrid" data-skeleton-stagger></div>
+
+    <p class="demo-switch">Prototype: <a href="subscriptions.html">← Subscriptions</a> · <a href="?demo=none">no licenses</a> · <a href="?demo=reset">all active</a></p>
+
+    </div><!-- /page-content -->
+
+  </main>
+
+  <!-- BATCH BAR -->
+  <div class="batch-bar" id="batchBar" role="region" aria-label="Selected products" aria-live="polite">
+    <span class="batch-bar-info" id="batchInfo"></span>
+    <div class="btn-group">
+      <button type="button" class="btn btn-ghost btn-md" id="batchClear" data-i18n="cat.clear">Clear</button>
+      <button type="button" class="btn btn-primary btn-md" id="batchGo" data-i18n="subs.subscribe">Subscribe</button>
+    </div>
+  </div>
+
+  <!-- PRODUCT / BATCH MODAL -->
+  <div class="modal-overlay" id="pdModal">
+    <div class="modal-box pm-box pd-box" role="dialog" aria-modal="true" aria-labelledby="pdTitle" data-view="form">
+      <div class="modal-header pm-header">
+        <h2 class="modal-title" id="pdTitle" tabindex="-1"></h2>
+        <button type="button" class="modal-close" id="pdClose" aria-label="Close" data-i18n-aria-label="common.close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="modal-body pm-body" id="pdBody"></div>
+      <div class="modal-actions pm-foot">
+        <div class="pm-foot-info"><span class="pd-total" id="pdTotal"></span></div>
+        <div class="btn-group">
+          <a class="btn btn-secondary btn-md" id="pdIris" href="#" target="_blank" rel="noopener" hidden><span data-i18n="subs.irisOpen">Open IRIS Cloud</span> ↗</a>
+          <button type="button" class="btn btn-primary btn-md" id="pdPrimary" data-i18n="subs.subscribe">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+function toggleProfileDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('notifDropdown').classList.remove('open');
+  document.getElementById('profileDropdown').classList.toggle('open');
+}
+function toggleNotifDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('profileDropdown').classList.remove('open');
+  document.getElementById('notifDropdown').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('profileDropdown');
+  var nd = document.getElementById('notifDropdown');
+  if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+  if (nd && !nd.contains(e.target)) nd.classList.remove('open');
+});
+</script>
+
+<script src="../assets/machine-lines.js"></script>
+<script src="../assets/licenses-store.js"></script>
+<script>
+/* ── DIGITAL PRODUCTS CATALOG (CP-732 · teste) — cards, batch subscription, product modal ── */
+(function () {
+  var L = window.Licenses;
+  function t(k, f) { return window.NetzschI18n ? NetzschI18n.t(k, f) : f; }
+  function fill(str, vars) { return str.replace(/\{(\w+)\}/g, function (_, k) { return vars[k]; }); }
+  function icon(id) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + L.LOOK[id].icon + '</svg>'; }
+  function pName(id) { return t('subs.p.' + id, L.product(id).name); }
+  function pDesc(id) { return t('subs.d.' + id, L.product(id).desc); }
+  function fleet() { return window.MachineLines ? MachineLines.getMachines() : []; }
+  function owned(id) { var s = L.statusOf(id); return s === 'active' || s === 'expiring'; }
+  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+  var MAIL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+  var CHEV = '<svg class="product-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>';
+
+  // Product "print": a tiny drawing of the IRIS screen each product adds
+  function art(id) {
+    var c = L.LOOK[id].bg, ink = '#007167', g = '#e5e7eb';
+    var frame = '<rect x="24" y="18" width="272" height="132" rx="10" fill="#fff" stroke="' + g + '"/><rect x="40" y="32" width="64" height="7" rx="3.5" fill="' + g + '"/>';
+    var body = {
+      pm: '<rect x="216" y="30" width="64" height="12" rx="6" fill="' + c + '"/>' +
+          '<path d="M40 128 72 104l28 10 30-30 28 16 32-36 30 18 36-30" fill="none" stroke="' + ink + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
+          '<path d="M40 128 72 104l28 10 30-30 28 16 32-36 30 18 36-30V136H40Z" fill="' + c + '" opacity=".35"/>',
+      pt: [44, 80, 116, 152, 188, 224, 260].map(function (x, i) { var h = [40, 62, 50, 78, 66, 88, 72][i]; return '<rect x="' + x + '" y="' + (136 - h) + '" width="22" height="' + h + '" rx="4" fill="' + (i === 5 ? ink : c) + '"/>'; }).join(''),
+      bw: '<path d="M100 124a60 60 0 0 1 120 0" fill="none" stroke="' + g + '" stroke-width="14" stroke-linecap="round"/>' +
+          '<path d="M100 124a60 60 0 0 1 92-50" fill="none" stroke="' + c + '" stroke-width="14" stroke-linecap="round"/>' +
+          '<path d="M160 124 196 86" stroke="' + ink + '" stroke-width="4" stroke-linecap="round"/><circle cx="160" cy="124" r="7" fill="' + ink + '"/>',
+      mt: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(function (i) { var x = 44 + (i % 7) * 34, y = 56 + Math.floor(i / 7) * 40, on = [2, 5, 9, 12].indexOf(i) >= 0;
+          return '<rect x="' + x + '" y="' + y + '" width="28" height="32" rx="6" fill="' + (on ? c : '#f9fafb') + '" stroke="' + (on ? 'none' : g) + '"/>' + (i === 9 ? '<path d="M' + (x + 8) + ' ' + (y + 16) + 'l4 4 8-8" fill="none" stroke="' + ink + '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>' : ''); }).join('')
+    }[id];
+    return '<svg viewBox="0 0 320 168" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + frame + body + '</svg>';
+  }
+  var FEATS = {
+    pm: ['Live output, uptime and alarms per machine', 'Alerts on your phone when a machine stops', 'Volume price from 2 machines'],
+    pt: ['OEE and KPIs for the whole fleet', 'Compare lines, shifts and plants', 'Monthly report by email'],
+    bw: ['Predicts when grinding media wears out', 'Avoids off-spec batches', 'Works on every machine in the fleet'],
+    mt: ['Plan and log maintenance tasks', 'Reminders from real operating hours', 'History per machine for audits']
+  };
+  function feats(id) { return FEATS[id].map(function (f, i) { return t('cat.f.' + id + i, f); }); }
+
+  /* Cards */
+  var grid = document.getElementById('catGrid');
+  var batchChk = document.getElementById('batchChk');
+  var batch = false, picked = [];
+
+  function priceLine(p) {
+    if (p.model === 'machine') {
+      var min = L.PM_TIERS[L.PM_TIERS.length - 1].price;
+      return { main: fill(t('cat.fromMonth', 'From {price}'), { price: L.money(min / 10) }) + ' <small>' + t('cat.perMachineMonth', '/ machine / month') + '</small>',
+        alt: fill(t('cat.orYear', 'or {price} / year'), { price: L.money(min) }) };
+    }
+    return { main: L.money(p.price / 10) + ' <small>' + t('subs.perMonth', '/ month') + '</small>', alt: fill(t('cat.orYear', 'or {price} / year'), { price: L.money(p.price) }) };
+  }
+  function badge(id) {
+    var s = L.statusOf(id);
+    if (s === 'active' || s === 'expiring') return '<span class="status-badge status-active">' + t('status.active', 'Active') + '</span>';
+    if (s === 'trial') return '<span class="status-badge status-submitted">' + t('subs.freeTrial', 'Free trial') + '</span>';
+    return '';
+  }
+  function renderGrid() {
+    grid.classList.toggle('is-batch', batch);
+    grid.innerHTML = L.PRODUCTS.map(function (p) {
+      var pr = priceLine(p), own = owned(p.id), sel = picked.indexOf(p.id) >= 0;
+      return '<div class="product-card' + (own ? ' is-owned' : '') + (sel ? ' is-selected' : '') + '" role="button" tabindex="0" data-product="' + p.id + '"' + (batch ? ' aria-pressed="' + sel + '"' : '') + '>' +
+        '<span class="card-pick"><input type="checkbox" class="row-checkbox" tabindex="-1" aria-hidden="true"' + (sel ? ' checked' : '') + (own ? ' disabled' : '') + '></span>' +
+        '<div class="product-card-img">' + art(p.id) + '</div>' +
+        '<div class="product-card-body">' +
+          '<div class="product-card-header"><span class="product-card-name">' + pName(p.id) + '</span>' + (badge(p.id) || CHEV) + '</div>' +
+          '<span class="product-card-desc">' + pDesc(p.id) + '</span>' +
+          '<div class="product-card-footer"><span class="product-card-price">' + pr.main + '</span><span class="product-card-alt">' + pr.alt + '</span></div>' +
+        '</div></div>';
+    }).join('');
+    renderBar();
+  }
+  function renderBar() {
+    var bar = document.getElementById('batchBar');
+    bar.classList.toggle('show', batch && picked.length > 0);
+    var n = picked.length;
+    document.getElementById('batchInfo').innerHTML = '<strong>' + (n === 1 ? t('cat.oneSel', '1 product selected') : fill(t('cat.nSel', '{n} products selected'), { n: n })) + '</strong>' +
+      (L.BUNDLE[n] ? ' · ' + fill(t('cat.bundleSave', 'save {pct}% together'), { pct: Math.round(L.BUNDLE[n] * 100) }) : '');
+  }
+  function onCard(card) {
+    var id = card.getAttribute('data-product');
+    if (batch) {
+      if (owned(id)) return;
+      var i = picked.indexOf(id);
+      if (i >= 0) picked.splice(i, 1); else picked.push(id);
+      renderGrid();
+      var again = grid.querySelector('[data-product="' + id + '"]'); if (again) again.focus();
+      return;
+    }
+    if (owned(id)) { location.href = 'subscriptions.html'; return; }
+    open('single', [id], card);
+  }
+  grid.addEventListener('click', function (e) { var c = e.target.closest('.product-card'); if (c) onCard(c); });
+  grid.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('product-card')) { e.preventDefault(); onCard(e.target); } });
+  batchChk.addEventListener('change', function () { batch = this.checked; if (!batch) picked = []; renderGrid(); });
+  document.getElementById('batchClear').addEventListener('click', function () { picked = []; renderGrid(); });
+  document.getElementById('batchGo').addEventListener('click', function () { open('batch', picked.slice(), this); });
+
+  /* Modal: one product or a batch → pay monthly (recurring card) or yearly (invoice) */
+  var modal = document.getElementById('pdModal'), box = modal.querySelector('.pd-box');
+  var body = document.getElementById('pdBody'), title = document.getElementById('pdTitle');
+  var mode, ids, cycle, machines, view, result, trigger;
+
+  function plan() {
+    var p = { pm: ids.indexOf('pm') >= 0 ? machines : [], cycle: cycle };
+    ['pt', 'bw', 'mt'].forEach(function (id) { p[id] = ids.indexOf(id) >= 0; });
+    return p;
+  }
+  function q(c) { var p = plan(); p.cycle = c; return L.quote(p); }
+  function pmShort() { return ids.indexOf('pm') >= 0 && !machines.length; }
+
+  function open(m, list, from) {
+    mode = m; ids = list; cycle = 'month'; view = 'form'; result = null; trigger = from;
+    var pm = L.get().subs.pm;
+    machines = pm && pm.status === 'trial' ? pm.machines.slice() : [];
+    render();
+    modal.classList.add('open'); document.body.classList.add('pd-open'); document.body.style.overflow = 'hidden'; title.focus();
+  }
+  function close() { modal.classList.remove('open'); document.body.classList.remove('pd-open'); document.body.style.overflow = ''; if (trigger && document.contains(trigger)) trigger.focus(); }
+
+  function machineList() {
+    return '<div class="mp-list">' + fleet().map(function (m) {
+      return '<label class="mp-row"><input type="checkbox" class="row-checkbox" data-machine="' + m.id + '"' + (machines.indexOf(m.id) >= 0 ? ' checked' : '') + '>' +
+        '<img class="mp-thumb" src="../assets/' + (m.img || '') + '" alt=""><span class="mp-name">' + m.name + '</span></label>';
+    }).join('') + '</div><p class="tier-hint" id="pdHint"></p>';
+  }
+  function payOpts() {
+    var m = q('month'), y = q('year'), none = pmShort();
+    function opt(val, name, desc, price, sub) {
+      return '<label class="pay-opt"><input type="radio" name="pdCycle" value="' + val + '"' + (cycle === val ? ' checked' : '') + '><span class="radio-circle" aria-hidden="true"></span>' +
+        '<span class="pay-main"><span class="pay-name">' + name + '</span><span class="pay-desc">' + desc + '</span></span>' +
+        '<span class="pay-price">' + (none ? fill(t('cat.perMachine', '{price} / machine'), { price: L.money(L.PM_TIERS[0].price / (val === 'month' ? 10 : 1)) }) : price) + (sub ? '<small>' + sub + '</small>' : '') + '</span></label>';
+    }
+    return opt('month', t('cat.monthly', 'Monthly · recurring'), t('cat.monthlyDesc', 'Charged to card ending 4821 each month. Cancel anytime.'), L.money(m.total) + ' ' + t('subs.perMonth', '/ month'), '') +
+      opt('year', t('cat.yearly', 'Yearly · invoice'), t('cat.yearlyDesc', 'One invoice a year, 30 days net.'), L.money(y.total) + ' ' + t('subs.perYear', '/ year'), t('subs.yearlyHint', '2 months free'));
+  }
+  function terms() {
+    return '<hr class="payment-separator pay-divider">' +
+      '<label class="terms-row"><input type="checkbox" class="row-checkbox" id="pdTerms" aria-describedby="pdTermsErr"><span class="terms-text"><span>' + t('subs.termsPre', 'I accept the') + '</span> <a href="#">' + t('subs.termsLink', 'G&D Digital Products license terms') + '</a>.</span></label>' +
+      '<p class="field-error" id="pdTermsErr">' + t('subs.termsErr', 'Accept the license terms to continue.') + '</p>';
+  }
+  function renderForm() {
+    var html = '';
+    if (mode === 'single') {
+      var id = ids[0];
+      title.textContent = pName(id);
+      html += '<div class="pd-img">' + art(id) + '</div><p class="pd-desc">' + pDesc(id) + '</p>' +
+        '<ul class="pd-feats">' + feats(id).map(function (f) { return '<li>' + CHECK + f + '</li>'; }).join('') + '</ul>';
+      if (id === 'pm') html += '<section class="pd-section"><span class="pd-label">' + t('cat.machines', 'Machines') + '</span>' + machineList() + '</section>';
+    } else {
+      title.textContent = fill(t('cat.batchTitle', 'Subscribe to {n} products'), { n: ids.length });
+      var qq = q(cycle);
+      html += '<ul class="batch-lines">' + ids.map(function (id) {
+        var line = qq.lines.filter(function (l) { return l.id === id; })[0];
+        return '<li><span class="v2-icon">' + icon(id) + '</span><span class="bl-name">' + pName(id) + '</span><span class="bl-price">' + (line ? L.money(line.total) : '—') + '</span></li>' +
+          (id === 'pm' ? '<li class="bl-machines">' + machineList() + '</li>' : '');
+      }).join('') + '</ul>' +
+        (qq.bundleDiscount ? '<div class="payment-row is-discount"><span class="label">' + fill(t('cat.bundleRow', 'Bundle discount ({pct}%)'), { pct: Math.round(qq.bundleRate * 100) }) + '</span><span class="value">−' + L.money(qq.bundleDiscount) + '</span></div>' : '');
+    }
+    html += '<section class="pd-section"><span class="pd-label">' + t('cat.howPay', 'How do you want to pay?') + '</span>' + payOpts() + terms() + '</section>';
+    body.innerHTML = html;
+    hint();
+  }
+  function hint() {
+    var h = document.getElementById('pdHint'); if (!h) return;
+    var n = machines.length;
+    h.classList.remove('is-error');
+    h.textContent = n ? fill(t('cat.pmPrice', '{n} × {price} per machine'), { n: n, price: L.money(L.pmUnitPrice(n) / (cycle === 'month' ? 10 : 1)) }) : t('subs.tierStart', 'Select the machines you want to monitor.');
+  }
+  function renderDone() {
+    title.textContent = mode === 'single' ? t('cat.doneOne', 'Your license is active') : t('subs.doneTitle', 'Your licenses are active');
+    function row(l, v) { return '<div class="payment-row"><span class="label">' + l + '</span><span class="value">' + v + '</span></div>'; }
+    var month = cycle === 'month';
+    body.innerHTML = '<div class="done-lead"><span class="done-icon">' + CHECK + '</span><p>' + t('subs.dataFlow', 'Data starts flowing to IRIS Cloud within 24 hours.') + '</p></div>' +
+      '<div class="trial-rows">' +
+        row(t('cat.billing', 'Billing'), month ? t('cat.monthly', 'Monthly · recurring') : t('cat.yearly', 'Yearly · invoice')) +
+        row(t('subs.total', 'Total'), L.money(result.total) + ' ' + (month ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year'))) +
+        row(month ? t('cat.nextCharge', 'Next charge') : t('subs.renewsOn', 'Renews on'), L.formatDate(result.renewsOn)) +
+      '</div><p class="trial-note">' + MAIL + (month ? fill(t('cat.cardNote', 'Receipt for {inv} sent to marcus.weber@acme-corp.com'), { inv: result.invoice }) : fill(t('subs.invoiceSent', 'Invoice sent to {email}'), { email: 'marcus.weber@acme-corp.com' })) + '</p>';
+  }
+  function renderFoot() {
+    var done = view === 'done';
+    document.getElementById('pdIris').hidden = !done;
+    document.getElementById('pdIris').href = L.IRIS_URL;
+    var pr = document.getElementById('pdPrimary');
+    pr.textContent = done ? t('subs.done', 'Done') : t('subs.subscribe', 'Subscribe');
+    var tot = document.getElementById('pdTotal');
+    if (done || pmShort()) { tot.innerHTML = ''; return; }
+    var qq = q(cycle);
+    tot.innerHTML = '<strong>' + L.money(qq.total) + '</strong>' + (cycle === 'month' ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year'));
+  }
+  function render() {
+    box.setAttribute('data-view', view);
+    if (view === 'done') renderDone(); else renderForm();
+    renderFoot();
+  }
+
+  body.addEventListener('change', function (e) {
+    var el = e.target;
+    if (el.name === 'pdCycle') { cycle = el.value; var keep = body.scrollTop; renderForm(); body.scrollTop = keep; renderFoot(); return; }
+    if (el.hasAttribute('data-machine')) {
+      var id = el.getAttribute('data-machine'), i = machines.indexOf(id);
+      if (el.checked && i < 0) machines.push(id); if (!el.checked && i >= 0) machines.splice(i, 1);
+      var st = body.scrollTop, ls = body.querySelector('.mp-list').scrollTop;
+      renderForm(); body.scrollTop = st; body.querySelector('.mp-list').scrollTop = ls; renderFoot();
+      return;
+    }
+    if (el.id === 'pdTerms' && el.checked) { document.getElementById('pdTermsErr').classList.remove('visible'); el.removeAttribute('aria-invalid'); }
+  });
+  body.addEventListener('click', function (e) { if (e.target.closest('.terms-text a')) e.preventDefault(); });
+  document.getElementById('pdPrimary').addEventListener('click', function () {
+    if (view === 'done') { close(); return; }
+    if (pmShort()) { var h = document.getElementById('pdHint'); h.textContent = t('subs.pickOneMachine', 'Select at least one machine.'); h.classList.add('is-error'); h.scrollIntoView({ block: 'nearest' }); return; }
+    var terms = document.getElementById('pdTerms');
+    if (!terms.checked) { document.getElementById('pdTermsErr').classList.add('visible'); terms.setAttribute('aria-invalid', 'true'); terms.focus(); return; }
+    var p = plan(); p.autoRenew = true;
+    result = L.applyPlan(p);
+    view = 'done'; picked = []; render(); renderGrid(); title.focus();
+  });
+  document.getElementById('pdClose').addEventListener('click', close);
+  modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+
+  renderGrid();
+  document.addEventListener('netzsch:i18n-applied', function () { renderGrid(); if (modal.classList.contains('open')) render(); });
+})();
+</script>
+
+<script>
+(function() {
+  var cartDropdown = document.getElementById('cart-dropdown');
+  var cartDdItems = document.getElementById('cart-items');
+  var cartDdSubtotal = document.getElementById('cart-subtotal');
+  var cartBadge = document.getElementById('cart-badge');
+  if (!cartDropdown) return;
+
+  function getCart() { try { return JSON.parse(localStorage.getItem('netzsch_cart') || '{}'); } catch(e) { return {}; } }
+  function getCartItems() { return getCart().items || []; }
+  function saveCart(items) { var c = getCart(); c.items = items; localStorage.setItem('netzsch_cart', JSON.stringify(c)); }
+  function formatPrice(num) { var f = num.toFixed(2).split('.'); return f[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + f[1] + ' \u20ac'; }
+
+  var svgTrash = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
+  var svgMinus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  var svgPlus = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  var svgPlaceholder = '<div class="cart-item-placeholder"><svg viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+
+  function renderCartDropdown() {
+    var cartItems = getCartItems();
+    var html = '';
+    var subtotal = 0;
+    var subtotalRow = document.getElementById('cart-subtotal-row');
+    var hasQuotation = cartItems.some(function(item) { return item.quotation; });
+    cartItems.forEach(function(item, i) {
+      var lineTotal = item.unitPrice * item.qty;
+      subtotal += lineTotal;
+      var leftBtn = '<button class="qty-btn minus" data-action="minus" data-index="' + i + '">' + svgMinus + '</button>';
+      var imgHtml = item.img
+        ? '<img class="cart-item-img" src="' + item.img + '" alt="' + item.name + '">'
+        : svgPlaceholder;
+      html += '<div class="cart-item">' + imgHtml +
+        '<div class="cart-item-info"><div class="cart-item-name">' + item.name + '</div><div class="cart-item-mat">' + NetzschI18n.t("checkout.ref", "Ref:") + ' ' + item.ref + '</div></div>' +
+        '<div class="cart-item-price"><div class="cart-item-price-label">' + NetzschI18n.t("shopDetail.totalPrice", "Total price") + '</div><div class="cart-item-price-value">' + (hasQuotation ? NetzschI18n.t("checkout.quotation", "Quotation") : formatPrice(lineTotal)) + '</div></div></div>' +
+        '<div class="cart-quantity"><span class="cart-quantity-label">' + NetzschI18n.t("common.quantity", "Quantity") + '</span><div class="cart-quantity-controls">' + leftBtn +
+        '<span class="qty-value">' + item.qty + '</span>' +
+        '<button class="qty-btn" data-action="plus" data-index="' + i + '">' + svgPlus + '</button></div></div>';
+    });
+    if (cartItems.length === 0) {
+      html = '<div class="cart-empty">' + NetzschI18n.t("checkout.emptyCart", "Your cart is empty.") + '</div>';
+      if (subtotalRow) subtotalRow.style.display = 'none';
+    } else {
+      if (subtotalRow) subtotalRow.style.display = '';
+    }
+    cartDdItems.innerHTML = html;
+    cartDdSubtotal.textContent = hasQuotation ? '--' : formatPrice(subtotal);
+    var total = cartItems.reduce(function(s, i) { return s + 1; }, 0);
+    cartBadge.textContent = total;
+    cartBadge.classList.toggle('is-visible', total > 0);
+    cartDdItems.querySelectorAll('.qty-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var idx = parseInt(btn.dataset.index);
+        var action = btn.dataset.action;
+        var items = getCartItems();
+        if (action === 'plus') { items[idx].qty++; }
+        else if (action === 'minus') { items[idx].qty--; if (items[idx].qty <= 0) items.splice(idx, 1); }
+        else if (action === 'remove') { items.splice(idx, 1); }
+        saveCart(items);
+        renderCartDropdown();
+        if (items.length === 0) cartDropdown.classList.remove('is-open');
+      });
+    });
+  }
+
+  renderCartDropdown();
+  document.getElementById('btn-cart').addEventListener('click', function(e) { e.stopPropagation(); cartDropdown.classList.toggle('is-open'); });
+  document.getElementById('cart-close').addEventListener('click', function(e) { e.stopPropagation(); cartDropdown.classList.remove('is-open'); });
+  document.addEventListener('click', function(e) { if (!e.target.closest('#btn-cart') && !e.target.closest('#cart-dropdown')) cartDropdown.classList.remove('is-open'); });
+})();
+</script>
+
+
+<!-- ── MILLA BACKDROP ─── -->
+<div class="milla-backdrop" id="millaBackdrop"></div>
+
+<!-- ── MILLA CHAT MODAL ─── -->
+<div class="milla-chat-overlay" id="millaChatOverlay">
+  <div class="milla-chat">
+    <div class="milla-chat-header">
+      <div class="milla-chat-header-left">
+        <div class="milla-chat-avatar">
+          <img src="../assets/milla-sparkle-white.svg" alt="" aria-hidden="true">
+        </div>
+        <div class="milla-chat-info">
+          <span class="milla-chat-name" data-i18n="milla.assistantName">Milla AI Assistant</span>
+          <span class="milla-chat-status" data-i18n="milla.statusOnline">Online — Ready to help</span>
+        </div>
+      </div>
+      <div class="milla-chat-header-actions">
+        <button class="milla-chat-header-btn" aria-label="Expand" title="Expand">
+          <img src="../assets/milla-icon-expand.svg" alt="">
+        </button>
+        <button class="milla-chat-header-btn" aria-label="Minimize" title="Minimize">
+          <img src="../assets/milla-icon-minimize.svg" alt="">
+        </button>
+        <button class="milla-chat-header-btn" aria-label="Close" title="Close" onclick="closeMillaChat()">
+          <img src="../assets/milla-icon-close-white.svg" alt="">
+        </button>
+      </div>
+    </div>
+    <div class="milla-chat-tabs">
+      <button class="milla-chat-tab" data-i18n="milla.tabSpareParts">Spare parts</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabOrderStatus">Order status</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabDocuments">Documents</button>
+      <button class="milla-chat-tab" data-i18n="milla.tabRecommendations">Recommendations</button>
+    </div>
+    <div class="milla-chat-body" id="millaChatBody">
+      <!-- Messages injected by JS -->
+    </div>
+    <div class="milla-chat-footer">
+      <div class="milla-chat-input-wrap">
+        <input type="text" placeholder="Ask Milla anything..." data-i18n-placeholder="milla.chatPlaceholder" id="millaChatInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromBigChat();}">
+      </div>
+      <button class="milla-chat-send active" id="millaChatSend" onclick="sendFromBigChat()">
+        <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MILLA CHAT SMALLER ─── -->
+<div class="milla-chat-small" id="millaChatSmall">
+  <div class="milla-chat-header">
+    <div class="milla-chat-header-left">
+      <div class="milla-chat-avatar">
+        <img src="../assets/milla-sparkle-white.svg" alt="" aria-hidden="true">
+      </div>
+      <div class="milla-chat-info">
+        <span class="milla-chat-name" data-i18n="milla.assistantName">Milla AI Assistant</span>
+        <span class="milla-chat-status" data-i18n="milla.statusOnline">Online — Ready to help</span>
+      </div>
+    </div>
+    <div class="milla-chat-header-actions">
+      <button class="milla-chat-header-btn" aria-label="Expand" title="Expand" onclick="expandMillaChat()">
+        <img src="../assets/milla-icon-expand.svg" alt="">
+      </button>
+      <button class="milla-chat-header-btn" aria-label="Minimize" title="Minimize" onclick="minimizeMillaChat()">
+        <img src="../assets/milla-icon-minimize.svg" alt="">
+      </button>
+      <button class="milla-chat-header-btn" aria-label="Close" title="Close" onclick="closeMillaChat()">
+        <img src="../assets/milla-icon-close-white.svg" alt="">
+      </button>
+    </div>
+  </div>
+  <div class="milla-chat-tabs">
+    <button class="milla-chat-tab" data-i18n="milla.tabSpareParts">Spare parts</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabOrderStatus">Order status</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabDocuments">Documents</button>
+    <button class="milla-chat-tab" data-i18n="milla.tabRecommendations">Recommendations</button>
+  </div>
+  <div class="milla-chat-body" id="millaChatSmallBody"></div>
+  <div class="milla-chat-footer">
+    <div class="milla-chat-input-wrap">
+      <input type="text" placeholder="Ask Milla anything..." id="millaChatSmallInput" onkeydown="if(event.key==='Enter'){event.preventDefault();sendFromSmallChat();}">
+    </div>
+    <button class="milla-chat-send active" id="millaChatSmallSend" onclick="sendFromSmallChat()">
+      <img src="../assets/milla-icon-send.svg" alt="Send" style="filter: brightness(0) invert(1);">
+    </button>
+  </div>
+</div>
+
+<!-- ── MILLA FAB ─── -->
+<button class="milla-fab" id="millaFab" onclick="openMillaChatSmall()" aria-label="Open Milla AI Assistant">
+  <img src="../assets/milla-fab.svg" alt="">
+</button>
+
+<script>
+// ── MILLA SEARCH ──
+function toggleMillaSearch(e) {
+  e.stopPropagation();
+  var bar = document.getElementById('millaSearchbar');
+  var isOpen = bar.classList.contains('open');
+  if (isOpen) { closeMillaSearch(); } else { openMillaSearch(); }
+}
+function openMillaSearch() {
+  var wrapper = document.getElementById('millaWrapper');
+  var bar = document.getElementById('millaSearchbar');
+  var btn = document.getElementById('btn-milla-search');
+  var suggestions = document.getElementById('millaSuggestions');
+  var backdrop = document.getElementById('millaBackdrop');
+  btn.classList.add('hidden');
+  wrapper.classList.add('open');
+  bar.classList.add('open');
+  backdrop.classList.add('open');
+  setTimeout(function() {
+    suggestions.classList.add('open');
+    document.getElementById('millaInput').focus();
+  }, 200);
+}
+function closeMillaSearch() {
+  var wrapper = document.getElementById('millaWrapper');
+  var bar = document.getElementById('millaSearchbar');
+  var btn = document.getElementById('btn-milla-search');
+  var suggestions = document.getElementById('millaSuggestions');
+  var backdrop = document.getElementById('millaBackdrop');
+  suggestions.classList.remove('open');
+  setTimeout(function() {
+    bar.classList.remove('open');
+    wrapper.classList.remove('open');
+    backdrop.classList.remove('open');
+    btn.classList.remove('hidden');
+  }, 150);
+  document.getElementById('millaInput').value = '';
+}
+document.getElementById('millaBackdrop').addEventListener('click', closeMillaSearch);
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (document.getElementById('millaChatOverlay').classList.contains('open')) {
+      shrinkMillaChat();
+    } else if (document.getElementById('millaChatSmall').classList.contains('open')) {
+      minimizeMillaChat();
+    } else {
+      closeMillaSearch();
+    }
+  }
+});
+
+// ── MILLA CHAT STATE ──
+var millaResponse = {
+  'Check my order status': 'I found your most recent order: <strong>Order #ORD-2026-0847</strong>\n\nStatus: In Transit\nEstimated Delivery: March 03, 2026\n\nThe order has left the distribution center in Selb, Germany and is on its way to the final destination.\nWould you like to track it in real time?',
+  'Recommend products for me': 'Based on your machine fleet, I recommend checking our new grinding bead sets optimized for your Discus 30 and Zeta 60. Would you like me to show available options?',
+  'Show purchase history': 'Here are your recent purchases:\n\n\u2022 Order #ORD-2026-0847 \u2014 Spare parts kit, \u20ac3,240.00\n\u2022 Order #ORD-2026-0812 \u2014 Grinding beads, \u20ac8,720.00\n\u2022 Order #ORD-2026-0798 \u2014 Inlet flange set, \u20ac1,450.00\n\nWould you like details on any of these?',
+  'Help me find documents': 'I can help you find technical documents for your machines. What are you looking for?\n\n\u2022 Operating manuals\n\u2022 Maintenance guides\n\u2022 Spare parts catalogs\n\u2022 Certificates & compliance docs'
+};
+var millaCurrentMessages = '';
+
+document.querySelectorAll('.milla-suggestion-item').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var text = btn.querySelector('span:last-child').textContent;
+    closeMillaSearch();
+    setTimeout(function() { openMillaChat(text); }, 200);
+  });
+});
+
+function openMillaChat(userMessage) {
+  var overlay = document.getElementById('millaChatOverlay');
+  var body = document.getElementById('millaChatBody');
+  body.innerHTML = '';
+  var userDiv = document.createElement('div');
+  userDiv.className = 'milla-msg-user';
+  userDiv.textContent = userMessage;
+  body.appendChild(userDiv);
+  var botRow = document.createElement('div');
+  botRow.className = 'milla-msg-bot';
+  botRow.innerHTML = '<div class="milla-msg-bot-avatar"><img src="../assets/milla-sparkle-small.svg" alt="" aria-hidden="true"></div><div class="milla-typing-dots"><span></span><span></span><span></span></div>';
+  body.appendChild(botRow);
+  document.getElementById('millaFab').classList.remove('open');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  overlay.classList.add('open');
+  setTimeout(function() {
+    var responseText = millaResponse[userMessage] || 'I can help you with that. Let me look into it...';
+    var bubble = document.createElement('div');
+    bubble.className = 'milla-msg-bot-bubble';
+    bubble.innerHTML = responseText.replace(/\n/g, '<br>');
+    botRow.querySelector('.milla-typing-dots').remove();
+    botRow.appendChild(bubble);
+    body.scrollTop = body.scrollHeight;
+    millaCurrentMessages = body.innerHTML;
+  }, 1500);
+}
+
+function syncMessages(fromId, toId) {
+  var from = document.getElementById(fromId);
+  var to = document.getElementById(toId);
+  to.innerHTML = from.innerHTML;
+  to.scrollTop = to.scrollHeight;
+}
+function shrinkMillaChat() {
+  syncMessages('millaChatBody', 'millaChatSmallBody');
+  document.getElementById('millaChatOverlay').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaChatSmall').classList.add('open'); }, 150);
+}
+function minimizeMillaChat() {
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaFab').classList.add('open'); }, 200);
+}
+function expandMillaChat() {
+  syncMessages('millaChatSmallBody', 'millaChatBody');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaChatOverlay').classList.add('open'); }, 150);
+}
+function openMillaChatSmall() {
+  document.getElementById('millaFab').classList.remove('open');
+  var smallBody = document.getElementById('millaChatSmallBody');
+  if (!smallBody.innerHTML.trim() && millaCurrentMessages) { smallBody.innerHTML = millaCurrentMessages; }
+  setTimeout(function() { document.getElementById('millaChatSmall').classList.add('open'); }, 100);
+}
+function closeMillaChat() {
+  document.getElementById('millaChatOverlay').classList.remove('open');
+  document.getElementById('millaChatSmall').classList.remove('open');
+  setTimeout(function() { document.getElementById('millaFab').classList.add('open'); }, 200);
+}
+document.querySelector('#millaChatOverlay .milla-chat-header-btn[aria-label="Minimize"]').addEventListener('click', shrinkMillaChat);
+document.getElementById('millaChatOverlay').addEventListener('click', function(e) { if (e.target === this) shrinkMillaChat(); });
+</script>
+
+<script>
+// ── MILLA CHAT INPUT — standalone script ──
+var millaGenericResponse = 'Thank you for your message. I\'m currently processing your request. In the meantime, feel free to explore our product catalog or check your order status using the tabs above.';
+
+function sendMillaMessage(inputEl, bodyEl) {
+  var text = inputEl.value.trim();
+  if (!text) return;
+  inputEl.value = '';
+  var userDiv = document.createElement('div');
+  userDiv.className = 'milla-msg-user';
+  userDiv.textContent = text;
+  bodyEl.appendChild(userDiv);
+  bodyEl.scrollTop = bodyEl.scrollHeight;
+  var botRow = document.createElement('div');
+  botRow.className = 'milla-msg-bot';
+  botRow.innerHTML = '<div class="milla-msg-bot-avatar"><img src="../assets/milla-sparkle-small.svg" alt="" aria-hidden="true"></div><div class="milla-typing-dots"><span></span><span></span><span></span></div>';
+  bodyEl.appendChild(botRow);
+  bodyEl.scrollTop = bodyEl.scrollHeight;
+  setTimeout(function() {
+    var bubble = document.createElement('div');
+    bubble.className = 'milla-msg-bot-bubble';
+    bubble.innerHTML = millaGenericResponse;
+    botRow.querySelector('.milla-typing-dots').remove();
+    botRow.appendChild(bubble);
+    bodyEl.scrollTop = bodyEl.scrollHeight;
+    if (typeof millaCurrentMessages !== 'undefined') {
+      millaCurrentMessages = document.getElementById('millaChatBody').innerHTML || document.getElementById('millaChatSmallBody').innerHTML;
+    }
+  }, 1500);
+}
+function sendFromBigChat() {
+  sendMillaMessage(document.getElementById('millaChatInput'), document.getElementById('millaChatBody'));
+}
+function sendFromSmallChat() {
+  sendMillaMessage(document.getElementById('millaChatSmallInput'), document.getElementById('millaChatSmallBody'));
+}
+</script>
+
+<script>
+  window.Userback = window.Userback || {};
+  Userback.access_token = "A-B6EEL5g9k8aTvbyNklnvym0W3";
+  (function(d) {
+    var s = d.createElement("script");s.async = true;s.src = "https://static.userback.io/widget/v1.js";(d.head || d.body).appendChild(s);
+  })(document);
+</script>
+<script>
+(function(){
+  var btn=document.querySelector('.hamburger-btn'),nav=document.querySelector('.mobile-nav'),overlay=document.querySelector('.mobile-nav-overlay');
+  if(!btn||!nav)return;
+  function toggle(){var open=nav.classList.toggle('open');btn.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':'';}
+  btn.addEventListener('click',toggle);
+  if(overlay)overlay.addEventListener('click',toggle);
+})();
+</script>
+<script src="../assets/role-guard.js"></script>
+<script src="../assets/request-approval.js"></script>
+<script src="../assets/i18n.js"></script>
+<script src="../assets/skeleton-loader.js"></script>
+  <script src="../assets/bug-report.js"></script>
+<script src="../assets/tcl.js" defer></script>
+</body>
+</html>
