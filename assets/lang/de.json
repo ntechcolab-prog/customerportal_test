@@ -1315,14 +1315,8 @@
   "subs.trialEndedOn": "Kostenloser Test endete am",
   "subs.tryFree": "30 Tage kostenlos testen",
   "subs.tryFreeFor": "{name} 30 Tage kostenlos testen",
-  "subs.trialP1": "Voller Zugriff auf {name} für {days} Tage",
-  "subs.trialP2": "Keine Zahlungsdaten nötig",
-  "subs.trialP3": "Endet automatisch am {date}. Es fallen keine Kosten an.",
-  "subs.trialP4": "Vor Ablauf abonnieren und Ihre Daten behalten.",
   "subs.trialPick": "1 Maschine wählen",
   "subs.trialConnected": "Die Maschine muss mit IRIS Cloud verbunden sein.",
-  "subs.trialConnectedAll": "Ihre Maschinen müssen mit IRIS Cloud verbunden sein.",
-  "subs.trialIncluded": "Das erhalten Sie",
   "subs.product": "Produkt",
   "subs.trialDoneDesc": "Daten fließen innerhalb von 24 Stunden in IRIS Cloud. Wir erinnern Sie 7 Tage vor Testende. Es fallen keine Kosten an.",
   "subs.trialFor": "für {days} Tage",
@@ -1330,5 +1324,8 @@
   "subs.trialStart": "Kostenlosen Test starten",
   "subs.trialTitle": "{name} kostenlos testen",
   "subs.trialDoneTitle": "Ihr kostenloser Test ist aktiv",
-  "subs.trialPickErr": "Wählen Sie die Maschine, die Sie testen möchten."
+  "subs.trialPickErr": "Wählen Sie die Maschine, die Sie testen möchten.",
+  "subs.trialIntro": "{days} Tage voller Zugriff, keine Zahlungsdaten. Endet automatisch am {date}, es fallen keine Kosten an.",
+  "subs.machine": "Maschine",
+  "subs.trialCoversAll": "Gilt für alle Ihre Maschinen. Sie müssen mit IRIS Cloud verbunden sein."
 }

@@ -1458,11 +1458,9 @@
     /* Free trial */
     .v2-info .link-btn { margin-top: 2px; min-height: 32px; }
     .plan-trial { align-self: center; }
-    .trial-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
-    .trial-points li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: #1f2937; line-height: 1.45; }
-    .trial-points svg { flex: none; margin-top: 2px; color: #007167; }
-    .trial-cover { font-size: 14px; font-weight: 600; color: #1f2937; margin: 0; }
-    .tier-hint.is-error { color: #b91c1c; font-weight: 600; }
+    .pm-box[data-view="trial"] { width: min(520px, calc(100vw - 32px)); }
+    .trial-intro { font-size: 14px; color: #374151; line-height: 1.5; margin: 0 0 20px; }
+    .trial-note { font-size: 13px; color: #4b5563; margin: 8px 0 0; }
   </style>
   <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
@@ -2177,29 +2175,19 @@ document.addEventListener('click', function(e) {
   function trialEnds() { var d = new Date(); d.setDate(d.getDate() + L.TRIAL_DAYS); return d.toISOString().slice(0, 10); }
   function renderTrial() {
     var p = L.product(trialId);
-    var points = [
-      fill(t('subs.trialP1', 'Full access to {name} for {days} days'), { name: pName(trialId), days: L.TRIAL_DAYS }),
-      t('subs.trialP2', 'No payment details needed'),
-      fill(t('subs.trialP3', 'Ends on its own on {date}. Nothing is charged.'), { date: L.formatDate(trialEnds()) }),
-      t('subs.trialP4', 'Subscribe before it ends and keep your data.')
-    ].map(function (x) { return '<li>' + CHECK + '<span>' + x + '</span></li>'; }).join('');
-    var right;
-    if (p.model === 'machine') {
-      right = '<p class="card-title" id="trLabel">' + t('subs.trialPick', 'Choose 1 machine') + '</p>' +
-        '<div class="mp-list" role="radiogroup" aria-labelledby="trLabel" aria-describedby="trHint">' + fleet().map(function (m) {
-          return '<label class="mp-item"><input type="radio" name="trialMachine" value="' + m.id + '"' + (trialMachine === m.id ? ' checked' : '') + '><span>' + m.name + '</span></label>';
-        }).join('') + '</div>' +
-        '<p class="tier-hint" id="trHint">' + t('subs.trialConnected', 'The machine must be connected to IRIS Cloud.') + '</p>';
-    } else {
-      right = '<p class="card-title">' + t('subs.coverage', 'Coverage') + '</p>' +
-        '<p class="trial-cover">' + t('subs.allMachines', 'All machines') + '</p>' +
-        '<p class="tier-hint">' + t('subs.trialConnectedAll', 'Your machines must be connected to IRIS Cloud.') + '</p>';
-    }
-    document.getElementById('trialBody').innerHTML =
-      '<div class="mp-grid"><div>' +
-        '<p class="card-title">' + t('subs.trialIncluded', 'What you get') + '</p>' +
-        '<ul class="trial-points">' + points + '</ul>' +
-      '</div><div>' + right + '</div></div>';
+    var intro = '<p class="trial-intro">' + fill(t('subs.trialIntro', '{days} days of full access, no payment details. Ends on its own on {date}, nothing is charged.'), { days: L.TRIAL_DAYS, date: L.formatDate(trialEnds()) }) + '</p>';
+    var field = p.model === 'machine'
+      ? '<div class="field-group">' +
+          '<label class="field-label" for="trialMachine">' + t('subs.machine', 'Machine') + '</label>' +
+          '<select class="form-select" id="trialMachine" aria-describedby="trNote trErr">' +
+            '<option value="" disabled' + (trialMachine ? '' : ' selected') + '>' + t('subs.trialPick', 'Choose 1 machine') + '</option>' +
+            fleet().map(function (m) { return '<option value="' + m.id + '"' + (trialMachine === m.id ? ' selected' : '') + '>' + m.name + '</option>'; }).join('') +
+          '</select>' +
+          '<p class="field-error" id="trErr">' + t('subs.trialPickErr', 'Choose the machine you want to try.') + '</p>' +
+          '<p class="trial-note" id="trNote">' + t('subs.trialConnected', 'The machine must be connected to IRIS Cloud.') + '</p>' +
+        '</div>'
+      : '<p class="trial-note">' + t('subs.trialCoversAll', 'Covers all your machines. They must be connected to IRIS Cloud.') + '</p>';
+    document.getElementById('trialBody').innerHTML = intro + field;
   }
 
   /* View: review & pay */
@@ -2366,19 +2354,19 @@ document.addEventListener('click', function(e) {
     if (back) back.focus();
   });
   document.getElementById('trialBody').addEventListener('change', function (e) {
-    if (e.target.name !== 'trialMachine') return;
+    if (e.target.id !== 'trialMachine') return;
     trialMachine = e.target.value;
-    document.getElementById('trHint').removeAttribute('role');
-    document.getElementById('trHint').classList.remove('is-error');
+    e.target.classList.remove('error'); e.target.removeAttribute('aria-invalid');
+    document.getElementById('trErr').classList.remove('visible');
   });
   document.getElementById('pmPrimary').addEventListener('click', function () {
     if (view === 'done') { closePlan(); return; }
     if (view === 'trial') {
       if (L.product(trialId).model === 'machine' && !trialMachine) {
-        var h = document.getElementById('trHint');
-        h.textContent = t('subs.trialPickErr', 'Choose the machine you want to try.');
-        h.classList.add('is-error'); h.setAttribute('role', 'alert');
-        document.querySelector('#trialBody input[name="trialMachine"]').focus();
+        var sel = document.getElementById('trialMachine');
+        sel.classList.add('error'); sel.setAttribute('aria-invalid', 'true');
+        document.getElementById('trErr').classList.add('visible');
+        sel.focus();
         return;
       }
       var r = L.startTrial(trialId, trialMachine);

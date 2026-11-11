@@ -1315,14 +1315,8 @@
   "subs.trialEndedOn": "Free trial ended on",
   "subs.tryFree": "Try free for 30 days",
   "subs.tryFreeFor": "Try {name} free for 30 days",
-  "subs.trialP1": "Full access to {name} for {days} days",
-  "subs.trialP2": "No payment details needed",
-  "subs.trialP3": "Ends on its own on {date}. Nothing is charged.",
-  "subs.trialP4": "Subscribe before it ends and keep your data.",
   "subs.trialPick": "Choose 1 machine",
   "subs.trialConnected": "The machine must be connected to IRIS Cloud.",
-  "subs.trialConnectedAll": "Your machines must be connected to IRIS Cloud.",
-  "subs.trialIncluded": "What you get",
   "subs.product": "Product",
   "subs.trialDoneDesc": "Data starts flowing to IRIS Cloud within 24 hours. We remind you 7 days before the trial ends. Nothing is charged.",
   "subs.trialFor": "for {days} days",
@@ -1330,5 +1324,8 @@
   "subs.trialStart": "Start free trial",
   "subs.trialTitle": "Try {name} free",
   "subs.trialDoneTitle": "Your free trial is active",
-  "subs.trialPickErr": "Choose the machine you want to try."
+  "subs.trialPickErr": "Choose the machine you want to try.",
+  "subs.trialIntro": "{days} days of full access, no payment details. Ends on its own on {date}, nothing is charged.",
+  "subs.machine": "Machine",
+  "subs.trialCoversAll": "Covers all your machines. They must be connected to IRIS Cloud."
 }
