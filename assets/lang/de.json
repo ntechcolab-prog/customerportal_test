@@ -1382,5 +1382,11 @@
   "cat.f.mt1": "Erinnerungen nach echten Betriebsstunden",
   "cat.f.mt2": "Historie je Maschine für Audits",
   "cat.machines": "Maschinen",
-  "cat.perMachine": "{price} / Maschine"
+  "cat.perMachine": "{price} / Maschine",
+  "cat.intro2": "Öffnen Sie ein Produkt für Details oder fügen Sie mehrere hinzu.",
+  "cat.add": "Wählen",
+  "cat.added": "Gewählt",
+  "cat.addName": "{name} zur Auswahl hinzufügen",
+  "cat.removeName": "{name} aus der Auswahl entfernen",
+  "cat.perMachineOr": "pro Maschine · oder {price} / Jahr"
 }

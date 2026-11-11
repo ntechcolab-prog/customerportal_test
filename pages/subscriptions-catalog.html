@@ -1534,11 +1534,13 @@
     .product-card-desc { font-size: 13px; color: #4b5563; line-height: 19px; min-height: 38px; }
     #pdIris[hidden] { display: none; }
     body.pd-open .batch-bar { visibility: hidden; }
-    .product-card-footer { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; border-top: 1px solid #f3f4f6; padding-top: 12px; margin-top: auto; }
+    .product-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #f3f4f6; padding-top: 12px; margin-top: auto; }
     .product-card-body .product-card-footer { margin-top: 12px; }
     .product-card-price { font-size: 15px; font-weight: 700; color: #1f2937; letter-spacing: -.23px; white-space: nowrap; }
     .product-card-price small { font-size: 12px; font-weight: 500; color: #6b7280; }
     .product-card-alt { font-size: 12px; color: #6b7280; white-space: nowrap; }
+    .product-card-prices { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .card-add { flex: none; display: inline-flex; align-items: center; gap: 6px; }
     .card-pick { position: absolute; top: 12px; left: 12px; display: none; }
     .cat-grid.is-batch .card-pick { display: block; }
     .cat-grid.is-batch .product-card-chevron { visibility: hidden; }
@@ -1833,8 +1835,7 @@
     </div>
 
     <div class="cat-toolbar">
-      <p data-i18n="cat.intro">Pick a product to see what it does and how to pay.</p>
-      <label class="batch-toggle"><input type="checkbox" class="row-checkbox" id="batchChk"><span data-i18n="cat.batch">Batch subscription</span></label>
+      <p data-i18n="cat.intro2">Open a product to see details, or add several and subscribe at once.</p>
     </div>
 
     <div class="cat-grid" id="catGrid" data-skeleton-stagger></div>
@@ -1906,6 +1907,7 @@ document.addEventListener('click', function(e) {
   function owned(id) { var s = L.statusOf(id); return s === 'active' || s === 'expiring'; }
   var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
   var MAIL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+  var CHECK_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
   var CHEV = '<svg class="product-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>';
 
   // Product "print": a tiny drawing of the IRIS screen each product adds
@@ -1935,14 +1937,13 @@ document.addEventListener('click', function(e) {
 
   /* Cards */
   var grid = document.getElementById('catGrid');
-  var batchChk = document.getElementById('batchChk');
-  var batch = false, picked = [];
+  var picked = [];
 
   function priceLine(p) {
     if (p.model === 'machine') {
       var min = L.PM_TIERS[L.PM_TIERS.length - 1].price;
-      return { main: fill(t('cat.fromMonth', 'From {price}'), { price: L.money(min / 10) }) + ' <small>' + t('cat.perMachineMonth', '/ machine / month') + '</small>',
-        alt: fill(t('cat.orYear', 'or {price} / year'), { price: L.money(min) }) };
+      return { main: fill(t('cat.fromMonth', 'From {price}'), { price: L.money(min / 10) }) + ' <small>' + t('subs.perMonth', '/ month') + '</small>',
+        alt: fill(t('cat.perMachineOr', 'per machine · or {price} / year'), { price: L.money(min) }) };
     }
     return { main: L.money(p.price / 10) + ' <small>' + t('subs.perMonth', '/ month') + '</small>', alt: fill(t('cat.orYear', 'or {price} / year'), { price: L.money(p.price) }) };
   }
@@ -1953,43 +1954,45 @@ document.addEventListener('click', function(e) {
     return '';
   }
   function renderGrid() {
-    grid.classList.toggle('is-batch', batch);
     grid.innerHTML = L.PRODUCTS.map(function (p) {
       var pr = priceLine(p), own = owned(p.id), sel = picked.indexOf(p.id) >= 0;
-      return '<div class="product-card' + (own ? ' is-owned' : '') + (sel ? ' is-selected' : '') + '" role="button" tabindex="0" data-product="' + p.id + '"' + (batch ? ' aria-pressed="' + sel + '"' : '') + '>' +
-        '<span class="card-pick"><input type="checkbox" class="row-checkbox" tabindex="-1" aria-hidden="true"' + (sel ? ' checked' : '') + (own ? ' disabled' : '') + '></span>' +
+      return '<div class="product-card' + (own ? ' is-owned' : '') + (sel ? ' is-selected' : '') + '" role="button" tabindex="0" data-product="' + p.id + '" aria-label="' + pName(p.id) + '">' +
         '<div class="product-card-img">' + art(p.id) + '</div>' +
         '<div class="product-card-body">' +
           '<div class="product-card-header"><span class="product-card-name">' + pName(p.id) + '</span>' + (badge(p.id) || CHEV) + '</div>' +
           '<span class="product-card-desc">' + pDesc(p.id) + '</span>' +
-          '<div class="product-card-footer"><span class="product-card-price">' + pr.main + '</span><span class="product-card-alt">' + pr.alt + '</span></div>' +
+          '<div class="product-card-footer"><span class="product-card-prices"><span class="product-card-price">' + pr.main + '</span><span class="product-card-alt">' + pr.alt + '</span></span>' + (own ? '' : addBtn(p.id, sel)) + '</div>' +
         '</div></div>';
     }).join('');
     renderBar();
   }
+  function addBtn(id, sel) {
+    return '<button type="button" class="btn ' + (sel ? 'btn-primary' : 'btn-secondary') + ' btn-sm card-add" data-add="' + id + '" aria-pressed="' + sel + '" aria-label="' + fill(sel ? t('cat.removeName', 'Remove {name} from selection') : t('cat.addName', 'Add {name} to selection'), { name: pName(id) }) + '">' +
+      (sel ? CHECK_SM + t('cat.added', 'Added') : '+ ' + t('cat.add', 'Add')) + '</button>';
+  }
   function renderBar() {
     var bar = document.getElementById('batchBar');
-    bar.classList.toggle('show', batch && picked.length > 0);
+    bar.classList.toggle('show', picked.length > 0);
     var n = picked.length;
     document.getElementById('batchInfo').innerHTML = '<strong>' + (n === 1 ? t('cat.oneSel', '1 product selected') : fill(t('cat.nSel', '{n} products selected'), { n: n })) + '</strong>' +
       (L.BUNDLE[n] ? ' · ' + fill(t('cat.bundleSave', 'save {pct}% together'), { pct: Math.round(L.BUNDLE[n] * 100) }) : '');
   }
   function onCard(card) {
     var id = card.getAttribute('data-product');
-    if (batch) {
-      if (owned(id)) return;
-      var i = picked.indexOf(id);
-      if (i >= 0) picked.splice(i, 1); else picked.push(id);
-      renderGrid();
-      var again = grid.querySelector('[data-product="' + id + '"]'); if (again) again.focus();
-      return;
-    }
     if (owned(id)) { location.href = 'subscriptions.html'; return; }
     open('single', [id], card);
   }
-  grid.addEventListener('click', function (e) { var c = e.target.closest('.product-card'); if (c) onCard(c); });
-  grid.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('product-card')) { e.preventDefault(); onCard(e.target); } });
-  batchChk.addEventListener('change', function () { batch = this.checked; if (!batch) picked = []; renderGrid(); });
+  grid.addEventListener('click', function (e) {
+    var add = e.target.closest('[data-add]');
+    if (add) {
+      var id = add.getAttribute('data-add'), i = picked.indexOf(id);
+      if (i >= 0) picked.splice(i, 1); else picked.push(id);
+      renderGrid();
+      grid.querySelector('[data-add="' + id + '"]').focus();
+      return;
+    }
+    var c = e.target.closest('.product-card'); if (c) onCard(c); });
+  grid.addEventListener('keydown', function (e) { if (e.target.closest('[data-add]')) return; if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('product-card')) { e.preventDefault(); onCard(e.target); } });
   document.getElementById('batchClear').addEventListener('click', function () { picked = []; renderGrid(); });
   document.getElementById('batchGo').addEventListener('click', function () { open('batch', picked.slice(), this); });
 

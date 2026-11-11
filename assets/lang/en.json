@@ -1382,5 +1382,11 @@
   "cat.batch": "Batch subscription",
   "cat.clear": "Clear",
   "cat.machines": "Machines",
-  "cat.perMachine": "{price} / machine"
+  "cat.perMachine": "{price} / machine",
+  "cat.intro2": "Open a product to see details, or add several and subscribe at once.",
+  "cat.add": "Add",
+  "cat.added": "Added",
+  "cat.addName": "Add {name} to selection",
+  "cat.removeName": "Remove {name} from selection",
+  "cat.perMachineOr": "per machine · or {price} / year"
 }
