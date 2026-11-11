@@ -1284,5 +1284,17 @@
   "subs.colProduct": "Product",
   "subs.colRenewal": "Renewal",
   "subs.colActions": "Actions",
-  "subs.machinesTitle": "Licensed machines"
+  "subs.machinesTitle": "Licensed machines",
+  "subs.plusMachines": "{n}+ machines",
+  "subs.rangeMachines": "{a}–{b} machines",
+  "subs.perMachineUnit": "/ machine",
+  "subs.currentPlan": "Current plan",
+  "subs.selOne": "1 product selected",
+  "subs.selN": "{n} products selected",
+  "subs.youSaveAmt": "You save {amount}",
+  "subs.bundlePct": "{pct}% bundle discount",
+  "subs.sumAddShort": "Excl. VAT · same renewal date",
+  "subs.newMachinesOne": "1 new machine",
+  "subs.newMachines": "{n} new machines",
+  "subs.addEmpty": "Select the machines you want to add."
 }

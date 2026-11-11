@@ -1284,5 +1284,17 @@
   "subs.colProduct": "Produkt",
   "subs.colRenewal": "Verlängerung",
   "subs.colActions": "Aktionen",
-  "subs.machinesTitle": "Lizenzierte Maschinen"
+  "subs.machinesTitle": "Lizenzierte Maschinen",
+  "subs.plusMachines": "{n}+ Maschinen",
+  "subs.rangeMachines": "{a}–{b} Maschinen",
+  "subs.perMachineUnit": "/ Maschine",
+  "subs.currentPlan": "Aktueller Plan",
+  "subs.selOne": "1 Produkt ausgewählt",
+  "subs.selN": "{n} Produkte ausgewählt",
+  "subs.youSaveAmt": "Sie sparen {amount}",
+  "subs.bundlePct": "{pct} % Paketrabatt",
+  "subs.sumAddShort": "Zzgl. MwSt. · gleiches Verlängerungsdatum",
+  "subs.newMachinesOne": "1 neue Maschine",
+  "subs.newMachines": "{n} neue Maschinen",
+  "subs.addEmpty": "Wählen Sie die Maschinen, die Sie hinzufügen möchten."
 }
