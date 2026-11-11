@@ -1374,7 +1374,9 @@
     .order-total-label { font-size: 16px; font-weight: 700; color: #1f2937; }
     .order-total-value { font-size: 24px; font-weight: 700; color: #1f2937; font-variant-numeric: tabular-nums; }
     .card-title { font-size: 16px; font-weight: 700; color: #1f2937; letter-spacing: -.2px; margin-bottom: 12px; }
-    .mp-list { border-top: 1px solid #eaeaea; }
+    /* 4.5 rows (60px each) visible: the half row signals that the list scrolls */
+    .mp-list { border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; max-height: 270px; overflow-y: auto; overscroll-behavior: contain; padding-right: 8px; }
+    .mp-list .mp-row:last-child { border-bottom: none; }
     .mp-row { display: grid; grid-template-columns: 16px 40px minmax(0,1fr) auto; align-items: center; gap: 14px; min-height: 60px; padding: 8px 0; border-bottom: 1px solid #eaeaea; cursor: pointer; }
     .mp-row.is-licensed { cursor: default; }
     .mp-row .row-checkbox:disabled { cursor: default; background: #b1b4b7; border-color: #b1b4b7; box-shadow: none; }
