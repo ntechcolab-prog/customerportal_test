@@ -289,6 +289,13 @@
     save(state);
   }
 
+  // Billing cycle for the next renewal (monthly recurring or yearly invoice)
+  function setCycle(cycle) {
+    var state = load();
+    state.cycle = cycle === 'month' ? 'month' : 'year';
+    save(state);
+  }
+
   function money(v) {
     return '$' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
   }
@@ -317,6 +324,7 @@
     quote: quote,
     currentPlan: currentPlan,
     applyPlan: applyPlan,
+    setCycle: setCycle,
     setAutoRenew: setAutoRenew,
     cancel: cancel,
     money: money,

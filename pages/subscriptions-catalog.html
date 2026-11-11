@@ -1551,6 +1551,16 @@
     .batch-bar-info strong { color: #1f2937; }
     .batch-bar .btn-group { display: flex; gap: 8px; }
     .pd-box { width: min(640px, calc(100vw - 32px)); }
+    .pd-img-sm { height: 132px; }
+    .own-msg { margin: -4px 0 16px; padding: 10px 12px; background: #f0f9f8; border-radius: 10px; color: #1f2937; font-size: 13px; }
+    .own-msg svg { color: #007167; }
+    .own-cancel { margin-left: -12px; }
+    .pd-box .payment-row .value .link-btn { font-size: 14px; min-height: 0; padding: 0; line-height: inherit; }
+    .pd-box .trial-rows .payment-row { min-height: 41px; box-sizing: border-box; align-items: center; }
+    .pd-box .trial-rows .payment-row .value { display: inline-flex; align-items: center; gap: 4px; }
+    .pd-label-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+    .pd-label-row .pd-label { margin: 0; }
+    .pd-label-row .link-btn { min-height: 0; padding: 0; font-size: 13px; }
     .pd-box[data-view="done"] { width: min(520px, calc(100vw - 32px)); }
     .pd-img { background: #fafbfc; border: 1px solid #f3f4f6; border-radius: 12px; height: 180px; overflow: hidden; margin-bottom: 18px; }
     .pd-img svg { width: 100%; height: 100%; }
@@ -2008,6 +2018,7 @@ document.addEventListener('click', function(e) {
   function pmShort() { return ids.indexOf('pm') >= 0 && !machines.length; }
 
   function open(m, list, from) {
+    ownEdit = null; ownMsg = ''; addPick = [];
     mode = m; ids = list; cycle = 'month'; view = m === 'owned' ? 'owned' : 'form'; result = null; trigger = from;
     var pm = L.get().subs.pm;
     machines = pm && pm.status === 'trial' ? pm.machines.slice() : [];
@@ -2076,26 +2087,76 @@ document.addEventListener('click', function(e) {
         row(month ? t('cat.nextCharge', 'Next charge') : t('subs.renewsOn', 'Renews on'), L.formatDate(result.renewsOn)) +
       '</div><p class="trial-note">' + MAIL + (month ? fill(t('cat.cardNote', 'Receipt for {inv} sent to marcus.weber@acme-corp.com'), { inv: result.invoice }) : fill(t('subs.invoiceSent', 'Invoice sent to {email}'), { email: 'marcus.weber@acme-corp.com' })) + '</p>';
   }
+  // Manage an active subscription in place: machines, billing, cancel / resume
+  var ownEdit = null, ownMsg = '', addPick = [];
+  function ownSub() { return L.get().subs[ids[0]]; }
   function renderOwned() {
-    var id = ids[0], st = L.get(), sub = st.subs[id], month = st.cycle === 'month';
-    function row(l, v) { return '<div class="payment-row"><span class="label">' + l + '</span><span class="value">' + v + '</span></div>'; }
+    var id = ids[0], st = L.get(), sub = ownSub(), month = st.cycle === 'month', div = month ? 10 : 1;
+    var perC = month ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year');
+    function row(l, v, act) { return '<div class="payment-row"><span class="label">' + l + '</span><span class="value">' + v + (act ? ' · <button type="button" class="link-btn" data-own="' + act[0] + '">' + act[1] + '</button>' : '') + '</span></div>'; }
+    var n = id === 'pm' ? sub.machines.length : 0;
+    var price = (id === 'pm' ? L.pmUnitPrice(n) * n : L.product(id).price) / div;
     title.textContent = pName(id);
-    body.innerHTML = '<div class="pd-img">' + art(id) + '</div><p class="pd-desc">' + pDesc(id) + '</p>' +
-      '<ul class="pd-feats">' + feats(id).map(function (f) { return '<li>' + CHECK + f + '</li>'; }).join('') + '</ul>' +
+    var html = (ownMsg ? '<p class="trial-note own-msg" role="status">' + CHECK_SM + ownMsg + '</p>' : '') +
+      '<div class="pd-img pd-img-sm">' + art(id) + '</div><p class="pd-desc">' + pDesc(id) + '</p>' +
       '<div class="trial-rows">' +
         row(t('cat.status', 'Status'), badge(id)) +
-        row(t('subs.coverage', 'Coverage'), id === 'pm' ? (sub.machines.length === 1 ? t('subs.oneMachine', '1 machine') : fill(t('subs.nMachines', '{n} machines'), { n: sub.machines.length })) : t('subs.allMachines', 'All machines')) +
-        row(t('cat.billing', 'Billing'), month ? t('cat.monthly', 'Monthly · recurring') : t('cat.yearly', 'Yearly · invoice')) +
+        row(t('subs.coverage', 'Coverage'), id === 'pm' ? (n === 1 ? t('subs.oneMachine', '1 machine') : fill(t('subs.nMachines', '{n} machines'), { n: n })) : t('subs.allMachines', 'All machines'), id === 'pm' && ownEdit !== 'machines' ? ['machines', t('subs.addMachines', 'Add machines')] : null) +
+        row(t('cat.billing', 'Billing'), month ? t('cat.monthly', 'Monthly · recurring') : t('cat.yearly', 'Yearly · invoice'), sub.autoRenew && ownEdit !== 'billing' ? ['billing', t('cat.change', 'Change')] : null) +
+        row(t('subs.price', 'Price'), L.money(price) + ' ' + perC) +
         row(sub.autoRenew ? t('subs.renewsOn', 'Renews on') : t('cat.endsOn', 'Ends on'), L.formatDate(sub.renewsOn)) +
       '</div>';
+    if (ownEdit === 'machines') {
+      html += '<section class="pd-section"><div class="pd-label-row"><span class="pd-label">' + t('subs.addMachines', 'Add machines') + '</span><button type="button" class="link-btn" data-own="close">' + t('common.cancel', 'Cancel') + '</button></div><div class="mp-list">' + fleet().map(function (m) {
+        var lic = sub.machines.indexOf(m.id) >= 0;
+        return '<label class="mp-row' + (lic ? ' is-licensed' : '') + '"><input type="checkbox" class="row-checkbox" data-add-machine="' + m.id + '"' + (lic || addPick.indexOf(m.id) >= 0 ? ' checked' : '') + (lic ? ' disabled' : '') + '>' +
+          '<img class="mp-thumb" src="../assets/' + (m.img || '') + '" alt=""><span class="mp-name">' + m.name + '</span>' +
+          (lic ? '<span class="status-badge status-active">' + t('subs.licensed', 'Licensed') + '</span>' : '') + '</label>';
+      }).join('') + '</div><p class="tier-hint">' + t('cat.addHint', 'New machines join this license and renew on the same date.') + '</p></section>';
+    }
+    if (ownEdit === 'billing') {
+      html += '<section class="pd-section"><div class="pd-label-row"><span class="pd-label">' + fill(t('cat.billingFrom', 'From {date}, pay'), { date: L.formatDate(sub.renewsOn) }) + '</span><button type="button" class="link-btn" data-own="close">' + t('common.cancel', 'Cancel') + '</button></div>' + ownPayOpts(month) + '</section>';
+    }
+    if (ownEdit === 'cancel') {
+      html += '<div class="cancel-confirm pd-section" role="alert"><p>' + fill(t('subs.cancelConfirm', 'Your license stays active until {date}. After that, data collection stops and IRIS Cloud access for this product ends.'), { date: L.formatDate(sub.renewsOn) }) + '</p>' +
+        '<div class="btn-group"><button type="button" class="btn btn-danger btn-sm" data-own="cancelYes">' + t('subs.cancelYes', 'Cancel at end of term') + '</button>' +
+        '<button type="button" class="btn btn-secondary btn-sm" data-own="close">' + t('subs.keep', 'Keep subscription') + '</button></div></div>';
+    }
+    body.innerHTML = html;
   }
+  function ownPayOpts(month) {
+    var id = ids[0], sub = ownSub(), n = id === 'pm' ? sub.machines.length : 0;
+    var yearly = id === 'pm' ? L.pmUnitPrice(n) * n : L.product(id).price;
+    function opt(val, name, desc, price, sub2) {
+      return '<label class="pay-opt"><input type="radio" name="ownCycle" value="' + val + '"' + ((val === 'month') === month ? ' checked' : '') + '><span class="radio-circle" aria-hidden="true"></span>' +
+        '<span class="pay-main"><span class="pay-name">' + name + '</span><span class="pay-desc">' + desc + '</span></span>' +
+        '<span class="pay-price">' + price + (sub2 ? '<small>' + sub2 + '</small>' : '') + '</span></label>';
+    }
+    return opt('month', t('cat.monthly', 'Monthly · recurring'), t('cat.monthlyDesc', 'Charged to card ending 4821 each month. Cancel anytime.'), L.money(yearly / 10) + ' ' + t('subs.perMonth', '/ month'), '') +
+      opt('year', t('cat.yearly', 'Yearly · invoice'), t('cat.yearlyDesc', 'One invoice a year, 30 days net.'), L.money(yearly) + ' ' + t('subs.perYear', '/ year'), t('subs.yearlyHint', '2 months free'));
+  }
+  function addQuote() { var sub = ownSub(); return L.quote({ pm: addPick, pmLicensed: sub.machines.length, cycle: L.get().cycle }); }
   function renderFoot() {
     var done = view === 'done' || view === 'owned';
     document.getElementById('pdIris').hidden = !done;
     document.getElementById('pdIris').href = L.IRIS_URL;
     var pr = document.getElementById('pdPrimary');
-    pr.textContent = view === 'owned' ? t('cat.manage', 'Manage subscription') : done ? t('subs.done', 'Done') : t('subs.subscribe', 'Subscribe');
+    pr.textContent = done ? t('subs.done', 'Done') : t('subs.subscribe', 'Subscribe');
     var tot = document.getElementById('pdTotal');
+    if (view === 'owned') {
+      var sub = ownSub(), per2 = L.get().cycle === 'month' ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year');
+      if (ownEdit === 'machines') {
+        pr.textContent = !addPick.length ? t('subs.addMachines', 'Add machines') : addPick.length === 1 ? t('cat.addOne', 'Add 1 machine') : fill(t('cat.addN', 'Add {n} machines'), { n: addPick.length });
+        tot.innerHTML = addPick.length ? '<strong>+' + L.money(addQuote().total) + '</strong>' + per2 : '';
+        document.getElementById('pdIris').hidden = true;
+      } else {
+        pr.textContent = t('subs.done', 'Done');
+        tot.innerHTML = ownEdit === 'cancel' ? '' : sub.autoRenew
+          ? '<button type="button" class="btn btn-ghost btn-md own-cancel" data-own="cancel">' + t('subs.cancel', 'Cancel subscription') + '</button>'
+          : '<button type="button" class="btn btn-ghost btn-md" data-own="resume">' + t('cat.resume', 'Resume subscription') + '</button>';
+      }
+      return;
+    }
     if (done || pmShort()) { tot.innerHTML = ''; return; }
     var qq = q(cycle);
     tot.innerHTML = '<strong>' + L.money(qq.total) + '</strong>' + (cycle === 'month' ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year'));
@@ -2119,8 +2180,43 @@ document.addEventListener('click', function(e) {
     if (el.id === 'pdTerms' && el.checked) { document.getElementById('pdTermsErr').classList.remove('visible'); el.removeAttribute('aria-invalid'); }
   });
   body.addEventListener('click', function (e) { if (e.target.closest('.terms-text a')) e.preventDefault(); });
+  function onOwn(e) {
+    var b = e.target.closest('[data-own]'); if (!b) return;
+    var act = b.getAttribute('data-own'), id = ids[0];
+    ownMsg = '';
+    if (act === 'machines' || act === 'billing' || act === 'cancel') ownEdit = act;
+    else if (act === 'close') { ownEdit = null; addPick = []; }
+    else if (act === 'cancelYes') { L.cancel(id); ownEdit = null; ownMsg = fill(t('cat.cancelled', 'Cancelled · active until {date}'), { date: L.formatDate(ownSub().renewsOn) }); }
+    else if (act === 'resume') { L.setAutoRenew(id, true); ownMsg = t('cat.resumed', 'Subscription resumed · it renews automatically'); }
+    render(); renderGrid();
+    var focus = body.querySelector('.pd-section input:not(:disabled), .pd-section button') || title;
+    focus.focus();
+  }
+  body.addEventListener('click', onOwn);
+  document.getElementById('pdTotal').addEventListener('click', onOwn);
+  body.addEventListener('change', function (e) {
+    var el = e.target;
+    if (el.hasAttribute('data-add-machine')) {
+      var m = el.getAttribute('data-add-machine'), i = addPick.indexOf(m);
+      if (el.checked && i < 0) addPick.push(m); if (!el.checked && i >= 0) addPick.splice(i, 1);
+      renderFoot(); return;
+    }
+    if (el.name === 'ownCycle') {
+      L.setCycle(el.value); ownEdit = null;
+      ownMsg = fill(t('cat.billingChanged', 'From {date} you pay {how}'), { date: L.formatDate(ownSub().renewsOn), how: el.value === 'month' ? t('cat.monthlyShort', 'monthly by card') : t('cat.yearlyShort', 'yearly by invoice') });
+      render(); renderGrid(); title.focus();
+    }
+  });
   document.getElementById('pdPrimary').addEventListener('click', function () {
-    if (view === 'owned') { location.href = 'subscriptions.html'; return; }
+    if (view === 'owned') {
+      if (ownEdit === 'machines') {
+        if (!addPick.length) return;
+        var r = L.applyPlan({ pm: addPick.slice(), pmLicensed: ownSub().machines.length, cycle: L.get().cycle });
+        ownMsg = fill(addPick.length === 1 ? t('cat.addedOne', '1 machine added · invoice {inv} sent') : t('cat.addedN', '{n} machines added · invoice {inv} sent'), { n: addPick.length, inv: r.invoice });
+        ownEdit = null; addPick = []; render(); renderGrid(); return;
+      }
+      close(); return;
+    }
     if (view === 'done') { close(); return; }
     if (pmShort()) { var h = document.getElementById('pdHint'); h.textContent = t('subs.pickOneMachine', 'Select at least one machine.'); h.classList.add('is-error'); h.scrollIntoView({ block: 'nearest' }); return; }
     var terms = document.getElementById('pdTerms');

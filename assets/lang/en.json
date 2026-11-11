@@ -1392,5 +1392,18 @@
   "cat.yourPlan": "Your subscription",
   "cat.status": "Status",
   "cat.endsOn": "Ends on",
-  "cat.manage": "Manage subscription"
+  "cat.manage": "Manage subscription",
+  "cat.change": "Change",
+  "cat.addHint": "New machines join this license and renew on the same date.",
+  "cat.billingFrom": "From {date}, pay",
+  "cat.addOne": "Add 1 machine",
+  "cat.addN": "Add {n} machines",
+  "cat.resume": "Resume subscription",
+  "cat.addedOne": "1 machine added · invoice {inv} sent",
+  "cat.addedN": "{n} machines added · invoice {inv} sent",
+  "cat.cancelled": "Cancelled · active until {date}",
+  "cat.resumed": "Subscription resumed · it renews automatically",
+  "cat.billingChanged": "From {date} you pay {how}",
+  "cat.monthlyShort": "monthly by card",
+  "cat.yearlyShort": "yearly by invoice"
 }

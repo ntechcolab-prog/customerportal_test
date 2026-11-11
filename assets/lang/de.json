@@ -1392,5 +1392,18 @@
   "cat.yourPlan": "Ihr Abonnement",
   "cat.status": "Status",
   "cat.endsOn": "Endet am",
-  "cat.manage": "Abo verwalten"
+  "cat.manage": "Abo verwalten",
+  "cat.change": "Ändern",
+  "cat.addHint": "Neue Maschinen kommen zu dieser Lizenz und verlängern sich am selben Datum.",
+  "cat.billingFrom": "Ab {date} zahlen",
+  "cat.addOne": "1 Maschine hinzufügen",
+  "cat.addN": "{n} Maschinen hinzufügen",
+  "cat.resume": "Abo fortsetzen",
+  "cat.addedOne": "1 Maschine hinzugefügt · Rechnung {inv} gesendet",
+  "cat.addedN": "{n} Maschinen hinzugefügt · Rechnung {inv} gesendet",
+  "cat.cancelled": "Gekündigt · aktiv bis {date}",
+  "cat.resumed": "Abo fortgesetzt · verlängert sich automatisch",
+  "cat.billingChanged": "Ab {date} zahlen Sie {how}",
+  "cat.monthlyShort": "monatlich per Karte",
+  "cat.yearlyShort": "jährlich per Rechnung"
 }
