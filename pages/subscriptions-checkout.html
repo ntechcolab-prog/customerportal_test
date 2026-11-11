@@ -1291,9 +1291,8 @@
     .co-card-title { font-size: 15px; font-weight: 600; color: #1d1d1f; margin-bottom: 4px; }
     .co-card-desc { font-size: 13px; color: #4b5563; margin-bottom: 14px; }
 
-    /* Toolbar: bundle hint + billing cycle */
-    .plans-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin: 8px 0 16px; }
-    .bundle-hint { font-size: 14px; color: #4b5563; margin: 0; }
+    /* Toolbar: billing cycle */
+    .plans-toolbar { display: flex; justify-content: flex-end; margin: 8px 0 16px; }
     .cycle-group { display: inline-flex; background: #f3f4f6; border-radius: 10px; padding: 4px; gap: 4px; border: none; }
     .cycle-opt { position: relative; }
     .cycle-opt input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
@@ -1307,43 +1306,44 @@
     .plan-col { display: flex; flex-direction: column; padding: 24px; border-left: 1px solid #e5e7eb; transition: background .2s ease; }
     .plan-col:first-child { border-left: none; }
     .plan-col.is-on { background: #f7fbfa; box-shadow: inset 0 3px 0 #007167; }
-    .plan-name { font-size: 18px; font-weight: 700; color: #1f2937; letter-spacing: -.2px; }
+    .plan-name { font-size: 17px; font-weight: 700; color: #1f2937; letter-spacing: -.2px; }
     .plan-desc { font-size: 13px; color: #4b5563; line-height: 1.5; margin-top: 4px; min-height: 40px; }
-    .price-rows { list-style: none; margin: 20px 0 16px; min-height: 126px; }
-    .price-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0; border-top: 1px solid #f0f1f2; font-size: 13px; color: #4b5563; }
-    .price-row:first-child { border-top: none; padding-top: 0; }
-    .price-row strong { font-size: 20px; font-weight: 700; color: #1f2937; letter-spacing: -.3px; font-variant-numeric: tabular-nums; }
-    .price-row strong small { font-size: 12px; font-weight: 500; color: #4b5563; letter-spacing: 0; }
-    .price-row.is-current { color: #00544c; font-weight: 600; }
-    .price-row.is-current strong { color: #007167; }
-    .plan-cta .btn { width: 100%; justify-content: center; }
+    .plan-price { margin-top: 20px; font-size: 13px; color: #4b5563; }
+    .plan-price strong { font-size: 28px; font-weight: 700; color: #1f2937; letter-spacing: -.6px; font-variant-numeric: tabular-nums; }
+    .plan-sub { font-size: 13px; color: #4b5563; margin-top: 4px; min-height: 44px; display: flex; align-items: center; }
+    .plan-cta { margin-top: auto; padding-top: 16px; min-height: 86px; display: flex; flex-direction: column; }
+    .plan-cta .btn { width: 100%; justify-content: center; gap: 6px; }
     .plan-cta .btn[disabled] { opacity: 1; background: #f3f4f6; border-color: #f3f4f6; color: #4b5563; cursor: default; }
     .plan-note { font-size: 12px; color: #4b5563; text-align: center; margin-top: 8px; }
-    .plan-note a { color: #007167; font-weight: 600; }
-    .plan-feats { list-style: none; border-top: 1px solid #e5e7eb; margin-top: 20px; padding-top: 20px; display: flex; flex-direction: column; gap: 10px; }
-    .plan-feats li { display: flex; gap: 10px; font-size: 13px; color: #1f2937; line-height: 1.45; }
-    .plan-feats svg { width: 16px; height: 16px; color: #007167; flex-shrink: 0; margin-top: 1px; }
+    .link-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; padding: 0; min-height: 44px; margin-top: 4px; color: #007167; font: 600 13px Inter, sans-serif; cursor: pointer; }
+    .link-btn:hover { text-decoration: underline; }
+    .link-btn:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 4px; }
 
-    /* Machine picker (Production Monitoring column) */
-    .machine-picker { margin-top: 12px; }
-    .mp-label { font-size: 12px; font-weight: 600; color: #4b5563; margin-bottom: 6px; }
-    .mp-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-    .mp-item { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 10px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; cursor: pointer; font-size: 13px; color: #1f2937; }
+    /* Machine modal */
+    #mpModal .modal-box { width: min(520px, calc(100vw - 32px)); }
+    .mp-label { font-size: 13px; font-weight: 600; color: #1f2937; margin-bottom: 8px; }
+    .price-rows { list-style: none; margin-bottom: 20px; background: #fafbfc; border: 1px solid #f0f1f2; border-radius: 10px; padding: 4px 14px; }
+    .price-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 8px 0; border-top: 1px solid #f0f1f2; font-size: 13px; color: #4b5563; }
+    .price-row:first-child { border-top: none; }
+    .price-row strong { font-size: 15px; font-weight: 700; color: #1f2937; font-variant-numeric: tabular-nums; }
+    .price-row strong small { font-size: 12px; font-weight: 500; color: #4b5563; }
+    .price-row.is-current, .price-row.is-current strong { color: #007167; font-weight: 700; }
+    .mp-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .mp-item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; cursor: pointer; font-size: 14px; color: #1f2937; }
+    .mp-item small { font-size: 12px; color: #4b5563; margin-left: 4px; }
     .mp-item:has(input:checked) { background: #f0faf9; border-color: #b9dfdb; }
-    .mp-item:has(input:disabled) { color: #4b5563; cursor: default; }
-    .mp-item input { width: 16px; height: 16px; accent-color: #007167; }
+    .mp-item:has(input:disabled) { cursor: default; }
+    .mp-item input { width: 18px; height: 18px; accent-color: #007167; }
     .mp-item input:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
-    .tier-hint { margin-top: 8px; font-size: 12px; color: #00544c; }
+    .tier-hint { margin-top: 10px; font-size: 13px; color: #00544c; }
 
-    /* Bottom bar: selection + total + continue */
+    /* Bottom bar: total + continue */
     .co-bar { position: sticky; bottom: 16px; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding: 16px 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; box-shadow: 0 8px 24px rgba(16,24,40,.08); }
-    .co-bar[hidden] { display: none; }
-    .co-bar-sel { font-size: 14px; font-weight: 600; color: #1f2937; }
-    .co-bar-save { display: block; font-size: 13px; font-weight: 500; color: #00544c; margin-top: 2px; }
-    .co-bar-right { display: flex; align-items: center; gap: 20px; }
-    .co-bar-total { text-align: right; }
-    .co-bar-total strong { display: block; font-size: 24px; font-weight: 700; color: #1f2937; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
-    .co-bar-total span { font-size: 12px; color: #4b5563; }
+    .co-bar[hidden], .co-bar-hint[hidden] { display: none; }
+    .co-bar-total { font-size: 14px; color: #4b5563; }
+    .co-bar-total strong { font-size: 24px; font-weight: 700; color: #1f2937; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
+    .co-bar-save { color: #00544c; font-weight: 600; }
+    .co-bar-hint { font-size: 13px; color: #4b5563; margin-top: 2px; }
 
     /* Summary */
     .co-summary { position: sticky; top: 16px; }
@@ -1394,12 +1394,11 @@
       .plan-col:nth-child(n+3) { border-top: 1px solid #e5e7eb; }
     }
     @media (max-width: 600px) {
-      .price-rows { min-height: 0; }
       .plans { grid-template-columns: 1fr; }
       .plan-col { border-left: none; }
       .plan-col + .plan-col { border-top: 1px solid #e5e7eb; }
       .co-bar { padding: 14px 16px; }
-      .co-bar-right { width: 100%; justify-content: space-between; }
+      .co-bar .btn { width: 100%; }
       .done-meta { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -1661,7 +1660,6 @@
     <!-- STEP 1 · CHOOSE PLAN -->
     <div data-step="1">
       <div class="plans-toolbar">
-        <p class="bundle-hint" id="bundleHint" role="status" aria-live="polite"></p>
         <fieldset class="cycle-group">
           <legend class="visually-hidden" data-i18n="subs.billingCycle">Billing cycle</legend>
           <div class="cycle-opt"><input type="radio" name="cycle" id="cycYear" value="year" checked><label for="cycYear"><span data-i18n="subs.yearly">Yearly</span> <small data-i18n="subs.yearlyHint">2 months free</small></label></div>
@@ -1675,10 +1673,24 @@
       </section>
 
       <div class="co-bar">
-        <div id="barSel" aria-live="polite"></div>
-        <div class="co-bar-right">
-          <div class="co-bar-total" id="barTotal"></div>
-          <button class="btn btn-primary btn-md" id="toReview" data-i18n="subs.continue">Continue</button>
+        <div>
+          <p id="barTotal" aria-live="polite"></p>
+          <p class="co-bar-hint" id="barHint"></p>
+        </div>
+        <button class="btn btn-primary btn-md" id="toReview" data-i18n="subs.continue">Continue</button>
+      </div>
+    </div>
+
+    <!-- MACHINE PICKER MODAL (Production Monitoring) -->
+    <div class="modal-overlay" id="mpModal">
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mpTitle">
+        <div class="modal-header">
+          <h2 class="modal-title" id="mpTitle" data-i18n="subs.mpTitle">Production Monitoring machines</h2>
+          <button class="modal-close" id="mpClose" aria-label="Close" data-i18n-aria-label="common.close">&#x2715;</button>
+        </div>
+        <div class="modal-body" id="mpBody"></div>
+        <div class="modal-actions">
+          <button class="btn btn-primary btn-md" id="mpDone" data-i18n="subs.done">Done</button>
         </div>
       </div>
     </div>
@@ -1801,100 +1813,112 @@ document.addEventListener('click', function(e) {
     document.title = title + ' — NETZSCH Customer Portal';
   }
 
-  /* Step 1 — plans (one column per product) */
-  var FEATURES = {
-    pm: ['One license per machine', 'Real-time output, uptime and alerts', 'Lower price per machine as you add more'],
-    pt: ['Covers all your machines', 'Fleet KPIs and trends', 'Compare lines and shifts'],
-    bw: ['Covers all your machines', 'Grinding media wear alerts', 'Plan bead refills before quality drops'],
-    mt: ['Covers all your machines', 'Plan, log and schedule maintenance', 'Service history per machine']
-  };
-  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+  /* Step 1 — plans: one column per product, one price each */
+  var CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+  var PEN = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
 
   function machinesLabel(n) { return n === 1 ? t('subs.oneMachine', '1 machine') : fill(t('subs.nMachines', '{n} machines'), { n: n }); }
-
-  // Production Monitoring: one price row per volume tier, the tier you'd pay is highlighted
-  function tierRows() {
-    var count = plan.pm.length + licensed.length;
-    return L.PM_TIERS.map(function (tr, i) {
-      var next = L.PM_TIERS[i + 1];
-      var label = !next ? fill(t('subs.plusMachines', '{n}+ machines'), { n: tr.min })
-        : next.min - tr.min === 1 ? machinesLabel(tr.min)
-        : fill(t('subs.rangeMachines', '{a}–{b} machines'), { a: tr.min, b: next.min - 1 });
-      var cur = count > 0 && count >= tr.min && (!next || count < next.min);
-      return '<li class="price-row' + (cur ? ' is-current' : '') + '"><span>' + label + '</span>' +
-        '<strong>' + L.money(tr.price / div()) + ' <small>' + t('subs.perMachineUnit', '/ machine') + '</small></strong></li>';
-    }).join('');
-  }
-
-  function machinePicker() {
-    var items = fleet().map(function (m) {
-      var isLicensed = licensed.indexOf(m.id) >= 0;
-      var checked = isLicensed || plan.pm.indexOf(m.id) >= 0;
-      return '<label class="mp-item"><input type="checkbox" data-machine="' + m.id + '"' + (checked ? ' checked' : '') + (isLicensed ? ' disabled' : '') + '>' +
-        '<span>' + m.name + (isLicensed ? ' <span class="visually-hidden">(' + t('subs.licensed', 'Licensed') + ')</span>' : '') + '</span></label>';
-    }).join('');
-    var total = plan.pm.length + licensed.length;
-    var next = null;
-    L.PM_TIERS.forEach(function (tr) { if (!next && tr.min > total) next = tr; });
-    var hint = total === 0 ? t('subs.tierStart', 'Select the machines you want to monitor.')
-      : next ? fill(plural(next.min - total, t('subs.tierNextOne', 'Add 1 more machine to pay {price} per machine.'), t('subs.tierNext', 'Add {n} more machines to pay {price} per machine.')), { n: next.min - total, price: L.money(next.price / div()) })
-      : t('subs.tierBest', 'You get the best price per machine.');
-    return '<div class="machine-picker">' +
-      '<p class="mp-label" id="mpLabel">' + t('subs.machines', 'Machines') + '</p>' +
-      '<div class="mp-list" role="group" aria-labelledby="mpLabel">' + items + '</div>' +
-      '<p class="tier-hint">' + hint + '</p>' +
-    '</div>';
-  }
+  function pmCount() { return plan.pm.length + licensed.length; }
 
   function ctaHtml(p, on) {
     var st = L.statusOf(p.id);
     var sub = state.subs[p.id];
     var isCurrent = st === 'active' && !(mode === 'renew' && focusProduct === p.id);
     if (mode === 'add') return '';
-    if (isCurrent && p.id === 'pm') {
-      return '<a class="btn btn-secondary btn-md" href="subscriptions-checkout.html?mode=add&product=pm">' + t('subs.addMachines', 'Add machines') + '</a>' +
-        '<p class="plan-note">' + t('subs.currentPlan', 'Current plan') + ' · ' + machinesLabel(sub.machines.length) + '</p>';
-    }
-    if (isCurrent) return '<button class="btn btn-secondary btn-md" disabled>' + t('subs.currentPlan', 'Current plan') + '</button>';
+    if (isCurrent && p.id === 'pm') return '<a class="btn btn-secondary btn-md" href="subscriptions-checkout.html?mode=add&product=pm">' + t('subs.addMachines', 'Add machines') + '</a>';
+    if (isCurrent) return '<button class="btn btn-secondary btn-md" disabled>' + t('status.active', 'Active') + '</button>';
     var note = st === 'expired' ? t('subs.expiredOn', 'Expired on') + ' ' + L.formatDate(sub.renewsOn)
       : st === 'expiring' ? t('subs.expiresOn', 'Expires on') + ' ' + L.formatDate(sub.renewsOn) : '';
     return '<button type="button" class="btn ' + (on ? 'btn-primary' : 'btn-secondary') + ' btn-md" data-select="' + p.id + '" aria-pressed="' + !!on + '" aria-label="' + (on ? t('subs.selected', 'Selected') : t('subs.select', 'Select')) + ': ' + productName(p.id) + '">' +
-      (on ? CHECK.replace('<svg ', '<svg width="16" height="16" ') + ' ' + t('subs.selected', 'Selected') : t('subs.select', 'Select')) + '</button>' +
+      (on ? CHECK + ' ' + t('subs.selected', 'Selected') : t('subs.select', 'Select')) + '</button>' +
       (note ? '<p class="plan-note">' + note + '</p>' : '');
+  }
+
+  function priceBlock(p, on) {
+    if (p.model !== 'machine') {
+      return '<p class="plan-price"><strong>' + L.money(p.price / div()) + '</strong> <span>' + per() + '</span></p>' +
+        '<p class="plan-sub">' + t('subs.allMachines', 'All machines') + '</p>';
+    }
+    var n = pmCount();
+    var best = L.PM_TIERS[L.PM_TIERS.length - 1];
+    var sub = (on || mode === 'add') && n
+      ? '<button type="button" class="link-btn" data-machines>' + machinesLabel(n) + ' ' + PEN + '</button>'
+      : '<p class="plan-sub">' + fill(t('subs.fromBest', 'From {price} with {n}+ machines'), { price: L.money(best.price / div()), n: best.min }) + '</p>';
+    return '<p class="plan-price"><strong>' + L.money(L.pmUnitPrice(Math.max(1, n)) / div()) + '</strong> <span>' + t('subs.perMachine', 'per machine') + ' ' + per() + '</span></p>' + sub;
   }
 
   function renderProducts() {
     var list = L.PRODUCTS.filter(function (p) { return mode !== 'add' || p.id === 'pm'; });
     var html = list.map(function (p) {
       var on = p.id === 'pm' ? pmOpen : plan[p.id];
-      var rows = p.model === 'machine' ? tierRows()
-        : '<li class="price-row"><span>' + t('subs.allMachines', 'All machines') + '</span><strong>' + L.money(p.price / div()) + ' <small>' + per() + '</small></strong></li>';
-      var feats = FEATURES[p.id].map(function (f, i) { return '<li>' + CHECK + '<span>' + t('subs.f.' + p.id + '.' + i, f) + '</span></li>'; }).join('');
       return '<article class="plan-col' + (on ? ' is-on' : '') + '" aria-labelledby="po-' + p.id + '">' +
         '<h3 class="plan-name" id="po-' + p.id + '">' + productName(p.id) + '</h3>' +
         '<p class="plan-desc">' + t('subs.d.' + p.id, L.product(p.id).desc) + '</p>' +
-        '<ul class="price-rows">' + rows + '</ul>' +
-        '<div class="plan-cta">' + ctaHtml(p, on) + '</div>' +
-        (p.id === 'pm' && (on || mode === 'add') ? machinePicker() : '') +
-        '<ul class="plan-feats">' + feats + '</ul>' +
+        priceBlock(p, on) +
+        (mode === 'add' ? '<div class="plan-cta"><button type="button" class="btn btn-primary btn-md" data-machines>' + t('subs.chooseMachines', 'Choose machines') + '</button></div>'
+          : '<div class="plan-cta">' + ctaHtml(p, on) + '</div>') +
       '</article>';
     }).join('');
     var el = document.getElementById('prodList');
     el.style.setProperty('--cols', list.length);
-    el.style.maxWidth = list.length === 1 ? '480px' : '';
-    document.querySelector('.co-bar').style.maxWidth = list.length === 1 ? '480px' : '';
+    el.style.maxWidth = list.length === 1 ? '420px' : '';
+    document.querySelector('.co-bar').style.maxWidth = list.length === 1 ? '420px' : '';
     el.innerHTML = html;
+    if (mpOpen) renderMachineModal();
   }
 
-  function renderBundleHint() {
-    var n = currentQuote().productCount;
-    var el = document.getElementById('bundleHint');
-    if (mode === 'add') { el.hidden = true; return; }
-    el.hidden = false;
+  /* Machine modal (Production Monitoring) */
+  var mpOpen = false, mpTrigger = null;
+  function renderMachineModal() {
+    var count = pmCount();
+    var tiers = L.PM_TIERS.map(function (tr, i) {
+      var next = L.PM_TIERS[i + 1];
+      var label = !next ? fill(t('subs.plusMachines', '{n}+ machines'), { n: tr.min })
+        : next.min - tr.min === 1 ? machinesLabel(tr.min)
+        : fill(t('subs.rangeMachines', '{a}–{b} machines'), { a: tr.min, b: next.min - 1 });
+      var cur = count > 0 && count >= tr.min && (!next || count < next.min);
+      return '<li class="price-row' + (cur ? ' is-current' : '') + '"><span>' + label + '</span><strong>' + L.money(tr.price / div()) + ' <small>' + t('subs.perMachineUnit', '/ machine') + '</small></strong></li>';
+    }).join('');
+    var items = fleet().map(function (m) {
+      var isLicensed = licensed.indexOf(m.id) >= 0;
+      var checked = isLicensed || plan.pm.indexOf(m.id) >= 0;
+      return '<label class="mp-item"><input type="checkbox" data-machine="' + m.id + '"' + (checked ? ' checked' : '') + (isLicensed ? ' disabled' : '') + '>' +
+        '<span>' + m.name + (isLicensed ? ' <small>' + t('subs.licensed', 'Licensed') + '</small>' : '') + '</span></label>';
+    }).join('');
+    var next = null;
+    L.PM_TIERS.forEach(function (tr) { if (!next && tr.min > count) next = tr; });
+    var hint = count === 0 ? t('subs.tierStart', 'Select the machines you want to monitor.')
+      : next ? fill(plural(next.min - count, t('subs.tierNextOne', 'Add 1 more machine to pay {price} per machine.'), t('subs.tierNext', 'Add {n} more machines to pay {price} per machine.')), { n: next.min - count, price: L.money(next.price / div()) })
+      : t('subs.tierBest', 'You get the best price per machine.');
+    document.getElementById('mpBody').innerHTML =
+      '<p class="mp-label">' + t('subs.volumePricing', 'The more machines, the lower the price per machine') + '</p>' +
+      '<ul class="price-rows">' + tiers + '</ul>' +
+      '<p class="mp-label" id="mpLabel">' + t('subs.machines', 'Machines') + '</p>' +
+      '<div class="mp-list" role="group" aria-labelledby="mpLabel">' + items + '</div>' +
+      '<p class="tier-hint" aria-live="polite">' + hint + '</p>';
+  }
+  function openMachines(trigger) {
+    mpTrigger = trigger; mpOpen = true; pmOpen = true;
+    renderMachineModal();
+    document.getElementById('mpModal').classList.add('open');
+    var first = document.querySelector('#mpBody input:not([disabled])');
+    (first || document.getElementById('mpDone')).focus();
+  }
+  function closeMachines() {
+    mpOpen = false;
+    document.getElementById('mpModal').classList.remove('open');
+    if (mode !== 'add' && !plan.pm.length) pmOpen = false;
+    render();
+    var back = document.querySelector(mpTrigger && mpTrigger.hasAttribute('data-select') ? '[data-select="pm"]' : '[data-machines]');
+    if (back) back.focus();
+  }
+
+  // Bundle nudge, shown in the bottom bar
+  function bundleHint(n) {
+    if (mode === 'add') return '';
     var nextRate = L.BUNDLE[Math.max(2, n + 1)];
-    el.textContent = !nextRate
-      ? fill(t('subs.bundleMax', 'You get the maximum bundle discount: {pct}% on the whole plan.'), { pct: Math.round(L.BUNDLE[n] * 100) })
-      : n === 0 ? t('subs.bundle0', 'Combine 2 or more products to get a bundle discount of up to 20%.')
+    if (!nextRate) return '';
+    return n === 0 ? t('subs.bundle0', 'Combine 2 or more products to get a bundle discount of up to 20%.')
       : fill(t('subs.bundleNext', 'Add 1 more product to save {pct}% on the whole plan.'), { pct: Math.round(nextRate * 100) });
   }
 
@@ -1920,14 +1944,13 @@ document.addEventListener('click', function(e) {
     var q = currentQuote();
     var n = q.lines.length;
     var save = q.volumeDiscount + q.bundleDiscount;
-    document.getElementById('barSel').innerHTML =
-      '<span class="co-bar-sel">' + (n ? (mode === 'add' ? fill(plural(plan.pm.length, t('subs.newMachinesOne', '1 new machine'), t('subs.newMachines', '{n} new machines')), { n: plan.pm.length }) : n === 1 ? t('subs.selOne', '1 product selected') : fill(t('subs.selN', '{n} products selected'), { n: n }))
-        : mode === 'add' ? t('subs.addEmpty', 'Select the machines you want to add.') : t('subs.sumEmpty', 'Select at least one product to see your price.')) + '</span>' +
-      (save ? '<span class="co-bar-save">' + fill(t('subs.youSaveAmt', 'You save {amount}'), { amount: L.money(save) }) +
-        (q.bundleRate ? ' · ' + fill(t('subs.bundlePct', '{pct}% bundle discount'), { pct: Math.round(q.bundleRate * 100) }) : '') + '</span>' : '');
+    var unit = mode === 'add' ? t('subs.sumAddShort', 'Excl. VAT · same renewal date') : per();
     document.getElementById('barTotal').innerHTML = n
-      ? '<strong>' + L.money(q.total) + '</strong><span>' + (mode === 'add' ? t('subs.sumAddShort', 'Excl. VAT · same renewal date') : plan.cycle === 'year' ? t('subs.sumYearShort', 'Per year, excl. VAT.') : t('subs.sumMonthShort', 'Per month, excl. VAT.')) + '</span>'
-      : '';
+      ? '<span class="co-bar-total"><strong>' + L.money(q.total) + '</strong> ' + unit + (save ? ' · <span class="co-bar-save">' + fill(t('subs.youSaveAmt', 'You save {amount}'), { amount: L.money(save) }) + '</span>' : '') + '</span>'
+      : '<span class="co-bar-total">' + (mode === 'add' ? t('subs.addEmpty', 'Select the machines you want to add.') : t('subs.sumEmpty', 'Select at least one product to see your price.')) + '</span>';
+    var hint = bundleHint(n);
+    document.getElementById('barHint').textContent = hint;
+    document.getElementById('barHint').hidden = !hint;
     document.getElementById('sumBody2').innerHTML = summaryHtml(q);
     // Nothing to buy (every product is already current) → no checkout bar
     document.querySelector('.co-bar').hidden = mode !== 'add' && !n && !document.querySelector('[data-select]');
@@ -1961,7 +1984,7 @@ document.addEventListener('click', function(e) {
 
   function render() {
     titles();
-    if (step === 1) { renderProducts(); renderBundleHint(); }
+    if (step === 1) renderProducts();
     renderSummary();
     if (step === 2) renderReview();
     if (step === 3) renderDone();
@@ -1979,6 +2002,7 @@ document.addEventListener('click', function(e) {
     var id = b.getAttribute('data-select');
     var on = b.getAttribute('aria-pressed') !== 'true';
     if (id === 'pm') {
+      if (on && !plan.pm.length) { openMachines(b); return; }
       pmOpen = on;
       if (!on) plan.pm = [];
     } else plan[id] = on;
@@ -2007,9 +2031,28 @@ document.addEventListener('click', function(e) {
     if (back) back.focus();
   });
 
+  document.getElementById('prodList').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-machines]');
+    if (b) openMachines(b);
+  });
+  document.getElementById('mpBody').addEventListener('change', function (e) {
+    var el = e.target;
+    if (!el.hasAttribute('data-machine')) return;
+    var m = el.getAttribute('data-machine');
+    if (el.checked) { if (plan.pm.indexOf(m) < 0) plan.pm.push(m); }
+    else plan.pm = plan.pm.filter(function (x) { return x !== m; });
+    render();
+    var back = document.querySelector('#mpBody [data-machine="' + m + '"]');
+    if (back) back.focus();
+  });
+  document.getElementById('mpDone').addEventListener('click', closeMachines);
+  document.getElementById('mpClose').addEventListener('click', closeMachines);
+  document.getElementById('mpModal').addEventListener('click', function (e) { if (e.target === this) closeMachines(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && mpOpen) closeMachines(); });
+
   document.getElementById('toReview').addEventListener('click', function () {
     if (!currentQuote().lines.length) {
-      document.getElementById('barSel').setAttribute('role', 'alert');
+      document.getElementById('barTotal').setAttribute('role', 'alert');
       return;
     }
     goTo(2);

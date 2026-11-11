@@ -1296,5 +1296,9 @@
   "subs.sumAddShort": "Excl. VAT · same renewal date",
   "subs.newMachinesOne": "1 new machine",
   "subs.newMachines": "{n} new machines",
-  "subs.addEmpty": "Select the machines you want to add."
+  "subs.addEmpty": "Select the machines you want to add.",
+  "subs.fromBest": "From {price} with {n}+ machines",
+  "subs.chooseMachines": "Choose machines",
+  "subs.volumePricing": "The more machines, the lower the price per machine",
+  "subs.mpTitle": "Production Monitoring machines"
 }
