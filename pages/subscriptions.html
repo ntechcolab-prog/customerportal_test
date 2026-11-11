@@ -1396,19 +1396,12 @@
     .review-list li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #1d1d1f; }
     .review-list li small { display: block; font-size: 12px; color: #4b5563; margin-top: 2px; }
 
-    .done-icon { width: 56px; height: 56px; border-radius: 50%; background: #f0faf9; color: #007167; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
-    .done-icon svg { width: 28px; height: 28px; }
-    .done-title { font-size: 22px; font-weight: 700; color: #1d1d1f; }
-    .done-desc { font-size: 14px; color: #4b5563; margin: 8px 0 20px; }
-    .done-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: left; background: #fafafa; border-radius: 10px; padding: 16px; margin-bottom: 24px; }
-    .done-meta div { font-size: 12px; color: #4b5563; }
-    .done-meta strong { display: block; font-size: 14px; color: #1d1d1f; margin-top: 2px; }
 
     /* ── Plans modal (CP-732) ─── */
     .pm-box { width: min(1080px, calc(100vw - 32px)); max-height: calc(100vh - 48px); display: flex; flex-direction: column; overflow: hidden; }
     .pm-box[data-view="machines"] { width: min(720px, calc(100vw - 32px)); }
     .pm-box[data-view="review"] { width: min(1000px, calc(100vw - 32px)); }
-    .pm-box[data-view="done"] { width: min(560px, calc(100vw - 32px)); }
+    .pm-box[data-view="done"] { width: min(520px, calc(100vw - 32px)); }
     .pm-header { align-items: center; gap: 16px; flex-wrap: wrap; }
     .pm-header .modal-title { margin: 0; }
     .pm-head-left, .pm-head-right { display: flex; align-items: center; gap: 12px; }
@@ -1423,11 +1416,6 @@
     .mp-side .tier-hint { margin-top: 12px; line-height: 1.45; }
     .pm-review { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: start; }
     .pm-sum { margin-top: 16px; }
-    .done-card { text-align: center; padding: 8px 0 4px; }
-    .done-desc { font-size: 14px; color: #4b5563; margin: 0 0 20px; }
-    .done-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: left; background: #fafafa; border-radius: 10px; padding: 16px; }
-    .done-meta div { font-size: 12px; color: #4b5563; }
-    .done-meta strong { display: block; font-size: 14px; color: #1d1d1f; margin-top: 2px; }
 
     @media (max-width: 1000px) {
     }
@@ -1437,7 +1425,6 @@
     @media (max-width: 600px) {
       .pm-box { max-height: calc(100vh - 16px); }
       .pm-foot .btn-group, .pm-foot .btn { width: 100%; }
-      .done-meta { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) { .plan-col { transition: none; } }
     /* Review: billing cycle + one bundle suggestion */
@@ -1518,6 +1505,10 @@
     /* Free trial */
     .v2-info .link-btn { margin-top: 2px; min-height: 32px; }
     .pm-box[data-view="trial"] { width: min(520px, calc(100vw - 32px)); }
+    .done-lead { display: flex; align-items: center; gap: 12px; margin: -4px 0 20px; }
+    .done-lead p { font-size: 14px; color: #4b5563; margin: 0; }
+    .done-icon { flex: none; width: 32px; height: 32px; border-radius: 50%; background: #e6f4f3; color: #007167; display: flex; align-items: center; justify-content: center; }
+    .done-icon svg { width: 16px; height: 16px; }
     .trial-desc { font-size: 14px; color: #4b5563; margin: -8px 0 20px; }
     .trial-field { margin-bottom: 16px; }
     .trial-rows { border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; padding: 6px 0; }
@@ -1851,11 +1842,7 @@
         </div>
 
         <!-- View: done -->
-        <div data-pv="done" hidden class="done-card">
-          <div class="done-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
-          <p class="done-desc" id="doneDesc"></p>
-          <div class="done-meta" id="doneMeta"></div>
-        </div>
+        <div data-pv="done" hidden id="doneBody"></div>
       </div>
 
       <div class="modal-actions pm-foot">
@@ -2287,21 +2274,28 @@ document.addEventListener('click', function(e) {
   }
 
   /* View: done */
+  // Same anatomy as the trial modal: lead line, label→value rows, one short note
   function renderDone() {
+    function row(label, value) { return '<div class="payment-row"><span class="label">' + label + '</span><span class="value">' + value + '</span></div>'; }
+    var CHECK_LG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+    var BELL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>';
+    var MAIL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
+    var rows, note;
     if (result.trial) {
-      document.getElementById('doneDesc').textContent = t('subs.trialDoneDesc', 'Data starts flowing to IRIS Cloud within 24 hours. We remind you 7 days before the trial ends. Nothing is charged.');
-      document.getElementById('doneMeta').innerHTML =
-        '<div>' + t('subs.product', 'Product') + '<strong>' + pName(trialId) + '</strong></div>' +
-        '<div>' + t('subs.coverage', 'Coverage') + '<strong>' + (trialMachine ? machineName(trialMachine) : t('subs.allMachines', 'All machines')) + '</strong></div>' +
-        '<div>' + t('subs.trialEndsOn', 'Free until') + '<strong>' + L.formatDate(result.endsOn) + '</strong></div>';
-      document.getElementById('doneIris').href = L.IRIS_URL;
-      return;
+      rows = row(t('subs.product', 'Product'), pName(trialId)) +
+        row(t('subs.coverage', 'Coverage'), trialMachine ? machineName(trialMachine) : t('subs.allMachines', 'All machines')) +
+        row(t('subs.trialEndsOn', 'Free until'), L.formatDate(result.endsOn));
+      note = BELL + t('subs.trialRemind', 'We remind you 7 days before it ends. Nothing is charged.');
+    } else {
+      rows = row(t('subs.invoice', 'Invoice'), result.invoice) +
+        row(t('subs.total', 'Total'), L.money(result.total) + ' ' + pPer()) +
+        row(t('subs.renewsOn', 'Renews on'), L.formatDate(result.renewsOn));
+      note = MAIL + fill(t('subs.invoiceSent', 'Invoice sent to {email}'), { email: 'marcus.weber@acme-corp.com' });
     }
-    document.getElementById('doneDesc').textContent = t('subs.doneDesc', 'Data starts flowing to IRIS Cloud within 24 hours. We sent the invoice to marcus.weber@acme-corp.com.');
-    document.getElementById('doneMeta').innerHTML =
-      '<div>' + t('subs.invoice', 'Invoice') + '<strong>' + result.invoice + '</strong></div>' +
-      '<div>' + t('subs.total', 'Total') + '<strong>' + L.money(result.total) + ' ' + pPer() + '</strong></div>' +
-      '<div>' + t('subs.renewsOn', 'Renews on') + '<strong>' + L.formatDate(result.renewsOn) + '</strong></div>';
+    document.getElementById('doneBody').innerHTML =
+      '<div class="done-lead"><span class="done-icon">' + CHECK_LG + '</span><p>' + t('subs.dataFlow', 'Data starts flowing to IRIS Cloud within 24 hours.') + '</p></div>' +
+      '<div class="trial-rows">' + rows + '</div>' +
+      '<p class="trial-note">' + note + '</p>';
     document.getElementById('doneIris').href = L.IRIS_URL;
   }
 

@@ -1343,5 +1343,8 @@
   "subs.noPayment": "keine Zahlungsdaten",
   "subs.afterTrial": "Nach dem Test",
   "subs.ifSubscribe": "{price} im Abo",
-  "subs.trialConnectedAll2": "Ihre Maschinen müssen mit IRIS Cloud verbunden sein."
+  "subs.trialConnectedAll2": "Ihre Maschinen müssen mit IRIS Cloud verbunden sein.",
+  "subs.trialRemind": "Wir erinnern Sie 7 Tage vor Ablauf. Keine Kosten.",
+  "subs.invoiceSent": "Rechnung an {email} gesendet",
+  "subs.dataFlow": "Daten fließen innerhalb von 24 Stunden in IRIS Cloud."
 }
