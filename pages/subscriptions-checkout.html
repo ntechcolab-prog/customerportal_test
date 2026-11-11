@@ -1302,19 +1302,27 @@
     .cycle-opt input:checked + label { background: #fff; color: #1d1d1f; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
     .cycle-opt input:focus-visible + label { outline: 3px solid #007167; outline-offset: 2px; }
 
-    /* Product rows */
-    .prod-list { border-top: 1px solid #eaeaea; margin-top: 12px; }
-    .prod-row { border-bottom: 1px solid #eaeaea; }
-    .prod-head { display: flex; align-items: center; gap: 14px; min-height: 64px; cursor: pointer; }
-    .prod-head input[type="checkbox"] { width: 20px; height: 20px; accent-color: #007167; flex-shrink: 0; cursor: pointer; }
-    .prod-head input[type="checkbox"]:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
-    .prod-name { flex: 1; font-size: 15px; font-weight: 500; color: #1d1d1f; }
-    .prod-price { text-align: right; font-size: 15px; font-weight: 600; color: #1d1d1f; white-space: nowrap; }
-    .prod-price small { display: block; font-size: 12px; font-weight: 400; color: #4b5563; }
-    .prod-sub { display: flex; align-items: center; gap: 8px; padding: 0 0 12px 34px; margin-top: -8px; font-size: 13px; color: #4b5563; }
+    /* Product cards (Spotify-style plans) */
+    .prod-list { display: flex; flex-direction: column; gap: 16px; margin-top: 12px; }
+    .po { border-radius: 12px; overflow: hidden; background: #fff; border: 1px solid #e5e7e8; transition: box-shadow .2s ease, border-color .2s ease; }
+    .po.is-on { border-color: #007167; box-shadow: 0 0 0 2px #007167; }
+    .po-strip { color: #fff; font-size: 13px; font-weight: 700; padding: 6px 16px; }
+    .po-cover { position: relative; min-height: 120px; display: flex; align-items: center; padding: 24px; overflow: hidden; }
+    .po-name { font-size: 26px; font-weight: 800; letter-spacing: -.6px; line-height: 1.1; max-width: 70%; }
+    .po-icon { position: absolute; right: 20px; bottom: -14px; width: 120px; height: 120px; opacity: .22; }
+    .po-body { padding: 18px 24px 20px; }
+    .po-bullets { list-style: disc; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #3d4246; }
+    .po-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 16px; margin-top: 16px; border-top: 1px solid #eaeaea; }
+    .po-price strong { display: block; font-size: 20px; font-weight: 800; color: #1d1d1f; letter-spacing: -.3px; }
+    .po-price span { font-size: 13px; color: #4b5563; }
+    .po-select { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 22px; border-radius: 999px; border: 1px solid #8b8e91; background: #fff; color: #1d1d1f; font: 700 14px Inter, sans-serif; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
+    .po-select:hover { border-color: #1d1d1f; }
+    .po-select.is-on { background: #007167; border-color: #007167; color: #fff; }
+    .po-select:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .prod-sub { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 13px; color: #4b5563; }
 
     /* Machine picker */
-    .machine-picker { padding: 0 0 16px 34px; }
+    .machine-picker { padding: 4px 0 0; }
     .machine-picker[hidden] { display: none; }
     .mp-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
     .mp-item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px; border: 1px solid #eaeaea; border-radius: 8px; cursor: pointer; font-size: 14px; color: #1d1d1f; }
@@ -1327,7 +1335,7 @@
     .link-btn:hover { text-decoration: underline; }
     .link-btn:focus-visible { outline: 3px solid #007167; outline-offset: 2px; border-radius: 4px; }
 
-    .bundle-hint { font-size: 13px; color: #4b5563; margin-top: 14px; }
+    .bundle-hint { font-size: 15px; color: #1d1d1f; margin: 0; }
 
     /* Summary */
     .co-summary { position: sticky; top: 16px; }
@@ -1376,6 +1384,7 @@
       .mp-list { grid-template-columns: 1fr 1fr; } .done-meta { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) {
+      .po, .po-select { transition: none; }
     }
   </style>
   <link rel="stylesheet" href="../assets/skeleton.css">
@@ -1639,10 +1648,10 @@
     <!-- STEP 1 · CONFIGURE -->
     <div class="co-layout" data-step="1">
       <div class="co-main">
-        <section class="co-card" aria-labelledby="prodTitle">
-          <h2 class="co-card-title" id="prodTitle" data-i18n="subs.chooseProducts">Products</h2>
-          <div id="prodList" class="prod-list"></div>
+        <section aria-labelledby="prodTitle">
+          <h2 class="visually-hidden" id="prodTitle" data-i18n="subs.chooseProducts">Products</h2>
           <p class="bundle-hint" id="bundleHint" role="status" aria-live="polite"></p>
+          <div id="prodList" class="prod-list"></div>
         </section>
       </div>
 
@@ -1779,26 +1788,45 @@ document.addEventListener('click', function(e) {
   /* Step 1 — products */
   var mpExpanded = mode === 'add' || (pmOpen && plan.pm.length === 0);
 
+  var FEATURES = {
+    pm: ['One license per machine', 'Real-time output, uptime and alerts', 'Lower price per machine as you add more'],
+    pt: ['Covers all your machines', 'Fleet KPIs and trends', 'Compare lines and shifts'],
+    bw: ['Covers all your machines', 'Grinding media wear alerts', 'Plan bead refills before quality drops'],
+    mt: ['Covers all your machines', 'Plan, log and schedule maintenance', 'Service history per machine']
+  };
+
   function renderProducts() {
     var html = '';
     L.PRODUCTS.forEach(function (p) {
       if (mode === 'add' && p.id !== 'pm') return;
       var on = p.id === 'pm' ? pmOpen : plan[p.id];
-      var price;
+      var look = L.LOOK[p.id];
+      var st = L.statusOf(p.id);
+      var price, unitLabel;
       if (p.model === 'machine') {
-        var unit = L.pmUnitPrice(Math.max(1, plan.pm.length + licensed.length));
-        price = L.money(unit / div()) + '<small>' + t('subs.perMachine', 'per machine') + ' ' + per() + '</small>';
+        price = L.money(L.pmUnitPrice(Math.max(1, plan.pm.length + licensed.length)) / div());
+        unitLabel = t('subs.perMachine', 'per machine') + ' ' + per();
       } else {
-        price = L.money(p.price / div()) + '<small>' + t('subs.allMachinesLc', 'all machines') + ' ' + per() + '</small>';
+        price = L.money(p.price / div());
+        unitLabel = per();
       }
-      html += '<div class="prod-row">' +
-        '<label class="prod-head" for="chk-' + p.id + '">' +
-          '<input type="checkbox" id="chk-' + p.id + '" data-prod="' + p.id + '"' + (on ? ' checked' : '') + (mode === 'add' ? ' disabled' : '') + '>' +
-          '<span class="prod-name">' + productName(p.id) + '</span>' +
-          '<span class="prod-price">' + price + '</span>' +
-        '</label>' +
-        (p.id === 'pm' && on ? machineSummary() + machinePicker() : '') +
-      '</div>';
+      var strip = st === 'none' ? '' : '<div class="po-strip" style="background:' + look.ink + '">' +
+        (st === 'expired' ? t('subs.stripExpired', 'Expired subscription') : t('subs.stripCurrent', 'Current subscription')) + '</div>';
+      var bullets = FEATURES[p.id].map(function (f, i) { return '<li>' + t('subs.f.' + p.id + '.' + i, f) + '</li>'; }).join('');
+      var btn = mode === 'add' ? '' :
+        '<button type="button" class="po-select' + (on ? ' is-on' : '') + '" data-select="' + p.id + '" aria-pressed="' + !!on + '" aria-label="' + (on ? t('subs.selected', 'Selected') : t('subs.select', 'Select')) + ': ' + productName(p.id) + '">' +
+        (on ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' + t('subs.selected', 'Selected') : t('subs.select', 'Select')) + '</button>';
+      html += '<article class="po' + (on ? ' is-on' : '') + '" aria-labelledby="po-' + p.id + '">' + strip +
+        '<div class="po-cover" style="background:' + look.bg + ';color:' + look.ink + '">' +
+          '<h3 class="po-name" id="po-' + p.id + '">' + productName(p.id) + '</h3>' +
+          '<svg class="po-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + look.icon + '</svg>' +
+        '</div>' +
+        '<div class="po-body">' +
+          '<ul class="po-bullets">' + bullets + '</ul>' +
+          (p.id === 'pm' && on ? machineSummary() + machinePicker() : '') +
+          '<div class="po-foot"><div class="po-price"><strong>' + price + '</strong><span>' + unitLabel + '</span></div>' + btn + '</div>' +
+        '</div>' +
+      '</article>';
     });
     document.getElementById('prodList').innerHTML = html;
   }
@@ -1910,6 +1938,21 @@ document.addEventListener('click', function(e) {
   document.querySelectorAll('input[name="cycle"]').forEach(function (r) {
     r.checked = r.value === plan.cycle;
     r.addEventListener('change', function () { plan.cycle = this.value; render(); });
+  });
+
+  document.getElementById('prodList').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-select]');
+    if (!b) return;
+    var id = b.getAttribute('data-select');
+    var on = b.getAttribute('aria-pressed') !== 'true';
+    if (id === 'pm') {
+      pmOpen = on;
+      if (!on) plan.pm = [];
+      else if (!plan.pm.length) mpExpanded = true;
+    } else plan[id] = on;
+    render();
+    var back = document.querySelector('[data-select="' + id + '"]');
+    if (back) back.focus();
   });
 
   document.getElementById('prodList').addEventListener('change', function (e) {

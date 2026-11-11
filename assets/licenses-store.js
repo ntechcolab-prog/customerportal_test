@@ -30,6 +30,14 @@
       desc: 'Plan, log and schedule maintenance for every machine.' }
   ];
 
+  // Visual identity per product (muted tints of the NETZSCH palette, dark ink for AAA)
+  var LOOK = {
+    pm: { bg: '#8fd5cb', ink: '#00302b', icon: '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>' },
+    pt: { bg: '#c4e6c1', ink: '#12331a', icon: '<path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>' },
+    bw: { bg: '#c6d5e0', ink: '#182b3a', icon: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/>' },
+    mt: { bg: '#e8dcc5', ink: '#3a2c12', icon: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>' }
+  };
+
   // Production Monitoring price per machine by quantity
   var PM_TIERS = [
     { min: 1, price: 1000 },
@@ -225,6 +233,7 @@
   window.Licenses = {
     IRIS_URL: IRIS_URL,
     PRODUCTS: PRODUCTS,
+    LOOK: LOOK,
     PM_TIERS: PM_TIERS,
     BUNDLE: BUNDLE,
     get: load,
