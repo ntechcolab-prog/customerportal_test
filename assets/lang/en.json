@@ -1336,5 +1336,6 @@
   "subs.payYearly": "Pay yearly",
   "subs.billedYearly": "Billed {amount} once a year.",
   "subs.billedMonthly": "Billed {amount} every month.",
-  "subs.pickOneMachine": "Select at least one machine."
+  "subs.pickOneMachine": "Select at least one machine.",
+  "subs.autoRenewShort": "Renew automatically. Turn it off anytime in Subscriptions."
 }

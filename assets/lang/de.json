@@ -1336,5 +1336,6 @@
   "subs.payYearly": "Jährlich zahlen",
   "subs.billedYearly": "{amount} einmal im Jahr abgerechnet.",
   "subs.billedMonthly": "{amount} jeden Monat abgerechnet.",
-  "subs.pickOneMachine": "Wählen Sie mindestens eine Maschine."
+  "subs.pickOneMachine": "Wählen Sie mindestens eine Maschine.",
+  "subs.autoRenewShort": "Automatisch verlängern. Jederzeit in Abonnements abschaltbar."
 }
