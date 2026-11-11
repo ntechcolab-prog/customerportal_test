@@ -1266,5 +1266,14 @@
   "subs.f.mt.0": "Covers all your machines",
   "subs.f.mt.1": "Plan, log and schedule maintenance",
   "subs.f.mt.2": "Service history per machine",
-  "subs.yourPlan": "Your plan"
+  "subs.yourPlan": "Your plan",
+  "subs.nextRenewal": "Next renewal",
+  "subs.renewN": "Renew {n} products",
+  "subs.add": "Add",
+  "subs.manageShort": "Manage",
+  "subs.notSubscribed": "Not subscribed",
+  "subs.expiresInDays": "Expires in {days} days",
+  "subs.expiresTomorrow": "Expires tomorrow",
+  "subs.fromPerMachine": "From {price} per machine",
+  "subs.expiredOn": "Expired on"
 }

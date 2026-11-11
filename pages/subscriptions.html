@@ -1370,6 +1370,74 @@
       .plan-line { font-size: 15px; }
     }
     @media (prefers-reduced-motion: reduce) { .shortcut, .switch, .switch::after { transition: none; } .shortcut:hover { transform: none; } }
+    /* ── Option 2 / 3 (layout review) ─── */
+    .v-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 999px; white-space: nowrap; background: #e6f4f2; color: #00544c; }
+    .v-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .v-pill.is-expiring { background: #fef0e1; color: #93370d; }
+    .v-pill.is-expired { background: #fde8e7; color: #a01b12; }
+    .v-pill.is-none { background: #f1f2f3; color: #4b5563; }
+    .v-pill.is-none::before { display: none; }
+    .tile-dot { width: 8px; height: 8px; border-radius: 50%; background: #007167; flex-shrink: 0; }
+
+    /* Option 2 — plan list */
+    .v2-card { background: #fff; border-radius: 16px; box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06); overflow: hidden; }
+    .v2-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding: 24px 28px; border-bottom: 1px solid #eef0f1; flex-wrap: wrap; }
+    .v2-eyebrow, .v3-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase; color: #4b5563; }
+    .v2-total { font-size: 30px; font-weight: 700; color: #1d1d1f; letter-spacing: -.6px; margin-top: 4px; }
+    .v2-total span { font-size: 15px; font-weight: 500; color: #4b5563; letter-spacing: 0; }
+    .v2-next { font-size: 13px; color: #4b5563; text-align: right; }
+    .v2-next strong { display: block; font-size: 15px; color: #1d1d1f; font-weight: 600; margin-top: 2px; }
+    .v2-list { list-style: none; }
+    .v2-row { display: grid; grid-template-columns: 48px minmax(0,1fr) auto 150px 104px; align-items: center; gap: 18px; padding: 18px 28px; border-bottom: 1px solid #f3f4f6; }
+    .v2-row:last-child { border-bottom: none; }
+    .v2-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: #007167; color: #fff; }
+    .v2-icon svg, .v3-icon svg { width: 22px; height: 22px; }
+    .v2-row.is-expired .v2-icon { background: #3d4246; }
+    .v2-row.is-none .v2-icon { background: #f1f2f3; color: #5c5f62; }
+    .v2-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .v2-name { font-size: 15px; font-weight: 600; color: #1d1d1f; }
+    .v2-meta { font-size: 13px; color: #4b5563; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .v2-price { font-size: 14px; font-weight: 600; color: #1d1d1f; text-align: right; }
+    .v2-row.is-none .v2-price { font-weight: 500; color: #4b5563; font-size: 13px; }
+    .v2-action { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; border-radius: 999px; font: 600 13px Inter, sans-serif; text-decoration: none; cursor: pointer; border: 1px solid #d7d9db; background: #fff; color: #1d1d1f; }
+    .v2-action:hover { border-color: #007167; }
+    .v2-action.is-renew { background: #007167; border-color: #007167; color: #fff; }
+    .v2-action.is-add { color: #00544c; border-color: #b9dfdb; }
+
+    /* Option 3 — summary + compact tiles */
+    .v3-hero { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 28px 32px; border-radius: 16px; color: #fff;
+      background-color: #00544c;
+      background-image: radial-gradient(ellipse at 100% 0%, rgba(255,255,255,.12) 0, rgba(255,255,255,0) 60%); margin-bottom: 16px; }
+    .v3-eyebrow { color: #cfe9e5; }
+    .v3-total { font-size: 34px; font-weight: 700; letter-spacing: -.8px; margin-top: 4px; }
+    .v3-total span { font-size: 16px; font-weight: 500; color: #cfe9e5; letter-spacing: 0; }
+    .v3-sub { font-size: 14px; color: #e6f4f2; margin-top: 6px; }
+    .v3-cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; background: #fff; color: #00544c; font: 600 14px Inter, sans-serif; text-decoration: none; }
+    .v3-cta:hover { background: #e6f4f2; }
+    .v3-cta:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+    .v3-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .v3-tile { position: relative; width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; padding: 20px; min-height: 148px; border-radius: 14px; background: #fff; border: 1px solid #e5e7e8; text-decoration: none; cursor: pointer; font-family: Inter, sans-serif; transition: border-color .2s ease, box-shadow .2s ease; }
+    .v3-tile:hover { border-color: #007167; box-shadow: 0 6px 18px rgba(0,84,76,.10); }
+    .v3-tile:focus-visible, .v2-action:focus-visible, .alt-link:focus-visible { outline: 3px solid #007167; outline-offset: 2px; }
+    .v3-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #e6f4f2; color: #00544c; }
+    .v3-tile.is-none .v3-icon { background: #f1f2f3; color: #5c5f62; }
+    .v3-tile.is-expired .v3-icon { background: #fde8e7; color: #a01b12; }
+    .v3-name { font-size: 15px; font-weight: 600; color: #1d1d1f; margin-top: auto; }
+    .v3-status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #3d4246; }
+    .v3-status.is-expiring .tile-dot { background: #b54708; }
+    .v3-status.is-expired .tile-dot { background: #b42318; }
+    .v3-status.is-none { color: #4b5563; }
+    .v3-status.is-none .tile-dot { display: none; }
+    .v3-go { position: absolute; top: 18px; right: 18px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #00544c; background: #f0faf9; font-size: 15px; }
+
+    .alt-links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 16px; }
+    .alt-link { display: inline-flex; align-items: center; min-height: 44px; background: none; border: none; padding: 0; color: #007167; font: 600 14px Inter, sans-serif; text-decoration: none; cursor: pointer; }
+    .alt-link:hover { text-decoration: underline; }
+    .demo-switch a[aria-current] { font-weight: 700; color: #1d1d1f; text-decoration: none; }
+
+    @media (max-width: 1100px) { .v3-grid { grid-template-columns: repeat(2, 1fr); } .v2-row { grid-template-columns: 48px minmax(0,1fr) auto; } .v2-row .v-pill { display: none; } .v2-price { grid-column: 2; text-align: left; } .v2-action { grid-column: 3; grid-row: 1; } }
+    @media (max-width: 560px) { .v3-grid { grid-template-columns: 1fr; } .v2-head, .v2-row { padding-left: 18px; padding-right: 18px; } .v3-hero { padding: 24px 20px; } }
+    @media (prefers-reduced-motion: reduce) { .v3-tile { transition: none; } }
   </style>
   <link rel="stylesheet" href="../assets/skeleton.css">
 </head>
@@ -1631,6 +1699,7 @@
       <h1 class="page-title" data-i18n="subs.title">Subscriptions</h1>
     </div>
 
+    <div id="viewAccount">
     <div class="acct-top" data-skeleton-stagger>
       <section class="acct-card plan-card" aria-labelledby="planTab">
         <h2 class="plan-tab" id="planTab" data-i18n="subs.yourPlan">Your plan</h2>
@@ -1659,8 +1728,12 @@
       <h2 class="list-title" id="listTitle" data-i18n="subs.yourProducts">Your products</h2>
       <ul class="nav-list" id="navList"></ul>
     </section>
+    </div>
 
-    <p class="demo-switch">Prototype: <a href="?demo=reset">sample licenses</a> · <a href="?demo=none">no licenses</a></p>
+    <!-- Alternative layouts (?v=2 list · ?v=3 summary) -->
+    <div id="viewAlt" class="v-wrap" data-skeleton-stagger hidden></div>
+
+    <p class="demo-switch" id="demoSwitch">Layout: <a href="?v=1" data-v="1">Account (Spotify)</a> · <a href="?v=2" data-v="2">Option 2 · list</a> · <a href="?v=3" data-v="3">Option 3 · summary</a><br>Prototype: <a href="?demo=reset" data-demo="reset">sample licenses</a> · <a href="?demo=none" data-demo="none">no licenses</a></p>
 
     </div><!-- /page-content -->
 
@@ -1866,18 +1939,142 @@ document.addEventListener('click', function(e) {
     openDrawer();
   }
 
+  /* ── Layout options (?v=1 account · ?v=2 list · ?v=3 summary) ── */
+  var VARIANT = (/[?&]v=([123])/.exec(location.search) || [])[1] || '1';
+
+  function statusText(st, sub) {
+    if (st === 'none') return t('subs.notSubscribed', 'Not subscribed');
+    if (st === 'expired') return t('status.expired', 'Expired');
+    if (st === 'expiring') {
+      var d = L.daysUntil(sub.renewsOn);
+      return d === 1 ? t('subs.expiresTomorrow', 'Expires tomorrow') : fill(t('subs.expiresInDays', 'Expires in {days} days'), { days: d });
+    }
+    return t('status.active', 'Active');
+  }
+
+  function tileData(p) {
+    var st = L.statusOf(p.id);
+    var sub = L.get().subs[p.id];
+    var d = { p: p, st: st, sub: sub, name: productName(p) };
+    if (st === 'none') {
+      d.meta = t('subs.d.' + p.id, p.desc);
+      d.price = p.model === 'machine'
+        ? fill(t('subs.fromPerMachine', 'From {price} per machine'), { price: L.money(L.PM_TIERS[L.PM_TIERS.length - 1].price / div()) })
+        : L.money(p.price / div()) + ' ' + per();
+      d.href = 'subscriptions-checkout.html?add=' + p.id; d.label = t('subs.add', 'Add'); d.kind = 'add';
+    } else {
+      var when = st === 'expired' ? t('subs.expiredOn', 'Expired on') : (sub.autoRenew ? t('subs.renewsOn', 'Renews on') : t('subs.expiresOn', 'Expires on'));
+      d.meta = coverage(p, sub) + ' · ' + when + ' ' + L.formatDate(sub.renewsOn);
+      d.amount = amountOf(p, sub);
+      d.price = L.money(d.amount) + ' ' + per();
+      if (st === 'active') { d.manage = true; d.label = t('subs.manageShort', 'Manage'); d.kind = 'manage'; }
+      else { d.href = 'subscriptions-checkout.html?mode=renew&product=' + p.id; d.label = t('subs.renew', 'Renew'); d.kind = 'renew'; }
+    }
+    d.status = statusText(st, sub);
+    return d;
+  }
+
+  function actionEl(d, cls) {
+    var aria = ' aria-label="' + d.label + ': ' + d.name + '"';
+    return d.manage
+      ? '<button class="' + cls + '" data-manage="' + d.p.id + '"' + aria + '>' + d.label + '</button>'
+      : '<a class="' + cls + '" href="' + d.href + '"' + aria + '>' + d.label + '</a>';
+  }
+  function pill(d) { return '<span class="v-pill is-' + d.st + '">' + d.status + '</span>'; }
+
+  function planTotals() {
+    var total = 0, next = null, n = 0;
+    L.PRODUCTS.forEach(function (p) {
+      var d = tileData(p);
+      if (d.st === 'active' || d.st === 'expiring') {
+        n++; total += d.amount;
+        if (!next || d.sub.renewsOn < next) next = d.sub.renewsOn;
+      }
+    });
+    return { total: total, next: next, count: n };
+  }
+
+  // Shortcuts shown under options 2 and 3 (IRIS only with an active license)
+  function altLinks() {
+    var iris = L.hasActive()
+      ? '<a class="alt-link" href="' + L.IRIS_URL + '" target="_blank" rel="noopener">' + t('subs.irisOpen', 'Open IRIS Cloud') + ' ↗<span class="visually-hidden"> ' + t('common.newTab', '(opens in a new tab)') + '</span></a>'
+      : '';
+    return '<div class="alt-links">' + iris +
+      '<button class="alt-link" data-billing>' + t('subs.billingPayment', 'Billing & payment') + '</button>' +
+      '<a class="alt-link" href="subscriptions-checkout.html">' + t('subs.plansAddons', 'Plans & add-ons') + '</a></div>';
+  }
+
+  // Option 2 — plan list
+  function renderV2() {
+    var tot = planTotals();
+    var head = '<div class="v2-head"><div><p class="v2-eyebrow">' + t('subs.yourPlan', 'Your plan') + '</p><p class="v2-total">' +
+      (tot.count ? L.money(tot.total) + ' <span>' + per() + '</span>' : t('subs.noPlan', 'No active products')) + '</p></div>' +
+      (tot.count ? '<p class="v2-next">' + t('subs.nextRenewal', 'Next renewal') + '<strong>' + L.formatDate(tot.next) + '</strong></p>' : '') + '</div>';
+    return '<section class="v2-card">' + head + '<ul class="v2-list">' + L.PRODUCTS.map(function (p) {
+      var d = tileData(p);
+      return '<li class="v2-row is-' + d.st + '">' +
+        '<span class="v2-icon">' + icon(p.id) + '</span>' +
+        '<span class="v2-info"><span class="v2-name">' + d.name + '</span><span class="v2-meta">' + d.meta + '</span></span>' +
+        pill(d) +
+        '<span class="v2-price">' + d.price + '</span>' +
+        actionEl(d, 'v2-action is-' + d.kind) +
+      '</li>';
+    }).join('') + '</ul></section>' + altLinks();
+  }
+
+  // Option 3 — summary + compact tiles
+  function renderV3() {
+    var tot = planTotals();
+    var urgent = L.PRODUCTS.filter(function (p) { var st = L.statusOf(p.id); return st === 'expiring' || st === 'expired'; });
+    var hero = '<section class="v3-hero">' +
+      '<div><p class="v3-eyebrow">' + t('subs.yourPlan', 'Your plan') + '</p>' +
+      '<p class="v3-total">' + (tot.count ? L.money(tot.total) + ' <span>' + per() + '</span>' : t('subs.noPlan', 'No active products')) + '</p>' +
+      (tot.next ? '<p class="v3-sub">' + fill(t('subs.activeCount', '{n} active products'), { n: tot.count }) + ' · ' + t('subs.nextRenewal', 'Next renewal') + ' ' + L.formatDate(tot.next) + '</p>' : '') + '</div>' +
+      (urgent.length ? '<a class="v3-cta" href="subscriptions-checkout.html?mode=renew">' + fill(t('subs.renewN', 'Renew {n} products'), { n: urgent.length }) + '</a>' : '') +
+      '</section>';
+    var tiles = '<div class="v3-grid" role="list">' + L.PRODUCTS.map(function (p) {
+      var d = tileData(p);
+      var inner = '<span class="v3-icon">' + icon(p.id) + '</span>' +
+        '<span class="v3-name">' + d.name + '</span>' +
+        '<span class="v3-status is-' + d.st + '"><span class="tile-dot" aria-hidden="true"></span>' + d.status + '</span>' +
+        '<span class="v3-go" aria-hidden="true">' + (d.kind === 'add' ? '+' : '→') + '</span>';
+      return '<div role="listitem">' + (d.manage
+        ? '<button class="v3-tile is-' + d.st + '" data-manage="' + p.id + '">' + inner + '</button>'
+        : '<a class="v3-tile is-' + d.st + '" href="' + d.href + '">' + inner + '</a>') + '</div>';
+    }).join('') + '</div>';
+    return hero + tiles + altLinks();
+  }
+
+  // Layout switcher keeps the other query param
+  (function () {
+    var demo = (/[?&]demo=(\w+)/.exec(location.search) || [])[1];
+    document.querySelectorAll('#demoSwitch [data-v]').forEach(function (a) {
+      var v = a.getAttribute('data-v');
+      if (v === VARIANT) { a.setAttribute('aria-current', 'page'); }
+    });
+    document.querySelectorAll('#demoSwitch [data-demo]').forEach(function (a) {
+      a.href = '?demo=' + a.getAttribute('data-demo') + '&v=' + VARIANT;
+    });
+  })();
+
   document.getElementById('drawerClose').addEventListener('click', closeDrawer);
   overlay.addEventListener('click', closeDrawer);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && drawer.classList.contains('show')) closeDrawer(); });
-  document.getElementById('navList').addEventListener('click', function (e) {
+  document.querySelector('.page-content').addEventListener('click', function (e) {
     var b = e.target.closest('[data-manage]');
-    if (!b) return;
-    lastTrigger = b;
-    openManage(b.getAttribute('data-manage'));
+    if (b) { lastTrigger = b; openManage(b.getAttribute('data-manage')); return; }
+    var bill = e.target.closest('[data-billing]');
+    if (bill) { lastTrigger = bill; openBilling(); }
   });
   document.getElementById('billingBtn').addEventListener('click', function () { lastTrigger = this; openBilling(); });
 
-  function render() { renderPlan(); renderList(); }
+  function render() {
+    var alt = document.getElementById('viewAlt');
+    if (VARIANT === '1') { renderPlan(); renderList(); return; }
+    document.getElementById('viewAccount').hidden = true;
+    alt.hidden = false;
+    alt.innerHTML = VARIANT === '2' ? renderV2() : renderV3();
+  }
   render();
   document.addEventListener('netzsch:i18n-applied', render);
 })();

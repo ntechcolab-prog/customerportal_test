@@ -1266,5 +1266,14 @@
   "subs.f.mt.0": "Gilt für alle Ihre Maschinen",
   "subs.f.mt.1": "Wartung planen, dokumentieren und terminieren",
   "subs.f.mt.2": "Servicehistorie pro Maschine",
-  "subs.yourPlan": "Ihr Plan"
+  "subs.yourPlan": "Ihr Plan",
+  "subs.nextRenewal": "Nächste Verlängerung",
+  "subs.renewN": "{n} Produkte verlängern",
+  "subs.add": "Hinzufügen",
+  "subs.manageShort": "Verwalten",
+  "subs.notSubscribed": "Nicht abonniert",
+  "subs.expiresInDays": "Läuft in {days} Tagen ab",
+  "subs.expiresTomorrow": "Läuft morgen ab",
+  "subs.fromPerMachine": "Ab {price} pro Maschine",
+  "subs.expiredOn": "Abgelaufen am"
 }
