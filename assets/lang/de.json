@@ -1335,5 +1335,6 @@
   "subs.crossSell3": "{name} (+{price}) · {pct}% sparen",
   "subs.payYearly": "Jährlich zahlen",
   "subs.billedYearly": "{amount} einmal im Jahr abgerechnet.",
-  "subs.billedMonthly": "{amount} jeden Monat abgerechnet."
+  "subs.billedMonthly": "{amount} jeden Monat abgerechnet.",
+  "subs.pickOneMachine": "Wählen Sie mindestens eine Maschine."
 }

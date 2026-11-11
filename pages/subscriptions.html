@@ -1441,6 +1441,11 @@
     /* Review: billing cycle + one bundle suggestion */
     .review-list .link-btn { min-height: 32px; margin-top: 0; display: flex; }
     .cross-sell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: #eef6f5; font-size: 13px; color: #00514a; line-height: 1.45; }
+    .review-list li.rl-edit { display: block; padding: 0 0 12px; }
+    .review-list .rl-edit .mp-list { max-height: 210px; }
+    .review-list .rl-edit .mp-row { min-height: 52px; }
+    .review-list .rl-edit .mp-thumb { width: 32px; height: 32px; }
+    .tier-hint.is-error { color: #b91c1c; font-weight: 600; }
     .review-list .rl-end { display: flex; align-items: flex-start; gap: 4px; white-space: nowrap; }
     .review-list .rl-end .action-btn, .review-list .rl-slot { width: 28px; min-width: 28px; height: 28px; margin-top: -4px; }
     /* Billing cycle: SegmentedControl do DS (.shipment-toggle, de checkout.html) */
@@ -2108,7 +2113,7 @@ document.addEventListener('click', function(e) {
   var pOpen = false, pTrigger = null;
   var mode = 'buy', focusProduct = null, view = 'review', result = null, state = L.get();
   var plan = { pm: [], pt: false, bw: false, mt: false, cycle: 'year' };
-  var licensed = [], machinesFrom = null, crossAdded = [];
+  var licensed = [], machinesFrom = null, crossAdded = [], editing = false;
   var trialId = null, trialMachine = null;
   var TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>';
   var LOCK = '<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><rect x="4.5" y="8" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 8V5.5a2.5 2.5 0 0 1 5 0V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>';
@@ -2124,7 +2129,7 @@ document.addEventListener('click', function(e) {
   function setup(m, prod) {
     state = L.get(); mode = m || 'buy'; focusProduct = prod || null; result = null;
     plan = { pm: [], pt: false, bw: false, mt: false, cycle: state.cycle || 'year' };
-    licensed = []; machinesFrom = null; crossAdded = []; trialId = null; trialMachine = null;
+    licensed = []; machinesFrom = null; crossAdded = []; editing = false; trialId = null; trialMachine = null;
     if (mode === 'trial') {
       trialId = focusProduct; view = 'trial';
     } else if (mode === 'add') {
@@ -2153,6 +2158,23 @@ document.addEventListener('click', function(e) {
   }
 
   /* View: machines (Production Monitoring) */
+  function machineRows() {
+    return fleet().map(function (m) {
+      var isLicensed = licensed.indexOf(m.id) >= 0;
+      var checked = isLicensed || plan.pm.indexOf(m.id) >= 0;
+      return '<label class="mp-row' + (isLicensed ? ' is-licensed' : '') + '"><input type="checkbox" class="row-checkbox" data-machine="' + m.id + '"' + (checked ? ' checked' : '') + (isLicensed ? ' disabled' : '') + '>' +
+        '<img class="mp-thumb" src="../assets/' + (m.img || '') + '" alt="">' +
+        '<span class="mp-name">' + m.name + '</span>' +
+        (isLicensed ? '<span class="status-badge status-active">' + t('subs.licensed', 'Licensed') + '</span>' : '') + '</label>';
+    }).join('');
+  }
+  function tierHint() {
+    var count = pmCount(), next = null;
+    L.PM_TIERS.forEach(function (tr) { if (!next && tr.min > count) next = tr; });
+    return count === 0 ? t('subs.tierStart', 'Select the machines you want to monitor.')
+      : next ? fill(next.min - count === 1 ? t('subs.tierNextOne', 'Add 1 more machine to pay {price} per machine.') : t('subs.tierNext', 'Add {n} more machines to pay {price} per machine.'), { n: next.min - count, price: L.money(next.price / pDiv()) })
+      : t('subs.tierBest', 'You get the best price per machine.');
+  }
   function renderMachines() {
     var count = pmCount();
     var tiers = L.PM_TIERS.map(function (tr, i) {
@@ -2163,19 +2185,7 @@ document.addEventListener('click', function(e) {
       var cur = count > 0 && count >= tr.min && (!next || count < next.min);
       return '<li class="payment-row' + (cur ? ' is-current' : '') + '"><span class="label">' + label + '</span><span class="value">' + L.money(tr.price / pDiv()) + ' ' + t('subs.perMachineUnit', '/ machine') + '</span></li>';
     }).join('');
-    var items = fleet().map(function (m) {
-      var isLicensed = licensed.indexOf(m.id) >= 0;
-      var checked = isLicensed || plan.pm.indexOf(m.id) >= 0;
-      return '<label class="mp-row' + (isLicensed ? ' is-licensed' : '') + '"><input type="checkbox" class="row-checkbox" data-machine="' + m.id + '"' + (checked ? ' checked' : '') + (isLicensed ? ' disabled' : '') + '>' +
-        '<img class="mp-thumb" src="../assets/' + (m.img || '') + '" alt="">' +
-        '<span class="mp-name">' + m.name + '</span>' +
-        (isLicensed ? '<span class="status-badge status-active">' + t('subs.licensed', 'Licensed') + '</span>' : '') + '</label>';
-    }).join('');
-    var next = null;
-    L.PM_TIERS.forEach(function (tr) { if (!next && tr.min > count) next = tr; });
-    var hint = count === 0 ? t('subs.tierStart', 'Select the machines you want to monitor.')
-      : next ? fill(next.min - count === 1 ? t('subs.tierNextOne', 'Add 1 more machine to pay {price} per machine.') : t('subs.tierNext', 'Add {n} more machines to pay {price} per machine.'), { n: next.min - count, price: L.money(next.price / pDiv()) })
-      : t('subs.tierBest', 'You get the best price per machine.');
+    var items = machineRows(), hint = tierHint();
     document.getElementById('mpBody').innerHTML =
       '<div class="mp-grid"><div>' +
         '<p class="card-title" id="mpLabel">' + t('subs.machines', 'Machines') + '</p>' +
@@ -2233,13 +2243,19 @@ document.addEventListener('click', function(e) {
   }
   function renderReview() {
     var q = quote();
-    document.getElementById('reviewList').innerHTML = q.lines.map(function (ln) {
-      var detail = ln.id === 'pm' ? plan.pm.map(machineName).join(', ') : t('subs.allMachines', 'All machines');
-      var act = ln.id === 'pm' && mode !== 'add' ? '<button type="button" class="link-btn" data-edit-machines>' + t('subs.editMachines', 'Edit machines') + '</button>' : '';
+    var lines = q.lines.slice();
+    if (editing && !plan.pm.length) lines.unshift({ id: 'pm', total: 0 }); // keep the row open while no machine is ticked
+    document.getElementById('reviewList').innerHTML = lines.map(function (ln) {
+      var detail = ln.id === 'pm' ? (plan.pm.length ? plan.pm.map(machineName).join(', ') : t('subs.noMachines', 'No machines selected')) : t('subs.allMachines', 'All machines');
+      var act = ln.id === 'pm' && mode !== 'add'
+        ? '<button type="button" class="link-btn" data-edit-machines aria-expanded="' + editing + '" aria-controls="rlEdit">' + (editing ? t('subs.done', 'Done') : t('subs.editMachines', 'Edit machines')) + '</button>' : '';
+      var panel = ln.id === 'pm' && editing
+        ? '<li class="rl-edit" id="rlEdit"><div class="mp-list" role="group" aria-label="' + t('subs.machines', 'Machines') + '">' + machineRows() + '</div>' +
+          '<p class="tier-hint" id="rlHint" aria-live="polite">' + tierHint() + '</p></li>' : '';
       var del = crossAdded.indexOf(ln.id) >= 0
         ? '<button type="button" class="action-btn" data-remove="' + ln.id + '" aria-label="' + t('subs.remove', 'Remove') + ': ' + pName(ln.id) + '" title="' + t('subs.remove', 'Remove') + '">' + TRASH + '</button>'
         : crossAdded.length ? '<span class="rl-slot" aria-hidden="true"></span>' : '';
-      return '<li><span>' + pName(ln.id) + '<small>' + detail + '</small>' + act + '</span><span class="rl-end"><span>' + L.money(ln.total) + ' ' + pPer() + '</span>' + del + '</span></li>';
+      return '<li><span>' + pName(ln.id) + '<small>' + detail + '</small>' + act + '</span><span class="rl-end"><span>' + L.money(ln.total) + ' ' + pPer() + '</span>' + del + '</span></li>' + panel;
     }).join('');
     document.getElementById('crossSell').innerHTML = crossSell(q);
     document.getElementById('cycleGroup').hidden = mode === 'add';
@@ -2353,7 +2369,16 @@ document.addEventListener('click', function(e) {
     if (back) back.focus();
   });
   document.querySelector('#planModal [data-pv="review"]').addEventListener('click', function (e) {
-    if (e.target.closest('[data-edit-machines]')) { machinesFrom = 'review'; goView('machines'); return; }
+    if (e.target.closest('[data-edit-machines]')) {
+      if (editing && !plan.pm.length && quote().lines.length === 0) {
+        var h = document.getElementById('rlHint'); h.textContent = t('subs.pickOneMachine', 'Select at least one machine.'); h.classList.add('is-error');
+        return;
+      }
+      editing = !editing;
+      renderPlan();
+      document.querySelector('#reviewList [data-edit-machines]').focus();
+      return;
+    }
     var c = e.target.closest('[data-cross]'), r = e.target.closest('[data-remove]');
     if (!c && !r) return;
     var id = (c || r).getAttribute(c ? 'data-cross' : 'data-remove');
@@ -2363,6 +2388,17 @@ document.addEventListener('click', function(e) {
     renderPlan();
     var next = c ? document.querySelector('#reviewList [data-remove="' + id + '"]') : document.querySelector('#crossSell .link-btn');
     (next || document.getElementById('revTitle')).focus();
+  });
+  document.getElementById('reviewList').addEventListener('change', function (e) {
+    var el = e.target;
+    if (!el.hasAttribute('data-machine')) return;
+    var m = el.getAttribute('data-machine');
+    if (el.checked) { if (plan.pm.indexOf(m) < 0) plan.pm.push(m); }
+    else plan.pm = plan.pm.filter(function (x) { return x !== m; });
+    var scroll = document.querySelector('#rlEdit .mp-list').scrollTop;
+    renderPlan();
+    document.querySelector('#rlEdit .mp-list').scrollTop = scroll;
+    document.querySelector('#reviewList [data-machine="' + m + '"]').focus();
   });
   document.getElementById('trialBody').addEventListener('change', function (e) {
     if (e.target.id !== 'trialMachine') return;
@@ -2393,6 +2429,8 @@ document.addEventListener('click', function(e) {
       goView('review');
       return;
     }
+    if (!quote().lines.length) { editing = true; renderPlan(); return; }
+    editing = false;
     var terms = document.getElementById('termsChk');
     if (!terms.checked) {
       document.getElementById('termsErr').classList.add('visible');

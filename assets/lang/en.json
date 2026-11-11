@@ -1335,5 +1335,6 @@
   "subs.crossSell3": "Add {name} (+{price}) · save {pct}%",
   "subs.payYearly": "Pay yearly",
   "subs.billedYearly": "Billed {amount} once a year.",
-  "subs.billedMonthly": "Billed {amount} every month."
+  "subs.billedMonthly": "Billed {amount} every month.",
+  "subs.pickOneMachine": "Select at least one machine."
 }
