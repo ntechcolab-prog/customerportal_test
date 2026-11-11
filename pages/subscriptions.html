@@ -1443,10 +1443,7 @@
     .cross-sell { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: #eef6f5; font-size: 13px; color: #00514a; line-height: 1.45; }
     .review-list .rl-end { display: flex; align-items: flex-start; gap: 4px; white-space: nowrap; }
     .review-list .rl-end .action-btn, .review-list .rl-slot { width: 28px; min-width: 28px; height: 28px; margin-top: -4px; }
-    .cycle-block { margin-bottom: 24px; }
-    .cycle-block .cycle-opts { margin-bottom: 0; }
-    .cycle-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-    .cycle-opts .pay-opt { margin-bottom: 0; }
+    .cycle-switch { padding: 0 0 20px; margin-bottom: 4px; border-bottom: 1px solid #f3f4f6; }
     .cycle-save { font-size: 12px; font-weight: 600; color: #00544c; margin-left: 4px; white-space: nowrap; }
     .cross-sell .link-btn { flex: none; min-height: 32px; margin-top: 0; }
     /* Free trial */
@@ -1743,12 +1740,9 @@
         <!-- View: review & pay -->
         <div data-pv="review" hidden class="pm-review">
           <section aria-labelledby="revTitle">
-            <div class="cycle-block" id="cycleGroup">
-              <h3 class="card-title" id="cycTitle" data-i18n="subs.billingCycle">Billing cycle</h3>
-              <div class="cycle-opts" role="radiogroup" aria-labelledby="cycTitle">
-                <label class="pay-opt"><input type="radio" name="cycle" value="year" checked><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name"><span data-i18n="subs.yearly">Yearly</span> <small class="cycle-save" data-i18n="subs.yearlyHint">2 months free</small></span><span class="pay-desc" id="cycYearDesc"></span></span></label>
-                <label class="pay-opt"><input type="radio" name="cycle" value="month"><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name" data-i18n="subs.monthly">Monthly</span><span class="pay-desc" id="cycMonthDesc"></span></span></label>
-              </div>
+            <div class="switch-row cycle-switch" id="cycleGroup">
+              <div><div class="switch-label" id="cycLabel"><span data-i18n="subs.payYearly">Pay yearly</span> <small class="cycle-save" data-i18n="subs.yearlyHint">2 months free</small></div><div class="switch-hint" id="cycHint"></div></div>
+              <button type="button" class="switch" role="switch" id="cycSwitch" aria-checked="true" aria-labelledby="cycLabel" aria-describedby="cycHint"></button>
             </div>
             <h3 class="card-title" id="revTitle" data-i18n="subs.yourOrder">Your plan</h3>
             <ul class="review-list" id="reviewList"></ul>
@@ -1761,10 +1755,6 @@
             <div role="radiogroup" aria-labelledby="payTitle">
               <label class="pay-opt"><input type="radio" name="pay" value="invoice" checked><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name" data-i18n="subs.payInvoice">Invoice (bank transfer)</span><span class="pay-desc" data-i18n="subs.payInvoiceDesc">30 days net, sent to the billing address of ACME Corp.</span></span></label>
               <label class="pay-opt"><input type="radio" name="pay" value="card"><span class="radio-circle" aria-hidden="true"></span><span><span class="pay-name" data-i18n="subs.payCard">Company card ending 4821</span><span class="pay-desc" data-i18n="subs.payCardDesc">Charged today and on each renewal.</span></span></label>
-            </div>
-            <div class="field-group" style="margin-top:12px">
-              <label class="field-label" for="poNumber"><span data-i18n="subs.po">Purchase order number</span> <span class="optional" data-i18n="common.optional">(optional)</span></label>
-              <input class="form-input" id="poNumber" type="text" autocomplete="off" placeholder="PO-2026-0000">
             </div>
             <label class="terms-row"><input type="checkbox" class="terms-checkbox" id="autoRenewChk" checked><span data-i18n="subs.autoRenewCheck">Renew automatically. You can turn this off at any time in Subscriptions.</span></label>
             <label class="terms-row"><input type="checkbox" class="terms-checkbox" id="termsChk" aria-describedby="termsErr"><span class="terms-text"><span data-i18n="subs.termsPre">I accept the</span> <a href="#" data-i18n="subs.termsLink">G&amp;D Digital Products license terms</a>.</span></label>
@@ -2082,12 +2072,10 @@ document.addEventListener('click', function(e) {
       plan[focusProduct] = true;
       view = 'review';
     }
-    document.querySelectorAll('#planModal input[name="cycle"]').forEach(function (r) { r.checked = r.value === plan.cycle; });
     var terms = document.getElementById('termsChk');
     terms.checked = false; terms.removeAttribute('aria-invalid');
     document.getElementById('termsErr').classList.remove('visible');
     document.getElementById('autoRenewChk').checked = true;
-    document.getElementById('poNumber').value = '';
   }
 
   /* View: machines (Production Monitoring) */
@@ -2181,9 +2169,9 @@ document.addEventListener('click', function(e) {
     }).join('');
     document.getElementById('crossSell').innerHTML = crossSell(q);
     document.getElementById('cycleGroup').hidden = mode === 'add';
-    var yq = L.quote({ pm: plan.pm, pt: plan.pt, bw: plan.bw, mt: plan.mt, cycle: 'year' });
-    document.getElementById('cycYearDesc').textContent = L.money(yq.total) + ' ' + t('subs.perYear', '/ year');
-    document.getElementById('cycMonthDesc').textContent = L.money(yq.total / 10) + ' ' + t('subs.perMonth', '/ month');
+    var yearly = plan.cycle === 'year';
+    document.getElementById('cycSwitch').setAttribute('aria-checked', yearly);
+    document.getElementById('cycHint').textContent = fill(yearly ? t('subs.billedYearly', 'Billed {amount} once a year.') : t('subs.billedMonthly', 'Billed {amount} every month.'), { amount: L.money(quote().total) });
     document.getElementById('sumBody2').innerHTML = summaryHtml(q);
   }
 
@@ -2273,8 +2261,10 @@ document.addEventListener('click', function(e) {
   }
 
   /* Events */
-  document.querySelectorAll('#planModal input[name="cycle"]').forEach(function (r) {
-    r.addEventListener('change', function () { plan.cycle = this.value; renderPlan(); });
+  document.getElementById('cycSwitch').addEventListener('click', function () {
+    plan.cycle = plan.cycle === 'year' ? 'month' : 'year';
+    renderPlan();
+    this.focus();
   });
   document.getElementById('mpBody').addEventListener('change', function (e) {
     var el = e.target;

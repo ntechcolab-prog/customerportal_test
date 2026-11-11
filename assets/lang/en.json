@@ -1332,5 +1332,8 @@
   "subs.crossSell": "Add {name} for {price} and save {pct}% on the whole plan.",
   "subs.remove": "Remove",
   "subs.crossAdded": "{name} added · {pct}% bundle discount applied",
-  "subs.crossSell3": "Add {name} (+{price}) · save {pct}%"
+  "subs.crossSell3": "Add {name} (+{price}) · save {pct}%",
+  "subs.payYearly": "Pay yearly",
+  "subs.billedYearly": "Billed {amount} once a year.",
+  "subs.billedMonthly": "Billed {amount} every month."
 }

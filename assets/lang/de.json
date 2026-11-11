@@ -1332,5 +1332,8 @@
   "subs.crossSell": "{name} für {price} hinzufügen und {pct}% auf den ganzen Plan sparen.",
   "subs.remove": "Entfernen",
   "subs.crossAdded": "{name} hinzugefügt · {pct}% Paketrabatt angewendet",
-  "subs.crossSell3": "{name} (+{price}) · {pct}% sparen"
+  "subs.crossSell3": "{name} (+{price}) · {pct}% sparen",
+  "subs.payYearly": "Jährlich zahlen",
+  "subs.billedYearly": "{amount} einmal im Jahr abgerechnet.",
+  "subs.billedMonthly": "{amount} jeden Monat abgerechnet."
 }
