@@ -1366,13 +1366,6 @@
     .mp-thumb { width: 40px; height: 40px; border-radius: 8px; background: #f5f6f7; object-fit: contain; padding: 2px; }
     .mp-name { font-size: 14px; font-weight: 600; color: #1d1d1f; }
     .tier-hint { margin-top: 10px; font-size: 13px; color: #00544c; }
-    .tier-strip { display: flex; gap: 8px; margin-top: 12px; }
-    .tier { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 12px; color: #4b5563; transition: border-color .15s, background .15s; }
-    .tier strong { font-size: 14px; font-weight: 600; color: #1f2937; }
-    .tier.is-on { border-color: #007167; background: #eef6f5; color: #00544c; }
-    .tier.is-on strong { color: #00544c; }
-    .tier-next { display: block; margin-top: 4px; color: #4b5563; }
-    @media (prefers-reduced-motion: reduce) { .tier { transition: none; } }
 
     .co-bar-total { font-size: 14px; color: #4b5563; }
     .co-bar-total strong { font-size: 24px; font-weight: 700; color: #1f2937; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
@@ -2051,7 +2044,7 @@ document.addEventListener('click', function(e) {
     return '<div class="mp-list">' + fleet().map(function (m) {
       return '<label class="mp-row"><input type="checkbox" class="row-checkbox" data-machine="' + m.id + '"' + (machines.indexOf(m.id) >= 0 ? ' checked' : '') + '>' +
         '<img class="mp-thumb" src="../assets/' + (m.img || '') + '" alt=""><span class="mp-name">' + m.name + '</span></label>';
-    }).join('') + '</div><div class="tier-strip" id="pdTiers" role="list" aria-label="' + t('cat.tiersLabel', 'Volume discount') + '"></div><p class="tier-hint" id="pdHint"></p>';
+    }).join('') + '</div><p class="tier-hint" id="pdHint"></p>';
   }
   function payOpts() {
     var m = q('month'), y = q('year'), none = pmShort();
@@ -2099,21 +2092,13 @@ document.addEventListener('click', function(e) {
     var h = document.getElementById('pdHint'); if (!h) return;
     var n = machines.length;
     h.classList.remove('is-error');
-    // Volume discount: tiers with the current one lit, the saving, and a nudge to the next tier
+    // Volume discount in one line: the saving once it kicks in, otherwise a nudge to the next tier
     var div = cycle === 'month' ? 10 : 1, per = cycle === 'month' ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year');
-    var T = L.PM_TIERS, cur = -1;
-    T.forEach(function (tr, i) { if (n >= tr.min) cur = i; });
-    document.getElementById('pdTiers').innerHTML = T.map(function (tr, i) {
-      var next = T[i + 1], label = !next ? fill(t('cat.tierPlus', '{a}+ machines'), { a: tr.min })
-        : next.min - 1 === tr.min ? (tr.min === 1 ? t('subs.oneMachine', '1 machine') : fill(t('subs.nMachines', '{n} machines'), { n: tr.min }))
-        : fill(t('cat.tierRange', '{a}–{b} machines'), { a: tr.min, b: next.min - 1 });
-      return '<div class="tier' + (i === cur ? ' is-on' : '') + '" role="listitem"><span>' + label + '</span><strong>' + L.money(tr.price / div) + '</strong></div>';
-    }).join('');
     if (!n) { h.textContent = t('subs.tierStart', 'Select the machines you want to monitor.'); return; }
-    var unit = L.pmUnitPrice(n), save = (T[0].price - unit) * n / div, nx = T[cur + 1];
-    h.innerHTML = fill(t('cat.pmPrice', '{n} × {price} per machine'), { n: n, price: L.money(unit / div) }) +
-      (save > 0 ? ' · <strong>' + fill(t('cat.youSave', 'You save {amount}'), { amount: L.money(save) }) + ' ' + per + '</strong>' : '') +
-      (nx && fleet().length >= nx.min ? '<span class="tier-next">' + fill(nx.min - n === 1 ? t('cat.tierNext1', 'Add 1 more machine and pay {price} each') : t('cat.tierNextN', 'Add {n} more machines and pay {price} each'), { n: nx.min - n, price: L.money(nx.price / div) }) + '</span>' : '');
+    var T = L.PM_TIERS, unit = L.pmUnitPrice(n), save = (T[0].price - unit) * n / div, nx = T.filter(function (tr) { return tr.min > n; })[0];
+    var extra = save > 0 ? '<strong>' + fill(t('cat.youSave', 'You save {amount}'), { amount: L.money(save) }) + ' ' + per + '</strong>'
+      : nx && fleet().length >= nx.min ? fill(t('cat.tierFrom', 'from {n} machines, {price} each'), { n: nx.min, price: L.money(nx.price / div) }) : '';
+    h.innerHTML = fill(t('cat.pmPrice', '{n} × {price} per machine'), { n: n, price: L.money(unit / div) }) + (extra ? ' · ' + extra : '');
   }
   function renderDone() {
     title.textContent = mode === 'renew' ? t('cat.renewedOne', 'Your license is renewed') : mode === 'single' ? t('cat.doneOne', 'Your license is active') : t('subs.doneTitle', 'Your licenses are active');
