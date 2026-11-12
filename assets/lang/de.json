@@ -1392,7 +1392,7 @@
   "cat.yourPlan": "Ihr Abonnement",
   "cat.status": "Status",
   "cat.endsOn": "Endet am",
-  "cat.manage": "Abo verwalten",
+  "cat.manage": "Verwalten",
   "cat.change": "Ändern",
   "cat.addHint": "Neue Maschinen kommen zu dieser Lizenz und verlängern sich am selben Datum.",
   "cat.billingFrom": "Ab {date} zahlen",
@@ -1405,5 +1405,14 @@
   "cat.resumed": "Abo fortgesetzt · verlängert sich automatisch",
   "cat.billingChanged": "Ab {date} zahlen Sie {how}",
   "cat.monthlyShort": "monatlich per Karte",
-  "cat.yearlyShort": "jährlich per Rechnung"
+  "cat.yearlyShort": "jährlich per Rechnung",
+  "cat.trialLastDay": "Letzter Tag",
+  "cat.trialOneLeft": "Noch 1 Tag",
+  "cat.trialLeft": "Noch {n} Tage",
+  "cat.renewsTomorrow": "Verlängert sich morgen",
+  "cat.renewsIn": "Verlängert sich in {n} Tagen",
+  "cat.renewsOnDate": "Verlängert sich am {date}",
+  "cat.endsTomorrow": "Endet morgen",
+  "cat.endsIn": "Endet in {n} Tagen",
+  "cat.endsOnDate": "Endet am {date}"
 }

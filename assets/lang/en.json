@@ -1392,7 +1392,7 @@
   "cat.yourPlan": "Your subscription",
   "cat.status": "Status",
   "cat.endsOn": "Ends on",
-  "cat.manage": "Manage subscription",
+  "cat.manage": "Manage",
   "cat.change": "Change",
   "cat.addHint": "New machines join this license and renew on the same date.",
   "cat.billingFrom": "From {date}, pay",
@@ -1405,5 +1405,14 @@
   "cat.resumed": "Subscription resumed · it renews automatically",
   "cat.billingChanged": "From {date} you pay {how}",
   "cat.monthlyShort": "monthly by card",
-  "cat.yearlyShort": "yearly by invoice"
+  "cat.yearlyShort": "yearly by invoice",
+  "cat.trialLastDay": "Last day",
+  "cat.trialOneLeft": "1 day left",
+  "cat.trialLeft": "{n} days left",
+  "cat.renewsTomorrow": "Renews tomorrow",
+  "cat.renewsIn": "Renews in {n} days",
+  "cat.renewsOnDate": "Renews on {date}",
+  "cat.endsTomorrow": "Ends tomorrow",
+  "cat.endsIn": "Ends in {n} days",
+  "cat.endsOnDate": "Ends on {date}"
 }

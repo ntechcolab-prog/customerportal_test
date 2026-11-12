@@ -1539,6 +1539,9 @@
     .product-card-price { font-size: 15px; font-weight: 700; color: #1f2937; letter-spacing: -.23px; white-space: nowrap; }
     .product-card-price small { font-size: 12px; font-weight: 500; color: #6b7280; }
     .product-card-alt { font-size: 12px; color: #6b7280; white-space: nowrap; }
+    .product-card-alt.is-warn { color: #92400e; font-weight: 600; }
+    .card-manage { min-height: 0; margin-top: 0; flex: none; }
+    .product-card:hover .card-manage { text-decoration: underline; }
     .product-card-prices { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
     .card-add { flex: none; display: inline-flex; align-items: center; gap: 6px; }
     .card-pick { position: absolute; top: 12px; left: 12px; display: none; }
@@ -1956,6 +1959,17 @@ document.addEventListener('click', function(e) {
     }
     return { main: L.money(p.price / 10) + ' <small>' + t('subs.perMonth', '/ month') + '</small>', alt: fill(t('cat.orYear', 'or {price} / year'), { price: L.money(p.price) }) };
   }
+  // Subscribed card: what the customer has + when it renews (countdown only in the last 30 days)
+  function ownLine(id) {
+    var sub = L.get().subs[id], d = L.daysUntil(sub.renewsOn), n = sub.machines ? sub.machines.length : 0;
+    var main = id === 'pm' ? (n === 1 ? t('subs.oneMachine', '1 machine') : fill(t('subs.nMachines', '{n} machines'), { n: n })) : t('subs.allMachines', 'All machines');
+    if (sub.status === 'trial') return { main: main,
+      alt: d < 1 ? t('cat.trialLastDay', 'Last day') : d === 1 ? t('cat.trialOneLeft', '1 day left') : fill(t('cat.trialLeft', '{n} days left'), { n: d }), warn: d <= 7 };
+    var soon = d <= 30, alt = sub.autoRenew
+      ? (soon ? (d <= 1 ? t('cat.renewsTomorrow', 'Renews tomorrow') : fill(t('cat.renewsIn', 'Renews in {n} days'), { n: d })) : fill(t('cat.renewsOnDate', 'Renews on {date}'), { date: L.formatDate(sub.renewsOn) }))
+      : (soon ? (d <= 1 ? t('cat.endsTomorrow', 'Ends tomorrow') : fill(t('cat.endsIn', 'Ends in {n} days'), { n: d })) : fill(t('cat.endsOnDate', 'Ends on {date}'), { date: L.formatDate(sub.renewsOn) }));
+    return { main: main, alt: alt, warn: soon };
+  }
   function badge(id) {
     var s = L.statusOf(id);
     if (s === 'active' || s === 'expiring') return '<span class="status-badge status-active">' + t('status.active', 'Active') + '</span>';
@@ -1964,13 +1978,15 @@ document.addEventListener('click', function(e) {
   }
   function renderGrid() {
     grid.innerHTML = L.PRODUCTS.map(function (p) {
-      var pr = priceLine(p), own = owned(p.id), sel = picked.indexOf(p.id) >= 0;
+      var own = owned(p.id), trial = L.statusOf(p.id) === 'trial', sel = picked.indexOf(p.id) >= 0;
+      var pr = own || trial ? ownLine(p.id) : priceLine(p);
       return '<div class="product-card' + (own ? ' is-owned' : '') + (sel ? ' is-selected' : '') + '" role="button" tabindex="0" data-product="' + p.id + '" aria-label="' + pName(p.id) + '">' +
         '<div class="product-card-img">' + art(p.id) + '</div>' +
         '<div class="product-card-body">' +
           '<div class="product-card-header"><span class="product-card-name">' + pName(p.id) + '</span>' + (badge(p.id) || CHEV) + '</div>' +
           '<span class="product-card-desc">' + pDesc(p.id) + '</span>' +
-          '<div class="product-card-footer"><span class="product-card-prices"><span class="product-card-price">' + pr.main + '</span><span class="product-card-alt">' + pr.alt + '</span></span>' + (own ? '' : addBtn(p.id, sel)) + '</div>' +
+          '<div class="product-card-footer"><span class="product-card-prices"><span class="product-card-price">' + pr.main + '</span><span class="product-card-alt' + (pr.warn ? ' is-warn' : '') + '">' + pr.alt + '</span></span>' +
+            (own ? '<span class="link-btn card-manage">' + t('cat.manage', 'Manage') + '</span>' : trial ? '<span class="btn btn-secondary btn-sm card-add">' + t('subs.subscribe', 'Subscribe') + '</span>' : addBtn(p.id, sel)) + '</div>' +
         '</div></div>';
     }).join('');
     renderBar();
