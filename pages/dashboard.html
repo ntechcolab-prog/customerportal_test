@@ -596,8 +596,8 @@
     .contract-alert-id { font-size: 13px; font-weight: 600; color: #1d1d1f; }
     .contract-alert-desc { font-size: 12px; color: #4b5563; margin-top: 2px; }
     .contract-alert .btn { flex-shrink: 0; }
-    .welcome-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .welcome-actions #dashIris[hidden] { display: none; }
+    #dashIris[hidden] { display: none; }
+    a.btn-quick { text-decoration: none; }
     .lic-alert-logo { width: 32px; height: 32px; flex-shrink: 0; }
     .card-header:has(+ .card-subtitle) { margin-bottom: 4px; }
     .card-subtitle { margin: 0 0 16px 24px; font-size: 12px; color: #4b5563; }
@@ -1486,13 +1486,10 @@
             <h1 class="page-title" data-i18n="dash.welcome">Good afternoon, Marcus</h1>
             <span class="page-subtitle">Wednesday, Jul 2, 2026 — 5 active orders</span>
           </div>
-          <div class="welcome-actions">
-            <a class="btn btn-secondary btn-sm" id="dashIris" href="#" target="_blank" rel="noopener" hidden><span data-i18n="subs.irisOpen">Open IRIS Cloud</span> ↗</a>
-            <button class="btn btn-primary btn-sm" data-i18n="dash.askMilla" onclick="openMillaChat()">
-              <img src="../assets/icon-mic.svg" alt="">
-              Ask Milla
-            </button>
-          </div>
+          <button class="btn btn-primary btn-sm" data-i18n="dash.askMilla" onclick="openMillaChat()">
+            <img src="../assets/icon-mic.svg" alt="">
+            Ask Milla
+          </button>
         </div>
         <div class="quick-actions">
         <button class="btn btn-quick btn-sm" onclick="window.location.href='shop.html'">
@@ -1511,6 +1508,10 @@
           <svg viewBox="0 0 16 16" fill="none"><path d="M14 10.67A1.33 1.33 0 0112.67 12H4.67L2 14V3.33A1.33 1.33 0 013.33 2h9.34A1.33 1.33 0 0114 3.33v7.34z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Contact Support
         </button>
+        <a class="btn btn-quick btn-sm" id="dashIris" href="#" target="_blank" rel="noopener" hidden>
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M12 6.67h-.84A5.33 5.33 0 1 0 6 13.33h6a3.33 3.33 0 0 0 0-6.66z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="subs.irisOpen">Open IRIS Cloud</span> ↗
+        </a>
         </div>
       </div>
 
