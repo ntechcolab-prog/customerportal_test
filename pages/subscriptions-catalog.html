@@ -1860,6 +1860,8 @@
 
     <div class="cat-grid" id="catGrid" data-skeleton-stagger></div>
 
+    <p class="demo-switch">Prototype: <a href="?demo=none">no licenses</a> · <a href="subscriptions-catalog.html">default</a></p>
+
     </div><!-- /page-content -->
 
   </main>
@@ -1921,7 +1923,8 @@ document.addEventListener('click', function(e) {
   function pName(id) { return t('subs.p.' + id, L.product(id).name); }
   function pDesc(id) { return t('subs.d.' + id, L.product(id).desc); }
   function fleet() { return window.MachineLines ? MachineLines.getMachines() : []; }
-  try { localStorage.removeItem('netzsch_licenses_v3'); } catch (e) {} // prototype always opens in its default state
+  // Prototype always opens in its default state, unless a demo scenario is in the URL
+  if (!/[?&]demo=/.test(location.search)) try { localStorage.removeItem('netzsch_licenses_v3'); } catch (e) {}
   function expired(id) { return L.statusOf(id) === 'expired'; }
   function owned(id) { var s = L.statusOf(id); return s === 'active' || s === 'expiring'; }
   var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
