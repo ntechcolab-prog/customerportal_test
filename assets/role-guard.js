@@ -106,7 +106,7 @@
 
       var hasLicense = false;
       try {
-        var lic = JSON.parse(localStorage.getItem('netzsch_licenses_v2') || 'null');
+        var lic = JSON.parse(localStorage.getItem('netzsch_licenses_v3') || 'null');
         if (lic && lic.subs) {
           var today = new Date().toISOString().slice(0, 10);
           Object.keys(lic.subs).forEach(function (k) {

@@ -1555,6 +1555,7 @@
     .batch-bar .btn-group { display: flex; gap: 8px; }
     .pd-box { width: min(640px, calc(100vw - 32px)); }
     .pd-img-sm { height: 132px; }
+    .renew-note { margin: 0 0 4px; padding: 12px 14px; border-radius: 10px; background: #f3f4f6; font-size: 14px; line-height: 1.5; color: #1f2937; }
     .own-msg { margin: -4px 0 16px; padding: 10px 12px; background: #f0f9f8; border-radius: 10px; color: #1f2937; font-size: 13px; }
     .own-msg svg { color: #007167; }
     .own-cancel { margin-left: -12px; }
@@ -1852,8 +1853,6 @@
 
     <div class="cat-grid" id="catGrid" data-skeleton-stagger></div>
 
-    <p class="demo-switch">Prototype: <a href="?demo=none">no licenses</a> · <a href="?demo=reset">reset</a></p>
-
     </div><!-- /page-content -->
 
   </main>
@@ -1915,6 +1914,8 @@ document.addEventListener('click', function(e) {
   function pName(id) { return t('subs.p.' + id, L.product(id).name); }
   function pDesc(id) { return t('subs.d.' + id, L.product(id).desc); }
   function fleet() { return window.MachineLines ? MachineLines.getMachines() : []; }
+  try { localStorage.removeItem('netzsch_licenses_v3'); } catch (e) {} // prototype always opens in its default state
+  function expired(id) { return L.statusOf(id) === 'expired'; }
   function owned(id) { var s = L.statusOf(id); return s === 'active' || s === 'expiring'; }
   var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
   var MAIL = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';
@@ -1956,23 +1957,29 @@ document.addEventListener('click', function(e) {
       : (soon ? (d <= 1 ? t('cat.endsTomorrow', 'Ends tomorrow') : fill(t('cat.endsIn', 'Ends in {n} days'), { n: d })) : fill(t('cat.endsOnDate', 'Ends on {date}'), { date: L.formatDate(sub.renewsOn) }));
     return { main: main, alt: alt, warn: soon };
   }
+  // Expired license: what it covered + since when it is off
+  function expLine(id) {
+    var sub = L.get().subs[id];
+    return { main: t('subs.allMachines', 'All machines'), alt: t('subs.expiredOn', 'Expired on') + ' ' + L.formatDate(sub.renewsOn), warn: true };
+  }
   function badge(id) {
     var s = L.statusOf(id);
     if (s === 'active' || s === 'expiring') return '<span class="status-badge status-active">' + t('status.active', 'Active') + '</span>';
     if (s === 'trial') return '<span class="status-badge status-submitted">' + t('subs.freeTrial', 'Free trial') + '</span>';
+    if (s === 'expired') return '<span class="status-badge status-expired">' + t('status.expired', 'Expired') + '</span>';
     return '';
   }
   function renderGrid() {
     grid.innerHTML = L.PRODUCTS.map(function (p) {
-      var own = owned(p.id), trial = L.statusOf(p.id) === 'trial', sel = picked.indexOf(p.id) >= 0;
-      var pr = own || trial ? ownLine(p.id) : priceLine(p);
+      var own = owned(p.id), trial = L.statusOf(p.id) === 'trial', exp = expired(p.id), sel = picked.indexOf(p.id) >= 0;
+      var pr = own || trial ? ownLine(p.id) : exp ? expLine(p.id) : priceLine(p);
       return '<div class="product-card' + (own ? ' is-owned' : '') + (sel ? ' is-selected' : '') + '" role="button" tabindex="0" data-product="' + p.id + '" aria-label="' + pName(p.id) + '">' +
         '<div class="product-card-img">' + art(p.id) + '</div>' +
         '<div class="product-card-body">' +
           '<div class="product-card-header"><span class="product-card-name">' + pName(p.id) + '</span>' + (badge(p.id) || CHEV) + '</div>' +
           '<span class="product-card-desc">' + pDesc(p.id) + '</span>' +
           '<div class="product-card-footer"><span class="product-card-prices"><span class="product-card-price">' + pr.main + '</span><span class="product-card-alt' + (pr.warn ? ' is-warn' : '') + '">' + pr.alt + '</span></span>' +
-            (own ? '<span class="link-btn card-manage">' + t('cat.manage', 'Manage') + '</span>' : trial ? '<span class="btn btn-secondary btn-sm card-add">' + t('subs.subscribe', 'Subscribe') + '</span>' : addBtn(p.id, sel)) + '</div>' +
+            (own ? '<span class="link-btn card-manage">' + t('cat.manage', 'Manage') + '</span>' : exp ? '<span class="btn btn-primary btn-sm card-add">' + t('subs.renew', 'Renew') + '</span>' : trial ? '<span class="btn btn-secondary btn-sm card-add">' + t('subs.subscribe', 'Subscribe') + '</span>' : addBtn(p.id, sel)) + '</div>' +
         '</div></div>';
     }).join('');
     renderBar();
@@ -1991,7 +1998,7 @@ document.addEventListener('click', function(e) {
   }
   function onCard(card) {
     var id = card.getAttribute('data-product');
-    open(owned(id) ? 'owned' : 'single', [id], card);
+    open(owned(id) ? 'owned' : expired(id) ? 'renew' : 'single', [id], card);
   }
   grid.addEventListener('click', function (e) {
     var add = e.target.closest('[data-add]');
@@ -2053,7 +2060,12 @@ document.addEventListener('click', function(e) {
   }
   function renderForm() {
     var html = '';
-    if (mode === 'single') {
+    if (mode === 'renew') {
+      var rid = ids[0];
+      title.textContent = fill(t('cat.renewTitle', 'Renew {name}'), { name: pName(rid) });
+      html += '<div class="pd-img pd-img-sm">' + art(rid) + '</div>' +
+        '<p class="renew-note">' + fill(t('cat.renewNote', 'Your license expired on {date}. Renew it to bring the data back to IRIS Cloud.'), { date: L.formatDate(L.get().subs[rid].renewsOn) }) + '</p>';
+    } else if (mode === 'single') {
       var id = ids[0];
       title.textContent = pName(id);
       html += '<div class="pd-img">' + art(id) + '</div><p class="pd-desc">' + pDesc(id) + '</p>' +
@@ -2080,7 +2092,7 @@ document.addEventListener('click', function(e) {
     h.textContent = n ? fill(t('cat.pmPrice', '{n} × {price} per machine'), { n: n, price: L.money(L.pmUnitPrice(n) / (cycle === 'month' ? 10 : 1)) }) : t('subs.tierStart', 'Select the machines you want to monitor.');
   }
   function renderDone() {
-    title.textContent = mode === 'single' ? t('cat.doneOne', 'Your license is active') : t('subs.doneTitle', 'Your licenses are active');
+    title.textContent = mode === 'renew' ? t('cat.renewedOne', 'Your license is renewed') : mode === 'single' ? t('cat.doneOne', 'Your license is active') : t('subs.doneTitle', 'Your licenses are active');
     function row(l, v) { return '<div class="payment-row"><span class="label">' + l + '</span><span class="value">' + v + '</span></div>'; }
     var month = cycle === 'month';
     body.innerHTML = '<div class="done-lead"><span class="done-icon">' + CHECK + '</span><p>' + t('subs.dataFlow', 'Data starts flowing to IRIS Cloud within 24 hours.') + '</p></div>' +
@@ -2144,7 +2156,7 @@ document.addEventListener('click', function(e) {
     document.getElementById('pdIris').hidden = !done;
     document.getElementById('pdIris').href = L.IRIS_URL;
     var pr = document.getElementById('pdPrimary');
-    pr.textContent = done ? t('subs.done', 'Done') : t('subs.subscribe', 'Subscribe');
+    pr.textContent = done ? t('subs.done', 'Done') : mode === 'renew' ? t('subs.renew', 'Renew') : t('subs.subscribe', 'Subscribe');
     var tot = document.getElementById('pdTotal');
     if (view === 'owned') {
       var sub = ownSub(), per2 = L.get().cycle === 'month' ? t('subs.perMonth', '/ month') : t('subs.perYear', '/ year');

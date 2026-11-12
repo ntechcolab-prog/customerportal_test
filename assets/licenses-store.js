@@ -12,7 +12,7 @@
  *  - Free trial: 30 days per product, once per customer, no payment. Production
  *    Monitoring trials cover one machine. Trials end on their own (no charge).
  *
- * Demo helpers: ?demo=reset restores the sample state (Production Monitoring active),
+ * Demo helpers: ?demo=reset restores the sample state (Production Monitoring active, Performance Tracking expired),
  * ?demo=renewal loads expiring/expired licenses (renewal flow), ?demo=trial
  * loads a running trial and an ended one, ?demo=none clears all licenses
  * (empty state, IRIS Cloud access hidden).
@@ -20,7 +20,7 @@
 (function () {
   'use strict';
 
-  var KEY = 'netzsch_licenses_v2';
+  var KEY = 'netzsch_licenses_v3';
   var IRIS_URL = 'https://iris.netzsch.com';
   var TRIAL_DAYS = 30;
   var TRIAL_REMIND = 7; // days before the end when the trial asks for attention
@@ -64,10 +64,12 @@
     return {
       cycle: 'year',
       subs: {
-        pm: { status: 'active', machines: ['discus30', 'zeta60', 'mastermix45'], renewsOn: iso(142), autoRenew: true, since: iso(-223) }
+        pm: { status: 'active', machines: ['discus30', 'zeta60', 'mastermix45'], renewsOn: iso(142), autoRenew: true, since: iso(-223) },
+        pt: { status: 'expired', renewsOn: iso(-12), autoRenew: false, since: iso(-377) }
       },
       invoices: [
-        { id: 'INV-DP-2026-009', date: iso(-223), items: 'Production Monitoring ×3', total: 2400 }
+        { id: 'INV-DP-2026-009', date: iso(-223), items: 'Production Monitoring ×3', total: 2400 },
+        { id: 'INV-DP-2025-074', date: iso(-377), items: 'Performance Tracking', total: 2400 }
       ]
     };
   }
