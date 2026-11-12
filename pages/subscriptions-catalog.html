@@ -2254,6 +2254,9 @@ document.addEventListener('click', function(e) {
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
 
   renderGrid();
+  // Deep link from the home (?renew=pt): open that product's modal right away
+  var deep = /[?&]renew=(\w+)/.exec(location.search), deepCard = deep && grid.querySelector('[data-product="' + deep[1] + '"]');
+  if (deepCard && L.statusOf(deep[1]) !== 'none') onCard(deepCard);
   document.addEventListener('netzsch:i18n-applied', function () { renderGrid(); if (modal.classList.contains('open')) render(); });
 })();
 </script>
