@@ -1525,7 +1525,7 @@
     .cat-grid .product-card:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
     .cat-grid .product-card.is-selected { border-color: #007167; box-shadow: 0 0 0 3px rgba(0,113,103,.1); }
     .product-card-img { background: #fafbfc; height: 168px; display: flex; align-items: center; justify-content: center; }
-    .product-card-img svg { width: 100%; height: 100%; }
+    .product-card-img img { width: 72px; height: 72px; }
     .product-card-body { padding: 16px; border-top: 1px solid #f3f4f6; display: flex; flex-direction: column; gap: 4px; flex: 1; }
     .product-card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .product-card-name { font-size: 15px; font-weight: 600; color: #1f2937; letter-spacing: -.23px; line-height: 22px; }
@@ -1566,7 +1566,8 @@
     .pd-label-row .link-btn { min-height: 0; padding: 0; font-size: 13px; }
     .pd-box[data-view="done"] { width: min(520px, calc(100vw - 32px)); }
     .pd-img { background: #fafbfc; border: 1px solid #f3f4f6; border-radius: 12px; height: 180px; overflow: hidden; margin-bottom: 18px; }
-    .pd-img svg { width: 100%; height: 100%; }
+    .pd-img { display: flex; align-items: center; justify-content: center; }
+    .pd-img img { width: 80px; height: 80px; }
     .pd-desc { font-size: 14px; color: #4b5563; margin: 0 0 12px; }
     .pd-feats { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 8px; }
     .pd-feats li { display: flex; gap: 10px; align-items: center; font-size: 14px; color: #1f2937; }
@@ -1922,20 +1923,7 @@ document.addEventListener('click', function(e) {
 
   // Product "print": a tiny drawing of the IRIS screen each product adds
   function art(id) {
-    var c = L.LOOK[id].bg, ink = '#007167', g = '#e5e7eb';
-    var frame = '<rect x="24" y="18" width="272" height="132" rx="10" fill="#fff" stroke="' + g + '"/><rect x="40" y="32" width="64" height="7" rx="3.5" fill="' + g + '"/>';
-    var body = {
-      pm: '<rect x="216" y="30" width="64" height="12" rx="6" fill="' + c + '"/>' +
-          '<path d="M40 128 72 104l28 10 30-30 28 16 32-36 30 18 36-30" fill="none" stroke="' + ink + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
-          '<path d="M40 128 72 104l28 10 30-30 28 16 32-36 30 18 36-30V136H40Z" fill="' + c + '" opacity=".35"/>',
-      pt: [44, 80, 116, 152, 188, 224, 260].map(function (x, i) { var h = [40, 62, 50, 78, 66, 88, 72][i]; return '<rect x="' + x + '" y="' + (136 - h) + '" width="22" height="' + h + '" rx="4" fill="' + (i === 5 ? ink : c) + '"/>'; }).join(''),
-      bw: '<path d="M100 124a60 60 0 0 1 120 0" fill="none" stroke="' + g + '" stroke-width="14" stroke-linecap="round"/>' +
-          '<path d="M100 124a60 60 0 0 1 92-50" fill="none" stroke="' + c + '" stroke-width="14" stroke-linecap="round"/>' +
-          '<path d="M160 124 196 86" stroke="' + ink + '" stroke-width="4" stroke-linecap="round"/><circle cx="160" cy="124" r="7" fill="' + ink + '"/>',
-      mt: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(function (i) { var x = 44 + (i % 7) * 34, y = 56 + Math.floor(i / 7) * 40, on = [2, 5, 9, 12].indexOf(i) >= 0;
-          return '<rect x="' + x + '" y="' + y + '" width="28" height="32" rx="6" fill="' + (on ? c : '#f9fafb') + '" stroke="' + (on ? 'none' : g) + '"/>' + (i === 9 ? '<path d="M' + (x + 8) + ' ' + (y + 16) + 'l4 4 8-8" fill="none" stroke="' + ink + '" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>' : ''); }).join('')
-    }[id];
-    return '<svg viewBox="0 0 320 168" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + frame + body + '</svg>';
+    return '<img src="../assets/products/' + id + '.svg" alt="" width="72" height="72">';
   }
   var FEATS = {
     pm: ['Live output, uptime and alarms per machine', 'Alerts on your phone when a machine stops', 'Volume price from 2 machines'],
