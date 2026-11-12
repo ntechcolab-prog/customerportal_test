@@ -1114,7 +1114,6 @@
       display: flex; align-items: center; justify-content: center;
       border: none; cursor: pointer; flex-shrink: 0;
       transition: background 0.15s ease;
-      pointer-events: auto;
       position: relative;
       z-index: 10;
     }
@@ -1550,6 +1549,7 @@
     .cat-grid.is-batch .product-card.is-owned { opacity: .6; }
     .batch-bar { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 140%); display: flex; align-items: center; gap: 20px; padding: 12px 12px 12px 24px; background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; box-shadow: 0 8px 28px rgba(0,0,0,.12); transition: transform .25s cubic-bezier(.2,.8,.2,1); z-index: 50; white-space: nowrap; }
     .batch-bar.show { transform: translate(-50%, 0); }
+    body.has-batch .page-content { padding-bottom: 112px; }
     .batch-bar-info { font-size: 14px; color: #4b5563; }
     .batch-bar-info strong { color: #1f2937; }
     .batch-bar .btn-group { display: flex; gap: 8px; }
@@ -1998,6 +1998,7 @@ document.addEventListener('click', function(e) {
   function renderBar() {
     var bar = document.getElementById('batchBar');
     bar.classList.toggle('show', picked.length > 0);
+    document.body.classList.toggle('has-batch', picked.length > 0);
     var n = picked.length;
     document.getElementById('batchInfo').innerHTML = '<strong>' + (n === 1 ? t('cat.oneSel', '1 product selected') : fill(t('cat.nSel', '{n} products selected'), { n: n })) + '</strong>' +
       (L.BUNDLE[n] ? ' · ' + fill(t('cat.bundleSave', 'save {pct}% together'), { pct: Math.round(L.BUNDLE[n] * 100) }) : '');
