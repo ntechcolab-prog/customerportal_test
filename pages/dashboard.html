@@ -526,7 +526,7 @@
     /* ── BOTTOM LAYOUT (2 columns) ─── */
     .bottom-layout {
       display: grid;
-      grid-template-columns: 1fr 380px;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
       gap: 12px;
       margin-bottom: 12px;
     }
@@ -579,31 +579,25 @@
       align-items: center;
       gap: 12px;
       padding: 14px;
-      border: 1px solid #fef3e2;
+      border: 1px solid #e5e7eb;
       border-radius: 10px;
-      background: #fffbf5;
+      background: #fff;
       text-decoration: none;
       transition: background 0.15s;
     }
-    .contract-alert:hover { background: #fef8ee; }
+    .contract-alert + .contract-alert, #licAlerts .contract-alert { margin-top: 8px; }
+    .contract-alert:hover { background: #f9fafb; }
     .contract-alert-icon {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: #fef3e2; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      width: 32px; height: 32px; border-radius: 7px;
+      background: #eef6f5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .contract-alert-icon svg { width: 14px; height: 14px; }
+    .contract-alert-icon svg { width: 16px; height: 16px; }
     .contract-alert-info { flex: 1; min-width: 0; }
     .contract-alert-id { font-size: 13px; font-weight: 600; color: #1d1d1f; }
-    .contract-alert-desc { font-size: 11px; color: #d97706; margin-top: 2px; }
-    .contract-alert-badge {
-      display: inline-flex; padding: 3px 10px; border-radius: 999px;
-      font-size: 11px; font-weight: 600; background: #fef3e2; color: #d97706;
-      flex-shrink: 0;
-    }
+    .contract-alert-desc { font-size: 12px; color: #4b5563; margin-top: 2px; }
+    .contract-alert .btn { flex-shrink: 0; }
     .welcome-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .welcome-actions #dashIris[hidden] { display: none; }
-    #licAlerts .contract-alert { margin-top: 8px; background: #fff; border-color: #e5e7eb; }
-    #licAlerts .contract-alert:hover { background: #f9fafb; }
-    #licAlerts .contract-alert-desc { color: #4b5563; }
     .lic-alert-logo { width: 32px; height: 32px; flex-shrink: 0; }
     .contract-footer { font-size: 11px; color: #9ca3af; text-align: center; padding: 8px 0 0; }
 
@@ -1617,13 +1611,13 @@
           </div>
           <a href="contracts.html" class="contract-alert">
             <div class="contract-alert-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
             </div>
             <div class="contract-alert-info">
               <div class="contract-alert-id">CTR-S-2025-002</div>
               <div class="contract-alert-desc">Service · Epsilon + PMD · Expires Jul 31, 2026</div>
             </div>
-            <span class="contract-alert-badge" data-i18n="dash.expiringLabel">Expiring</span>
+            <span class="btn btn-primary btn-sm" data-i18n="subs.renew">Renew</span>
           </a>
           <div id="licAlerts"></div>
           <div class="contract-footer" data-i18n="dash.contractsFooter">Contracts expiring within 30 days</div>
