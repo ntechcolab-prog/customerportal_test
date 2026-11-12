@@ -1580,6 +1580,7 @@
     .batch-lines { list-style: none; margin: 0 0 4px; padding: 0; border-top: 1px solid #f3f4f6; }
     .batch-lines > li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #1f2937; }
     .batch-lines > li.bl-machines { display: block; padding-top: 0; }
+    .bl-logo { flex: none; width: 32px; height: 32px; }
     .batch-lines .v2-icon { width: 32px; height: 32px; border-radius: 8px; }
     .batch-lines .v2-icon svg { width: 16px; height: 16px; }
     .batch-lines .bl-name { flex: 1; font-weight: 500; }
@@ -1911,7 +1912,6 @@ document.addEventListener('click', function(e) {
   var L = window.Licenses;
   function t(k, f) { return window.NetzschI18n ? NetzschI18n.t(k, f) : f; }
   function fill(str, vars) { return str.replace(/\{(\w+)\}/g, function (_, k) { return vars[k]; }); }
-  function icon(id) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + L.LOOK[id].icon + '</svg>'; }
   function pName(id) { return t('subs.p.' + id, L.product(id).name); }
   function pDesc(id) { return t('subs.d.' + id, L.product(id).desc); }
   function fleet() { return window.MachineLines ? MachineLines.getMachines() : []; }
@@ -2064,7 +2064,7 @@ document.addEventListener('click', function(e) {
       var qq = q(cycle);
       html += '<ul class="batch-lines">' + ids.map(function (id) {
         var line = qq.lines.filter(function (l) { return l.id === id; })[0];
-        return '<li><span class="v2-icon">' + icon(id) + '</span><span class="bl-name">' + pName(id) + '</span><span class="bl-price">' + (line ? L.money(line.total) : '—') + '</span></li>' +
+        return '<li><img class="bl-logo" src="../assets/products/' + id + '.svg" alt="" width="32" height="32"><span class="bl-name">' + pName(id) + '</span><span class="bl-price">' + (line ? L.money(line.total) : '—') + '</span></li>' +
           (id === 'pm' ? '<li class="bl-machines">' + machineList() + '</li>' : '');
       }).join('') + '</ul>' +
         (qq.bundleDiscount ? '<div class="payment-row is-discount"><span class="label">' + fill(t('cat.bundleRow', 'Bundle discount ({pct}%)'), { pct: Math.round(qq.bundleRate * 100) }) + '</span><span class="value">−' + L.money(qq.bundleDiscount) + '</span></div>' : '');
