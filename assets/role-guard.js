@@ -100,7 +100,7 @@
     var contractsLink = document.querySelector('.profile-dropdown-item[data-i18n="profile.contracts"]');
     if (contractsLink && !document.querySelector('[data-i18n="profile.subscriptions"]')) {
       var subLi = document.createElement('li');
-      subLi.innerHTML = '<a class="profile-dropdown-item" href="subscriptions.html" data-i18n="profile.subscriptions">' +
+      subLi.innerHTML = '<a class="profile-dropdown-item" href="subscriptions-catalog.html" data-i18n="profile.subscriptions">' +
         '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007167" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 14h3"/></svg>Subscriptions</a>';
       contractsLink.closest('li').after(subLi);
 

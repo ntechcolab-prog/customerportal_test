@@ -12,7 +12,7 @@
  *  - Free trial: 30 days per product, once per customer, no payment. Production
  *    Monitoring trials cover one machine. Trials end on their own (no charge).
  *
- * Demo helpers: ?demo=reset restores the sample state (all products active),
+ * Demo helpers: ?demo=reset restores the sample state (Production Monitoring active),
  * ?demo=renewal loads expiring/expired licenses (renewal flow), ?demo=trial
  * loads a running trial and an ended one, ?demo=none clears all licenses
  * (empty state, IRIS Cloud access hidden).
@@ -20,7 +20,7 @@
 (function () {
   'use strict';
 
-  var KEY = 'netzsch_licenses';
+  var KEY = 'netzsch_licenses_v2';
   var IRIS_URL = 'https://iris.netzsch.com';
   var TRIAL_DAYS = 30;
   var TRIAL_REMIND = 7; // days before the end when the trial asks for attention
@@ -64,15 +64,10 @@
     return {
       cycle: 'year',
       subs: {
-        pm: { status: 'active', machines: ['discus30', 'zeta60', 'mastermix45'], renewsOn: iso(142), autoRenew: true, since: iso(-223) },
-        pt: { status: 'active', renewsOn: iso(142), autoRenew: true, since: iso(-223) },
-        bw: { status: 'active', renewsOn: iso(217), autoRenew: true, since: iso(-148) },
-        mt: { status: 'active', renewsOn: iso(96), autoRenew: true, since: iso(-269) }
+        pm: { status: 'active', machines: ['discus30', 'zeta60', 'mastermix45'], renewsOn: iso(142), autoRenew: true, since: iso(-223) }
       },
       invoices: [
-        { id: 'INV-DP-2026-021', date: iso(-148), items: 'Bead Wear Detection', total: 1620 },
-        { id: 'INV-DP-2026-009', date: iso(-223), items: 'Production Monitoring ×3, Performance Tracking', total: 4080 },
-        { id: 'INV-DP-2026-003', date: iso(-269), items: 'Maintenance Tool', total: 1200 }
+        { id: 'INV-DP-2026-009', date: iso(-223), items: 'Production Monitoring ×3', total: 2400 }
       ]
     };
   }
