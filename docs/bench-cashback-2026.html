@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cashback Benchmark — NETZSCH Customer Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-dark:#007167; --green:#0b9c92; --green-soft:#e6f4f2;
+    --ink:#2a2f33; --ink-soft:#4b5563; --ink-faint:#4b5563;
+    --line:#e3e5e7; --bg:#ffffff; --bg-soft:#f6f7f8;
+    --ok:#0b7a5e; --mid:#92400e; --gap:#9a3b3b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    color:var(--ink); background:var(--bg-soft); line-height:1.6;
+    font-size:15px; padding:32px 16px;
+  }
+  .page{
+    max-width:920px; margin:0 auto; background:var(--bg);
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  header.cover{
+    background:linear-gradient(135deg,var(--green-dark),var(--green));
+    color:#fff; padding:44px 48px 40px;
+  }
+  header.cover .kicker{text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:600; opacity:.85; margin-bottom:14px}
+  header.cover h1{font-size:30px; line-height:1.2; font-weight:700; margin-bottom:10px}
+  header.cover p.sub{font-size:16px; color:#fff; opacity:.95; max-width:660px}
+  header.cover .meta{
+    margin-top:24px; display:flex; gap:28px; flex-wrap:wrap;
+    font-size:13px; opacity:.9; border-top:1px solid rgba(255,255,255,.25); padding-top:18px;
+  }
+  header.cover .meta b{display:block; font-size:15px; font-weight:600; opacity:1}
+  .body{padding:40px 48px 48px}
+  section{margin-bottom:40px}
+  section:last-child{margin-bottom:0}
+  h2{font-size:20px; font-weight:700; color:var(--green-dark); margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--line)}
+  h3{font-size:15px; font-weight:600; margin:0 0 4px}
+  p{margin-bottom:12px; color:var(--ink-soft)}
+  p strong{color:var(--ink)}
+  .verdict{background:var(--bg-soft); border-left:4px solid var(--green); padding:20px 24px; border-radius:0 10px 10px 0}
+  .verdict p{margin:0; font-size:16px; color:var(--ink)}
+  .verdict p + p{margin-top:10px}
+  .verdict strong{color:var(--green-dark)}
+  .stats{display:flex; gap:16px; flex-wrap:wrap; margin:22px 0 0}
+  .stat{flex:1 1 150px; border:1px solid var(--line); border-radius:10px; padding:18px 20px}
+  .stat .n{font-size:28px; font-weight:700; line-height:1; color:var(--green-dark)}
+  .stat .l{font-size:13px; color:var(--ink-faint); margin-top:6px}
+  table{width:100%; border-collapse:collapse; font-size:14px}
+  th{text-align:left; font-weight:600; color:var(--ink-faint); font-size:12px; text-transform:uppercase; letter-spacing:.04em; padding:10px 12px; border-bottom:2px solid var(--line)}
+  td{padding:11px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-soft)}
+  td:first-child{color:var(--ink); font-weight:500; white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  .tag{display:inline-block; font-size:12px; font-weight:600; padding:2px 9px; border-radius:999px; white-space:nowrap; background:var(--bg-soft); color:var(--ink-soft)}
+  .tag.b2b{background:var(--green-soft); color:var(--green-dark)}
+  .tag.ac{background:#eef0f2; color:var(--ink)}
+  .table-wrap{overflow-x:auto}
+
+  /* Patterns grid with mini mockups */
+  .patterns{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .pat{border:1px solid var(--line); border-radius:12px; overflow:hidden; display:flex; flex-direction:column}
+  .pat .mock{background:var(--bg-soft); padding:22px 20px; min-height:132px; display:flex; align-items:center; justify-content:center; border-bottom:1px solid var(--line)}
+  .pat .txt{padding:16px 18px 18px}
+  .pat .txt p{font-size:13.5px; margin:0 0 10px}
+  .pat .refs{display:flex; gap:6px; flex-wrap:wrap}
+  .pat .num{font-size:11px; font-weight:700; color:var(--green-dark); text-transform:uppercase; letter-spacing:.06em; margin-bottom:4px}
+
+  /* mock primitives */
+  .m-card{background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px 14px; box-shadow:0 1px 2px rgba(0,0,0,.04); width:100%; max-width:300px; font-size:13px}
+  .m-row{display:flex; justify-content:space-between; align-items:center; gap:10px}
+  .m-row + .m-row{margin-top:8px}
+  .m-muted{color:var(--ink-faint); font-size:12px}
+  .m-strong{font-weight:600}
+  .m-earn{color:var(--green-dark); font-weight:600; font-size:12px}
+  .m-header{background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; width:100%; max-width:300px; display:flex; align-items:center; gap:12px}
+  .m-logo{font-weight:800; color:var(--green-dark); letter-spacing:-.02em; margin-right:auto}
+  .m-chip{display:inline-flex; align-items:center; gap:6px; background:var(--green-soft); color:var(--green-dark); font-weight:600; font-size:12px; border-radius:999px; padding:4px 10px}
+  .m-dot{width:22px; height:22px; border-radius:50%; background:var(--green-dark); color:#fff; font-size:10px; font-weight:700; display:grid; place-items:center}
+  .m-icon{width:18px; height:18px; border:1.6px solid var(--ink-soft); border-radius:4px}
+  .m-toggle{width:30px; height:18px; border-radius:999px; background:var(--green); position:relative; flex:none}
+  .m-toggle::after{content:""; position:absolute; top:2px; right:2px; width:14px; height:14px; border-radius:50%; background:#fff}
+  .m-line{height:1px; background:var(--line); margin:8px 0}
+  .m-bar{height:6px; border-radius:999px; background:#e3e5e7; overflow:hidden; margin-top:6px}
+  .m-bar i{display:block; height:100%; width:64%; background:var(--green)}
+  .m-state{font-size:11px; font-weight:600; border-radius:999px; padding:2px 8px}
+  .m-state.pend{background:#fbf2dd; color:var(--mid)}
+  .m-state.avail{background:#e4f3ee; color:var(--ok)}
+  .m-btn{background:var(--green-dark); color:#fff; font-size:12px; font-weight:600; border-radius:999px; padding:5px 12px; white-space:nowrap}
+  .m-warn{color:var(--mid); font-weight:600; font-size:12px}
+  .m-pimg{height:44px; border-radius:6px; background:linear-gradient(135deg,#e9eced,#f6f7f8); margin-bottom:8px}
+
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .box{border:1px solid var(--line); border-radius:12px; padding:18px 20px}
+  .box ul{list-style:none}
+  .box li{font-size:14px; color:var(--ink-soft); padding:7px 0; border-bottom:1px solid var(--line)}
+  .box li:last-child{border-bottom:none}
+  .box li strong{color:var(--ink)}
+  .rec{border:2px solid var(--green); border-radius:12px; padding:22px 24px; background:linear-gradient(180deg,var(--green-soft),#fff 60%)}
+  .rec dl{display:grid; grid-template-columns:140px 1fr; gap:10px 18px; font-size:14px}
+  .rec dt{font-weight:600; color:var(--ink)}
+  .rec dd{color:var(--ink-soft)}
+  .note{font-size:12.5px; color:var(--ink-faint); margin-top:14px}
+  .sources{font-size:12.5px; color:var(--ink-faint); columns:2; column-gap:28px}
+  .sources a{color:var(--green-dark); word-break:break-all}
+  .sources li{margin-bottom:4px; break-inside:avoid; list-style:none}
+
+  @media (max-width:720px){
+    body{padding:16px}
+    header.cover{padding:32px 24px}
+    .body{padding:28px 20px 32px}
+    .patterns,.cols{grid-template-columns:1fr}
+    .rec dl{grid-template-columns:1fr}
+    .sources{columns:1}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="cover">
+    <div class="kicker">CP-733 · Cashback · Benchmark</div>
+    <h1>Cashback in the Customer Portal: what modern products do</h1>
+    <p class="sub">Benchmark of 15 B2B and B2C references, the UI patterns worth adopting, B2B-specific risks and a lean mechanic for the prototype.</p>
+    <div class="meta">
+      <div><b>15</b>references</div>
+      <div><b>8</b>UI patterns</div>
+      <div><b>4</b>acceptance criteria covered</div>
+      <div><b>Nov 2026</b>NETZSCH G&amp;D · UX</div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <section>
+      <h2>Executive summary</h2>
+      <div class="verdict">
+        <p><strong>Industrial competitors don't offer cashback.</strong> Grainger, McMaster-Carr, Würth, Zoro and Uline compete on free shipping, payment terms and easy reorder. A cashback program would be a real differentiator for the portal.</p>
+        <p><strong>In B2B, the balance belongs to the company, not the buyer.</strong> Personal rewards can conflict with procurement and anti-bribery rules. Shopify B2B enforces company-level credit.</p>
+        <p><strong>The best UX comes from consumer products</strong> (Apple Card, Nubank, Mercado Livre, Starbucks, Sephora): balance always visible, earnings shown before and after buying, credit applied with one toggle.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Reference</th><th>Type</th><th>Mechanic</th><th>What to learn</th></tr></thead>
+        <tbody>
+          <tr><td>Shopify B2B store credit</td><td><span class="tag b2b">B2B</span></td><td>Credit on the company location, optional expiry, soonest-expiring spent first</td><td>Company-owned balance; "Apply store credit" in checkout, full balance only</td></tr>
+          <tr><td>Amazon Business Prime</td><td><span class="tag b2b">B2B</span></td><td>5% back <em>or</em> 90-day payment terms</td><td>A B2B-native choice: rewards vs. terms</td></tr>
+          <tr><td>Brex</td><td><span class="tag b2b">B2B</span></td><td>Points earned at company level, redeemed as cash or perks</td><td>The company decides when and how to redeem</td></tr>
+          <tr><td>Ramp</td><td><span class="tag b2b">B2B</span></td><td>Flat cashback as statement credit; partner rewards in the dashboard</td><td>Simple flat rate beats complex tiers</td></tr>
+          <tr><td>Würth</td><td><span class="tag b2b">B2B</span></td><td>Paid service package (Würth RED) + campaigns</td><td>Industrial loyalty today = service, not cashback</td></tr>
+          <tr><td>Grainger · McMaster · Zoro · Uline</td><td><span class="tag b2b">B2B</span></td><td>No cashback; free shipping, Net 30, reorder</td><td>Open space for a differentiator</td></tr>
+          <tr><td>Faire</td><td><span class="tag b2b">B2B</span></td><td>First-order credit, free-shipping minimums, Net 60</td><td>Incentive shown as a cart line item</td></tr>
+          <tr><td>Apple Card Daily Cash</td><td><span class="tag">B2C</span></td><td>1–3% credited daily, never expires</td><td>Earned amount on every transaction</td></tr>
+          <tr><td>Rakuten</td><td><span class="tag">B2C</span></td><td>Pending → Confirmed after the return window</td><td>Pending state protects against returns</td></tr>
+          <tr><td>Méliuz</td><td><span class="tag">B2C</span></td><td>Usable from a minimum confirmed balance</td><td>Clear "available vs. pending" split</td></tr>
+          <tr><td>Mercado Livre · Meli+</td><td><span class="tag">B2C</span></td><td>"X% back" tag, credit after delivery</td><td>Earn preview right on the product card</td></tr>
+          <tr><td>Nubank</td><td><span class="tag">B2C</span></td><td>Cashback balance grows in its own home area</td><td>A visible, growing balance is the hook</td></tr>
+          <tr><td>Starbucks Rewards</td><td><span class="tag">B2C</span></td><td>Progress bar to redemption tiers, 6-month expiry</td><td>"Redeem" toggle on the order; expiry as a nudge</td></tr>
+          <tr><td>Sephora Beauty Insider</td><td><span class="tag">B2C</span></td><td>Tiers; "Spend $X to reach VIB"</td><td>"You'll earn N points" in the basket</td></tr>
+          <tr><td>Klarna · Cash App</td><td><span class="tag">B2C</span></td><td>Boosted cashback badges and event days</td><td>Time-limited boosts drive repeat visits</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="note">Desk research. Program details change often; confirm figures with the official pages before quoting them.</p>
+    </section>
+
+    <section>
+      <h2>UI patterns worth adopting</h2>
+      <div class="patterns">
+
+        <div class="pat">
+          <div class="mock">
+            <div class="m-header"><span class="m-logo">NETZSCH</span><span class="m-chip">€84 credit</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4b5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/></svg><span class="m-dot">MW</span></div>
+          </div>
+          <div class="txt">
+            <div class="num">Pattern 1</div>
+            <h3>Balance chip in the header</h3>
+            <p>Always visible; opens a small panel with available, pending and expiry.</p>
+            <div class="refs"><span class="tag ac">Criterion 1</span><span class="tag">Apple Wallet</span><span class="tag">Nubank</span></div>
+          </div>
+        </div>
+
+        <div class="pat">
+          <div class="mock">
+            <div class="m-card" style="max-width:200px">
+              <div class="m-pimg"></div>
+              <div class="m-strong">Grinding beads ZY 2mm</div>
+              <div class="m-row"><span>€640</span><span class="m-earn">Earn €12.80</span></div>
+            </div>
+          </div>
+          <div class="txt">
+            <div class="num">Pattern 2</div>
+            <h3>Earn preview before buying</h3>
+            <p>On the product card, product page and cart lines.</p>
+            <div class="refs"><span class="tag ac">Criterion 2</span><span class="tag">Meli+</span><span class="tag">Sephora</span><span class="tag">Klarna</span></div>
+          </div>
+        </div>
+
+        <div class="pat">
+          <div class="mock">
+            <div class="m-card">
+              <div class="m-row"><span class="m-strong">Order 2800998-31</span><span class="m-muted">Delivered</span></div>
+              <div class="m-line"></div>
+              <div class="m-row"><span>Total</span><span class="m-strong">€4,000.00</span></div>
+              <div class="m-row"><span class="m-earn">Credit earned</span><span class="m-earn">+ €80.00</span></div>
+            </div>
+          </div>
+          <div class="txt">
+            <div class="num">Pattern 3</div>
+            <h3>One earn line per order</h3>
+            <p>On the confirmation and the order detail. One line, not a module.</p>
+            <div class="refs"><span class="tag ac">Criterion 2</span><span class="tag">Apple Card</span><span class="tag">Rakuten</span></div>
+          </div>
+        </div>
+
+        <div class="pat">
+          <div class="mock">
+            <div class="m-card">
+              <div class="m-row"><span>€80.00 · Order …31</span><span class="m-state pend">Pending</span></div>
+              <div class="m-row"><span>€84.00 · 3 orders</span><span class="m-state avail">Available</span></div>
+            </div>
+          </div>
+          <div class="txt">
+            <div class="num">Pattern 4</div>
+            <h3>Pending → Available</h3>
+            <p>Credit unlocks on delivery, which protects against returns.</p>
+            <div class="refs"><span class="tag ac">Criteria 1 · 2</span><span class="tag">Rakuten</span><span class="tag">Méliuz</span></div>
+          </div>
+        </div>
+
+        <div class="pat">
+          <div class="mock">
+            <div class="m-card">
+              <div class="m-row"><span>Subtotal</span><span>€1,240.00</span></div>
+              <div class="m-row"><span style="display:flex;align-items:center;gap:8px"><span class="m-toggle"></span>Use €84 credit</span><span class="m-earn">− €84.00</span></div>
+              <div class="m-line"></div>
+              <div class="m-row"><span class="m-strong">Total</span><span class="m-strong">€1,156.00</span></div>
+            </div>
+          </div>
+          <div class="txt">
+            <div class="num">Pattern 5</div>
+            <h3>Credit toggle at checkout</h3>
+            <p>On by default, shown as a negative line. No slider.</p>
+            <div class="refs"><span class="tag ac">Criterion 3</span><span class="tag">Shopify</span><span class="tag">Starbucks</span></div>
+          </div>
+        </div>
+
+        <div class="pat">
+          <div class="mock">
+            <div class="m-card">
+              <div class="m-row"><span class="m-strong">€84 credit</span><span class="m-warn">Expires in 30 days</span></div>
+              <div class="m-row"><span class="m-muted">Use it on your next beads order</span><span class="m-btn">Reorder</span></div>
+            </div>
+          </div>
+          <div class="txt">
+            <div class="num">Pattern 6</div>
+            <h3>Expiring-balance nudge</h3>
+            <p>One home card and one notification, with a reorder CTA.</p>
+            <div class="refs"><span class="tag ac">Criterion 4</span><span class="tag">Starbucks</span><span class="tag">Shopify</span></div>
+          </div>
+        </div>
+
+        <div class="pat">
+          <div class="mock">
+            <div class="m-card">
+              <div class="m-row"><span>Add <strong>€180</strong> to earn <span class="m-earn">€10 more</span></span></div>
+              <div class="m-bar"><i></i></div>
+            </div>
+          </div>
+          <div class="txt">
+            <div class="num">Pattern 7</div>
+            <h3>Progress line in the cart</h3>
+            <p>One line toward the next reward, like free-shipping bars.</p>
+            <div class="refs"><span class="tag ac">Criterion 4</span><span class="tag">Sephora</span><span class="tag">Zoro</span><span class="tag">Faire</span></div>
+          </div>
+        </div>
+
+        <div class="pat">
+          <div class="mock">
+            <div class="m-card" style="max-width:200px">
+              <div class="m-pimg"></div>
+              <div class="m-row"><span class="m-strong">Wear parts kit</span><span class="m-chip" style="padding:2px 8px">2× credit</span></div>
+              <div class="m-muted">Until 30 Nov</div>
+            </div>
+          </div>
+          <div class="txt">
+            <div class="num">Pattern 8 · v2</div>
+            <h3>Boosted items</h3>
+            <p>Time-limited double credit on selected parts.</p>
+            <div class="refs"><span class="tag ac">Criteria 2 · 4</span><span class="tag">Klarna</span><span class="tag">Cash App</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <h2>B2B considerations</h2>
+      <div class="cols">
+        <div class="box">
+          <h3>Ownership and roles</h3>
+          <ul>
+            <li><strong>Company-owned balance</strong>, shared by all Buyers.</li>
+            <li><strong>Admin</strong> sees the history and expiry.</li>
+            <li><strong>Buyer</strong> sees and applies the balance.</li>
+            <li><strong>Approver</strong> sees "Credit applied: −€X" when approving.</li>
+            <li><strong>Technician</strong> doesn't see the balance.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Process and finance</h3>
+          <ul>
+            <li><strong>Approval:</strong> credit is applied before approval and locked.</li>
+            <li><strong>Budget:</strong> charged net of credit.</li>
+            <li><strong>Invoice:</strong> credit as a discount line before VAT, also on the PO.</li>
+            <li><strong>Returns:</strong> the pending state handles clawback.</li>
+            <li><strong>Expiry:</strong> 12 months is common in B2B; check local rules.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Recommendation for the prototype</h2>
+      <div class="rec">
+        <dl>
+          <dt>Earn</dt><dd>Flat 2% on grinding beads and spare parts. No tiers. Services excluded in v1.</dd>
+          <dt>Owner</dt><dd>The company account.</dd>
+          <dt>States</dt><dd>Pending until delivery, then Available for 12 months.</dd>
+          <dt>Where it shows</dt><dd>Header chip · "Earn €X" in cart and order · checkout toggle · home card with expiry nudge.</dd>
+          <dt>Progress</dt><dd>One line in the cart: "Add €X to earn €Y more".</dd>
+          <dt>Later (v2)</dt><dd>Rewards vs. payment terms, boosted items, per-site balances.</dd>
+        </dl>
+      </div>
+      <p class="note">Percentage, expiry and eligible products are examples and need business validation (CP-733 technical notes).</p>
+    </section>
+
+    <section>
+      <h2>Sources</h2>
+      <ul class="sources">
+        <li><a href="https://help.shopify.com/en/manual/customers/store-credit">help.shopify.com/en/manual/customers/store-credit</a></li>
+        <li><a href="https://www.americanexpress.com/us/credit-cards/business/business-credit-cards/amazon-business-prime-american-express-card/">americanexpress.com · Amazon Business Prime card</a></li>
+        <li><a href="https://www.brex.com/product/rewards">brex.com/product/rewards</a></li>
+        <li><a href="https://ramp.com/rewards">ramp.com/rewards</a></li>
+        <li><a href="https://www.wuerth.de/">wuerth.de</a></li>
+        <li><a href="https://www.zoro.com/">zoro.com</a></li>
+        <li><a href="https://www.uline.com/">uline.com</a></li>
+        <li><a href="https://www.faire.com">faire.com</a></li>
+        <li><a href="https://www.apple.com/apple-card/">apple.com/apple-card</a></li>
+        <li><a href="https://www.rakuten.com/help/article/when-will-i-get-paid-360002117667">rakuten.com · when will I get paid</a></li>
+        <li><a href="https://www.meliuz.com.br/como-funciona">meliuz.com.br/como-funciona</a></li>
+        <li><a href="https://www.klarna.com/us/rewards/">klarna.com/us/rewards</a></li>
+      </ul>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>
