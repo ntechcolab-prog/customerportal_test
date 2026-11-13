@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cashback Benchmark Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#071a18; --bg2:#0c2724; --teal:#0b9c92; --teal-dark:#007167; --mint:#5fd6c9;
+    --white:#ffffff; --text:#e8f1f0; --soft:#b7cbc8; --line:rgba(255,255,255,.12);
+    --glass:rgba(255,255,255,.06); --amber:#f2c26b;
+    /* light mock cards (portal look) */
+    --c-ink:#1f2933; --c-soft:#4b5563; --c-line:#e3e5e7; --c-green:#007167; --c-green-soft:#e6f4f2; --c-amber:#92400e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:var(--bg); color:var(--text); overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none;
+    background:
+      radial-gradient(900px 600px at 85% -10%, rgba(11,156,146,.35), transparent 60%),
+      radial-gradient(700px 500px at -10% 110%, rgba(0,113,103,.35), transparent 60%);
+  }
+  .deck{position:relative; height:100%; width:100%}
+  .slide{
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
+    padding:72px clamp(24px,7vw,110px) 96px;
+    opacity:0; visibility:hidden; transform:translateX(40px);
+    transition:opacity .45s ease, transform .45s ease, visibility .45s;
+  }
+  .slide.active{opacity:1; visibility:visible; transform:none}
+  .slide.prev{transform:translateX(-40px)}
+  @media (prefers-reduced-motion:reduce){ .slide{transition:none; transform:none} .slide.prev{transform:none} }
+
+  .brand{position:fixed; top:28px; left:clamp(24px,7vw,110px); display:flex; align-items:center; gap:12px; z-index:5; font-size:13px; color:var(--soft)}
+  .brand b{color:var(--white); font-weight:800; letter-spacing:.02em; font-size:15px}
+  .brand .sep{width:1px; height:16px; background:var(--line)}
+  .counter{position:fixed; top:28px; right:clamp(24px,7vw,110px); font-size:13px; color:var(--soft); z-index:5; font-variant-numeric:tabular-nums}
+
+  .kicker{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--mint); margin-bottom:22px}
+  .kicker::before{content:""; width:22px; height:2px; background:var(--mint); border-radius:2px}
+  h1{font-size:clamp(40px,6vw,78px); line-height:1.02; font-weight:800; letter-spacing:-.03em; color:var(--white); max-width:14ch}
+  h2{font-size:clamp(30px,4vw,52px); line-height:1.08; font-weight:800; letter-spacing:-.025em; color:var(--white); max-width:20ch; margin-bottom:18px}
+  .lead{font-size:clamp(17px,1.6vw,22px); line-height:1.5; color:var(--soft); max-width:46ch}
+  .hl{color:var(--mint)}
+
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,5vw,80px); align-items:center}
+  .glass{background:var(--glass); border:1px solid var(--line); border-radius:20px; padding:26px 28px; backdrop-filter:blur(10px)}
+
+  /* chips */
+  .chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px}
+  .chip{border:1px solid var(--line); background:var(--glass); border-radius:999px; padding:9px 16px; font-size:15px; color:var(--text)}
+  .chip.x{position:relative; color:var(--soft)}
+  .chip.x::after{content:"no cashback"; margin-left:8px; font-size:12px; color:var(--amber); font-weight:600}
+
+  /* big number */
+  .big{font-size:clamp(72px,11vw,150px); font-weight:800; line-height:.9; letter-spacing:-.05em; background:linear-gradient(135deg,#fff,var(--mint)); -webkit-background-clip:text; background-clip:text; color:transparent}
+
+  /* columns of refs */
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:34px}
+  .col h3{font-size:14px; letter-spacing:.12em; text-transform:uppercase; color:var(--mint); margin-bottom:14px; font-weight:700}
+  .col ul{list-style:none; display:flex; flex-wrap:wrap; gap:8px}
+  .col li{font-size:15px; padding:8px 14px; border-radius:10px; background:rgba(255,255,255,.05); border:1px solid var(--line)}
+
+  /* roles */
+  .roles{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:34px}
+  .role{background:var(--glass); border:1px solid var(--line); border-radius:16px; padding:20px}
+  .role .r{font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--mint); margin-bottom:10px}
+  .role p{font-size:16px; color:var(--text); line-height:1.45}
+  .role.off{opacity:.55}
+
+  /* mocks */
+  .stage{display:flex; flex-direction:column; gap:16px; align-items:center}
+  .mock{background:#fff; color:var(--c-ink); border-radius:16px; padding:18px 20px; width:100%; max-width:420px; box-shadow:0 30px 60px -20px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08); font-size:15px}
+  .mrow{display:flex; justify-content:space-between; align-items:center; gap:12px}
+  .mrow + .mrow{margin-top:12px}
+  .mline{height:1px; background:var(--c-line); margin:14px 0}
+  .msoft{color:var(--c-soft); font-size:13px}
+  .mstrong{font-weight:700}
+  .mearn{color:var(--c-green); font-weight:700}
+  .mlogo{font-weight:800; color:var(--c-green); margin-right:auto; letter-spacing:-.01em}
+  .mchip{display:inline-flex; align-items:center; gap:6px; background:var(--c-green-soft); color:var(--c-green); font-weight:700; font-size:14px; border-radius:999px; padding:6px 12px}
+  .mdot{width:30px; height:30px; border-radius:50%; background:var(--c-green); color:#fff; font-size:11px; font-weight:700; display:grid; place-items:center}
+  .mtoggle{width:40px; height:24px; border-radius:999px; background:#0b9c92; position:relative; flex:none}
+  .mtoggle::after{content:""; position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; background:#fff}
+  .mstate{font-size:12px; font-weight:700; border-radius:999px; padding:3px 10px}
+  .mstate.p{background:#fbf2dd; color:var(--c-amber)}
+  .mstate.a{background:#e4f3ee; color:#0b6b52}
+  .mbtn{background:var(--c-green); color:#fff; font-size:13px; font-weight:700; border-radius:999px; padding:8px 16px}
+  .mwarn{color:var(--c-amber); font-weight:700; font-size:13px}
+  .mbar{height:8px; border-radius:999px; background:#e3e5e7; overflow:hidden; margin-top:10px}
+  .mbar i{display:block; height:100%; width:64%; background:linear-gradient(90deg,#007167,#0b9c92)}
+  .mimg{height:70px; border-radius:10px; background:linear-gradient(135deg,#e9eced,#f6f7f8); margin-bottom:12px}
+  .criterion{display:inline-block; margin-top:22px; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--bg); background:var(--mint); padding:6px 12px; border-radius:999px}
+  .points{list-style:none; margin-top:22px; display:flex; flex-direction:column; gap:12px}
+  .points li{font-size:18px; color:var(--text); padding-left:28px; position:relative; line-height:1.45}
+  .points li::before{content:""; position:absolute; left:0; top:.55em; width:12px; height:12px; border-radius:50%; background:var(--mint); box-shadow:0 0 0 4px rgba(95,214,201,.18)}
+  .points li span{color:var(--soft)}
+
+  /* journey */
+  .journey{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:38px; position:relative}
+  .step{background:var(--glass); border:1px solid var(--line); border-radius:18px; padding:24px 22px; position:relative}
+  .step .n{width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--teal-dark),var(--teal)); display:grid; place-items:center; font-weight:800; color:#fff; margin-bottom:16px}
+  .step h3{font-size:20px; color:var(--white); margin-bottom:8px}
+  .step p{font-size:15px; color:var(--soft); line-height:1.45}
+  .step:not(:last-child)::after{content:"→"; position:absolute; right:-14px; top:50%; transform:translateY(-50%); color:var(--mint); font-size:20px; z-index:2}
+
+  /* rec */
+  .rec{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:34px}
+  .rcard{background:var(--glass); border:1px solid var(--line); border-radius:18px; padding:24px}
+  .rcard .v{font-size:clamp(34px,4vw,52px); font-weight:800; letter-spacing:-.03em; color:var(--white); line-height:1}
+  .rcard .l{font-size:15px; color:var(--soft); margin-top:10px; line-height:1.45}
+  .later{margin-top:22px; font-size:15px; color:var(--soft)}
+  .later b{color:var(--text)}
+
+  .next{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:34px}
+  .next .glass h3{font-size:18px; color:var(--white); margin-bottom:8px}
+  .next .glass p{font-size:15px; color:var(--soft); line-height:1.45}
+  .note{margin-top:26px; font-size:13px; color:var(--soft)}
+
+  /* nav */
+  .progress{position:fixed; left:0; bottom:0; height:4px; background:linear-gradient(90deg,var(--teal-dark),var(--mint)); transition:width .4s ease; z-index:6}
+  .nav{position:fixed; bottom:24px; right:clamp(24px,7vw,110px); display:flex; gap:10px; z-index:6}
+  .nav button{width:48px; height:48px; border-radius:50%; border:1px solid var(--line); background:var(--glass); color:var(--white); font-size:20px; cursor:pointer; backdrop-filter:blur(8px)}
+  .nav button:hover{background:rgba(255,255,255,.12)}
+  .nav button:focus-visible{outline:3px solid var(--mint); outline-offset:2px}
+  .hint{position:fixed; bottom:38px; left:clamp(24px,7vw,110px); font-size:13px; color:var(--soft); z-index:6}
+
+  @media (max-width:860px){
+    body{overflow:auto}
+    .slide{position:relative; opacity:1; visibility:visible; transform:none; min-height:100vh; padding:90px 20px 60px}
+    .split,.cols,.journey,.rec,.next{grid-template-columns:1fr}
+    .roles{grid-template-columns:1fr 1fr}
+    .step:not(:last-child)::after{display:none}
+    .nav,.hint,.progress,.counter{display:none}
+    .brand{position:absolute}
+  }
+</style>
+</head>
+<body>
+<div class="brand"><b>NETZSCH</b><span class="sep"></span>Customer Portal · CP-733</div>
+<div class="counter" id="counter" aria-live="polite">1 / 11</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 Cover -->
+  <section class="slide active" aria-label="Cover">
+    <div class="kicker">Benchmark · November 2026</div>
+    <h1>Cashback in the <span class="hl">Customer Portal</span></h1>
+    <p class="lead" style="margin-top:26px">What modern B2B and consumer products do, and what we should build first.</p>
+  </section>
+
+  <!-- 2 Opportunity -->
+  <section class="slide" aria-label="The opportunity">
+    <div class="kicker">The opportunity</div>
+    <h2>Industrial competitors <span class="hl">don't offer cashback</span></h2>
+    <p class="lead">They compete on free shipping, payment terms and easy reorder. A cashback program would set the portal apart.</p>
+    <div class="chips">
+      <span class="chip x">Grainger</span><span class="chip x">McMaster-Carr</span><span class="chip x">Würth</span><span class="chip x">Zoro</span><span class="chip x">Uline</span>
+    </div>
+  </section>
+
+  <!-- 3 Who we looked at -->
+  <section class="slide" aria-label="References">
+    <div class="split">
+      <div>
+        <div class="kicker">Who we looked at</div>
+        <div class="big">15</div>
+        <p class="lead" style="margin-top:16px">references. B2B for the <strong style="color:#fff">rules</strong>, consumer apps for the <strong style="color:#fff">experience</strong>.</p>
+      </div>
+      <div class="cols" style="margin-top:0">
+        <div class="col"><h3>B2B</h3><ul><li>Shopify B2B</li><li>Amazon Business</li><li>Brex</li><li>Ramp</li><li>Würth</li><li>Faire</li><li>Grainger · Zoro · Uline</li></ul></div>
+        <div class="col"><h3>Consumer</h3><ul><li>Apple Card</li><li>Nubank</li><li>Mercado Livre</li><li>Rakuten</li><li>Méliuz</li><li>Starbucks</li><li>Sephora</li><li>Klarna</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Rule #1 -->
+  <section class="slide" aria-label="Who owns the balance">
+    <div class="kicker">Rule #1 in B2B</div>
+    <h2>The balance belongs to the <span class="hl">company</span>, not the buyer</h2>
+    <p class="lead">Personal rewards can conflict with procurement and anti-bribery rules. Each role sees only what it needs.</p>
+    <div class="roles">
+      <div class="role"><div class="r">Admin</div><p>Sees history and expiry</p></div>
+      <div class="role"><div class="r">Buyer</div><p>Sees and uses the balance</p></div>
+      <div class="role"><div class="r">Approver</div><p>Sees "credit applied" on approval</p></div>
+      <div class="role off"><div class="r">Technician</div><p>Doesn't see it</p></div>
+    </div>
+  </section>
+
+  <!-- 5 Always visible -->
+  <section class="slide" aria-label="Balance always visible">
+    <div class="split">
+      <div>
+        <div class="kicker">Pattern · Visibility</div>
+        <h2>Balance always <span class="hl">one glance away</span></h2>
+        <ul class="points">
+          <li>A small chip in the header <span>· Apple Wallet, Nubank</span></li>
+          <li>Opens a panel with available, pending and expiry</li>
+        </ul>
+        <span class="criterion">Criterion 1</span>
+      </div>
+      <div class="stage">
+        <div class="mock"><div class="mrow"><span class="mlogo">NETZSCH</span><span class="mchip">€84 credit</span><span class="mdot">MW</span></div></div>
+        <div class="mock">
+          <div class="mrow"><span class="mstrong">Company credit</span><span class="mstrong">€84.00</span></div>
+          <div class="mline"></div>
+          <div class="mrow"><span>Available</span><span class="mstate a">€84.00</span></div>
+          <div class="mrow"><span>Pending</span><span class="mstate p">€80.00</span></div>
+          <div class="mrow"><span class="msoft">Next expiry</span><span class="msoft">12 Feb 2027</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 Earn shown -->
+  <section class="slide" aria-label="Earnings shown">
+    <div class="split">
+      <div>
+        <div class="kicker">Pattern · Earn</div>
+        <h2>Show what they earn, <span class="hl">before and after</span></h2>
+        <ul class="points">
+          <li>"Earn €X" on the product and in the cart <span>· Mercado Livre, Sephora</span></li>
+          <li>One line on the order <span>· Apple Card</span></li>
+          <li>Pending until delivery, then available <span>· Rakuten</span></li>
+        </ul>
+        <span class="criterion">Criterion 2</span>
+      </div>
+      <div class="stage">
+        <div class="mock" style="max-width:300px">
+          <div class="mimg"></div>
+          <div class="mstrong">Grinding beads ZY 2mm</div>
+          <div class="mrow" style="margin-top:6px"><span>€640</span><span class="mearn">Earn €12.80</span></div>
+        </div>
+        <div class="mock">
+          <div class="mrow"><span class="mstrong">Order 2800998-31</span><span class="mstate p">Pending</span></div>
+          <div class="mline"></div>
+          <div class="mrow"><span>Total</span><span class="mstrong">€4,000.00</span></div>
+          <div class="mrow"><span class="mearn">Credit earned</span><span class="mearn">+ €80.00</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 Use it -->
+  <section class="slide" aria-label="Using the balance">
+    <div class="split">
+      <div>
+        <div class="kicker">Pattern · Redeem</div>
+        <h2>Use it with <span class="hl">one toggle</span></h2>
+        <ul class="points">
+          <li>On by default at checkout <span>· Shopify, Starbucks</span></li>
+          <li>A discount line before VAT, also on the PO</li>
+          <li>Applied before approval, then locked</li>
+        </ul>
+        <span class="criterion">Criterion 3</span>
+      </div>
+      <div class="stage">
+        <div class="mock">
+          <div class="mrow"><span>Subtotal</span><span>€1,240.00</span></div>
+          <div class="mrow"><span style="display:flex;align-items:center;gap:10px"><span class="mtoggle"></span>Use €84 credit</span><span class="mearn">− €84.00</span></div>
+          <div class="mline"></div>
+          <div class="mrow"><span class="mstrong">Total</span><span class="mstrong" style="font-size:20px">€1,156.00</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 Come back -->
+  <section class="slide" aria-label="Bringing them back">
+    <div class="split">
+      <div>
+        <div class="kicker">Pattern · Come back</div>
+        <h2>Gentle reasons to <span class="hl">buy again</span></h2>
+        <ul class="points">
+          <li>"Your credit expires in 30 days" + Reorder <span>· Starbucks</span></li>
+          <li>"Add €180 to earn €10 more" in the cart <span>· Sephora, free-shipping bars</span></li>
+        </ul>
+        <span class="criterion">Criterion 4</span>
+      </div>
+      <div class="stage">
+        <div class="mock">
+          <div class="mrow"><span class="mstrong">€84 credit</span><span class="mwarn">Expires in 30 days</span></div>
+          <div class="mrow"><span class="msoft">Use it on your next beads order</span><span class="mbtn">Reorder</span></div>
+        </div>
+        <div class="mock">
+          <div>Add <strong>€180</strong> to earn <span class="mearn">€10 more</span></div>
+          <div class="mbar"><i></i></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 Journey -->
+  <section class="slide" aria-label="The journey">
+    <div class="kicker">The journey</div>
+    <h2>Four moments, <span class="hl">one simple loop</span></h2>
+    <div class="journey">
+      <div class="step"><div class="n">1</div><h3>Earn</h3><p>Buy beads or parts and see "Earn €X".</p></div>
+      <div class="step"><div class="n">2</div><h3>Wait</h3><p>Credit is pending until the order is delivered.</p></div>
+      <div class="step"><div class="n">3</div><h3>Use</h3><p>One toggle at checkout applies it.</p></div>
+      <div class="step"><div class="n">4</div><h3>Come back</h3><p>An expiry reminder brings them back to reorder.</p></div>
+    </div>
+  </section>
+
+  <!-- 10 Recommendation -->
+  <section class="slide" aria-label="Recommendation">
+    <div class="kicker">Our recommendation</div>
+    <h2>Start <span class="hl">simple</span></h2>
+    <div class="rec">
+      <div class="rcard"><div class="v">2%</div><div class="l">back on grinding beads and spare parts. No tiers.</div></div>
+      <div class="rcard"><div class="v">1</div><div class="l">balance per company, shared by its buyers.</div></div>
+      <div class="rcard"><div class="v">12 mo</div><div class="l">to use it, after the order is delivered.</div></div>
+    </div>
+    <p class="later"><b>Later (v2):</b> rewards vs. payment terms (Amazon Business), boosted items, per-site balances.</p>
+  </section>
+
+  <!-- 11 Next -->
+  <section class="slide" aria-label="Next steps">
+    <div class="kicker">Next steps</div>
+    <h2>What we need to <span class="hl">move forward</span></h2>
+    <div class="next">
+      <div class="glass"><h3>Validate the rules</h3><p>Percentage, expiry and eligible products with the business.</p></div>
+      <div class="glass"><h3>Check with finance</h3><p>Credit as a discount line before VAT, on PO and invoice.</p></div>
+      <div class="glass"><h3>Build the prototype</h3><p>Header chip, earn lines, checkout toggle and home reminder.</p></div>
+    </div>
+    <p class="note">Values are examples. Program details of the references come from desk research and should be confirmed on official pages.</p>
+  </section>
+
+</main>
+
+<div class="progress" id="progress"></div>
+<div class="hint">← → to navigate</div>
+<div class="nav">
+  <button type="button" id="prev" aria-label="Previous slide">‹</button>
+  <button type="button" id="next" aria-label="Next slide">›</button>
+</div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = 0, n = slides.length;
+  var counter = document.getElementById('counter'), bar = document.getElementById('progress');
+  function show(k) {
+    i = Math.max(0, Math.min(n - 1, k));
+    slides.forEach(function (s, j) {
+      s.classList.toggle('active', j === i);
+      s.classList.toggle('prev', j < i);
+      s.setAttribute('aria-hidden', j === i ? 'false' : 'true');
+    });
+    counter.textContent = (i + 1) + ' / ' + n;
+    bar.style.width = ((i + 1) / n * 100) + '%';
+    try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
+  }
+  document.getElementById('next').addEventListener('click', function () { show(i + 1); });
+  document.getElementById('prev').addEventListener('click', function () { show(i - 1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(n - 1);
+  });
+  var x0 = null;
+  document.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+  document.getElementById('deck').addEventListener('click', function (e) {
+    if (e.target.closest('a,button')) return;
+    show(i + (e.clientX > window.innerWidth / 3 ? 1 : -1));
+  });
+  var h = parseInt(location.hash.slice(1), 10);
+  show(isNaN(h) ? 0 : h - 1);
+})();
+</script>
+</body>
+</html>
