@@ -1780,7 +1780,7 @@
 
     if (drawerBody && drawerEl && overlayEl) {
       var approverOrdersData = [
-        { id:'2800998-30', requester:'Sarah Mitchell', requesterRole:'Procurement Specialist', product:'LMZ60 spares', items:[{name:'LMZ60 Grinding Chamber Set',ref:'GC-LMZ60',qty:'1 pc'}], total:'4.000,00 €', date:'Apr 28, 2026', status:'pending', note:'Replacement parts for LMZ60 — scheduled maintenance next week. Priority: normal.' },
+        { id:'2800998-30', requester:'Sarah Mitchell', requesterRole:'Procurement Specialist', product:'LMZ60 spares', items:[{name:'LMZ60 Grinding Chamber Set',ref:'GC-LMZ60',qty:'1 pc'}], total:'3.950,00 €', gross:'4.000,00 €', credit:'50,00 €', date:'Apr 28, 2026', status:'pending', note:'Replacement parts for LMZ60 — scheduled maintenance next week. Priority: normal.' },
         { id:'2800998-29', requester:'Sarah Mitchell', requesterRole:'Procurement Specialist', product:'CERABEADS 0.4 (x3)', items:[{name:'NETZSCH CERABEADS 0.4',ref:'443385',qty:'3 kg'}], total:'119,25 €', date:'Apr 25, 2026', status:'pending', note:'Routine restock for Zeta 60 milling line.' },
         { id:'2800998-28', requester:'James Cooper', requesterRole:'Procurement Specialist', product:'ZetaBeads Plus 0.3mm', items:[{name:'ZetaBeads Plus 0.3mm',ref:'ZB-030P',qty:'2 kg'}], total:'850,00 €', date:'Apr 22, 2026', status:'pending', note:'New batch for nano milling project starting May 5.' },
         { id:'REQ-2026-4781', requester:'Carlos Andrade', requesterRole:'Field Technician', product:'CERABEADS 0.4', items:[{name:'NETZSCH CERABEADS 0.4',ref:'443385',qty:'1 kg'}], total:'—', date:'Apr 15, 2026', status:'pending', note:'Scheduled maintenance — current grinding beads showing signs of wear after 2,400 operating hours.', type:'technician', machine:'Alpha Zeta 10' },
@@ -1814,7 +1814,9 @@
         html += '<div class="drawer-info-grid">';
         html += '  <div class="drawer-info-item"><span class="drawer-info-label">Requester</span><span class="drawer-info-value">' + o.requester + '</span></div>';
         html += '  <div class="drawer-info-item"><span class="drawer-info-label">Role</span><span class="drawer-info-value">' + o.requesterRole + '</span></div>';
-        html += '  <div class="drawer-info-item"><span class="drawer-info-label">Total</span><span class="drawer-info-value">' + o.total + '</span></div>';
+        html += '  <div class="drawer-info-item"><span class="drawer-info-label">Total</span><span class="drawer-info-value">' + o.total + '</span>' +
+          // CP-733: credit applied by the buyer before approval; budget uses this net total
+          (o.credit ? '<span style="display:block;font-size:12px;color:#3d4246;margin-top:2px;">' + o.gross + ' − ' + o.credit + ' NETZSCH Credit</span>' : '') + '</div>';
         if (o.machine) {
           html += '  <div class="drawer-info-item"><span class="drawer-info-label">Machine</span><span class="drawer-info-value">' + o.machine + '</span></div>';
         } else {

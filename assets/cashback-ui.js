@@ -39,7 +39,13 @@
       earns: 'This order earns {amount} NETZSCH Credit',
       earnsNote: 'Available after delivery, valid for {months} months.',
       orderCredit: 'NETZSCH Credit',
-      orderPending: 'Pending. Available after delivery.'
+      orderPending: 'Pending. Available after delivery.',
+      useCredit: 'Use NETZSCH Credit',
+      availableAmount: '{amount} available',
+      applied: 'NETZSCH Credit applied',
+      appliedNote: 'Approval and budget use the total after credit.',
+      nowEarned: 'Earned on this order',
+      nowEarnedNote: 'Pending. Available after delivery.'
     },
     de: {
       title: 'NETZSCH Guthaben',
@@ -72,7 +78,13 @@
       earns: 'Diese Bestellung bringt {amount} NETZSCH Guthaben',
       earnsNote: 'Nach der Lieferung {months} Monate verfügbar.',
       orderCredit: 'NETZSCH Guthaben',
-      orderPending: 'Ausstehend. Nach der Lieferung verfügbar.'
+      orderPending: 'Ausstehend. Nach der Lieferung verfügbar.',
+      useCredit: 'NETZSCH Guthaben einlösen',
+      availableAmount: '{amount} verfügbar',
+      applied: 'NETZSCH Guthaben eingelöst',
+      appliedNote: 'Freigabe und Budget nutzen den Betrag nach Guthaben.',
+      nowEarned: 'Mit dieser Bestellung erhalten',
+      nowEarnedNote: 'Ausstehend. Nach der Lieferung verfügbar.'
     }
   };
 
@@ -239,6 +251,8 @@
 
   // ---------- Earn: cart dropdown, cart page and order detail ----------
 
+  var appliedCredit = 0;
+
   function parseEuro(text) {
     var n = parseFloat(String(text).replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.'));
     return isNaN(n) ? 0 : n;
@@ -253,7 +267,7 @@
   }
 
   function earnLine(cls, withNote) {
-    var amount = Credit.earnFor(cartEligible());
+    var amount = Credit.earnFor(Math.max(0, cartEligible() - appliedCredit));
     var el = document.createElement('div');
     el.className = 'credit-earn ' + cls;
     el.hidden = !amount;
@@ -285,6 +299,7 @@
     });
     // Cart page: under the order total
     var total = document.getElementById('payOrderTotal');
+    if (/checkout-confirmation/.test(location.pathname)) return;
     if (total && total.parentNode.classList.contains('order-total-row')) {
       mountEarn(total.parentNode, 'credit-earn--summary', true, total);
       return;
@@ -307,9 +322,102 @@
     }
   }
 
+  // ---------- Use: checkout review toggle + confirmation ----------
+
+  var CHECKOUT_KEY = 'netzsch_credit_checkout';
+
+  function initCheckout() {
+    var before = document.getElementById('payTotalBefore');
+    var total = document.getElementById('payOrderTotal');
+    if (!before || !total || !/checkout-review/.test(location.pathname)) return;
+    var coupon = before.closest('.sidebar-card, .payment-card').querySelector('.coupon-link');
+    if (!coupon) return;
+    var base = parseEuro(before.textContent);
+    var available = Credit.balance().available;
+    if (!base || !available) return;
+    var max = Math.min(available, base);
+    var on = true; // applied by default
+    try { if (sessionStorage.getItem(CHECKOUT_KEY + '_off') === '1') on = false; } catch (err) { /* ignore */ }
+
+    var row = document.createElement('div');
+    row.className = 'credit-apply';
+    coupon.closest('.payment-row').insertAdjacentElement('afterend', row);
+
+    function paint() {
+      appliedCredit = on ? max : 0;
+      row.innerHTML =
+        '<button type="button" class="credit-switch" role="switch" aria-checked="' + on + '" aria-labelledby="credit-apply-label" aria-describedby="credit-apply-note">' +
+          '<span class="credit-switch-track"><span class="credit-switch-thumb"></span></span></button>' +
+        '<span class="credit-apply-text"><span id="credit-apply-label" class="credit-apply-label">' + s('useCredit') + '</span>' +
+          '<span id="credit-apply-note" class="credit-apply-note">' + s('availableAmount', { amount: Credit.money(available) }) +
+          (on ? '. ' + s('appliedNote') : '') + '</span></span>' +
+        '<span class="credit-apply-value">' + (on ? '−' + Credit.money(max) : '') + '</span>';
+      row.querySelector('.credit-switch').addEventListener('click', function () {
+        on = !on;
+        try { sessionStorage.setItem(CHECKOUT_KEY + '_off', on ? '0' : '1'); } catch (err) { /* ignore */ }
+        paint();
+        row.querySelector('.credit-switch').focus();
+      });
+      total.textContent = Credit.money(base - appliedCredit);
+      var earn = document.querySelector('.credit-earn--summary');
+      if (earn) {
+        var next = earnLine('credit-earn--summary', true);
+        earn.replaceWith(next);
+      }
+    }
+    paint();
+    document.addEventListener('netzsch:i18n-applied', paint);
+
+    // Place Order: hand the applied credit to the confirmation page
+    var place = document.getElementById('btnPlaceOrder');
+    if (place) place.addEventListener('click', function () {
+      if (place.classList.contains('disabled-btn')) return;
+      try {
+        sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify({
+          applied: appliedCredit,
+          earn: Credit.earnFor(Math.max(0, cartEligible() - appliedCredit))
+        }));
+      } catch (err) { /* ignore */ }
+    }, true);
+  }
+
+  function initConfirmation() {
+    if (!/checkout-confirmation/.test(location.pathname)) return;
+    var data;
+    try { data = JSON.parse(sessionStorage.getItem(CHECKOUT_KEY) || 'null'); } catch (err) { data = null; }
+    var totalRow = document.getElementById('payOrderTotal');
+    var title = document.getElementById('orderTitle');
+    if (!data || !totalRow) return;
+    var orderNo = title ? title.textContent.replace(/[^\d-]/g, '') : 'new';
+    // Record once per confirmation
+    if (!data.done) {
+      if (data.applied) Credit.redeem(orderNo, data.applied);
+      if (data.earn) Credit.addEarn(orderNo, data.earn);
+      data.done = orderNo;
+      try { sessionStorage.setItem(CHECKOUT_KEY, JSON.stringify(data)); } catch (err) { /* ignore */ }
+    }
+    var before = document.getElementById('payTotalBefore');
+    if (data.applied && before) {
+      var r = document.createElement('div');
+      r.className = 'payment-row credit-applied-row';
+      r.innerHTML = '<span class="label">' + s('applied') + '</span><span class="value">−' + Credit.money(data.applied) + '</span>';
+      var sep = totalRow.closest('.order-total-row').previousElementSibling;
+      sep.parentNode.insertBefore(r, sep);
+      totalRow.textContent = Credit.money(Math.max(0, parseEuro(before.textContent) - data.applied));
+    }
+    if (data.earn) {
+      var box = document.createElement('div');
+      box.className = 'credit-earn credit-earn--order';
+      box.innerHTML = '<span class="credit-earn-icon">' + ICON + '</span><span class="credit-earn-main">' +
+        '<span class="credit-earn-row"><span>' + s('nowEarned') + '</span><strong>+' + Credit.money(data.earn) + '</strong></span>' +
+        '<span class="credit-earn-sub">' + s('nowEarnedNote') + '</span></span>';
+      totalRow.closest('.order-total-row').insertAdjacentElement('afterend', box);
+    }
+  }
+
   window.CreditUI = { open: open, close: close };
 
-  function boot() { init(); initEarn(); }
+  function boot() { init(); initEarn(); initCheckout(); initConfirmation(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
