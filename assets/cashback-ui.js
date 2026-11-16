@@ -1,7 +1,6 @@
 /**
- * NETZSCH Customer Portal — NETZSCH Credit header chip + balance drawer (prototype, CP-733)
- * Injects a compact balance chip into `.app-header-right` (Admin and Buyer only)
- * and opens a drawer with available / pending / expiring credit, savings this
+ * NETZSCH Customer Portal — NETZSCH Credit profile entry + balance drawer (prototype, CP-733)
+ * Adds a balance entry to the profile dropdown (Admin and Buyer only) and opens a drawer with available / pending / expiring credit, savings this
  * year, recent activity and how it works. Needs cashback-store.js.
  */
 (function () {
@@ -17,6 +16,7 @@
       pending: 'Pending',
       pendingNote: 'Released on delivery',
       chipExpiring: 'Some credit expires soon',
+      entryExpiring: '{amount} expires {date}',
       alert: '{amount} expires on {date}. Use it on your next order.',
       saved: 'Saved this year',
       savedNote: 'Credit used on orders',
@@ -45,6 +45,7 @@
       pending: 'Ausstehend',
       pendingNote: 'Freigabe bei Lieferung',
       chipExpiring: 'Ein Teil läuft bald ab',
+      entryExpiring: '{amount} läuft am {date} ab',
       alert: '{amount} läuft am {date} ab. Lösen Sie es bei Ihrer nächsten Bestellung ein.',
       saved: 'Dieses Jahr gespart',
       savedNote: 'Bei Bestellungen eingelöst',
@@ -75,7 +76,7 @@
   }
 
   var ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<circle cx="12" cy="12" r="9"/><path d="M14.8 9.2A3.2 3.2 0 0 0 12 8c-1.8 0-3 .9-3 2.2 0 3 6 1.6 6 4.6 0 1.3-1.3 2.2-3 2.2a3.4 3.4 0 0 1-2.9-1.3M12 6.5V8m0 9v1.5"/></svg>';
+    '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.6A4 4 0 0 0 9 11.4v1.2a4 4 0 0 0 6.5 2.8M7.5 11h5M7.5 13.5h5"/></svg>';
   var WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
     '<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>';
 
@@ -85,8 +86,10 @@
 
   function renderChip() {
     var b = Credit.balance();
-    chip.innerHTML = ICON + '<span class="credit-chip-value">' + Credit.money(b.available, false) + '</span>' +
-      (b.expiring ? '<span class="credit-chip-dot" aria-hidden="true"></span>' : '');
+    chip.innerHTML = '<span class="credit-entry-icon">' + ICON + '</span>' +
+      '<span class="credit-entry-text"><span class="credit-entry-label">' + s('title') + '</span>' +
+      (b.expiring ? '<span class="credit-entry-note">' + s('entryExpiring', { amount: Credit.money(b.expiring.amount, false), date: Credit.formatDate(b.expiring.date) }) + '</span>' : '') +
+      '</span><span class="credit-entry-value">' + Credit.money(b.available, false) + '</span>';
     chip.setAttribute('aria-label', s('chip') + ': ' + Credit.money(b.available) + (b.expiring ? '. ' + s('chipExpiring') : ''));
   }
 
@@ -150,8 +153,8 @@
     drawer.querySelector('.credit-close').addEventListener('click', close);
   }
 
-  function open() {
-    lastFocus = document.activeElement;
+  function open(keepFocus) {
+    if (!keepFocus) lastFocus = document.activeElement;
     renderDrawer();
     overlay.classList.add('open');
     drawer.classList.add('open');
@@ -181,19 +184,24 @@
   }
 
   function init() {
-    var right = document.querySelector('.app-header-right');
-    if (!right || document.querySelector('.credit-chip')) return;
+    var menu = document.querySelector('#profileDropdown .profile-dropdown-menu');
+    if (!menu || document.querySelector('.credit-entry')) return;
 
+    // Account area: first block of the profile dropdown, under name and email
     chip = document.createElement('button');
     chip.type = 'button';
-    chip.className = 'credit-chip';
+    chip.className = 'credit-entry';
     chip.setAttribute('aria-haspopup', 'dialog');
     chip.setAttribute('aria-expanded', 'false');
     chip.setAttribute('aria-controls', 'credit-drawer');
-    chip.addEventListener('click', open);
-    // Before the notifications bell, after search
-    var anchor = right.querySelector('.notif-wrapper') || right.firstElementChild;
-    right.insertBefore(chip, anchor);
+    chip.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var dd = document.getElementById('profileDropdown');
+      if (dd) dd.classList.remove('open');
+      lastFocus = document.querySelector('.profile-avatar, [onclick*="rofile"]');
+      open(true);
+    });
+    menu.parentNode.insertBefore(chip, menu);
 
     overlay = document.createElement('div');
     overlay.className = 'credit-overlay';

@@ -1,25 +1,20 @@
 /* NETZSCH Customer Portal — NETZSCH Credit (prototype, CP-733)
-   Header chip + balance drawer. Text colors meet AAA (≥ 7:1 on white). */
+   Profile dropdown entry + balance drawer. Text colors meet AAA (≥ 7:1 on white). */
 
-.credit-chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  height: 36px; min-width: 44px; padding: 0 12px;
-  border: 1px solid rgba(0, 113, 103, 0.25); border-radius: 18px;
-  background: #fff; color: #00594f;
-  font: 600 13px/1 'Inter', sans-serif; font-variant-numeric: tabular-nums;
-  cursor: pointer; white-space: nowrap;
-  transition: background 0.15s, border-color 0.15s;
+.credit-entry {
+  display: flex; align-items: center; gap: 11px; width: 100%;
+  min-height: 52px; padding: 10px 16px;
+  background: #fff; border: none; border-bottom: 1px solid #e5e7eb;
+  font: 500 13px/1.3 'Inter', sans-serif; color: #1f2326; text-align: left;
+  cursor: pointer;
 }
-.credit-chip:hover { background: #f0faf9; border-color: #007167; }
-.credit-chip:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
-.credit-chip svg { width: 16px; height: 16px; flex-shrink: 0; }
-.credit-chip .credit-chip-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: #9a5b00; margin-left: 2px;
-}
-@media (max-width: 640px) {
-  .credit-chip { padding: 0 10px; }
-  .credit-chip .credit-chip-value { display: none; }
-}
+.credit-entry:hover { background: #f3f4f6; }
+.credit-entry:focus-visible { outline: 2px solid #007167; outline-offset: -2px; }
+.credit-entry-icon { display: flex; color: #007167; }
+.credit-entry-icon svg { width: 16px; height: 16px; }
+.credit-entry-text { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.credit-entry-note { font-size: 11px; color: #6b4000; margin-top: 2px; }
+.credit-entry-value { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* Drawer */
 .credit-overlay {
@@ -38,7 +33,7 @@
 }
 .credit-drawer.open { transform: translateX(0); }
 @media (prefers-reduced-motion: reduce) {
-  .credit-overlay, .credit-drawer, .credit-chip { transition: none; }
+  .credit-overlay, .credit-drawer { transition: none; }
 }
 
 .credit-drawer-head {
