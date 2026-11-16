@@ -1,0 +1,27 @@
+/* NETZSCH Customer Portal — Payment Details summary (checkout steps + confirmation)
+   Leaner proportions: one divider above the total, 13px rows, 20px total. */
+
+.payment-card, .sidebar-card { padding: 24px; }
+.payment-card .card-title, .sidebar-card .card-title { font-size: 15px; margin-bottom: 12px; }
+
+.payment-row { font-size: 13px; padding: 5px 0; }
+.payment-row .label { color: #3d4246; }
+.payment-row .value { color: #1f2326; font-variant-numeric: tabular-nums; }
+.payment-row[hidden] { display: none; }
+.coupon-link { font-size: 13px; }
+
+.order-total-row {
+  border-top: 1px solid #e5e7eb;
+  margin-top: 8px; padding: 12px 0 4px; margin-bottom: 12px;
+}
+.order-total-label { font-size: 14px; font-weight: 600; }
+.order-total-value { font-size: 20px; font-variant-numeric: tabular-nums; }
+
+.terms-row { margin-bottom: 16px; }
+.payment-card .btn-lg, .sidebar-card .btn-lg { height: 46px; font-size: 14px; }
+
+/* Same title style in every step (cart and confirmation used uppercase gray) */
+.payment-card .card-title, .sidebar-card .card-title, .card:has(#payOrderTotal) > .card-title {
+  font-size: 15px; font-weight: 700; color: #1f2937;
+  text-transform: none; letter-spacing: -0.2px; margin-bottom: 12px;
+}

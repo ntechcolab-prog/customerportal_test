@@ -1,10 +1,13 @@
 /**
- * NETZSCH Customer Portal — NETZSCH Credit store (prototype, CP-733)
+ * NETZSCH Customer Portal — NETZSCH Credits store (prototype, CP-733)
  * Single source of truth for the company's credit balance, its movements and
  * the earning rules. Persists in localStorage.
  *
+ * NETZSCH Credits are an own currency, not cash: 1 credit = 1 unit of the order
+ * currency (1 € or 1 $), so there is no currency conversion between regions.
+ *
  * Rules (example values — need business validation):
- *  - 2% back on grinding media (beads) and spare parts. Services are out.
+ *  - 2 credits per 100 spent on grinding media (beads) and spare parts. Services are out.
  *  - Credit belongs to the COMPANY, not to the person who ordered.
  *  - Earned credit is "pending" until the order is delivered, then "available"
  *    for 12 months.
@@ -129,7 +132,7 @@
 
   // Credit an order earns, given its eligible subtotal
   function earnFor(eligibleAmount) {
-    return Math.round(eligibleAmount * rules().rate * 100) / 100;
+    return Math.round(eligibleAmount * rules().rate); // whole credits
   }
 
   function addEarn(order, amount) {
@@ -168,6 +171,13 @@
     return Number(v).toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d }) + ' €';
   }
 
+  // Own currency: 1 credit = 1 unit of the order currency (1 € or 1 $), no conversion
+  function credits(v) {
+    var n = Math.round(v);
+    var de = window.NetzschI18n && NetzschI18n.getLang() === 'de';
+    return n.toLocaleString('de-DE') + ' ' + (de ? (n === 1 ? 'Credit' : 'Credits') : (n === 1 ? 'credit' : 'credits'));
+  }
+
   function formatDate(isoDate) {
     var lang = (window.NetzschI18n && NetzschI18n.getLang()) || 'en';
     return new Date(isoDate + 'T00:00:00').toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -200,6 +210,7 @@
     canSee: canSee,
     role: role,
     money: money,
+    credits: credits,
     formatDate: formatDate
   };
 })();

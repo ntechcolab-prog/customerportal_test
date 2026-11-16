@@ -9,17 +9,17 @@
 
   var STR = {
     en: {
-      title: 'NETZSCH Credit',
-      chip: 'NETZSCH Credit balance',
+      title: 'NETZSCH Credits',
+      chip: 'NETZSCH Credits balance',
       available: 'Available',
-      availableNote: 'Company balance. Apply it at checkout.',
+      availableNote: 'Company balance. 1 credit = 1 € or 1 $ on your next order.',
       pending: 'Pending',
       pendingNote: 'Released on delivery',
-      chipExpiring: 'Some credit expires soon',
-      entryExpiring: '{amount} expires {date}',
-      alert: '{amount} expires on {date}. Use it on your next order.',
+      chipExpiring: 'Some credits expire soon',
+      entryExpiring: '{amount} expire {date}',
+      alert: '{amount} expire on {date}. Use them on your next order.',
       saved: 'Saved this year',
-      savedNote: 'Credit used on orders',
+      savedNote: 'Credits used on orders',
       activity: 'Recent activity',
       earned: 'Earned',
       used: 'Used on order',
@@ -28,48 +28,48 @@
       tagAvailable: 'Available',
       order: 'Order',
       how: 'How it works',
-      how1: 'Earn {rate} back on grinding media and spare parts. Services are not included.',
-      how2: 'Credit is pending until the order is delivered, then available for {months} months.',
-      how3: 'Apply it at checkout. It is deducted before approval and before VAT.',
-      how4: 'The balance belongs to your company. Every buyer can use it.',
+      how1: 'Earn 2 credits for every 100 spent on grinding media and spare parts. Services are not included.',
+      how2: 'Credits are pending until the order is delivered, then available for {months} months.',
+      how3: '1 credit = 1 unit of your order currency (1 € or 1 $), so there is no currency conversion. Credits are a discount on your next order, not cash.',
+      how4: 'Apply them at checkout, before approval and before VAT. The balance belongs to your company.',
       shop: 'Go to Shop',
-      emptyTitle: 'Start earning credit',
-      emptyText: 'Earn {rate} back on every order of grinding media and spare parts. Use it on your next order.',
+      emptyTitle: 'Start earning credits',
+      emptyText: 'Earn 2 credits for every 100 spent on grinding media and spare parts. Use them on your next order.',
       close: 'Close',
-      earns: 'This order earns {amount} NETZSCH Credit',
+      earns: 'This order earns {amount}',
       earnsNote: 'Available after delivery, valid for {months} months.',
-      orderCredit: 'NETZSCH Credit',
+      orderCredit: 'NETZSCH Credits',
       orderPending: 'Pending. Available after delivery.',
-      useCredit: 'Use NETZSCH Credit',
+      useCredit: 'Use NETZSCH Credits',
       availableAmount: '{amount} available',
-      applied: 'NETZSCH Credit applied',
-      appliedNote: 'Approval and budget use the total after credit.',
+      applied: 'NETZSCH Credits applied',
+      appliedNote: '',
       nowEarned: 'Earned on this order',
       nowEarnedNote: 'Pending. Available after delivery.',
-      homeTitle: 'NETZSCH Credit',
-      homeDesc: '{amount} expires {date}',
-      homeCta: 'Use credit',
-      homeSubtitle: 'Contracts, licenses and credit expiring within the next 30 days',
-      nExpTitle: '{amount} of credit expires on {date}',
+      homeTitle: 'NETZSCH Credits',
+      homeDesc: '{amount} expire {date}',
+      homeCta: 'Use credits',
+      homeSubtitle: 'Contracts, licenses and credits expiring within the next 30 days',
+      nExpTitle: '{amount} expire on {date}',
       nExpDesc: 'Use it on your next order of grinding media or spare parts.',
-      nRelTitle: '{amount} credit is now available',
-      nRelDesc: 'Order #{order} was delivered. Use your credit until {date}.',
+      nRelTitle: '{amount} are now available',
+      nRelDesc: 'Order #{order} was delivered. Use your credits until {date}.',
       nShop: 'Go to Shop',
-      nView: 'View credit',
+      nView: 'View credits',
       today: 'Today',
       daysAgo: '{n} days ago',
       dayAgo: '1 day ago'
     },
     de: {
-      title: 'NETZSCH Guthaben',
-      chip: 'NETZSCH Guthaben',
+      title: 'NETZSCH Credits',
+      chip: 'NETZSCH Credits',
       available: 'Verfügbar',
-      availableNote: 'Firmenguthaben. Im Checkout einlösbar.',
+      availableNote: 'Firmenguthaben. 1 Credit = 1 € oder 1 $ bei Ihrer nächsten Bestellung.',
       pending: 'Ausstehend',
       pendingNote: 'Freigabe bei Lieferung',
       chipExpiring: 'Ein Teil läuft bald ab',
-      entryExpiring: '{amount} läuft am {date} ab',
-      alert: '{amount} läuft am {date} ab. Lösen Sie es bei Ihrer nächsten Bestellung ein.',
+      entryExpiring: '{amount} laufen am {date} ab',
+      alert: '{amount} laufen am {date} ab. Lösen Sie sie bei Ihrer nächsten Bestellung ein.',
       saved: 'Dieses Jahr gespart',
       savedNote: 'Bei Bestellungen eingelöst',
       activity: 'Letzte Aktivität',
@@ -80,34 +80,34 @@
       tagAvailable: 'Verfügbar',
       order: 'Bestellung',
       how: 'So funktioniert es',
-      how1: '{rate} Guthaben auf Mahlkörper und Ersatzteile. Services sind ausgenommen.',
-      how2: 'Das Guthaben ist bis zur Lieferung ausstehend und danach {months} Monate verfügbar.',
-      how3: 'Im Checkout einlösen. Es wird vor der Freigabe und vor der MwSt. abgezogen.',
-      how4: 'Das Guthaben gehört Ihrem Unternehmen. Alle Einkäufer können es nutzen.',
+      how1: '2 Credits je 100 Ausgaben für Mahlkörper und Ersatzteile. Services sind ausgenommen.',
+      how2: 'Credits sind bis zur Lieferung ausstehend und danach {months} Monate verfügbar.',
+      how3: '1 Credit = 1 Einheit Ihrer Bestellwährung (1 € oder 1 $), ohne Währungsumrechnung. Credits sind ein Rabatt auf die nächste Bestellung, kein Bargeld.',
+      how4: 'Im Checkout einlösen, vor der Freigabe und vor der MwSt. Das Guthaben gehört Ihrem Unternehmen.',
       shop: 'Zum Shop',
-      emptyTitle: 'Guthaben sammeln',
-      emptyText: 'Erhalten Sie {rate} auf jede Bestellung von Mahlkörpern und Ersatzteilen. Lösen Sie es bei der nächsten Bestellung ein.',
+      emptyTitle: 'Credits sammeln',
+      emptyText: '2 Credits je 100 Ausgaben für Mahlkörper und Ersatzteile. Lösen Sie sie bei der nächsten Bestellung ein.',
       close: 'Schließen',
-      earns: 'Diese Bestellung bringt {amount} NETZSCH Guthaben',
+      earns: 'Diese Bestellung bringt {amount}',
       earnsNote: 'Nach der Lieferung {months} Monate verfügbar.',
-      orderCredit: 'NETZSCH Guthaben',
+      orderCredit: 'NETZSCH Credits',
       orderPending: 'Ausstehend. Nach der Lieferung verfügbar.',
-      useCredit: 'NETZSCH Guthaben einlösen',
+      useCredit: 'NETZSCH Credits einlösen',
       availableAmount: '{amount} verfügbar',
-      applied: 'NETZSCH Guthaben eingelöst',
-      appliedNote: 'Freigabe und Budget nutzen den Betrag nach Guthaben.',
+      applied: 'NETZSCH Credits eingelöst',
+      appliedNote: '',
       nowEarned: 'Mit dieser Bestellung erhalten',
       nowEarnedNote: 'Ausstehend. Nach der Lieferung verfügbar.',
-      homeTitle: 'NETZSCH Guthaben',
-      homeDesc: '{amount} läuft am {date} ab',
-      homeCta: 'Guthaben nutzen',
-      homeSubtitle: 'Verträge, Lizenzen und Guthaben, die in den nächsten 30 Tagen ablaufen',
-      nExpTitle: '{amount} Guthaben läuft am {date} ab',
+      homeTitle: 'NETZSCH Credits',
+      homeDesc: '{amount} laufen am {date} ab',
+      homeCta: 'Credits nutzen',
+      homeSubtitle: 'Verträge, Lizenzen und Credits, die in den nächsten 30 Tagen ablaufen',
+      nExpTitle: '{amount} laufen am {date} ab',
       nExpDesc: 'Lösen Sie es bei Ihrer nächsten Bestellung von Mahlkörpern oder Ersatzteilen ein.',
-      nRelTitle: '{amount} Guthaben ist jetzt verfügbar',
-      nRelDesc: 'Bestellung #{order} wurde geliefert. Guthaben gültig bis {date}.',
+      nRelTitle: '{amount} sind jetzt verfügbar',
+      nRelDesc: 'Bestellung #{order} wurde geliefert. Credits gültig bis {date}.',
       nShop: 'Zum Shop',
-      nView: 'Guthaben ansehen',
+      nView: 'Credits ansehen',
       today: 'Heute',
       daysAgo: 'vor {n} Tagen',
       dayAgo: 'vor 1 Tag'
@@ -134,23 +134,23 @@
     var b = Credit.balance();
     chip.innerHTML = '<span class="credit-entry-icon">' + ICON + '</span>' +
       '<span class="credit-entry-text"><span class="credit-entry-label">' + s('title') + '</span>' +
-      (b.expiring ? '<span class="credit-entry-note">' + s('entryExpiring', { amount: Credit.money(b.expiring.amount, false), date: Credit.formatDate(b.expiring.date) }) + '</span>' : '') +
-      '</span><span class="credit-entry-value">' + Credit.money(b.available, false) + '</span>';
-    chip.setAttribute('aria-label', s('chip') + ': ' + Credit.money(b.available) + (b.expiring ? '. ' + s('chipExpiring') : ''));
+      (b.expiring ? '<span class="credit-entry-note">' + s('entryExpiring', { amount: Credit.credits(b.expiring.amount, false), date: Credit.formatDate(b.expiring.date) }) + '</span>' : '') +
+      '</span><span class="credit-entry-value">' + Credit.credits(b.available, false) + '</span>';
+    chip.setAttribute('aria-label', s('chip') + ': ' + Credit.credits(b.available) + (b.expiring ? '. ' + s('chipExpiring') : ''));
   }
 
   function rowHtml(m) {
     var label, sub, amount, cls, tag = '';
     if (m.type === 'earn') {
       label = s('earned');
-      cls = 'is-plus'; amount = '+' + Credit.money(m.amount);
+      cls = 'is-plus'; amount = '+' + Credit.credits(m.amount);
       tag = '<span class="credit-tag">' + s(m.status === 'pending' ? 'tagPending' : 'tagAvailable') + '</span>';
     } else if (m.type === 'redeem') {
       label = s('used');
-      cls = 'is-minus'; amount = '−' + Credit.money(m.amount);
+      cls = 'is-minus'; amount = '−' + Credit.credits(m.amount);
     } else {
       label = s('expired');
-      cls = 'is-minus'; amount = '−' + Credit.money(m.amount);
+      cls = 'is-minus'; amount = '−' + Credit.credits(m.amount);
     }
     sub = s('order') + ' <a href="order-detail.html">' + m.order + '</a> · ' + Credit.formatDate(m.date);
     return '<li class="credit-row"><div class="credit-row-main"><div>' + label + '</div><div class="credit-row-sub">' + sub + '</div></div>' +
@@ -168,17 +168,17 @@
       var b = Credit.balance();
       body =
         '<div class="credit-hero"><div class="credit-hero-label">' + s('available') + '</div>' +
-          '<div class="credit-hero-value">' + Credit.money(b.available) + '</div>' +
+          '<div class="credit-hero-value">' + Credit.credits(b.available) + '</div>' +
           '<div class="credit-hero-note">' + s('availableNote') + '</div></div>' +
         (b.expiring ? '<div class="credit-alert" role="note">' + WARN + '<span>' +
-          s('alert', { amount: '<strong>' + Credit.money(b.expiring.amount) + '</strong>', date: '<strong>' + Credit.formatDate(b.expiring.date) + '</strong>' }) +
+          s('alert', { amount: '<strong>' + Credit.credits(b.expiring.amount) + '</strong>', date: '<strong>' + Credit.formatDate(b.expiring.date) + '</strong>' }) +
           '</span></div>' : '') +
         '<div class="credit-split">' +
           '<div class="credit-stat"><div class="credit-stat-label">' + s('pending') + '</div>' +
-            '<div class="credit-stat-value">' + Credit.money(b.pending) + '</div>' +
+            '<div class="credit-stat-value">' + Credit.credits(b.pending) + '</div>' +
             '<div class="credit-stat-note">' + s('pendingNote') + '</div></div>' +
           '<div class="credit-stat"><div class="credit-stat-label">' + s('saved') + '</div>' +
-            '<div class="credit-stat-value">' + Credit.money(b.savedThisYear) + '</div>' +
+            '<div class="credit-stat-value">' + Credit.credits(b.savedThisYear) + '</div>' +
             '<div class="credit-stat-note">' + s('savedNote') + '</div></div></div>' +
         '<h3 class="credit-section-title">' + s('activity') + '</h3>' +
         '<ul class="credit-list">' + Credit.movements(5).map(rowHtml).join('') + '</ul>';
@@ -298,7 +298,7 @@
     el.className = 'credit-earn ' + cls;
     el.hidden = !amount;
     el.innerHTML = '<span class="credit-earn-icon">' + ICON + '</span><span>' +
-      s('earns', { amount: '<strong>' + Credit.money(amount) + '</strong>' }) +
+      s('earns', { amount: '<strong>' + Credit.credits(amount) + '</strong>' }) +
       (withNote ? '<span class="credit-earn-sub">' + s('earnsNote', { months: Credit.rules().validityMonths }) + '</span>' : '') + '</span>';
     return el;
   }
@@ -339,7 +339,7 @@
       box.className = 'credit-earn credit-earn--order';
       function paint() {
         box.innerHTML = '<span class="credit-earn-icon">' + ICON + '</span><span class="credit-earn-main">' +
-          '<span class="credit-earn-row"><span>' + s('orderCredit') + '</span><strong>+' + Credit.money(amount) + '</strong></span>' +
+          '<span class="credit-earn-row"><span>' + s('orderCredit') + '</span><strong>+' + Credit.credits(amount) + '</strong></span>' +
           '<span class="credit-earn-sub">' + s('orderPending') + '</span></span>';
       }
       paint();
@@ -383,8 +383,8 @@
       appliedCredit = on ? max : 0;
       sw.setAttribute('aria-checked', String(on));
       row.querySelector('.credit-apply-label').textContent = s('useCredit');
-      row.querySelector('.credit-apply-note').textContent = s('availableAmount', { amount: Credit.money(available) }) +
-        (on ? '. ' + s('appliedNote') : '');
+      row.querySelector('.credit-apply-note').textContent = s('availableAmount', { amount: Credit.credits(available) }) +
+        '';
       row.querySelector('.credit-apply-value').textContent = appliedCredit ? '−' + Credit.money(appliedCredit) : '';
       // Credit is deducted before VAT: scale it by the page's total/subtotal ratio
       if (base && pageTotal) total.textContent = Credit.money(pageTotal - appliedCredit * (pageTotal / base));
@@ -446,7 +446,7 @@
       var box = document.createElement('div');
       box.className = 'credit-earn credit-earn--order';
       box.innerHTML = '<span class="credit-earn-icon">' + ICON + '</span><span class="credit-earn-main">' +
-        '<span class="credit-earn-row"><span>' + s('nowEarned') + '</span><strong>+' + Credit.money(data.earn) + '</strong></span>' +
+        '<span class="credit-earn-row"><span>' + s('nowEarned') + '</span><strong>+' + Credit.credits(data.earn) + '</strong></span>' +
         '<span class="credit-earn-sub">' + s('nowEarnedNote') + '</span></span>';
       totalRow.closest('.order-total-row').insertAdjacentElement('afterend', box);
     }
@@ -473,7 +473,7 @@
     function paint() {
       row.innerHTML = '<div class="contract-alert-icon credit-home-icon">' + ICON + '</div>' +
         '<div class="contract-alert-info"><div class="contract-alert-id">' + s('homeTitle') + '</div>' +
-        '<div class="contract-alert-desc">' + s('homeDesc', { amount: Credit.money(b.expiring.amount), date: Credit.formatDate(b.expiring.date) }) + '</div></div>' +
+        '<div class="contract-alert-desc">' + s('homeDesc', { amount: Credit.credits(b.expiring.amount), date: Credit.formatDate(b.expiring.date) }) + '</div></div>' +
         '<span class="btn btn-primary btn-sm">' + s('homeCta') + '</span>';
       var sub = lic.parentNode.querySelector('.card-subtitle');
       if (sub) sub.textContent = s('homeSubtitle');
@@ -485,10 +485,10 @@
 
   function notifications() {
     var b = Credit.balance(), list = [];
-    if (b.expiring) list.push({ unread: true, title: s('nExpTitle', { amount: Credit.money(b.expiring.amount), date: Credit.formatDate(b.expiring.date) }),
+    if (b.expiring) list.push({ unread: true, title: s('nExpTitle', { amount: Credit.credits(b.expiring.amount), date: Credit.formatDate(b.expiring.date) }),
       desc: s('nExpDesc'), time: s('today'), href: 'shop.html', cta: s('nShop') });
     var rel = lastReleased();
-    if (rel) list.push({ unread: false, last: true, title: s('nRelTitle', { amount: Credit.money(rel.amount) }),
+    if (rel) list.push({ unread: false, last: true, title: s('nRelTitle', { amount: Credit.credits(rel.amount) }),
       desc: s('nRelDesc', { order: rel.order, date: Credit.formatDate(rel.expires) }), time: ago(rel.date), cta: s('nView'), drawer: true });
     return list;
   }

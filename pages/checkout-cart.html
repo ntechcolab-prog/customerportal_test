@@ -1209,6 +1209,7 @@
     }
   </style>
   <link rel="stylesheet" href="../assets/cashback.css">
+  <link rel="stylesheet" href="../assets/payment-summary.css">
 </head>
 <body>
 <script src="../assets/i18n.js"></script>
@@ -1474,14 +1475,9 @@
           <span class="label" data-i18n="checkout.shipping">Shipping</span>
           <span class="value" id="payShipping">--</span>
         </div>
-        <div class="payment-row">
-          <span class="label" data-i18n="checkout.tax">Tax</span>
-          <span class="value" id="payTax">--</span>
-        </div>
 
-        <hr class="payment-separator">
 
-        <div class="payment-row bold">
+        <div class="payment-row bold" hidden><!-- kept for the totals script -->
           <span class="label" data-i18n="checkout.totalBeforeDiscount">Total before discount</span>
           <span class="value" id="payTotalBefore">--</span>
         </div>
@@ -1490,8 +1486,11 @@
           <span class="label" data-i18n="checkout.coupon">Coupon</span>
           <a href="#" class="coupon-link" data-i18n="checkout.addCoupon">+ Add Coupon</a>
         </div>
+        <div class="payment-row">
+          <span class="label" data-i18n="checkout.tax">Tax</span>
+          <span class="value" id="payTax">--</span>
+        </div>
 
-        <hr class="payment-separator">
 
         <div class="order-total-row">
           <span class="order-total-label" data-i18n="checkout.orderTotal">Order Total</span>

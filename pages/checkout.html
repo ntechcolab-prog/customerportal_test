@@ -1388,6 +1388,7 @@
     // i18n.js loads at the end of the page; inline scripts that render earlier fall back to the English text until it arrives
     window.NetzschI18n = window.NetzschI18n || { t: function (k, f) { return f || k; }, getLang: function () { try { return localStorage.getItem('netzsch_lang') || 'en'; } catch (e) { return 'en'; } } };
   </script>
+  <link rel="stylesheet" href="../assets/payment-summary.css">
 </head>
 <body>
 <script src="../assets/gate.js"></script>
@@ -1779,14 +1780,9 @@
           <span class="label">Shipping</span>
           <span class="value" id="payShipping">--</span>
         </div>
-        <div class="payment-row">
-          <span class="label">Tax</span>
-          <span class="value" id="payTax">--</span>
-        </div>
 
-        <hr class="payment-separator">
 
-        <div class="payment-row bold">
+        <div class="payment-row bold" hidden><!-- kept for the totals script -->
           <span class="label">Total before discount</span>
           <span class="value" id="payTotalBefore">--</span>
         </div>
@@ -1795,8 +1791,11 @@
           <span class="label">Coupon</span>
           <a href="#" class="coupon-link">+ Add Coupon</a>
         </div>
+        <div class="payment-row">
+          <span class="label">Tax</span>
+          <span class="value" id="payTax">--</span>
+        </div>
 
-        <hr class="payment-separator">
 
         <div class="order-total-row">
           <span class="order-total-label">Order Total</span>
