@@ -121,9 +121,11 @@
     return out;
   }
 
-  // NETZSCH Credits token (own currency, so no € or $ symbol)
-  var ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M12 2.8 19.8 7.3v9.4L12 21.2 4.2 16.7V7.3z"/><path d="M12 7.5l1.3 2.8 3 .4-2.2 2.1.6 3L12 14.3l-2.7 1.5.6-3-2.2-2.1 3-.4z"/></svg>';
+  // NETZSCH Credits token: solid coin with the brand N (own currency, so no € or $ symbol)
+  var ICON = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+    '<circle cx="12" cy="12" r="10" fill="currentColor"/>' +
+    '<circle cx="12" cy="12" r="7.4" stroke="#fff" stroke-opacity=".4" stroke-width="1"/>' +
+    '<path d="M9.3 15.4V8.6l5.4 6.8V8.6" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
     '<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>';
 
