@@ -1215,6 +1215,10 @@
     }
   </style>
   <link rel="stylesheet" href="../assets/cashback.css">
+  <script>
+    // i18n.js loads at the end of the page; inline scripts that render earlier fall back to the English text until it arrives
+    window.NetzschI18n = window.NetzschI18n || { t: function (k, f) { return f || k; }, getLang: function () { try { return localStorage.getItem('netzsch_lang') || 'en'; } catch (e) { return 'en'; } } };
+  </script>
 </head>
 <body>
 <script src="../assets/gate.js"></script>
