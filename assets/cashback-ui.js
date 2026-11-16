@@ -130,12 +130,18 @@
 
   function pct() { return Math.round(Credit.rules().rate * 100) + '%'; }
 
+  // Day + month only, so the profile menu line never wraps
+  function shortDate(isoDate) {
+    var de = window.NetzschI18n && NetzschI18n.getLang() === 'de';
+    return new Date(isoDate + 'T00:00:00').toLocaleDateString(de ? 'de-DE' : 'en-GB', { day: '2-digit', month: 'short' });
+  }
+
   function renderChip() {
     var b = Credit.balance();
     chip.innerHTML = '<span class="credit-entry-icon">' + ICON + '</span>' +
       '<span class="credit-entry-text"><span class="credit-entry-label">' + s('title') + '</span>' +
-      (b.expiring ? '<span class="credit-entry-note">' + s('entryExpiring', { amount: Credit.credits(b.expiring.amount, false), date: Credit.formatDate(b.expiring.date) }) + '</span>' : '') +
-      '</span><span class="credit-entry-value">' + Credit.credits(b.available, false) + '</span>';
+      (b.expiring ? '<span class="credit-entry-note">' + s('entryExpiring', { amount: Credit.credits(b.expiring.amount), date: shortDate(b.expiring.date) }) + '</span>' : '') +
+      '</span><span class="credit-entry-value">' + Credit.credits(b.available) + '</span>';
     chip.setAttribute('aria-label', s('chip') + ': ' + Credit.credits(b.available) + (b.expiring ? '. ' + s('chipExpiring') : ''));
   }
 

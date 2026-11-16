@@ -13,7 +13,8 @@
 .credit-entry-icon { display: flex; color: #007167; }
 .credit-entry-icon svg { width: 16px; height: 16px; }
 .credit-entry-text { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-.credit-entry-note { font-size: 11px; color: #3d4246; margin-top: 2px; }
+.credit-entry-label { white-space: nowrap; }
+.credit-entry-note { font-size: 11px; color: #3d4246; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .credit-entry-value { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* Drawer */
@@ -133,30 +134,30 @@
 /* Use: checkout toggle */
 .credit-apply[hidden] { display: none; }
 .credit-apply {
-  display: flex; align-items: center; gap: 8px;
-  padding: 5px 0;
+  display: flex; align-items: center; gap: 10px;
+  margin: 6px 0; padding: 10px 12px; border: 1px solid #d7e9e6; border-radius: 10px; background: #f7fbfa;
   font-family: 'Inter', sans-serif;
 }
 .credit-switch {
-  flex-shrink: 0; width: 44px; height: 44px; margin: -12px -6px -12px -7px;
+  flex-shrink: 0; width: 44px; height: 44px; margin: -13px -6px -13px -6px;
   display: flex; align-items: center; justify-content: center;
   background: none; border: none; cursor: pointer; border-radius: 22px;
 }
 .credit-switch:focus-visible { outline: none; }
 .credit-switch:focus-visible .credit-switch-track { outline: 2px solid #007167; outline-offset: 2px; }
 .credit-switch-track {
-  width: 30px; height: 18px; border-radius: 9px; background: #8b8e91; position: relative; transition: background 0.15s;
+  width: 32px; height: 18px; border-radius: 9px; background: #8b8e91; position: relative; transition: background 0.15s;
 }
 .credit-switch-thumb {
   position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff;
   transition: transform 0.15s; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 .credit-switch[aria-checked="true"] .credit-switch-track { background: #007167; }
-.credit-switch[aria-checked="true"] .credit-switch-thumb { transform: translateX(12px); }
+.credit-switch[aria-checked="true"] .credit-switch-thumb { transform: translateX(14px); }
 @media (prefers-reduced-motion: reduce) { .credit-switch-track, .credit-switch-thumb { transition: none; } }
 .credit-apply-text { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-.credit-apply-label { font-size: 13px; font-weight: 500; color: #3d4246; }
-.credit-apply-note { font-size: 11px; color: #3d4246; margin-top: 1px; line-height: 1.4; }
+.credit-apply-label { font-size: 13px; font-weight: 600; color: #1f2326; }
+.credit-apply-note { font-size: 12px; color: #3d4246; margin-top: 1px; line-height: 1.4; }
 .credit-apply-value { font-size: 13px; font-weight: 700; color: #00594f; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .credit-applied-row .value { color: #00594f; font-weight: 600; }
 
