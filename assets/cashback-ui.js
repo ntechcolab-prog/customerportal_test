@@ -45,7 +45,20 @@
       applied: 'NETZSCH Credit applied',
       appliedNote: 'Approval and budget use the total after credit.',
       nowEarned: 'Earned on this order',
-      nowEarnedNote: 'Pending. Available after delivery.'
+      nowEarnedNote: 'Pending. Available after delivery.',
+      homeTitle: 'NETZSCH Credit',
+      homeDesc: '{amount} expires {date}',
+      homeCta: 'Use credit',
+      homeSubtitle: 'Contracts, licenses and credit expiring within the next 30 days',
+      nExpTitle: '{amount} of credit expires on {date}',
+      nExpDesc: 'Use it on your next order of grinding media or spare parts.',
+      nRelTitle: '{amount} credit is now available',
+      nRelDesc: 'Order #{order} was delivered. Use your credit until {date}.',
+      nShop: 'Go to Shop',
+      nView: 'View credit',
+      today: 'Today',
+      daysAgo: '{n} days ago',
+      dayAgo: '1 day ago'
     },
     de: {
       title: 'NETZSCH Guthaben',
@@ -84,7 +97,20 @@
       applied: 'NETZSCH Guthaben eingelöst',
       appliedNote: 'Freigabe und Budget nutzen den Betrag nach Guthaben.',
       nowEarned: 'Mit dieser Bestellung erhalten',
-      nowEarnedNote: 'Ausstehend. Nach der Lieferung verfügbar.'
+      nowEarnedNote: 'Ausstehend. Nach der Lieferung verfügbar.',
+      homeTitle: 'NETZSCH Guthaben',
+      homeDesc: '{amount} läuft am {date} ab',
+      homeCta: 'Guthaben nutzen',
+      homeSubtitle: 'Verträge, Lizenzen und Guthaben, die in den nächsten 30 Tagen ablaufen',
+      nExpTitle: '{amount} Guthaben läuft am {date} ab',
+      nExpDesc: 'Lösen Sie es bei Ihrer nächsten Bestellung von Mahlkörpern oder Ersatzteilen ein.',
+      nRelTitle: '{amount} Guthaben ist jetzt verfügbar',
+      nRelDesc: 'Bestellung #{order} wurde geliefert. Guthaben gültig bis {date}.',
+      nShop: 'Zum Shop',
+      nView: 'Guthaben ansehen',
+      today: 'Heute',
+      daysAgo: 'vor {n} Tagen',
+      dayAgo: 'vor 1 Tag'
     }
   };
 
@@ -326,49 +352,60 @@
 
   var CHECKOUT_KEY = 'netzsch_credit_checkout';
 
+  // Shown in every checkout step (checkout, order details, review). Off by default;
+  // the choice follows the buyer through the steps.
   function initCheckout() {
     var before = document.getElementById('payTotalBefore');
     var total = document.getElementById('payOrderTotal');
-    if (!before || !total || !/checkout-review/.test(location.pathname)) return;
+    if (!before || !total || !/checkout(-order-details|-review)?\.html/.test(location.pathname)) return;
     var coupon = before.closest('.sidebar-card, .payment-card').querySelector('.coupon-link');
-    if (!coupon) return;
-    var base = parseEuro(before.textContent);
     var available = Credit.balance().available;
-    if (!base || !available) return;
-    var max = Math.min(available, base);
-    var on = true; // applied by default
-    try { if (sessionStorage.getItem(CHECKOUT_KEY + '_off') === '1') on = false; } catch (err) { /* ignore */ }
+    if (!coupon || !available) return;
+    var on = false;
+    try { on = sessionStorage.getItem(CHECKOUT_KEY + '_on') === '1'; } catch (err) { /* ignore */ }
 
     var row = document.createElement('div');
     row.className = 'credit-apply';
+    row.innerHTML =
+      '<button type="button" class="credit-switch" role="switch" aria-labelledby="credit-apply-label" aria-describedby="credit-apply-note">' +
+        '<span class="credit-switch-track"><span class="credit-switch-thumb"></span></span></button>' +
+      '<span class="credit-apply-text"><span id="credit-apply-label" class="credit-apply-label"></span>' +
+        '<span id="credit-apply-note" class="credit-apply-note"></span></span>' +
+      '<span class="credit-apply-value"></span>';
     coupon.closest('.payment-row').insertAdjacentElement('afterend', row);
+    var sw = row.querySelector('.credit-switch');
 
-    function paint() {
+    var pageTotal = 0; // total as the page computed it (may include VAT)
+    function update() {
+      var base = parseEuro(before.textContent);
+      row.hidden = !cartEligible(); // quotations have no price yet
+      var max = Math.min(available, base || available);
       appliedCredit = on ? max : 0;
-      row.innerHTML =
-        '<button type="button" class="credit-switch" role="switch" aria-checked="' + on + '" aria-labelledby="credit-apply-label" aria-describedby="credit-apply-note">' +
-          '<span class="credit-switch-track"><span class="credit-switch-thumb"></span></span></button>' +
-        '<span class="credit-apply-text"><span id="credit-apply-label" class="credit-apply-label">' + s('useCredit') + '</span>' +
-          '<span id="credit-apply-note" class="credit-apply-note">' + s('availableAmount', { amount: Credit.money(available) }) +
-          (on ? '. ' + s('appliedNote') : '') + '</span></span>' +
-        '<span class="credit-apply-value">' + (on ? '−' + Credit.money(max) : '') + '</span>';
-      row.querySelector('.credit-switch').addEventListener('click', function () {
-        on = !on;
-        try { sessionStorage.setItem(CHECKOUT_KEY + '_off', on ? '0' : '1'); } catch (err) { /* ignore */ }
-        paint();
-        row.querySelector('.credit-switch').focus();
-      });
-      total.textContent = Credit.money(base - appliedCredit);
+      sw.setAttribute('aria-checked', String(on));
+      row.querySelector('.credit-apply-label').textContent = s('useCredit');
+      row.querySelector('.credit-apply-note').textContent = s('availableAmount', { amount: Credit.money(available) }) +
+        (on ? '. ' + s('appliedNote') : '');
+      row.querySelector('.credit-apply-value').textContent = appliedCredit ? '−' + Credit.money(appliedCredit) : '';
+      // Credit is deducted before VAT: scale it by the page's total/subtotal ratio
+      if (base && pageTotal) total.textContent = Credit.money(pageTotal - appliedCredit * (pageTotal / base));
       var earn = document.querySelector('.credit-earn--summary');
-      if (earn) {
-        var next = earnLine('credit-earn--summary', true);
-        earn.replaceWith(next);
-      }
+      if (earn) earn.replaceWith(earnLine('credit-earn--summary', true));
     }
-    paint();
-    document.addEventListener('netzsch:i18n-applied', paint);
+    function capture() {
+      pageTotal = parseEuro(total.textContent);
+      update();
+    }
+    sw.addEventListener('click', function () {
+      on = !on;
+      try { sessionStorage.setItem(CHECKOUT_KEY + '_on', on ? '1' : '0'); } catch (err) { /* ignore */ }
+      update();
+    });
+    capture();
+    // Page scripts recalculate totals (delivery method, quantities): follow them
+    new MutationObserver(capture).observe(before, { childList: true, characterData: true, subtree: true });
+    document.addEventListener('netzsch:i18n-applied', update);
 
-    // Place Order: hand the applied credit to the confirmation page
+    // Place Order (review step): hand the applied credit to the confirmation page
     var place = document.getElementById('btnPlaceOrder');
     if (place) place.addEventListener('click', function () {
       if (place.classList.contains('disabled-btn')) return;
@@ -415,9 +452,107 @@
     }
   }
 
+  // ---------- Remind: home card row + notifications ----------
+
+  function ago(isoDate) {
+    var d = -Credit.daysUntil(isoDate);
+    return d <= 0 ? s('today') : d === 1 ? s('dayAgo') : s('daysAgo', { n: d });
+  }
+
+  function lastReleased() {
+    return Credit.movements().filter(function (m) { return m.type === 'earn' && m.status === 'available'; })[0];
+  }
+
+  function initHome() {
+    var lic = document.getElementById('licAlerts');
+    var b = Credit.balance();
+    if (!lic || !b.expiring) return;
+    var row = document.createElement('a');
+    row.href = 'shop.html';
+    row.className = 'contract-alert credit-home-row';
+    function paint() {
+      row.innerHTML = '<div class="contract-alert-icon credit-home-icon">' + ICON + '</div>' +
+        '<div class="contract-alert-info"><div class="contract-alert-id">' + s('homeTitle') + '</div>' +
+        '<div class="contract-alert-desc">' + s('homeDesc', { amount: Credit.money(b.expiring.amount), date: Credit.formatDate(b.expiring.date) }) + '</div></div>' +
+        '<span class="btn btn-primary btn-sm">' + s('homeCta') + '</span>';
+      var sub = lic.parentNode.querySelector('.card-subtitle');
+      if (sub) sub.textContent = s('homeSubtitle');
+    }
+    paint();
+    lic.insertAdjacentElement('afterend', row);
+    document.addEventListener('netzsch:i18n-applied', paint);
+  }
+
+  function notifications() {
+    var b = Credit.balance(), list = [];
+    if (b.expiring) list.push({ unread: true, title: s('nExpTitle', { amount: Credit.money(b.expiring.amount), date: Credit.formatDate(b.expiring.date) }),
+      desc: s('nExpDesc'), time: s('today'), href: 'shop.html', cta: s('nShop') });
+    var rel = lastReleased();
+    if (rel) list.push({ unread: false, last: true, title: s('nRelTitle', { amount: Credit.money(rel.amount) }),
+      desc: s('nRelDesc', { order: rel.order, date: Credit.formatDate(rel.expires) }), time: ago(rel.date), cta: s('nView'), drawer: true });
+    return list;
+  }
+
+  function bumpBadges(extra) {
+    if (!extra) return;
+    ['.notif-badge', '.notif-count-badge'].forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        var n = parseInt(el.textContent, 10) || 0;
+        el.textContent = n + extra;
+        el.style.display = '';
+      });
+    });
+  }
+
+  function initNotifications() {
+    var items = notifications();
+    if (!items.length) return;
+    // Header dropdown
+    var dd = document.querySelector('.notif-list');
+    if (dd) {
+      var html = items.filter(function (n) { return !n.last; }).map(function (n) {
+        return '<div class="notif-item' + (n.unread ? ' unread' : '') + ' credit-notif">' +
+          '<div class="notif-item-icon credit-notif-icon">' + ICON + '</div><div class="notif-item-content">' +
+          (n.unread ? '<div class="notif-item-title-row"><span class="notif-item-title">' + n.title + '</span><span class="notif-unread-dot"></span></div>'
+                    : '<span class="notif-item-title">' + n.title + '</span>') +
+          '<div class="notif-item-desc">' + n.desc + '</div><div class="notif-item-time">' + n.time + '</div>' +
+          '<a href="' + (n.href || '#') + '" class="notif-item-action"' + (n.drawer ? ' data-credit-open' : '') + '>' + n.cta + '</a></div></div>';
+      }).join('');
+      dd.insertAdjacentHTML('afterbegin', html);
+      dd.insertAdjacentHTML('beforeend', items.filter(function (n) { return n.last; }).map(function (n) {
+        return '<div class="notif-item credit-notif"><div class="notif-item-icon credit-notif-icon">' + ICON + '</div><div class="notif-item-content">' +
+          '<span class="notif-item-title">' + n.title + '</span><div class="notif-item-desc">' + n.desc + '</div><div class="notif-item-time">' + n.time + '</div>' +
+          '<a href="#" class="notif-item-action" data-credit-open>' + n.cta + '</a></div></div>';
+      }).join(''));
+    }
+    // Notifications page
+    var page = document.getElementById('ncList');
+    if (page) {
+      var pitem = function (n) {
+        return '<div class="nc-item' + (n.unread ? ' unread' : '') + ' credit-notif" data-type="orders">' +
+          '<div class="nc-icon credit-notif-icon">' + ICON + '</div><div class="nc-content"><div class="nc-content-top">' +
+          '<span class="nc-item-title">' + n.title + '</span><div class="nc-right"><span class="nc-time">' + n.time + '</span>' +
+          (n.unread ? '<span class="nc-unread-dot"></span>' : '') + '</div></div>' +
+          '<div class="nc-desc">' + n.desc + '</div>' +
+          '<a href="' + (n.href || '#') + '" class="nc-action"' + (n.drawer ? ' data-credit-open' : '') + '>' + n.cta + '</a></div></div>';
+      };
+      page.insertAdjacentHTML('afterbegin', items.filter(function (n) { return !n.last; }).map(pitem).join(''));
+      page.insertAdjacentHTML('beforeend', items.filter(function (n) { return n.last; }).map(pitem).join(''));
+    }
+    bumpBadges(items.filter(function (n) { return n.unread; }).length);
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-credit-open]');
+      if (!a) return;
+      e.preventDefault();
+      var nd = document.getElementById('notifDropdown');
+      if (nd) nd.classList.remove('open', 'is-open', 'show');
+      open();
+    });
+  }
+
   window.CreditUI = { open: open, close: close };
 
-  function boot() { init(); initEarn(); initCheckout(); initConfirmation(); }
+  function boot() { init(); initEarn(); initCheckout(); initConfirmation(); initHome(); initNotifications(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();

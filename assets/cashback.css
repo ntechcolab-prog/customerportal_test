@@ -131,6 +131,7 @@
 .credit-earn-row { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; }
 
 /* Use: checkout toggle */
+.credit-apply[hidden] { display: none; }
 .credit-apply {
   display: flex; align-items: flex-start; gap: 12px;
   margin: 8px 0; padding: 12px 14px; border: 1px solid #d7e9e6; border-radius: 10px; background: #f7fbfa;
@@ -141,7 +142,8 @@
   display: flex; align-items: center; justify-content: center;
   background: none; border: none; cursor: pointer; border-radius: 22px;
 }
-.credit-switch:focus-visible { outline: 2px solid #007167; outline-offset: 0; }
+.credit-switch:focus-visible { outline: none; }
+.credit-switch:focus-visible .credit-switch-track { outline: 2px solid #007167; outline-offset: 2px; }
 .credit-switch-track {
   width: 36px; height: 20px; border-radius: 10px; background: #8b8e91; position: relative; transition: background 0.15s;
 }
@@ -157,3 +159,9 @@
 .credit-apply-note { font-size: 12px; color: #3d4246; margin-top: 2px; line-height: 1.4; }
 .credit-apply-value { font-size: 13px; font-weight: 700; color: #00594f; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .credit-applied-row .value { color: #00594f; font-weight: 600; }
+
+/* Remind: home row + notifications */
+.credit-home-icon, .credit-notif-icon { color: #007167; background: #e0f2ee; }
+.credit-home-icon svg { width: 20px; height: 20px; }
+.credit-notif-icon svg { width: 16px; height: 16px; }
+.credit-home-row { margin-top: 12px; }

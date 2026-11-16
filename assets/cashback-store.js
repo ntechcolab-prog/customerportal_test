@@ -52,7 +52,7 @@
         status: status, expires: status === 'available' ? addMonths(date, DEFAULT_RULES.validityMonths) : null });
     }
     earn('2800991-14', 130, 342, 'available');   // 12 € left, expires in ~3 weeks
-    earn('2800997-02', 38, 95, 'available');
+    earn('2800997-02', 38, 20, 'available');
     earn('2800998-05', 18, 12, 'pending');
     earn('2800998-01', 54, 9, 'pending');
     earn('2800998-02', 200, 6, 'pending');
