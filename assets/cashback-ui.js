@@ -35,7 +35,11 @@
       shop: 'Go to Shop',
       emptyTitle: 'Start earning credit',
       emptyText: 'Earn {rate} back on every order of grinding media and spare parts. Use it on your next order.',
-      close: 'Close'
+      close: 'Close',
+      earns: 'This order earns {amount} NETZSCH Credit',
+      earnsNote: 'Available after delivery, valid for {months} months.',
+      orderCredit: 'NETZSCH Credit',
+      orderPending: 'Pending. Available after delivery.'
     },
     de: {
       title: 'NETZSCH Guthaben',
@@ -64,7 +68,11 @@
       shop: 'Zum Shop',
       emptyTitle: 'Guthaben sammeln',
       emptyText: 'Erhalten Sie {rate} auf jede Bestellung von Mahlkörpern und Ersatzteilen. Lösen Sie es bei der nächsten Bestellung ein.',
-      close: 'Schließen'
+      close: 'Schließen',
+      earns: 'Diese Bestellung bringt {amount} NETZSCH Guthaben',
+      earnsNote: 'Nach der Lieferung {months} Monate verfügbar.',
+      orderCredit: 'NETZSCH Guthaben',
+      orderPending: 'Ausstehend. Nach der Lieferung verfügbar.'
     }
   };
 
@@ -228,8 +236,80 @@
     });
   }
 
+
+  // ---------- Earn: cart dropdown, cart page and order detail ----------
+
+  function parseEuro(text) {
+    var n = parseFloat(String(text).replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.'));
+    return isNaN(n) ? 0 : n;
+  }
+
+  // All shop items are grinding media or spare parts (eligible); quotations have no price yet
+  function cartEligible() {
+    var items = [];
+    try { items = (JSON.parse(localStorage.getItem('netzsch_cart') || '{}').items) || []; } catch (err) { /* ignore */ }
+    if (items.some(function (i) { return i.quotation; })) return 0;
+    return items.reduce(function (sum, i) { return sum + (i.unitPrice || 0) * (i.qty || 0); }, 0);
+  }
+
+  function earnLine(cls, withNote) {
+    var amount = Credit.earnFor(cartEligible());
+    var el = document.createElement('div');
+    el.className = 'credit-earn ' + cls;
+    el.hidden = !amount;
+    el.innerHTML = '<span class="credit-earn-icon">' + ICON + '</span><span>' +
+      s('earns', { amount: '<strong>' + Credit.money(amount) + '</strong>' }) +
+      (withNote ? '<span class="credit-earn-sub">' + s('earnsNote', { months: Credit.rules().validityMonths }) + '</span>' : '') + '</span>';
+    return el;
+  }
+
+  function mountEarn(anchor, cls, withNote, watch) {
+    var line;
+    function render() {
+      var next = earnLine(cls, withNote);
+      var row = document.getElementById(anchor.id);
+      if (row && row.style.display === 'none') next.hidden = true;
+      if (line) line.replaceWith(next); else anchor.insertAdjacentElement('afterend', next);
+      line = next;
+    }
+    render();
+    new MutationObserver(render).observe(watch, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+    document.addEventListener('netzsch:i18n-applied', render);
+  }
+
+  function initEarn() {
+    // Cart dropdown in the header (two markups across pages)
+    ['cart-subtotal-row', 'cart-dd-subtotal-row'].forEach(function (id) {
+      var row = document.getElementById(id);
+      if (row) mountEarn(row, 'credit-earn--dropdown', false, row);
+    });
+    // Cart page: under the order total
+    var total = document.getElementById('payOrderTotal');
+    if (total && total.parentNode.classList.contains('order-total-row')) {
+      mountEarn(total.parentNode, 'credit-earn--summary', true, total);
+      return;
+    }
+    // Order detail: credit earned on this order, pending until delivery
+    var orderTotal = document.querySelector('.payment-card .payment-row.total');
+    var subtotal = document.querySelector('.payment-card .payment-row .payment-value');
+    if (orderTotal && subtotal) {
+      var amount = Credit.earnFor(parseEuro(subtotal.textContent));
+      var box = document.createElement('div');
+      box.className = 'credit-earn credit-earn--order';
+      function paint() {
+        box.innerHTML = '<span class="credit-earn-icon">' + ICON + '</span><span class="credit-earn-main">' +
+          '<span class="credit-earn-row"><span>' + s('orderCredit') + '</span><strong>+' + Credit.money(amount) + '</strong></span>' +
+          '<span class="credit-earn-sub">' + s('orderPending') + '</span></span>';
+      }
+      paint();
+      orderTotal.insertAdjacentElement('afterend', box);
+      document.addEventListener('netzsch:i18n-applied', paint);
+    }
+  }
+
   window.CreditUI = { open: open, close: close };
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  function boot() { init(); initEarn(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();

@@ -51,16 +51,13 @@
       e.push({ id: 'e-' + order, type: 'earn', order: order, amount: amount, date: date,
         status: status, expires: status === 'available' ? addMonths(date, DEFAULT_RULES.validityMonths) : null });
     }
-    earn('2800991-14', 486, 342, 'available');   // expires in ~3 weeks
-    earn('2800994-08', 412, 250, 'available');
-    earn('2800996-21', 368, 160, 'available');
-    earn('2800997-02', 234, 95, 'available');
-    earn('2800998-03', 54, 30, 'available');
+    earn('2800991-14', 130, 342, 'available');   // 12 € left, expires in ~3 weeks
+    earn('2800997-02', 38, 95, 'available');
     earn('2800998-05', 18, 12, 'pending');
     earn('2800998-01', 54, 9, 'pending');
     earn('2800998-02', 200, 6, 'pending');
     earn('2800998-30', 80, 2, 'pending');
-    e.push({ id: 'r-2800997-11', type: 'redeem', order: '2800997-11', amount: 314, date: iso(-70) });
+    e.push({ id: 'r-2800997-11', type: 'redeem', order: '2800997-11', amount: 118, date: iso(-70) });
     return { entries: e, rules: DEFAULT_RULES };
   }
 
@@ -166,8 +163,9 @@
   function canSee() { return VISIBLE.indexOf(role()) !== -1; }
 
   function money(v, decimals) {
+    // Same format as the cart and payment cards (1.240,00 €)
     var d = decimals === false ? 0 : 2;
-    return Number(v).toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }) + ' €';
+    return Number(v).toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d }) + ' €';
   }
 
   function formatDate(isoDate) {

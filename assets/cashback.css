@@ -113,3 +113,19 @@
 }
 .credit-empty h3 { font-size: 16px; margin: 0 0 8px; }
 .credit-empty p { font-size: 13px; color: #3d4246; margin: 0 0 20px; line-height: 1.5; }
+
+/* Earn lines: cart dropdown, cart page, order detail */
+.credit-earn {
+  display: flex; align-items: flex-start; gap: 8px;
+  font: 400 13px/1.45 'Inter', sans-serif; color: #1f2326;
+}
+.credit-earn[hidden] { display: none; }
+.credit-earn strong { font-weight: 700; color: #00594f; font-variant-numeric: tabular-nums; }
+.credit-earn-icon { display: flex; color: #007167; padding-top: 1px; }
+.credit-earn-icon svg { width: 16px; height: 16px; }
+.credit-earn-sub { display: block; font-size: 12px; color: #3d4246; margin-top: 2px; }
+.credit-earn--dropdown { padding: 0 0 12px; font-size: 12px; }
+.credit-earn--summary { margin: 4px 0 16px; padding: 12px 14px; background: #f0faf9; border-radius: 10px; }
+.credit-earn--order { margin-top: 16px; padding-top: 16px; border-top: 1px solid #eaeaea; }
+.credit-earn-main { flex: 1; }
+.credit-earn-row { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; }
