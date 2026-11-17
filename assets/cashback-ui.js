@@ -601,7 +601,7 @@
       box.hidden = !now || left > SOON;
       if (box.hidden) return;
       var bal = Credit.balance();
-      // Pill over the photo, so the hero keeps its height (no page scroll)
+      // Pill under the photo, centered with it; fits the hero height (no page scroll)
       box.innerHTML = '<span class="credit-machine-icon">' + ICON + '</span>' +
         '<span class="credit-machine-title">' +
         (left > 0 ? s('mTitle', { h: left.toLocaleString('de-DE') }) : s('mTitleNow')) + '</span>' +
