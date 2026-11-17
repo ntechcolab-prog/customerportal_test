@@ -135,6 +135,7 @@
   function confirmSave() {
     currentHours = formatHours(pendingDigits);
     try { localStorage.setItem(storageKey, currentHours); } catch (e) {}
+    document.dispatchEvent(new CustomEvent('netzsch:hourmeter-changed'));
     closeConfirm();
     renderDisplay();
     showToast('Hourmeter updated to ' + currentHours + 'h');

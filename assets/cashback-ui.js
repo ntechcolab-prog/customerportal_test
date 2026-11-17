@@ -50,6 +50,10 @@
       homeDesc: '{amount} expire {date}',
       homeCta: 'Use credits',
       homeSubtitle: 'Contracts, licenses and credits that expire in the next 30 days',
+      mTitle: 'Bead refill due in about {h} h',
+      mTitleNow: 'Bead refill is due',
+      mDesc: 'At {at} h · use your {amount} on it',
+      mDescEmpty: 'At {at} h · bead orders earn 2 credits per 100',
       nExpTitle: '{amount} expire on {date}',
       nExpDesc: 'Use it on your next order of grinding media or spare parts.',
       nRelTitle: '{amount} are now available',
@@ -102,6 +106,10 @@
       homeDesc: '{amount} laufen am {date} ab',
       homeCta: 'Credits nutzen',
       homeSubtitle: 'Verträge, Lizenzen und Credits, die in den nächsten 30 Tagen ablaufen',
+      mTitle: 'Bead-Wechsel in ca. {h} h fällig',
+      mTitleNow: 'Bead-Wechsel ist fällig',
+      mDesc: 'Bei {at} h · nutzen Sie Ihre {amount} dafür',
+      mDescEmpty: 'Bei {at} h · Bead-Bestellungen bringen 2 Credits pro 100',
       nExpTitle: '{amount} laufen am {date} ab',
       nExpDesc: 'Lösen Sie es bei Ihrer nächsten Bestellung von Mahlkörpern oder Ersatzteilen ein.',
       nRelTitle: '{amount} sind jetzt verfügbar',
@@ -561,7 +569,53 @@
 
   window.CreditUI = { open: open, close: close };
 
-  function boot() { init(); initEarn(); initCheckout(); initConfirmation(); initHome(); initNotifications(); }
+  // ===== Remind on the machine: bead refill due by hourmeter =====
+  // Example wear interval per machine (needs service validation)
+  var REFILL = {
+    zeta_60: { every: 1200, last: 7400, product: 'shop-product-zetabeads-plus.html' }
+  };
+  var SOON = 300; // hours before the refill when the reminder shows up
+
+  function hours(v) { return parseInt(String(v || '').replace(/\D/g, ''), 10) || 0; }
+
+  function initMachine() {
+    var title = document.querySelector('.hero-machine-name');
+    var divider = document.querySelector('.hero-info .hero-divider');
+    if (!title || !divider) return;
+    var key = title.textContent.trim().replace(/\s+/g, '_').toLowerCase();
+    var cfg = REFILL[key];
+    if (!cfg) return;
+
+    var box = document.createElement('a');
+    box.className = 'credit-machine';
+    box.href = cfg.product;
+    divider.parentNode.insertBefore(box, divider);
+
+    function render() {
+      var stored = null;
+      try { stored = localStorage.getItem('netzsch_hourmeter_' + key); } catch (e) { /* ignore */ }
+      var shown = document.querySelector('.hm-text');
+      var now = hours(stored || (shown && shown.textContent));
+      var next = cfg.last + cfg.every * Math.max(1, Math.ceil((now - cfg.last) / cfg.every));
+      var left = next - now;
+      box.hidden = !now || left > SOON;
+      if (box.hidden) return;
+      var bal = Credit.balance();
+      var at = next.toLocaleString('de-DE');
+      box.innerHTML = '<span class="credit-machine-icon">' + ICON + '</span>' +
+        '<span class="credit-machine-text"><span class="credit-machine-title">' +
+        (left > 0 ? s('mTitle', { h: left.toLocaleString('de-DE') }) : s('mTitleNow')) + '</span>' +
+        '<span class="credit-machine-desc">' +
+        (bal.available ? s('mDesc', { at: at, amount: Credit.credits(bal.available) }) : s('mDescEmpty', { at: at })) +
+        '</span></span>' +
+        '<svg class="credit-machine-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+    render();
+    document.addEventListener('netzsch:hourmeter-changed', render);
+    document.addEventListener('netzsch:credit-changed', render);
+  }
+
+  function boot() { init(); initEarn(); initCheckout(); initConfirmation(); initHome(); initNotifications(); initMachine(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
