@@ -49,7 +49,7 @@
       homeTitle: 'NETZSCH Credits',
       homeDesc: '{amount} expire {date}',
       homeCta: 'Use credits',
-      homeSubtitle: 'Contracts, licenses and credits expiring within the next 30 days',
+      homeSubtitle: 'Contracts, licenses and credits that expire in the next 30 days',
       nExpTitle: '{amount} expire on {date}',
       nExpDesc: 'Use it on your next order of grinding media or spare parts.',
       nRelTitle: '{amount} are now available',
