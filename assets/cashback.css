@@ -167,23 +167,31 @@
 .credit-notif-icon svg { width: 16px; height: 16px; }
 .credit-home-row { margin-top: 12px; }
 
-/* Remind on the machine: bead refill due by hourmeter */
+/* Remind on the machine: bead refill due by hourmeter (pill over the photo, adds no height) */
+.hero-photo { position: relative; }
 .credit-machine {
-  display: flex; align-items: center; gap: 12px; margin: 16px 0 24px;
-  min-height: 44px; padding: 12px 14px; border: 1px solid #d7e9e6; border-radius: 12px; background: #f7fbfa;
-  font-family: 'Inter', sans-serif; color: #1f2326; text-decoration: none;
-  transition: border-color 0.15s;
+  position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 8px; max-width: calc(100% - 24px);
+  min-height: 44px; padding: 0 14px 0 10px; border-radius: 999px; white-space: nowrap;
+  background: #fff; border: 1px solid #d5dcdb; box-shadow: 0 4px 14px rgba(0,0,0,.08);
+  font: 400 14px/1.3 'Inter', sans-serif; color: #1f2326; text-decoration: none;
+}
+@media (max-width: 600px) {
+  /* Mobile scrolls anyway: sit below the photo instead of covering it */
+  .hero-photo:has(.credit-machine:not([hidden])) { flex-direction: column; gap: 12px; max-height: none; }
+  .credit-machine {
+    position: static; transform: none; max-width: 100%; flex-wrap: wrap; justify-content: center;
+    gap: 2px 6px; padding: 8px 14px; border-radius: 12px; white-space: normal; font-size: 13px; text-align: center;
+  }
+  .credit-machine-sep { display: none; }
+  .credit-machine-title { white-space: nowrap; }
+  .credit-machine-cta { flex-basis: 100%; justify-content: center; }
 }
 .credit-machine[hidden] { display: none; }
-.credit-machine:hover { border-color: #007167; }
 .credit-machine:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
-.credit-machine-icon {
-  flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center; background: #e0f2ee; color: #007167;
-}
-.credit-machine-icon svg { width: 20px; height: 20px; }
-.credit-machine-text { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-.credit-machine-title { font-size: 13px; font-weight: 600; }
-.credit-machine-desc { font-size: 12px; color: #3d4246; margin-top: 2px; }
-.credit-machine-arrow { flex-shrink: 0; color: #3d4246; }
-@media (prefers-reduced-motion: reduce) { .credit-machine { transition: none; } }
+.credit-machine-icon { display: flex; color: #007167; }
+.credit-machine-icon svg { width: 16px; height: 16px; }
+.credit-machine-title { font-weight: 500; }
+.credit-machine-sep { color: #3d4246; }
+.credit-machine-cta { display: inline-flex; align-items: center; gap: 2px; font-weight: 600; color: #00594f; }
+.credit-machine:hover .credit-machine-cta { text-decoration: underline; }
