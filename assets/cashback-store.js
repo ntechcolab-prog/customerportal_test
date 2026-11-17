@@ -22,7 +22,7 @@
 (function () {
   'use strict';
 
-  var KEY = 'netzsch_credit_v2';
+  var KEY = 'netzsch_credit_v3';
 
   var DEFAULT_RULES = {
     rate: 0.02,
