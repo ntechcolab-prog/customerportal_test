@@ -50,9 +50,9 @@
       homeDesc: '{amount} expire {date}',
       homeCta: 'Use credits',
       homeSubtitle: 'Contracts, licenses and credits that expire in the next 30 days',
-      mTitle: 'Bead refill in about {h} h',
+      mTitle: 'Bead refill due in about {h} h',
       mTitleNow: 'Bead refill is due',
-      mCta: 'Use {amount}',
+      mCta: 'Use your {amount}',
       mCtaEmpty: 'Beads earn credits',
       nExpTitle: '{amount} expire on {date}',
       nExpDesc: 'Use it on your next order of grinding media or spare parts.',
@@ -106,9 +106,9 @@
       homeDesc: '{amount} laufen am {date} ab',
       homeCta: 'Credits nutzen',
       homeSubtitle: 'Verträge, Lizenzen und Credits, die in den nächsten 30 Tagen ablaufen',
-      mTitle: 'Bead-Wechsel in ca. {h} h',
+      mTitle: 'Bead-Wechsel in ca. {h} h fällig',
       mTitleNow: 'Bead-Wechsel ist fällig',
-      mCta: '{amount} nutzen',
+      mCta: 'Ihre {amount} nutzen',
       mCtaEmpty: 'Beads bringen Credits',
       nExpTitle: '{amount} laufen am {date} ab',
       nExpDesc: 'Lösen Sie es bei Ihrer nächsten Bestellung von Mahlkörpern oder Ersatzteilen ein.',
@@ -601,13 +601,14 @@
       box.hidden = !now || left > SOON;
       if (box.hidden) return;
       var bal = Credit.balance();
-      // Pill with a button under the photo, centered with it; fits the hero height (no page scroll)
+      // Pill under the photo, centered with it; fits the hero height (no page scroll)
       box.innerHTML = '<span class="credit-machine-icon">' + ICON + '</span>' +
         '<span class="credit-machine-title">' +
         (left > 0 ? s('mTitle', { h: left.toLocaleString('de-DE') }) : s('mTitleNow')) + '</span>' +
+        '<span class="credit-machine-sep" aria-hidden="true">·</span>' +
         '<span class="credit-machine-cta">' +
         (bal.available ? s('mCta', { amount: Credit.credits(bal.available) }) : s('mCtaEmpty')) +
-        '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+        '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
     }
     render();
     document.addEventListener('netzsch:hourmeter-changed', render);
