@@ -15,6 +15,7 @@
  *  - Visibility: Admin and Buyer see and use it, Approver only sees the
  *    applied line on the order, Technician does not see it.
  *
+ * Each new browser session starts again from the sample state.
  * Demo helpers: ?credit=reset restores the sample state, ?credit=empty clears
  * all movements (empty state), ?credit=expiring adds a large amount that
  * expires in a few days (reminder flow).
@@ -64,10 +65,16 @@
     return { entries: e, rules: DEFAULT_RULES };
   }
 
+  // Demo: every new browser session starts from the sample balance (50 €), so
+  // credits spent in an earlier test don't leave the prototype at zero
+  var SESSION_KEY = 'netzsch_credit_session';
+
   function load() {
     try {
+      var fresh = !sessionStorage.getItem(SESSION_KEY);
+      sessionStorage.setItem(SESSION_KEY, '1');
       var raw = localStorage.getItem(KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw && !fresh) return JSON.parse(raw);
     } catch (err) { /* private mode or corrupted */ }
     var s = sample();
     save(s);
@@ -189,6 +196,7 @@
   (function demo() {
     var m = /[?&]credit=(reset|empty|expiring)/.exec(location.search);
     if (!m) return;
+    try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (err) { /* ignore */ }
     var s = sample();
     if (m[1] === 'empty') s.entries = [];
     if (m[1] === 'expiring') {
