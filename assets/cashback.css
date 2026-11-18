@@ -69,9 +69,15 @@
 .credit-expiring::before { content: ''; flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: #e0a100; }
 
 .credit-summary {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  margin: 0 0 24px; padding: 14px 0; border-top: 1px solid #eef0f0; border-bottom: 1px solid #eef0f0;
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 0 24px; padding: 14px 16px; border-radius: 12px; background: #f5f6f6;
 }
+.credit-summary-icon {
+  flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; background: #fff; color: #3d4246;
+}
+.credit-summary-icon svg { width: 20px; height: 20px; }
+.credit-summary-text { flex: 1; min-width: 0; }
 .credit-summary-label { font-size: 14px; color: #1f2326; }
 .credit-summary-note { font-size: 12px; color: #3d4246; margin-top: 2px; }
 .credit-summary-value { font-size: 14px; font-weight: 600; color: #1f2326; font-variant-numeric: tabular-nums; white-space: nowrap; }

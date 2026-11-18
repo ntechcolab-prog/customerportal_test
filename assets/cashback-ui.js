@@ -13,8 +13,8 @@
       chip: 'NETZSCH Credits balance',
       available: 'Available to use',
       pending: 'Coming soon',
-      pendingFrom: 'From {n} orders, added when they\'re delivered',
-      pendingFromOne: 'From 1 order, added when it\'s delivered',
+      pendingFrom: 'From {n} orders · added on delivery',
+      pendingFromOne: 'From 1 order · added on delivery',
       chipExpiring: 'Some credits expire soon',
       entryExpiring: 'Part expires {date}',
       activity: 'Recent activity',
@@ -65,8 +65,8 @@
       chip: 'NETZSCH Credits',
       available: 'Verfügbar',
       pending: 'Bald verfügbar',
-      pendingFrom: 'Aus {n} Bestellungen, gutgeschrieben bei Lieferung',
-      pendingFromOne: 'Aus 1 Bestellung, gutgeschrieben bei Lieferung',
+      pendingFrom: 'Aus {n} Bestellungen · bei Lieferung',
+      pendingFromOne: 'Aus 1 Bestellung · bei Lieferung',
       chipExpiring: 'Ein Teil läuft bald ab',
       entryExpiring: 'Teil läuft am {date} ab',
       activity: 'Letzte Aktivität',
@@ -147,6 +147,10 @@
     chip.setAttribute('aria-label', s('chip') + ': ' + Credit.credits(b.available) + (b.expiring ? '. ' + s('chipExpiring') : ''));
   }
 
+  // Hourglass for credits still waiting on delivery (the truck is already used for shipping)
+  var HOURGLASS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M6 3h12M6 21h12M7 3c0 4.5 5 6 5 9s-5 4.5-5 9M17 3c0 4.5-5 6-5 9s5 4.5 5 9"/></svg>';
+
   // One line per movement: order + date · status, signed amount (green only once it can be used)
   function rowHtml(m) {
     var tag, amount, cls;
@@ -180,7 +184,7 @@
           '<div class="credit-hero-value">' + Credit.credits(b.available) + '</div></div></div>' +
         (b.expiring ? '<p class="credit-expiring">' +
           s('nExpTitle', { amount: Credit.credits(b.expiring.amount), date: shortDate(b.expiring.date) }) + '</p>' : '') +
-        (pendingCount ? '<div class="credit-summary"><div><div class="credit-summary-label">' + s('pending') + '</div>' +
+        (pendingCount ? '<div class="credit-summary"><span class="credit-summary-icon">' + HOURGLASS + '</span><div class="credit-summary-text"><div class="credit-summary-label">' + s('pending') + '</div>' +
           '<div class="credit-summary-note">' + (pendingCount === 1 ? s('pendingFromOne') : s('pendingFrom', { n: pendingCount })) + '</div></div>' +
           '<div class="credit-summary-value">' + Credit.credits(b.pending) + '</div></div>' : '') +
         '<h3 class="credit-section-title">' + s('activity') + '</h3>' +
