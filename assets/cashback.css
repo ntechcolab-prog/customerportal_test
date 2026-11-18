@@ -80,10 +80,10 @@
   padding: 12px 0; border-bottom: 1px solid #f2f3f3;
 }
 .credit-row-main a { font-size: 14px; font-weight: 500; color: #1f2326; text-decoration: none; }
-.credit-row-main a:hover { color: #00594f; text-decoration: underline; }
+.credit-row-main a:hover { text-decoration: underline; }
 .credit-row-sub { color: #3d4246; font-size: 12px; margin-top: 2px; }
 .credit-row-amount { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
-.credit-row-amount.is-plus { color: #00594f; }
+.credit-row-amount.is-plus { color: #1f2326; }
 .credit-row-amount.is-pending { color: #3d4246; font-weight: 500; }
 .credit-row-amount.is-minus { color: #1f2326; }
 
@@ -115,7 +115,7 @@
   font: 400 13px/1.45 'Inter', sans-serif; color: #1f2326;
 }
 .credit-earn[hidden] { display: none; }
-.credit-earn strong { font-weight: 700; color: #00594f; font-variant-numeric: tabular-nums; }
+.credit-earn strong { font-weight: 700; font-variant-numeric: tabular-nums; }
 .credit-earn-icon { display: flex; color: #007167; padding-top: 1px; }
 .credit-earn-icon svg { width: 16px; height: 16px; }
 .credit-earn-sub { display: block; font-size: 12px; color: #3d4246; margin-top: 2px; }
@@ -152,8 +152,8 @@
 .credit-apply-text { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 .credit-apply-label { font-size: 13px; font-weight: 600; color: #1f2326; }
 .credit-apply-note { font-size: 12px; color: #3d4246; margin-top: 1px; line-height: 1.4; }
-.credit-apply-value { font-size: 13px; font-weight: 700; color: #00594f; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.credit-applied-row .value { color: #00594f; font-weight: 600; }
+.credit-apply-value { font-size: 13px; font-weight: 700; color: #1f2326; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.credit-applied-row .value { font-weight: 600; }
 
 /* Remind: home row + notifications */
 .credit-home-icon, .credit-notif-icon { color: #007167; background: #e0f2ee; }
@@ -185,5 +185,5 @@
 .credit-machine-icon svg { width: 24px; height: 24px; }
 .credit-machine-title { font-weight: 500; }
 .credit-machine-sep { color: #3d4246; }
-.credit-machine-cta { display: inline-flex; align-items: center; gap: 2px; font-weight: 600; color: #00594f; }
+.credit-machine-cta { display: inline-flex; align-items: center; gap: 2px; font-weight: 600; color: #1f2326; text-decoration: underline; text-underline-offset: 2px; }
 .credit-machine:hover .credit-machine-cta { text-decoration: underline; }
