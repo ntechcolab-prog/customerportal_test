@@ -40,14 +40,16 @@
 
 .credit-drawer-head {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 24px; border-bottom: 1px solid #eaeaea;
+  padding: 12px 24px; border-bottom: 1px solid #eaeaea;
 }
-.credit-drawer-head h2 { margin: 0; font-size: 18px; font-weight: 700; }
+.credit-drawer-head h2 { margin: 0; font-size: 16px; font-weight: 700; }
 .credit-close {
-  width: 44px; height: 44px; margin-right: -10px;
+  position: relative; width: 36px; height: 36px; margin-right: -8px;
   display: flex; align-items: center; justify-content: center;
   border: none; background: none; border-radius: 50%; cursor: pointer; color: #3d4246;
 }
+.credit-close::after { content: ''; position: absolute; inset: -4px; } /* 44px touch target */
+.credit-close svg { width: 18px; height: 18px; }
 .credit-close:hover { background: rgba(0, 113, 103, 0.06); }
 .credit-close:focus-visible { outline: 2px solid #007167; outline-offset: 2px; }
 
