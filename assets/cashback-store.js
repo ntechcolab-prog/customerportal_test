@@ -3,11 +3,11 @@
  * Single source of truth for the company's credit balance, its movements and
  * the earning rules. Persists in localStorage.
  *
- * NETZSCH Credits are an own currency, not cash: 1 credit = 1 unit of the order
- * currency (1 € or 1 $), so there is no currency conversion between regions.
+ * NETZSCH Credits are not cash: they are shown in the currency the user buys in
+ * (€ or $), so there is no currency conversion between regions.
  *
  * Rules (example values — need business validation):
- *  - 2 credits per 100 spent on grinding media (beads) and spare parts. Services are out.
+ *  - 2% back in credits on grinding media (beads) and spare parts. Services are out.
  *  - Credit belongs to the COMPANY, not to the person who ordered.
  *  - Earned credit is "pending" until the order is delivered, then "available"
  *    for 12 months.
@@ -165,18 +165,20 @@
 
   function canSee() { return VISIBLE.indexOf(role()) !== -1; }
 
+  // Currency the user buys in. The portal only sells in € today; a US account
+  // would return USD here and every credit amount follows.
+  function currency() { return 'EUR'; }
+
   function money(v, decimals) {
-    // Same format as the cart and payment cards (1.240,00 €)
+    // Same format as the cart and payment cards (1.240,00 € / $1,240.00)
     var d = decimals === false ? 0 : 2;
-    return Number(v).toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d }) + ' €';
+    var opts = { minimumFractionDigits: d, maximumFractionDigits: d };
+    if (currency() === 'USD') return '$' + Number(v).toLocaleString('en-US', opts);
+    return Number(v).toLocaleString('de-DE', opts) + ' €';
   }
 
-  // Own currency: 1 credit = 1 unit of the order currency (1 € or 1 $), no conversion
-  function credits(v) {
-    var n = Math.round(v);
-    var de = window.NetzschI18n && NetzschI18n.getLang() === 'de';
-    return n.toLocaleString('de-DE') + ' ' + (de ? (n === 1 ? 'Credit' : 'Credits') : (n === 1 ? 'credit' : 'credits'));
-  }
+  // Credit amounts are shown in the local currency, like any other price
+  function credits(v) { return money(Math.round(v)); }
 
   function formatDate(isoDate) {
     var lang = (window.NetzschI18n && NetzschI18n.getLang()) || 'en';
@@ -209,6 +211,7 @@
     daysUntil: daysUntil,
     canSee: canSee,
     role: role,
+    currency: currency,
     money: money,
     credits: credits,
     formatDate: formatDate
