@@ -12,12 +12,12 @@
       title: 'NETZSCH Credits',
       chip: 'NETZSCH Credits balance',
       available: 'Available to use',
-      pending: 'Pending · released on delivery',
+      pending: 'On the way · released on delivery',
       chipExpiring: 'Some credits expire soon',
       entryExpiring: 'Part expires {date}',
       saved: 'Used this year',
       activity: 'Recent activity',
-      tagPending: 'Pending',
+      tagPending: 'On the way',
       tagAvailable: 'Available',
       tagUsed: 'Used',
       tagExpired: 'Expired',
@@ -34,13 +34,13 @@
       earns: 'This order earns {amount} in credits',
       earnsNote: 'Available after delivery, valid for {months} months.',
       orderCredit: 'NETZSCH Credits',
-      orderPending: 'Pending. Available after delivery.',
+      orderPending: 'On the way. Available after delivery.',
       useCredit: 'Use NETZSCH Credits',
       availableAmount: '{amount} available',
       applied: 'NETZSCH Credits applied',
       appliedNote: '',
       nowEarned: 'Earned on this order',
-      nowEarnedNote: 'Pending. Available after delivery.',
+      nowEarnedNote: 'On the way. Available after delivery.',
       homeTitle: 'NETZSCH Credits',
       homeDesc: '{amount} expires {date}',
       homeCta: 'Use credits',
@@ -63,12 +63,12 @@
       title: 'NETZSCH Credits',
       chip: 'NETZSCH Credits',
       available: 'Verfügbar',
-      pending: 'Ausstehend · Freigabe bei Lieferung',
+      pending: 'Unterwegs · Freigabe bei Lieferung',
       chipExpiring: 'Ein Teil läuft bald ab',
       entryExpiring: 'Teil läuft am {date} ab',
       saved: 'Dieses Jahr eingelöst',
       activity: 'Letzte Aktivität',
-      tagPending: 'Ausstehend',
+      tagPending: 'Unterwegs',
       tagAvailable: 'Verfügbar',
       tagUsed: 'Eingelöst',
       tagExpired: 'Abgelaufen',
@@ -85,13 +85,13 @@
       earns: 'Diese Bestellung bringt {amount} an Credits',
       earnsNote: 'Nach der Lieferung {months} Monate verfügbar.',
       orderCredit: 'NETZSCH Credits',
-      orderPending: 'Ausstehend. Nach der Lieferung verfügbar.',
+      orderPending: 'Unterwegs. Nach der Lieferung verfügbar.',
       useCredit: 'NETZSCH Credits einlösen',
       availableAmount: '{amount} verfügbar',
       applied: 'NETZSCH Credits eingelöst',
       appliedNote: '',
       nowEarned: 'Mit dieser Bestellung erhalten',
-      nowEarnedNote: 'Ausstehend. Nach der Lieferung verfügbar.',
+      nowEarnedNote: 'Unterwegs. Nach der Lieferung verfügbar.',
       homeTitle: 'NETZSCH Credits',
       homeDesc: '{amount} laufen am {date} ab',
       homeCta: 'Credits nutzen',
@@ -132,7 +132,8 @@
   // Day + month only, so the profile menu line never wraps
   function shortDate(isoDate) {
     var de = window.NetzschI18n && NetzschI18n.getLang() === 'de';
-    return new Date(isoDate + 'T00:00:00').toLocaleDateString(de ? 'de-DE' : 'en-GB', { day: '2-digit', month: 'short' });
+    // en-GB writes "Sept"; keep three letters like the other months
+    return new Date(isoDate + 'T00:00:00').toLocaleDateString(de ? 'de-DE' : 'en-GB', { day: '2-digit', month: 'short' }).replace('Sept', 'Sep');
   }
 
   function renderChip() {

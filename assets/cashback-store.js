@@ -22,7 +22,7 @@
 (function () {
   'use strict';
 
-  var KEY = 'netzsch_credit_v3';
+  var KEY = 'netzsch_credit_v4';
 
   var DEFAULT_RULES = {
     rate: 0.02,
@@ -46,7 +46,8 @@
   }
 
   // Sample history: delivered orders (available), orders on the way (pending),
-  // one credit already used and one that is close to expiring.
+  // one credit already used and one that is close to expiring. Amounts are 2% of
+  // the order totals in the orders list (4.000 / 2.700 / 900 €).
   function sample() {
     var e = [];
     function earn(order, amount, daysAgo, status) {
@@ -58,7 +59,6 @@
     earn('2800997-02', 38, 20, 'available');
     earn('2800998-05', 18, 12, 'pending');
     earn('2800998-01', 54, 9, 'pending');
-    earn('2800998-02', 200, 6, 'pending');
     earn('2800998-30', 80, 2, 'pending');
     e.push({ id: 'r-2800997-11', type: 'redeem', order: '2800997-11', amount: 118, date: iso(-70) });
     return { entries: e, rules: DEFAULT_RULES };
@@ -182,7 +182,7 @@
 
   function formatDate(isoDate) {
     var lang = (window.NetzschI18n && NetzschI18n.getLang()) || 'en';
-    return new Date(isoDate + 'T00:00:00').toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    return new Date(isoDate + 'T00:00:00').toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }.replace('Sept', 'Sep');
   }
 
   // Demo helpers
