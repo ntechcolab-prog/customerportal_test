@@ -147,9 +147,9 @@
     chip.setAttribute('aria-label', s('chip') + ': ' + Credit.credits(b.available) + (b.expiring ? '. ' + s('chipExpiring') : ''));
   }
 
-  // Hourglass for credits still waiting on delivery (the truck is already used for shipping)
-  var HOURGLASS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<path d="M6 3h12M6 21h12M7 3c0 4.5 5 6 5 9s-5 4.5-5 9M17 3c0 4.5-5 6-5 9s5 4.5 5 9"/></svg>';
+  // Clock for credits still waiting on delivery (the truck is already used for shipping)
+  var CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 
   // One line per movement: order + date · status, signed amount (green only once it can be used)
   function rowHtml(m) {
@@ -184,7 +184,7 @@
           '<div class="credit-hero-value">' + Credit.credits(b.available) + '</div></div></div>' +
         (b.expiring ? '<p class="credit-expiring">' +
           s('nExpTitle', { amount: Credit.credits(b.expiring.amount), date: shortDate(b.expiring.date) }) + '</p>' : '') +
-        (pendingCount ? '<div class="credit-summary"><span class="credit-summary-icon">' + HOURGLASS + '</span><div class="credit-summary-text"><div class="credit-summary-label">' + s('pending') + '</div>' +
+        (pendingCount ? '<div class="credit-summary"><span class="credit-summary-icon">' + CLOCK + '</span><div class="credit-summary-text"><div class="credit-summary-label">' + s('pending') + '</div>' +
           '<div class="credit-summary-note">' + (pendingCount === 1 ? s('pendingFromOne') : s('pendingFrom', { n: pendingCount })) + '</div></div>' +
           '<div class="credit-summary-value">' + Credit.credits(b.pending) + '</div></div>' : '') +
         '<h3 class="credit-section-title">' + s('activity') + '</h3>' +
