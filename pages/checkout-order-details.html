@@ -1547,9 +1547,11 @@ document.addEventListener('click', function(e) {
     } else {
       document.getElementById('paySubtotal').textContent = subtotal > 0 ? formatPrice(subtotal) : '--';
       document.getElementById('payShipping').textContent = shipping > 0 ? formatPrice(shipping) : (delivery.method === 'pickup' ? NetzschI18n.t("checkout.free","Free") : '--');
-      document.getElementById('payTax').textContent = '--';
+      // VAT 19% on subtotal + shipping, same as the first checkout step
+      var tax = totalBefore * 0.19;
+      document.getElementById('payTax').textContent = totalBefore > 0 ? formatPrice(tax) : '--';
       document.getElementById('payTotalBefore').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
-      document.getElementById('payOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore) : '--';
+      document.getElementById('payOrderTotal').textContent = totalBefore > 0 ? formatPrice(totalBefore + tax) : '--';
     }
 
     // Update cart badge

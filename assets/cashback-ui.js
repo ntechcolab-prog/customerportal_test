@@ -454,9 +454,16 @@
       var r = document.createElement('div');
       r.className = 'payment-row credit-applied-row';
       r.innerHTML = '<span class="label">' + s('applied') + '</span><span class="value">−' + Credit.money(data.applied) + '</span>';
+      // Same place as in checkout: before Tax, because VAT is charged after the credit
+      var taxEl = document.getElementById('payTax');
+      var taxRow = taxEl && taxEl.closest('.payment-row');
       var sep = totalRow.closest('.order-total-row').previousElementSibling;
-      sep.parentNode.insertBefore(r, sep);
-      totalRow.textContent = Credit.money(Math.max(0, parseEuro(before.textContent) - data.applied));
+      (taxRow || sep).parentNode.insertBefore(r, taxRow || sep);
+      var base = parseEuro(before.textContent);
+      var net = Math.max(0, base - data.applied);
+      var vat = taxEl && base ? net * (parseEuro(taxEl.textContent) / base) : 0;
+      if (vat) taxEl.textContent = Credit.money(vat);
+      totalRow.textContent = Credit.money(net + vat);
     }
     if (data.earn) {
       var box = document.createElement('div');
