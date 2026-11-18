@@ -68,10 +68,13 @@
 .credit-expiring { display: flex; align-items: center; gap: 8px; margin: 0 0 20px; font-size: 13px; color: #7a4f00; }
 .credit-expiring::before { content: ''; flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: #e0a100; }
 
-.credit-summary { margin: 0 0 24px; border-top: 1px solid #eef0f0; }
-.credit-summary div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eef0f0; font-size: 14px; }
-.credit-summary dt { color: #3d4246; }
-.credit-summary dd { margin: 0; font-weight: 600; color: #1f2326; font-variant-numeric: tabular-nums; }
+.credit-summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin: 0 0 24px; padding: 14px 0; border-top: 1px solid #eef0f0; border-bottom: 1px solid #eef0f0;
+}
+.credit-summary-label { font-size: 14px; color: #1f2326; }
+.credit-summary-note { font-size: 12px; color: #3d4246; margin-top: 2px; }
+.credit-summary-value { font-size: 14px; font-weight: 600; color: #1f2326; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 .credit-section-title { font-size: 13px; font-weight: 600; color: #3d4246; margin: 0 0 4px; }
 .credit-list { list-style: none; margin: 0 0 24px; padding: 0; }

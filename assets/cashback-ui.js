@@ -12,10 +12,11 @@
       title: 'NETZSCH Credits',
       chip: 'NETZSCH Credits balance',
       available: 'Available to use',
-      pending: 'On the way · released on delivery',
+      pending: 'Coming soon',
+      pendingFrom: 'From {n} orders, added when they\'re delivered',
+      pendingFromOne: 'From 1 order, added when it\'s delivered',
       chipExpiring: 'Some credits expire soon',
       entryExpiring: 'Part expires {date}',
-      saved: 'Used this year',
       activity: 'Recent activity',
       tagPending: 'On the way',
       tagAvailable: 'Available',
@@ -63,10 +64,11 @@
       title: 'NETZSCH Credits',
       chip: 'NETZSCH Credits',
       available: 'Verfügbar',
-      pending: 'Unterwegs · Freigabe bei Lieferung',
+      pending: 'Bald verfügbar',
+      pendingFrom: 'Aus {n} Bestellungen, gutgeschrieben bei Lieferung',
+      pendingFromOne: 'Aus 1 Bestellung, gutgeschrieben bei Lieferung',
       chipExpiring: 'Ein Teil läuft bald ab',
       entryExpiring: 'Teil läuft am {date} ab',
-      saved: 'Dieses Jahr eingelöst',
       activity: 'Letzte Aktivität',
       tagPending: 'Unterwegs',
       tagAvailable: 'Verfügbar',
@@ -171,15 +173,16 @@
         '<a class="btn btn-primary btn-md" href="shop.html">' + s('shop') + '</a></div>';
     } else {
       var b = Credit.balance();
+      var pendingCount = Credit.movements().filter(function (m) { return m.type === 'earn' && m.status === 'pending'; }).length;
       body =
         '<div class="credit-hero"><span class="credit-hero-icon">' + ICON + '</span><div>' +
           '<div class="credit-hero-label">' + s('available') + '</div>' +
           '<div class="credit-hero-value">' + Credit.credits(b.available) + '</div></div></div>' +
         (b.expiring ? '<p class="credit-expiring">' +
           s('nExpTitle', { amount: Credit.credits(b.expiring.amount), date: shortDate(b.expiring.date) }) + '</p>' : '') +
-        '<dl class="credit-summary">' +
-          '<div><dt>' + s('pending') + '</dt><dd>' + Credit.credits(b.pending) + '</dd></div>' +
-          '<div><dt>' + s('saved') + '</dt><dd>' + Credit.credits(b.savedThisYear) + '</dd></div></dl>' +
+        (pendingCount ? '<div class="credit-summary"><div><div class="credit-summary-label">' + s('pending') + '</div>' +
+          '<div class="credit-summary-note">' + (pendingCount === 1 ? s('pendingFromOne') : s('pendingFrom', { n: pendingCount })) + '</div></div>' +
+          '<div class="credit-summary-value">' + Credit.credits(b.pending) + '</div></div>' : '') +
         '<h3 class="credit-section-title">' + s('activity') + '</h3>' +
         '<ul class="credit-list">' + Credit.movements(5).map(rowHtml).join('') + '</ul>';
     }
