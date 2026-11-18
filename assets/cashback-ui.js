@@ -382,7 +382,9 @@
     coupon.closest('.payment-row').insertAdjacentElement('afterend', row);
     var sw = row.querySelector('.credit-switch');
 
+    var tax = document.getElementById('payTax');
     var pageTotal = 0; // total as the page computed it (may include VAT)
+    var pageTax = 0;   // VAT as the page computed it, on the amount before credit
     function update() {
       var base = parseEuro(before.textContent);
       row.hidden = !cartEligible(); // quotations have no price yet
@@ -393,13 +395,20 @@
       row.querySelector('.credit-apply-note').textContent = s('availableAmount', { amount: Credit.credits(available) }) +
         '';
       row.querySelector('.credit-apply-value').textContent = appliedCredit ? '−' + Credit.money(appliedCredit) : '';
-      // Credit is deducted before VAT: scale it by the page's total/subtotal ratio
-      if (base && pageTotal) total.textContent = Credit.money(pageTotal - appliedCredit * (pageTotal / base));
+      // Credit is deducted before VAT, so VAT is charged on what is left:
+      // net = base − credit, VAT = net × page rate, total = net + VAT
+      if (base && pageTotal) {
+        var net = base - appliedCredit;
+        var vat = pageTax ? net * (pageTax / base) : 0;
+        if (pageTax) tax.textContent = Credit.money(vat);
+        total.textContent = Credit.money(net + vat);
+      }
       var earn = document.querySelector('.credit-earn--summary');
       if (earn) earn.replaceWith(earnLine('credit-earn--summary', true));
     }
     function capture() {
       pageTotal = parseEuro(total.textContent);
+      pageTax = tax ? parseEuro(tax.textContent) || 0 : 0;
       update();
     }
     sw.addEventListener('click', function () {
