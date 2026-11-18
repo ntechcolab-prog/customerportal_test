@@ -11,21 +11,16 @@
     en: {
       title: 'NETZSCH Credits',
       chip: 'NETZSCH Credits balance',
-      available: 'Available',
-      availableNote: 'Company balance in your order currency, to use on your next order.',
-      pending: 'Pending',
-      pendingNote: 'Released on delivery',
+      available: 'Available to use',
+      pending: 'Pending · released on delivery',
       chipExpiring: 'Some credits expire soon',
       entryExpiring: 'Part expires {date}',
-      alert: '{amount} of credit expires on {date}. Use it on your next order.',
-      saved: 'Saved this year',
-      savedNote: 'Credits used on orders',
+      saved: 'Used this year',
       activity: 'Recent activity',
-      earned: 'Earned',
-      used: 'Used on order',
-      expired: 'Expired',
       tagPending: 'Pending',
       tagAvailable: 'Available',
+      tagUsed: 'Used',
+      tagExpired: 'Expired',
       order: 'Order',
       how: 'How it works',
       how1: 'Get {rate} back in credits on grinding media and spare parts. Services are not included.',
@@ -68,20 +63,15 @@
       title: 'NETZSCH Credits',
       chip: 'NETZSCH Credits',
       available: 'Verfügbar',
-      availableNote: 'Firmenguthaben in Ihrer Bestellwährung, für Ihre nächste Bestellung.',
-      pending: 'Ausstehend',
-      pendingNote: 'Freigabe bei Lieferung',
+      pending: 'Ausstehend · Freigabe bei Lieferung',
       chipExpiring: 'Ein Teil läuft bald ab',
       entryExpiring: 'Teil läuft am {date} ab',
-      alert: '{amount} Guthaben laufen am {date} ab. Lösen Sie es bei Ihrer nächsten Bestellung ein.',
-      saved: 'Dieses Jahr gespart',
-      savedNote: 'Bei Bestellungen eingelöst',
+      saved: 'Dieses Jahr eingelöst',
       activity: 'Letzte Aktivität',
-      earned: 'Erhalten',
-      used: 'Eingelöst bei Bestellung',
-      expired: 'Abgelaufen',
       tagPending: 'Ausstehend',
       tagAvailable: 'Verfügbar',
+      tagUsed: 'Eingelöst',
+      tagExpired: 'Abgelaufen',
       order: 'Bestellung',
       how: 'So funktioniert es',
       how1: '{rate} zurück als Credits auf Mahlkörper und Ersatzteile. Services sind ausgenommen.',
@@ -134,8 +124,6 @@
     '<circle cx="12" cy="12" r="10" fill="currentColor"/>' +
     '<circle cx="12" cy="12" r="7.4" stroke="#fff" stroke-opacity=".4" stroke-width="1"/>' +
     '<path d="M9.3 15.4V8.6l5.4 6.8V8.6" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-  var WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg>';
 
   var chip, overlay, drawer, lastFocus;
 
@@ -156,22 +144,21 @@
     chip.setAttribute('aria-label', s('chip') + ': ' + Credit.credits(b.available) + (b.expiring ? '. ' + s('chipExpiring') : ''));
   }
 
+  // One line per movement: order + date · status, signed amount (green only once it can be used)
   function rowHtml(m) {
-    var label, sub, amount, cls, tag = '';
+    var tag, amount, cls;
     if (m.type === 'earn') {
-      label = s('earned');
-      cls = 'is-plus'; amount = '+' + Credit.credits(m.amount);
-      tag = '<span class="credit-tag">' + s(m.status === 'pending' ? 'tagPending' : 'tagAvailable') + '</span>';
-    } else if (m.type === 'redeem') {
-      label = s('used');
-      cls = 'is-minus'; amount = '−' + Credit.credits(m.amount);
+      tag = s(m.status === 'pending' ? 'tagPending' : 'tagAvailable');
+      cls = m.status === 'pending' ? 'is-pending' : 'is-plus';
+      amount = '+' + Credit.credits(m.amount);
     } else {
-      label = s('expired');
-      cls = 'is-minus'; amount = '−' + Credit.credits(m.amount);
+      tag = s(m.type === 'redeem' ? 'tagUsed' : 'tagExpired');
+      cls = 'is-minus';
+      amount = '−' + Credit.credits(m.amount);
     }
-    sub = s('order') + ' <a href="order-detail.html">' + m.order + '</a> · ' + Credit.formatDate(m.date);
-    return '<li class="credit-row"><div class="credit-row-main"><div>' + label + '</div><div class="credit-row-sub">' + sub + '</div></div>' +
-      '<div class="credit-row-amount ' + cls + '">' + amount + '<br>' + tag + '</div></li>';
+    return '<li class="credit-row"><div class="credit-row-main"><a href="order-detail.html">' + s('order') + ' ' + m.order + '</a>' +
+      '<div class="credit-row-sub">' + shortDate(m.date) + ' · ' + tag + '</div></div>' +
+      '<div class="credit-row-amount ' + cls + '">' + amount + '</div></li>';
   }
 
   function renderDrawer() {
@@ -184,19 +171,14 @@
     } else {
       var b = Credit.balance();
       body =
-        '<div class="credit-hero"><div class="credit-hero-label">' + s('available') + '</div>' +
-          '<div class="credit-hero-value">' + Credit.credits(b.available) + '</div>' +
-          '<div class="credit-hero-note">' + s('availableNote') + '</div></div>' +
-        (b.expiring ? '<div class="credit-alert" role="note">' + WARN + '<span>' +
-          s('alert', { amount: '<strong>' + Credit.credits(b.expiring.amount) + '</strong>', date: '<strong>' + Credit.formatDate(b.expiring.date) + '</strong>' }) +
-          '</span></div>' : '') +
-        '<div class="credit-split">' +
-          '<div class="credit-stat"><div class="credit-stat-label">' + s('pending') + '</div>' +
-            '<div class="credit-stat-value">' + Credit.credits(b.pending) + '</div>' +
-            '<div class="credit-stat-note">' + s('pendingNote') + '</div></div>' +
-          '<div class="credit-stat"><div class="credit-stat-label">' + s('saved') + '</div>' +
-            '<div class="credit-stat-value">' + Credit.credits(b.savedThisYear) + '</div>' +
-            '<div class="credit-stat-note">' + s('savedNote') + '</div></div></div>' +
+        '<div class="credit-hero"><span class="credit-hero-icon">' + ICON + '</span><div>' +
+          '<div class="credit-hero-label">' + s('available') + '</div>' +
+          '<div class="credit-hero-value">' + Credit.credits(b.available) + '</div></div></div>' +
+        (b.expiring ? '<p class="credit-expiring">' +
+          s('nExpTitle', { amount: Credit.credits(b.expiring.amount), date: shortDate(b.expiring.date) }) + '</p>' : '') +
+        '<dl class="credit-summary">' +
+          '<div><dt>' + s('pending') + '</dt><dd>' + Credit.credits(b.pending) + '</dd></div>' +
+          '<div><dt>' + s('saved') + '</dt><dd>' + Credit.credits(b.savedThisYear) + '</dd></div></dl>' +
         '<h3 class="credit-section-title">' + s('activity') + '</h3>' +
         '<ul class="credit-list">' + Credit.movements(5).map(rowHtml).join('') + '</ul>';
     }
