@@ -182,7 +182,7 @@
 
   function formatDate(isoDate) {
     var lang = (window.NetzschI18n && NetzschI18n.getLang()) || 'en';
-    return new Date(isoDate + 'T00:00:00').toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }.replace('Sept', 'Sep');
+    return new Date(isoDate + 'T00:00:00').toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace('Sept', 'Sep');
   }
 
   // Demo helpers
